@@ -30,10 +30,10 @@
     <div class="min-h-screen flex flex-col md:flex-row relative">
 
         <!-- Mobile Drawer Overlay -->
-        <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm z-40 hidden md:hidden transition-opacity"></div>
+        <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 dark:bg-black/80 z-40 hidden md:hidden transition-opacity"></div>
 
         <!-- Sidebar Navigation -->
-        <aside id="sidebar" class="fixed md:static inset-y-0 left-0 w-64 bg-white dark:bg-[#1C1C1E] border-r border-black/10 dark:border-white/10 z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 flex flex-col justify-between shadow-xl backdrop-blur-xl">
+        <aside id="sidebar" class="fixed md:sticky top-0 inset-y-0 left-0 h-screen w-64 bg-white dark:bg-[#1C1C1E] border-r border-black/10 dark:border-white/10 z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 flex flex-col justify-between shadow-xl">
             
             <div>
                 <!-- Brand Header -->
@@ -279,6 +279,19 @@
         if(openBtn) openBtn.addEventListener('click', toggleSidebar);
         if(closeBtn) closeBtn.addEventListener('click', toggleSidebar);
         if(overlay) overlay.addEventListener('click', toggleSidebar);
+
+        // Auto close sidebar on mobile when any link is clicked
+        if (sidebar) {
+            const navLinks = sidebar.querySelectorAll('a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth < 768) {
+                        sidebar.classList.add('-translate-x-full');
+                        if (overlay) overlay.classList.add('hidden');
+                    }
+                });
+            });
+        }
 
         // Light / Dark Theme Switcher Logic
         const themeToggle = document.getElementById('theme-toggle');
