@@ -3,14 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Mail\OrderStatusUpdated;
 use App\Models\Order;
 use App\Models\SmsNotification;
 use App\Models\User;
+use App\Services\EmailNotificationService;
 use App\Services\SmsNotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 
 class LaundryController extends Controller
 {
@@ -67,13 +66,12 @@ class LaundryController extends Controller
                 }
 
                 if (! empty($customerEmail)) {
-                    Mail::to($customerEmail)->send(new OrderStatusUpdated($order, 'customer'));
-                    Log::info("Status update email sent to customer: {$customerEmail} for Order #{$order->order_number}");
+                    EmailNotificationService::sendStatusEmail($order, $customerEmail);
                 }
 
                 $adminEmail = config('mail.from.address', 'karlnicko2019@gmail.com');
                 if (! empty($adminEmail) && strtolower($adminEmail) !== strtolower((string) $customerEmail)) {
-                    Mail::to($adminEmail)->send(new OrderStatusUpdated($order, 'admin'));
+                    EmailNotificationService::sendStatusEmail($order, $adminEmail);
                 }
             } catch (\Throwable $e) {
                 Log::error('Status update email notification failed: '.$e->getMessage());

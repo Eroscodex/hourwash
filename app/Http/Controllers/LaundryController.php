@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\OrderStatusUpdated;
 use App\Models\Machine;
 use App\Models\Order;
 use App\Models\QrCode;
 use App\Models\Service;
+use App\Services\EmailNotificationService;
 use App\Services\SmsNotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class LaundryController extends Controller
@@ -67,22 +66,19 @@ class LaundryController extends Controller
         // Eager load customer and service for emails
         $order->load(['customer', 'service']);
 
-        // 1. Send email notification to Admin
-        try {
-            $adminEmail = config('mail.from.address', 'karlnicko2019@gmail.com');
-            Mail::to($adminEmail)->send(new OrderStatusUpdated($order, 'admin'));
-        } catch (\Throwable $e) {
-            Log::error('Admin email new order notification failed: '.$e->getMessage());
-        }
-
-        // 2. Send email notification to Customer
+        // 1. Send email notification to Customer & Admin
         try {
             $customerEmail = $order->customer?->email ?? auth()->user()?->email;
             if (! empty($customerEmail)) {
-                Mail::to($customerEmail)->send(new OrderStatusUpdated($order, 'customer'));
+                EmailNotificationService::sendStatusEmail($order, $customerEmail);
+            }
+
+            $adminEmail = config('mail.from.address', 'karlnicko2019@gmail.com');
+            if (! empty($adminEmail) && strtolower($adminEmail) !== strtolower((string) $customerEmail)) {
+                EmailNotificationService::sendStatusEmail($order, $adminEmail);
             }
         } catch (\Throwable $e) {
-            Log::error('Customer email new order notification failed: '.$e->getMessage());
+            Log::error('New order email notification failed: '.$e->getMessage());
         }
 
         // 3. Send SMS Phone Text Notification to Customer Phone Number
