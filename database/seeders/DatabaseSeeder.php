@@ -152,7 +152,7 @@ class DatabaseSeeder extends Seeder
             Service::firstOrCreate(['name' => $srv['name']], $srv);
         }
 
-        // 6. Machines
+        // 6. Machines (Full 20-Machine Store Fleet)
         $machines = [
             ['machine_code' => 'WM-001', 'machine_name' => 'Machine 1', 'machine_type' => 'washer', 'status' => 'washing', 'remaining_minutes' => 28],
             ['machine_code' => 'WM-002', 'machine_name' => 'Machine 2', 'machine_type' => 'washer', 'status' => 'rinsing', 'remaining_minutes' => 15],
@@ -162,6 +162,18 @@ class DatabaseSeeder extends Seeder
             ['machine_code' => 'WM-004', 'machine_name' => 'Machine 6', 'machine_type' => 'washer', 'status' => 'maintenance', 'maintenance_note' => 'Check required', 'remaining_minutes' => null],
             ['machine_code' => 'DR-002', 'machine_name' => 'Machine 7', 'machine_type' => 'dryer', 'status' => 'drying', 'remaining_minutes' => 20],
             ['machine_code' => 'WD-002', 'machine_name' => 'Machine 8', 'machine_type' => 'washer_dryer', 'status' => 'idle', 'remaining_minutes' => null],
+            ['machine_code' => 'WM-005', 'machine_name' => 'Machine 9', 'machine_type' => 'washer', 'status' => 'idle', 'remaining_minutes' => null],
+            ['machine_code' => 'WM-006', 'machine_name' => 'Machine 10', 'machine_type' => 'washer', 'status' => 'washing', 'remaining_minutes' => 38],
+            ['machine_code' => 'DR-003', 'machine_name' => 'Machine 11', 'machine_type' => 'dryer', 'status' => 'drying', 'remaining_minutes' => 45],
+            ['machine_code' => 'DR-004', 'machine_name' => 'Machine 12', 'machine_type' => 'dryer', 'status' => 'idle', 'remaining_minutes' => null],
+            ['machine_code' => 'WM-007', 'machine_name' => 'Machine 13', 'machine_type' => 'washer', 'status' => 'rinsing', 'remaining_minutes' => 10],
+            ['machine_code' => 'WM-008', 'machine_name' => 'Machine 14', 'machine_type' => 'washer', 'status' => 'idle', 'remaining_minutes' => null],
+            ['machine_code' => 'DR-005', 'machine_name' => 'Machine 15', 'machine_type' => 'dryer', 'status' => 'drying', 'remaining_minutes' => 25],
+            ['machine_code' => 'WD-003', 'machine_name' => 'Machine 16', 'machine_type' => 'washer_dryer', 'status' => 'idle', 'remaining_minutes' => null],
+            ['machine_code' => 'WM-009', 'machine_name' => 'Machine 17', 'machine_type' => 'washer', 'status' => 'washing', 'remaining_minutes' => 50],
+            ['machine_code' => 'WM-010', 'machine_name' => 'Machine 18', 'machine_type' => 'washer', 'status' => 'idle', 'remaining_minutes' => null],
+            ['machine_code' => 'DR-006', 'machine_name' => 'Machine 19', 'machine_type' => 'dryer', 'status' => 'idle', 'remaining_minutes' => null],
+            ['machine_code' => 'WD-004', 'machine_name' => 'Machine 20', 'machine_type' => 'washer_dryer', 'status' => 'idle', 'remaining_minutes' => null],
         ];
 
         foreach ($machines as $m) {
