@@ -3,13 +3,18 @@ providers = ['php', 'node']
 
 [variables]
 NIXPACKS_PHP_VERSION = '8.5'
+COMPOSER_ALLOW_SUPERUSER = '1'
 
 [phases.setup]
 nixPkgs = ['php85', 'php85Extensions.pdo_mysql', 'php85Extensions.mbstring', 'php85Extensions.gd', 'composer', 'nodejs_20']
 
+[phases.install]
+cmds = [
+  'composer install --optimize-autoloader --no-dev --ignore-platform-req=ext-gd'
+]
+
 [phases.build]
 cmds = [
-  'composer install --optimize-autoloader --no-dev --ignore-platform-reqs',
   'npm ci || npm install',
   'npm run build'
 ]
