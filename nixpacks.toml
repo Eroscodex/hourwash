@@ -17,7 +17,8 @@ cmds = [
 [phases.build]
 cmds = [
   'npm ci || npm install',
-  'npm run build'
+  'npm run build',
+  'php artisan storage:link || true'
 ]
 
 [phases.start]
