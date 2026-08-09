@@ -37,7 +37,7 @@ class SmsNotificationService
         $apiKey = env('SEMAPHORE_API_KEY');
         if (! empty($apiKey)) {
             try {
-                $response = Http::post('https://api.semaphore.co/api/v4/messages', [
+                $response = Http::timeout(2)->post('https://api.semaphore.co/api/v4/messages', [
                     'apikey' => $apiKey,
                     'number' => $phone,
                     'message' => $message,

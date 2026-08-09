@@ -57,29 +57,26 @@ class LaundryController extends Controller
         // Eager load relationships so customer and service data are present in the email
         $order->load(['customer', 'service', 'customer.customerProfile']);
 
-        // 1. Send Email Notification to Admin
-        try {
-            $adminEmail = config('mail.from.address', 'karlnicko2019@gmail.com');
-            Mail::to($adminEmail)->send(new OrderStatusUpdated($order, 'admin'));
-        } catch (\Throwable $e) {
-            Log::error('Admin email status notification failed: '.$e->getMessage());
-        }
-
-        // 2. Send Email Notification to Customer
+        // Send Email & SMS Notifications efficiently
         try {
             $customerEmail = $order->customer?->email;
+            $adminEmail = config('mail.from.address', 'karlnicko2019@gmail.com');
+
             if (! empty($customerEmail)) {
                 Mail::to($customerEmail)->send(new OrderStatusUpdated($order, 'customer'));
             }
+
+            if (! empty($adminEmail) && strtolower($adminEmail) !== strtolower((string) $customerEmail)) {
+                Mail::to($adminEmail)->send(new OrderStatusUpdated($order, 'admin'));
+            }
         } catch (\Throwable $e) {
-            Log::error('Customer email status notification failed: '.$e->getMessage());
+            Log::error('Status update email notification failed: '.$e->getMessage());
         }
 
-        // 3. Send SMS Phone Text Notification to Customer Phone Number
         try {
             SmsNotificationService::sendOrderStatusSms($order);
         } catch (\Throwable $e) {
-            Log::error('Customer SMS status notification failed: '.$e->getMessage());
+            Log::error('Status update SMS notification failed: '.$e->getMessage());
         }
 
         return back()->with('success', 'Order updated! Loyalty points awarded, Email & SMS sent to customer!');
