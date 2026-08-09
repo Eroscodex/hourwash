@@ -1,3 +1,100 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    html {
+        @apply scroll-smooth;
+    }
+
+    body {
+        @apply bg-[#F5F5F7] text-slate-900 dark:bg-[#000000] dark:text-[#F5F5F7] font-sans antialiased selection:bg-[#007AFF] selection:text-white min-h-screen transition-colors duration-300;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        @apply font-['Outfit'] tracking-tight text-slate-900 dark:text-white;
+    }
+
+    p, label, span, td, th, div {
+        @apply text-slate-700 dark:text-slate-200;
+    }
+}
+
+/* Custom iOS Scrollbars */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(142, 142, 147, 0.4);
+    border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #007AFF;
+}
+
+/* iOS Glassmorphic Cards with High Contrast Text */
+.app-card {
+    @apply bg-white/90 dark:bg-[#1C1C1E]/90 backdrop-blur-xl border border-black/10 dark:border-white/10 rounded-[16px] shadow-sm dark:shadow-2xl transition-all duration-300 text-slate-900 dark:text-[#F5F5F7];
+}
+
+.app-card-interactive {
+    @apply bg-white/90 dark:bg-[#1C1C1E]/90 backdrop-blur-xl border border-black/10 dark:border-white/10 rounded-[16px] shadow-sm dark:shadow-2xl transition-all duration-300 text-slate-900 dark:text-[#F5F5F7];
+}
+.app-card-interactive:hover {
+    @apply border-[#007AFF]/40 dark:border-[#0A84FF]/50 -translate-y-0.5 shadow-lg dark:shadow-[0_8px_30px_rgba(10,132,255,0.2)];
+}
+
+/* iOS Accent Buttons */
+.btn-ios-primary {
+    @apply bg-[#007AFF] hover:bg-[#0062CC] dark:bg-[#0A84FF] dark:hover:bg-[#0071E3] text-white font-semibold rounded-xl px-5 py-2.5 shadow-md hover:shadow-lg transition-all duration-200 active:scale-95 text-xs sm:text-sm;
+}
+.btn-ios-secondary {
+    @apply bg-black/5 hover:bg-black/10 dark:bg-white/10 dark:hover:bg-white/15 text-slate-900 dark:text-[#F5F5F7] border border-black/10 dark:border-white/10 font-semibold rounded-xl px-5 py-2.5 transition-all duration-200 text-xs sm:text-sm;
+}
+
+/* Clean status indicator badges */
+.badge-idle {
+    @apply bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 font-semibold px-2.5 py-1 rounded-full text-[11px] uppercase tracking-wider;
+}
+.badge-active {
+    @apply bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30 font-semibold px-2.5 py-1 rounded-full text-[11px] uppercase tracking-wider;
+}
+.badge-blue {
+    @apply bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30 font-semibold px-2.5 py-1 rounded-full text-[11px] uppercase tracking-wider;
+}
+.badge-danger {
+    @apply bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 font-semibold px-2.5 py-1 rounded-full text-[11px] uppercase tracking-wider;
+}
+
+/* Form inputs with high contrast readability */
+input[type="text"], input[type="email"], input[type="password"], input[type="number"], select, textarea {
+    @apply bg-white dark:bg-[#2C2C2E] border-black/15 dark:border-white/15 text-slate-900 dark:text-[#F5F5F7] placeholder-slate-400 dark:placeholder-slate-400 focus:border-[#007AFF] dark:focus:border-[#0A84FF] focus:ring-[#007AFF] rounded-xl text-xs sm:text-sm transition-all duration-200;
+}
+
+/* Table header & row text contrast */
+table thead {
+    @apply bg-slate-100 dark:bg-[#2C2C2E] text-slate-700 dark:text-slate-300;
+}
+table tbody tr {
+    @apply border-b border-black/5 dark:border-white/5 hover:bg-black/5 dark:hover:bg-white/5 text-slate-900 dark:text-slate-100;
+}
+
+/* Glowing AI Assistant Bubble Animation */
+@keyframes float-glow {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(0, 122, 255, 0.4), 0 0 35px rgba(0, 122, 255, 0.2);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(10, 132, 255, 0.7), 0 0 50px rgba(10, 132, 255, 0.4);
+        transform: scale(1.06);
+    }
+}
+
+.chat-bubble-glow {
+    animation: float-glow 2.5s ease-in-out infinite;
+}

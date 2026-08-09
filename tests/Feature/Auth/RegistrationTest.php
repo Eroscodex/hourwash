@@ -17,3 +17,20 @@ test('new users can register', function () {
     $this->assertAuthenticated();
     $response->assertRedirect(route('dashboard', absolute: false));
 });
+
+test('new users can register with phone number', function () {
+    $response = $this->post('/register', [
+        'name' => 'Test User Phone',
+        'email' => 'testphone@example.com',
+        'phone' => '09123456789',
+        'password' => 'password',
+        'password_confirmation' => 'password',
+    ]);
+
+    $this->assertAuthenticated();
+    $this->assertDatabaseHas('users', [
+        'email' => 'testphone@example.com',
+        'phone' => '09123456789',
+    ]);
+    $response->assertRedirect(route('dashboard', absolute: false));
+});

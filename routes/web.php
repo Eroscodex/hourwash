@@ -1,63 +1,286 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ChatbotController;
-use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\AnalyticsController;
+use App\Http\Controllers\Admin\LaundryController as AdminLaundryController;
 use App\Http\Controllers\Admin\MachineController;
+use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\ChatbotController;
+use App\Http\Controllers\LaundryController;
+use App\Http\Controllers\ProfileController;
 use App\Models\Machine;
+use App\Models\Notification;
+use App\Models\Order;
+use App\Models\Promotion;
+use App\Models\Service;
+use Illuminate\Support\Facades\Route;
 
-Route::middleware(['auth','admin'])
-    ->prefix('admin')
-    ->name('admin.')
-    ->group(function () {
-
-Route::resource('machines', MachineController::class);
-
-});
-
-Route::middleware(['auth', 'admin'])
-    ->prefix('admin')
-    ->name('admin.')
-    ->group(function () {
-
-Route::resource('users', UserController::class);
-});
-
-Route::get('/chatbot', function () {
-    return view('chatbot');
-});
-
-Route::post('/chatbot', [ChatbotController::class, 'chat']);
-
-
+/*
+|--------------------------------------------------------------------------
+| Public Website / Landing Page
+|--------------------------------------------------------------------------
+*/
 Route::get('/', function () {
+    $machines = Machine::with('currentOrder')->orderBy('id', 'asc')->get();
+    $services = Service::where('status', 'active')->get();
+    $feedbacks = \App\Models\CustomerFeedback::with('user')->latest()->get();
 
-    $machines = Machine::all();
-
-    return view('welcome', compact('machines'));
-
+    return view('welcome', compact('machines', 'services', 'feedbacks'));
 })->name('welcome');
 
+/*
+|--------------------------------------------------------------------------
+| Dashboard Router (Role Based)
+|--------------------------------------------------------------------------
+*/
 Route::get('/dashboard', function () {
+    $user = auth()->user();
 
-    if (auth()->user()->role === 'admin') {
+    if ($user->role === 'owner' || $user->role === 'admin') {
         return redirect()->route('admin.dashboard');
     }
 
-    return view('dashboard');
+    if ($user->role === 'staff') {
+        return redirect()->route('staff.dashboard');
+    }
 
+    // Customer Dashboard Data
+    $activeOrder = Order::with(['service', 'machine', 'qrCode'])
+        ->where('customer_id', $user->id)
+        ->whereNotIn('order_status', ['completed', 'cancelled'])
+        ->latest()
+        ->first();
+
+    $recentOrders = Order::with('service')
+        ->where('customer_id', $user->id)
+        ->latest()
+        ->take(5)
+        ->get();
+
+    $notifications = Notification::where('user_id', $user->id)
+        ->latest()
+        ->take(4)
+        ->get();
+
+    $machines = Machine::all();
+    $promo = Promotion::where('status', 'active')->first();
+    $loyaltyPoints = $user->customerProfile->loyalty_points ?? 250;
+
+    return view('dashboard', compact('user', 'activeOrder', 'recentOrders', 'notifications', 'machines', 'promo', 'loyaltyPoints'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+// Public QR Order Tracking (Accessible by anyone without login)
+Route::get('/laundry/track/{qr}', [LaundryController::class, 'track'])->name('laundry.track');
 
-Route::get('/admin/dashboard', function () {
-    return view('admin.dashboard');
-})->middleware(['auth', 'admin'])->name('admin.dashboard');
+// Printable Store Receipt Route
+Route::get('/laundry/receipt/{order}', function (\App\Models\Order $order) {
+    $order->load(['customer', 'customer.customerProfile', 'service', 'qrCode']);
 
+    return view('laundry.receipt', compact('order'));
+})->name('laundry.receipt');
+
+// Brownout / Power Outage Time Extension Route
+Route::post('/laundry/{order}/extend-brownout', function (\Illuminate\Http\Request $request, \App\Models\Order $order) {
+    $minutes = (int) $request->get('delay_minutes', 60);
+
+    // Extend order completion time
+    if ($order->estimated_completion) {
+        $order->estimated_completion = \Carbon\Carbon::parse($order->estimated_completion)->addMinutes($minutes);
+    } else {
+        $order->estimated_completion = now()->addMinutes($minutes);
+    }
+
+    $order->save();
+
+    // Extend machine remaining minutes if assigned
+    if ($order->machine_id) {
+        $machine = \App\Models\Machine::find($order->machine_id);
+        if ($machine) {
+            $machine->increment('remaining_minutes', $minutes);
+        }
+    }
+
+    // Eager load customer and service for notification
+    $order->load(['customer', 'service']);
+
+    // Send email notification to customer explaining power interruption
+    try {
+        if ($order->customer && $order->customer->email) {
+            \Illuminate\Support\Facades\Mail::to($order->customer->email)->send(new \App\Mail\OrderStatusUpdated($order, 'customer'));
+        }
+    } catch (\Throwable $e) {
+        \Illuminate\Support\Facades\Log::error('Brownout email notification error: '.$e->getMessage());
+    }
+
+    // Send SMS Notification explaining power outage delay
+    try {
+        \App\Services\SmsNotificationService::sendOrderStatusSms($order, "POWER OUTAGE ALERT: Completion time extended by +{$minutes} mins due to store brownout.");
+    } catch (\Throwable $e) {
+        \Illuminate\Support\Facades\Log::error('Brownout SMS notification error: '.$e->getMessage());
+    }
+
+    return back()->with('success', "⚡ Power Outage / Brownout extension applied! Order #{$order->order_number} estimated completion extended by +{$minutes} minutes. Customer notified via Email & SMS ({$order->customer->phone}).");
+})->middleware('auth')->name('admin.laundry.extend');
+
+// Global Navbar Search Route
+Route::get('/search', function (\Illuminate\Http\Request $request) {
+    $q = trim($request->get('q', ''));
+
+    if (empty($q)) {
+        return back();
+    }
+
+    $cleanQ = ltrim($q, '#');
+
+    // 1. Match Order Code / QR Token / Order ID
+    $qr = \App\Models\QrCode::where('qr_token', $cleanQ)->first();
+    $order = $qr ? \App\Models\Order::find($qr->order_id) : \App\Models\Order::where('order_number', $cleanQ)->orWhere('id', $cleanQ)->first();
+
+    if ($order) {
+        return redirect()->route('laundry.track', $order->order_number);
+    }
+
+    // 2. Match Machine Code
+    $machine = \App\Models\Machine::where('machine_code', $cleanQ)->orWhere('machine_name', 'like', "%{$q}%")->first();
+    if ($machine) {
+        if (auth()->check() && (auth()->user()->isOwner() || auth()->user()->isStaff())) {
+            return redirect()->route('admin.machines.index');
+        }
+
+        return redirect()->route('welcome')->with('info', "Machine {$machine->machine_name} Status: ".ucfirst($machine->status));
+    }
+
+    // 3. Match User Name / Email (Owner & Staff only)
+    if (auth()->check() && (auth()->user()->isOwner() || auth()->user()->isStaff())) {
+        $foundUser = \App\Models\User::where('name', 'like', "%{$q}%")->orWhere('email', 'like', "%{$q}%")->first();
+        if ($foundUser) {
+            return redirect()->route('admin.users.index');
+        }
+    }
+
+    return redirect()->route('welcome')->with('error', "No results found for '{$q}'. Try searching by Order Code e.g. HW884210");
+})->name('global.search');
+
+/*
+|--------------------------------------------------------------------------
+| Customer Routes
+|--------------------------------------------------------------------------
+*/
 Route::middleware('auth')->group(function () {
+    Route::get('/laundry/create', [LaundryController::class, 'create'])->name('laundry.create');
+    Route::post('/laundry', [LaundryController::class, 'store'])->name('laundry.store');
+    Route::get('/my-orders', [LaundryController::class, 'myOrders'])->name('my.orders');
+
+    // Profile Routes
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Customer Feedback Submission Route
+    Route::post('/feedback', function (\Illuminate\Http\Request $request) {
+        $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'comment' => 'required|string|max:1000',
+        ]);
+
+        \App\Models\CustomerFeedback::create([
+            'user_id' => auth()->id(),
+            'order_id' => $request->order_id,
+            'rating' => $request->rating,
+            'comment' => $request->comment,
+            'status' => 'published',
+        ]);
+
+        // Award +10 bonus loyalty points for reviewing!
+        $profile = auth()->user()->customerProfile;
+        if ($profile) {
+            $profile->increment('loyalty_points', 10);
+        }
+
+        return back()->with('success', 'Thank you! Your feedback & star rating have been published. +10 Bonus Loyalty Points earned! ⭐');
+    })->name('feedback.store');
+
+    // Loyalty Points Redemption Route
+    Route::post('/loyalty/redeem', function (\Illuminate\Http\Request $request) {
+        $user = auth()->user();
+        $profile = $user->customerProfile;
+        $pointsToRedeem = (int) $request->get('points', 100);
+
+        if (! $profile || $profile->loyalty_points < $pointsToRedeem) {
+            return back()->with('error', 'Insufficient Loyalty Points to redeem this reward.');
+        }
+
+        $profile->decrement('loyalty_points', $pointsToRedeem);
+        $discountAmount = $pointsToRedeem == 100 ? 20 : 50;
+
+        return back()->with('success', "Redeemed {$pointsToRedeem} Loyalty Points for ₱{$discountAmount} discount voucher code: HW-LOYALTY".rand(100, 999).'!');
+    })->name('loyalty.redeem');
 });
+
+/*
+|--------------------------------------------------------------------------
+| Staff Panel
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth'])->get('/staff/dashboard', function () {
+    $user = auth()->user();
+    $machines = Machine::orderBy('id', 'asc')->get();
+    $orders = Order::with(['customer', 'service', 'qrCode'])->latest()->get();
+    $recentOrders = $orders->take(6);
+
+    $totalOrders = Order::count();
+    $inProgress = Order::whereIn('order_status', ['received', 'washing', 'rinsing', 'drying'])->count();
+    $readyPickup = Order::where('order_status', 'ready')->count();
+    $completedToday = Order::whereDate('updated_at', now()->today())->where('order_status', 'completed')->count();
+
+    $notifications = Notification::latest()->take(5)->get();
+
+    return view('staff.dashboard', compact(
+        'user', 'machines', 'orders', 'recentOrders', 'totalOrders', 'inProgress', 'readyPickup', 'completedToday', 'notifications'
+    ));
+})->name('staff.dashboard');
+
+/*
+|--------------------------------------------------------------------------
+| Admin / Owner Panel
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', function () {
+        $user = auth()->user();
+        $machines = Machine::orderBy('id', 'asc')->get();
+        $recentOrders = Order::with(['customer', 'service', 'qrCode'])->latest()->take(6)->get();
+
+        $totalToday = Order::whereDate('created_at', now()->today())->count();
+        $inProgress = Order::whereIn('order_status', ['received', 'washing', 'rinsing', 'drying'])->count();
+        $readyPickup = Order::where('order_status', 'ready')->count();
+        $completedToday = Order::whereDate('updated_at', now()->today())->where('order_status', 'completed')->count();
+
+        $notifications = Notification::latest()->take(4)->get();
+        $activeOrder = Order::with(['customer', 'service', 'machine', 'qrCode'])->latest()->first();
+        $feedbacks = \App\Models\CustomerFeedback::with('user')->latest()->get();
+
+        return view('admin.dashboard', compact(
+            'user', 'machines', 'recentOrders', 'totalToday', 'inProgress', 'readyPickup', 'completedToday', 'notifications', 'activeOrder', 'feedbacks'
+        ));
+    })->name('dashboard');
+
+    Route::resource('machines', MachineController::class);
+    Route::resource('services', ServiceController::class);
+    Route::resource('users', UserController::class);
+    Route::get('/laundry', [AdminLaundryController::class, 'index'])->name('laundry.index');
+    Route::patch('/laundry/{order}', [AdminLaundryController::class, 'update'])->name('laundry.update');
+    Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics');
+});
+
+/*
+|--------------------------------------------------------------------------
+| Chatbot
+|--------------------------------------------------------------------------
+*/
+Route::get('/chatbot', function () {
+    return view('chatbot');
+});
+Route::post('/chatbot', [ChatbotController::class, 'chat']);
 
 require __DIR__.'/auth.php';

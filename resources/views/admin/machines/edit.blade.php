@@ -1,121 +1,53 @@
 <x-app-layout>
 
+    <div class="space-y-6">
+        <div>
+            <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white">Edit Machine #{{ $machine->machine_code }}</h1>
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">Update specifications and live operational status.</p>
+        </div>
 
-<x-slot name="header">
+        <div class="max-w-xl app-card p-4 sm:p-6 shadow-xl space-y-6">
+            <form method="POST" action="{{ route('admin.machines.update', $machine) }}">
+                @csrf
+                @method('PUT')
 
-<h2 class="font-semibold text-2xl text-gray-800">
-    Edit Machine
-</h2>
+                <div class="mb-5">
+                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-200 uppercase tracking-wider mb-2">Machine Name</label>
+                    <input type="text" name="machine_name" value="{{ old('machine_name', $machine->machine_name) }}" class="w-full" required>
+                </div>
 
-</x-slot>
+                <div class="mb-5">
+                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-200 uppercase tracking-wider mb-2">Machine Code</label>
+                    <input type="text" name="machine_code" value="{{ old('machine_code', $machine->machine_code) }}" class="w-full" required>
+                </div>
 
+                <div class="mb-5">
+                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-200 uppercase tracking-wider mb-2">Machine Type</label>
+                    <select name="machine_type" class="w-full">
+                        <option value="washer" {{ $machine->machine_type === 'washer' ? 'selected' : '' }}>Washer</option>
+                        <option value="dryer" {{ $machine->machine_type === 'dryer' ? 'selected' : '' }}>Dryer</option>
+                        <option value="washer_dryer" {{ $machine->machine_type === 'washer_dryer' ? 'selected' : '' }}>Washer & Dryer</option>
+                    </select>
+                </div>
 
+                <div class="mb-6">
+                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-200 uppercase tracking-wider mb-2">Current Status</label>
+                    <select name="status" class="w-full">
+                        <option value="idle" {{ $machine->status === 'idle' ? 'selected' : '' }}>Idle (Available)</option>
+                        <option value="washing" {{ $machine->status === 'washing' ? 'selected' : '' }}>Washing</option>
+                        <option value="rinsing" {{ $machine->status === 'rinsing' ? 'selected' : '' }}>Rinsing</option>
+                        <option value="drying" {{ $machine->status === 'drying' ? 'selected' : '' }}>Drying</option>
+                        <option value="maintenance" {{ $machine->status === 'maintenance' ? 'selected' : '' }}>Maintenance</option>
+                        <option value="offline" {{ $machine->status === 'offline' ? 'selected' : '' }}>Offline</option>
+                    </select>
+                </div>
 
-<div class="py-8">
-
-<div class="max-w-xl mx-auto bg-white p-6 rounded-xl shadow">
-
-
-<form method="POST"
-      action="{{ route('admin.machines.update',$machine) }}">
-
-@csrf
-
-@method('PUT')
-
-
-
-<div class="mb-4">
-
-<label>
-Machine Name
-</label>
-
-<input type="text"
-       name="machine_name"
-       value="{{ $machine->machine_name }}"
-       class="w-full border rounded-lg p-2">
-
-</div>
-
-
-
-
-<div class="mb-4">
-
-<label>
-Machine Code
-</label>
-
-
-<input type="text"
-       name="machine_code"
-       value="{{ $machine->machine_code }}"
-       class="w-full border rounded-lg p-2">
-
-
-</div>
-
-
-
-
-<div class="mb-4">
-
-<label>
-Status
-</label>
-
-
-<select name="status"
-        class="w-full border rounded-lg p-2">
-
-
-<option {{ $machine->status=='Available'?'selected':'' }}>
-Available
-</option>
-
-
-<option {{ $machine->status=='In Use'?'selected':'' }}>
-In Use
-</option>
-
-
-<option {{ $machine->status=='Maintenance'?'selected':'' }}>
-Maintenance
-</option>
-
-
-</select>
-
-
-</div>
-
-
-
-
-<button class="bg-blue-600 text-white px-5 py-2 rounded-lg">
-
-Update Machine
-
-</button>
-
-
-
-<a href="{{ route('admin.machines.index') }}"
-   class="ml-3 text-gray-600">
-
-Cancel
-
-</a>
-
-
-
-</form>
-
-
-</div>
-
-</div>
-
+                <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                    <button type="submit" class="btn-ios-primary w-full sm:w-auto text-center">Update Machine</button>
+                    <a href="{{ route('admin.machines.index') }}" class="btn-ios-secondary w-full sm:w-auto text-center">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
 
 </x-app-layout>

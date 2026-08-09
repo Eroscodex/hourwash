@@ -1,386 +1,364 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Hour Wash Laundry') }}</title>
+    <title>{{ config('app.name', 'Hour Wash Laundry System') }}</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('hourwash.ico') }}">
 
+    <!-- Google Fonts & Theme Pre-init script -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet">
-
+    <script>
+        if (localStorage.getItem('theme') === 'light') {
+            document.documentElement.classList.remove('dark');
+        } else {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-
 </head>
 
-
-<body class="font-sans antialiased bg-gray-100">
-
-
-<div class="min-h-screen flex">
-
-
-    <!-- Sidebar -->
-
-    <aside id="sidebar"class="fixed md:static inset-y-0 left-0 w-64 bg-gradient-to-b from-blue-700 to-cyan-500 text-white transform -translate-x-full md:translate-x-0 transition duration-300 z-50 flex flex-col">
-    <button id="close-btn"class="md:hidden absolute top-4 right-4 text-white text-3xl">✕</button>
-
-    <div class="p-6 flex flex-col items-center text-center">
-
-        <div class="w-20 h-20 bg-white rounded-full shadow-lg flex items-center justify-center overflow-hidden">
-            <img
-                src="{{ asset('hourwash.ico') }}"
-                alt="Hour Wash Logo"
-                class="w-16 h-16 object-contain"
-            >
-        </div>
-
-        <h1 class="mt-4 text-2xl font-bold">
-            Hour Wash
-        </h1>
-
-        <p class="text-blue-100 text-sm">
-            Laundry Management
-        </p>
-
-    </div>
-
-
-
-        <nav class="px-4 space-y-2">
-
-
-            @if(auth()->user()->role === 'admin')
-
-
-                <!-- ADMIN MENU -->
-
-                <a href="{{ route('admin.dashboard') }}"
-                   class="block px-4 py-3 rounded-lg hover:bg-white/20">
-                    🏠 Admin Dashboard
-                </a>
-
-
-                <a href="{{ route('admin.machines.index') }}"
-                class="block px-4 py-3 rounded-lg hover:bg-white/20">
-
-                    ⚙ Manage Machines
-
-                </a>
-
-                <a href="{{ route('admin.users.index') }}"
-                class="block px-4 py-3 rounded-lg hover:bg-white/20">
-                    👥 Manage Users
-                </a>
-
-
-                <a href="#"
-                   class="block px-4 py-3 rounded-lg hover:bg-white/20">
-                    📊 Reports
-                </a>
-
-                <a href="{{ route('welcome') }}"
-                class="block px-4 py-3 rounded-lg hover:bg-white/20">
-                    🌐 View Website
-                </a>
-
-
-
-            @else
-
-
-                <!-- USER MENU -->
-
-                <a href="{{ route('dashboard') }}"
-                   class="block px-4 py-3 rounded-lg hover:bg-white/20">
-                    🏠 Dashboard
-                </a>
-
-
-                <a href="#"
-                   class="block px-4 py-3 rounded-lg hover:bg-white/20">
-                    🧺 Machines
-                </a>
-
-
-                <a href="#"
-                   class="block px-4 py-3 rounded-lg hover:bg-white/20">
-                    📋 My Laundry
-                </a>
-
-                <a href="{{ route('welcome') }}"
-                class="block px-4 py-3 rounded-lg hover:bg-white/20">
-                   🌐 Back to Home
-                </a>
-
-
-            @endif
-
-
-
-            <a href="{{ route('profile.edit') }}"
-               class="block px-4 py-3 rounded-lg hover:bg-white/20">
-                👤 Profile
-            </a>
-
-
-        </nav>
-    </aside>
-
-
-    <!-- CONTENT -->
-
-
-    <div class="flex-1">
-
-
-        <!-- TOP BAR -->
-
-<header class="bg-white shadow px-6 py-4 flex items-center gap-4"><button id="menu-btn"class="md:hidden text-3xl text-blue-700">☰</button>
-
-    @isset($header)
-
-        {{ $header }}
-
-    @else
-
-        <div class="flex justify-between items-center">
-
-            <h2 class="text-xl font-bold text-gray-700">
-
-                @if(auth()->user()->role === 'admin')
-
-                    Admin Panel
-
-                @else
-
-                    Customer Panel
-
-                @endif
-
-            </h2>
-
-
-            <div class="flex items-center gap-4">
-
-                <span class="text-gray-600">
-                    {{ auth()->user()->name }}
-                </span>
-
-
-                <form method="POST" action="{{ route('logout') }}">
-
-                    @csrf
-
-                    <button
-                        class="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
-
-                        Logout
-
+<body class="bg-[#F5F5F7] text-slate-900 dark:bg-[#000000] dark:text-[#F5F5F7] font-sans antialiased selection:bg-[#007AFF] selection:text-white min-h-screen flex flex-col transition-colors duration-300">
+
+    <div class="min-h-screen flex flex-col md:flex-row relative">
+
+        <!-- Mobile Drawer Overlay -->
+        <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm z-40 hidden md:hidden transition-opacity"></div>
+
+        <!-- Sidebar Navigation -->
+        <aside id="sidebar" class="fixed md:static inset-y-0 left-0 w-64 bg-white dark:bg-[#1C1C1E] border-r border-black/10 dark:border-white/10 z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 flex flex-col justify-between shadow-xl backdrop-blur-xl">
+            
+            <div>
+                <!-- Brand Header -->
+                <div class="p-5 border-b border-black/10 dark:border-white/10 flex items-center justify-between">
+                    <a href="{{ route('welcome') }}" class="flex items-center gap-3 group">
+                        <div class="w-10 h-10 rounded-2xl bg-[#007AFF] dark:bg-[#0A84FF] flex items-center justify-center text-white font-extrabold shadow-md group-hover:scale-105 transition-transform">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L5.6 15.11a2 2 0 01-1.183-1.845V7.4a2 2 0 011.183-1.845l2.4-1.2a6 6 0 013.86-.517l.318.158a6 6 0 003.86.517l2.387-.477a2 2 0 011.022.547l2.4 2.4a2 2 0 01.586 1.414v7.172a2 2 0 01-.586 1.414l-2.4 2.4z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h1 class="text-lg font-bold font-['Outfit'] tracking-wide text-slate-900 dark:text-white">
+                                HOUR WASH
+                            </h1>
+                            <p class="text-[10px] text-[#007AFF] dark:text-[#0A84FF] tracking-widest uppercase font-semibold">LAUNDRY MANAGEMENT SYSTEM</p>
+                        </div>
+                    </a>
+                    <button id="close-sidebar" class="md:hidden text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white p-1">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Navigation Links -->
+                <nav class="p-4 space-y-1.5 text-sm font-medium">
+                    @auth
+                        @if(auth()->user()->isOwner())
+                            <!-- Owner / Admin Links -->
+                            <div class="px-3 py-2 text-[11px] font-extrabold text-slate-900 dark:text-slate-200 uppercase tracking-wider">Management Workstation</div>
+                            
+                            <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all {{ request()->routeIs('admin.dashboard') ? 'bg-[#007AFF] text-white font-bold shadow-md' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10' }}">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                                <span>Overview Dashboard</span>
+                            </a>
+                            
+                            <a href="{{ route('admin.laundry.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all {{ request()->routeIs('admin.laundry.*') ? 'bg-[#007AFF] text-white font-bold shadow-md' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10' }}">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                                <span>Store Orders Queue</span>
+                            </a>
+                            
+                            <a href="{{ route('admin.machines.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all {{ request()->routeIs('admin.machines.*') ? 'bg-[#007AFF] text-white font-bold shadow-md' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10' }}">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/></svg>
+                                <span>Machine Fleet Monitor</span>
+                            </a>
+                            
+                            <a href="{{ route('admin.services.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all {{ request()->routeIs('admin.services.*') ? 'bg-[#007AFF] text-white font-bold shadow-md' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10' }}">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
+                                <span>Services & Pricing</span>
+                            </a>
+                            
+                            <a href="{{ route('admin.users.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all {{ request()->routeIs('admin.users.*') ? 'bg-[#007AFF] text-white font-bold shadow-md' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10' }}">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                                <span>Staff & Customers</span>
+                            </a>
+                            
+                            <a href="{{ route('admin.analytics') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all {{ request()->routeIs('admin.analytics') ? 'bg-[#007AFF] text-white font-bold shadow-md' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10' }}">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                                <span>Analytics & Reports</span>
+                            </a>
+                        @elseif(auth()->user()->isStaff())
+                            <!-- Staff Links -->
+                            <div class="px-3 py-2 text-[11px] font-extrabold text-slate-900 dark:text-slate-200 uppercase tracking-wider">Staff Terminal</div>
+                            
+                            <a href="{{ route('staff.dashboard') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all {{ request()->routeIs('staff.dashboard') ? 'bg-[#007AFF] text-white font-bold shadow-md' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10' }}">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                                <span>Workstation Dashboard</span>
+                            </a>
+                            
+                            <a href="{{ route('admin.laundry.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10">
+                                <svg class="w-5 h-5 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                                <span>Manage Laundry Orders</span>
+                            </a>
+                        @else
+                            <!-- Customer Links -->
+                            <div class="px-3 py-2 text-[11px] font-extrabold text-slate-900 dark:text-slate-200 uppercase tracking-wider">Customer Hub</div>
+                            
+                            <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all {{ request()->routeIs('dashboard') ? 'bg-[#007AFF] text-white font-bold shadow-md' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10' }}">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                                <span>Customer Dashboard</span>
+                            </a>
+                            
+                            <a href="{{ route('laundry.create') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all {{ request()->routeIs('laundry.create') ? 'bg-[#007AFF] text-white font-bold shadow-md' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10' }}">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                                <span>Book New Order</span>
+                            </a>
+                            
+                            <a href="{{ route('my.orders') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all {{ request()->routeIs('my.orders') ? 'bg-[#007AFF] text-white font-bold shadow-md' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10' }}">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                                <span>My Order History</span>
+                            </a>
+                        @endif
+
+                        <div class="pt-4 border-t border-black/10 dark:border-white/10 my-2"></div>
+                        <a href="{{ route('welcome') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 font-medium transition-all">
+                            <svg class="w-5 h-5 text-slate-600 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+                            <span>Public Storefront</span>
+                        </a>
+                        <a href="{{ route('profile.edit') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10 font-medium transition-all">
+                            <svg class="w-5 h-5 text-slate-600 dark:text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                            <span>Account Settings</span>
+                        </a>
+                    @endauth
+                </nav>
+            </div>
+
+            <!-- Profile Footer Badge in Sidebar -->
+            @auth
+            <div class="p-4 border-t border-black/10 dark:border-white/10 bg-slate-50 dark:bg-white/5">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-2xl bg-[#007AFF] dark:bg-[#0A84FF] text-white flex items-center justify-center font-bold shadow-md">
+                        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                    </div>
+                    <div class="flex-1 overflow-hidden">
+                        <h4 class="text-sm font-bold truncate text-slate-900 dark:text-white">{{ auth()->user()->name }}</h4>
+                        <p class="text-[11px] text-[#007AFF] dark:text-[#0A84FF] capitalize flex items-center gap-1 font-extrabold">
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#007AFF] dark:bg-[#0A84FF] inline-block animate-pulse"></span>
+                            {{ auth()->user()->role }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            @endauth
+        </aside>
+
+        <!-- Main Content Area -->
+        <div class="flex-1 flex flex-col min-w-0">
+            
+            <!-- Top Header Navbar -->
+            <header class="bg-white dark:bg-[#1C1C1E] border-b border-black/10 dark:border-white/10 px-4 md:px-8 py-3.5 flex items-center justify-between sticky top-0 z-30 shadow-sm backdrop-blur-xl">
+                <div class="flex items-center gap-3">
+                    <button id="open-sidebar" class="md:hidden p-2 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 focus:outline-none">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                    <!-- Search Bar (Desktop & Mobile) -->
+                    <form action="{{ route('global.search') }}" method="GET" class="hidden sm:flex items-center relative w-64 md:w-80">
+                        <button type="submit" aria-label="Submit search" class="absolute left-3.5 text-slate-500 dark:text-slate-400 hover:text-[#007AFF] focus:outline-none">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                        </button>
+                        <input type="text" name="q" value="{{ request('q') }}" placeholder="Search orders, machines, users..." class="w-full pl-10 pr-4 py-2 bg-slate-100 dark:bg-[#2C2C2E] border border-black/10 dark:border-white/15 rounded-xl text-xs text-slate-900 dark:text-[#F5F5F7] placeholder-slate-500 focus:outline-none focus:border-[#007AFF] transition" required>
+                    </form>
+                </div>
+
+                <div class="flex items-center gap-2 sm:gap-4">
+                    <!-- Light / Dark Theme Switcher Button -->
+                    <button id="theme-toggle" class="p-2 px-3 rounded-xl bg-slate-100 dark:bg-white/10 text-slate-900 dark:text-[#F5F5F7] border border-black/10 dark:border-white/10 hover:scale-105 transition-all text-xs font-extrabold flex items-center gap-1.5 shadow-sm" title="Toggle Light/Dark Theme">
+                        <span class="dark:hidden flex items-center gap-1.5">☀️ Light</span>
+                        <span class="hidden dark:flex items-center gap-1.5">🌙 Dark</span>
                     </button>
 
-                </form>
+                    <!-- Live Date Display -->
+                    <div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-white/10 border border-black/10 dark:border-white/10 text-xs text-slate-800 dark:text-slate-200 font-semibold">
+                        <svg class="w-4 h-4 text-[#007AFF] dark:text-[#0A84FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                        <span>{{ now()->format('M d, Y') }}</span>
+                    </div>
 
-            </div>
+                    <!-- Logout Button -->
+                    @auth
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <button type="submit" class="p-2 rounded-xl text-rose-500 hover:bg-rose-500/10 transition" title="Logout">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                            </svg>
+                        </button>
+                    </form>
+                    @endauth
+                </div>
+            </header>
+
+            <!-- Page Main Content -->
+            <main class="flex-1 p-4 md:p-8 max-w-7xl w-full mx-auto">
+                <x-popup-alert />
+                {{ $slot }}
+            </main>
+
+            <!-- Footer -->
+            <footer class="border-t border-black/10 dark:border-white/10 py-4 px-6 text-center text-xs text-slate-600 dark:text-slate-400 flex flex-col sm:flex-row justify-between items-center gap-2 bg-white dark:bg-[#1C1C1E]">
+                <div>© {{ date('Y') }} Hour Wash Laundry Management System</div>
+                <div class="flex items-center gap-4 text-slate-600 dark:text-slate-400">
+                    <span class="text-[#007AFF] dark:text-[#0A84FF] font-semibold">Magallanes St., Orosite, Legazpi City</span>
+                </div>
+            </footer>
 
         </div>
-
-    @endisset
-
-</header>
-
-
-
-        <!-- PAGE CONTENT -->
-
-
-        <main class="p-6">
-
-            {{ $slot }}
-
-        </main>
-
-
     </div>
 
-
-</div>
-
-     <!-- Chat Button -->
-    <button id="chat-toggle"
-            class="bg-blue-600 text-white rounded-full shadow-lg"
-            style="
-            position:fixed;
-            bottom:30px;
-            right:30px;
-            width:60px;
-            height:60px;
-            font-size:25px;
-            z-index:9999;">
-        💬
+    <!-- Floating Assistant Button & Drawer -->
+    <button id="chat-toggle" class="fixed bottom-6 right-6 w-14 h-14 rounded-2xl bg-[#007AFF] dark:bg-[#0A84FF] text-white chat-bubble-glow flex items-center justify-center hover:scale-110 active:scale-95 transition-transform z-50 group" aria-label="Toggle AI Assistant Chat">
+        <span class="absolute -top-1 -right-1 flex h-3.5 w-3.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500 border-2 border-slate-900"></span>
+        </span>
+        <svg class="w-7 h-7 stroke-[2.5] group-hover:rotate-12 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+        </svg>
     </button>
 
-
-    <!-- Chat Window -->
-    <div id="chat-window"
-        class="bg-white shadow-lg rounded-lg"
-        style="
-        display:none;
-        position:fixed;
-        bottom:100px;
-        right:30px;
-        width:350px;
-        height:450px;
-        z-index:9999;">
-
-
-        <div class="bg-blue-600 text-white p-3 rounded-t-lg">
-            Hour Wash AI
-        </div>
-
-
-        <div id="chat-box"
-            class="p-3"
-            style="
-            height:330px;
-            overflow-y:auto;">
-        </div>
-
-
-        <div class="p-3 border-top">
-
-            <div class="flex">
-
-                <input id="message"
-                    class="border rounded-l px-3 py-2 flex-1"
-                    placeholder="Type message">
-
-                <button onclick="sendMessage()"
-                        class="bg-blue-600 text-white px-4 rounded-r">
-                    Send
-                </button>
-
+    <div id="chat-window" class="fixed bottom-24 right-6 w-80 sm:w-96 bg-white dark:bg-[#1C1C1E] border border-black/10 dark:border-white/15 rounded-2xl shadow-2xl z-50 hidden flex-col overflow-hidden backdrop-blur-xl">
+        <div class="p-4 bg-[#007AFF] dark:bg-[#0A84FF] text-white flex items-center justify-between">
+            <div class="flex items-center gap-2 font-bold text-sm">
+                <span class="w-2.5 h-2.5 rounded-full bg-white animate-pulse"></span>
+                HourWash Virtual Assistant
             </div>
-
+            <button id="chat-close" class="text-white/80 hover:text-white text-lg">✕</button>
         </div>
 
+        <div id="chat-box" class="p-4 h-72 overflow-y-auto space-y-3 text-xs bg-slate-50 dark:bg-[#000000]">
+            <div class="flex justify-start">
+                <div class="bg-white dark:bg-[#2C2C2E] text-slate-900 dark:text-[#F5F5F7] px-3.5 py-2.5 rounded-2xl rounded-bl-none max-w-[85%] border border-black/10 dark:border-white/10 shadow-sm">
+                    Hello! How can I assist you with your laundry orders today? 🧺
+                </div>
+            </div>
+        </div>
 
+        <div class="p-3 border-t border-black/10 dark:border-white/10 bg-white dark:bg-[#1C1C1E] flex gap-2">
+            <input id="message" type="text" placeholder="Ask about order status, services..." class="flex-1 bg-slate-100 dark:bg-[#2C2C2E] border border-black/10 dark:border-white/10 rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:border-[#007AFF]">
+            <button onclick="sendMessage()" class="bg-[#007AFF] dark:bg-[#0A84FF] hover:bg-[#0062CC] text-white font-bold px-4 py-2 rounded-xl text-xs transition shadow-sm">
+                Send
+            </button>
+        </div>
     </div>
 
+    <!-- Layout Scripts -->
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('sidebar-overlay');
+        const openBtn = document.getElementById('open-sidebar');
+        const closeBtn = document.getElementById('close-sidebar');
 
-<script>
-document.addEventListener('DOMContentLoaded', function () {
+        function toggleSidebar() {
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        }
 
-    const toggle = document.getElementById('chat-toggle');
-    const chat = document.getElementById('chat-window');
+        if(openBtn) openBtn.addEventListener('click', toggleSidebar);
+        if(closeBtn) closeBtn.addEventListener('click', toggleSidebar);
+        if(overlay) overlay.addEventListener('click', toggleSidebar);
 
-    toggle.addEventListener('click', function () {
-        chat.style.display =
-            chat.style.display === 'none' ? 'block' : 'none';
+        // Light / Dark Theme Switcher Logic
+        const themeToggle = document.getElementById('theme-toggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', function() {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('theme', 'dark');
+                }
+            });
+        }
+
+        // Chatbot Toggle
+        const chatToggle = document.getElementById('chat-toggle');
+        const chatWindow = document.getElementById('chat-window');
+        const chatClose = document.getElementById('chat-close');
+
+        if(chatToggle && chatWindow) {
+            chatToggle.addEventListener('click', function() {
+                chatWindow.classList.toggle('hidden');
+                chatWindow.classList.toggle('flex');
+            });
+        }
+        if(chatClose && chatWindow) {
+            chatClose.addEventListener('click', function() {
+                chatWindow.classList.add('hidden');
+                chatWindow.classList.remove('flex');
+            });
+        }
     });
 
-});
+    function sendMessage() {
+        const input = document.getElementById('message');
+        const message = input.value.trim();
+        if (!message) return;
 
-function sendMessage() {
-
-    let input = document.getElementById('message');
-    let message = input.value.trim();
-
-    if (!message) return;
-
-    let chatBox = document.getElementById('chat-box');
-
-
-    // User message bubble
-    chatBox.innerHTML += `
-        <div class="flex justify-end mb-3">
-            <div class="bg-blue-600 text-white px-4 py-2 rounded-2xl rounded-br-none max-w-xs shadow">
-                ${message}
-            </div>
-        </div>
-    `;
-
-
-    input.value = "";
-
-
-    fetch('/chatbot', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRF-TOKEN': document
-                .querySelector('meta[name="csrf-token"]')
-                .content
-        },
-        body: JSON.stringify({
-            message: message
-        })
-    })
-
-    .then(res => res.json())
-
-    .then(data => {
-
-
-        // AI message bubble
+        const chatBox = document.getElementById('chat-box');
         chatBox.innerHTML += `
-            <div class="flex justify-start mb-3">
-                <div class="bg-gray-200 text-gray-800 px-4 py-2 rounded-2xl rounded-bl-none max-w-xs shadow">
-                    <b class="text-blue-600">HourWash AI</b><br>
-                    ${data.reply}
+            <div class="flex justify-end">
+                <div class="bg-[#007AFF] dark:bg-[#0A84FF] text-white font-medium px-3.5 py-2.5 rounded-2xl rounded-br-none max-w-[85%] shadow-sm">
+                    ${message}
                 </div>
             </div>
         `;
-
-
+        input.value = "";
         chatBox.scrollTop = chatBox.scrollHeight;
 
-    })
-
-
-    .catch(err => {
-
-        chatBox.innerHTML += `
-            <div class="flex justify-start mb-3">
-                <div class="bg-red-100 text-red-600 px-4 py-2 rounded-2xl">
-                    Error: ${err.message}
+        fetch('/chatbot', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({ message: message })
+        })
+        .then(res => res.json())
+        .then(data => {
+            chatBox.innerHTML += `
+                <div class="flex justify-start">
+                    <div class="bg-white dark:bg-[#2C2C2E] text-slate-900 dark:text-[#F5F5F7] px-3.5 py-2.5 rounded-2xl rounded-bl-none max-w-[85%] border border-black/10 dark:border-white/10 shadow-sm">
+                        <strong class="text-[#007AFF] dark:text-[#0A84FF] block mb-0.5">HourWash Assistant</strong>
+                        ${data.reply}
+                    </div>
                 </div>
-            </div>
-        `;
-
-    });
-
-}
-</script>
-
-<script>
-
-const sidebar = document.getElementById('sidebar');
-const menuBtn = document.getElementById('menu-btn');
-const closeBtn = document.getElementById('close-btn');
-
-
-menuBtn.addEventListener('click', function(){
-
-    sidebar.classList.remove('-translate-x-full');
-
-});
-
-
-closeBtn.addEventListener('click', function(){
-
-    sidebar.classList.add('-translate-x-full');
-
-});
-
-</script>
-
+            `;
+            chatBox.scrollTop = chatBox.scrollHeight;
+        })
+        .catch(err => {
+            chatBox.innerHTML += `
+                <div class="flex justify-start">
+                    <div class="bg-rose-500/10 text-rose-500 border border-rose-500/20 px-3 py-2 rounded-xl">
+                        Could not reach assistant. Please try again.
+                    </div>
+                </div>
+            `;
+        });
+    }
+    </script>
 </body>
-
 </html>

@@ -19,7 +19,6 @@ class UserController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
-
     /**
      * Show create user form
      */
@@ -27,7 +26,6 @@ class UserController extends Controller
     {
         return view('admin.users.create');
     }
-
 
     /**
      * Save new user
@@ -38,9 +36,8 @@ class UserController extends Controller
             'name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8',
-            'role' => 'required'
+            'role' => 'required',
         ]);
-
 
         User::create([
             'name' => $request->name,
@@ -49,12 +46,10 @@ class UserController extends Controller
             'role' => $request->role,
         ]);
 
-
         return redirect()
             ->route('admin.users.index')
-            ->with('success','User created successfully');
+            ->with('success', 'User created successfully');
     }
-
 
     /**
      * Show edit form
@@ -66,7 +61,6 @@ class UserController extends Controller
         return view('admin.users.edit', compact('user'));
     }
 
-
     /**
      * Update user
      */
@@ -74,13 +68,11 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
 
-
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
-            'role' => 'required'
+            'role' => 'required',
         ]);
-
 
         $user->update([
             'name' => $request->name,
@@ -88,12 +80,10 @@ class UserController extends Controller
             'role' => $request->role,
         ]);
 
-
         return redirect()
             ->route('admin.users.index')
-            ->with('success','User updated successfully');
+            ->with('success', 'User updated successfully');
     }
-
 
     /**
      * Delete user
@@ -104,9 +94,8 @@ class UserController extends Controller
 
         $user->delete();
 
-
         return redirect()
             ->route('admin.users.index')
-            ->with('success','User deleted successfully');
+            ->with('success', 'User deleted successfully');
     }
 }
