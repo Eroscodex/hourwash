@@ -70,9 +70,15 @@
     @apply bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 font-semibold px-2.5 py-1 rounded-full text-[11px] uppercase tracking-wider;
 }
 
-/* Form inputs with high contrast readability */
+/* Form inputs with high contrast readability & mobile auto-zoom prevention */
 input[type="text"], input[type="email"], input[type="password"], input[type="number"], select, textarea {
     @apply bg-white dark:bg-[#2C2C2E] border-black/15 dark:border-white/15 text-slate-900 dark:text-[#F5F5F7] placeholder-slate-400 dark:placeholder-slate-400 focus:border-[#007AFF] dark:focus:border-[#0A84FF] focus:ring-[#007AFF] rounded-xl text-xs sm:text-sm transition-all duration-200;
+}
+
+@media (max-width: 767px) {
+    input, select, textarea {
+        font-size: 16px !important;
+    }
 }
 
 /* Table header & row text contrast */

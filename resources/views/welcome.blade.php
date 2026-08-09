@@ -2,7 +2,7 @@
 <html lang="en" class="dark scroll-smooth">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Hour Wash Laundry Shop | Self-Service & Drop-off System</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('hourwash.ico') }}">
@@ -26,8 +26,10 @@
 <body class="bg-[#F5F5F7] text-slate-900 dark:bg-[#000000] dark:text-[#F5F5F7] font-sans antialiased selection:bg-[#007AFF] selection:text-white min-h-screen flex flex-col transition-colors duration-300">
 
     <!-- Top Navigation Bar -->
-    <header class="sticky top-0 z-50 bg-white/80 dark:bg-[#1C1C1E]/80 border-b border-black/10 dark:border-white/10 px-4 md:px-10 py-4 shadow-sm backdrop-blur-xl">
+    <header class="sticky top-0 z-50 bg-white/95 dark:bg-[#1C1C1E]/95 border-b border-black/10 dark:border-white/10 px-4 md:px-10 py-4 shadow-sm backdrop-blur-xl">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
+
+            <!-- Brand Logo -->
             <a href="{{ route('welcome') }}" class="flex items-center gap-3 group">
                 <div class="w-10 h-10 rounded-2xl bg-[#007AFF] dark:bg-[#0A84FF] flex items-center justify-center text-white font-extrabold shadow-md group-hover:scale-105 transition-transform">
                     <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -35,38 +37,39 @@
                     </svg>
                 </div>
                 <div>
-                    <h1 class="text-xl font-bold tracking-wide text-slate-900 dark:text-white font-['Outfit']">
+                    <span class="text-xl font-bold font-['Outfit'] tracking-wide text-slate-900 dark:text-white block">
                         HOUR WASH
-                    </h1>
-                    <p class="text-[10px] text-[#007AFF] dark:text-[#0A84FF] tracking-widest uppercase font-semibold">LAUNDRY MANAGEMENT SYSTEM</p>
+                    </span>
+                    <span class="text-[10px] text-[#007AFF] dark:text-[#0A84FF] tracking-widest uppercase font-semibold block">LAUNDRY MANAGEMENT SYSTEM</span>
                 </div>
             </a>
 
             <!-- Desktop Navigation Links -->
-            <nav class="hidden lg:flex items-center gap-8 text-sm font-medium text-slate-700 dark:text-slate-300">
-                <a href="#home" class="text-[#007AFF] dark:text-[#0A84FF] font-semibold hover:opacity-80 transition">Home</a>
-                <a href="#services" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition">Services & Pricing</a>
-                <a href="#how-it-works" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition">How It Works</a>
-                <a href="#machines" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition">Machine Fleet</a>
-                <a href="#track-section" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition">QR Tracker</a>
+            <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold text-slate-600 dark:text-slate-300">
+                <a href="#home" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Home</a>
+                <a href="#services" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Services & Pricing</a>
+                <a href="#how-it-works" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">How It Works</a>
+                <a href="#machines" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Machine Fleet</a>
+                <a href="#reviews-section" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Customer Reviews</a>
+                <a href="#track-section" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">QR Tracker</a>
             </nav>
 
+            <!-- Action Buttons & Theme Switcher -->
             <div class="flex items-center gap-3">
-                <!-- Theme Switcher Button -->
-                <button id="welcome-theme-toggle" class="p-2 px-3 rounded-xl bg-slate-100 dark:bg-white/10 text-slate-900 dark:text-[#F5F5F7] border border-black/10 dark:border-white/10 hover:scale-105 transition-all text-xs font-semibold flex items-center gap-1.5 shadow-sm" title="Toggle Light/Dark Theme">
-                    <span class="dark:hidden flex items-center gap-1">☀️ <span class="hidden sm:inline">Light</span></span>
-                    <span class="hidden dark:flex items-center gap-1">🌙 <span class="hidden sm:inline">Dark</span></span>
+                <button id="welcome-theme-toggle" class="p-2 rounded-xl bg-slate-100 dark:bg-white/10 text-slate-900 dark:text-white border border-black/10 dark:border-white/10 hover:scale-105 transition-all text-xs font-bold" title="Toggle Light/Dark Theme">
+                    <span class="dark:hidden">☀️ Light</span>
+                    <span class="hidden dark:inline">🌙 Dark</span>
                 </button>
 
                 @auth
-                    <a href="{{ route('dashboard') }}" class="hidden sm:inline-flex btn-ios-primary">
-                        Go to Dashboard
+                    <a href="{{ route('dashboard') }}" class="btn-ios-primary hidden sm:inline-block">
+                        Dashboard
                     </a>
                 @else
-                    <a href="{{ route('login') }}" class="hidden sm:inline-flex btn-ios-secondary">
+                    <a href="{{ route('login') }}" class="btn-ios-secondary hidden sm:inline-block text-xs">
                         Log In
                     </a>
-                    <a href="{{ route('register') }}" class="hidden sm:inline-flex btn-ios-primary">
+                    <a href="{{ route('register') }}" class="btn-ios-primary hidden sm:inline-block text-xs">
                         Register
                     </a>
                 @endauth
@@ -82,9 +85,9 @@
     </header>
 
     <!-- Mobile Navigation Drawer Overlay & Panel -->
-    <div id="welcome-mobile-overlay" class="fixed inset-0 bg-black/60 dark:bg-black/80 backdrop-blur-sm z-50 hidden lg:hidden transition-opacity"></div>
+    <div id="welcome-mobile-overlay" class="fixed inset-0 bg-black/60 dark:bg-black/80 z-50 hidden lg:hidden transition-opacity"></div>
 
-    <div id="welcome-mobile-menu" class="fixed top-0 right-0 bottom-0 w-72 bg-white/95 dark:bg-[#1C1C1E]/95 border-l border-black/10 dark:border-white/10 z-50 transform translate-x-full lg:hidden transition-transform duration-300 flex flex-col justify-between p-6 shadow-2xl backdrop-blur-xl">
+    <div id="welcome-mobile-menu" class="fixed top-0 right-0 bottom-0 w-72 bg-white dark:bg-[#1C1C1E] border-l border-black/10 dark:border-white/10 z-50 transform translate-x-full lg:hidden transition-transform duration-300 flex flex-col justify-between p-6 shadow-2xl">
         <div class="space-y-6">
             <div class="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-4">
                 <div class="flex items-center gap-2">
@@ -633,7 +636,7 @@
 
         function closeMenu() {
             menu.classList.add('translate-x-full');
-            overlay.classList.hidden = true;
+            if (overlay) overlay.classList.add('hidden');
         }
 
         if (toggleBtn) toggleBtn.addEventListener('click', openMenu);
