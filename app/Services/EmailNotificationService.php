@@ -42,13 +42,17 @@ class EmailNotificationService
                     return;
                 }
 
-                Log::error("Resend HTTP API returned failure [{$response->status()}]: ".$response->body());
+                Log::warning("Resend HTTP API returned warning [{$response->status()}]: ".$response->body());
+
+                return; // Stop execution to prevent blocked SMTP connection fallback
             } catch (\Throwable $e) {
                 Log::error("Resend HTTP API Exception for {$recipientEmail}: ".$e->getMessage());
+
+                return;
             }
         }
 
-        // Fallback to standard Laravel Mailer
+        // Fallback to standard Laravel Mailer only if Resend API key is not set
         try {
             Mail::to($recipientEmail)->send(new OrderStatusUpdated($order, 'customer'));
             Log::info("Standard Mailer sent to {$recipientEmail} for Order #{$order->order_number}");
