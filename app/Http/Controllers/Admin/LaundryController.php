@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Mail\OrderStatusUpdated;
 use App\Models\Order;
 use App\Models\SmsNotification;
+use App\Models\User;
 use App\Services\SmsNotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -61,12 +62,16 @@ class LaundryController extends Controller
             // Send Email & SMS Notifications efficiently
             try {
                 $customerEmail = $order->customer?->email;
-                $adminEmail = config('mail.from.address', 'karlnicko2019@gmail.com');
+                if (empty($customerEmail) && $order->customer_id) {
+                    $customerEmail = User::find($order->customer_id)?->email;
+                }
 
                 if (! empty($customerEmail)) {
                     Mail::to($customerEmail)->send(new OrderStatusUpdated($order, 'customer'));
+                    Log::info("Status update email sent to customer: {$customerEmail} for Order #{$order->order_number}");
                 }
 
+                $adminEmail = config('mail.from.address', 'karlnicko2019@gmail.com');
                 if (! empty($adminEmail) && strtolower($adminEmail) !== strtolower((string) $customerEmail)) {
                     Mail::to($adminEmail)->send(new OrderStatusUpdated($order, 'admin'));
                 }
