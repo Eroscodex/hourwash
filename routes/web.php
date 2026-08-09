@@ -8,11 +8,20 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ChatbotController;
 use App\Http\Controllers\LaundryController;
 use App\Http\Controllers\ProfileController;
+use App\Mail\OrderStatusUpdated;
+use App\Models\CustomerFeedback;
 use App\Models\Machine;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Models\Promotion;
+use App\Models\QrCode;
 use App\Models\Service;
+use App\Models\User;
+use App\Services\SmsNotificationService;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,7 +32,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     $machines = Machine::with('currentOrder')->orderBy('id', 'asc')->get();
     $services = Service::where('status', 'active')->get();
-    $feedbacks = \App\Models\CustomerFeedback::with('user')->latest()->get();
+    $feedbacks = CustomerFeedback::with('user')->latest()->get();
 
     return view('welcome', compact('machines', 'services', 'feedbacks'));
 })->name('welcome');
@@ -73,19 +82,19 @@ Route::get('/dashboard', function () {
 Route::get('/laundry/track/{qr}', [LaundryController::class, 'track'])->name('laundry.track');
 
 // Printable Store Receipt Route
-Route::get('/laundry/receipt/{order}', function (\App\Models\Order $order) {
+Route::get('/laundry/receipt/{order}', function (Order $order) {
     $order->load(['customer', 'customer.customerProfile', 'service', 'qrCode']);
 
     return view('laundry.receipt', compact('order'));
 })->name('laundry.receipt');
 
 // Brownout / Power Outage Time Extension Route
-Route::post('/laundry/{order}/extend-brownout', function (\Illuminate\Http\Request $request, \App\Models\Order $order) {
+Route::post('/laundry/{order}/extend-brownout', function (Request $request, Order $order) {
     $minutes = (int) $request->get('delay_minutes', 60);
 
     // Extend order completion time
     if ($order->estimated_completion) {
-        $order->estimated_completion = \Carbon\Carbon::parse($order->estimated_completion)->addMinutes($minutes);
+        $order->estimated_completion = Carbon::parse($order->estimated_completion)->addMinutes($minutes);
     } else {
         $order->estimated_completion = now()->addMinutes($minutes);
     }
@@ -94,7 +103,7 @@ Route::post('/laundry/{order}/extend-brownout', function (\Illuminate\Http\Reque
 
     // Extend machine remaining minutes if assigned
     if ($order->machine_id) {
-        $machine = \App\Models\Machine::find($order->machine_id);
+        $machine = Machine::find($order->machine_id);
         if ($machine) {
             $machine->increment('remaining_minutes', $minutes);
         }
@@ -106,24 +115,24 @@ Route::post('/laundry/{order}/extend-brownout', function (\Illuminate\Http\Reque
     // Send email notification to customer explaining power interruption
     try {
         if ($order->customer && $order->customer->email) {
-            \Illuminate\Support\Facades\Mail::to($order->customer->email)->send(new \App\Mail\OrderStatusUpdated($order, 'customer'));
+            Mail::to($order->customer->email)->send(new OrderStatusUpdated($order, 'customer'));
         }
-    } catch (\Throwable $e) {
-        \Illuminate\Support\Facades\Log::error('Brownout email notification error: '.$e->getMessage());
+    } catch (Throwable $e) {
+        Log::error('Brownout email notification error: '.$e->getMessage());
     }
 
     // Send SMS Notification explaining power outage delay
     try {
-        \App\Services\SmsNotificationService::sendOrderStatusSms($order, "POWER OUTAGE ALERT: Completion time extended by +{$minutes} mins due to store brownout.");
-    } catch (\Throwable $e) {
-        \Illuminate\Support\Facades\Log::error('Brownout SMS notification error: '.$e->getMessage());
+        SmsNotificationService::sendOrderStatusSms($order, "POWER OUTAGE ALERT: Completion time extended by +{$minutes} mins due to store brownout.");
+    } catch (Throwable $e) {
+        Log::error('Brownout SMS notification error: '.$e->getMessage());
     }
 
     return back()->with('success', "⚡ Power Outage / Brownout extension applied! Order #{$order->order_number} estimated completion extended by +{$minutes} minutes. Customer notified via Email & SMS ({$order->customer->phone}).");
 })->middleware('auth')->name('admin.laundry.extend');
 
 // Global Navbar Search Route
-Route::get('/search', function (\Illuminate\Http\Request $request) {
+Route::get('/search', function (Request $request) {
     $q = trim($request->get('q', ''));
 
     if (empty($q)) {
@@ -133,15 +142,15 @@ Route::get('/search', function (\Illuminate\Http\Request $request) {
     $cleanQ = ltrim($q, '#');
 
     // 1. Match Order Code / QR Token / Order ID
-    $qr = \App\Models\QrCode::where('qr_token', $cleanQ)->first();
-    $order = $qr ? \App\Models\Order::find($qr->order_id) : \App\Models\Order::where('order_number', $cleanQ)->orWhere('id', $cleanQ)->first();
+    $qr = QrCode::where('qr_token', $cleanQ)->first();
+    $order = $qr ? Order::find($qr->order_id) : Order::where('order_number', $cleanQ)->orWhere('id', $cleanQ)->first();
 
     if ($order) {
         return redirect()->route('laundry.track', $order->order_number);
     }
 
     // 2. Match Machine Code
-    $machine = \App\Models\Machine::where('machine_code', $cleanQ)->orWhere('machine_name', 'like', "%{$q}%")->first();
+    $machine = Machine::where('machine_code', $cleanQ)->orWhere('machine_name', 'like', "%{$q}%")->first();
     if ($machine) {
         if (auth()->check() && (auth()->user()->isOwner() || auth()->user()->isStaff())) {
             return redirect()->route('admin.machines.index');
@@ -152,7 +161,7 @@ Route::get('/search', function (\Illuminate\Http\Request $request) {
 
     // 3. Match User Name / Email (Owner & Staff only)
     if (auth()->check() && (auth()->user()->isOwner() || auth()->user()->isStaff())) {
-        $foundUser = \App\Models\User::where('name', 'like', "%{$q}%")->orWhere('email', 'like', "%{$q}%")->first();
+        $foundUser = User::where('name', 'like', "%{$q}%")->orWhere('email', 'like', "%{$q}%")->first();
         if ($foundUser) {
             return redirect()->route('admin.users.index');
         }
@@ -177,13 +186,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Customer Feedback Submission Route
-    Route::post('/feedback', function (\Illuminate\Http\Request $request) {
+    Route::post('/feedback', function (Request $request) {
         $request->validate([
             'rating' => 'required|integer|min:1|max:5',
             'comment' => 'required|string|max:1000',
         ]);
 
-        \App\Models\CustomerFeedback::create([
+        CustomerFeedback::create([
             'user_id' => auth()->id(),
             'order_id' => $request->order_id,
             'rating' => $request->rating,
@@ -201,7 +210,7 @@ Route::middleware('auth')->group(function () {
     })->name('feedback.store');
 
     // Loyalty Points Redemption Route
-    Route::post('/loyalty/redeem', function (\Illuminate\Http\Request $request) {
+    Route::post('/loyalty/redeem', function (Request $request) {
         $user = auth()->user();
         $profile = $user->customerProfile;
         $pointsToRedeem = (int) $request->get('points', 100);
@@ -258,7 +267,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
         $notifications = Notification::latest()->take(4)->get();
         $activeOrder = Order::with(['customer', 'service', 'machine', 'qrCode'])->latest()->first();
-        $feedbacks = \App\Models\CustomerFeedback::with('user')->latest()->get();
+        $feedbacks = CustomerFeedback::with('user')->latest()->get();
 
         return view('admin.dashboard', compact(
             'user', 'machines', 'recentOrders', 'totalToday', 'inProgress', 'readyPickup', 'completedToday', 'notifications', 'activeOrder', 'feedbacks'

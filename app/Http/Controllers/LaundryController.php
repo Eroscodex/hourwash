@@ -7,6 +7,7 @@ use App\Models\Machine;
 use App\Models\Order;
 use App\Models\QrCode;
 use App\Models\Service;
+use App\Services\SmsNotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -74,7 +75,7 @@ class LaundryController extends Controller
 
         // 3. Send SMS Phone Text Notification to Customer Phone Number
         try {
-            \App\Services\SmsNotificationService::sendOrderStatusSms($order);
+            SmsNotificationService::sendOrderStatusSms($order);
         } catch (\Throwable $e) {
             Log::error('Customer SMS new order notification failed: '.$e->getMessage());
         }

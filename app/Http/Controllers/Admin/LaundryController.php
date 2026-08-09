@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Mail\OrderStatusUpdated;
 use App\Models\Order;
+use App\Models\SmsNotification;
+use App\Services\SmsNotificationService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -17,7 +19,7 @@ class LaundryController extends Controller
             ->latest()
             ->get();
 
-        $smsLogs = \App\Models\SmsNotification::with('order')->latest()->take(10)->get();
+        $smsLogs = SmsNotification::with('order')->latest()->take(10)->get();
 
         return view(
             'admin.laundry.index',
@@ -75,7 +77,7 @@ class LaundryController extends Controller
 
         // 3. Send SMS Phone Text Notification to Customer Phone Number
         try {
-            \App\Services\SmsNotificationService::sendOrderStatusSms($order);
+            SmsNotificationService::sendOrderStatusSms($order);
         } catch (\Throwable $e) {
             Log::error('Customer SMS status notification failed: '.$e->getMessage());
         }

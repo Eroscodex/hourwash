@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Order;
 use App\Models\SmsNotification;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -20,7 +21,7 @@ class SmsNotificationService
         $statusStr = strtoupper(str_replace('_', ' ', $order->order_status));
         $custName = $order->customer?->name ?? 'Customer';
         $code = $order->order_number;
-        $compTime = $order->estimated_completion ? \Carbon\Carbon::parse($order->estimated_completion)->format('M d, Y h:i A') : 'TBD';
+        $compTime = $order->estimated_completion ? Carbon::parse($order->estimated_completion)->format('M d, Y h:i A') : 'TBD';
 
         $message = "HourWash Alert: Hi {$custName}, your laundry Order #{$code} status is now {$statusStr}. Est Completion: {$compTime}.";
 

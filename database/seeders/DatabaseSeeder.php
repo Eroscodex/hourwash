@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\CustomerFeedback;
 use App\Models\CustomerProfile;
 use App\Models\InventoryItem;
 use App\Models\Machine;
@@ -256,7 +257,7 @@ class DatabaseSeeder extends Seeder
         );
 
         // Sample Customer Feedbacks & Ratings
-        \App\Models\CustomerFeedback::firstOrCreate(
+        CustomerFeedback::firstOrCreate(
             ['user_id' => $customer1->id, 'comment' => 'Super clean and fragrant clothes! Scanned the QR code on my bag and tracked live cleaning status.'],
             [
                 'order_id' => 1,
@@ -265,7 +266,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        \App\Models\CustomerFeedback::firstOrCreate(
+        CustomerFeedback::firstOrCreate(
             ['user_id' => $customer2->id, 'comment' => 'Fast drying and excellent service. Staff was friendly and my blankets came out smelling fresh!'],
             [
                 'order_id' => 2,
