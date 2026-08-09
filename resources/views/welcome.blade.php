@@ -503,19 +503,33 @@
         </section>
 
         <!-- Camera Scanner Modal -->
-        <div id="camera-scanner-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex-col items-center justify-center p-4">
+        <div id="camera-scanner-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex-col items-center justify-center p-4 animate-fade-in">
             <div class="app-card max-w-sm w-full p-6 space-y-4 text-center">
                 <div class="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-3">
-                    <h3 class="text-sm font-bold text-slate-900 dark:text-white">📷 Real-Time Camera QR Scanner</h3>
-                    <button onclick="closeCameraScanner()" class="text-slate-500 hover:text-slate-900 dark:hover:text-white font-bold">✕</button>
+                    <h3 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                        📷 Real-Time Camera QR Scanner
+                    </h3>
+                    <button onclick="closeCameraScanner()" class="text-slate-500 hover:text-slate-900 dark:hover:text-white font-bold text-base">✕</button>
                 </div>
                 
-                <div id="qr-reader" class="w-full h-64 bg-black rounded-xl overflow-hidden relative flex items-center justify-center border border-black/10 dark:border-white/10"></div>
+                <div id="qr-reader" class="w-full h-64 bg-black rounded-xl overflow-hidden relative flex items-center justify-center border border-black/10 dark:border-white/10 shadow-inner"></div>
 
-                <p class="text-[11px] text-slate-500 dark:text-slate-400">Point camera at QR code tag to decode automatically.</p>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400">Point your phone camera at any HourWash QR Code tag to decode instantly.</p>
                 <button onclick="closeCameraScanner()" class="btn-ios-secondary text-xs w-full">Cancel</button>
             </div>
         </div>
+
+        <style>
+            #qr-reader video {
+                width: 100% !important;
+                height: 100% !important;
+                object-fit: cover !important;
+                border-radius: 12px;
+            }
+            #qr-reader__scan_region {
+                background: transparent !important;
+            }
+        </style>
 
         <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
         <script>
@@ -524,7 +538,11 @@
         function trackPublicOrder() {
             const val = document.getElementById('public-qr-input').value.trim();
             if (val) {
-                window.location.href = '/laundry/track/' + encodeURIComponent(val);
+                if (val.startsWith('http://') || val.startsWith('https://')) {
+                    window.location.href = val;
+                } else {
+                    window.location.href = '/laundry/track/' + encodeURIComponent(val);
+                }
             }
         }
 
@@ -537,25 +555,43 @@
                 html5QrCodeScanner = new Html5Qrcode("qr-reader");
             }
 
-            try {
-                await html5QrCodeScanner.start(
-                    { facingMode: "environment" },
-                    { fps: 15, qrbox: { width: 220, height: 220 } },
-                    (decodedText) => {
-                        // QR Code successfully scanned & decoded!
-                        closeCameraScanner();
-                        if (decodedText) {
-                            window.location.href = '/laundry/track/' + encodeURIComponent(decodedText.trim());
-                        }
-                    },
-                    (errorMessage) => {
-                        // Scanning frame by frame
-                    }
-                );
-            } catch (err) {
-                console.error("Camera scanner error:", err);
-                alert("Camera error: Could not access camera. Please enter Order Code manually.");
+            const qrCodeSuccessCallback = (decodedText) => {
                 closeCameraScanner();
+                if (decodedText) {
+                    let cleaned = decodedText.trim();
+                    if (cleaned.startsWith('http://') || cleaned.startsWith('https://')) {
+                        window.location.href = cleaned;
+                    } else {
+                        window.location.href = '/laundry/track/' + encodeURIComponent(cleaned);
+                    }
+                }
+            };
+
+            const config = { fps: 15, qrbox: { width: 220, height: 220 } };
+
+            try {
+                const devices = await Html5Qrcode.getCameras();
+                if (devices && devices.length > 0) {
+                    // Select rear/back camera on mobile devices
+                    const backCam = devices.find(d => 
+                        d.label.toLowerCase().includes('back') || 
+                        d.label.toLowerCase().includes('rear') || 
+                        d.label.toLowerCase().includes('environment')
+                    ) || devices[devices.length - 1];
+
+                    await html5QrCodeScanner.start(backCam.id, config, qrCodeSuccessCallback);
+                } else {
+                    await html5QrCodeScanner.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+                }
+            } catch (err) {
+                console.warn("Direct camera selection failed, falling back to facingMode constraint:", err);
+                try {
+                    await html5QrCodeScanner.start({ facingMode: "environment" }, config, qrCodeSuccessCallback);
+                } catch (fallbackErr) {
+                    console.error("Camera scanner fallback error:", fallbackErr);
+                    alert("Camera Access Required: Please allow camera permissions in your browser settings to scan QR tags.");
+                    closeCameraScanner();
+                }
             }
         }
 
