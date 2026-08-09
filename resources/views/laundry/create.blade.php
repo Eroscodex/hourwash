@@ -25,7 +25,7 @@
 
     <div class="app-card p-4 sm:p-6 space-y-6">
 
-        <form method="POST" action="{{ route('laundry.store') }}">
+        <form method="POST" action="{{ route('laundry.store') }}" onsubmit="const btn = this.querySelector('button[type=submit]'); if (btn) { btn.disabled = true; btn.innerText = 'Submitting Order...'; }">
             @csrf
 
             <div class="mb-5">

@@ -103,7 +103,7 @@ Route::post('/laundry/{order}/cancel', function (Order $order) {
 
     // Release assigned machine if any
     if ($order->machine_id) {
-        $machine = \App\Models\Machine::find($order->machine_id);
+        $machine = Machine::find($order->machine_id);
         if ($machine) {
             $machine->update(['status' => 'idle', 'remaining_minutes' => 0]);
         }

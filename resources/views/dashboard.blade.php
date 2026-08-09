@@ -87,7 +87,17 @@
                             </span>
                             <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-1">Live Order Progress</h2>
                         </div>
-                        <span class="text-xs text-slate-500 dark:text-slate-400 font-mono">Order: #{{ $activeOrder->order_number ?? 'HW-884210' }}</span>
+                        <div class="flex items-center gap-3">
+                            <span class="text-xs text-slate-500 dark:text-slate-400 font-mono">Order: #{{ $activeOrder->order_number ?? 'HW-884210' }}</span>
+                            @if(isset($activeOrder) && in_array($activeOrder->order_status, ['pending', 'received']))
+                                <form method="POST" action="{{ route('laundry.cancel', $activeOrder->id) }}" class="inline">
+                                    @csrf
+                                    <button onclick="return confirm('Are you sure you want to cancel this pending order?')" class="bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 hover:bg-rose-500/25 px-2.5 py-1 rounded-lg text-xs font-bold transition">
+                                        🚫 Cancel Order
+                                    </button>
+                                </form>
+                            @endif
+                        </div>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs bg-black/5 dark:bg-[#2C2C2E] p-4 rounded-xl border border-black/5 dark:border-white/10">
