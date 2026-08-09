@@ -32,7 +32,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     $machines = Machine::with('currentOrder')->orderBy('id', 'asc')->get();
     $services = Service::where('status', 'active')->get();
-    $feedbacks = CustomerFeedback::with('user')->latest()->get();
+    $feedbacks = CustomerFeedback::with('user:id,name')->where('status', 'published')->latest()->take(6)->get();
 
     return view('welcome', compact('machines', 'services', 'feedbacks'));
 })->name('welcome');
@@ -87,6 +87,30 @@ Route::get('/laundry/receipt/{order}', function (Order $order) {
 
     return view('laundry.receipt', compact('order'));
 })->name('laundry.receipt');
+
+// Customer & Admin Order Cancellation Route
+Route::post('/laundry/{order}/cancel', function (Order $order) {
+    if (auth()->id() !== $order->customer_id && ! auth()->user()->isStaff() && ! auth()->user()->isOwner()) {
+        abort(403);
+    }
+
+    if ($order->order_status !== 'pending' && $order->order_status !== 'received') {
+        return back()->with('error', 'Only pending or newly received orders can be cancelled.');
+    }
+
+    $order->order_status = 'cancelled';
+    $order->save();
+
+    // Release assigned machine if any
+    if ($order->machine_id) {
+        $machine = \App\Models\Machine::find($order->machine_id);
+        if ($machine) {
+            $machine->update(['status' => 'idle', 'remaining_minutes' => 0]);
+        }
+    }
+
+    return back()->with('success', "Order #{$order->order_number} has been cancelled successfully.");
+})->middleware('auth')->name('laundry.cancel');
 
 // Brownout / Power Outage Time Extension Route
 Route::post('/laundry/{order}/extend-brownout', function (Request $request, Order $order) {

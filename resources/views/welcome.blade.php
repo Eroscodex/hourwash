@@ -7,7 +7,9 @@
     <title>Hour Wash Laundry Shop | Self-Service & Drop-off System</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('hourwash.ico') }}">
 
-    <!-- Google Fonts -->
+    <!-- Font & Network Optimizations -->
+    <link rel="dns-prefetch" href="//fonts.googleapis.com">
+    <link rel="dns-prefetch" href="//unpkg.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">

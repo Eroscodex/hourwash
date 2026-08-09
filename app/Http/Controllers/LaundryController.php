@@ -32,6 +32,18 @@ class LaundryController extends Controller
         $service = Service::findOrFail($request->service_id);
         $subtotal = $service->price * $request->weight_kg;
 
+        // Prevent duplicate order submission within 60 seconds
+        $existingDuplicate = Order::where('customer_id', auth()->id())
+            ->where('service_id', $request->service_id)
+            ->where('created_at', '>=', now()->subSeconds(60))
+            ->first();
+
+        if ($existingDuplicate) {
+            return redirect()
+                ->route('my.orders')
+                ->with('success', 'Order already submitted! Duplicate order attempt prevented.');
+        }
+
         $order = Order::create([
             'order_number' => 'HW-'.strtoupper(Str::random(8)),
             'customer_id' => auth()->id(),
