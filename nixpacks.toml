@@ -2,15 +2,16 @@
 providers = ['php', 'node']
 
 [variables]
-NIXPACKS_PHP_VERSION = '8.5'
+NIXPACKS_PHP_VERSION = '8.3'
+NIXPACKS_PHP_EXTENSIONS = 'gd, pdo_mysql, mbstring, bcmath, ctype, curl, dom, fileinfo, openssl, pdo, tokenizer, xml'
 COMPOSER_ALLOW_SUPERUSER = '1'
 
 [phases.setup]
-nixPkgs = ['php85', 'php85Extensions.pdo_mysql', 'php85Extensions.mbstring', 'php85Extensions.gd', 'composer', 'nodejs_20']
+nixPkgs = ['php83', 'php83Packages.composer', 'nodejs_20']
 
 [phases.install]
 cmds = [
-  'composer install --optimize-autoloader --no-dev --ignore-platform-req=ext-gd'
+  'composer install --optimize-autoloader --no-dev --ignore-platform-reqs'
 ]
 
 [phases.build]
