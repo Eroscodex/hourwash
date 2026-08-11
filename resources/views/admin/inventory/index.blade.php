@@ -136,7 +136,12 @@
                                             </button>
                                         </form>
 
-                                        <!-- Delete Item -->
+                                        <!-- Edit Item Button -->
+                                        <button onclick="document.getElementById('edit-item-modal-{{ $item->id }}').classList.remove('hidden')" class="p-1.5 text-blue-500 hover:bg-blue-500/10 rounded-lg transition" title="Edit Item Details">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                        </button>
+
+                                        <!-- Delete Item Form -->
                                         <form method="POST" action="{{ route('admin.inventory.destroy', $item->id) }}" class="inline" onsubmit="return confirm('Delete {{ $item->name }} from inventory?')">
                                             @csrf
                                             @method('DELETE')
@@ -144,6 +149,67 @@
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                                             </button>
                                         </form>
+                                    </div>
+
+                                    <!-- Edit Item Modal -->
+                                    <div id="edit-item-modal-{{ $item->id }}" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 text-left">
+                                        <div class="app-card max-w-md w-full p-6 space-y-4 shadow-2xl">
+                                            <div class="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-3">
+                                                <h3 class="text-sm font-bold text-slate-900 dark:text-white">Edit {{ $item->name }}</h3>
+                                                <button type="button" onclick="document.getElementById('edit-item-modal-{{ $item->id }}').classList.add('hidden')" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
+                                            </div>
+
+                                            <form method="POST" action="{{ route('admin.inventory.update', $item->id) }}" class="space-y-4 text-xs">
+                                                @csrf
+                                                @method('PUT')
+
+                                                <div>
+                                                    <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Item Name</label>
+                                                    <input type="text" name="name" value="{{ $item->name }}" class="w-full p-2.5 rounded-xl bg-slate-100 dark:bg-[#2C2C2E] border border-black/10 dark:border-white/10" required>
+                                                </div>
+
+                                                <div class="grid grid-cols-2 gap-3">
+                                                    <div>
+                                                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Category</label>
+                                                        <select name="category" class="w-full p-2.5 rounded-xl bg-slate-100 dark:bg-[#2C2C2E] border border-black/10 dark:border-white/10" required>
+                                                            <option value="Detergents" {{ $item->category === 'Detergents' ? 'selected' : '' }}>Detergents</option>
+                                                            <option value="Fabric Conditioners" {{ $item->category === 'Fabric Conditioners' ? 'selected' : '' }}>Fabric Conditioners</option>
+                                                            <option value="Bleach & Stain Remover" {{ $item->category === 'Bleach & Stain Remover' ? 'selected' : '' }}>Bleach & Stain Remover</option>
+                                                            <option value="Packaging & Bags" {{ $item->category === 'Packaging & Bags' ? 'selected' : '' }}>Packaging & Bags</option>
+                                                            <option value="Machine Parts & Accessories" {{ $item->category === 'Machine Parts & Accessories' ? 'selected' : '' }}>Machine Parts & Accessories</option>
+                                                            <option value="Cleaning Supplies" {{ $item->category === 'Cleaning Supplies' ? 'selected' : '' }}>Cleaning Supplies</option>
+                                                            <option value="Supplies" {{ $item->category === 'Supplies' ? 'selected' : '' }}>Supplies</option>
+                                                            <option value="Packaging" {{ $item->category === 'Packaging' ? 'selected' : '' }}>Packaging</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div>
+                                                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Unit of Measure</label>
+                                                        <input type="text" name="unit" value="{{ $item->unit }}" class="w-full p-2.5 rounded-xl bg-slate-100 dark:bg-[#2C2C2E] border border-black/10 dark:border-white/10" required>
+                                                    </div>
+                                                </div>
+
+                                                <div class="grid grid-cols-3 gap-3">
+                                                    <div>
+                                                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Stock Qty</label>
+                                                        <input type="number" name="quantity" step="0.5" min="0" value="{{ $item->quantity }}" class="w-full p-2.5 rounded-xl bg-slate-100 dark:bg-[#2C2C2E] border border-black/10 dark:border-white/10" required>
+                                                    </div>
+                                                    <div>
+                                                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Min Threshold</label>
+                                                        <input type="number" name="minimum_stock" step="0.5" min="0" value="{{ $item->minimum_stock }}" class="w-full p-2.5 rounded-xl bg-slate-100 dark:bg-[#2C2C2E] border border-black/10 dark:border-white/10" required>
+                                                    </div>
+                                                    <div>
+                                                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Unit Cost (₱)</label>
+                                                        <input type="number" name="unit_cost" step="0.5" min="0" value="{{ $item->unit_cost }}" class="w-full p-2.5 rounded-xl bg-slate-100 dark:bg-[#2C2C2E] border border-black/10 dark:border-white/10" required>
+                                                    </div>
+                                                </div>
+
+                                                <div class="flex items-center justify-end gap-2 pt-2 border-t border-black/10 dark:border-white/10">
+                                                    <button type="button" onclick="document.getElementById('edit-item-modal-{{ $item->id }}').classList.add('hidden')" class="btn-ios-secondary text-xs">Cancel</button>
+                                                    <button type="submit" class="btn-ios-primary text-xs">Update Item</button>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
@@ -186,6 +252,7 @@
                             <option value="Packaging & Bags">Packaging & Bags</option>
                             <option value="Machine Parts & Accessories">Machine Parts & Accessories</option>
                             <option value="Cleaning Supplies">Cleaning Supplies</option>
+                            <option value="Supplies">Supplies</option>
                         </select>
                     </div>
 
