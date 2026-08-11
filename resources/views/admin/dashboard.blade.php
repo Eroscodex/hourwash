@@ -77,6 +77,8 @@
                 </div>
                 <div>
                     <div class="text-2xl sm:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white">{{ $completedToday ?? 24 }}</div>
+                    <span class="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">↑ +20% <span class="text-slate-500 dark:text-slate-400 font-normal">vs last week</span></span>
+                </div>
             </div>
         </div>
 
@@ -94,20 +96,20 @@
                 </div>
 
                 <!-- Machines Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
+                <div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3">
                     @forelse($machines as $machine)
                         <div class="p-3.5 rounded-xl bg-black/5 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-2 hover:border-[#007AFF]/40 transition">
                             <div class="flex items-center justify-between">
                                 <span class="text-xs font-bold text-slate-900 dark:text-slate-100 truncate">{{ $machine->machine_name }}</span>
                                 <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono flex-shrink-0">{{ $machine->machine_code }}</span>
                             </div>
-                            <div class="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold
+                            <div class="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold
                                 @if($machine->status === 'washing') bg-teal-500/15 text-teal-700 dark:text-teal-300
                                 @elseif($machine->status === 'rinsing') bg-sky-500/15 text-sky-700 dark:text-sky-300
                                 @elseif($machine->status === 'drying') bg-indigo-500/15 text-indigo-700 dark:text-indigo-300
                                 @elseif($machine->status === 'idle') bg-emerald-500/15 text-emerald-700 dark:text-emerald-300
                                 @else bg-amber-500/15 text-amber-700 dark:text-amber-300 @endif">
-                                ⚙
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L5.6 15.11a2 2 0 01-1.183-1.845V7.4a2 2 0 011.183-1.845l2.4-1.2a6 6 0 013.86-.517l.318.158a6 6 0 003.86.517l2.387-.477a2 2 0 011.022.547l2.4 2.4a2 2 0 01.586 1.414v7.172a2 2 0 01-.586 1.414l-2.4 2.4z"/></svg>
                             </div>
                             <div>
                                 <span class="text-[10px] font-bold uppercase tracking-wider block
@@ -180,7 +182,7 @@
 
                 <div class="pt-2 border-t border-black/5 dark:border-white/10">
                     <div class="flex flex-wrap items-center justify-between gap-1 text-[10px] font-bold text-slate-500 dark:text-slate-400">
-                        <span class="text-emerald-600 dark:text-emerald-400">✓ RECEIVED</span>
+                        <span class="text-emerald-600 dark:text-emerald-400">RECEIVED</span>
                         <span class="text-[#007AFF] dark:text-[#0A84FF]">● WASHING</span>
                         <span>○ RINSING</span>
                         <span>○ DRYING</span>
@@ -248,7 +250,7 @@
         <div class="app-card p-4 sm:p-6 space-y-4">
             <div class="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-3">
                 <div>
-                    <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">⭐ Customer Ratings & Reviews</h2>
+                    <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Customer Ratings & Reviews</h2>
                     <p class="text-xs text-slate-500 dark:text-slate-400">Live feedback submitted by Legazpi store customers</p>
                 </div>
                 <span class="px-2.5 py-1 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400 text-xs font-bold">
@@ -269,8 +271,10 @@
                                     <span class="text-[10px] text-slate-500 dark:text-slate-400">{{ $fb->created_at->diffForHumans() }}</span>
                                 </div>
                             </div>
-                            <div class="text-amber-500 text-xs font-bold">
-                                {{ str_repeat('⭐', $fb->rating) }}
+                            <div class="flex items-center text-amber-400 gap-0.5">
+                                @for($i = 0; $i < ($fb->rating ?? 5); $i++)
+                                    <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                @endfor
                             </div>
                         </div>
                         <p class="text-xs text-slate-600 dark:text-slate-300 italic">"{{ $fb->comment }}"</p>
