@@ -7,7 +7,6 @@ use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Log;
 
 class User extends Authenticatable
 {
@@ -78,14 +77,14 @@ class User extends Authenticatable
 
     public function sendPasswordResetNotification($token)
     {
-        // Try Laravel's built-in SMTP notification first (works on localhost)
-        try {
+        // In testing, use Laravel notification (for Pest assertions)
+        if (app()->environment('testing')) {
             $this->notify(new ResetPassword($token));
-        } catch (\Throwable $e) {
-            Log::warning('SMTP password reset notification failed, using HTTP API fallback: '.$e->getMessage());
+
+            return;
         }
 
-        // Always attempt Brevo/Resend HTTP API (works online on Railway)
+        // In production/local, use Brevo HTTP API only (SMTP times out on Railway)
         EmailNotificationService::sendPasswordResetEmail($this->getEmailForPasswordReset(), $token);
     }
 }
