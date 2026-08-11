@@ -94,18 +94,25 @@ class EmailNotificationService
     }
 
     /**
-     * Send password reset email via Brevo / Resend HTTP API (HTTPS Port 443) with fallback.
+     * Send password reset email via Brevo HTTP API (HTTPS Port 443).
+     * Brevo is proven working for order status emails online.
      */
     public static function sendPasswordResetEmail(string $recipientEmail, string $token): void
     {
         if (empty($recipientEmail)) {
+            Log::warning('sendPasswordResetEmail called with empty email');
+
             return;
         }
+
+        Log::info("sendPasswordResetEmail started for {$recipientEmail}");
 
         $resetUrl = url(route('password.reset', [
             'token' => $token,
             'email' => $recipientEmail,
         ], false));
+
+        Log::info("Password reset URL generated: {$resetUrl}");
 
         $subject = 'HourWash - Reset Your Account Password';
         $html = view('emails.password_reset', [
@@ -113,76 +120,39 @@ class EmailNotificationService
             'email' => $recipientEmail,
         ])->render();
 
-        // 1. Brevo HTTP API
+        // Brevo HTTP API (same method that works for order status emails)
         $brevoApiKey = env('BREVO_API_KEY', 'xkeysib-'.'2ca8fc22545e4d97dd914d16a70d6849'.'230bb94c87179f38da5875d4bf1bba54-gbhGe88RhHaL3LXo');
-        if (! empty($brevoApiKey)) {
-            try {
-                $response = Http::withHeaders([
-                    'api-key' => $brevoApiKey,
-                    'accept' => 'application/json',
-                    'content-type' => 'application/json',
-                ])->timeout(8)->post('https://api.brevo.com/v3/smtp/email', [
-                    'sender' => [
-                        'name' => 'HourWash Laundry',
-                        'email' => 'karlnicko2019@gmail.com',
-                    ],
-                    'to' => [
-                        ['email' => $recipientEmail],
-                    ],
-                    'subject' => $subject,
-                    'htmlContent' => $html,
-                ]);
 
-                if ($response->successful()) {
-                    Log::info("Brevo HTTP API Password Reset Email sent to {$recipientEmail}");
+        Log::info('Brevo API key present: '.((! empty($brevoApiKey)) ? 'YES' : 'NO'));
 
-                    return;
-                }
-
-                Log::warning("Brevo HTTP API Password Reset warning [{$response->status()}]: ".$response->body());
-            } catch (\Throwable $e) {
-                Log::error('Brevo HTTP API Password Reset Exception: '.$e->getMessage());
-            }
-        }
-
-        // 2. Resend HTTP API
-        $resendApiKey = env('RESEND_API_KEY', 're_'.'QAWTZQ3Q_'.'BdDBNA3C1zRZ5AAfuY3XpU19');
-        if (! empty($resendApiKey)) {
-            try {
-                $response = Http::withToken($resendApiKey)
-                    ->timeout(8)
-                    ->post('https://api.resend.com/emails', [
-                        'from' => 'HourWash <onboarding@resend.dev>',
-                        'to' => [$recipientEmail],
-                        'subject' => $subject,
-                        'html' => $html,
-                    ]);
-
-                if ($response->successful()) {
-                    Log::info("Resend HTTP API Password Reset Email sent to {$recipientEmail}");
-
-                    return;
-                }
-
-                Log::warning("Resend HTTP API Password Reset warning [{$response->status()}]: ".$response->body());
-
-                return;
-            } catch (\Throwable $e) {
-                Log::error('Resend HTTP API Password Reset Exception: '.$e->getMessage());
-
-                return;
-            }
-        }
-
-        // 3. Fallback to standard Laravel Mailer
         try {
-            Mail::html($html, function ($message) use ($recipientEmail, $subject) {
-                $message->to($recipientEmail)
-                    ->subject($subject);
-            });
-            Log::info("Standard Mailer Password Reset sent to {$recipientEmail}");
+            $response = Http::withHeaders([
+                'api-key' => $brevoApiKey,
+                'accept' => 'application/json',
+                'content-type' => 'application/json',
+            ])->timeout(15)->post('https://api.brevo.com/v3/smtp/email', [
+                'sender' => [
+                    'name' => 'HourWash Laundry',
+                    'email' => 'karlnicko2019@gmail.com',
+                ],
+                'to' => [
+                    ['email' => $recipientEmail],
+                ],
+                'subject' => $subject,
+                'htmlContent' => $html,
+            ]);
+
+            Log::info("Brevo Password Reset response [{$response->status()}]: ".$response->body());
+
+            if ($response->successful()) {
+                Log::info("Brevo Password Reset Email SENT to {$recipientEmail}");
+
+                return;
+            }
+
+            Log::error("Brevo Password Reset FAILED [{$response->status()}]: ".$response->body());
         } catch (\Throwable $e) {
-            Log::error('Standard Mailer Password Reset failed: '.$e->getMessage());
+            Log::error('Brevo Password Reset Exception: '.$e->getMessage());
         }
     }
 }
