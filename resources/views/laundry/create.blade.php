@@ -3,7 +3,7 @@
 <div class="max-w-3xl mx-auto space-y-6">
 
     <div>
-        <h1 class="text-xl sm:text-2xl font-bold font-['Outfit'] text-slate-900 dark:text-white">🧺 Book Laundry Order</h1>
+        <h1 class="text-xl sm:text-2xl font-bold font-['Outfit'] text-slate-900 dark:text-white">Book Laundry Order</h1>
         <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Select your service package, input laundry weight, and provide instructions.</p>
     </div>
 

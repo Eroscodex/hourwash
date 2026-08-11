@@ -4,8 +4,9 @@
         <!-- Header -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-                <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white font-['Outfit']">
-                    Store Operations Management 📊
+                <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white font-['Outfit'] flex items-center gap-2">
+                    <svg class="w-6 h-6 text-[#007AFF] dark:text-[#0A84FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                    Store Operations Management
                 </h1>
                 <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
                     Real-time laundry POS queue, machine fleet monitoring, and system metrics.
@@ -28,7 +29,9 @@
             <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3">
                 <div class="flex items-center justify-between">
                     <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">TODAY'S ORDERS</span>
-                    <div class="w-8 h-8 rounded-xl bg-[#007AFF]/10 text-[#007AFF] dark:text-[#0A84FF] border border-[#007AFF]/20 flex items-center justify-center text-sm font-bold">📋</div>
+                    <div class="w-8 h-8 rounded-xl bg-[#007AFF]/10 text-[#007AFF] dark:text-[#0A84FF] border border-[#007AFF]/20 flex items-center justify-center font-bold">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                    </div>
                 </div>
                 <div>
                     <div class="text-2xl sm:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white">{{ $totalToday ?? 28 }}</div>
@@ -40,7 +43,9 @@
             <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3">
                 <div class="flex items-center justify-between">
                     <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">IN PROCESSING</span>
-                    <div class="w-8 h-8 rounded-xl bg-teal-500/10 text-teal-600 dark:text-teal-400 border border-teal-500/20 flex items-center justify-center text-sm font-bold">🧺</div>
+                    <div class="w-8 h-8 rounded-xl bg-teal-500/10 text-teal-600 dark:text-teal-400 border border-teal-500/20 flex items-center justify-center font-bold">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L5.6 15.11a2 2 0 01-1.183-1.845V7.4a2 2 0 011.183-1.845l2.4-1.2a6 6 0 013.86-.517l.318.158a6 6 0 003.86.517l2.387-.477a2 2 0 011.022.547l2.4 2.4a2 2 0 01.586 1.414v7.172a2 2 0 01-.586 1.414l-2.4 2.4z"/></svg>
+                    </div>
                 </div>
                 <div>
                     <div class="text-2xl sm:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white">{{ $inProgress ?? 16 }}</div>
@@ -52,7 +57,9 @@
             <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3">
                 <div class="flex items-center justify-between">
                     <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">READY FOR PICKUP</span>
-                    <div class="w-8 h-8 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 flex items-center justify-center text-sm font-bold">🛍</div>
+                    <div class="w-8 h-8 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 flex items-center justify-center font-bold">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+                    </div>
                 </div>
                 <div>
                     <div class="text-2xl sm:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white">{{ $readyPickup ?? 8 }}</div>
@@ -64,12 +71,12 @@
             <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3">
                 <div class="flex items-center justify-between">
                     <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">COMPLETED TODAY</span>
-                    <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center text-sm font-bold">✓</div>
+                    <div class="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center font-bold">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                    </div>
                 </div>
                 <div>
                     <div class="text-2xl sm:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white">{{ $completedToday ?? 24 }}</div>
-                    <span class="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">↑ +20% <span class="text-slate-500 dark:text-slate-400 font-normal">vs last week</span></span>
-                </div>
             </div>
         </div>
 

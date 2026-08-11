@@ -43,11 +43,11 @@
             </div>
 
             <div class="grid grid-cols-5 text-center text-[10px] font-bold text-slate-500 dark:text-slate-400 pt-1">
-                <div class="@if(in_array($order->order_status, ['received','washing','rinsing','drying','ready','completed'])) text-emerald-600 dark:text-emerald-400 @endif">✓ Received</div>
+                <div class="@if(in_array($order->order_status, ['received','washing','rinsing','drying','ready','completed'])) text-emerald-600 dark:text-emerald-400 @endif">Received</div>
                 <div class="@if(in_array($order->order_status, ['washing','rinsing','drying','ready','completed'])) text-[#007AFF] dark:text-[#0A84FF] @endif">● Washing</div>
                 <div class="@if(in_array($order->order_status, ['rinsing','drying','ready','completed'])) text-indigo-600 dark:text-indigo-400 @endif">● Rinsing</div>
                 <div class="@if(in_array($order->order_status, ['drying','ready','completed'])) text-amber-600 dark:text-amber-400 @endif">● Drying</div>
-                <div class="@if(in_array($order->order_status, ['ready','completed'])) text-emerald-600 dark:text-emerald-400 @endif">✓ Ready</div>
+                <div class="@if(in_array($order->order_status, ['ready','completed'])) text-emerald-600 dark:text-emerald-400 @endif">Ready</div>
             </div>
         </div>
 
