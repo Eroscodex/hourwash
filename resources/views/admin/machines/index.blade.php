@@ -4,10 +4,18 @@
 
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-                <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white">Machine Fleet Management</h1>
+                <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white flex items-center gap-2">
+                    <svg class="w-6 h-6 text-[#007AFF] dark:text-[#0A84FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/>
+                    </svg>
+                    Machine Fleet Management
+                </h1>
                 <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">Configure commercial washers, dryers, live statuses, and scannable machine QR tags.</p>
             </div>
-            <a href="{{ route('admin.machines.create') }}" class="btn-ios-primary w-full sm:w-fit text-center">+ Add New Machine</a>
+            <a href="{{ route('admin.machines.create') }}" class="btn-ios-primary w-full sm:w-fit text-center flex items-center justify-center gap-1.5 shadow-md">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
+                Add New Machine
+            </a>
         </div>
 
         @if(session('success'))
@@ -26,7 +34,7 @@
                             <th class="px-4 sm:px-6 py-3.5">Machine Code</th>
                             <th class="px-4 sm:px-6 py-3.5">Type</th>
                             <th class="px-4 sm:px-6 py-3.5">Status</th>
-                            <th class="px-4 sm:px-6 py-3.5 text-center">Actions</th>
+                            <th class="px-4 sm:px-6 py-3.5 text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-black/5 dark:divide-white/5 text-slate-900 dark:text-slate-200">
@@ -54,13 +62,19 @@
                                     <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30">Offline</span>
                                 @endif
                             </td>
-                            <td class="px-4 sm:px-6 py-4 text-center">
-                                <a href="{{ route('admin.machines.edit', $machine) }}" class="text-[#007AFF] dark:text-[#0A84FF] hover:underline mr-3 text-xs font-semibold transition inline-block">✏ Edit</a>
-                                <form action="{{ route('admin.machines.destroy', $machine) }}" method="POST" class="inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button onclick="return confirm('Delete machine?')" class="text-rose-600 dark:text-rose-400 hover:underline text-xs font-semibold transition">🗑 Delete</button>
-                                </form>
+                            <td class="px-4 sm:px-6 py-4 text-right">
+                                <div class="flex items-center justify-end gap-2">
+                                    <a href="{{ route('admin.machines.edit', $machine) }}" class="p-1.5 text-blue-500 hover:bg-blue-500/10 rounded-lg transition" title="Edit Machine">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                                    </a>
+                                    <form action="{{ route('admin.machines.destroy', $machine) }}" method="POST" class="inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button onclick="return confirm('Delete machine?')" class="p-1.5 text-rose-500 hover:bg-rose-500/10 rounded-lg transition" title="Delete Machine">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                     @empty
