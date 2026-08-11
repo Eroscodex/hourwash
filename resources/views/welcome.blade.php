@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Hour Wash Laundry Shop | Self-Service & Drop-off System</title>
-    <link rel="icon" type="image/x-icon" href="{{ asset('hourwash.ico') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
+    <link rel="alternate icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 
     <!-- Font & Network Optimizations -->
     <link rel="dns-prefetch" href="//fonts.googleapis.com">
