@@ -36,7 +36,7 @@
 
             <!-- Brand Logo -->
             <a href="{{ route('welcome') }}" class="flex items-center gap-3 group">
-                <img src="{{ asset('images/hourwash.jpg') }}" alt="Hour Wash Logo" class="w-11 h-11 rounded-full object-cover shadow-md group-hover:scale-105 transition-transform bg-white p-0.5 border border-black/10 dark:border-white/10">
+                <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-11 h-11 rounded-full object-cover shadow-md group-hover:scale-105 transition-transform bg-white p-0.5 border border-black/10 dark:border-white/10">
                 <div>
                     <span class="text-xl font-bold font-['Outfit'] tracking-wide text-slate-900 dark:text-white block">
                         HOUR WASH

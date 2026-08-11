@@ -49,7 +49,7 @@
         <!-- Logo -->
         <div class="flex flex-col items-center text-center mb-6">
             <a href="{{ route('welcome') }}" class="flex items-center gap-3 group">
-                <img src="{{ asset('images/hourwash.jpg') }}" alt="Hour Wash Logo" class="w-16 h-16 rounded-full object-cover shadow-xl group-hover:scale-105 transition-transform bg-white p-1 border-2 border-[#007AFF]/30">
+                <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-16 h-16 rounded-full object-cover shadow-xl group-hover:scale-105 transition-transform bg-white p-1 border-2 border-[#007AFF]/30">
             </a>
             <h1 class="mt-3 text-2xl font-bold tracking-wider text-slate-900 dark:text-white font-['Outfit']">
                 HOUR WASH

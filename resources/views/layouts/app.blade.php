@@ -7,10 +7,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Hour Wash Laundry System') }}</title>
-    <link rel="icon" type="image/x-icon" href="{{ asset('hourwash.ico') }}">
-    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
-    <link rel="apple-touch-icon" href="{{ asset('hourwash.ico') }}">
+    <link rel="alternate icon" type="image/x-icon" href="{{ asset('hourwash.ico') }}">
+    <link rel="apple-touch-icon" href="{{ asset('favicon.svg') }}">
 
     <!-- Google Fonts & Theme Pre-init script -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,9 +27,9 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="bg-[#F5F5F7] text-slate-900 dark:bg-[#000000] dark:text-[#F5F5F7] font-sans antialiased selection:bg-[#007AFF] selection:text-white min-h-screen flex flex-col transition-colors duration-300">
+<body class="bg-[#F2F2F7] dark:bg-[#000000] text-slate-900 dark:text-[#F5F5F7] font-['Inter'] antialiased selection:bg-[#007AFF] selection:text-white min-h-screen">
 
-    <div class="min-h-screen flex flex-col md:flex-row relative">
+    <div class="flex min-h-screen relative overflow-x-hidden">
 
         <!-- Mobile Drawer Overlay -->
         <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 dark:bg-black/80 z-40 hidden md:hidden transition-opacity"></div>
@@ -42,7 +41,7 @@
                 <!-- Brand Header -->
                 <div class="p-5 border-b border-black/10 dark:border-white/10 flex items-center justify-between">
                     <a href="{{ route('welcome') }}" class="flex items-center gap-3 group">
-                        <img src="{{ asset('images/hourwash.jpg') }}" alt="Hour Wash Logo" class="w-11 h-11 rounded-full object-cover shadow-md group-hover:scale-105 transition-transform bg-white p-0.5 border border-black/10 dark:border-white/10">
+                        <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-11 h-11 rounded-full object-cover shadow-md group-hover:scale-105 transition-transform bg-white p-0.5 border border-black/10 dark:border-white/10">
                         <div>
                             <h1 class="text-lg font-bold font-['Outfit'] tracking-wide text-slate-900 dark:text-white">
                                 HOUR WASH
