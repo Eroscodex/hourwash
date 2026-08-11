@@ -6,7 +6,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Hour Wash Laundry Shop | Self-Service & Drop-off System</title>
     <link rel="icon" type="image/x-icon" href="{{ asset('hourwash.ico') }}">
-    <link rel="shortcut icon" type="image/x-icon" href="{{ asset('hourwash.ico') }}">
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     <link rel="apple-touch-icon" href="{{ asset('hourwash.ico') }}">
 
     <!-- Font & Network Optimizations -->
@@ -35,7 +36,7 @@
 
             <!-- Brand Logo -->
             <a href="{{ route('welcome') }}" class="flex items-center gap-3 group">
-                <img src="{{ asset('images/logo.png') }}" alt="Hour Wash Logo" class="w-11 h-11 rounded-full object-cover shadow-md group-hover:scale-105 transition-transform bg-white p-0.5 border border-black/10 dark:border-white/10">
+                <img src="{{ asset('images/hourwash.jpg') }}" alt="Hour Wash Logo" class="w-11 h-11 rounded-full object-cover shadow-md group-hover:scale-105 transition-transform bg-white p-0.5 border border-black/10 dark:border-white/10">
                 <div>
                     <span class="text-xl font-bold font-['Outfit'] tracking-wide text-slate-900 dark:text-white block">
                         HOUR WASH
