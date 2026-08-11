@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AnalyticsController;
+use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Admin\LaundryController as AdminLaundryController;
 use App\Http\Controllers\Admin\MachineController;
 use App\Http\Controllers\Admin\ServiceController;
@@ -301,6 +302,8 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::resource('machines', MachineController::class);
     Route::resource('services', ServiceController::class);
     Route::resource('users', UserController::class);
+    Route::resource('inventory', InventoryController::class);
+    Route::post('/inventory/{inventory}/adjust', [InventoryController::class, 'adjust'])->name('inventory.adjust');
     Route::get('/laundry', [AdminLaundryController::class, 'index'])->name('laundry.index');
     Route::patch('/laundry/{order}', [AdminLaundryController::class, 'update'])->name('laundry.update');
     Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics');
