@@ -17,6 +17,7 @@
                     <!-- Header Bar -->
                     <tr>
                         <td align="center" style="background-color: #0F172A; padding: 28px 20px;">
+                            <img src="https://hourwashlaundryshop.up.railway.app/images/logo.png" alt="Hour Wash Logo" width="56" height="56" style="display: block; margin: 0 auto 10px auto; border-radius: 50%; border: 2px solid #38BDF8;">
                             <h1 style="margin: 0; font-size: 22px; font-weight: 800; color: #38BDF8; letter-spacing: 1px; font-family: 'Outfit', sans-serif;">
                                 HOUR WASH LAUNDRY
                             </h1>

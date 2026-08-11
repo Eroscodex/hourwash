@@ -32,7 +32,8 @@
         
         <!-- Receipt Header -->
         <div class="text-center space-y-1 border-b border-dashed border-slate-300 pb-4">
-            <h1 class="text-xl font-bold font-['Outfit'] tracking-tight">HOURWASH LAUNDRY</h1>
+            <img src="{{ asset('images/logo.png') }}" alt="Hour Wash Logo" class="w-14 h-14 mx-auto mb-1 rounded-full object-cover">
+            <h1 class="text-xl font-bold font-['Outfit'] tracking-tight">HOUR WASH LAUNDRY</h1>
             <p class="text-[11px] font-sans text-slate-600">Self-Service & Drop-Off Laundry Systems</p>
             <p class="text-[10px] text-slate-500">Magallanes St., Orosite, Legazpi City, Albay</p>
             <p class="text-[10px] text-slate-500">Tel: (052) 801-4452 | Mobile: 09123456789</p>

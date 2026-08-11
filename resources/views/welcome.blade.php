@@ -34,11 +34,7 @@
 
             <!-- Brand Logo -->
             <a href="{{ route('welcome') }}" class="flex items-center gap-3 group">
-                <div class="w-10 h-10 rounded-2xl bg-[#007AFF] dark:bg-[#0A84FF] flex items-center justify-center text-white font-extrabold shadow-md group-hover:scale-105 transition-transform">
-                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L5.6 15.11a2 2 0 01-1.183-1.845V7.4a2 2 0 011.183-1.845l2.4-1.2a6 6 0 013.86-.517l.318.158a6 6 0 003.86.517l2.387-.477a2 2 0 011.022.547l2.4 2.4a2 2 0 01.586 1.414v7.172a2 2 0 01-.586 1.414l-2.4 2.4z"/>
-                    </svg>
-                </div>
+                <img src="{{ asset('images/logo.png') }}" alt="Hour Wash Logo" class="w-11 h-11 rounded-full object-cover shadow-md group-hover:scale-105 transition-transform bg-white p-0.5 border border-black/10 dark:border-white/10">
                 <div>
                     <span class="text-xl font-bold font-['Outfit'] tracking-wide text-slate-900 dark:text-white block">
                         HOUR WASH
