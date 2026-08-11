@@ -33,8 +33,9 @@
 
         <!-- Top Header & Theme Switcher -->
         <div class="flex items-center justify-between">
-            <a href="{{ route('welcome') }}" class="text-xs font-semibold text-[#007AFF] dark:text-[#0A84FF] hover:underline flex items-center gap-1.5">
-                ← Back to Shop Home
+            <a href="{{ route('welcome') }}" class="btn-ios-secondary text-xs px-3.5 py-1.5 inline-flex items-center gap-1.5 font-bold shadow-sm hover:scale-105 transition-all">
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                Back to Shop Home
             </a>
 
             <!-- Mode Switcher Pill -->
