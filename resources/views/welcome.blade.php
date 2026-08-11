@@ -46,7 +46,7 @@
             </a>
 
             <!-- Desktop Navigation Links -->
-            <nav class="hidden lg:flex items-center gap-8 text-sm font-semibold text-slate-600 dark:text-slate-300">
+            <nav class="hidden xl:flex items-center gap-8 text-sm font-semibold text-slate-600 dark:text-slate-300">
                 <a href="#home" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Home</a>
                 <a href="#services" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Services & Pricing</a>
                 <a href="#how-it-works" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">How It Works</a>
@@ -82,7 +82,7 @@
                 @endauth
 
                 <!-- Mobile Hamburger Button -->
-                <button id="welcome-mobile-toggle" class="lg:hidden p-2 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 focus:outline-none" aria-label="Toggle Mobile Navigation">
+                <button id="welcome-mobile-toggle" class="xl:hidden p-2 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 focus:outline-none" aria-label="Toggle Mobile Navigation">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
@@ -92,9 +92,9 @@
     </header>
 
     <!-- Mobile Navigation Drawer Overlay & Panel -->
-    <div id="welcome-mobile-overlay" class="fixed inset-0 bg-black/60 dark:bg-black/80 z-50 hidden lg:hidden transition-opacity"></div>
+    <div id="welcome-mobile-overlay" class="fixed inset-0 bg-black/60 dark:bg-black/80 z-50 hidden xl:hidden transition-opacity"></div>
 
-    <div id="welcome-mobile-menu" class="fixed top-0 right-0 bottom-0 w-72 bg-white dark:bg-[#1C1C1E] border-l border-black/10 dark:border-white/10 z-50 transform translate-x-full lg:hidden transition-transform duration-300 flex flex-col justify-between p-6 shadow-2xl">
+    <div id="welcome-mobile-menu" class="fixed top-0 right-0 bottom-0 w-72 bg-white dark:bg-[#1C1C1E] border-l border-black/10 dark:border-white/10 z-50 transform translate-x-full xl:hidden transition-transform duration-300 flex flex-col justify-between p-6 shadow-2xl">
         <div class="space-y-6">
             <div class="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-4">
                 <div class="flex items-center gap-2">
@@ -471,7 +471,7 @@
         </section>
 
         <!-- Customer Ratings & Reviews Section -->
-        <section class="space-y-6">
+        <section id="reviews-section" class="space-y-6">
             <div class="text-center space-y-2 max-w-xl mx-auto">
                 <span class="px-3 py-1 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400 text-xs font-bold uppercase tracking-wider">
                      Customer Ratings & Reviews
