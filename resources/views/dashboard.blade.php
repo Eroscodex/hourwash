@@ -63,30 +63,46 @@
             <div class="col-span-2 lg:col-span-1 app-card p-4 flex items-center justify-between">
                 <div>
                     <span class="inline-flex items-center gap-1.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
-                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                        Store Open
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+                        ONLINE & OPEN
                     </span>
-                    <p class="text-xs text-slate-900 dark:text-slate-200 font-semibold mt-0.5">6:00 AM – 10:00 PM</p>
+                    <p class="text-xs font-semibold text-slate-700 dark:text-slate-300 mt-0.5">7:00 AM - 9:00 PM</p>
                 </div>
-                <span class="text-[10px] text-slate-500 dark:text-slate-400">{{ now()->format('M d, Y') }}</span>
             </div>
         </div>
 
-        <!-- Main Dashboard Grid -->
+        <!-- Main Dashboard Grid Layout (12 Columns) -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             
-            <!-- Left Side: Order Progress Tracker & Recent Orders (8 cols) -->
+            <!-- Left Side Column (8 cols): Active Laundry Tracker & Orders -->
             <div class="lg:col-span-8 space-y-6">
                 
-                <!-- Track Your Current Order -->
-                <div class="app-card p-4 sm:p-6 space-y-6">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <span class="px-2.5 py-0.5 rounded bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF] text-[10px] font-bold uppercase tracking-wider">
-                                ACTIVE LOAD
-                            </span>
-                            <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white mt-1">Live Order Progress</h2>
+                <!-- Active Laundry Live Tracker Card -->
+                <div class="app-card p-5 sm:p-6 space-y-5 shadow-lg border-l-4 border-l-[#007AFF]">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-black/5 dark:border-white/10 pb-4">
+                        <div class="flex items-center gap-3">
+                            @if(isset($activeOrder) && $activeOrder->qrCode)
+                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data={{ $activeOrder->qrCode->qr_token }}" 
+                                     alt="QR Code Tag" 
+                                     class="w-12 h-12 bg-white p-1 rounded-xl border border-slate-200 shadow-sm flex-shrink-0">
+                            @else
+                                <div class="w-12 h-12 rounded-xl bg-[#007AFF]/10 text-[#007AFF] dark:text-[#0A84FF] flex items-center justify-center font-bold text-sm">
+                                    QR
+                                </div>
+                            @endif
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-['Outfit']">
+                                        Active Order Tracker
+                                    </h3>
+                                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
+                                        {{ isset($activeOrder) ? str_replace('_', ' ', $activeOrder->order_status) : 'Washing In Progress' }}
+                                    </span>
+                                </div>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Live 5-stage cleaning telemetry monitoring</p>
+                            </div>
                         </div>
+
                         <div class="flex items-center gap-3">
                             <span class="text-xs text-slate-500 dark:text-slate-400 font-mono">Order: #{{ $activeOrder->order_number ?? 'HW-884210' }}</span>
                             @if(isset($activeOrder) && in_array($activeOrder->order_status, ['pending', 'received']))
@@ -110,21 +126,23 @@
                             <span class="font-semibold text-slate-900 dark:text-slate-100">{{ now()->addHours(2)->format('M d, Y - h:i A') }}</span>
                         </div>
                         <div>
-                            <span class="text-slate-500 dark:text-slate-400 text-[11px] block">Assigned Machine</span>
-                            <span class="font-semibold text-[#007AFF] dark:text-[#0A84FF]">{{ $activeOrder->machine->machine_name ?? 'Washer Machine #2' }}</span>
+                            <span class="text-slate-500 dark:text-slate-400 text-[11px] block">Assigned Unit</span>
+                            <span class="font-semibold text-[#007AFF] dark:text-[#0A84FF] font-mono">{{ $activeOrder->machine->machine_name ?? 'Machine 1' }}</span>
                         </div>
                     </div>
 
-                    <!-- 5 Steps Horizontal Tracker Bar -->
-                    <div class="space-y-3 pt-2">
-                        <div class="flex items-center justify-between text-xs font-semibold text-slate-700 dark:text-slate-300">
-                            <span class="text-emerald-600 dark:text-emerald-400 font-bold">Step 2 of 5</span>
-                            <span class="text-[#007AFF] dark:text-[#0A84FF] font-bold">Washing Cycle Active</span>
+                    <!-- 5-Stage Live Progress Bar -->
+                    <div class="space-y-2 pt-2">
+                        <div class="flex items-center justify-between text-xs font-semibold">
+                            <span class="text-slate-700 dark:text-slate-300">Overall Order Progress</span>
+                            <span class="text-[#007AFF] dark:text-[#0A84FF] font-bold">40% Complete</span>
                         </div>
                         
                         <div class="w-full h-2.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden flex p-0.5">
                             <div class="h-full bg-[#007AFF] dark:bg-[#0A84FF] rounded-full w-[40%] transition-all duration-500"></div>
-                        </div>                        <div class="grid grid-cols-5 text-center text-[10px] font-bold text-slate-500 dark:text-slate-400 pt-1">
+                        </div>
+
+                        <div class="grid grid-cols-5 text-center text-[10px] font-bold text-slate-500 dark:text-slate-400 pt-1">
                             <div class="text-emerald-600 dark:text-emerald-400">Received</div>
                             <div class="text-[#007AFF] dark:text-[#0A84FF]">● Washing</div>
                             <div>○ RINSING</div>
@@ -137,120 +155,91 @@
                 <!-- Recent Orders History Table -->
                 <div class="app-card p-4 sm:p-6 space-y-4 overflow-hidden">
                     <div class="flex items-center justify-between">
-                        <h3 class="text-sm font-bold text-slate-900 dark:text-white font-['Outfit']">Recent Order History</h3>
-                        <a href="{{ route('my.orders') }}" class="text-xs text-[#007AFF] dark:text-[#0A84FF] font-semibold hover:underline">View All Orders →</a>
+                        <div>
+                            <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Order History</h2>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Your recent laundry bookings and invoices</p>
+                        </div>
+                        <a href="{{ route('my.orders') }}" class="text-xs text-[#007AFF] dark:text-[#0A84FF] hover:opacity-80 font-semibold">View All History →</a>
                     </div>
 
                     <div class="overflow-x-auto max-w-full">
-                        <table class="w-full text-left text-xs whitespace-nowrap">
-                            <thead class="bg-black/5 dark:bg-white/5 text-slate-500 font-bold uppercase tracking-wider text-[10px]">
+                        <table class="w-full text-left text-xs whitespace-nowrap min-w-[500px]">
+                            <thead class="bg-black/5 dark:bg-[#2C2C2E] text-slate-700 dark:text-slate-300 uppercase text-[10px] tracking-wider border-b border-black/5 dark:border-white/10">
                                 <tr>
-                                    <th class="p-3">Order Code</th>
-                                    <th class="p-3">Service</th>
-                                    <th class="p-3">Weight</th>
-                                    <th class="p-3">Total Amount</th>
-                                    <th class="p-3">Status</th>
-                                    <th class="p-3 text-right">Track</th>
+                                    <th class="px-4 py-3">Order #</th>
+                                    <th class="px-4 py-3">Service</th>
+                                    <th class="px-4 py-3">Date</th>
+                                    <th class="px-4 py-3">Amount</th>
+                                    <th class="px-4 py-3">Status</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-black/5 dark:divide-white/5">
+                            <tbody class="divide-y divide-black/5 dark:divide-white/5 text-slate-900 dark:text-slate-200">
                                 @forelse($recentOrders as $order)
                                     <tr class="hover:bg-black/5 dark:hover:bg-white/5 transition">
-                                        <td class="p-3 font-mono font-bold text-[#007AFF] dark:text-[#0A84FF]">#{{ $order->order_number }}</td>
-                                        <td class="p-3 text-slate-900 dark:text-slate-100 font-medium">{{ $order->service->name ?? 'Standard Wash' }}</td>
-                                        <td class="p-3 text-slate-500 font-mono">{{ $order->weight_kg }} kg</td>
-                                        <td class="p-3 font-bold font-mono text-emerald-600 dark:text-emerald-400">₱{{ number_format($order->total_amount, 2) }}</td>
-                                        <td class="p-3">
-                                            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
+                                        <td class="px-4 py-3 font-mono font-bold text-[#007AFF] dark:text-[#0A84FF]">#{{ $order->order_number }}</td>
+                                        <td class="px-4 py-3">{{ $order->service->name ?? 'Wash & Dry' }}</td>
+                                        <td class="px-4 py-3 text-slate-500 dark:text-slate-400">{{ $order->created_at->format('M d, Y') }}</td>
+                                        <td class="px-4 py-3 font-bold text-slate-900 dark:text-white">₱{{ number_format($order->total_amount, 2) }}</td>
+                                        <td class="px-4 py-3">
+                                            <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider
+                                                @if($order->order_status === 'completed') bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30
+                                                @elseif($order->order_status === 'ready') bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30
+                                                @else bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30 @endif">
                                                 {{ str_replace('_', ' ', $order->order_status) }}
                                             </span>
-                                        </td>
-                                        <td class="p-3 text-right">
-                                            <a href="{{ route('laundry.track', $order->order_number) }}" class="btn-ios-secondary py-1 px-2.5 text-[11px]">Track</a>
                                         </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="6" class="p-4 text-center text-slate-500 text-xs">No recent laundry orders found.</td>
+                                        <td colspan="5" class="text-center py-6 text-slate-500">No order history found.</td>
                                     </tr>
                                 @endforelse
                             </tbody>
                         </table>
                     </div>
                 </div>
+
             </div>
 
-            <!-- Right Column: Loyalty Points & Notifications -->
-            <div class="space-y-6">
-                <!-- Loyalty Rewards Card -->
-                <div class="app-card p-5 space-y-4 bg-gradient-to-br from-[#007AFF]/10 via-transparent to-purple-500/10 border border-[#007AFF]/20">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <span class="text-[10px] uppercase font-bold text-[#007AFF] dark:text-[#0A84FF] tracking-wider">Loyalty Club</span>
-                            <h4 class="text-base font-extrabold text-slate-900 dark:text-white font-['Outfit']">Your Rewards Balance</h4>
-                        </div>
-                        <span class="px-3 py-1 rounded-full bg-[#007AFF] text-white text-xs font-bold font-mono shadow-sm">
-                            {{ auth()->user()->customerProfile->loyalty_points ?? 250 }} Pts
-                        </span>
+            <!-- Right Side Column (4 cols) -->
+            <div class="lg:col-span-4 space-y-6">
+                
+                <!-- Loyalty Points & Reward Redemption Card -->
+                <div class="app-card p-4 sm:p-6 space-y-4">
+                    <div class="flex items-center justify-between border-b border-black/5 dark:border-white/10 pb-3">
+                        <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">LOYALTY REWARDS</span>
+                        <span class="px-2.5 py-1 rounded-full bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF] font-bold text-xs">VIP MEMBER</span>
                     </div>
 
-                    <p class="text-xs text-slate-600 dark:text-slate-300">Earn 10 points for every laundry booking & review! Redeem points for instant discounts.</p>
+                    <div class="flex items-baseline gap-2">
+                        <span class="text-4xl font-extrabold text-slate-900 dark:text-white font-['Outfit']">{{ auth()->user()->customerProfile->loyalty_points ?? 250 }}</span>
+                        <span class="text-xs text-slate-500 dark:text-slate-400 font-medium">Loyalty Wash Points</span>
+                    </div>
+
+                    <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                        Earn 10 points for every ₱100 spent! Redeem your points for store discounts and free wash vouchers.
+                    </p>
 
                     <form action="{{ route('loyalty.redeem') }}" method="POST" class="space-y-2 pt-1">
                         @csrf
-                        <div class="grid grid-cols-2 gap-2">
-                            <button type="submit" name="points" value="100" class="btn-ios-secondary text-[11px] py-2 text-center w-full font-bold">
-                                Redeem 100 pts<br><span class="text-[#007AFF] dark:text-[#0A84FF]">(₱20 Off)</span>
-                            </button>
-                            <button type="submit" name="points" value="200" class="btn-ios-primary text-[11px] py-2 text-center w-full font-bold">
-                                Redeem 200 pts<br><span class="text-white">(₱50 Off)</span>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-
-                <!-- Customer Ratings & Feedback Review Form Card -->
-                <div class="app-card p-4 sm:p-6 space-y-4">
-                    <div class="flex items-center justify-between border-b border-black/5 dark:border-white/10 pb-3">
-                        <h3 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">⭐ Leave a Store Review</h3>
-                        <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold">+10 Bonus Pts</span>
-                    </div>
-
-                    <form action="{{ route('feedback.store') }}" method="POST" class="space-y-3">
-                        @csrf
-                        <div>
-                            <label class="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Overall Rating</label>
-                            <select name="rating" class="w-full text-xs py-2">
-                                <option value="5">⭐⭐⭐⭐⭐ 5 Stars - Excellent Service</option>
-                                <option value="4">⭐⭐⭐⭐ 4 Stars - Very Good</option>
-                                <option value="3">⭐⭐⭐ 3 Stars - Average</option>
-                                <option value="2">⭐⭐ 2 Stars - Needs Improvement</option>
-                                <option value="1">⭐ 1 Star - Poor</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label class="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">Your Feedback & Review</label>
-                            <textarea name="comment" rows="3" placeholder="Share your experience with HourWash..." class="w-full text-xs" required></textarea>
-                        </div>
-
-                        <button type="submit" class="btn-ios-primary text-xs w-full text-center">
-                            Submit Review & Claim Points
+                        <input type="hidden" name="points" value="100">
+                        <button type="submit" class="btn-ios-primary w-full text-center text-xs py-2.5">
+                            Redeem 100 Points for ₱20 Discount
                         </button>
                     </form>
                 </div>
 
-                <!-- Notifications & Alerts Card -->
+                <!-- Live Notifications & Updates Card -->
                 <div class="app-card p-4 sm:p-6 space-y-4">
-                    <div class="flex items-center justify-between">
-                        <h3 class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">Store Notifications</h3>
+                    <div class="flex items-center justify-between border-b border-black/5 dark:border-white/10 pb-3">
+                        <h3 class="text-base font-bold text-slate-900 dark:text-white font-['Outfit']">Store Notifications</h3>
                         <span class="text-[10px] text-[#007AFF] dark:text-[#0A84FF] font-semibold">Live Updates</span>
                     </div>
 
                     <div class="space-y-3">
                         <div class="p-3 rounded-xl bg-black/5 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-1">
                             <div class="flex items-center justify-between text-xs font-bold text-slate-900 dark:text-white">
-                                <span>🧺 Order Loaded</span>
+                                <span>Order Loaded</span>
                                 <span class="text-[10px] text-slate-500 dark:text-slate-400">10 mins ago</span>
                             </div>
                             <p class="text-xs text-slate-600 dark:text-slate-300">Your clothes have been placed in Washer #2 cycle.</p>
@@ -258,7 +247,7 @@
 
                         <div class="p-3 rounded-xl bg-black/5 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-1">
                             <div class="flex items-center justify-between text-xs font-bold text-slate-900 dark:text-white">
-                                <span>🏷 QR Tag Verified</span>
+                                <span>QR Tag Verified</span>
                                 <span class="text-[10px] text-slate-500 dark:text-slate-400">25 mins ago</span>
                             </div>
                             <p class="text-xs text-slate-600 dark:text-slate-300">Staff verified your drop-off item count.</p>
