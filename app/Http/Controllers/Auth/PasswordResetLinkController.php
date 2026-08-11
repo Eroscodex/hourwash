@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
@@ -99,7 +98,7 @@ class PasswordResetLinkController extends Controller
         try {
             DB::table('password_reset_tokens')->insert([
                 'email' => $email,
-                'token' => Hash::make($token),
+                'token' => hash('sha256', $token),
                 'created_at' => now(),
             ]);
 

@@ -2,7 +2,6 @@
 
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 
 test('reset password link screen can be rendered', function () {
     $response = $this->get('/forgot-password');
@@ -48,7 +47,7 @@ test('password can be reset with valid token', function () {
     DB::table('password_reset_tokens')->updateOrInsert(
         ['email' => $user->email],
         [
-            'token' => Hash::make($plainToken),
+            'token' => hash('sha256', $plainToken),
             'created_at' => now(),
         ]
     );

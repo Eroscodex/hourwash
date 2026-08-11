@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -63,7 +62,7 @@ class NewPasswordController extends Controller
             ]);
         }
 
-        if (! Hash::check($request->token, $resetRecord->token)) {
+        if (! hash_equals($resetRecord->token, hash('sha256', $request->token))) {
             throw ValidationException::withMessages([
                 'email' => 'This password reset link is invalid.',
             ]);
