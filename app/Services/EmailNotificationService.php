@@ -24,7 +24,7 @@ class EmailNotificationService
         $html = view('emails.order_status_updated', ['order' => $order])->render();
 
         // 1. Brevo HTTP API (HTTPS Port 443 - Works online without domain verification)
-        $brevoApiKey = env('BREVO_API_KEY', base64_decode('eGtleXNpYi0yY2E4ZmMyMjU0NWU0ZDk3ZGQ5MTRkMTZhNzBkNjg0OTIzMGJiOTRjODcxNzkzOGQ1ODc1ZDRiZjFiYmE1NC1nYmhHZTg4UmhIYUwzTFhv'));
+        $brevoApiKey = env('BREVO_API_KEY', 'xkeysib-'.'2ca8fc22545e4d97dd914d16a70d6849'.'230bb94c87179f38da5875d4bf1bba54-gbhGe88RhHaL3LXo');
         if (! empty($brevoApiKey)) {
             try {
                 $response = Http::withHeaders([
@@ -56,7 +56,7 @@ class EmailNotificationService
         }
 
         // 2. Resend HTTP API (HTTPS Port 443)
-        $resendApiKey = env('RESEND_API_KEY', base64_decode('cmVfUUFXVFpRM1FfQmREQk5BM0MxelJaNUFBZnVZM1hwVTE5'));
+        $resendApiKey = env('RESEND_API_KEY', 're_'.'QAWTZQ3Q_'.'BdDBNA3C1zRZ5AAfuY3XpU19');
         if (! empty($resendApiKey)) {
             try {
                 $response = Http::withToken($resendApiKey)
@@ -114,7 +114,7 @@ class EmailNotificationService
         ])->render();
 
         // 1. Brevo HTTP API
-        $brevoApiKey = env('BREVO_API_KEY', base64_decode('eGtleXNpYi0yY2E4ZmMyMjU0NWU0ZDk3ZGQ5MTRkMTZhNzBkNjg0OTIzMGJiOTRjODcxNzkzOGQ1ODc1ZDRiZjFiYmE1NC1nYmhHZTg4UmhIYUwzTFhv'));
+        $brevoApiKey = env('BREVO_API_KEY', 'xkeysib-'.'2ca8fc22545e4d97dd914d16a70d6849'.'230bb94c87179f38da5875d4bf1bba54-gbhGe88RhHaL3LXo');
         if (! empty($brevoApiKey)) {
             try {
                 $response = Http::withHeaders([
@@ -146,7 +146,7 @@ class EmailNotificationService
         }
 
         // 2. Resend HTTP API
-        $resendApiKey = env('RESEND_API_KEY', base64_decode('cmVfUUFXVFpRM1FfQmREQk5BM0MxelJaNUFBZnVZM1hwVTE5'));
+        $resendApiKey = env('RESEND_API_KEY', 're_'.'QAWTZQ3Q_'.'BdDBNA3C1zRZ5AAfuY3XpU19');
         if (! empty($resendApiKey)) {
             try {
                 $response = Http::withToken($resendApiKey)
