@@ -139,13 +139,23 @@ class EmailNotificationService
             'email' => $recipientEmail,
         ]);
 
-        $resetUrl = url(route('password.reset', [
+        $routePath = route('password.reset', [
             'token' => $token,
             'email' => $recipientEmail,
-        ], false));
+        ], false);
+
+        $request = request();
+        $baseUrl = config('app.url');
+
+        if ($request && $request->getHost()) {
+            $baseUrl = $request->getSchemeAndHttpHost();
+        }
+
+        $resetUrl = rtrim((string) $baseUrl, '/').'/'.ltrim($routePath, '/');
 
         Log::info('Password reset URL generated', [
             'email' => $recipientEmail,
+            'url' => $resetUrl,
         ]);
 
         try {
@@ -162,9 +172,15 @@ class EmailNotificationService
         $brevoApiKey = config('services.brevo.api_key');
 
         if (empty($brevoApiKey)) {
-            Log::error('Password reset failed: BREVO_API_KEY is missing.');
+            Log::warning('BREVO_API_KEY not configured for password reset. Falling back to Laravel mail.');
 
-            throw new RuntimeException('Email service is not configured.');
+            self::sendPasswordResetEmailFallback(
+                $recipientEmail,
+                'HourWash - Reset Your Account Password',
+                $html
+            );
+
+            return;
         }
 
         try {
@@ -194,19 +210,58 @@ class EmailNotificationService
             ]);
 
             if (! $response->successful()) {
-                Log::error('Brevo rejected password reset email', [
+                Log::warning('Brevo rejected password reset email. Falling back to Laravel mail.', [
                     'status' => $response->status(),
                     'response' => $response->body(),
                 ]);
 
-                throw new RuntimeException('Brevo rejected the password reset email.');
+                self::sendPasswordResetEmailFallback(
+                    $recipientEmail,
+                    'HourWash - Reset Your Account Password',
+                    $html
+                );
+
+                return;
             }
 
             Log::info("Password reset email accepted by Brevo for {$recipientEmail}");
-        } catch (RuntimeException $e) {
-            throw $e;
         } catch (\Throwable $e) {
-            Log::error('Password reset Brevo exception', [
+            Log::warning('Brevo password reset exception. Falling back to Laravel mail.', [
+                'email' => $recipientEmail,
+                'error' => $e->getMessage(),
+            ]);
+
+            self::sendPasswordResetEmailFallback(
+                $recipientEmail,
+                'HourWash - Reset Your Account Password',
+                $html
+            );
+        }
+
+        return;
+    }
+
+    /**
+     * Send password reset email through Laravel mail fallback.
+     */
+    public static function sendPasswordResetEmailFallback(
+        string $recipientEmail,
+        string $subject,
+        string $html
+    ): void {
+        try {
+            Mail::html($html, function ($message) use ($recipientEmail, $subject): void {
+                $message->to($recipientEmail)
+                    ->subject($subject)
+                    ->from(
+                        config('mail.from.address', 'karlnicko2019@gmail.com'),
+                        config('mail.from.name', 'HourWash Laundry')
+                    );
+            });
+
+            Log::info("Laravel mail fallback sent to {$recipientEmail}");
+        } catch (\Throwable $e) {
+            Log::error('Laravel mail fallback failed', [
                 'email' => $recipientEmail,
                 'error' => $e->getMessage(),
             ]);
