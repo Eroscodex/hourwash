@@ -44,7 +44,7 @@
                 <div class="flex items-center justify-between">
                     <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">IN PROCESSING</span>
                     <div class="w-8 h-8 rounded-xl bg-teal-500/10 text-teal-600 dark:text-teal-400 border border-teal-500/20 flex items-center justify-center font-bold">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L5.6 15.11a2 2 0 01-1.183-1.845V7.4a2 2 0 011.183-1.845l2.4-1.2a6 6 0 013.86-.517l.318.158a6 6 0 003.86.517l2.387-.477a2 2 0 011.022.547l2.4 2.4a2 2 0 01.586 1.414v7.172a2 2 0 01-.586 1.414l-2.4 2.4z"/></svg>
+                        <img src="{{ asset('hourwash.ico') }}" alt="HourWash" class="w-5 h-5 rounded-full object-cover">
                     </div>
                 </div>
                 <div>
@@ -109,7 +109,7 @@
                                 @elseif($machine->status === 'drying') bg-indigo-500/15 text-indigo-700 dark:text-indigo-300
                                 @elseif($machine->status === 'idle') bg-emerald-500/15 text-emerald-700 dark:text-emerald-300
                                 @else bg-amber-500/15 text-amber-700 dark:text-amber-300 @endif">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L5.6 15.11a2 2 0 01-1.183-1.845V7.4a2 2 0 011.183-1.845l2.4-1.2a6 6 0 013.86-.517l.318.158a6 6 0 003.86.517l2.387-.477a2 2 0 011.022.547l2.4 2.4a2 2 0 01.586 1.414v7.172a2 2 0 01-.586 1.414l-2.4 2.4z"/></svg>
+                                <img src="{{ asset('hourwash.ico') }}" alt="HourWash" class="w-4 h-4 rounded-full object-cover">
                             </div>
                             <div>
                                 <span class="text-[10px] font-bold uppercase tracking-wider block

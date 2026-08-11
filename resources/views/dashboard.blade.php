@@ -22,7 +22,7 @@
         <div class="grid grid-cols-2 lg:grid-cols-5 gap-3">
             <div class="app-card p-4 flex items-center gap-3.5">
                 <div class="w-10 h-10 rounded-xl bg-[#007AFF]/10 text-[#007AFF] dark:text-[#0A84FF] flex items-center justify-center border border-[#007AFF]/20">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L5.6 15.11a2 2 0 01-1.183-1.845V7.4a2 2 0 011.183-1.845l2.4-1.2a6 6 0 013.86-.517l.318.158a6 6 0 003.86.517l2.387-.477a2 2 0 011.022.547l2.4 2.4a2 2 0 01.586 1.414v7.172a2 2 0 01-.586 1.414l-2.4 2.4z"/></svg>
+                    <img src="{{ asset('hourwash.ico') }}" alt="HourWash" class="w-6 h-6 rounded-full object-cover">
                 </div>
                 <div>
                     <h5 class="text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold">Washers Available</h5>
@@ -32,7 +32,7 @@
 
             <div class="app-card p-4 flex items-center gap-3.5">
                 <div class="w-10 h-10 rounded-xl bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center border border-sky-500/20">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.7 9.3a1 1 0 00-1.4 0l-4 4a1 1 0 001.4 1.4l4-4a1 1 0 000-1.4z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21a9 9 0 100-18 9 9 0 000 18z"/></svg>
+                    <img src="{{ asset('hourwash.ico') }}" alt="HourWash" class="w-6 h-6 rounded-full object-cover">
                 </div>
                 <div>
                     <h5 class="text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold">Dryers Available</h5>
@@ -42,7 +42,7 @@
 
             <div class="app-card p-4 flex items-center gap-3.5">
                 <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center border border-indigo-500/20">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>
+                    <img src="{{ asset('hourwash.ico') }}" alt="HourWash" class="w-6 h-6 rounded-full object-cover">
                 </div>
                 <div>
                     <h5 class="text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold">Wash & Fold</h5>
@@ -52,7 +52,7 @@
 
             <div class="app-card p-4 flex items-center gap-3.5">
                 <div class="w-10 h-10 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center border border-amber-500/20">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    <img src="{{ asset('hourwash.ico') }}" alt="HourWash" class="w-6 h-6 rounded-full object-cover">
                 </div>
                 <div>
                     <h5 class="text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold">Pickup Riders</h5>
