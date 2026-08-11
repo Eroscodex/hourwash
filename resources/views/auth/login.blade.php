@@ -43,11 +43,5 @@
             </x-primary-button>
         </div>
 
-        <div class="pt-3 border-t border-black/5 dark:border-white/10 text-center">
-            <a href="{{ route('welcome') }}" class="text-xs text-slate-500 dark:text-slate-400 hover:text-[#007AFF] dark:hover:text-[#0A84FF] font-medium inline-flex items-center gap-1.5 transition">
-                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-                Back to Shop Home Page
-            </a>
-        </div>
     </form>
 </x-guest-layout>
