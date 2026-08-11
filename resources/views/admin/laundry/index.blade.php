@@ -20,7 +20,8 @@
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-black/10 dark:border-white/10 pb-3">
                 <div>
                     <h2 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                        📱 Live SMS Customer Outbox
+                        <svg class="w-4 h-4 text-[#007AFF] dark:text-[#0A84FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                        Live SMS Customer Outbox
                     </h2>
                     <p class="text-xs text-slate-500 dark:text-slate-400">Automated SMS text messages generated & dispatched to customer phone numbers</p>
                 </div>
@@ -34,7 +35,7 @@
                     <div class="p-3.5 rounded-xl bg-black/5 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-1">
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs">
                             <span class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                                📞 Phone: <strong class="text-[#007AFF] dark:text-[#0A84FF] font-mono">{{ $sms->phone }}</strong>
+                                Phone: <strong class="text-[#007AFF] dark:text-[#0A84FF] font-mono">{{ $sms->phone }}</strong>
                             </span>
                             <span class="text-[10px] text-slate-500 font-mono">{{ $sms->created_at->format('M d, Y h:i A') }}</span>
                         </div>
@@ -63,7 +64,7 @@
                                         $pts = $order->customer->customerProfile->loyalty_points ?? 0;
                                     @endphp
                                     <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold {{ $pts >= 200 ? 'bg-amber-500/20 text-amber-600 border border-amber-500/30' : 'bg-slate-200 dark:bg-white/10 text-slate-600 dark:text-slate-300' }}">
-                                        {{ $pts >= 200 ? '⭐ VIP MEMBER ('.$pts.' pts)' : '⭐ '.$pts.' pts' }}
+                                        {{ $pts >= 200 ? 'VIP MEMBER ('.$pts.' pts)' : $pts.' pts' }}
                                     </span>
                                 </div>
                                 <p class="text-xs text-slate-600 dark:text-slate-300 font-medium">Customer: <strong class="text-slate-900 dark:text-white">{{ $order->customer->name ?? 'Walk-in' }}</strong> ({{ $order->customer->phone ?? 'N/A' }})</p>
@@ -72,10 +73,10 @@
 
                         <div class="flex items-center gap-3">
                             <a href="{{ route('laundry.track', $order->qrCode->qr_token ?? $order->order_number) }}" class="btn-ios-secondary text-xs">
-                                🔍 Live Telemetry
+                                Live Telemetry
                             </a>
                             <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-3 py-2 rounded-xl text-xs font-bold hover:opacity-90 transition flex items-center gap-1.5 shadow-sm">
-                                🧾 Receipt
+                                Receipt
                             </a>
                             <span class="text-emerald-600 dark:text-emerald-400 font-extrabold text-xl font-['Outfit']">₱{{ number_format($order->total_amount, 2) }}</span>
                         </div>
@@ -84,66 +85,60 @@
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
                         <div>
                             <span class="text-slate-500 dark:text-slate-400 text-[11px] block">Service Package</span>
-                            <p class="text-slate-900 dark:text-slate-100 font-medium">{{ $order->service->name ?? 'Standard Wash' }}</p>
+                            <span class="font-bold text-slate-900 dark:text-slate-100">{{ $order->service->name ?? 'Standard Wash' }}</span>
                         </div>
                         <div>
                             <span class="text-slate-500 dark:text-slate-400 text-[11px] block">Weight</span>
-                            <p class="text-slate-900 dark:text-slate-100 font-medium">{{ $order->weight_kg }} kg</p>
+                            <span class="font-bold text-slate-900 dark:text-slate-100">{{ $order->weight_kg }} kg</span>
                         </div>
                         <div>
                             <span class="text-slate-500 dark:text-slate-400 text-[11px] block">Payment Status</span>
-                            <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30' }}">
-                                {{ ucfirst($order->payment_status) }}
+                            <span class="font-bold uppercase {{ $order->payment_status === 'paid' ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400' }}">
+                                {{ $order->payment_status }}
                             </span>
                         </div>
                         <div>
                             <span class="text-slate-500 dark:text-slate-400 text-[11px] block">Current Stage</span>
-                            <p class="text-[#007AFF] dark:text-[#0A84FF] capitalize font-bold">{{ str_replace('_', ' ', $order->order_status) }}</p>
+                            <span class="font-bold uppercase text-[#007AFF] dark:text-[#0A84FF]">{{ str_replace('_', ' ', $order->order_status) }}</span>
                         </div>
                     </div>
 
-                    <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-black/5 dark:border-white/5">
-                        <form method="POST" action="{{ route('admin.laundry.update', $order->id) }}" class="flex flex-wrap items-center gap-3">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-black/5 dark:border-white/5">
+                        <form method="POST" action="{{ route('admin.laundry.update', $order->id) }}" class="flex flex-wrap items-center gap-2">
                             @csrf
                             @method('PATCH')
+                            
+                            <select name="status" class="py-1 px-2.5 text-xs rounded-xl">
+                                <option value="pending" {{ $order->order_status === 'pending' ? 'selected' : '' }}>Pending</option>
+                                <option value="received" {{ $order->order_status === 'received' ? 'selected' : '' }}>Received</option>
+                                <option value="washing" {{ $order->order_status === 'washing' ? 'selected' : '' }}>Washing</option>
+                                <option value="rinsing" {{ $order->order_status === 'rinsing' ? 'selected' : '' }}>Rinsing</option>
+                                <option value="drying" {{ $order->order_status === 'drying' ? 'selected' : '' }}>Drying</option>
+                                <option value="ready" {{ $order->order_status === 'ready' ? 'selected' : '' }}>Ready for Pickup</option>
+                                <option value="completed" {{ $order->order_status === 'completed' ? 'selected' : '' }}>Completed</option>
+                                <option value="cancelled" {{ $order->order_status === 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                            </select>
 
-                            <div class="flex items-center gap-2">
-                                <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400">Stage:</span>
-                                <select name="status" class="py-1.5 text-xs">
-                                    <option value="pending" {{ $order->order_status === 'pending' ? 'selected' : '' }}>Pending</option>
-                                    <option value="received" {{ $order->order_status === 'received' ? 'selected' : '' }}>Received</option>
-                                    <option value="washing" {{ $order->order_status === 'washing' ? 'selected' : '' }}>Washing</option>
-                                    <option value="rinsing" {{ $order->order_status === 'rinsing' ? 'selected' : '' }}>Rinsing</option>
-                                    <option value="drying" {{ $order->order_status === 'drying' ? 'selected' : '' }}>Drying</option>
-                                    <option value="ready" {{ $order->order_status === 'ready' ? 'selected' : '' }}>Ready for Pickup</option>
-                                    <option value="completed" {{ $order->order_status === 'completed' ? 'selected' : '' }}>Completed</option>
-                                    <option value="cancelled" {{ $order->order_status === 'cancelled' ? 'selected' : '' }}>Cancelled</option>
-                                </select>
-                            </div>
+                            <select name="payment_status" class="py-1 px-2.5 text-xs rounded-xl">
+                                <option value="unpaid" {{ $order->payment_status === 'unpaid' ? 'selected' : '' }}>Unpaid</option>
+                                <option value="paid" {{ $order->payment_status === 'paid' ? 'selected' : '' }}>Paid</option>
+                            </select>
 
-                            <div class="flex items-center gap-2">
-                                <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400">Cashier Payment:</span>
-                                <select name="payment_status" class="py-1.5 text-xs">
-                                    <option value="unpaid" {{ $order->payment_status === 'unpaid' ? 'selected' : '' }}>Unpaid</option>
-                                    <option value="paid" {{ $order->payment_status === 'paid' ? 'selected' : '' }}>Paid (Award Points)</option>
-                                </select>
-                            </div>
-
-                            <button class="btn-ios-primary py-2 text-xs">
+                            <button type="submit" class="btn-ios-primary py-1 px-3 text-xs">
                                 Update Order & Award Points
                             </button>
                         </form>
 
                         <form method="POST" action="{{ route('admin.laundry.extend', $order->id) }}" class="flex items-center gap-2">
                             @csrf
-                            <select name="delay_minutes" class="py-1.5 text-xs">
+                            <select name="delay_minutes" class="py-1 px-2 text-xs rounded-xl">
                                 <option value="30">+30 mins delay</option>
                                 <option value="60" selected>+60 mins delay</option>
                                 <option value="120">+2 hours delay</option>
                                 <option value="180">+3 hours delay</option>
                             </select>
-                            <button type="submit" onclick="return confirm('Extend estimated completion time for Brownout / Power Outage?')" class="bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30 hover:bg-amber-500/25 px-3 py-1.5 rounded-xl text-xs font-bold transition">
-                                ⚡ Brownout Extension
+                            <button type="submit" onclick="return confirm('Extend estimated completion time for Power Outage / Interruption?')" class="bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30 hover:bg-amber-500/25 px-3 py-1.5 rounded-xl text-xs font-bold transition">
+                                Power Outage Extension
                             </button>
                         </form>
                     </div>

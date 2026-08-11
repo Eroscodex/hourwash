@@ -93,7 +93,7 @@
                                 <form method="POST" action="{{ route('laundry.cancel', $activeOrder->id) }}" class="inline">
                                     @csrf
                                     <button onclick="return confirm('Are you sure you want to cancel this pending order?')" class="bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 hover:bg-rose-500/25 px-2.5 py-1 rounded-lg text-xs font-bold transition">
-                                        🚫 Cancel Order
+                                        Cancel Order
                                     </button>
                                 </form>
                             @endif

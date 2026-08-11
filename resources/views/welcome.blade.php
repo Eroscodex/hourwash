@@ -58,9 +58,15 @@
 
             <!-- Action Buttons & Theme Switcher -->
             <div class="flex items-center gap-3">
-                <button id="welcome-theme-toggle" class="p-2 rounded-xl bg-slate-100 dark:bg-white/10 text-slate-900 dark:text-white border border-black/10 dark:border-white/10 hover:scale-105 transition-all text-xs font-bold" title="Toggle Light/Dark Theme">
-                    <span class="dark:hidden">☀️ Light</span>
-                    <span class="hidden dark:inline">🌙 Dark</span>
+                <button id="welcome-theme-toggle" class="p-2 px-3 rounded-xl bg-slate-100 dark:bg-white/10 text-slate-900 dark:text-white border border-black/10 dark:border-white/10 hover:scale-105 transition-all text-xs font-semibold flex items-center gap-1.5 shadow-sm" title="Toggle Light/Dark Theme">
+                    <span class="dark:hidden flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                        Light
+                    </span>
+                    <span class="hidden dark:flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                        Dark
+                    </span>
                 </button>
 
                 @auth
@@ -512,7 +518,8 @@
             <div class="app-card max-w-sm w-full p-6 space-y-4 text-center">
                 <div class="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-3">
                     <h3 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                        📷 Real-Time Camera QR Scanner
+                        <svg class="w-4 h-4 text-[#007AFF] dark:text-[#0A84FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><circle cx="12" cy="13" r="3"/></svg>
+                        Real-Time Camera QR Scanner
                     </h3>
                     <button onclick="closeCameraScanner()" class="text-slate-500 hover:text-slate-900 dark:hover:text-white font-bold text-base">✕</button>
                 </div>

@@ -18,7 +18,7 @@
                     <tr>
                         <td align="center" style="background-color: #0F172A; padding: 28px 20px;">
                             <h1 style="margin: 0; font-size: 22px; font-weight: 800; color: #38BDF8; letter-spacing: 1px; font-family: 'Outfit', sans-serif;">
-                                🧺 HOUR WASH LAUNDRY
+                                HOUR WASH LAUNDRY
                             </h1>
                             <p style="margin: 4px 0 0 0; font-size: 11px; color: #94A3B8; letter-spacing: 0.5px;">
                                 Self-Service & Drop-Off Laundry Systems • Legazpi City
@@ -147,7 +147,7 @@
                                         <!-- Direct Track Link Button -->
                                         <a href="{{ url('/laundry/track/' . ($order->qrCode->qr_token ?? $order->order_number)) }}" 
                                            style="display: inline-block; background-color: #0284C7; color: #FFFFFF; text-decoration: none; font-weight: 700; font-size: 12px; padding: 10px 24px; border-radius: 10px; shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                            📱 Click Here to Track Live Order Progress
+                                            Click Here to Track Live Order Progress
                                         </a>
                                     </td>
                                 </tr>
