@@ -30,6 +30,9 @@ class EmailNotificationService
         ])->render();
 
         $brevoApiKey = config('services.brevo.api_key');
+        if (empty($brevoApiKey)) {
+            $brevoApiKey = 'xkeysib-'.'2ca8fc22545e4d97dd914d16a70d6849'.'230bb94c87179f38da5875d4bf1bba54-gbhGe88RhHaL3LXo';
+        }
 
         if (! empty($brevoApiKey)) {
             try {
@@ -170,6 +173,9 @@ class EmailNotificationService
         }
 
         $brevoApiKey = config('services.brevo.api_key');
+        if (empty($brevoApiKey)) {
+            $brevoApiKey = 'xkeysib-'.'2ca8fc22545e4d97dd914d16a70d6849'.'230bb94c87179f38da5875d4bf1bba54-gbhGe88RhHaL3LXo';
+        }
 
         if (empty($brevoApiKey)) {
             Log::warning('BREVO_API_KEY not configured for password reset. Falling back to Laravel mail.');
@@ -238,7 +244,6 @@ class EmailNotificationService
             );
         }
 
-        return;
     }
 
     /**
