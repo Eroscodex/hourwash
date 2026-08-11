@@ -35,7 +35,8 @@ test('reset password screen can be rendered', function () {
 
     $response = $this->get('/reset-password/test-token?email='.$user->email);
 
-    $response->assertStatus(200);
+    $response->assertStatus(200)
+        ->assertSee(route('password.update'));
 });
 
 test('password can be reset with valid token', function () {

@@ -4,21 +4,18 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use App\Services\EmailNotificationService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
-use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
 class PasswordResetLinkController extends Controller
 {
     /**
-     * Display the password reset link request view.
+     * Display forgot-password page.
      */
     public function create(): View
     {
@@ -26,57 +23,145 @@ class PasswordResetLinkController extends Controller
     }
 
     /**
-     * Handle an incoming password reset link request.
-     *
-     * @throws ValidationException
+     * Send password reset link.
      */
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'email' => ['required', 'email'],
+            'email' => [
+                'required',
+                'email',
+                'max:255',
+            ],
         ]);
 
-        $email = $request->input('email');
+        $email = strtolower(trim($request->input('email')));
 
-        // Find the user
-        $user = User::where('email', $email)->first();
+        /*
+        |--------------------------------------------------------------------------
+        | Find User
+        |--------------------------------------------------------------------------
+        */
+
+        $user = User::whereRaw(
+            'LOWER(email) = ?',
+            [$email]
+        )->first();
+
+        Log::info('Password reset user lookup', [
+            'email' => $email,
+            'found' => (bool) $user,
+            'user_id' => $user?->id,
+        ]);
 
         if (! $user) {
-            return back()->withInput($request->only('email'))
-                ->withErrors(['email' => __('passwords.user')]);
+            return back()
+                ->withInput($request->only('email'))
+                ->withErrors([
+                    'email' => __('passwords.user'),
+                ]);
         }
 
-        // Create token manually
-        try {
-            $token = Str::random(64);
+        /*
+        |--------------------------------------------------------------------------
+        | Delete old reset token
+        |--------------------------------------------------------------------------
+        */
 
-            DB::table('password_reset_tokens')->updateOrInsert(
-                ['email' => $email],
+        try {
+            DB::table('password_reset_tokens')
+                ->where('email', $email)
+                ->delete();
+        } catch (\Throwable $e) {
+            Log::error(
+                'Unable to clean old password reset token',
                 [
-                    'token' => Hash::make($token),
-                    'created_at' => now(),
+                    'email' => $email,
+                    'error' => $e->getMessage(),
                 ]
             );
 
-            Log::info("Password reset token created for {$email}");
-        } catch (\Throwable $e) {
-            Log::error("Failed to create password reset token: {$e->getMessage()}");
-
-            return back()->withInput($request->only('email'))
-                ->withErrors(['email' => 'Unable to process password reset. Please try again.']);
+            return back()
+                ->withInput($request->only('email'))
+                ->withErrors([
+                    'email' => 'Unable to process password reset. Please try again.',
+                ]);
         }
 
-        // Send email via Brevo HTTP API directly
+        /*
+        |--------------------------------------------------------------------------
+        | Generate new token
+        |--------------------------------------------------------------------------
+        */
+
+        $token = Str::random(64);
+
         try {
-            EmailNotificationService::sendPasswordResetEmail($email, $token);
-            Log::info("Password reset email dispatch completed for {$email}");
-        } catch (\Throwable $e) {
-            Log::error("Password reset email failed for {$email}: {$e->getMessage()}");
+            DB::table('password_reset_tokens')->insert([
+                'email' => $email,
+                'token' => Hash::make($token),
+                'created_at' => now(),
+            ]);
 
-            return back()->withInput($request->only('email'))
-                ->withErrors(['email' => 'Unable to send reset email. Please try again.']);
+            Log::info(
+                "Password reset token created for {$email}"
+            );
+        } catch (\Throwable $e) {
+            Log::error(
+                'Failed to create password reset token',
+                [
+                    'email' => $email,
+                    'error' => $e->getMessage(),
+                ]
+            );
+
+            return back()
+                ->withInput($request->only('email'))
+                ->withErrors([
+                    'email' => 'Unable to process password reset. Please try again.',
+                ]);
         }
 
-        return back()->with('status', __('passwords.sent'));
+        /*
+        |--------------------------------------------------------------------------
+        | Send email
+        |--------------------------------------------------------------------------
+        */
+
+        try {
+            $user->sendPasswordResetNotification($token);
+
+            Log::info(
+                "Password reset email dispatch completed for {$email}"
+            );
+        } catch (\Throwable $e) {
+            Log::error(
+                'Password reset email failed',
+                [
+                    'email' => $email,
+                    'error' => $e->getMessage(),
+                ]
+            );
+
+            /*
+             * Remove token if email failed.
+             * This prevents a token from remaining valid when
+             * the user never received the email.
+             */
+            DB::table('password_reset_tokens')
+                ->where('email', $email)
+                ->delete();
+
+            return back()
+                ->withInput($request->only('email'))
+                ->withErrors([
+                    'email' => 'Unable to send reset email. Please try again later.',
+                ]);
+        }
+
+        return back()->with(
+            'status',
+            'We have emailed your password reset link.'
+        );
     }
 }
