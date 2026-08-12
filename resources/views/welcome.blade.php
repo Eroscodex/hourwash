@@ -209,11 +209,24 @@
                             <span class="w-2.5 h-2.5 rounded-full bg-[#007AFF] dark:bg-[#0A84FF] animate-pulse"></span>
                         </div>
                         <div class="space-y-3">
-                            <div class="text-2xl font-bold font-['Outfit'] text-slate-900 dark:text-white">HOUR WASH LAUNDRY SHOP</div>
+                            <div class="text-2xl font-bold font-['Outfit'] text-slate-900 dark:text-white">HOUR WASH MAIN STORE</div>
                             <p class="text-xs text-slate-600 dark:text-slate-400">Store Hours: 7:00 AM – 6:00 PM Daily</p>
+                            @php
+                                $idleWashers = $machines->filter(function($m) {
+                                    return in_array($m->machine_type, ['washer', 'washer_dryer']) && $m->status === 'idle';
+                                })->count();
+
+                                $readyDryers = $machines->filter(function($m) {
+                                    return in_array($m->machine_type, ['dryer', 'washer_dryer']) && $m->status === 'idle';
+                                })->count();
+                            @endphp
                             <div class="flex flex-wrap gap-2 pt-1">
-                                <span class="px-2.5 py-1 rounded-lg bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 text-[11px] font-bold">12 Washers Idle</span>
-                                <span class="px-2.5 py-1 rounded-lg bg-sky-500/15 text-sky-700 dark:text-sky-300 text-[11px] font-bold">8 Dryers Ready</span>
+                                <span class="px-2.5 py-1 rounded-lg bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 text-[11px] font-bold">
+                                    {{ $idleWashers }} {{ Str::plural('Washer', $idleWashers) }} Idle
+                                </span>
+                                <span class="px-2.5 py-1 rounded-lg bg-sky-500/15 text-sky-700 dark:text-sky-300 text-[11px] font-bold">
+                                    {{ $readyDryers }} {{ Str::plural('Dryer', $readyDryers) }} Ready
+                                </span>
                             </div>
                         </div>
                         <div class="text-[11px] text-slate-500 dark:text-slate-400 border-t border-black/10 dark:border-white/10 pt-3 flex justify-between">
