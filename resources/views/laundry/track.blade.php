@@ -7,7 +7,17 @@
             <h1 class="text-2xl font-bold font-['Outfit'] text-slate-900 dark:text-white">Live Order & QR Tracker</h1>
             <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Public telemetry verification for Order #{{ $order->order_number }}</p>
         </div>
-        <a href="{{ route('welcome') }}" class="btn-ios-secondary text-xs">Back to Storefront</a>
+        @auth
+            @if(auth()->user()->isOwner())
+                <a href="{{ route('admin.dashboard') }}" class="btn-ios-secondary text-xs">Back to Dashboard</a>
+            @elseif(auth()->user()->isStaff())
+                <a href="{{ route('staff.dashboard') }}" class="btn-ios-secondary text-xs">Back to Dashboard</a>
+            @else
+                <a href="{{ route('dashboard') }}" class="btn-ios-secondary text-xs">Back to Dashboard</a>
+            @endif
+        @else
+            <a href="{{ route('welcome') }}" class="btn-ios-secondary text-xs">Back to Storefront</a>
+        @endauth
     </div>
 
     <!-- Main Order Details Card -->

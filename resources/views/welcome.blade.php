@@ -435,10 +435,6 @@
                             <span class="text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-widest block">ORDER CODE</span>
                             <h3 class="text-lg font-bold font-mono text-[#007AFF] dark:text-[#0A84FF]">#HW884210</h3>
                         </div>
-
-                        <a href="{{ route('laundry.track', 'HW884210') }}" class="btn-ios-primary w-full text-xs text-center block">
-                             Test Live QR Tracker
-                        </a>
                     </div>
                 </div>
 
