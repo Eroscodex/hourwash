@@ -35,7 +35,7 @@
         <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 dark:bg-black/80 z-40 hidden md:hidden transition-opacity"></div>
 
         <!-- Sidebar Navigation -->
-        <aside id="sidebar" class="fixed md:sticky top-0 inset-y-0 left-0 h-screen w-64 bg-white dark:bg-[#1C1C1E] border-r border-black/10 dark:border-white/10 z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 flex flex-col justify-between shadow-xl">
+        <aside id="sidebar" class="fixed top-0 bottom-0 left-0 h-screen w-64 bg-white dark:bg-[#1C1C1E] border-r border-black/10 dark:border-white/10 z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 flex flex-col justify-between shadow-xl">
             
             <div class="flex flex-col flex-1 min-h-0 overflow-y-auto">
                 <!-- Brand Header -->
@@ -163,7 +163,7 @@
         </aside>
 
         <!-- Main Content Area -->
-        <div class="flex-1 flex flex-col min-w-0">
+        <div class="flex-1 flex flex-col min-w-0 md:pl-64">
             
             <!-- Top Header Navbar -->
             <header class="bg-white dark:bg-[#1C1C1E] border-b border-black/10 dark:border-white/10 px-4 md:px-8 py-3.5 flex items-center justify-between sticky top-0 z-30 shadow-sm backdrop-blur-xl">
