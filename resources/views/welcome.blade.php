@@ -376,7 +376,7 @@
                 
                 <div class="lg:col-span-7 space-y-4">
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF] text-xs font-bold uppercase tracking-wider">
-                         Simple QR Tag System
+                         QR Tag System
                     </div>
                     
                     <h2 class="text-2xl sm:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white leading-tight">
