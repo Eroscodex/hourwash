@@ -38,7 +38,7 @@
                             </span>
                             <span class="text-[10px] text-slate-500 font-mono">{{ $sms->created_at->format('M d, Y h:i A') }}</span>
                         </div>
-                        <p class="text-xs text-slate-700 dark:text-slate-300 font-mono bg-white dark:bg-black/30 p-2.5 rounded-lg border border-black/5 dark:border-white/5">
+                        <p class="text-xs text-slate-700 dark:text-slate-300 font-mono bg-white dark:bg-black/30 p-2.5 rounded-lg border border-black/5 dark:border-white/5 break-all break-words">
                             {{ $sms->message }}
                         </p>
                     </div>
