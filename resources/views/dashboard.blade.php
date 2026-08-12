@@ -66,7 +66,7 @@
                         <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
                         ONLINE & OPEN
                     </span>
-                    <p class="text-xs font-semibold text-slate-700 dark:text-slate-300 mt-0.5">7:00 AM - 9:00 PM</p>
+                    <p class="text-xs font-semibold text-slate-700 dark:text-slate-300 mt-0.5">7:00 AM - 6:00 PM</p>
                 </div>
             </div>
         </div>
