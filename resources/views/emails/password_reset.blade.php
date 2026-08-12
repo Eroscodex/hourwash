@@ -19,7 +19,7 @@
                 <tr>
                     <td align="center" style="background-color: #0F172A; padding: 28px 20px;">
                         <img
-                            src="https://hourwashlaundryshop.up.railway.app/favicon.svg"
+                            src="{{ url('favicon.svg') }}"
                             alt="Hour Wash Logo"
                             width="56"
                             height="56"
