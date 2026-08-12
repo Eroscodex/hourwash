@@ -40,13 +40,12 @@
                 </div>
                 <div>
                     <span class="text-slate-500 dark:text-slate-400 text-[11px] block">QR Code Tracking & Receipt</span>
-                    <div class="flex items-center gap-2 mt-0.5">
-                        <a href="{{ route('laundry.track', $order->qrCode->qr_token ?? $order->order_number) }}" class="inline-flex items-center gap-1 text-[#007AFF] dark:text-[#0A84FF] font-bold hover:underline">
-                            <span>📱 Track</span>
+                    <div class="flex items-center gap-2 mt-1">
+                        <a href="{{ route('laundry.track', $order->qrCode->qr_token ?? $order->order_number) }}" class="btn-ios-primary px-3 py-1.5 text-[11px] font-bold inline-flex items-center gap-1 shadow-sm">
+                            Track Order
                         </a>
-                        <span class="text-slate-300">|</span>
-                        <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="inline-flex items-center gap-1 text-slate-700 dark:text-slate-300 font-bold hover:underline">
-                            <span>🧾 Receipt</span>
+                        <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="btn-ios-secondary px-3 py-1.5 text-[11px] font-bold inline-flex items-center gap-1 shadow-sm">
+                            Receipt Order
                         </a>
                     </div>
                 </div>
