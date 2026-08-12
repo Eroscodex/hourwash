@@ -205,7 +205,7 @@
                 <div class="lg:col-span-5 relative flex justify-center">
                     <div class="w-full max-w-sm rounded-2xl bg-white/90 dark:bg-[#2C2C2E]/90 border border-black/5 dark:border-white/10 p-6 flex flex-col justify-between shadow-lg dark:shadow-xl space-y-6">
                         <div class="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-3">
-                            <span class="text-xs font-bold text-[#007AFF] dark:text-[#0A84FF] uppercase tracking-widest">STORE KIOSK MONITOR</span>
+                            <span class="text-xs font-bold text-[#007AFF] dark:text-[#0A84FF] uppercase tracking-widest">Status</span>
                             <span class="w-2.5 h-2.5 rounded-full bg-[#007AFF] dark:bg-[#0A84FF] animate-pulse"></span>
                         </div>
                         <div class="space-y-3">
