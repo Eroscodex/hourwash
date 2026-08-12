@@ -9,14 +9,14 @@
         </div>
         @auth
             @if(auth()->user()->isOwner())
-                <a href="{{ route('admin.dashboard') }}" class="btn-ios-secondary text-xs">Back to Dashboard</a>
+                <a href="{{ route('admin.orders') }}" class="btn-ios-secondary text-xs">Back</a>
             @elseif(auth()->user()->isStaff())
-                <a href="{{ route('staff.dashboard') }}" class="btn-ios-secondary text-xs">Back to Dashboard</a>
+                <a href="{{ route('staff.orders') }}" class="btn-ios-secondary text-xs">Back</a>
             @else
-                <a href="{{ route('dashboard') }}" class="btn-ios-secondary text-xs">Back to Dashboard</a>
+                <a href="{{ route('dashboard') }}" class="btn-ios-secondary text-xs">Back</a>
             @endif
         @else
-            <a href="{{ route('welcome') }}" class="btn-ios-secondary text-xs">Back to Storefront</a>
+            <a href="{{ route('welcome') }}" class="btn-ios-secondary text-xs">Back</a>
         @endauth
     </div>
 
