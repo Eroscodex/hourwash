@@ -26,7 +26,7 @@ class ChatbotController extends Controller
         // 1. Guardrail Check: Intercept non-laundry queries
         if (Str::contains($msg, ['pancit', 'cook', 'recipe', 'food', 'noodle', 'dish', 'ingredient', 'python', 'code', 'math', 'politic'])) {
             return response()->json([
-                'reply' => 'I am the HourWash AI Assistant, specialized exclusively for Hour Wash Laundry Shop in Magallanes St., Orosite, Legazpi City! 🧺 I can help you track laundry orders, check operating hours (7:00 AM – 6:00 PM), or inspect service packages & rates. How can I assist with your laundry today?',
+                'reply' => 'I am the HourWash AI Assistant, specialized exclusively for Hour Wash Laundry Shop in Magallanes St., Orosite, Legazpi City! I can help you track laundry orders, check operating hours (7:00 AM – 6:00 PM), or inspect service packages & rates. How can I assist with your laundry today?',
             ]);
         }
 
@@ -106,7 +106,7 @@ class ChatbotController extends Controller
     {
         // --- Live Services ---
         $services = Service::where('status', 'active')->get(['name', 'price', 'price_unit', 'estimated_minutes']);
-        $serviceList = $services->map(fn ($s) => "{$s->name}: ₱{$s->price}/{$s->price_unit} (~{$s->estimated_minutes} min)")->implode('; ');
+        $serviceList = $services->map(fn ($s) => "{$s->name}: P{$s->price}/{$s->price_unit} (~{$s->estimated_minutes} min)")->implode('; ');
 
         // --- Live Machine Status ---
         $machines = Machine::all(['machine_name', 'machine_type', 'status']);
@@ -128,7 +128,7 @@ class ChatbotController extends Controller
             ->get(['name', 'code', 'discount_type', 'discount_value']);
         $promoList = $promos->isEmpty()
             ? 'No active promotions right now.'
-            : $promos->map(fn ($p) => "{$p->name} (Code: {$p->code}) — {$p->discount_value}".($p->discount_type === 'percentage' ? '%' : '₱').' off')->implode('; ');
+            : $promos->map(fn ($p) => "{$p->name} (Code: {$p->code}) — {$p->discount_value}".($p->discount_type === 'percentage' ? '%' : ' pesos').' off')->implode('; ');
 
         // --- Inventory Low Stock Alerts ---
         $lowStock = InventoryItem::whereColumn('quantity', '<=', 'minimum_stock')
@@ -145,7 +145,7 @@ class ChatbotController extends Controller
 
         // --- Build the full system prompt ---
         return <<<PROMPT
-You are STRICTLY the Virtual AI Assistant for Hour Wash Laundry Shop located in Magallanes St., Orosite, Legazpi City.
+You are STRICTLY the AI Assistant for Hour Wash Laundry Shop located in Magallanes St., Orosite, Legazpi City.
 Store Hours: 7:00 AM – 6:00 PM Daily.
 
 CRITICAL RULES:
@@ -155,6 +155,7 @@ CRITICAL RULES:
 - You MAY help customers look up their OWN order status by name, email, or order number.
 - Politely decline any non-laundry questions (cooking, coding, politics, etc.).
 - Always reply in a friendly, helpful, professional tone.
+- Do NOT use emoji icons in your replies. Keep responses clean and text-only.
 - When mentioning dates, use a readable format like "Aug 12, 2026 3:00 PM".
 
 LIVE DATABASE CONTEXT (as of now):
@@ -162,7 +163,7 @@ LIVE DATABASE CONTEXT (as of now):
 SERVICES AVAILABLE:
 {$serviceList}
 
-🔧 MACHINE STATUS:
+MACHINE STATUS:
 Washers: {$washersIdle} available out of {$washersTotal} total
 Dryers: {$dryersIdle} available out of {$dryersTotal} total
 
@@ -202,7 +203,7 @@ PROMPT;
                 $completion = $order->estimated_completion ? $order->estimated_completion->format('M d, Y h:i A') : 'In Progress';
                 $customerName = $order->customer ? $order->customer->name : 'Customer';
 
-                return "Order #{$order->order_number}\n👤 Customer: {$customerName}\n Status: {$status}\n Service: {$order->service->name}\n Est. Completion: {$completion}\n Total: ₱".number_format($order->total_amount, 2);
+                return "Order #{$order->order_number}\nCustomer: {$customerName}\nStatus: {$status}\nService: {$order->service->name}\nEst. Completion: {$completion}\nTotal: P".number_format($order->total_amount, 2);
             }
         }
 
@@ -231,7 +232,7 @@ PROMPT;
                 return "I couldn't find a customer named \"{$name}\". Please check the spelling or provide your order number (e.g. HW-XXXXXXXX).";
             }
 
-            return 'To check your laundry order status, you can:\n• Enter your Order Code (e.g. HW-XXXXXXXX)\n• Tell me your registered email\n• Tell me the name on your account\n\nHow would you like to look up your order?';
+            return "To check your laundry order status, you can:\n- Enter your Order Code (e.g. HW-XXXXXXXX)\n- Tell me your registered email\n- Tell me the name on your account\n\nHow would you like to look up your order?";
         }
 
         // --- Machine Availability ---
@@ -240,7 +241,7 @@ PROMPT;
             $washersIdle = $machines->where('machine_type', 'washer')->where('status', 'idle')->count();
             $dryersIdle = $machines->where('machine_type', 'dryer')->where('status', 'idle')->count();
 
-            return "🔧 Machine Availability Right Now:\n• Washers Available: {$washersIdle}\n• Dryers Available: {$dryersIdle}\n\nVisit us at Magallanes St., Orosite, Legazpi City!";
+            return "Machine Availability Right Now:\n- Washers Available: {$washersIdle}\n- Dryers Available: {$dryersIdle}\n\nVisit us at Magallanes St., Orosite, Legazpi City!";
         }
 
         if (Str::contains($msg, ['hour', 'time', 'open', 'close', 'schedule'])) {
@@ -253,26 +254,26 @@ PROMPT;
 
         if (Str::contains($msg, ['price', 'rate', 'cost', 'fee', 'package', 'service', 'wash', 'dry'])) {
             $services = Service::where('status', 'active')->get(['name', 'price', 'price_unit']);
-            $servList = $services->map(fn ($s) => "• {$s->name}: ₱{$s->price}/{$s->price_unit}")->implode("\n");
+            $servList = $services->map(fn ($s) => "- {$s->name}: P{$s->price}/{$s->price_unit}")->implode("\n");
 
-            return "🧺 Our Active Laundry Services:\n{$servList}\n\nVisit our shop or book online!";
+            return "Our Active Laundry Services:\n{$servList}\n\nVisit our shop or book online!";
         }
 
         if (Str::contains($msg, ['promo', 'discount', 'offer', 'deal', 'voucher'])) {
             $promos = Promotion::where('status', 'active')->where('end_date', '>=', now())->get();
             if ($promos->isEmpty()) {
-                return 'There are no active promotions right now, but check back soon! We regularly offer special deals for our loyal customers. 🎉';
+                return 'There are no active promotions right now, but check back soon! We regularly offer special deals for our loyal customers.';
             }
-            $promoList = $promos->map(fn ($p) => "• {$p->name} (Code: {$p->code}) — {$p->discount_value}".($p->discount_type === 'percentage' ? '%' : '₱').' off')->implode("\n");
+            $promoList = $promos->map(fn ($p) => "- {$p->name} (Code: {$p->code}) — {$p->discount_value}".($p->discount_type === 'percentage' ? '%' : ' pesos').' off')->implode("\n");
 
-            return "🎉 Active Promotions:\n{$promoList}\n\nUse the promo code when booking your order!";
+            return "Active Promotions:\n{$promoList}\n\nUse the promo code when booking your order!";
         }
 
         if (Str::contains($msg, ['hi', 'hello', 'hey', 'good', 'kumusta', 'musta'])) {
-            return 'Hello! Welcome to Hour Wash Laundry Shop! 🧺 I can help you with:\n• 📋 Order tracking (by name, email, or order number)\n• 🔧 Machine availability\n• 💰 Service rates & packages\n• 🎉 Active promotions\n• ⏰ Store hours\n\nHow can I assist you today?';
+            return "Hello! Welcome to Hour Wash Laundry Shop! I can help you with:\n- Order tracking (by name, email, or order number)\n- Machine availability\n- Service rates & packages\n- Active promotions\n- Store hours\n\nHow can I assist you today?";
         }
 
-        return "I am the HourWash Assistant dedicated to Hour Wash Laundry Shop. I can help you with:\n• 📋 Track your order (tell me your name, email, or order number)\n• 🔧 Check machine availability\n• 💰 View services & rates\n• 🎉 See active promos\n• ⏰ Store hours: 7:00 AM – 6:00 PM Daily\n\nMagallanes St., Orosite, Legazpi City!";
+        return "I am the HourWash Assistant dedicated to Hour Wash Laundry Shop. I can help you with:\n- Track your order (tell me your name, email, or order number)\n- Check machine availability\n- View services & rates\n- See active promos\n- Store hours: 7:00 AM – 6:00 PM Daily\n\nMagallanes St., Orosite, Legazpi City!";
     }
 
     /**
@@ -290,12 +291,12 @@ PROMPT;
             return "Hi {$user->name}! I found your account ({$user->email}), but you don't have any laundry orders yet. Book your first order on our website!";
         }
 
-        $summary = "📋 Orders for {$user->name} ({$user->email}):\n\n";
+        $summary = "Orders for {$user->name} ({$user->email}):\n\n";
         foreach ($orders as $order) {
             $status = strtoupper(str_replace('_', ' ', $order->order_status));
             $date = $order->created_at->format('M d, Y h:i A');
             $completion = $order->estimated_completion ? $order->estimated_completion->format('M d, Y h:i A') : 'TBD';
-            $summary .= "• #{$order->order_number} — {$status}\n  Service: {$order->service->name} | Total: ₱".number_format($order->total_amount, 2)."\n  Ordered: {$date} | Est. Completion: {$completion}\n\n";
+            $summary .= "- #{$order->order_number} — {$status}\n  Service: {$order->service->name} | Total: P".number_format($order->total_amount, 2)."\n  Ordered: {$date} | Est. Completion: {$completion}\n\n";
         }
 
         return $summary.'Need more details on a specific order? Just tell me the order number!';

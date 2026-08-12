@@ -249,7 +249,7 @@
         <div class="p-4 bg-[#007AFF] dark:bg-[#0A84FF] text-white flex items-center justify-between">
             <div class="flex items-center gap-2 font-bold text-sm">
                 <span class="w-2.5 h-2.5 rounded-full bg-white animate-pulse"></span>
-                HourWash Virtual Assistant
+                HourWash
             </div>
             <button id="chat-close" class="text-white/80 hover:text-white text-lg">✕</button>
         </div>
