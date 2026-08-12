@@ -9,11 +9,11 @@
         </div>
         @auth
             @if(auth()->user()->isOwner())
-                <a href="{{ route('admin.orders') }}" class="btn-ios-secondary text-xs">Back</a>
+                <a href="{{ route('admin.laundry.index') }}" class="btn-ios-secondary text-xs">Back</a>
             @elseif(auth()->user()->isStaff())
-                <a href="{{ route('staff.orders') }}" class="btn-ios-secondary text-xs">Back</a>
+                <a href="{{ route('admin.laundry.index') }}" class="btn-ios-secondary text-xs">Back</a>
             @else
-                <a href="{{ route('orders') }}" class="btn-ios-secondary text-xs">Back</a>
+                <a href="{{ route('my.orders') }}" class="btn-ios-secondary text-xs">Back</a>
             @endif
         @else
             <a href="{{ route('welcome') }}" class="btn-ios-secondary text-xs">Back</a>
