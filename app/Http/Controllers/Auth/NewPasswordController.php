@@ -62,7 +62,16 @@ class NewPasswordController extends Controller
             ]);
         }
 
-        if (! hash_equals($resetRecord->token, hash('sha256', $request->token))) {
+        $inputHash = hash('sha256', $request->token);
+        Log::info('Password reset hash comparison', [
+            'email' => $email,
+            'input_token_length' => strlen($request->token),
+            'input_hash' => $inputHash,
+            'db_hash' => $resetRecord->token,
+            'matches' => hash_equals($resetRecord->token, $inputHash),
+        ]);
+
+        if (! hash_equals($resetRecord->token, $inputHash)) {
             throw ValidationException::withMessages([
                 'email' => 'This password reset link is invalid.',
             ]);
