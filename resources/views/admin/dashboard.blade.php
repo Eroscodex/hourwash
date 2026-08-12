@@ -8,13 +8,13 @@
                     Store Operations Management
                 </h1>
                 <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
-                    Real-time laundry POS queue, machine fleet monitoring, and system metrics.
+                    Real-time laundry queue, machine fleet monitoring, and system metrics.
                 </p>
             </div>
             
             <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
                 <a href="{{ route('admin.laundry.index') }}" class="btn-ios-secondary text-center">
-                    View Orders POS
+                    View Orders
                 </a>
                 <a href="{{ route('admin.machines.create') }}" class="btn-ios-primary text-center">
                     + Add New Machine
@@ -191,11 +191,11 @@
             </div>
         </div>
 
-        <!-- Recent Orders POS Table (12 cols) -->
+        <!-- Recent Orders Table (12 cols) -->
         <div class="app-card p-4 sm:p-6 space-y-4 overflow-hidden">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
-                    <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Recent POS Laundry Orders</h2>
+                    <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Recent Laundry Orders</h2>
                     <p class="text-xs text-slate-500 dark:text-slate-400">Live feed of active store and online orders</p>
                 </div>
                 <a href="{{ route('admin.laundry.index') }}" class="text-xs text-[#007AFF] dark:text-[#0A84FF] hover:opacity-80 font-semibold">View All Orders →</a>
