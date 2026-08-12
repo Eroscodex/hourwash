@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hourwash AI</title>
+    <title>Hourwash</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -15,7 +15,7 @@
     <div class="card shadow">
 
         <div class="card-header bg-primary text-white">
-            Hourwash AI
+            Hourwash
         </div>
 
         <div class="card-body">
