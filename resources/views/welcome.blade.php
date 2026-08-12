@@ -209,7 +209,7 @@
                             <span class="w-2.5 h-2.5 rounded-full bg-[#007AFF] dark:bg-[#0A84FF] animate-pulse"></span>
                         </div>
                         <div class="space-y-3">
-                            <div class="text-2xl font-bold font-['Outfit'] text-slate-900 dark:text-white">HOUR WASH MAIN STORE</div>
+                            <div class="text-2xl font-bold font-['Outfit'] text-slate-900 dark:text-white">HOUR WASH LAUNDRY SHOP</div>
                             <p class="text-xs text-slate-600 dark:text-slate-400">Store Hours: 7:00 AM – 6:00 PM Daily</p>
                             <div class="flex flex-wrap gap-2 pt-1">
                                 <span class="px-2.5 py-1 rounded-lg bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 text-[11px] font-bold">12 Washers Idle</span>
