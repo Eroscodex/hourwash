@@ -220,6 +220,11 @@ class DatabaseSeeder extends Seeder
             ['code' => 'HW541092', 'm_code' => 'DR-001', 'cust' => $customer1, 'status' => 'drying', 'min' => 35, 'service' => $foldService],
             ['code' => 'HW903115', 'm_code' => 'WM-003', 'cust' => $customer2, 'status' => 'washing', 'min' => 42, 'service' => $washService],
             ['code' => 'HW618302', 'm_code' => 'DR-002', 'cust' => $customer1, 'status' => 'drying', 'min' => 20, 'service' => $foldService],
+            ['code' => 'HW886006', 'm_code' => 'WM-006', 'cust' => $customer2, 'status' => 'washing', 'min' => 38, 'service' => $washService],
+            ['code' => 'HW543003', 'm_code' => 'DR-003', 'cust' => $customer1, 'status' => 'drying', 'min' => 45, 'service' => $foldService],
+            ['code' => 'HW727007', 'm_code' => 'WM-007', 'cust' => $customer2, 'status' => 'rinsing', 'min' => 10, 'service' => $premService],
+            ['code' => 'HW545005', 'm_code' => 'DR-005', 'cust' => $customer1, 'status' => 'drying', 'min' => 25, 'service' => $foldService],
+            ['code' => 'HW889009', 'm_code' => 'WM-009', 'cust' => $customer2, 'status' => 'washing', 'min' => 50, 'service' => $washService],
         ];
 
         foreach ($activeOrdersData as $data) {

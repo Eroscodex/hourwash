@@ -31,6 +31,46 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 Route::get('/', function () {
+    // Auto-fix any active machines that lack a current_order_id
+    $unlinkedActiveMachines = Machine::whereIn('status', ['washing', 'rinsing', 'drying'])
+        ->whereNull('current_order_id')
+        ->get();
+
+    if ($unlinkedActiveMachines->isNotEmpty()) {
+        $defaultUser = User::where('role', 'owner')->first() ?? User::first();
+        $defaultService = Service::where('status', 'active')->first();
+
+        foreach ($unlinkedActiveMachines as $mach) {
+            $numPart = preg_replace('/[^0-9]/', '', $mach->machine_code);
+            $orderNum = 'HW'.str_pad($numPart, 6, '0', STR_PAD_RIGHT);
+
+            $order = Order::firstOrCreate(
+                ['order_number' => $orderNum],
+                [
+                    'customer_id' => $defaultUser?->id ?? 1,
+                    'service_id' => $defaultService?->id ?? 1,
+                    'machine_id' => $mach->id,
+                    'weight_kg' => 5.0,
+                    'subtotal' => 120.0,
+                    'total_amount' => 120.0,
+                    'payment_status' => 'paid',
+                    'order_status' => $mach->status,
+                    'estimated_completion' => now()->addMinutes($mach->remaining_minutes ?? 30),
+                ]
+            );
+
+            $mach->update(['current_order_id' => $order->id]);
+
+            QrCode::firstOrCreate(
+                ['order_id' => $order->id],
+                [
+                    'qr_token' => $orderNum,
+                    'status' => 'active',
+                ]
+            );
+        }
+    }
+
     $machines = Machine::with('currentOrder')->orderBy('id', 'asc')->get();
     $services = Service::where('status', 'active')->get();
     $feedbacks = CustomerFeedback::with('user:id,name')->where('status', 'published')->latest()->take(6)->get();
