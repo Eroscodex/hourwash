@@ -19,8 +19,7 @@
         <div class="app-card p-5 space-y-4">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-black/10 dark:border-white/10 pb-3">
                 <div>
-                    <h2 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                        <svg class="w-4 h-4 text-[#007AFF] dark:text-[#0A84FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+                    <h2 class="text-base font-bold text-slate-900 dark:text-white">
                         Live SMS Customer Outbox
                     </h2>
                     <p class="text-xs text-slate-500 dark:text-slate-400">Automated SMS text messages generated & dispatched to customer phone numbers</p>
