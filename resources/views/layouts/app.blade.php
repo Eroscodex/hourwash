@@ -263,7 +263,7 @@
         </div>
 
         <div class="p-3 border-t border-black/10 dark:border-white/10 bg-white dark:bg-[#1C1C1E] flex gap-2">
-            <input id="message" type="text" placeholder="Ask about order status, services..." class="flex-1 bg-slate-100 dark:bg-[#2C2C2E] border border-black/10 dark:border-white/10 rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:border-[#007AFF]">
+            <input id="message" type="text" placeholder="Ask about order status, services..." class="flex-1 bg-slate-100 dark:bg-[#2C2C2E] border border-black/10 dark:border-white/10 rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:border-[#007AFF]" onkeydown="if(event.key==='Enter')sendMessage()">
             <button onclick="sendMessage()" class="bg-[#007AFF] dark:bg-[#0A84FF] hover:bg-[#0062CC] text-white font-bold px-4 py-2 rounded-xl text-xs transition shadow-sm">
                 Send
             </button>
@@ -349,6 +349,17 @@
         input.value = "";
         chatBox.scrollTop = chatBox.scrollHeight;
 
+        // Show typing indicator
+        const typingId = 'typing-' + Date.now();
+        chatBox.innerHTML += `
+            <div class="flex justify-start" id="${typingId}">
+                <div class="bg-white dark:bg-[#2C2C2E] text-slate-500 px-3.5 py-2.5 rounded-2xl rounded-bl-none border border-black/10 dark:border-white/10 shadow-sm">
+                    <span class="animate-pulse">Typing...</span>
+                </div>
+            </div>
+        `;
+        chatBox.scrollTop = chatBox.scrollHeight;
+
         fetch('/chatbot', {
             method: 'POST',
             headers: {
@@ -359,17 +370,26 @@
         })
         .then(res => res.json())
         .then(data => {
+            const typingEl = document.getElementById(typingId);
+            if (typingEl) typingEl.remove();
+
+            // Convert \n to <br> for proper formatting
+            const formattedReply = data.reply.replace(/\n/g, '<br>');
+
             chatBox.innerHTML += `
                 <div class="flex justify-start">
                     <div class="bg-white dark:bg-[#2C2C2E] text-slate-900 dark:text-[#F5F5F7] px-3.5 py-2.5 rounded-2xl rounded-bl-none max-w-[85%] border border-black/10 dark:border-white/10 shadow-sm">
                         <strong class="text-[#007AFF] dark:text-[#0A84FF] block mb-0.5">HourWash Assistant</strong>
-                        ${data.reply}
+                        ${formattedReply}
                     </div>
                 </div>
             `;
             chatBox.scrollTop = chatBox.scrollHeight;
         })
         .catch(err => {
+            const typingEl = document.getElementById(typingId);
+            if (typingEl) typingEl.remove();
+
             chatBox.innerHTML += `
                 <div class="flex justify-start">
                     <div class="bg-rose-500/10 text-rose-500 border border-rose-500/20 px-3 py-2 rounded-xl">

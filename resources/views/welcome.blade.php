@@ -638,6 +638,40 @@
         </div>
     </footer>
 
+    <!-- Floating AI Assistant Button & Drawer -->
+    <button id="welcome-chat-toggle" class="fixed bottom-6 right-6 w-14 h-14 rounded-2xl bg-[#007AFF] dark:bg-[#0A84FF] text-white chat-bubble-glow flex items-center justify-center hover:scale-110 active:scale-95 transition-transform z-50 group shadow-lg" aria-label="Toggle AI Assistant Chat">
+        <span class="absolute -top-1 -right-1 flex h-3.5 w-3.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500 border-2 border-slate-900"></span>
+        </span>
+        <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-8 h-8 rounded-full object-cover group-hover:rotate-12 transition-transform bg-white p-0.5 border border-white/20 shadow-sm">
+    </button>
+
+    <div id="welcome-chat-window" class="fixed bottom-24 right-6 w-80 sm:w-96 bg-white dark:bg-[#1C1C1E] border border-black/10 dark:border-white/15 rounded-2xl shadow-2xl z-50 hidden flex-col overflow-hidden backdrop-blur-xl">
+        <div class="p-4 bg-[#007AFF] dark:bg-[#0A84FF] text-white flex items-center justify-between">
+            <div class="flex items-center gap-2 font-bold text-sm">
+                <span class="w-2.5 h-2.5 rounded-full bg-white animate-pulse"></span>
+                HourWash Virtual Assistant
+            </div>
+            <button id="welcome-chat-close" class="text-white/80 hover:text-white text-lg cursor-pointer">✕</button>
+        </div>
+
+        <div id="welcome-chat-box" class="p-4 h-72 overflow-y-auto space-y-3 text-xs bg-slate-50 dark:bg-[#000000]">
+            <div class="flex justify-start">
+                <div class="bg-white dark:bg-[#2C2C2E] text-slate-900 dark:text-[#F5F5F7] px-3.5 py-2.5 rounded-2xl rounded-bl-none max-w-[85%] border border-black/10 dark:border-white/10 shadow-sm">
+                    Hello! Welcome to Hour Wash Laundry Shop! 🧺 I can help you track orders, check machine availability, view services & rates, or answer questions about our shop. How can I assist you today?
+                </div>
+            </div>
+        </div>
+
+        <div class="p-3 border-t border-black/10 dark:border-white/10 bg-white dark:bg-[#1C1C1E] flex gap-2">
+            <input id="welcome-message" type="text" placeholder="Ask about order status, services..." class="flex-1 bg-slate-100 dark:bg-[#2C2C2E] border border-black/10 dark:border-white/10 rounded-xl px-3.5 py-2 text-xs focus:outline-none focus:border-[#007AFF] text-slate-900 dark:text-[#F5F5F7]" onkeydown="if(event.key==='Enter')welcomeSendMessage()">
+            <button onclick="welcomeSendMessage()" class="bg-[#007AFF] dark:bg-[#0A84FF] hover:bg-[#0062CC] text-white font-bold px-4 py-2 rounded-xl text-xs transition shadow-sm cursor-pointer">
+                Send
+            </button>
+        </div>
+    </div>
+
     <!-- Mobile Drawer & Theme Toggle Script -->
     <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -678,7 +712,92 @@
                 }
             });
         }
+
+        // Welcome Chatbot Toggle
+        const chatToggle = document.getElementById('welcome-chat-toggle');
+        const chatWindow = document.getElementById('welcome-chat-window');
+        const chatClose = document.getElementById('welcome-chat-close');
+
+        if (chatToggle && chatWindow) {
+            chatToggle.addEventListener('click', function() {
+                chatWindow.classList.toggle('hidden');
+                chatWindow.classList.toggle('flex');
+            });
+        }
+        if (chatClose && chatWindow) {
+            chatClose.addEventListener('click', function() {
+                chatWindow.classList.add('hidden');
+                chatWindow.classList.remove('flex');
+            });
+        }
     });
+
+    function welcomeSendMessage() {
+        const input = document.getElementById('welcome-message');
+        const message = input.value.trim();
+        if (!message) return;
+
+        const chatBox = document.getElementById('welcome-chat-box');
+        chatBox.innerHTML += `
+            <div class="flex justify-end">
+                <div class="bg-[#007AFF] dark:bg-[#0A84FF] text-white font-medium px-3.5 py-2.5 rounded-2xl rounded-br-none max-w-[85%] shadow-sm">
+                    ${message}
+                </div>
+            </div>
+        `;
+        input.value = "";
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        // Show typing indicator
+        const typingId = 'typing-' + Date.now();
+        chatBox.innerHTML += `
+            <div class="flex justify-start" id="${typingId}">
+                <div class="bg-white dark:bg-[#2C2C2E] text-slate-500 px-3.5 py-2.5 rounded-2xl rounded-bl-none border border-black/10 dark:border-white/10 shadow-sm">
+                    <span class="animate-pulse">Typing...</span>
+                </div>
+            </div>
+        `;
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        fetch('/chatbot', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({ message: message })
+        })
+        .then(res => res.json())
+        .then(data => {
+            const typingEl = document.getElementById(typingId);
+            if (typingEl) typingEl.remove();
+
+            // Convert \n to <br> for proper formatting
+            const formattedReply = data.reply.replace(/\n/g, '<br>');
+
+            chatBox.innerHTML += `
+                <div class="flex justify-start">
+                    <div class="bg-white dark:bg-[#2C2C2E] text-slate-900 dark:text-[#F5F5F7] px-3.5 py-2.5 rounded-2xl rounded-bl-none max-w-[85%] border border-black/10 dark:border-white/10 shadow-sm">
+                        <strong class="text-[#007AFF] dark:text-[#0A84FF] block mb-0.5">HourWash Assistant</strong>
+                        ${formattedReply}
+                    </div>
+                </div>
+            `;
+            chatBox.scrollTop = chatBox.scrollHeight;
+        })
+        .catch(err => {
+            const typingEl = document.getElementById(typingId);
+            if (typingEl) typingEl.remove();
+
+            chatBox.innerHTML += `
+                <div class="flex justify-start">
+                    <div class="bg-rose-500/10 text-rose-500 border border-rose-500/20 px-3 py-2 rounded-xl">
+                        Could not reach assistant. Please try again.
+                    </div>
+                </div>
+            `;
+        });
+    }
     </script>
 </body>
 </html>
