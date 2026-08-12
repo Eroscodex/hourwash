@@ -50,9 +50,9 @@
                 <a href="#home" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Home</a>
                 <a href="#services" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Services & Pricing</a>
                 <a href="#how-it-works" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">How It Works</a>
-                <a href="#machines" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Machine Fleet</a>
+                <a href="#machines" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Machines</a>
                 <a href="#reviews-section" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Customer Reviews</a>
-                <a href="#track-section" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">QR Tracker</a>
+                <a href="#track-section" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">QR Code Tracker</a>
             </nav>
 
             <!-- Action Buttons & Theme Switcher -->
@@ -374,7 +374,7 @@
                 
                 <div class="lg:col-span-7 space-y-4">
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF] text-xs font-bold uppercase tracking-wider">
-                         QR Tag System
+                         QR Tagging
                     </div>
                     
                     <h2 class="text-2xl sm:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white leading-tight">
