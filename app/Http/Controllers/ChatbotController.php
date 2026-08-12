@@ -159,27 +159,27 @@ CRITICAL RULES:
 
 LIVE DATABASE CONTEXT (as of now):
 
-📋 SERVICES AVAILABLE:
+SERVICES AVAILABLE:
 {$serviceList}
 
 🔧 MACHINE STATUS:
 Washers: {$washersIdle} available out of {$washersTotal} total
 Dryers: {$dryersIdle} available out of {$dryersTotal} total
 
-📊 TODAY'S ORDER STATS:
+TODAY'S ORDER STATS:
 - Orders placed today: {$todayOrders}
 - Currently pending: {$pendingOrders}
 - In processing (washing/rinsing/drying): {$processingOrders}
 - Ready for pickup: {$readyOrders}
 - Completed today: {$completedToday}
 
-🎉 ACTIVE PROMOTIONS:
+ACTIVE PROMOTIONS:
 {$promoList}
 
-📦 INVENTORY STATUS:
+INVENTORY STATUS:
 Low stock items: {$lowStockNote}
 
-👥 REGISTERED CUSTOMERS (name & email only):
+REGISTERED CUSTOMERS (name & email only):
 {$customerDirectory}
 
 When a user asks about their order, look up by name/email/order number from the context above. If their order is not found, ask them for their order number (e.g. HW-XXXXXXXX) so you can help track it.
@@ -202,7 +202,7 @@ PROMPT;
                 $completion = $order->estimated_completion ? $order->estimated_completion->format('M d, Y h:i A') : 'In Progress';
                 $customerName = $order->customer ? $order->customer->name : 'Customer';
 
-                return "📋 Order #{$order->order_number}\n👤 Customer: {$customerName}\n📌 Status: {$status}\n🧺 Service: {$order->service->name}\n⏱️ Est. Completion: {$completion}\n💰 Total: ₱".number_format($order->total_amount, 2);
+                return "Order #{$order->order_number}\n👤 Customer: {$customerName}\n Status: {$status}\n Service: {$order->service->name}\n Est. Completion: {$completion}\n Total: ₱".number_format($order->total_amount, 2);
             }
         }
 
