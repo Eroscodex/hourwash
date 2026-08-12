@@ -196,7 +196,7 @@
                             Book a Pickup Order
                         </a>
                         <a href="#services" class="w-full sm:w-auto btn-ios-secondary text-center">
-                            Explore Services →
+                            Explore Services
                         </a>
                     </div>
                 </div>
