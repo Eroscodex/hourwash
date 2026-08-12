@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Privacy Policy | Hour Wash Laundry</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script>
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+<body class="bg-[#F2F2F7] dark:bg-[#000000] text-slate-900 dark:text-[#F5F5F7] font-['Inter'] antialiased min-h-screen py-10 px-4 sm:px-6">
+    <div class="w-full max-w-3xl mx-auto space-y-6">
+        
+        <!-- Header -->
+        <div class="flex items-center justify-between">
+            <a href="{{ route('welcome') }}" class="btn-ios-secondary text-xs">Back</a>
+            <button id="theme-toggle" class="p-2 px-3 rounded-xl bg-white dark:bg-white/10 text-slate-900 dark:text-[#F5F5F7] border border-black/10 dark:border-white/10 hover:scale-105 transition-all text-xs font-semibold flex items-center gap-1.5 shadow-sm cursor-pointer">
+                Theme Toggle
+            </button>
+        </div>
+
+        <!-- Content Card -->
+        <div class="bg-white dark:bg-[#1C1C1E] border border-black/10 dark:border-white/15 rounded-2xl p-6 sm:p-8 space-y-6 shadow-xl">
+            <div class="text-center space-y-2 border-b border-black/10 dark:border-white/10 pb-5">
+                <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-16 h-16 rounded-full mx-auto bg-white p-1 border border-black/10">
+                <h1 class="text-2xl font-bold font-['Outfit'] text-slate-900 dark:text-white">Privacy Policy</h1>
+                <p class="text-xs text-slate-500">Last updated: {{ date('F d, Y') }}</p>
+            </div>
+
+            <div class="space-y-4 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                <p>
+                    At <strong>Hour Wash Laundry</strong>, we value your privacy and are committed to protecting your personal data. This Privacy Policy explains how we collect, use, and protect your information when you use our laundry services and web application.
+                </p>
+
+                <h3 class="text-base font-bold font-['Outfit'] text-slate-900 dark:text-white pt-2">1. Information We Collect</h3>
+                <p>
+                    We collect basic information required to process your laundry orders, manage your account, and contact you regarding order status updates. This includes your name, email address, phone number, and laundry transaction details.
+                </p>
+
+                <h3 class="text-base font-bold font-['Outfit'] text-slate-900 dark:text-white pt-2">2. How We Use Your Information</h3>
+                <ul class="list-disc pl-5 space-y-1">
+                    <li>To process, track, and complete your laundry orders.</li>
+                    <li>To send automated SMS and email notifications regarding order status updates (e.g. Received, Washing, Ready for pickup).</li>
+                    <li>To credit and track your customer loyalty points.</li>
+                </ul>
+
+                <h3 class="text-base font-bold font-['Outfit'] text-slate-900 dark:text-white pt-2">3. Data Security</h3>
+                <p>
+                    We implement industry-standard security measures to protect your account credentials, transactional logs, and contact details from unauthorized access, alteration, or disclosure.
+                </p>
+
+                <h3 class="text-base font-bold font-['Outfit'] text-slate-900 dark:text-white pt-2">4. Third-Party Services</h3>
+                <p>
+                    We use trusted third-party services (such as Brevo for sending emails and SMS) solely to dispatch transactional notifications. We do not sell or rent your personal information to third parties.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('theme-toggle').addEventListener('click', function() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+    </script>
+</body>
+</html>

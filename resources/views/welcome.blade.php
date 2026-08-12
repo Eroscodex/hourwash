@@ -627,10 +627,13 @@
 
     </main>
 
-    <!-- Footer -->
     <footer class="bg-white dark:bg-[#1C1C1E] border-t border-black/10 dark:border-white/10 py-6 px-4 md:px-10 text-center text-xs text-slate-600 dark:text-slate-400 flex flex-col sm:flex-row justify-between items-center max-w-7xl mx-auto w-full gap-4">
         <div>© {{ date('Y') }} Hour Wash Laundry Shop System. Legazpi City</div>
-        <div class="flex items-center gap-4">
+        <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+            <a href="{{ route('privacy') }}" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition">Privacy Policy</a>
+            <span class="text-slate-300 dark:text-slate-700">•</span>
+            <a href="{{ route('terms') }}" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition">Terms & Conditions</a>
+            <span class="text-slate-300 dark:text-slate-700">•</span>
             <span>Magallanes St., Orosite, Legazpi City</span>
         </div>
     </footer>

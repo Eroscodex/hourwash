@@ -359,4 +359,7 @@ Route::get('/chatbot', function () {
 });
 Route::post('/chatbot', [ChatbotController::class, 'chat']);
 
+Route::view('/privacy-policy', 'privacy')->name('privacy');
+Route::view('/terms-and-conditions', 'terms')->name('terms');
+
 require __DIR__.'/auth.php';

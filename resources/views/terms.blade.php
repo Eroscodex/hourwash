@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Terms & Conditions | Hour Wash Laundry</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script>
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+<body class="bg-[#F2F2F7] dark:bg-[#000000] text-slate-900 dark:text-[#F5F5F7] font-['Inter'] antialiased min-h-screen py-10 px-4 sm:px-6">
+    <div class="w-full max-w-3xl mx-auto space-y-6">
+        
+        <!-- Header -->
+        <div class="flex items-center justify-between">
+            <a href="{{ route('welcome') }}" class="btn-ios-secondary text-xs">Back</a>
+            <button id="theme-toggle" class="p-2 px-3 rounded-xl bg-white dark:bg-white/10 text-slate-900 dark:text-[#F5F5F7] border border-black/10 dark:border-white/10 hover:scale-105 transition-all text-xs font-semibold flex items-center gap-1.5 shadow-sm cursor-pointer">
+                Theme Toggle
+            </button>
+        </div>
+
+        <!-- Content Card -->
+        <div class="bg-white dark:bg-[#1C1C1E] border border-black/10 dark:border-white/15 rounded-2xl p-6 sm:p-8 space-y-6 shadow-xl">
+            <div class="text-center space-y-2 border-b border-black/10 dark:border-white/10 pb-5">
+                <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-16 h-16 rounded-full mx-auto bg-white p-1 border border-black/10">
+                <h1 class="text-2xl font-bold font-['Outfit'] text-slate-900 dark:text-white">Terms & Conditions</h1>
+                <p class="text-xs text-slate-500">Last updated: {{ date('F d, Y') }}</p>
+            </div>
+
+            <div class="space-y-4 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                <p>
+                    Welcome to <strong>Hour Wash Laundry</strong>. By using our web application, ordering laundry services, or using our self-service/drop-off facilities, you agree to comply with and be bound by the following terms and conditions.
+                </p>
+
+                <h3 class="text-base font-bold font-['Outfit'] text-slate-900 dark:text-white pt-2">1. Laundry Services</h3>
+                <p>
+                    We provide self-service washing and drying machines, as well as drop-off/full-service laundry handling. It is the customer's responsibility to check pockets and verify garment care labels before loading machines.
+                </p>
+
+                <h3 class="text-base font-bold font-['Outfit'] text-slate-900 dark:text-white pt-2">2. Liability</h3>
+                <ul class="list-disc pl-5 space-y-1">
+                    <li>We are not responsible for damage caused by bleeding colors, shrinkage, or weakening of fabrics during standard cycles.</li>
+                    <li>We are not liable for any items (coins, jewelry, electronics, etc.) left inside garments or laundry bags.</li>
+                </ul>
+
+                <h3 class="text-base font-bold font-['Outfit'] text-slate-900 dark:text-white pt-2">3. Unclaimed Clothes</h3>
+                <p>
+                    Drop-off laundry orders that remain unclaimed for more than <strong>30 days</strong> after the ready-for-pickup notification is sent will be subject to storage fees or disposal/donation.
+                </p>
+
+                <h3 class="text-base font-bold font-['Outfit'] text-slate-900 dark:text-white pt-2">4. User Accounts</h3>
+                <p>
+                    You are responsible for maintaining the confidentiality of your login credentials. You agree to notify us immediately of any unauthorized use of your account.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('theme-toggle').addEventListener('click', function() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+    </script>
+</body>
+</html>
