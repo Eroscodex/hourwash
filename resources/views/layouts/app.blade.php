@@ -37,9 +37,9 @@
         <!-- Sidebar Navigation -->
         <aside id="sidebar" class="fixed md:sticky top-0 inset-y-0 left-0 h-screen w-64 bg-white dark:bg-[#1C1C1E] border-r border-black/10 dark:border-white/10 z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 flex flex-col justify-between shadow-xl">
             
-            <div>
+            <div class="flex flex-col flex-1 min-h-0 overflow-y-auto">
                 <!-- Brand Header -->
-                <div class="p-5 border-b border-black/10 dark:border-white/10 flex items-center justify-between">
+                <div class="p-5 border-b border-black/10 dark:border-white/10 flex items-center justify-between flex-shrink-0">
                     <a href="{{ route('welcome') }}" class="flex items-center gap-3 group">
                         <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-11 h-11 rounded-full object-cover shadow-md group-hover:scale-105 transition-transform bg-white p-0.5 border border-black/10 dark:border-white/10">
                         <div>
