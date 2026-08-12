@@ -4,8 +4,7 @@
         <!-- Header -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-                <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white font-['Outfit'] flex items-center gap-2">
-                    <svg class="w-6 h-6 text-[#007AFF] dark:text-[#0A84FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white font-['Outfit']">
                     Store Operations Management
                 </h1>
                 <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
@@ -109,7 +108,7 @@
                                 @elseif($machine->status === 'drying') bg-indigo-500/15 text-indigo-700 dark:text-indigo-300
                                 @elseif($machine->status === 'idle') bg-emerald-500/15 text-emerald-700 dark:text-emerald-300
                                 @else bg-amber-500/15 text-amber-700 dark:text-amber-300 @endif">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L5.6 15.11a2 2 0 01-1.183-1.845V7.4a2 2 0 011.183-1.845l2.4-1.2a6 6 0 013.86-.517l.318.158a6 6 0 003.86.517l2.387-.477a2 2 0 011.022.547l2.4 2.4a2 2 0 01.586 1.414v7.172a2 2 0 01-.586 1.414l-2.4 2.4z"/></svg>
+                                <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-4 h-4 rounded-full object-cover">
                             </div>
                             <div>
                                 <span class="text-[10px] font-bold uppercase tracking-wider block

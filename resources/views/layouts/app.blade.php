@@ -74,7 +74,7 @@
                             </a>
                             
                             <a href="{{ route('admin.machines.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all {{ request()->routeIs('admin.machines.*') ? 'bg-[#007AFF] text-white font-bold shadow-md' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10' }}">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"/></svg>
+                                <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-5 h-5 rounded-full object-cover">
                                 <span>Machine Fleet Monitor</span>
                             </a>
                             

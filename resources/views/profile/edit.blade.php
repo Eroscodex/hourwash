@@ -3,8 +3,7 @@
     <div class="space-y-6">
 
         <div>
-            <h1 class="text-2xl sm:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white flex items-center gap-2">
-                <svg class="w-6 h-6 text-[#007AFF] dark:text-[#0A84FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+            <h1 class="text-2xl sm:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white">
                 Account & Profile Settings
             </h1>
             <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">Manage your account information, security credentials, and account preferences.</p>

@@ -2,10 +2,7 @@
     <x-slot name="header">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-                <h1 class="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-                    <svg class="w-6 h-6 text-[#007AFF] dark:text-[#0A84FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/>
-                    </svg>
+                <h1 class="text-xl font-extrabold text-slate-900 dark:text-white">
                     Store Inventory Management
                 </h1>
                 <p class="text-xs text-slate-500 dark:text-slate-400">Track detergent supplies, fabric softeners, packaging, and machine maintenance parts</p>
