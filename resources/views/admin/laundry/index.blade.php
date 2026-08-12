@@ -73,7 +73,7 @@
 
                         <div class="flex items-center gap-3">
                             <a href="{{ route('laundry.track', $order->qrCode->qr_token ?? $order->order_number) }}" class="btn-ios-secondary text-xs">
-                                Live Telemetry
+                                Status Update
                             </a>
                             <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-3 py-2 rounded-xl text-xs font-bold hover:opacity-90 transition flex items-center gap-1.5 shadow-sm">
                                 Receipt

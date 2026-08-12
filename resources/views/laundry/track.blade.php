@@ -5,7 +5,7 @@
     <div class="flex items-center justify-between">
         <div>
             <h1 class="text-2xl font-bold font-['Outfit'] text-slate-900 dark:text-white">Live Order & QR Tracker</h1>
-            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Public telemetry verification for Order #{{ $order->order_number }}</p>
+            <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Public status verification for Order #{{ $order->order_number }}</p>
         </div>
         @auth
             @if(auth()->user()->isOwner())
@@ -67,7 +67,7 @@
                 <span class="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider block">REAL SCANNABLE QR LAUNDRY TAG</span>
                 <h3 class="text-sm font-bold text-slate-900 dark:text-white">Scan with Smartphone Camera</h3>
                 <p class="text-xs text-slate-600 dark:text-slate-400 max-w-sm">
-                    Staff and customers can scan this physical QR tag attached to the laundry bag to open instant order telemetry anytime.
+                    Staff and customers can scan this physical QR tag attached to the laundry bag to open instant order status updates anytime.
                 </p>
                 <p class="text-xs text-[#007AFF] dark:text-[#0A84FF] font-mono font-semibold pt-1">
                     Token: {{ $order->qrCode->qr_token ?? $order->order_number }}

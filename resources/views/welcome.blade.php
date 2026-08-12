@@ -112,7 +112,7 @@
                 <a href="#home" class="mobile-nav-link text-[#007AFF] dark:text-[#0A84FF] font-bold py-2 border-b border-black/5 dark:border-white/5">Home</a>
                 <a href="#services" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2 border-b border-black/5 dark:border-white/5">Services & Pricing</a>
                 <a href="#how-it-works" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2 border-b border-black/5 dark:border-white/5">How It Works</a>
-                <a href="#machines" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2 border-b border-black/5 dark:border-white/5">Machine Fleet Monitor</a>
+                <a href="#machines" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2 border-b border-black/5 dark:border-white/5">Machine Monitor</a>
                 <a href="#track-section" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2">QR Order Tracker</a>
             </nav>
 
@@ -307,16 +307,16 @@
             </div>
         </section>
 
-        <!-- Machine Fleet Status Section -->
+        <!-- Machine Status Section -->
         <section id="machines" class="space-y-6">
             <div class="flex items-center justify-between">
                 <div>
-                    <h2 class="text-2xl font-bold text-slate-900 dark:text-white font-['Outfit']">Live Machine Fleet Monitor</h2>
+                    <h2 class="text-2xl font-bold text-slate-900 dark:text-white font-['Outfit']">Live Machine Monitor</h2>
                     <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">Real-time availability of washers and dryers at Hour Wash main store.</p>
                 </div>
                 <div class="flex items-center gap-2 text-xs text-[#007AFF] dark:text-[#0A84FF] font-semibold">
                     <span class="w-2 h-2 rounded-full bg-[#007AFF] dark:bg-[#0A84FF] animate-pulse"></span>
-                    Live Telemetry
+                    Live Status Updates
                 </div>
             </div>
 
@@ -342,7 +342,7 @@
                                 <div class="flex items-center justify-between font-semibold text-slate-800 dark:text-slate-200">
                                     <span>⏱ {{ $machine->remaining_minutes ?? 30 }} mins remaining</span>
                                     @if($machine->currentOrder)
-                                        <a href="{{ route('laundry.track', $machine->currentOrder->order_number) }}" class="text-[#007AFF] dark:text-[#0A84FF] font-mono text-[10px] font-bold hover:underline" title="View Order Telemetry">
+                                        <a href="{{ route('laundry.track', $machine->currentOrder->order_number) }}" class="text-[#007AFF] dark:text-[#0A84FF] font-mono text-[10px] font-bold hover:underline" title="View Order Status">
                                             #{{ $machine->currentOrder->order_number }}
                                         </a>
                                     @endif
@@ -363,7 +363,7 @@
                         </div>
                     </div>
                 @empty
-                    <div class="col-span-full text-center py-6 text-xs text-slate-500">Machine telemetry loading...</div>
+                    <div class="col-span-full text-center py-6 text-xs text-slate-500">Machine status loading...</div>
                 @endforelse
             </div>
         </section>

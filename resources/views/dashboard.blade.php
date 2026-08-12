@@ -99,7 +99,7 @@
                                         {{ isset($activeOrder) ? str_replace('_', ' ', $activeOrder->order_status) : 'Washing In Progress' }}
                                     </span>
                                 </div>
-                                <p class="text-xs text-slate-500 dark:text-slate-400">Live 5-stage cleaning telemetry monitoring</p>
+                                <p class="text-xs text-slate-500 dark:text-slate-400">Live 5-stage cleaning progress monitoring</p>
                             </div>
                         </div>
 
