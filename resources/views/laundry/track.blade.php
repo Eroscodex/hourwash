@@ -13,7 +13,7 @@
             @elseif(auth()->user()->isStaff())
                 <a href="{{ route('staff.orders') }}" class="btn-ios-secondary text-xs">Back</a>
             @else
-                <a href="{{ route('dashboard') }}" class="btn-ios-secondary text-xs">Back</a>
+                <a href="{{ route('orders') }}" class="btn-ios-secondary text-xs">Back</a>
             @endif
         @else
             <a href="{{ route('welcome') }}" class="btn-ios-secondary text-xs">Back</a>
