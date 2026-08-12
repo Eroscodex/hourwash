@@ -257,7 +257,7 @@
         <div id="chat-box" class="p-4 h-72 overflow-y-auto space-y-3 text-xs bg-slate-50 dark:bg-[#000000]">
             <div class="flex justify-start">
                 <div class="bg-white dark:bg-[#2C2C2E] text-slate-900 dark:text-[#F5F5F7] px-3.5 py-2.5 rounded-2xl rounded-bl-none max-w-[85%] border border-black/10 dark:border-white/10 shadow-sm">
-                    Hello! How can I assist you with your laundry orders today? 🧺
+                    Hello! How can I assist you today?
                 </div>
             </div>
         </div>
