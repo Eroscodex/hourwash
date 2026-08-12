@@ -36,7 +36,7 @@
             <h1 class="text-xl font-bold font-['Outfit'] tracking-tight">HOUR WASH LAUNDRY</h1>
             <p class="text-[11px] font-sans text-slate-600">Self-Service & Drop-Off Laundry Systems</p>
             <p class="text-[10px] text-slate-500">Magallanes St., Orosite, Legazpi City, Albay</p>
-            <p class="text-[10px] text-slate-500">Tel: (052) 801-4452 | Mobile: 09123456789</p>
+            <p class="text-[10px] text-slate-500">Email: karlnicko2019@gmail.com | Mobile: 09123456789</p>
         </div>
 
         <!-- Order Metadata -->
