@@ -361,5 +361,7 @@ Route::post('/chatbot', [ChatbotController::class, 'chat']);
 
 Route::view('/privacy-policy', 'privacy')->name('privacy');
 Route::view('/terms-and-conditions', 'terms')->name('terms');
+Route::view('/about-us', 'about')->name('about');
+Route::view('/developers', 'developers')->name('developers');
 
 require __DIR__.'/auth.php';

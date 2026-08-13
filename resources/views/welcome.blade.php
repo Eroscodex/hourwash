@@ -53,7 +53,8 @@
                 <a href="#machines" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Machines</a>
                 <a href="#reviews-section" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Customer Reviews</a>
                 <a href="#track-section" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">QR Code Tracker</a>
-                <a href="#about-us" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">About & Developers</a>
+                <a href="{{ route('about') }}" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">About Us</a>
+                <a href="{{ route('developers') }}" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Developers</a>
             </nav>
 
             <!-- Action Buttons & Theme Switcher -->
@@ -115,7 +116,8 @@
                 <a href="#how-it-works" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2 border-b border-black/5 dark:border-white/5">How It Works</a>
                 <a href="#machines" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2 border-b border-black/5 dark:border-white/5">Machine Monitor</a>
                 <a href="#track-section" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2 border-b border-black/5 dark:border-white/5">QR Order Tracker</a>
-                <a href="#about-us" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2">About & Developers</a>
+                <a href="{{ route('about') }}" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2 border-b border-black/5 dark:border-white/5">About Us</a>
+                <a href="{{ route('developers') }}" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2">Developers</a>
             </nav>
 
             <div class="pt-4 space-y-2 border-t border-black/10 dark:border-white/10">
@@ -736,6 +738,10 @@
     <footer class="bg-white dark:bg-[#1C1C1E] border-t border-black/10 dark:border-white/10 py-6 px-4 md:px-10 text-center text-xs text-slate-600 dark:text-slate-400 flex flex-col sm:flex-row justify-between items-center max-w-7xl mx-auto w-full gap-4">
         <div>© {{ date('Y') }} Hour Wash Laundry Shop System. Legazpi City</div>
         <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+            <a href="{{ route('about') }}" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition">About Us</a>
+            <span class="text-slate-300 dark:text-slate-700">•</span>
+            <a href="{{ route('developers') }}" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition">Developers</a>
+            <span class="text-slate-300 dark:text-slate-700">•</span>
             <a href="{{ route('privacy') }}" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition">Privacy Policy</a>
             <span class="text-slate-300 dark:text-slate-700">•</span>
             <a href="{{ route('terms') }}" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition">Terms & Conditions</a>
