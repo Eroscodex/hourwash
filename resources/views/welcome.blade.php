@@ -590,38 +590,66 @@
 
                         <!-- Developer List -->
                         <div class="space-y-4 pt-2">
-                            <!-- Dev 1: Eroscodex -->
+                            <!-- Dev 1: Karl Nicko L. Alondra -->
                             <div class="flex items-center gap-3.5 group">
                                 <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-[#007AFF] to-sky-400 text-white flex items-center justify-center font-bold text-sm shadow-md group-hover:scale-105 transition-transform">
-                                    EC
+                                    KA
                                 </div>
                                 <div class="flex-1">
                                     <div class="flex items-center justify-between">
-                                        <h4 class="text-xs font-extrabold text-slate-900 dark:text-white">Eroscodex</h4>
+                                        <h4 class="text-xs font-extrabold text-slate-900 dark:text-white">Karl Nicko L. Alondra</h4>
                                         <span class="text-[9px] bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300 font-bold px-2 py-0.5 rounded-full">Lead Developer</span>
                                     </div>
-                                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Full-Stack Architect, Database Designer & Creator of HourWash.</p>
+                                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">System architecture, backend logic, and overall system functionality.</p>
                                 </div>
                             </div>
 
-                            <!-- Dev 2: AI Assistant -->
+                            <!-- Dev 2: Lezil O. Orgasa -->
                             <div class="flex items-center gap-3.5 group">
-                                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-600 to-pink-500 text-white flex items-center justify-center font-bold text-sm shadow-md group-hover:scale-105 transition-transform p-0.5">
-                                    <img src="{{ asset('favicon.svg') }}" alt="HourWash AI" class="w-full h-full rounded-full object-cover bg-white p-0.5">
+                                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-teal-500 to-emerald-400 text-white flex items-center justify-center font-bold text-sm shadow-md group-hover:scale-105 transition-transform">
+                                    LO
                                 </div>
                                 <div class="flex-1">
                                     <div class="flex items-center justify-between">
-                                        <h4 class="text-xs font-extrabold text-slate-900 dark:text-white">HourWash AI</h4>
-                                        <span class="text-[9px] bg-purple-500/10 text-purple-600 dark:text-purple-400 font-bold px-2 py-0.5 rounded-full">Co-Architect</span>
+                                        <h4 class="text-xs font-extrabold text-slate-900 dark:text-white">Lezil O. Orgasa</h4>
+                                        <span class="text-[9px] bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300 font-bold px-2 py-0.5 rounded-full">Designer</span>
                                     </div>
-                                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Autonomous Assistant handling real-time features & interface design.</p>
+                                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Modern user interfaces, responsive layouts, and visual design.</p>
+                                </div>
+                            </div>
+
+                            <!-- Dev 3: Shayne Marie R. Formento -->
+                            <div class="flex items-center gap-3.5 group">
+                                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-600 to-pink-500 text-white flex items-center justify-center font-bold text-sm shadow-md group-hover:scale-105 transition-transform">
+                                    SF
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <h4 class="text-xs font-extrabold text-slate-900 dark:text-white">Shayne Marie R. Formento</h4>
+                                        <span class="text-[9px] bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300 font-bold px-2 py-0.5 rounded-full">Analyst</span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">System logic analysis, requirements definitions, and testing.</p>
+                                </div>
+                            </div>
+
+                            <!-- Dev 4: Alexa P. Cas -->
+                            <div class="flex items-center gap-3.5 group">
+                                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-500 to-orange-400 text-white flex items-center justify-center font-bold text-sm shadow-md group-hover:scale-105 transition-transform">
+                                    AC
+                                </div>
+                                <div class="flex-1">
+                                    <div class="flex items-center justify-between">
+                                        <h4 class="text-xs font-extrabold text-slate-900 dark:text-white">Alexa P. Cas</h4>
+                                        <span class="text-[9px] bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300 font-bold px-2 py-0.5 rounded-full">Database & Docs</span>
+                                    </div>
+                                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Database optimization, validation pipelines, and documentation.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="border-t border-black/10 dark:border-white/10 pt-4 text-center">
-                        <span class="text-[10px] text-slate-400 dark:text-slate-500 font-medium">Crafted with Laravel, Livewire, and TailwindCSS</span>
+                        <span class="text-[10px] text-slate-400 dark:text-slate-500 font-medium">HourWash Development Team</span>
                     </div>
                 </div>
             </div>

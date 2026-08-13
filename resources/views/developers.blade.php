@@ -41,37 +41,65 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- Developer 1: Eroscodex -->
+                <!-- Developer 1: Karl Nicko L. Alondra -->
                 <div class="bg-[#F2F2F7] dark:bg-[#2C2C2E] border border-black/5 dark:border-white/5 rounded-2xl p-6 flex flex-col items-center text-center space-y-4 shadow-sm hover:scale-[1.02] transition-transform duration-300">
                     <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-[#007AFF] to-sky-400 text-white flex items-center justify-center font-bold text-xl shadow-md">
-                        EC
+                        KA
                     </div>
                     <div class="space-y-1">
-                        <h3 class="text-base font-bold font-['Outfit'] text-slate-900 dark:text-white">Eroscodex</h3>
-                        <span class="inline-block text-[10px] bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF] font-bold px-2.5 py-0.5 rounded-full">Lead Architect</span>
+                        <h3 class="text-base font-bold font-['Outfit'] text-slate-900 dark:text-white">Karl Nicko L. Alondra</h3>
+                        <span class="inline-block text-[10px] bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF] font-bold px-2.5 py-0.5 rounded-full">Lead Developer</span>
                     </div>
                     <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                        Full-Stack Developer who designed and developed the core application, database schemas, and workflows. Passionate about coding efficient and scalable web applications.
+                        Responsible for designing the system architecture, database design, backend logic, and overall system functionality of HourWash.
                     </p>
                 </div>
 
-                <!-- Developer 2: HourWash AI -->
+                <!-- Developer 2: Lezil O. Orgasa -->
                 <div class="bg-[#F2F2F7] dark:bg-[#2C2C2E] border border-black/5 dark:border-white/5 rounded-2xl p-6 flex flex-col items-center text-center space-y-4 shadow-sm hover:scale-[1.02] transition-transform duration-300">
-                    <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-purple-600 to-pink-500 text-white flex items-center justify-center font-bold text-xl shadow-md p-0.5">
-                        <img src="{{ asset('favicon.svg') }}" alt="HourWash AI Logo" class="w-full h-full rounded-full object-cover bg-white p-0.5">
+                    <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-teal-500 to-emerald-400 text-white flex items-center justify-center font-bold text-xl shadow-md">
+                        LO
                     </div>
                     <div class="space-y-1">
-                        <h3 class="text-base font-bold font-['Outfit'] text-slate-900 dark:text-white">HourWash AI</h3>
-                        <span class="inline-block text-[10px] bg-purple-500/15 text-purple-600 dark:text-purple-400 font-bold px-2.5 py-0.5 rounded-full">Co-Developer</span>
+                        <h3 class="text-base font-bold font-['Outfit'] text-slate-900 dark:text-white">Lezil O. Orgasa</h3>
+                        <span class="inline-block text-[10px] bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 font-bold px-2.5 py-0.5 rounded-full">Frontend Designer</span>
                     </div>
                     <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                        Artificial intelligence assistant co-authoring layout designs, real-time metrics trackers, and specialized user experience refinements across the system.
+                        Specializes in modern user interfaces, crafting premium responsive layouts, visual elements, and smooth interactions.
+                    </p>
+                </div>
+
+                <!-- Developer 3: Shayne Marie R. Formento -->
+                <div class="bg-[#F2F2F7] dark:bg-[#2C2C2E] border border-black/5 dark:border-white/5 rounded-2xl p-6 flex flex-col items-center text-center space-y-4 shadow-sm hover:scale-[1.02] transition-transform duration-300">
+                    <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-purple-600 to-pink-500 text-white flex items-center justify-center font-bold text-xl shadow-md">
+                        SF
+                    </div>
+                    <div class="space-y-1">
+                        <h3 class="text-base font-bold font-['Outfit'] text-slate-900 dark:text-white">Shayne Marie R. Formento</h3>
+                        <span class="inline-block text-[10px] bg-purple-500/15 text-purple-600 dark:text-purple-400 font-bold px-2.5 py-0.5 rounded-full">System Analyst</span>
+                    </div>
+                    <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                        Focuses on core system logic analysis, requirement definitions, quality assurance, and functional validation.
+                    </p>
+                </div>
+
+                <!-- Developer 4: Alexa P. Cas -->
+                <div class="bg-[#F2F2F7] dark:bg-[#2C2C2E] border border-black/5 dark:border-white/5 rounded-2xl p-6 flex flex-col items-center text-center space-y-4 shadow-sm hover:scale-[1.02] transition-transform duration-300">
+                    <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-amber-500 to-orange-400 text-white flex items-center justify-center font-bold text-xl shadow-md">
+                        AC
+                    </div>
+                    <div class="space-y-1">
+                        <h3 class="text-base font-bold font-['Outfit'] text-slate-900 dark:text-white">Alexa P. Cas</h3>
+                        <span class="inline-block text-[10px] bg-amber-500/15 text-amber-600 dark:text-amber-400 font-bold px-2.5 py-0.5 rounded-full">Database & Docs</span>
+                    </div>
+                    <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                        Manages database optimization, data validation pipelines, system logs management, and technical documentation.
                     </p>
                 </div>
             </div>
 
             <div class="border-t border-black/10 dark:border-white/10 pt-6 text-center text-xs text-slate-500 dark:text-slate-400">
-                Crafted using Laravel, Livewire, and TailwindCSS
+                HourWash Development Team
             </div>
         </div>
     </div>
