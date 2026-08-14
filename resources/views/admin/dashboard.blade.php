@@ -1,7 +1,6 @@
 <x-app-layout>
     <div class="space-y-6 sm:space-y-8">
         
-        <!-- Header -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
                 <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white font-['Outfit']">
@@ -22,9 +21,7 @@
             </div>
         </div>
 
-        <!-- 4 Top Stat Cards -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-            <!-- Today's Orders -->
             <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3">
                 <div class="flex items-center justify-between">
                     <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">TODAY'S ORDERS</span>
@@ -35,7 +32,6 @@
                 </div>
             </div>
 
-            <!-- In Progress -->
             <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3">
                 <div class="flex items-center justify-between">
                     <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">IN PROCESSING</span>
@@ -46,7 +42,6 @@
                 </div>
             </div>
 
-            <!-- Ready For Pickup -->
             <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3">
                 <div class="flex items-center justify-between">
                     <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">READY FOR PICKUP</span>
@@ -57,7 +52,6 @@
                 </div>
             </div>
 
-            <!-- Completed Today -->
             <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3">
                 <div class="flex items-center justify-between">
                     <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">COMPLETED TODAY</span>
@@ -69,10 +63,7 @@
             </div>
         </div>
 
-        <!-- Middle Section: Machine Status Grid & QR Code Inspector (12 cols) -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            
-            <!-- Machine Status Monitoring Grid (12 cols) -->
             <div class="lg:col-span-12 app-card p-4 sm:p-6 space-y-6">
                 <div class="flex items-center justify-between">
                     <div>
@@ -82,7 +73,6 @@
                     <a href="{{ route('admin.machines.index') }}" class="text-xs text-[#007AFF] dark:text-[#0A84FF] hover:opacity-80 font-semibold">Manage Machines →</a>
                 </div>
 
-                <!-- Machines Grid -->
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
                     @forelse($machines as $machine)
                         <div class="p-3.5 rounded-xl bg-black/5 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-2 hover:border-[#007AFF]/40 transition">
@@ -134,7 +124,6 @@
                     @endforelse
                 </div>
 
-                <!-- Status Legend -->
                 <div class="flex flex-wrap items-center gap-3 sm:gap-4 text-[11px] text-slate-500 dark:text-slate-400 border-t border-black/5 dark:border-white/10 pt-4">
                     <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-teal-500"></span> Washing</span>
                     <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-sky-500"></span> Rinsing</span>
@@ -144,89 +133,89 @@
                 </div>
             </div>
         </div>
-        </div>
 
-        <!-- Recent Orders Table (12 cols) -->
-        <div class="app-card p-4 sm:p-6 space-y-4 overflow-hidden">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <div>
-                    <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Recent Laundry Orders</h2>
-                    <p class="text-xs text-slate-500 dark:text-slate-400">Live feed of active store and online orders</p>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div class="lg:col-span-8 app-card p-4 sm:p-6 space-y-4 overflow-hidden flex flex-col justify-between">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                    <div>
+                        <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Recent Laundry Orders</h2>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Live feed of active store and online orders</p>
+                    </div>
+                    <a href="{{ route('admin.laundry.index') }}" class="text-xs text-[#007AFF] dark:text-[#0A84FF] hover:opacity-80 font-semibold">View All Orders →</a>
                 </div>
-                <a href="{{ route('admin.laundry.index') }}" class="text-xs text-[#007AFF] dark:text-[#0A84FF] hover:opacity-80 font-semibold">View All Orders →</a>
-            </div>
 
-            <div class="overflow-x-auto max-w-full">
-                <table class="w-full text-left text-xs whitespace-nowrap min-w-[600px]">
-                    <thead class="bg-black/5 dark:bg-[#2C2C2E] text-slate-700 dark:text-slate-300 uppercase text-[10px] tracking-wider border-b border-black/5 dark:border-white/10">
-                        <tr>
-                            <th class="px-4 py-3">Order Code</th>
-                            <th class="px-4 py-3">Customer</th>
-                            <th class="px-4 py-3">Service</th>
-                            <th class="px-4 py-3">Weight</th>
-                            <th class="px-4 py-3">Total Amount</th>
-                            <th class="px-4 py-3">Status</th>
-                            <th class="px-4 py-3">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-black/5 dark:divide-white/5 text-slate-900 dark:text-slate-200">
-                        @forelse($recentOrders as $order)
-                            <tr class="hover:bg-black/5 dark:hover:bg-white/5 transition">
-                                <td class="px-4 py-3 font-mono font-bold text-[#007AFF] dark:text-[#0A84FF]">#{{ $order->order_number }}</td>
-                                <td class="px-4 py-3 font-medium">{{ $order->customer->name ?? 'Walk-in Customer' }}</td>
-                                <td class="px-4 py-3 text-slate-600 dark:text-slate-300">{{ $order->service->name ?? 'Standard Wash' }}</td>
-                                <td class="px-4 py-3 text-slate-600 dark:text-slate-300">{{ $order->weight_kg }} kg</td>
-                                <td class="px-4 py-3 font-bold text-slate-900 dark:text-white">₱{{ number_format($order->total_amount, 2) }}</td>
-                                <td class="px-4 py-3">
-                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider
-                                        @if($order->order_status === 'completed') bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30
-                                        @elseif($order->order_status === 'ready') bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30
-                                        @elseif($order->order_status === 'pending') bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300
-                                        @else bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30 @endif">
-                                        {{ str_replace('_', ' ', $order->order_status) }}
-                                    </span>
-                                </td>
-                                <td class="px-4 py-3">
-                                    <a href="{{ route('admin.laundry.index') }}" class="text-[#007AFF] dark:text-[#0A84FF] hover:opacity-80 font-semibold">Manage</a>
-                                </td>
-                            </tr>
-                        @empty
+                <div class="overflow-x-auto max-w-full flex-1 mt-4">
+                    <table class="w-full text-left text-xs whitespace-nowrap min-w-[500px]">
+                        <thead class="bg-black/5 dark:bg-[#2C2C2E] text-slate-700 dark:text-slate-300 uppercase text-[10px] tracking-wider border-b border-black/5 dark:border-white/10">
                             <tr>
-                                <td colspan="7" class="text-center py-6 text-slate-500">No recent orders recorded.</td>
+                                <th class="px-4 py-3">Order Code</th>
+                                <th class="px-4 py-3">Customer</th>
+                                <th class="px-4 py-3">Service</th>
+                                <th class="px-4 py-3">Status</th>
+                                <th class="px-4 py-3">Action</th>
                             </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody class="divide-y divide-black/5 dark:divide-white/5 text-slate-900 dark:text-slate-200">
+                            @forelse($recentOrders->take(6) as $order)
+                                <tr class="hover:bg-black/5 dark:hover:bg-white/5 transition">
+                                    <td class="px-4 py-3 font-mono font-bold text-[#007AFF] dark:text-[#0A84FF]">#{{ $order->order_number }}</td>
+                                    <td class="px-4 py-3 font-medium">{{ $order->customer->name ?? 'Walk-in Customer' }}</td>
+                                    <td class="px-4 py-3 text-slate-600 dark:text-slate-300">{{ $order->service->name ?? 'Standard Wash' }}</td>
+                                    <td class="px-4 py-3">
+                                        <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider
+                                            @if($order->order_status === 'completed') bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30
+                                            @elseif($order->order_status === 'ready') bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30
+                                            @elseif($order->order_status === 'pending') bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300
+                                            @else bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30 @endif">
+                                            {{ str_replace('_', ' ', $order->order_status) }}
+                                        </span>
+                                    </td>
+                                    <td class="px-4 py-3">
+                                        <a href="{{ route('admin.laundry.index') }}" class="text-[#007AFF] dark:text-[#0A84FF] hover:opacity-80 font-semibold">Manage</a>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="text-center py-6 text-slate-500">No recent orders recorded.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="lg:col-span-4 app-card p-4 sm:p-6 space-y-6 flex flex-col justify-between">
+                <div class="flex items-center justify-between border-b border-black/5 dark:border-white/10 pb-3">
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white font-['Outfit']">Store Activity</h3>
+                    <span class="text-[10px] text-[#007AFF] dark:text-[#0A84FF] font-semibold">Live Updates</span>
+                </div>
+
+                <div class="relative pl-6 border-l border-slate-200 dark:border-slate-800 space-y-6 flex-1 mt-4">
+                    <div class="relative">
+                        <span class="absolute -left-[31px] top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500/15 text-blue-600 dark:text-blue-400 ring-4 ring-white dark:ring-[#1C1C1E] text-xs">
+                            📦
+                        </span>
+                        <div class="flex items-center justify-between gap-2 text-xs font-bold text-slate-900 dark:text-white">
+                            <span>Order Loaded</span>
+                            <span class="text-[10px] text-slate-500 dark:text-slate-400 font-normal">10m ago</span>
+                        </div>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Clothes placed in Washer #2 cycle.</p>
+                    </div>
+
+                    <div class="relative">
+                        <span class="absolute -left-[31px] top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 ring-4 ring-white dark:ring-[#1C1C1E] text-xs">
+                            ✅
+                        </span>
+                        <div class="flex items-center justify-between gap-2 text-xs font-bold text-slate-900 dark:text-white">
+                            <span>QR Tag Verified</span>
+                            <span class="text-[10px] text-slate-500 dark:text-slate-400 font-normal">25m ago</span>
+                        </div>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Staff verified drop-off item count.</p>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Live Notifications & Updates Card -->
-        <div class="app-card p-4 sm:p-6 space-y-4">
-            <div class="flex items-center justify-between border-b border-black/5 dark:border-white/10 pb-3">
-                <h3 class="text-base font-bold text-slate-900 dark:text-white font-['Outfit']">Store Notifications</h3>
-                <span class="text-[10px] text-[#007AFF] dark:text-[#0A84FF] font-semibold">Live Updates</span>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="p-3.5 rounded-xl bg-black/5 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-1">
-                    <div class="flex items-center justify-between text-xs font-bold text-slate-900 dark:text-white">
-                        <span class="flex items-center gap-1.5">📦 Order Loaded</span>
-                        <span class="text-[10px] text-slate-500 dark:text-slate-400">10 mins ago</span>
-                    </div>
-                    <p class="text-xs text-slate-600 dark:text-slate-300">Your clothes have been placed in Washer #2 cycle.</p>
-                </div>
-
-                <div class="p-3.5 rounded-xl bg-black/5 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-1">
-                    <div class="flex items-center justify-between text-xs font-bold text-slate-900 dark:text-white">
-                        <span class="flex items-center gap-1.5">✅ QR Tag Verified</span>
-                        <span class="text-[10px] text-slate-500 dark:text-slate-400">25 mins ago</span>
-                    </div>
-                    <p class="text-xs text-slate-600 dark:text-slate-300">Staff verified your drop-off item count.</p>
-                </div>
-            </div>
-        </div>
-
-        <!-- Customer Feedback Reviews Feed -->
         <div class="app-card p-4 sm:p-6 space-y-4">
             <div class="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-3">
                 <div>
