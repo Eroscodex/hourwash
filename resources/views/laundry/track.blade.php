@@ -134,6 +134,13 @@
             <div>
                 <span class="text-slate-500 dark:text-slate-400 text-[11px] block">Estimated Completion Time</span>
                 <p class="text-slate-900 dark:text-white font-semibold">{{ $order->estimated_completion?->format('M d, Y h:i A') ?? 'In Progress' }}</p>
+                @if(in_array($order->order_status, ['pending', 'out_for_pickup', 'received', 'washing', 'rinsing', 'drying', 'done', 'out_for_delivery']) && $order->estimated_completion && $order->estimated_completion->isFuture())
+                    <div class="mt-1 flex items-center gap-1.5 text-[11px] text-[#007AFF] dark:text-[#0A84FF] font-bold" id="order-countdown-container">
+                        <span class="w-1.5 h-1.5 rounded-full bg-[#007AFF] dark:bg-[#0A84FF] animate-pulse"></span>
+                        <span>Remaining: </span>
+                        <span id="order-countdown" data-expiry="{{ $order->estimated_completion->timestamp }}">Calculating...</span>
+                    </div>
+                @endif
             </div>
         </div>
 
@@ -143,5 +150,42 @@
     </div>
 
 </div>
+
+@if(in_array($order->order_status, ['pending', 'out_for_pickup', 'received', 'washing', 'rinsing', 'drying', 'done', 'out_for_delivery']) && $order->estimated_completion && $order->estimated_completion->isFuture())
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const countdownEl = document.getElementById('order-countdown');
+        if (countdownEl) {
+            const expiryTimestamp = parseInt(countdownEl.getAttribute('data-expiry')) * 1000;
+            
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const distance = expiryTimestamp - now;
+                
+                if (distance < 0) {
+                    countdownEl.innerText = "Processing Completion...";
+                    clearInterval(timerInterval);
+                    return;
+                }
+                
+                const hours = Math.floor(distance / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                let timeString = "";
+                if (hours > 0) {
+                    timeString += hours + "h ";
+                }
+                timeString += minutes + "m " + seconds + "s";
+                
+                countdownEl.innerText = timeString;
+            }
+            
+            updateCountdown();
+            const timerInterval = setInterval(updateCountdown, 1000);
+        }
+    });
+</script>
+@endif
 
 </x-app-layout>
