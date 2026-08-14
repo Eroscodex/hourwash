@@ -55,25 +55,10 @@ class SmsNotificationService
         if (!empty($apiToken)) {
             try {
 
-                // Remove spaces, -, parentheses, etc.
-                $recipient = preg_replace('/\D+/', '', $phone);
+                $recipient = self::normalizePhPhone($phone);
 
-                /*
-                 * Philippine number conversion
-                 *
-                 * 09175012581
-                 *       ↓
-                 * 639175012581
-                 */
-                if (str_starts_with($recipient, '09')) {
-                    $recipient = '63' . substr($recipient, 1);
-                } elseif (str_starts_with($recipient, '+63')) {
-                    $recipient = substr($recipient, 1);
-                } elseif (
-                    str_starts_with($recipient, '9') &&
-                    strlen($recipient) === 10
-                ) {
-                    $recipient = '63' . $recipient;
+                if ($recipient === null) {
+                    throw new \RuntimeException("Unable to normalize phone number: {$phone}");
                 }
 
                 Log::info('Sending SMS through PhilSMS', [
@@ -86,7 +71,7 @@ class SmsNotificationService
                     ->acceptJson()
                     ->asJson()
                     ->post(
-                        'https://dashboard.philsms.com/api/v3/sms/send',
+                        'https://app.philsms.com/api/v3/sms/send',
                         [
                             'recipient' => $recipient,
                             'sender_id' => $senderId,
@@ -164,5 +149,41 @@ class SmsNotificationService
 
             return null;
         }
+    }
+
+    /**
+     * Normalize a Philippine mobile number to PhilSMS's expected
+     * 63XXXXXXXXXX format (12 digits, no '+', no leading '0').
+     *
+     * Accepts input in any of these forms (spaces/dashes/parens allowed):
+     *   09175012581     (11 digits, local format)
+     *   +639175012581   (with country code and plus sign)
+     *   639175012581    (already correct)
+     *   9175012581      (10 digits, no leading 0 or 63)
+     *
+     * Returns null if the input doesn't match any recognized PH mobile format.
+     */
+    public static function normalizePhPhone(string $phone): ?string
+    {
+        // Strip everything except digits (this also removes any '+').
+        $digits = preg_replace('/\D+/', '', $phone);
+
+        // Already in correct format: 63 + 10 digits = 12 digits total.
+        if (strlen($digits) === 12 && str_starts_with($digits, '63')) {
+            return $digits;
+        }
+
+        // Local format with leading 0: 0 + 10 digits = 11 digits total.
+        if (strlen($digits) === 11 && str_starts_with($digits, '09')) {
+            return '63' . substr($digits, 1);
+        }
+
+        // Bare 10-digit mobile number without prefix, e.g. 9175012581.
+        if (strlen($digits) === 10 && str_starts_with($digits, '9')) {
+            return '63' . $digits;
+        }
+
+        // Doesn't match any known PH mobile format.
+        return null;
     }
 }
