@@ -100,19 +100,6 @@ return new class extends Migration
             $table->foreign('current_order_id')->references('id')->on('orders')->nullOnDelete()->cascadeOnUpdate();
         });
 
-        // 7. ORDER ITEMS
-        Schema::create('order_items', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('service_id')->nullable()->constrained('services')->nullOnDelete()->cascadeOnUpdate();
-            $table->string('description', 255)->nullable();
-            $table->decimal('quantity', 8, 2)->default(1.00);
-            $table->decimal('weight_kg', 8, 2)->default(0.00);
-            $table->decimal('unit_price', 10, 2)->default(0.00);
-            $table->decimal('subtotal', 10, 2)->default(0.00);
-            $table->timestamps();
-        });
-
         // 8. ORDER STATUS HISTORY
         Schema::create('order_status_history', function (Blueprint $table) {
             $table->id();
@@ -146,19 +133,6 @@ return new class extends Migration
             $table->enum('scan_type', ['customer_scan', 'staff_scan', 'pickup_scan', 'delivery_scan', 'other'])->default('staff_scan');
             $table->string('device', 255)->nullable();
             $table->string('ip_address', 45)->nullable();
-            $table->timestamp('created_at')->useCurrent();
-        });
-
-        // 11. MACHINE STATUS LOGS
-        Schema::create('machine_status_logs', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('machine_id')->constrained('machines')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('order_id')->nullable()->constrained('orders')->nullOnDelete()->cascadeOnUpdate();
-            $table->enum('previous_status', ['idle', 'washing', 'rinsing', 'drying', 'maintenance', 'offline'])->nullable();
-            $table->enum('new_status', ['idle', 'washing', 'rinsing', 'drying', 'maintenance', 'offline']);
-            $table->dateTime('started_at')->useCurrent();
-            $table->dateTime('ended_at')->nullable();
-            $table->text('notes')->nullable();
             $table->timestamp('created_at')->useCurrent();
         });
 
@@ -273,48 +247,6 @@ return new class extends Migration
             $table->timestamp('created_at')->useCurrent();
         });
 
-        // 20. MAINTENANCE RECORDS
-        Schema::create('maintenance_records', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('machine_id')->constrained('machines')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('reported_by')->nullable()->constrained('users')->nullOnDelete()->cascadeOnUpdate();
-            $table->string('maintenance_type', 100);
-            $table->text('description')->nullable();
-            $table->decimal('cost', 10, 2)->default(0.00);
-            $table->enum('status', ['reported', 'in_progress', 'completed', 'cancelled'])->default('reported');
-            $table->dateTime('started_at')->nullable();
-            $table->dateTime('completed_at')->nullable();
-            $table->timestamps();
-        });
-
-        // 21. ANNOUNCEMENTS
-        Schema::create('announcements', function (Blueprint $table) {
-            $table->id();
-            $table->string('title', 255);
-            $table->text('content');
-            $table->string('image', 255)->nullable();
-            $table->dateTime('start_date')->nullable();
-            $table->dateTime('end_date')->nullable();
-            $table->enum('status', ['draft', 'published', 'archived'])->default('draft');
-            $table->foreignId('created_by')->nullable()->constrained('users')->nullOnDelete()->cascadeOnUpdate();
-            $table->timestamps();
-        });
-
-        // 22. ACTIVITY LOGS
-        Schema::create('activity_logs', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete()->cascadeOnUpdate();
-            $table->string('action', 100);
-            $table->string('module', 100)->nullable();
-            $table->unsignedBigInteger('reference_id')->nullable();
-            $table->text('description')->nullable();
-            $table->string('ip_address', 45)->nullable();
-            $table->timestamp('created_at')->useCurrent();
-
-            $table->index('module');
-            $table->index('created_at');
-        });
-
         // 23. CUSTOMER FEEDBACKS & RATINGS
         Schema::create('customer_feedbacks', function (Blueprint $table) {
             $table->id();
@@ -343,9 +275,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('activity_logs');
-        Schema::dropIfExists('announcements');
-        Schema::dropIfExists('maintenance_records');
         Schema::dropIfExists('inventory_transactions');
         Schema::dropIfExists('inventory_items');
         Schema::dropIfExists('loyalty_transactions');
@@ -354,11 +283,9 @@ return new class extends Migration
         Schema::dropIfExists('promotions');
         Schema::dropIfExists('pickup_delivery');
         Schema::dropIfExists('payments');
-        Schema::dropIfExists('machine_status_logs');
         Schema::dropIfExists('qr_scan_logs');
         Schema::dropIfExists('qr_codes');
         Schema::dropIfExists('order_status_history');
-        Schema::dropIfExists('order_items');
 
         Schema::table('machines', function (Blueprint $table) {
             $table->dropForeign(['current_order_id']);
