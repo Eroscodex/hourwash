@@ -28,6 +28,11 @@ return [
         'sender_name' => env('MAIL_FROM_NAME', 'HourWash Laundry'),
     ],
 
+    'philsms' => [
+    'api_token' => env('PHILSMS_API_TOKEN'),
+    'sender_id' => env('PHILSMS_SENDER_ID', 'HourWash'),
+    ],
+
     'ses' => [
         'key' => env('AWS_ACCESS_KEY_ID'),
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
