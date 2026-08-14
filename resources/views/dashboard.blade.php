@@ -216,36 +216,7 @@
                         </button>
                     </form>
                 </div>
-
-                <!-- Live Notifications & Updates Card -->
-                <div class="app-card p-4 sm:p-6 space-y-4">
-                    <div class="flex items-center justify-between border-b border-black/5 dark:border-white/10 pb-3">
-                        <h3 class="text-base font-bold text-slate-900 dark:text-white font-['Outfit']">Store Notifications</h3>
-                        <span class="text-[10px] text-[#007AFF] dark:text-[#0A84FF] font-semibold">Live Updates</span>
-                    </div>
-
-                    <div class="space-y-3">
-                        <div class="p-3 rounded-xl bg-black/5 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-1">
-                            <div class="flex items-center justify-between text-xs font-bold text-slate-900 dark:text-white">
-                                <span>Order Loaded</span>
-                                <span class="text-[10px] text-slate-500 dark:text-slate-400">10 mins ago</span>
-                            </div>
-                            <p class="text-xs text-slate-600 dark:text-slate-300">Your clothes have been placed in Washer #2 cycle.</p>
-                        </div>
-
-                        <div class="p-3 rounded-xl bg-black/5 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-1">
-                            <div class="flex items-center justify-between text-xs font-bold text-slate-900 dark:text-white">
-                                <span>QR Tag Verified</span>
-                                <span class="text-[10px] text-slate-500 dark:text-slate-400">25 mins ago</span>
-                            </div>
-                            <p class="text-xs text-slate-600 dark:text-slate-300">Staff verified your drop-off item count.</p>
-                        </div>
-                    </div>
-                </div>
-
             </div>
-
         </div>
-
     </div>
 </x-app-layout>

@@ -184,38 +184,6 @@
                 </div>
             </div>
 
-            <div class="lg:col-span-4 app-card p-4 sm:p-6 space-y-6 flex flex-col justify-between">
-                <div class="flex items-center justify-between border-b border-black/5 dark:border-white/10 pb-3">
-                    <h3 class="text-base font-bold text-slate-900 dark:text-white font-['Outfit']">Store Activity</h3>
-                    <span class="text-[10px] text-[#007AFF] dark:text-[#0A84FF] font-semibold">Live Updates</span>
-                </div>
-
-                <div class="relative pl-6 border-l border-slate-200 dark:border-slate-800 space-y-6 flex-1 mt-4">
-                    <div class="relative">
-                        <span class="absolute -left-[31px] top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-blue-500/15 text-blue-600 dark:text-blue-400 ring-4 ring-white dark:ring-[#1C1C1E] text-xs">
-                            📦
-                        </span>
-                        <div class="flex items-center justify-between gap-2 text-xs font-bold text-slate-900 dark:text-white">
-                            <span>Order Loaded</span>
-                            <span class="text-[10px] text-slate-500 dark:text-slate-400 font-normal">10m ago</span>
-                        </div>
-                        <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Clothes placed in Washer #2 cycle.</p>
-                    </div>
-
-                    <div class="relative">
-                        <span class="absolute -left-[31px] top-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 ring-4 ring-white dark:ring-[#1C1C1E] text-xs">
-                            ✅
-                        </span>
-                        <div class="flex items-center justify-between gap-2 text-xs font-bold text-slate-900 dark:text-white">
-                            <span>QR Tag Verified</span>
-                            <span class="text-[10px] text-slate-500 dark:text-slate-400 font-normal">25m ago</span>
-                        </div>
-                        <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Staff verified drop-off item count.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="app-card p-4 sm:p-6 space-y-4">
             <div class="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-3">
                 <div>
