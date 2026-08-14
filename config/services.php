@@ -28,11 +28,6 @@ return [
         'sender_name' => env('MAIL_FROM_NAME', 'HourWash Laundry'),
     ],
 
-    'philsms' => [ 
-        'api_token' => env('PHILSMS_API_TOKEN'), 
-        'sender_id' => env('PHILSMS_SENDER_ID', 'PhilSMS'), 
-    ],
-
     'ses' => [
         'key' => env('AWS_ACCESS_KEY_ID'),
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
@@ -44,6 +39,11 @@ return [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),
             'channel' => env('SLACK_BOT_USER_DEFAULT_CHANNEL'),
         ],
+    ],
+
+        'philsms' => [ 
+        'api_token' => env('PHILSMS_API_TOKEN'), 
+        'sender_id' => env('PHILSMS_SENDER_ID', 'PhilSMS'), 
     ],
 
 ];
