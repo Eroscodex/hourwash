@@ -116,8 +116,6 @@
                 <a href="#how-it-works" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2 border-b border-black/5 dark:border-white/5">How It Works</a>
                 <a href="#machines" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2 border-b border-black/5 dark:border-white/5">Machine Monitor</a>
                 <a href="#track-section" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2 border-b border-black/5 dark:border-white/5">QR Order Tracker</a>
-                <a href="{{ route('about') }}" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2 border-b border-black/5 dark:border-white/5">About Us</a>
-                <a href="{{ route('developers') }}" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2">Developers</a>
             </nav>
 
             <div class="pt-4 space-y-2 border-t border-black/10 dark:border-white/10">
