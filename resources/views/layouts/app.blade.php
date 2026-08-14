@@ -12,7 +12,6 @@
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}">
 
-    <!-- Google Fonts & Theme Pre-init script -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -31,14 +30,11 @@
 
     <div class="flex min-h-screen relative overflow-x-hidden">
 
-        <!-- Mobile Drawer Overlay -->
         <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 dark:bg-black/80 z-40 hidden md:hidden transition-opacity"></div>
 
-        <!-- Sidebar Navigation -->
         <aside id="sidebar" class="fixed top-0 bottom-0 left-0 h-screen w-64 bg-white dark:bg-[#1C1C1E] border-r border-black/10 dark:border-white/10 z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 flex flex-col justify-between shadow-xl">
             
             <div class="flex flex-col flex-1 min-h-0 overflow-y-auto">
-                <!-- Brand Header -->
                 <div class="p-5 border-b border-black/10 dark:border-white/10 flex items-center justify-between flex-shrink-0">
                     <a href="{{ route('welcome') }}" class="flex items-center gap-3 group">
                         <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-11 h-11 rounded-full object-cover shadow-md group-hover:scale-105 transition-transform bg-white p-0.5 border border-black/10 dark:border-white/10">
@@ -56,11 +52,9 @@
                     </button>
                 </div>
 
-                <!-- Navigation Links -->
                 <nav class="p-4 space-y-1.5 text-sm font-medium">
                     @auth
                         @if(auth()->user()->isOwner())
-                            <!-- Owner / Admin Links -->
                             <div class="px-3 py-2 text-[11px] font-extrabold text-slate-900 dark:text-slate-200 uppercase tracking-wider">Management Workstation</div>
                             
                             <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all {{ request()->routeIs('admin.dashboard') ? 'bg-[#007AFF] text-white font-bold shadow-md' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10' }}">
@@ -98,7 +92,6 @@
                                 <span>Store Inventory</span>
                             </a>
                         @elseif(auth()->user()->isStaff())
-                            <!-- Staff Links -->
                             <div class="px-3 py-2 text-[11px] font-extrabold text-slate-900 dark:text-slate-200 uppercase tracking-wider">Staff Terminal</div>
                             
                             <a href="{{ route('staff.dashboard') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all {{ request()->routeIs('staff.dashboard') ? 'bg-[#007AFF] text-white font-bold shadow-md' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10' }}">
@@ -111,7 +104,6 @@
                                 <span>Manage Laundry Orders</span>
                             </a>
                         @else
-                            <!-- Customer Links -->
                             <div class="px-3 py-2 text-[11px] font-extrabold text-slate-900 dark:text-slate-200 uppercase tracking-wider">Customer Hub</div>
                             
                             <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all {{ request()->routeIs('dashboard') ? 'bg-[#007AFF] text-white font-bold shadow-md' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10' }}">
@@ -143,7 +135,6 @@
                 </nav>
             </div>
 
-            <!-- Profile Footer Badge in Sidebar -->
             @auth
             <div class="p-4 border-t border-black/10 dark:border-white/10 bg-slate-50 dark:bg-white/5">
                 <div class="flex items-center gap-3">
@@ -162,10 +153,8 @@
             @endauth
         </aside>
 
-        <!-- Main Content Area -->
         <div class="flex-1 flex flex-col min-w-0 md:pl-64">
             
-            <!-- Top Header Navbar -->
             <header class="bg-white dark:bg-[#1C1C1E] border-b border-black/10 dark:border-white/10 px-4 md:px-8 py-3.5 flex items-center justify-between sticky top-0 z-30 shadow-sm backdrop-blur-xl">
                 <div class="flex items-center gap-3">
                     <button id="open-sidebar" class="md:hidden p-2 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 focus:outline-none">
@@ -173,7 +162,6 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                         </svg>
                     </button>
-                    <!-- Search Bar (Desktop & Mobile) -->
                     <form action="{{ route('global.search') }}" method="GET" class="hidden sm:flex items-center relative w-64 md:w-80">
                         <button type="submit" aria-label="Submit search" class="absolute left-3.5 text-slate-500 dark:text-slate-400 hover:text-[#007AFF] focus:outline-none">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -185,7 +173,6 @@
                 </div>
 
                 <div class="flex items-center gap-2 sm:gap-4">
-                    <!-- Light / Dark Theme Switcher Button -->
                     <button id="theme-toggle" class="p-2 px-3 rounded-xl bg-slate-100 dark:bg-white/10 text-slate-900 dark:text-[#F5F5F7] border border-black/10 dark:border-white/10 hover:scale-105 transition-all text-xs font-semibold flex items-center gap-1.5 shadow-sm" title="Toggle Light/Dark Theme">
                         <span class="dark:hidden flex items-center gap-1.5">
                             <svg class="w-3.5 h-3.5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
@@ -197,7 +184,6 @@
                         </span>
                     </button>
 
-                    <!-- Live Date Display -->
                     <div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-white/10 border border-black/10 dark:border-white/10 text-xs text-slate-800 dark:text-slate-200 font-semibold">
                         <svg class="w-4 h-4 text-[#007AFF] dark:text-[#0A84FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
@@ -205,7 +191,6 @@
                         <span>{{ now()->format('M d, Y') }}</span>
                     </div>
 
-                    <!-- Logout Button -->
                     @auth
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf
@@ -219,24 +204,29 @@
                 </div>
             </header>
 
-            <!-- Page Main Content -->
             <main class="flex-1 p-4 md:p-8 max-w-7xl w-full mx-auto">
                 <x-popup-alert />
                 {{ $slot }}
             </main>
 
-            <!-- Footer -->
-            <footer class="border-t border-black/10 dark:border-white/10 py-4 px-6 text-center text-xs text-slate-600 dark:text-slate-400 flex flex-col sm:flex-row justify-between items-center gap-2 bg-white dark:bg-[#1C1C1E]">
+            <footer class="border-t border-black/10 dark:border-white/10 py-4 px-6 text-center text-xs text-slate-600 dark:text-slate-400 flex flex-col sm:flex-row justify-between items-center gap-4 bg-white dark:bg-[#1C1C1E]">
                 <div>© {{ date('Y') }} Hour Wash Laundry Management System</div>
-                <div class="flex items-center gap-4 text-slate-600 dark:text-slate-400">
-                    <span class="text-[#007AFF] dark:text-[#0A84FF] font-semibold">Magallanes St., Orosite, Legazpi City</span>
+                <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-slate-600 dark:text-slate-400">
+                    <a href="{{ route('about') }}" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition">About Us</a>
+                    <span class="text-slate-300 dark:text-slate-700">•</span>
+                    <a href="{{ route('developers') }}" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition">Developers</a>
+                    <span class="text-slate-300 dark:text-slate-700">•</span>
+                    <a href="{{ route('privacy') }}" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition">Privacy Policy</a>
+                    <span class="text-slate-300 dark:text-slate-700">•</span>
+                    <a href="{{ route('terms') }}" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition">Terms & Conditions</a>
+                    <span class="text-slate-300 dark:text-slate-700">•</span>
+                    <span class="font-semibold text-slate-800 dark:text-slate-300">Magallanes St., Orosite, Legazpi City</span>
                 </div>
             </footer>
 
         </div>
     </div>
 
-    <!-- Floating Assistant Button & Drawer -->
     <button id="chat-toggle" class="fixed bottom-6 right-6 w-14 h-14 rounded-2xl bg-[#007AFF] dark:bg-[#0A84FF] text-white chat-bubble-glow flex items-center justify-center hover:scale-110 active:scale-95 transition-transform z-50 group" aria-label="Toggle AI Assistant Chat">
         <span class="absolute -top-1 -right-1 flex h-3.5 w-3.5">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -270,7 +260,6 @@
         </div>
     </div>
 
-    <!-- Layout Scripts -->
     <script>
     document.addEventListener('DOMContentLoaded', function () {
         const sidebar = document.getElementById('sidebar');
@@ -287,7 +276,6 @@
         if(closeBtn) closeBtn.addEventListener('click', toggleSidebar);
         if(overlay) overlay.addEventListener('click', toggleSidebar);
 
-        // Auto close sidebar on mobile when any link is clicked
         if (sidebar) {
             const navLinks = sidebar.querySelectorAll('a');
             navLinks.forEach(link => {
@@ -300,7 +288,6 @@
             });
         }
 
-        // Light / Dark Theme Switcher Logic
         const themeToggle = document.getElementById('theme-toggle');
         if (themeToggle) {
             themeToggle.addEventListener('click', function() {
@@ -314,18 +301,17 @@
             });
         }
 
-        // Chatbot Toggle
         const chatToggle = document.getElementById('chat-toggle');
         const chatWindow = document.getElementById('chat-window');
         const chatClose = document.getElementById('chat-close');
 
-        if(chatToggle && chatWindow) {
+        if (chatToggle && chatWindow) {
             chatToggle.addEventListener('click', function() {
                 chatWindow.classList.toggle('hidden');
                 chatWindow.classList.toggle('flex');
             });
         }
-        if(chatClose && chatWindow) {
+        if (chatClose && chatWindow) {
             chatClose.addEventListener('click', function() {
                 chatWindow.classList.add('hidden');
                 chatWindow.classList.remove('flex');
@@ -349,7 +335,6 @@
         input.value = "";
         chatBox.scrollTop = chatBox.scrollHeight;
 
-        // Show typing indicator
         const typingId = 'typing-' + Date.now();
         chatBox.innerHTML += `
             <div class="flex justify-start" id="${typingId}">
@@ -373,7 +358,6 @@
             const typingEl = document.getElementById(typingId);
             if (typingEl) typingEl.remove();
 
-            // Convert \n to <br> for proper formatting
             const formattedReply = data.reply.replace(/\n/g, '<br>');
 
             chatBox.innerHTML += `
@@ -401,4 +385,5 @@
     }
     </script>
 </body>
+
 </html>
