@@ -274,22 +274,31 @@ class DatabaseSeeder extends Seeder
         );
 
         // Sample Customer Feedbacks & Ratings
-        CustomerFeedback::firstOrCreate(
-            ['user_id' => $customer1->id, 'comment' => 'Super clean and fragrant clothes! Scanned the QR code on my bag and tracked live cleaning status.'],
-            [
-                'order_id' => 1,
-                'rating' => 5,
-                'status' => 'published',
-            ]
-        );
+        $order1 = Order::where('order_number', 'HW884210')->first();
+        $order2 = Order::where('order_number', 'HW729104')->first();
 
-        CustomerFeedback::firstOrCreate(
-            ['user_id' => $customer2->id, 'comment' => 'Fast drying and excellent service. Staff was friendly and my blankets came out smelling fresh!'],
-            [
-                'order_id' => 2,
-                'rating' => 5,
-                'status' => 'published',
-            ]
-        );
+        if ($order1) {
+            CustomerFeedback::firstOrCreate(
+                ['order_id' => $order1->id],
+                [
+                    'user_id' => $customer1->id,
+                    'comment' => 'Super clean and fragrant clothes! Scanned the QR code on my bag and tracked live cleaning status.',
+                    'rating' => 5,
+                    'status' => 'published',
+                ]
+            );
+        }
+
+        if ($order2) {
+            CustomerFeedback::firstOrCreate(
+                ['order_id' => $order2->id],
+                [
+                    'user_id' => $customer2->id,
+                    'comment' => 'Fast drying and excellent service. Staff was friendly and my blankets came out smelling fresh!',
+                    'rating' => 5,
+                    'status' => 'published',
+                ]
+            );
+        }
     }
 }
