@@ -261,11 +261,26 @@ return new class extends Migration
         // 24. SMS PHONE NOTIFICATIONS LOG
         Schema::create('sms_notifications', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->nullable()->constrained('orders')->nullOnDelete();
-            $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
+
+            $table->foreignId('order_id')
+                ->nullable()
+                ->constrained('orders')
+                ->nullOnDelete();
+
+            $table->foreignId('user_id')
+                ->nullable()
+                ->constrained('users')
+                ->nullOnDelete();
+
             $table->string('phone', 30);
             $table->text('message');
-            $table->enum('status', ['sent', 'failed', 'queued'])->default('sent');
+
+            $table->enum('status', [
+                'sent',
+                'failed',
+                'queued'
+            ])->default('sent');
+
             $table->timestamps();
         });
     }
