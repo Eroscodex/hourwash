@@ -72,8 +72,8 @@
         <!-- Middle Section: Machine Status Grid & QR Code Inspector (12 cols) -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             
-            <!-- Machine Status Monitoring Grid (7 cols) -->
-            <div class="lg:col-span-7 app-card p-4 sm:p-6 space-y-6">
+            <!-- Machine Status Monitoring Grid (12 cols) -->
+            <div class="lg:col-span-12 app-card p-4 sm:p-6 space-y-6">
                 <div class="flex items-center justify-between">
                     <div>
                         <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Machine Fleet Status</h2>
@@ -83,7 +83,7 @@
                 </div>
 
                 <!-- Machines Grid -->
-                <div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-3">
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
                     @forelse($machines as $machine)
                         <div class="p-3.5 rounded-xl bg-black/5 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-2 hover:border-[#007AFF]/40 transition">
                             <div class="flex items-center justify-between">
@@ -130,53 +130,7 @@
                     <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Maintenance</span>
                 </div>
             </div>
-
-            <!-- QR Code Inspector Card (5 cols) -->
-            <div class="lg:col-span-5 app-card p-4 sm:p-6 space-y-6">
-                <div>
-                    <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">QR Verification Terminal</h2>
-                    <p class="text-xs text-slate-500 dark:text-slate-400">Instant order verification & laundry tracking</p>
-                </div>
-
-                <div class="grid grid-cols-1 sm:grid-cols-12 gap-4 items-center">
-                    <div class="sm:col-span-5 bg-white p-3 rounded-xl flex items-center justify-center border border-black/10 shadow-sm">
-                        <svg class="w-28 h-28 sm:w-32 sm:h-32" viewBox="0 0 100 100" fill="none">
-                            <rect width="100" height="100" fill="white"/>
-                            <path d="M10 10h30v30H10V10zm6 6v18h18V16H16z" fill="#0F172A"/>
-                            <path d="M22 22h6v6h-6v-6z" fill="#0F172A"/>
-                            <path d="M60 10h30v30H60V10zm6 6v18h18V16H66z" fill="#0F172A"/>
-                            <path d="M72 22h6v6h-6v-6z" fill="#0F172A"/>
-                            <path d="M10 60h30v30H10V60zm6 6v18h18V66H16z" fill="#0F172A"/>
-                            <path d="M22 72h6v6h-6v-6z" fill="#0F172A"/>
-                            <path d="M50 50h10v10H50V50zm20 0h10v10H70V50zm10 20h10v10H80V70zm-20 10h10v10H60V80zm10 0h10v10H70V80z" fill="#0F172A"/>
-                        </svg>
-                    </div>
-
-                    <div class="sm:col-span-7 space-y-2 text-xs">
-                        <div class="flex items-center justify-between">
-                            <span class="font-bold text-slate-900 dark:text-white">Order #HW-884210</span>
-                            <span class="px-2 py-0.5 rounded bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF] font-bold text-[10px]">WASHING</span>
-                        </div>
-                        <div class="space-y-1.5 text-slate-700 dark:text-slate-300">
-                            <p><span class="text-slate-500 dark:text-slate-400">Customer:</span> <strong class="text-slate-900 dark:text-white">Maria Santos</strong></p>
-                            <p><span class="text-slate-500 dark:text-slate-400">Service:</span> <strong class="text-slate-900 dark:text-white">Wash & Dry (6.5kg)</strong></p>
-                            <p><span class="text-slate-500 dark:text-slate-400">Received:</span> <strong class="text-slate-900 dark:text-white">Today 10:15 AM</strong></p>
-                            <p><span class="text-slate-500 dark:text-slate-400">Est. Finish:</span> <strong class="text-slate-900 dark:text-white">Today 11:45 AM</strong></p>
-                            <p><span class="text-slate-500 dark:text-slate-400">Status:</span> <strong class="text-[#007AFF] dark:text-[#0A84FF]">In Machine #2</strong></p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="pt-2 border-t border-black/5 dark:border-white/10">
-                    <div class="flex flex-wrap items-center justify-between gap-1 text-[10px] font-bold text-slate-500 dark:text-slate-400">
-                        <span class="text-emerald-600 dark:text-emerald-400">RECEIVED</span>
-                        <span class="text-[#007AFF] dark:text-[#0A84FF]">● WASHING</span>
-                        <span>○ RINSING</span>
-                        <span>○ DRYING</span>
-                        <span>○ READY</span>
-                    </div>
-                </div>
-            </div>
+        </div>
         </div>
 
         <!-- Recent Orders Table (12 cols) -->
