@@ -46,13 +46,13 @@
             </a>
 
             <!-- Desktop Navigation Links -->
-            <nav class="hidden xl:flex items-center gap-8 text-sm font-semibold text-slate-600 dark:text-slate-300">
+            <nav class="hidden xl:flex items-center gap-5 text-[13px] font-semibold text-slate-600 dark:text-slate-300 whitespace-nowrap">
                 <a href="#home" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Home</a>
-                <a href="#services" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Services & Pricing</a>
+                <a href="#services" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Services</a>
                 <a href="#how-it-works" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">How It Works</a>
                 <a href="#machines" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Machines</a>
-                <a href="#reviews-section" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Customer Reviews</a>
-                <a href="#track-section" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">QR Code Tracker</a>
+                <a href="#reviews-section" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Reviews</a>
+                <a href="#track-section" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Tracker</a>
                 <a href="{{ route('about') }}" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">About Us</a>
                 <a href="{{ route('developers') }}" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Developers</a>
             </nav>
