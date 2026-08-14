@@ -30,11 +30,9 @@
 
 <body class="bg-[#F5F5F7] text-slate-900 dark:bg-[#000000] dark:text-[#F5F5F7] font-sans antialiased selection:bg-[#007AFF] selection:text-white min-h-screen flex flex-col transition-colors duration-300">
 
-    <!-- Top Navigation Bar -->
     <header class="sticky top-0 z-50 bg-white/95 dark:bg-[#1C1C1E]/95 border-b border-black/10 dark:border-white/10 px-4 md:px-10 py-4 shadow-sm backdrop-blur-xl">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
 
-            <!-- Brand Logo -->
             <a href="{{ route('welcome') }}" class="flex items-center gap-3 group flex-shrink-0">
                 <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-11 h-11 rounded-full object-cover shadow-md group-hover:scale-105 transition-transform bg-white p-0.5 border border-black/10 dark:border-white/10">
                 <div>
@@ -45,19 +43,15 @@
                 </div>
             </a>
 
-            <!-- Desktop Navigation Links -->
-            <nav class="hidden xl:flex items-center gap-5 text-[13px] font-semibold text-slate-600 dark:text-slate-300 whitespace-nowrap">
+            <nav class="hidden xl:flex items-center gap-6 text-[13px] font-semibold text-slate-600 dark:text-slate-300 whitespace-nowrap">
                 <a href="#home" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Home</a>
                 <a href="#services" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Services</a>
                 <a href="#how-it-works" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">How It Works</a>
                 <a href="#machines" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Machines</a>
                 <a href="#reviews-section" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Reviews</a>
                 <a href="#track-section" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Tracker</a>
-                <a href="{{ route('about') }}" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">About Us</a>
-                <a href="{{ route('developers') }}" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Developers</a>
             </nav>
 
-            <!-- Action Buttons & Theme Switcher -->
             <div class="flex items-center gap-3 flex-shrink-0">
                 <button id="welcome-theme-toggle" class="p-2 px-3 rounded-xl bg-slate-100 dark:bg-white/10 text-slate-900 dark:text-white border border-black/10 dark:border-white/10 hover:scale-105 transition-all text-xs font-semibold flex items-center gap-1.5 shadow-sm" title="Toggle Light/Dark Theme">
                     <span class="dark:hidden flex items-center gap-1.5">
@@ -83,7 +77,6 @@
                     </a>
                 @endauth
 
-                <!-- Mobile Hamburger Button -->
                 <button id="welcome-mobile-toggle" class="xl:hidden p-2 rounded-xl text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-white/10 focus:outline-none" aria-label="Toggle Mobile Navigation">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
@@ -93,7 +86,6 @@
         </div>
     </header>
 
-    <!-- Mobile Navigation Drawer Overlay & Panel -->
     <div id="welcome-mobile-overlay" class="fixed inset-0 bg-black/60 dark:bg-black/80 z-50 hidden xl:hidden transition-opacity"></div>
 
     <div id="welcome-mobile-menu" class="fixed top-0 right-0 bottom-0 w-72 bg-white dark:bg-[#1C1C1E] border-l border-black/10 dark:border-white/10 z-50 transform translate-x-full xl:hidden transition-transform duration-300 flex flex-col justify-between p-6 shadow-2xl">
@@ -112,12 +104,10 @@
 
             <nav class="flex flex-col space-y-3 font-medium text-sm">
                 <a href="#home" class="mobile-nav-link text-[#007AFF] dark:text-[#0A84FF] font-bold py-2 border-b border-black/5 dark:border-white/5">Home</a>
-                <a href="#services" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2 border-b border-black/5 dark:border-white/5">Services & Pricing</a>
+                <a href="#services" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2 border-b border-black/5 dark:border-white/5">Services</a>
                 <a href="#how-it-works" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2 border-b border-black/5 dark:border-white/5">How It Works</a>
                 <a href="#machines" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2 border-b border-black/5 dark:border-white/5">Machine Monitor</a>
                 <a href="#track-section" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2 border-b border-black/5 dark:border-white/5">QR Order Tracker</a>
-                <a href="{{ route('about') }}" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2 border-b border-black/5 dark:border-white/5">About Us</a>
-                <a href="{{ route('developers') }}" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2">Developers</a>
             </nav>
 
             <div class="pt-4 space-y-2 border-t border-black/10 dark:border-white/10">
