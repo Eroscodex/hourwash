@@ -209,18 +209,20 @@
                 {{ $slot }}
             </main>
 
-            <footer class="border-t border-black/10 dark:border-white/10 py-4 px-6 text-center text-xs text-slate-600 dark:text-slate-400 flex flex-col sm:flex-row justify-between items-center gap-4 bg-white dark:bg-[#1C1C1E]">
-                <div>© {{ date('Y') }} Hour Wash Laundry Management System</div>
-                <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-slate-600 dark:text-slate-400">
-                    <a href="{{ route('about') }}" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition">About Us</a>
-                    <span class="text-slate-300 dark:text-slate-700">•</span>
-                    <a href="{{ route('developers') }}" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition">Developers</a>
-                    <span class="text-slate-300 dark:text-slate-700">•</span>
-                    <a href="{{ route('privacy') }}" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition">Privacy Policy</a>
-                    <span class="text-slate-300 dark:text-slate-700">•</span>
-                    <a href="{{ route('terms') }}" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition">Terms & Conditions</a>
-                    <span class="text-slate-300 dark:text-slate-700">•</span>
-                    <span class="font-semibold text-slate-800 dark:text-slate-300">Magallanes St., Orosite, Legazpi City</span>
+            <footer class="border-t border-black/10 dark:border-white/10 py-4 px-6 md:px-8 bg-white dark:bg-[#1C1C1E] w-full">
+                <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-600 dark:text-slate-400">
+                    <div>© {{ date('Y') }} Hour Wash Laundry Management System</div>
+                    <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+                        <a href="{{ route('about') }}" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition">About Us</a>
+                        <span class="text-slate-300 dark:text-slate-700">•</span>
+                        <a href="{{ route('developers') }}" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition">Developers</a>
+                        <span class="text-slate-300 dark:text-slate-700">•</span>
+                        <a href="{{ route('privacy') }}" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition">Privacy Policy</a>
+                        <span class="text-slate-300 dark:text-slate-700">•</span>
+                        <a href="{{ route('terms') }}" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition">Terms & Conditions</a>
+                        <span class="text-slate-300 dark:text-slate-700">•</span>
+                        <span class="font-semibold text-slate-800 dark:text-slate-300">Magallanes St., Orosite, Legazpi City</span>
+                    </div>
                 </div>
             </footer>
 
