@@ -33,25 +33,25 @@ class SmsNotificationService
 
         $smsStatus = 'sent';
 
-        // 1. Send Real Physical SMS via Semaphore API if SEMAPHORE_API_KEY is configured in .env
-        $apiKey = env('SEMAPHORE_API_KEY');
+        // 1. Send Real Physical SMS via PhilSMS API if PHILSMS_API_KEY is configured in .env
+        $apiKey = env('PHILSMS_API_KEY');
         if (! empty($apiKey)) {
             try {
-                $response = Http::timeout(2)->post('https://api.semaphore.co/api/v4/messages', [
+                $response = Http::timeout(2)->post('https://dashboard.philsms.com/api/v3/messages', [
                     'apikey' => $apiKey,
                     'number' => $phone,
                     'message' => $message,
-                    'sendername' => env('SEMAPHORE_SENDER_NAME', 'HourWash'),
+                    'sendername' => env('PHILSMS_SENDER_NAME', 'HourWash'),
                 ]);
 
                 if ($response->failed()) {
-                    Log::error("Semaphore SMS API failed for {$phone}: ".$response->body());
+                    Log::error("PhilSMS API failed for {$phone}: ".$response->body());
                     $smsStatus = 'failed';
                 } else {
-                    Log::info("Semaphore SMS sent to {$phone}: ".$response->body());
+                    Log::info("PhilSMS sent to {$phone}: ".$response->body());
                 }
             } catch (\Throwable $e) {
-                Log::error("Semaphore SMS Exception for {$phone}: ".$e->getMessage());
+                Log::error("PhilSMS Exception for {$phone}: ".$e->getMessage());
                 $smsStatus = 'failed';
             }
         }
