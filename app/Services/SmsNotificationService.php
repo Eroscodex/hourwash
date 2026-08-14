@@ -65,7 +65,7 @@ class SmsNotificationService
 
         /*
         |--------------------------------------------------------------------------
-        | Default SMS Status
+        | Default Status
         |--------------------------------------------------------------------------
         */
 
@@ -99,19 +99,19 @@ class SmsNotificationService
 
                 /*
                 |--------------------------------------------------------------------------
-                | Normalize Philippine Phone Number
+                | Normalize Philippine Mobile Number
                 |--------------------------------------------------------------------------
                 |
                 | Supported:
                 |
-                | 09171234567
-                | 639171234567
-                | +639171234567
-                | 9171234567
+                | 09175012581
+                | 9175012581
+                | 639175012581
+                | +639175012581
                 |
-                | Result:
+                | PhilSMS API format:
                 |
-                | +639171234567
+                | 639175012581
                 |
                 */
 
@@ -120,69 +120,86 @@ class SmsNotificationService
                 // Remove spaces, hyphens, parentheses, etc.
                 $recipient = preg_replace('/[^0-9+]/', '', $recipient);
 
+                /*
+                |--------------------------------------------------------------------------
+                | 09XXXXXXXXX
+                |--------------------------------------------------------------------------
+                */
+
                 if (str_starts_with($recipient, '09')) {
 
-                    // 09171234567
-                    // ↓
-                    // +639171234567
+                    $recipient = '63' . substr($recipient, 1);
 
-                    $recipient = '+63' . substr($recipient, 1);
+                /*
+                |--------------------------------------------------------------------------
+                | +639XXXXXXXXX
+                |--------------------------------------------------------------------------
+                */
 
-                } elseif (str_starts_with($recipient, '639')) {
+                } elseif (str_starts_with($recipient, '+639')) {
 
-                    // 639171234567
-                    // ↓
-                    // +639171234567
+                    $recipient = substr($recipient, 1);
 
-                    $recipient = '+' . $recipient;
+                /*
+                |--------------------------------------------------------------------------
+                | 639XXXXXXXXX
+                |--------------------------------------------------------------------------
+                */
 
                 } elseif (
-                    str_starts_with($recipient, '+639')
+                    str_starts_with($recipient, '639') &&
+                    strlen($recipient) === 12
                 ) {
 
-                    // Already +63 format
-                    // +639171234567
-
+                    // Already correct
                     $recipient = $recipient;
+
+                /*
+                |--------------------------------------------------------------------------
+                | 9XXXXXXXXX
+                |--------------------------------------------------------------------------
+                */
 
                 } elseif (
                     str_starts_with($recipient, '9') &&
                     strlen($recipient) === 10
                 ) {
 
-                    // 9171234567
-                    // ↓
-                    // +639171234567
-
-                    $recipient = '+63' . $recipient;
+                    $recipient = '63' . $recipient;
 
                 } else {
 
-                    Log::error('Invalid Philippine mobile number.', [
-                        'original_phone' => $phone,
-                        'normalized_phone' => $recipient,
-                        'order_id' => $order->id,
-                    ]);
+                    Log::error(
+                        'Invalid Philippine mobile number.',
+                        [
+                            'original_phone' => $phone,
+                            'normalized_phone' => $recipient,
+                            'order_id' => $order->id,
+                        ]
+                    );
 
                     $recipient = null;
                 }
 
                 /*
                 |--------------------------------------------------------------------------
-                | Validate Final Number
+                | Validate Number
                 |--------------------------------------------------------------------------
                 */
 
                 if (
                     !empty($recipient) &&
-                    preg_match('/^\+639[0-9]{9}$/', $recipient)
+                    preg_match('/^639[0-9]{9}$/', $recipient)
                 ) {
 
-                    Log::info('Sending SMS through PhilSMS.', [
-                        'recipient' => $recipient,
-                        'sender_id' => $senderId,
-                        'order_id' => $order->id,
-                    ]);
+                    Log::info(
+                        'Sending SMS through PhilSMS.',
+                        [
+                            'recipient' => $recipient,
+                            'sender_id' => $senderId,
+                            'order_id' => $order->id,
+                        ]
+                    );
 
                     /*
                     |--------------------------------------------------------------------------
@@ -191,13 +208,11 @@ class SmsNotificationService
                     */
 
                     $response = Http::timeout(20)
-                        ->withHeaders([
-                            'Authorization' => 'Bearer ' . $apiToken,
-                            'Accept' => 'application/json',
-                            'Content-Type' => 'application/json',
-                        ])
+                        ->withToken($apiToken)
+                        ->acceptJson()
+                        ->asJson()
                         ->post(
-                            'https://app.philsms.com/api/v3/sms/send',
+                            'https://dashboard.philsms.com/api/v3/sms/send',
                             [
                                 'recipient' => $recipient,
                                 'sender_id' => $senderId,
@@ -208,22 +223,26 @@ class SmsNotificationService
 
                     /*
                     |--------------------------------------------------------------------------
-                    | API Response Logging
+                    | Get Response
                     |--------------------------------------------------------------------------
                     */
 
                     $data = $response->json();
 
-                    Log::info('PhilSMS API response.', [
-                        'http_status' => $response->status(),
-                        'response' => $data,
-                        'body' => $response->body(),
-                        'recipient' => $recipient,
-                    ]);
+                    Log::info(
+                        'PhilSMS API response.',
+                        [
+                            'http_status' => $response->status(),
+                            'response' => $data,
+                            'body' => $response->body(),
+                            'recipient' => $recipient,
+                            'order_id' => $order->id,
+                        ]
+                    );
 
                     /*
                     |--------------------------------------------------------------------------
-                    | Check API Result
+                    | Successful SMS
                     |--------------------------------------------------------------------------
                     */
 
@@ -239,12 +258,17 @@ class SmsNotificationService
                             [
                                 'recipient' => $recipient,
                                 'order_id' => $order->id,
-                                'message_id' =>
-                                    $data['data']['uid'] ?? null,
+                                'message_id' => $data['data']['uid'] ?? null,
                             ]
                         );
 
                     } else {
+
+                        /*
+                        |--------------------------------------------------------------------------
+                        | Failed SMS
+                        |--------------------------------------------------------------------------
+                        */
 
                         $smsStatus = 'failed';
 
@@ -252,6 +276,7 @@ class SmsNotificationService
                             'PhilSMS SMS failed.',
                             [
                                 'recipient' => $recipient,
+                                'sender_id' => $senderId,
                                 'http_status' => $response->status(),
                                 'message' =>
                                     $data['message'] ??
@@ -280,19 +305,22 @@ class SmsNotificationService
 
                 $smsStatus = 'failed';
 
-                Log::error('PhilSMS exception.', [
-                    'phone' => $phone,
-                    'order_id' => $order->id,
-                    'error' => $e->getMessage(),
-                    'file' => $e->getFile(),
-                    'line' => $e->getLine(),
-                ]);
+                Log::error(
+                    'PhilSMS exception.',
+                    [
+                        'phone' => $phone,
+                        'order_id' => $order->id,
+                        'error' => $e->getMessage(),
+                        'file' => $e->getFile(),
+                        'line' => $e->getLine(),
+                    ]
+                );
             }
         }
 
         /*
         |--------------------------------------------------------------------------
-        | Save SMS Notification / Outbox
+        | Save SMS Notification
         |--------------------------------------------------------------------------
         */
 
