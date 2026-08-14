@@ -332,16 +332,18 @@
 
         <!-- Machine Status Section -->
         <section id="machines" class="space-y-6">
-            <div class="flex items-center justify-between">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                     <h2 class="text-2xl font-bold text-slate-900 dark:text-white font-['Outfit']">Live Machine Monitor</h2>
                     <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">Real-time availability of washers and dryers at Hour Wash main store.</p>
                 </div>
-                <div class="flex items-center gap-2 text-xs text-[#007AFF] dark:text-[#0A84FF] font-semibold">
-                    <span class="w-2 h-2 rounded-full bg-[#007AFF] dark:bg-[#0A84FF] animate-pulse"></span>
+                <div class="flex items-center gap-2 text-xs text-[#007AFF] dark:text-[#0A84FF] font-bold flex-shrink-0 whitespace-nowrap bg-[#007AFF]/10 dark:bg-[#0A84FF]/10 px-3 py-1.5 rounded-full w-fit">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#007AFF] dark:bg-[#0A84FF] animate-pulse"></span>
                     Live Status Updates
                 </div>
-                  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 @forelse($machines as $machine)
                     <div class="app-card p-4 space-y-3 hover:border-[#007AFF]/40 transition">
                         <div class="flex items-center justify-between">
@@ -360,8 +362,13 @@
                         </div>
                         <div class="text-[11px] text-slate-500 dark:text-slate-400 pt-1 border-t border-black/10 dark:border-white/10">
                             @if(in_array($machine->status, ['washing', 'rinsing', 'drying']))
-                                <div class="flex items-center justify-between font-semibold text-slate-800 dark:text-slate-200">
-                                    <span>⏱ {{ $machine->remaining_minutes ?? 30 }} mins remaining</span>
+                                <div class="flex flex-col gap-0.5 text-slate-850 dark:text-slate-250 text-[11px] font-semibold">
+                                    <div class="flex items-center gap-1">
+                                        <span>⏱ {{ $machine->remaining_minutes ?? 30 }} mins remaining</span>
+                                    </div>
+                                    <div class="text-[10px] text-[#007AFF] dark:text-[#0A84FF] font-bold">
+                                        Est. Finish: {{ now()->addMinutes($machine->remaining_minutes ?? 30)->format('h:i A') }}
+                                    </div>
                                 </div>
                             @elseif($machine->status === 'maintenance')
                                 <div class="text-amber-600 dark:text-amber-400 font-semibold flex items-center gap-1">
