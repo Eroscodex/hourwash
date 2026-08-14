@@ -98,7 +98,7 @@
                                     </span>
                                 </td>
                                 <td class="px-4 py-3 text-center">
-                                    <a href="{{ route('admin.laundry.index') }}" class="btn-ios-secondary py-1 px-3 text-[11px]">Advance Stage</a>
+                                    <a href="{{ route('admin.laundry.index') }}" class="btn-ios-secondary py-1 px-3 text-[11px]">Manage</a>
                                 </td>
                             </tr>
                         @empty
