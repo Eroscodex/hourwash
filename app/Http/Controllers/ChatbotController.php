@@ -118,8 +118,8 @@ class ChatbotController extends Controller
         // --- Recent Orders Summary (today) ---
         $todayOrders = Order::whereDate('created_at', today())->count();
         $pendingOrders = Order::where('order_status', 'pending')->count();
-        $processingOrders = Order::whereIn('order_status', ['washing', 'rinsing', 'drying'])->count();
-        $readyOrders = Order::where('order_status', 'ready_for_pickup')->count();
+        $processingOrders = Order::whereIn('order_status', ['received', 'washing', 'rinsing', 'drying'])->count();
+        $readyOrders = Order::where('order_status', 'done')->count();
         $completedToday = Order::where('order_status', 'completed')->whereDate('updated_at', today())->count();
 
         // --- Active Promotions ---
@@ -171,7 +171,7 @@ TODAY'S ORDER STATS:
 - Orders placed today: {$todayOrders}
 - Currently pending: {$pendingOrders}
 - In processing (washing/rinsing/drying): {$processingOrders}
-- Ready for pickup: {$readyOrders}
+- Done & ready: {$readyOrders}
 - Completed today: {$completedToday}
 
 ACTIVE PROMOTIONS:

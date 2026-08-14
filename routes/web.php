@@ -253,9 +253,25 @@ Route::middleware('auth')->group(function () {
     // Customer Feedback Submission Route
     Route::post('/feedback', function (Request $request) {
         $request->validate([
+            'order_id' => 'required|exists:orders,id',
             'rating' => 'required|integer|min:1|max:5',
             'comment' => 'required|string|max:1000',
         ]);
+
+        $order = Order::findOrFail($request->order_id);
+
+        if ($order->customer_id !== auth()->id()) {
+            return back()->with('error', 'Unauthorized order feedback attempt.');
+        }
+
+        if ($order->order_status !== 'completed') {
+            return back()->with('error', 'Feedback can only be submitted for completed orders.');
+        }
+
+        $existing = CustomerFeedback::where('order_id', $order->id)->first();
+        if ($existing) {
+            return back()->with('error', 'You have already submitted feedback for this order.');
+        }
 
         CustomerFeedback::create([
             'user_id' => auth()->id(),
@@ -273,6 +289,16 @@ Route::middleware('auth')->group(function () {
 
         return back()->with('success', 'Thank you! Your feedback & star rating have been published. +10 Bonus Loyalty Points earned! ⭐');
     })->name('feedback.store');
+
+    Route::delete('/feedback/{feedback}', function (CustomerFeedback $feedback) {
+        $user = auth()->user();
+        if ($user->isAdmin() || $user->isOwner() || $feedback->user_id === $user->id) {
+            $feedback->delete();
+
+            return back()->with('success', 'Feedback successfully removed.');
+        }
+        abort(403);
+    })->name('feedback.destroy');
 
     // Loyalty Points Redemption Route
     Route::post('/loyalty/redeem', function (Request $request) {

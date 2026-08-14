@@ -84,7 +84,8 @@
                                 <td class="px-4 py-3">
                                     <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider
                                         @if($order->order_status === 'completed') bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30
-                                        @elseif($order->order_status === 'ready') bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30
+                                        @elseif($order->order_status === 'done') bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30
+                                        @elseif($order->order_status === 'cancelled') bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30
                                         @else bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30 @endif">
                                         {{ str_replace('_', ' ', $order->order_status) }}
                                     </span>

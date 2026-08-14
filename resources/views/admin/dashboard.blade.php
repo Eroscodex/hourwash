@@ -264,7 +264,16 @@
                                 @endfor
                             </div>
                         </div>
-                        <p class="text-xs text-slate-600 dark:text-slate-300 italic">"{{ $fb->comment }}"</p>
+                        <div class="flex items-center justify-between gap-4 pt-1">
+                            <p class="text-xs text-slate-600 dark:text-slate-300 italic">"{{ $fb->comment }}"</p>
+                            <form method="POST" action="{{ route('feedback.destroy', $fb->id) }}" onsubmit="return confirm('Delete this customer feedback?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-rose-500 hover:text-rose-700 text-[10px] font-extrabold uppercase hover:underline transition">
+                                    Delete
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 @empty
                     <div class="col-span-full text-center py-6 text-xs text-slate-500">No customer reviews submitted yet.</div>

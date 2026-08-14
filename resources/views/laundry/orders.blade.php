@@ -50,6 +50,67 @@
                     </div>
                 </div>
             </div>
+
+            @if($order->order_status === 'completed')
+                <div class="mt-4 pt-4 border-t border-black/5 dark:border-white/5 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <h4 class="text-xs font-bold text-slate-800 dark:text-slate-200">Customer Feedback & Rating</h4>
+                        @if($order->feedback)
+                            <span class="text-[10px] bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider">Submitted</span>
+                        @else
+                            <span class="text-[10px] bg-amber-500/10 text-amber-600 dark:text-amber-400 font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider">Feedback Pending</span>
+                        @endif
+                    </div>
+
+                    @if($order->feedback)
+                        <!-- Display Feedback & Delete Option -->
+                        <div class="p-3.5 rounded-xl bg-black/5 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                            <div class="space-y-1">
+                                <div class="flex items-center text-amber-400 gap-0.5">
+                                    @for($i = 0; $i < $order->feedback->rating; $i++)
+                                        <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    @endfor
+                                </div>
+                                <p class="text-xs text-slate-600 dark:text-slate-300 italic">"{{ $order->feedback->comment }}"</p>
+                            </div>
+                            <form method="POST" action="{{ route('feedback.destroy', $order->feedback->id) }}" onsubmit="return confirm('Delete this feedback?')">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="text-rose-500 hover:text-rose-700 text-xs font-bold px-3 py-1.5 rounded-lg hover:bg-rose-500/10 transition">
+                                    Delete Feedback
+                                </button>
+                            </form>
+                        </div>
+                    @else
+                        <!-- Leave Feedback Form -->
+                        <form method="POST" action="{{ route('feedback.store') }}" class="space-y-3">
+                            @csrf
+                            <input type="hidden" name="order_id" value="{{ $order->id }}">
+                            <div class="flex flex-col sm:flex-row gap-3">
+                                <div class="w-full sm:w-1/4">
+                                    <label class="text-[10px] text-slate-500 block mb-1 uppercase font-bold">Rating</label>
+                                    <select name="rating" class="w-full py-1.5 px-3 rounded-xl bg-white dark:bg-[#1C1C1E] border border-black/10 dark:border-white/10 text-slate-900 dark:text-white" required>
+                                        <option value="5">⭐⭐⭐⭐⭐ (5/5)</option>
+                                        <option value="4">⭐⭐⭐⭐ (4/5)</option>
+                                        <option value="3">⭐⭐⭐ (3/5)</option>
+                                        <option value="2">⭐⭐ (2/5)</option>
+                                        <option value="1">⭐ (1/5)</option>
+                                    </select>
+                                </div>
+                                <div class="flex-1">
+                                    <label class="text-[10px] text-slate-500 block mb-1 uppercase font-bold">Comment / Review</label>
+                                    <div class="flex gap-2">
+                                        <input type="text" name="comment" placeholder="How was your laundry experience?" class="flex-1 bg-white dark:bg-[#1C1C1E] border border-black/10 dark:border-white/10 rounded-xl px-3.5 py-1.5 text-xs focus:outline-none focus:border-[#007AFF] text-slate-900 dark:text-white" required>
+                                        <button type="submit" class="btn-ios-primary py-1.5 px-4 text-xs font-bold">
+                                            Submit Review
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    @endif
+                </div>
+            @endif
         </div>
     @empty
         <div class="app-card p-8 text-center text-slate-500 text-xs">

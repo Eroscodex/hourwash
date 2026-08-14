@@ -358,11 +358,6 @@
                             @if(in_array($machine->status, ['washing', 'rinsing', 'drying']))
                                 <div class="flex items-center justify-between font-semibold text-slate-800 dark:text-slate-200">
                                     <span>⏱ {{ $machine->remaining_minutes ?? 30 }} mins remaining</span>
-                                    @if($machine->currentOrder)
-                                        <a href="{{ route('laundry.track', $machine->currentOrder->order_number) }}" class="text-[#007AFF] dark:text-[#0A84FF] font-mono text-[10px] font-bold hover:underline" title="View Order Status">
-                                            #{{ $machine->currentOrder->order_number }}
-                                        </a>
-                                    @endif
                                 </div>
                             @elseif($machine->status === 'maintenance')
                                 <div class="text-amber-600 dark:text-amber-400 font-semibold flex items-center gap-1">

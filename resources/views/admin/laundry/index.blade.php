@@ -109,11 +109,13 @@
                             
                             <select name="status" class="py-1 px-2.5 text-xs rounded-xl">
                                 <option value="pending" {{ $order->order_status === 'pending' ? 'selected' : '' }}>Pending</option>
+                                <option value="out_for_pickup" {{ $order->order_status === 'out_for_pickup' ? 'selected' : '' }}>Out for Pickup</option>
                                 <option value="received" {{ $order->order_status === 'received' ? 'selected' : '' }}>Received</option>
                                 <option value="washing" {{ $order->order_status === 'washing' ? 'selected' : '' }}>Washing</option>
                                 <option value="rinsing" {{ $order->order_status === 'rinsing' ? 'selected' : '' }}>Rinsing</option>
                                 <option value="drying" {{ $order->order_status === 'drying' ? 'selected' : '' }}>Drying</option>
-                                <option value="ready" {{ $order->order_status === 'ready' ? 'selected' : '' }}>Ready for Pickup</option>
+                                <option value="done" {{ $order->order_status === 'done' ? 'selected' : '' }}>Done</option>
+                                <option value="out_for_delivery" {{ $order->order_status === 'out_for_delivery' ? 'selected' : '' }}>Out for Delivery</option>
                                 <option value="completed" {{ $order->order_status === 'completed' ? 'selected' : '' }}>Completed</option>
                                 <option value="cancelled" {{ $order->order_status === 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                             </select>

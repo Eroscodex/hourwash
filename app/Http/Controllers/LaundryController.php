@@ -95,7 +95,7 @@ class LaundryController extends Controller
 
     public function myOrders()
     {
-        $orders = Order::with(['service', 'qrCode'])
+        $orders = Order::with(['service', 'qrCode', 'feedback'])
             ->where('customer_id', auth()->id())
             ->latest()
             ->get();
