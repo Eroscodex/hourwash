@@ -460,7 +460,7 @@
             </div>
 
             <form onsubmit="event.preventDefault(); trackPublicOrder();" class="max-w-md mx-auto flex flex-col sm:flex-row gap-3">
-                <input id="public-qr-input" type="text" placeholder="Enter QR Token e.g. cf3e0ce1... or HW884210..." class="flex-1" required>
+                <input id="public-qr-input" type="text" placeholder="Enter QR code HW884210..." class="flex-1" required>
                 <button type="submit" class="btn-ios-primary text-center">
                     Check Status
                 </button>
