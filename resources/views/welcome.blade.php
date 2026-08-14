@@ -341,100 +341,46 @@
                     <span class="w-2 h-2 rounded-full bg-[#007AFF] dark:bg-[#0A84FF] animate-pulse"></span>
                     Live Status Updates
                 </div>
-                  <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-                <!-- Left: Live Machine Monitor (9 columns) -->
-                <div class="lg:col-span-8 space-y-4">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                        @forelse($machines as $machine)
-                            <div class="app-card p-4 space-y-3 hover:border-[#007AFF]/40 transition">
-                                <div class="flex items-center justify-between">
-                                    <span class="text-xs font-bold text-slate-900 dark:text-white">{{ $machine->machine_name }}</span>
-                                    <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">{{ $machine->machine_code }}</span>
-                                </div>
-                                <div class="flex items-center justify-between">
-                                    <span class="text-xs text-slate-600 dark:text-slate-300 capitalize">{{ str_replace('_', ' ', $machine->machine_type) }}</span>
-                                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider
-                                        @if($machine->status === 'idle') bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30
-                                        @elseif(in_array($machine->status, ['washing', 'rinsing', 'drying'])) bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF] border border-[#007AFF]/30
-                                        @elseif($machine->status === 'maintenance') bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30
-                                        @else bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 @endif">
-                                        {{ ucfirst($machine->status) }}
-                                    </span>
-                                </div>
-                                <div class="text-[11px] text-slate-500 dark:text-slate-400 pt-1 border-t border-black/10 dark:border-white/10">
-                                    @if(in_array($machine->status, ['washing', 'rinsing', 'drying']))
-                                        <div class="flex items-center justify-between font-semibold text-slate-800 dark:text-slate-200">
-                                            <span>⏱ {{ $machine->remaining_minutes ?? 30 }} mins remaining</span>
-                                        </div>
-                                    @elseif($machine->status === 'maintenance')
-                                        <div class="text-amber-600 dark:text-amber-400 font-semibold flex items-center gap-1">
-                                            ⚠ Under Maintenance
-                                        </div>
-                                    @elseif($machine->status === 'offline')
-                                        <div class="text-rose-600 dark:text-rose-400 font-semibold flex items-center gap-1">
-                                            🚫 Out of Service
-                                        </div>
-                                    @else
-                                        <div class="text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
-                                            ✓ Ready for next load
-                                        </div>
-                                    @endif
-                                </div>
-                            </div>
-                        @empty
-                            <div class="col-span-full text-center py-6 text-xs text-slate-500">Machine status loading...</div>
-                        @endforelse
-                    </div>
-                </div>
-
-                <!-- Right: Store Notifications & Live Updates (4 columns) -->
-                <div class="lg:col-span-4 app-card p-5 space-y-4 flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-3">
-                            <h3 class="text-xs font-extrabold text-slate-900 dark:text-white uppercase tracking-wider">Store Notifications</h3>
-                            <span class="flex h-2 w-2 relative">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
+                  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                @forelse($machines as $machine)
+                    <div class="app-card p-4 space-y-3 hover:border-[#007AFF]/40 transition">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-slate-900 dark:text-white">{{ $machine->machine_name }}</span>
+                            <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">{{ $machine->machine_code }}</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs text-slate-600 dark:text-slate-300 capitalize">{{ str_replace('_', ' ', $machine->machine_type) }}</span>
+                            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider
+                                @if($machine->status === 'idle') bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30
+                                @elseif(in_array($machine->status, ['washing', 'rinsing', 'drying'])) bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF] border border-[#007AFF]/30
+                                @elseif($machine->status === 'maintenance') bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30
+                                @else bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 @endif">
+                                {{ ucfirst($machine->status) }}
                             </span>
                         </div>
-                        <p class="text-[9px] text-[#007AFF] dark:text-[#0A84FF] mt-2 uppercase font-extrabold tracking-wider">Live Updates</p>
-
-                        <!-- Notification Feed -->
-                        <div class="space-y-4 mt-3">
-                            <!-- Update 1 -->
-                            <div class="flex gap-3 text-xs">
-                                <div class="w-6 h-6 rounded-lg bg-[#007AFF]/10 text-[#007AFF] dark:text-[#0A84FF] flex items-center justify-center flex-shrink-0">
-                                    📦
+                        <div class="text-[11px] text-slate-500 dark:text-slate-400 pt-1 border-t border-black/10 dark:border-white/10">
+                            @if(in_array($machine->status, ['washing', 'rinsing', 'drying']))
+                                <div class="flex items-center justify-between font-semibold text-slate-800 dark:text-slate-200">
+                                    <span>⏱ {{ $machine->remaining_minutes ?? 30 }} mins remaining</span>
                                 </div>
-                                <div class="space-y-0.5 flex-1">
-                                    <div class="flex items-center justify-between gap-2">
-                                        <h4 class="font-bold text-slate-900 dark:text-white text-[11px]">Order Loaded</h4>
-                                        <span class="text-[9px] text-slate-400 font-medium">10 mins ago</span>
-                                    </div>
-                                    <p class="text-[11px] text-slate-600 dark:text-slate-400 leading-normal">Your clothes have been placed in Washer #2 cycle.</p>
+                            @elseif($machine->status === 'maintenance')
+                                <div class="text-amber-600 dark:text-amber-400 font-semibold flex items-center gap-1">
+                                    ⚠ Under Maintenance
                                 </div>
-                            </div>
-
-                            <!-- Update 2 -->
-                            <div class="flex gap-3 text-xs">
-                                <div class="w-6 h-6 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center flex-shrink-0">
-                                    ✅
+                            @elseif($machine->status === 'offline')
+                                <div class="text-rose-600 dark:text-rose-400 font-semibold flex items-center gap-1">
+                                    🚫 Out of Service
                                 </div>
-                                <div class="space-y-0.5 flex-1">
-                                    <div class="flex items-center justify-between gap-2">
-                                        <h4 class="font-bold text-slate-900 dark:text-white text-[11px]">QR Tag Verified</h4>
-                                        <span class="text-[9px] text-slate-400 font-medium">25 mins ago</span>
-                                    </div>
-                                    <p class="text-[11px] text-slate-600 dark:text-slate-400 leading-normal">Staff verified your drop-off item count.</p>
+                            @else
+                                <div class="text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
+                                    ✓ Ready for next load
                                 </div>
-                            </div>
+                            @endif
                         </div>
                     </div>
-
-                    <div class="pt-3 border-t border-black/10 dark:border-white/10 text-center">
-                        <span class="text-[10px] text-slate-400 dark:text-slate-500 font-medium">System updates broadcast in real-time</span>
-                    </div>
-                </div>
+                @empty
+                    <div class="col-span-full text-center py-6 text-xs text-slate-500">Machine status loading...</div>
+                @endforelse
             </div>
         </section>
 
