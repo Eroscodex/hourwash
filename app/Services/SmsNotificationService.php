@@ -10,89 +10,136 @@ use Illuminate\Support\Facades\Log;
 
 class SmsNotificationService
 {
-    public static function sendOrderStatusSms(Order $order, string $customNote = ''): ?SmsNotification
-    {
+    public static function sendOrderStatusSms(
+        Order $order,
+        string $customNote = ''
+    ): ?SmsNotification {
+
         $phone = $order->customer?->phone;
 
         if (empty($phone)) {
+            Log::warning('SMS not sent: customer has no phone number', [
+                'order_id' => $order->id,
+            ]);
+
             return null;
         }
 
-        $statusStr = strtoupper(str_replace('_', ' ', $order->order_status));
+        $statusStr = strtoupper(
+            str_replace('_', ' ', $order->order_status)
+        );
+
         $custName = $order->customer?->name ?? 'Customer';
         $code = $order->order_number;
-        $compTime = $order->estimated_completion ? Carbon::parse($order->estimated_completion)->format('M d, Y h:i A') : 'TBD';
+
+        $compTime = $order->estimated_completion
+            ? Carbon::parse($order->estimated_completion)
+                ->format('M d, Y h:i A')
+            : 'TBD';
 
         $message = "HourWash Alert: Hi {$custName}, your laundry Order #{$code} status is now {$statusStr}. Est Completion: {$compTime}.";
 
-        if (! empty($customNote)) {
+        if (!empty($customNote)) {
             $message .= " {$customNote}";
         }
 
-        $message .= ' Track live: '.url("/laundry/track/{$code}");
+        $message .= ' Track live: ' . url("/laundry/track/{$code}");
 
-        $smsStatus = 'sent';
+        $smsStatus = 'failed';
 
-        // 1. Send Real Physical SMS via PhilSMS API if PHILSMS_API_KEY is configured in .env
-        // Send SMS via PhilSMS API
+        // Get PhilSMS API token
         $apiToken = config('services.philsms.api_token');
 
-        if (!empty($apiToken)) {
+        if (empty($apiToken)) {
+            Log::error('PhilSMS API token is missing.');
+
+        } else {
+
             try {
-            // Convert Philippine number to international format
-            $recipient = preg_replace('/\D+/', '', $phone);
 
-            if (str_starts_with($recipient, '09')) {
-                $recipient = '63' . substr($recipient, 1);
-            } elseif (str_starts_with($recipient, '+63')) {
-                $recipient = substr($recipient, 1);
-            }
+                // Normalize Philippine phone number
+                $recipient = preg_replace('/\D+/', '', $phone);
 
-            $response = Http::timeout(10)
-                ->withToken($apiToken)
-                ->acceptJson()
-                ->post('https://app.philsms.com/api/v3/sms/send', [
-                    'recipient' => $recipient,
-                    'sender_id' => config('services.philsms.sender_id', 'HourWash'),
-                    'type' => 'plain',
-                    'message' => $message,
-                ]);
+                // 09171234567 -> 639171234567
+                if (str_starts_with($recipient, '09')) {
+                    $recipient = '63' . substr($recipient, 1);
+                }
 
-            if ($response->successful()) {
-                Log::info('PhilSMS sent successfully', [
-                    'phone' => $recipient,
-                    'response' => $response->json(),
-                ]);
+                // 9171234567 -> 639171234567
+                elseif (
+                    str_starts_with($recipient, '9')
+                    && strlen($recipient) === 10
+                ) {
+                    $recipient = '63' . $recipient;
+                }
 
-                $smsStatus = 'sent';
-            } else {
-                Log::error('PhilSMS API failed', [
-                    'phone' => $recipient,
-                    'status' => $response->status(),
-                    'response' => $response->body(),
+                $response = Http::timeout(10)
+                    ->withToken($apiToken)
+                    ->acceptJson()
+                    ->post(
+                        'https://app.philsms.com/api/v3/sms/send',
+                        [
+                            'recipient' => $recipient,
+                            'sender_id' => config(
+                                'services.philsms.sender_id',
+                                'HourWash'
+                            ),
+                            'type' => 'plain',
+                            'message' => $message,
+                        ]
+                    );
+
+                if ($response->successful()) {
+
+                    Log::info('PhilSMS sent successfully', [
+                        'phone' => $recipient,
+                        'response' => $response->json(),
+                    ]);
+
+                    $smsStatus = 'sent';
+
+                } else {
+
+                    Log::error('PhilSMS API failed', [
+                        'phone' => $recipient,
+                        'http_status' => $response->status(),
+                        'response' => $response->body(),
+                    ]);
+
+                    $smsStatus = 'failed';
+                }
+
+            } catch (\Throwable $e) {
+
+                Log::error('PhilSMS exception', [
+                    'phone' => $phone,
+                    'error' => $e->getMessage(),
                 ]);
 
                 $smsStatus = 'failed';
             }
+        }
+
+        // Save SMS notification
+        try {
+
+            return SmsNotification::create([
+                'order_id' => $order->id,
+                'user_id' => $order->customer_id,
+                'phone' => $phone,
+                'message' => $message,
+                'status' => $smsStatus,
+            ]);
 
         } catch (\Throwable $e) {
-            Log::error('PhilSMS exception', [
+
+            Log::error('SMS Notification database error', [
+                'order_id' => $order->id,
                 'phone' => $phone,
                 'error' => $e->getMessage(),
             ]);
 
-            $smsStatus = 'failed';
+            return null;
         }
-    }
-
-        // 2. Save SMS Notification to Database
-        $smsNotification = SmsNotification::create([
-            'order_id' => $order->id,
-            'recipient_phone' => $phone,
-            'message' => $message,
-            'status' => $smsStatus,
-        ]);
-
-        return $smsNotification;
     }
 }
