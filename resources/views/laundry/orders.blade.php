@@ -18,7 +18,7 @@
                         LAUNDRY BAG ORDER
                     </span>
                     <h2 class="text-lg font-bold font-mono text-slate-900 dark:text-white mt-0.5">Order Code: #{{ $order->order_number }}</h2>
-                    <p class="text-xs text-slate-600 dark:text-slate-400">{{ $order->service->name ?? 'Wash & Dry' }}</p>
+                    <p class="text-xs text-slate-600 dark:text-slate-400">{{ $order->service->name ?? 'Wash & Dry' }} (₱{{ number_format($order->service->price ?? 0, 2) }}/{{ $order->service->price_unit ?? 'kg' }})</p>
                 </div>
                 <div class="text-left sm:text-right">
                     <span class="text-emerald-600 dark:text-emerald-400 font-extrabold text-xl font-['Outfit']">₱{{ number_format($order->total_amount, 2) }}</span>

@@ -84,7 +84,7 @@
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
                         <div>
                             <span class="text-slate-500 dark:text-slate-400 text-[11px] block">Service Package</span>
-                            <span class="font-bold text-slate-900 dark:text-slate-100">{{ $order->service->name ?? 'Standard Wash' }}</span>
+                            <span class="font-bold text-slate-900 dark:text-slate-100">{{ $order->service->name ?? 'Standard Wash' }} (₱{{ number_format($order->service->price ?? 0, 2) }}/{{ $order->service->price_unit ?? 'kg' }})</span>
                         </div>
                         <div>
                             <span class="text-slate-500 dark:text-slate-400 text-[11px] block">Weight</span>
@@ -101,6 +101,13 @@
                             <span class="font-bold uppercase text-[#007AFF] dark:text-[#0A84FF]">{{ str_replace('_', ' ', $order->order_status) }}</span>
                         </div>
                     </div>
+
+                    @if(!empty($order->notes))
+                        <div class="p-3 bg-slate-50 dark:bg-black/20 rounded-xl border border-black/5 dark:border-white/5 text-xs">
+                            <span class="text-slate-500 dark:text-slate-400 text-[10px] uppercase font-bold block mb-1">Customer Remarks / Special Instructions</span>
+                            <p class="text-slate-800 dark:text-slate-200 font-medium italic">📝 "{{ $order->notes }}"</p>
+                        </div>
+                    @endif
 
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-black/5 dark:border-white/5">
                         <form method="POST" action="{{ route('admin.laundry.update', $order->id) }}" class="flex flex-wrap items-center gap-2">

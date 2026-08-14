@@ -29,7 +29,13 @@ class LaundryController extends Controller
         ]);
 
         $service = Service::findOrFail($request->service_id);
-        $subtotal = $service->price * $request->weight_kg;
+
+        // Calculate subtotal: multiply by weight only if price_unit is 'kg'
+        if ($service->price_unit === 'kg') {
+            $subtotal = $service->price * $request->weight_kg;
+        } else {
+            $subtotal = $service->price;
+        }
 
         // Prevent duplicate order submission within 60 seconds
         $existingDuplicate = Order::where('customer_id', auth()->id())

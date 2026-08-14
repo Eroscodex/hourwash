@@ -125,7 +125,7 @@
             </div>
             <div>
                 <span class="text-slate-500 dark:text-slate-400 text-[11px] block">Service Package</span>
-                <p class="text-slate-900 dark:text-white font-bold text-sm">{{ $order->service->name ?? 'Standard Wash' }}</p>
+                <p class="text-slate-900 dark:text-white font-bold text-sm">{{ $order->service->name ?? 'Standard Wash' }} (₱{{ number_format($order->service->price ?? 0, 2) }}/{{ $order->service->price_unit ?? 'kg' }})</p>
             </div>
             <div>
                 <span class="text-slate-500 dark:text-slate-400 text-[11px] block">Weight (kg)</span>

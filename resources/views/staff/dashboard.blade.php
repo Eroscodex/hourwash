@@ -78,7 +78,14 @@
                         @forelse($orders as $order)
                             <tr class="hover:bg-black/5 dark:hover:bg-white/5 transition">
                                 <td class="px-4 py-3 font-mono font-bold text-[#007AFF] dark:text-[#0A84FF]">#{{ $order->order_number }}</td>
-                                <td class="px-4 py-3 font-medium">{{ $order->customer->name ?? 'Walk-in' }}</td>
+                                <td class="px-4 py-3">
+                                    <div class="font-medium">{{ $order->customer->name ?? 'Walk-in' }}</div>
+                                    @if(!empty($order->notes))
+                                        <div class="text-[10px] text-slate-500 dark:text-slate-400 italic max-w-xs truncate" title="{{ $order->notes }}">
+                                            📝 {{ $order->notes }}
+                                        </div>
+                                    @endif
+                                </td>
                                 <td class="px-4 py-3 text-slate-600 dark:text-slate-300">{{ $order->service->name ?? 'Standard Wash' }}</td>
                                 <td class="px-4 py-3 text-slate-600 dark:text-slate-300">{{ $order->weight_kg }} kg</td>
                                 <td class="px-4 py-3">
