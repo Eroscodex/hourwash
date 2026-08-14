@@ -203,7 +203,7 @@
                             <span class="w-2.5 h-2.5 rounded-full bg-[#007AFF] dark:bg-[#0A84FF] animate-pulse"></span>
                         </div>
                         <div class="space-y-3">
-                            <div class="text-2xl font-bold font-['Outfit'] text-slate-900 dark:text-white">HOUR WASH MAIN STORE</div>
+                            <div class="text-2xl font-bold font-['Outfit'] text-slate-900 dark:text-white">HOUR WASH LAUNDRY SHOP</div>
                             <p class="text-xs text-slate-600 dark:text-slate-400">Store Hours: 7:00 AM – 6:00 PM Daily</p>
                             @php
                                 $idleWashers = $machines->filter(function($m) {
