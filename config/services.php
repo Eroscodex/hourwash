@@ -28,9 +28,9 @@ return [
         'sender_name' => env('MAIL_FROM_NAME', 'HourWash Laundry'),
     ],
 
-    'philsms' => [
-    'api_token' => env('PHILSMS_API_TOKEN'),
-    'sender_id' => env('PHILSMS_SENDER_ID', 'HourWash'),
+    'philsms' => [ 
+        'api_token' => env('PHILSMS_API_TOKEN'), 
+        'sender_id' => env('PHILSMS_SENDER_ID', 'PhilSMS'), 
     ],
 
     'ses' => [

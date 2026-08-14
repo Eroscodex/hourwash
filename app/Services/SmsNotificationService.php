@@ -82,7 +82,7 @@ class SmsNotificationService
                             'recipient' => $recipient,
                             'sender_id' => config(
                                 'services.philsms.sender_id',
-                                'HourWash'
+                                'PhilSMS'
                             ),
                             'type' => 'plain',
                             'message' => $message,
