@@ -118,7 +118,7 @@
         </div>
 
         <!-- Specifications Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs bg-slate-100 dark:bg-[#2C2C2E] p-4 rounded-xl border border-black/5 dark:border-white/10">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 text-xs bg-slate-100 dark:bg-[#2C2C2E] p-4 rounded-xl border border-black/5 dark:border-white/10">
             <div>
                 <span class="text-slate-500 dark:text-slate-400 text-[11px] block">Customer Name</span>
                 <p class="text-slate-900 dark:text-white font-bold text-sm">{{ $order->customer->name ?? 'Store Customer' }}</p>
@@ -132,8 +132,8 @@
                 <p class="text-slate-900 dark:text-white font-semibold">{{ $order->weight_kg }} kg</p>
             </div>
             <div>
-                <span class="text-slate-500 dark:text-slate-400 text-[11px] block">Estimated Completion Time</span>
-                <p class="text-slate-900 dark:text-white font-semibold">{{ $order->estimated_completion?->format('M d, Y h:i A') ?? 'In Progress' }}</p>
+                <span class="text-slate-500 dark:text-slate-400 text-[11px] block">Est. Duration of Service</span>
+                <p class="text-slate-900 dark:text-white font-semibold">{{ $order->service->estimated_minutes ?? 60 }} mins</p>
                 @if(in_array($order->order_status, ['pending', 'out_for_pickup', 'received', 'washing', 'rinsing', 'drying', 'done', 'out_for_delivery']) && $order->estimated_completion && $order->estimated_completion->isFuture())
                     <div class="mt-1 flex items-center gap-1.5 text-[11px] text-[#007AFF] dark:text-[#0A84FF] font-bold" id="order-countdown-container">
                         <span class="w-1.5 h-1.5 rounded-full bg-[#007AFF] dark:bg-[#0A84FF] animate-pulse"></span>
@@ -141,6 +141,10 @@
                         <span id="order-countdown" data-expiry="{{ $order->estimated_completion->timestamp }}">Calculating...</span>
                     </div>
                 @endif
+            </div>
+            <div>
+                <span class="text-slate-500 dark:text-slate-400 text-[11px] block">Estimated Completion Time</span>
+                <p class="text-slate-900 dark:text-white font-semibold">{{ $order->estimated_completion?->format('M d, Y h:i A') ?? 'In Progress' }}</p>
             </div>
         </div>
 
