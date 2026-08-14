@@ -116,6 +116,8 @@
                 <a href="#how-it-works" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2 border-b border-black/5 dark:border-white/5">How It Works</a>
                 <a href="#machines" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2 border-b border-black/5 dark:border-white/5">Machine Monitor</a>
                 <a href="#track-section" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2 border-b border-black/5 dark:border-white/5">QR Order Tracker</a>
+                <a href="{{ route('about') }}" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2 border-b border-black/5 dark:border-white/5">About Us</a>
+                <a href="{{ route('developers') }}" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2">Developers</a>
             </nav>
 
             <div class="pt-4 space-y-2 border-t border-black/10 dark:border-white/10">
@@ -516,137 +518,7 @@
             </div>
         </section>
 
-        <!-- About Us & Our Developers Section -->
-        <section id="about-us" class="space-y-8 py-4">
-            <div class="text-center space-y-2">
-                <span class="text-[11px] font-extrabold text-[#007AFF] dark:text-[#0A84FF] tracking-widest uppercase bg-[#007AFF]/10 dark:bg-[#0A84FF]/10 px-3 py-1 rounded-full">
-                    Discover Our Story
-                </span>
-                <h2 class="text-2xl sm:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white">
-                    About HourWash & Our Developers
-                </h2>
-                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 max-w-xl mx-auto">
-                    Learn about our passion for automated, efficient, and technology-driven laundry care, and meet the innovative minds behind the platform.
-                </p>
-            </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-                <!-- About Us Card -->
-                <div class="lg:col-span-7 app-card p-6 md:p-8 flex flex-col justify-between space-y-6">
-                    <div class="space-y-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-[#007AFF]/10 dark:bg-[#0A84FF]/10 flex items-center justify-center">
-                                <svg class="w-5 h-5 text-[#007AFF] dark:text-[#0A84FF]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-bold text-slate-900 dark:text-white font-['Outfit']">Our Mission & Vision</h3>
-                                <p class="text-[10px] text-slate-500 dark:text-slate-400">Serving Magallanes St., Orosite, Legazpi City</p>
-                            </div>
-                        </div>
-                        <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-                            HourWash is a modern laundry management platform designed to deliver premium, reliable, and convenient garment care. Our shop features high-efficiency washers and dryers, real-time order tracking, and intuitive user dashboards to simplify laundry day for students, families, and businesses in Legazpi.
-                        </p>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-                            <div class="space-y-1">
-                                <h4 class="text-xs font-bold text-slate-800 dark:text-slate-200">Real-Time Tracker</h4>
-                                <p class="text-[11px] text-slate-500 dark:text-slate-400">Scan QR codes or enter your tracking ID for instant cycle updates.</p>
-                            </div>
-                            <div class="space-y-1">
-                                <h4 class="text-xs font-bold text-slate-800 dark:text-slate-200">Convenient Scheduling</h4>
-                                <p class="text-[11px] text-slate-500 dark:text-slate-400">Drop off, use self-service, or request automated pick-up options.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="border-t border-black/10 dark:border-white/10 pt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-                        <div class="text-[11px] text-slate-500 dark:text-slate-400">
-                            <strong>Operating Hours:</strong> 7:00 AM – 6:00 PM Daily
-                        </div>
-                        <a href="#services" class="text-xs font-bold text-[#007AFF] dark:text-[#0A84FF] hover:underline flex items-center gap-1">
-                            Explore Services & Rates →
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Developers Card -->
-                <div class="lg:col-span-5 app-card p-6 md:p-8 flex flex-col justify-between space-y-6">
-                    <div class="space-y-4">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-purple-500/10 dark:bg-purple-500/20 flex items-center justify-center">
-                                <svg class="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
-                            </div>
-                            <div>
-                                <h3 class="text-lg font-bold text-slate-900 dark:text-white font-['Outfit']">Our Developers</h3>
-                                <p class="text-[10px] text-slate-500 dark:text-slate-400">The creators behind the code</p>
-                            </div>
-                        </div>
-
-                        <!-- Developer List -->
-                        <div class="space-y-4 pt-2">
-                            <!-- Dev 1: Karl Nicko L. Alondra -->
-                            <div class="flex items-center gap-3.5 group">
-                                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-[#007AFF] to-sky-400 text-white flex items-center justify-center font-bold text-sm shadow-md group-hover:scale-105 transition-transform">
-                                    KA
-                                </div>
-                                <div class="flex-1">
-                                    <div class="flex items-center justify-between">
-                                        <h4 class="text-xs font-extrabold text-slate-900 dark:text-white">Karl Nicko L. Alondra</h4>
-                                        <span class="text-[9px] bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300 font-bold px-2 py-0.5 rounded-full">Lead Developer</span>
-                                    </div>
-                                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">System architecture, backend logic, and overall system functionality.</p>
-                                </div>
-                            </div>
-
-                            <!-- Dev 2: Lezil O. Orgasa -->
-                            <div class="flex items-center gap-3.5 group">
-                                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-teal-500 to-emerald-400 text-white flex items-center justify-center font-bold text-sm shadow-md group-hover:scale-105 transition-transform">
-                                    LO
-                                </div>
-                                <div class="flex-1">
-                                    <div class="flex items-center justify-between">
-                                        <h4 class="text-xs font-extrabold text-slate-900 dark:text-white">Lezil O. Orgasa</h4>
-                                        <span class="text-[9px] bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300 font-bold px-2 py-0.5 rounded-full">Designer</span>
-                                    </div>
-                                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Modern user interfaces, responsive layouts, and visual design.</p>
-                                </div>
-                            </div>
-
-                            <!-- Dev 3: Shayne Marie R. Formento -->
-                            <div class="flex items-center gap-3.5 group">
-                                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-600 to-pink-500 text-white flex items-center justify-center font-bold text-sm shadow-md group-hover:scale-105 transition-transform">
-                                    SF
-                                </div>
-                                <div class="flex-1">
-                                    <div class="flex items-center justify-between">
-                                        <h4 class="text-xs font-extrabold text-slate-900 dark:text-white">Shayne Marie R. Formento</h4>
-                                        <span class="text-[9px] bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300 font-bold px-2 py-0.5 rounded-full">Analyst</span>
-                                    </div>
-                                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">System logic analysis, requirements definitions, and testing.</p>
-                                </div>
-                            </div>
-
-                            <!-- Dev 4: Alexa P. Cas -->
-                            <div class="flex items-center gap-3.5 group">
-                                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-500 to-orange-400 text-white flex items-center justify-center font-bold text-sm shadow-md group-hover:scale-105 transition-transform">
-                                    AC
-                                </div>
-                                <div class="flex-1">
-                                    <div class="flex items-center justify-between">
-                                        <h4 class="text-xs font-extrabold text-slate-900 dark:text-white">Alexa P. Cas</h4>
-                                        <span class="text-[9px] bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300 font-bold px-2 py-0.5 rounded-full">Database & Docs</span>
-                                    </div>
-                                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Database optimization, validation pipelines, and documentation.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="border-t border-black/10 dark:border-white/10 pt-4 text-center">
-                        <span class="text-[10px] text-slate-400 dark:text-slate-500 font-medium">HourWash Development Team</span>
-                    </div>
-                </div>
-            </div>
-        </section>
 
         <!-- Camera Scanner Modal -->
         <div id="camera-scanner-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex-col items-center justify-center p-4 animate-fade-in">
