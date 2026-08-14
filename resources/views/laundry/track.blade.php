@@ -133,7 +133,13 @@
             </div>
             <div>
                 <span class="text-slate-500 dark:text-slate-400 text-[11px] block">Est. Duration of Service</span>
-                <p class="text-slate-900 dark:text-white font-semibold">{{ $order->service->estimated_minutes ?? 60 }} mins</p>
+                @php
+                    $mins = $order->service->estimated_minutes ?? 60;
+                    $hrs = floor($mins / 60);
+                    $remMins = $mins % 60;
+                    $durationFormatted = $hrs > 0 ? ($remMins > 0 ? "{$hrs} hrs {$remMins} mins" : "{$hrs} hrs") : "{$mins} mins";
+                @endphp
+                <p class="text-slate-900 dark:text-white font-semibold">{{ $durationFormatted }}</p>
                 @if(in_array($order->order_status, ['pending', 'out_for_pickup', 'received', 'washing', 'rinsing', 'drying', 'done', 'out_for_delivery']) && $order->estimated_completion && $order->estimated_completion->isFuture())
                     <div class="mt-1 flex items-center gap-1.5 text-[11px] text-[#007AFF] dark:text-[#0A84FF] font-bold" id="order-countdown-container">
                         <span class="w-1.5 h-1.5 rounded-full bg-[#007AFF] dark:bg-[#0A84FF] animate-pulse"></span>

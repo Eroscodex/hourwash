@@ -261,7 +261,13 @@
                         </div>
                         <div class="pt-3 border-t border-black/10 dark:border-white/10 flex items-center justify-between text-xs">
                             <span class="text-slate-500 dark:text-slate-400">Price Unit: <strong class="text-slate-800 dark:text-slate-200">Per {{ $service->price_unit }}</strong></span>
-                            <span class="text-[#007AFF] dark:text-[#0A84FF] font-semibold">~{{ $service->estimated_minutes }} mins</span>
+                            @php
+                                $mins = $service->estimated_minutes;
+                                $hrs = floor($mins / 60);
+                                $remMins = $mins % 60;
+                                $durationFormatted = $hrs > 0 ? ($remMins > 0 ? "~{$hrs} hrs {$remMins} mins" : "~{$hrs} hrs") : "~{$mins} mins";
+                            @endphp
+                            <span class="text-[#007AFF] dark:text-[#0A84FF] font-semibold">{{ $durationFormatted }}</span>
                         </div>
                     </div>
                 @empty
