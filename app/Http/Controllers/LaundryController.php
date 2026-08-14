@@ -148,7 +148,7 @@ class LaundryController extends Controller
         }
 
         if (! $order) {
-            return redirect()->route('welcome')->with('error', 'No active order telemetry found for QR token / machine tag: '.$qr);
+            return redirect()->route('welcome')->with('error', 'No active order tracking found for QR token / machine tag: '.$qr);
         }
 
         return view(

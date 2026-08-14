@@ -75,7 +75,7 @@
                             
                             <a href="{{ route('admin.machines.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all {{ request()->routeIs('admin.machines.*') ? 'bg-[#007AFF] text-white font-bold shadow-md' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10' }}">
                                 <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-5 h-5 rounded-full object-cover">
-                                <span>Machine Fleet Monitor</span>
+                                <span>Machine Monitor</span>
                             </a>
                             
                             <a href="{{ route('admin.services.index') }}" class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all {{ request()->routeIs('admin.services.*') ? 'bg-[#007AFF] text-white font-bold shadow-md' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-white/10' }}">

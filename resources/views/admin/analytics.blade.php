@@ -15,7 +15,7 @@
         </div>
 
         <div class="app-card p-5">
-            <div class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Machine Fleet</div>
+            <div class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">Total Machines</div>
             <p class="text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white">{{ $totalMachines }}</p>
         </div>
 

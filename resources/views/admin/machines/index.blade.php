@@ -5,7 +5,7 @@
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
                 <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white">
-                    Machine Fleet Management
+                    Machine Management
                 </h1>
                 <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">Configure commercial washers, dryers, live statuses, and scannable machine QR tags.</p>
             </div>

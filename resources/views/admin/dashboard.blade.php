@@ -8,7 +8,7 @@
                     Store Operations Management
                 </h1>
                 <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
-                    Real-time laundry queue, machine fleet monitoring, and system metrics.
+                    Real-time laundry queue, machine monitoring, and system metrics.
                 </p>
             </div>
             
@@ -76,7 +76,7 @@
             <div class="lg:col-span-12 app-card p-4 sm:p-6 space-y-6">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Machine Fleet Status</h2>
+                        <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Machine Status Monitor</h2>
                         <p class="text-xs text-slate-500 dark:text-slate-400">Real-time status of commercial washers & dryers</p>
                     </div>
                     <a href="{{ route('admin.machines.index') }}" class="text-xs text-[#007AFF] dark:text-[#0A84FF] hover:opacity-80 font-semibold">Manage Machines →</a>

@@ -3,7 +3,7 @@
     <div class="space-y-6">
         <div>
             <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white">Add New Machine</h1>
-            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">Register a new washer or dryer into the store fleet monitor.</p>
+            <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">Register a new washer or dryer into the store monitor.</p>
         </div>
 
         <div class="max-w-xl app-card p-4 sm:p-6 shadow-xl space-y-6">
