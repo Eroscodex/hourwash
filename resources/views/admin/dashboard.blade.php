@@ -90,13 +90,19 @@
                                 <span class="text-xs font-bold text-slate-900 dark:text-slate-100 truncate">{{ $machine->machine_name }}</span>
                                 <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono flex-shrink-0">{{ $machine->machine_code }}</span>
                             </div>
-                            <div class="w-7 h-7 rounded-lg flex items-center justify-center text-xs font-bold
+                            <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold
                                 @if($machine->status === 'washing') bg-teal-500/15 text-teal-700 dark:text-teal-300
                                 @elseif($machine->status === 'rinsing') bg-sky-500/15 text-sky-700 dark:text-sky-300
                                 @elseif($machine->status === 'drying') bg-indigo-500/15 text-indigo-700 dark:text-indigo-300
                                 @elseif($machine->status === 'idle') bg-emerald-500/15 text-emerald-700 dark:text-emerald-300
                                 @else bg-amber-500/15 text-amber-700 dark:text-amber-300 @endif">
-                                <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-4 h-4 rounded-full object-cover">
+                                <svg class="w-4 h-4 stroke-current" fill="none" viewBox="0 0 24 24">
+                                    <rect x="4" y="3" width="16" height="18" rx="2" stroke-width="2"/>
+                                    <circle cx="12" cy="12" r="4" stroke-width="2"/>
+                                    <circle cx="12" cy="12" r="1" stroke-width="2"/>
+                                    <circle cx="8" cy="6" r="1" stroke-width="2"/>
+                                    <circle cx="16" cy="6" r="1" stroke-width="2"/>
+                                </svg>
                             </div>
                             <div>
                                 <span class="text-[10px] font-bold uppercase tracking-wider block
@@ -107,13 +113,20 @@
                                     @else text-amber-600 dark:text-amber-400 @endif">
                                     {{ strtoupper($machine->status) }}
                                 </span>
-                                <p class="text-[10px] text-slate-500 dark:text-slate-400">
-                                    @if($machine->remaining_minutes)
-                                        {{ $machine->remaining_minutes }} min remaining
+                                <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
+                                    @if(in_array($machine->status, ['washing', 'rinsing', 'drying']))
+                                        <span>⏱ {{ $machine->remaining_minutes ?? 30 }} mins remaining</span>
+                                        <span class="block text-[9px] text-[#007AFF] dark:text-[#0A84FF] font-bold mt-0.5">
+                                            Est. Finish: {{ now()->addMinutes($machine->remaining_minutes ?? 30)->format('h:i A') }}
+                                        </span>
+                                    @elseif($machine->status === 'maintenance')
+                                        <span class="text-amber-600 dark:text-amber-400 font-semibold">⚠ Maintenance</span>
+                                    @elseif($machine->status === 'offline')
+                                        <span class="text-rose-600 dark:text-rose-400 font-semibold">🚫 Offline</span>
                                     @else
                                         Available
                                     @endif
-                                </p>
+                                </div>
                             </div>
                         </div>
                     @empty
