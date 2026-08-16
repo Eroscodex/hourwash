@@ -102,10 +102,16 @@
                             </div>
                         </div>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs bg-black/5 dark:bg-[#2C2C2E] p-4 rounded-xl border border-black/5 dark:border-white/10">
+                        <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 text-xs bg-black/5 dark:bg-[#2C2C2E] p-4 rounded-xl border border-black/5 dark:border-white/10">
                             <div>
                                 <span class="text-slate-500 dark:text-slate-400 text-[11px] block">Order Code</span>
                                 <span class="font-bold text-[#007AFF] dark:text-[#0A84FF] font-mono">#{{ $activeOrder->order_number }}</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-500 dark:text-slate-400 text-[11px] block">Assigned Machine Unit</span>
+                                <span class="font-bold text-emerald-600 dark:text-emerald-400 font-mono">
+                                    {{ $activeOrder->machine ? $activeOrder->machine->machine_name . ' (' . $activeOrder->machine->machine_code . ')' : 'Assigning Unit...' }}
+                                </span>
                             </div>
                             <div>
                                 <span class="text-slate-500 dark:text-slate-400 text-[11px] block">Selected Service</span>

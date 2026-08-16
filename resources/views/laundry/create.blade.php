@@ -42,6 +42,23 @@
                 <input type="number" name="weight_kg" value="{{ old('weight_kg', 1) }}" min="0.5" step="0.5" class="w-full">
             </div>
 
+            <div class="mb-5">
+                <label class="block text-xs font-semibold text-slate-700 dark:text-slate-200 uppercase tracking-wider mb-2">
+                    Select Machine (Available Idle Units: {{ count($availableMachines ?? []) }})
+                </label>
+                <select name="machine_id" class="w-full">
+                    <option value="">-- Auto-Assign First Available Idle Machine --</option>
+                    @foreach($availableMachines ?? [] as $mach)
+                        <option value="{{ $mach->id }}" {{ old('machine_id') == $mach->id ? 'selected' : '' }}>
+                            {{ $mach->machine_name }} ({{ $mach->machine_code }}) — {{ strtoupper(str_replace('_', ' ', $mach->machine_type)) }} [IDLE & READY]
+                        </option>
+                    @endforeach
+                </select>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
+                    Select which washer/dryer unit your laundry load will use before creating your booking.
+                </p>
+            </div>
+
             <div class="mb-6">
                 <label class="block text-xs font-semibold text-slate-700 dark:text-slate-200 uppercase tracking-wider mb-2">Customer Remarks / Special Instructions</label>
                 <textarea name="remarks" rows="4" class="w-full" placeholder="Example: Separate white clothes, use gentle detergent">{{ old('remarks') }}</textarea>

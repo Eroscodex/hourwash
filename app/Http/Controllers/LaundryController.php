@@ -18,8 +18,9 @@ class LaundryController extends Controller
     public function create()
     {
         $services = Service::where('status', 'active')->get();
+        $availableMachines = Machine::where('status', 'idle')->orderBy('id', 'asc')->get();
 
-        return view('laundry.create', compact('services'));
+        return view('laundry.create', compact('services', 'availableMachines'));
     }
 
     public function store(Request $request)
@@ -27,6 +28,7 @@ class LaundryController extends Controller
         $request->validate([
             'service_id' => 'required|exists:services,id',
             'weight_kg' => 'required|numeric|min:0.5',
+            'machine_id' => 'nullable|exists:machines,id',
         ]);
 
         $service = Service::findOrFail($request->service_id);
@@ -36,6 +38,13 @@ class LaundryController extends Controller
             $subtotal = $service->price * $request->weight_kg;
         } else {
             $subtotal = $service->price;
+        }
+
+        // Auto-assign available machine if not selected
+        $machineId = $request->machine_id;
+        if (! $machineId) {
+            $firstAvailable = Machine::where('status', 'idle')->first();
+            $machineId = $firstAvailable?->id;
         }
 
         // Prevent duplicate order submission within 60 seconds
@@ -50,18 +59,29 @@ class LaundryController extends Controller
                 ->with('success', 'Order already submitted! Duplicate order attempt prevented.');
         }
 
+        $orderStatus = $machineId ? 'washing' : 'pending';
+
         $order = Order::create([
             'order_number' => 'HW-'.strtoupper(Str::random(8)),
             'customer_id' => auth()->id(),
             'service_id' => $request->service_id,
+            'machine_id' => $machineId,
             'weight_kg' => $request->weight_kg,
             'subtotal' => $subtotal,
             'total_amount' => $subtotal,
-            'order_status' => 'pending',
+            'order_status' => $orderStatus,
             'payment_status' => 'unpaid',
             'estimated_completion' => now()->addMinutes($service->estimated_minutes),
             'notes' => $request->remarks,
         ]);
+
+        if ($machineId) {
+            Machine::where('id', $machineId)->update([
+                'current_order_id' => $order->id,
+                'status' => 'washing',
+                'remaining_minutes' => $service->estimated_minutes,
+            ]);
+        }
 
         QrCode::create([
             'order_id' => $order->id,
