@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\CustomerProfile;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -15,7 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::latest()->paginate(10);
+        $users = User::with('customerProfile')->latest()->paginate(10);
 
         return view('admin.users.index', compact('users'));
     }
@@ -37,11 +38,12 @@ class UserController extends Controller
             'name' => 'required|string|max:255|unique:users',
             'email' => 'required|email|unique:users',
             'phone' => 'nullable|string|max:20|unique:users',
+            'address' => 'nullable|string|max:255',
             'password' => 'required|min:8',
             'role' => 'required',
         ]);
 
-        User::create([
+        $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
@@ -49,9 +51,16 @@ class UserController extends Controller
             'role' => $request->role,
         ]);
 
+        if ($request->filled('address')) {
+            CustomerProfile::updateOrCreate(
+                ['user_id' => $user->id],
+                ['address' => $request->address]
+            );
+        }
+
         return redirect()
             ->route('admin.users.index')
-            ->with('success', 'User created successfully');
+            ->with('success', 'User account created successfully');
     }
 
     /**
@@ -59,7 +68,7 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        $user = User::findOrFail($id);
+        $user = User::with('customerProfile')->findOrFail($id);
 
         return view('admin.users.edit', compact('user'));
     }
@@ -75,6 +84,7 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255', Rule::unique('users')->ignore($id)],
             'email' => ['required', 'email', Rule::unique('users')->ignore($id)],
             'phone' => ['nullable', 'string', 'max:20', Rule::unique('users')->ignore($id)],
+            'address' => ['nullable', 'string', 'max:255'],
             'role' => 'required',
         ]);
 
@@ -85,9 +95,16 @@ class UserController extends Controller
             'role' => $request->role,
         ]);
 
+        if ($request->has('address')) {
+            CustomerProfile::updateOrCreate(
+                ['user_id' => $user->id],
+                ['address' => $request->address]
+            );
+        }
+
         return redirect()
             ->route('admin.users.index')
-            ->with('success', 'User updated successfully');
+            ->with('success', 'User account updated successfully');
     }
 
     /**
