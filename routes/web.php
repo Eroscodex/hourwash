@@ -330,7 +330,7 @@ Route::middleware('auth')->group(function () {
 */
 Route::middleware(['auth'])->get('/staff/dashboard', function () {
     $user = auth()->user();
-    $machines = Machine::orderBy('id', 'asc')->get();
+    $machines = Machine::with(['currentOrder', 'currentOrder.customer'])->orderBy('id', 'asc')->get();
     $orders = Order::with(['customer', 'service', 'qrCode'])->latest()->get();
     $recentOrders = $orders->take(6);
 
@@ -354,7 +354,7 @@ Route::middleware(['auth'])->get('/staff/dashboard', function () {
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', function () {
         $user = auth()->user();
-        $machines = Machine::orderBy('id', 'asc')->get();
+        $machines = Machine::with(['currentOrder', 'currentOrder.customer'])->orderBy('id', 'asc')->get();
         $recentOrders = Order::with(['customer', 'service', 'qrCode'])->latest()->take(6)->get();
 
         $totalToday = Order::whereDate('created_at', now()->today())->count();

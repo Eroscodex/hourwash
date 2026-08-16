@@ -318,7 +318,7 @@
 
                         @if($machine->currentOrder)
                             <a href="{{ route('laundry.track', $machine->currentOrder->order_number) }}" 
-                               class="block p-3.5 rounded-xl bg-black/5 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-2 hover:border-[#007AFF] hover:shadow-lg hover:scale-[1.02] active:scale-95 transition-all cursor-pointer group" 
+                               class="block p-3.5 rounded-xl bg-[#007AFF]/5 dark:bg-[#0A84FF]/10 border border-[#007AFF]/40 space-y-2 hover:border-[#007AFF] hover:shadow-lg hover:scale-[1.02] active:scale-95 transition-all cursor-pointer group" 
                                title="Click to view order #{{ $machine->currentOrder->order_number }}">
                                 <div class="flex items-center justify-between">
                                     <span class="text-xs font-bold text-slate-900 dark:text-slate-100 truncate group-hover:text-[#007AFF] transition">
@@ -337,22 +337,20 @@
                                     <span class="text-[10px] font-bold uppercase tracking-wider block {{ $statusTextClass }}">
                                         {{ strtoupper($machine->status) }}
                                     </span>
-                                    <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
-                                        @if(in_array($machine->status, ['washing', 'rinsing', 'drying']))
-                                            <span>⏱ {{ $machine->remaining_minutes ?? 30 }} mins remaining</span>
-                                            <span class="block text-[9px] text-[#007AFF] dark:text-[#0A84FF] font-bold mt-0.5">
-                                                Est. Finish: {{ now()->addMinutes($machine->remaining_minutes ?? 30)->format('h:i A') }}
-                                            </span>
-                                            <span class="block text-[9px] font-bold text-[#007AFF] dark:text-[#0A84FF] mt-1 group-hover:text-blue-700">
-                                                Order: {{ $machine->currentOrder->order_number }}
-                                            </span>
-                                        @elseif($machine->status === 'maintenance')
-                                            <span class="text-amber-600 dark:text-amber-400 font-semibold">⚠ Maintenance</span>
-                                        @elseif($machine->status === 'offline')
-                                            <span class="text-rose-600 dark:text-rose-400 font-semibold">🚫 Offline</span>
+                                    <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 space-y-0.5">
+                                        @if(in_array($machine->status, ['washing', 'rinsing', 'drying']) && $machine->remaining_minutes)
+                                            <span>⏱ {{ $machine->remaining_minutes }} mins remaining</span>
+                                        @elseif($machine->currentOrder->order_status === 'finish')
+                                            <span class="text-emerald-600 dark:text-emerald-400 font-bold">✓ Finish & Shelved</span>
                                         @else
-                                            Available
+                                            <span class="text-amber-600 dark:text-amber-400 font-bold">⏳ Order Received</span>
                                         @endif
+                                        <span class="block text-[9.5px] font-bold text-[#007AFF] dark:text-[#0A84FF] mt-1 group-hover:underline truncate">
+                                            Order: #{{ $machine->currentOrder->order_number }}
+                                        </span>
+                                        <span class="block text-[9px] font-semibold text-slate-700 dark:text-slate-300 truncate">
+                                            👤 {{ $machine->currentOrder->customer->name ?? 'Customer' }}
+                                        </span>
                                     </div>
                                 </div>
                             </a>
