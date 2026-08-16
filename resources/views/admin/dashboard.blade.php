@@ -178,18 +178,16 @@
                                 </div>
 
 
-                                <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold
-                                    @if($machine->status === 'washing')
-                                        bg-teal-500/15 text-teal-700 dark:text-teal-300
-                                    @elseif($machine->status === 'rinsing')
-                                        bg-sky-500/15 text-sky-700 dark:text-sky-300
-                                    @elseif($machine->status === 'drying')
-                                        bg-indigo-500/15 text-indigo-700 dark:text-indigo-300
-                                    @elseif($machine->status === 'idle')
-                                        bg-emerald-500/15 text-emerald-700 dark:text-emerald-300
-                                    @else
-                                        bg-amber-500/15 text-amber-700 dark:text-amber-300
-                                    @endif">
+                                @php
+    $statusClass = match($machine->status) {
+        'washing' => 'bg-teal-500/15 text-teal-700 dark:text-teal-300',
+        'rinsing' => 'bg-sky-500/15 text-sky-700 dark:text-sky-300',
+        'drying' => 'bg-indigo-500/15 text-indigo-700 dark:text-indigo-300',
+        'idle' => 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300',
+        default => 'bg-amber-500/15 text-amber-700 dark:text-amber-300',
+    };
+@endphp
+<div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold {{ $statusClass }}">
                                     <img
                                         src="{{ asset('favicon.svg') }}"
                                         alt="HourWash"
