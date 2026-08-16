@@ -37,10 +37,15 @@ class SmsService
                 return str_starts_with(trim($r), '+') ? trim($r) : '+'.$raw;
             }, (array) $recipients);
 
-            $response = Http::withHeader('x-api-key', $apiKey)
+            $url = $this->baseUrl.'?apiKey='.urlencode($apiKey);
+
+            $response = Http::withHeaders([
+                'x-api-key' => $apiKey,
+                'X-Api-Key' => $apiKey,
+            ])
                 ->timeout(15)
                 ->asJson()
-                ->post($this->baseUrl, [
+                ->post($url, [
                     'deviceId' => $deviceId,
                     'recipients' => $formattedRecipients,
                     'message' => $message,
@@ -53,6 +58,10 @@ class SmsService
                 'response' => $data,
                 'recipients' => $formattedRecipients,
             ]);
+
+            if (isset($data['code']) && $data['code'] === 'AUTH_INVALID') {
+                Log::warning('Textbee SMS Authentication Failed (AUTH_INVALID). Please verify TEXTBEE_API_KEY in .env.');
+            }
 
             return $data['data'] ?? $data ?? ['success' => $response->successful()];
         } catch (\Throwable $e) {
