@@ -225,8 +225,8 @@
 
             <div class="md:col-span-5 space-y-4">
                 
-                <div class="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 text-white space-y-3 shadow-md">
-                    <div class="flex items-center justify-between border-b border-white/10 pb-2">
+                <div class="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-900 text-white space-y-3 shadow-lg border border-slate-800">
+                    <div class="flex items-center justify-between border-b border-white/15 pb-2">
                         <span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-400">ESTIMATED COMPLETION</span>
                         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
                     </div>
@@ -236,19 +236,19 @@
                             {{ in_array($order->order_status, ['pending', 'out_for_pickup', 'received']) ? 'Starts Upon Washing' : ($order->estimated_completion?->format('M d, Y • h:i A') ?? 'In Processing') }}
                         </div>
                         @if(in_array($order->order_status, ['washing', 'rinsing', 'drying']) && $order->estimated_completion && $order->estimated_completion->isFuture())
-                            <div class="mt-2 p-2.5 rounded-xl bg-white/10 border border-white/10 flex items-center justify-between text-xs font-mono font-bold text-amber-300">
-                                <span>Time Remaining:</span>
-                                <span id="order-countdown" data-expiry="{{ $order->estimated_completion->timestamp }}">Calculating...</span>
+                            <div class="mt-2.5 p-3 rounded-xl bg-slate-800/90 border border-amber-400/40 flex items-center justify-between text-xs font-mono font-bold text-amber-300">
+                                <span class="text-amber-300 font-bold">Time Remaining:</span>
+                                <span id="order-countdown" data-expiry="{{ $order->estimated_completion->timestamp }}" class="text-amber-300 font-extrabold text-sm tracking-wide">Calculating...</span>
                             </div>
                         @elseif(in_array($order->order_status, ['pending', 'out_for_pickup', 'received']))
-                            <div class="mt-2 p-2.5 rounded-xl bg-white/10 border border-white/10 flex items-center justify-between text-xs font-mono font-bold text-amber-200">
-                                <span>Status:</span>
-                                <span>Order Received (Pending Start)</span>
+                            <div class="mt-2.5 p-3 rounded-xl bg-slate-800/90 border border-amber-400/40 flex items-center justify-between text-xs font-mono font-bold text-amber-300">
+                                <span class="text-amber-300 font-bold">Status:</span>
+                                <span class="text-amber-300 font-extrabold">Order Received (Pending Start)</span>
                             </div>
                         @elseif(in_array($order->order_status, ['finish', 'out_for_delivery']))
-                            <div class="mt-2 p-2.5 rounded-xl bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-between text-xs font-mono font-bold text-emerald-300">
-                                <span>Status:</span>
-                                <span>Washing & Drying Finished</span>
+                            <div class="mt-2.5 p-3 rounded-xl bg-emerald-950/90 border border-emerald-400/40 flex items-center justify-between text-xs font-mono font-bold text-emerald-300">
+                                <span class="text-emerald-300 font-bold">Status:</span>
+                                <span class="text-emerald-300 font-extrabold">Washing & Drying Finished</span>
                             </div>
                         @endif
                     </div>
