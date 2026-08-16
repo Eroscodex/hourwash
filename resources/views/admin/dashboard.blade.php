@@ -62,17 +62,11 @@
 
                 <a href="{{ route('admin.laundry.index') }}" 
                    class="app-card p-3.5 flex flex-col justify-between hover:border-[#007AFF] hover:shadow-md hover:scale-[1.02] active:scale-95 transition-all group">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="w-7 h-7 rounded-lg bg-[#007AFF]/15 text-[#007AFF] flex items-center justify-center text-sm font-bold">
-                            🧺
-                        </span>
-                        <span class="text-[9px] font-extrabold text-[#007AFF] dark:text-[#0A84FF]">GO</span>
-                    </div>
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-[#007AFF] transition block truncate">
                             Laundry Orders
                         </span>
-                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
+                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
                             {{ $totalLaundry ?? 0 }} total orders
                         </span>
                     </div>
@@ -80,17 +74,11 @@
 
                 <a href="{{ route('admin.machines.index') }}" 
                    class="app-card p-3.5 flex flex-col justify-between hover:border-[#007AFF] hover:shadow-md hover:scale-[1.02] active:scale-95 transition-all group">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="w-7 h-7 rounded-lg bg-teal-500/15 text-teal-600 flex items-center justify-center text-sm font-bold">
-                            ⚙️
-                        </span>
-                        <span class="text-[9px] font-extrabold text-[#007AFF] dark:text-[#0A84FF]">GO</span>
-                    </div>
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-[#007AFF] transition block truncate">
                             Machine Monitor
                         </span>
-                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
+                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
                             {{ $totalMachines ?? 20 }} machines
                         </span>
                     </div>
@@ -98,17 +86,11 @@
 
                 <a href="{{ route('admin.services.index') }}" 
                    class="app-card p-3.5 flex flex-col justify-between hover:border-[#007AFF] hover:shadow-md hover:scale-[1.02] active:scale-95 transition-all group">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="w-7 h-7 rounded-lg bg-indigo-500/15 text-indigo-600 flex items-center justify-center text-sm font-bold">
-                            🏷️
-                        </span>
-                        <span class="text-[9px] font-extrabold text-[#007AFF] dark:text-[#0A84FF]">GO</span>
-                    </div>
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-[#007AFF] transition block truncate">
                             Services & Pricing
                         </span>
-                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
+                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
                             Manage rates
                         </span>
                     </div>
@@ -116,17 +98,11 @@
 
                 <a href="{{ route('admin.users.index') }}" 
                    class="app-card p-3.5 flex flex-col justify-between hover:border-[#007AFF] hover:shadow-md hover:scale-[1.02] active:scale-95 transition-all group">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="w-7 h-7 rounded-lg bg-sky-500/15 text-sky-600 flex items-center justify-center text-sm font-bold">
-                            👥
-                        </span>
-                        <span class="text-[9px] font-extrabold text-[#007AFF] dark:text-[#0A84FF]">GO</span>
-                    </div>
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-[#007AFF] transition block truncate">
                             Staff & Customers
                         </span>
-                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
+                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
                             {{ $totalUsers ?? 0 }} accounts
                         </span>
                     </div>
@@ -134,17 +110,11 @@
 
                 <a href="{{ route('admin.inventory.index') }}" 
                    class="app-card p-3.5 flex flex-col justify-between hover:border-[#007AFF] hover:shadow-md hover:scale-[1.02] active:scale-95 transition-all group">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="w-7 h-7 rounded-lg bg-amber-500/15 text-amber-600 flex items-center justify-center text-sm font-bold">
-                            📦
-                        </span>
-                        <span class="text-[9px] font-extrabold text-[#007AFF] dark:text-[#0A84FF]">GO</span>
-                    </div>
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-[#007AFF] transition block truncate">
                             Store Inventory
                         </span>
-                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
+                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
                             Stock levels
                         </span>
                     </div>
@@ -152,17 +122,11 @@
 
                 <a href="{{ route('admin.sms.index') }}" 
                    class="app-card p-3.5 flex flex-col justify-between hover:border-[#007AFF] hover:shadow-md hover:scale-[1.02] active:scale-95 transition-all group">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="w-7 h-7 rounded-lg bg-emerald-500/15 text-emerald-600 flex items-center justify-center text-sm font-bold">
-                            📱
-                        </span>
-                        <span class="text-[9px] font-extrabold text-[#007AFF] dark:text-[#0A84FF]">GO</span>
-                    </div>
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-[#007AFF] transition block truncate">
                             Live SMS Outbox
                         </span>
-                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
+                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
                             {{ $smsCount ?? 0 }} sent
                         </span>
                     </div>
@@ -170,17 +134,11 @@
 
                 <a href="{{ route('admin.emails.index') }}" 
                    class="app-card p-3.5 flex flex-col justify-between hover:border-[#007AFF] hover:shadow-md hover:scale-[1.02] active:scale-95 transition-all group">
-                    <div class="flex items-center justify-between mb-2">
-                        <span class="w-7 h-7 rounded-lg bg-purple-500/15 text-purple-600 flex items-center justify-center text-sm font-bold">
-                            ✉️
-                        </span>
-                        <span class="text-[9px] font-extrabold text-[#007AFF] dark:text-[#0A84FF]">GO</span>
-                    </div>
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-[#007AFF] transition block truncate">
                             Live Email Outbox
                         </span>
-                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
+                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
                             {{ $emailCount ?? 0 }} sent
                         </span>
                     </div>
