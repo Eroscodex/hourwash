@@ -5,19 +5,19 @@
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
             <div class="flex items-center gap-2">
-                <span class="px-2.5 py-0.5 rounded-full bg-[#EE4D2D]/15 text-[#EE4D2D] dark:text-[#FF6647] text-[10px] font-extrabold uppercase tracking-wider border border-[#EE4D2D]/30">
-                    SHOPEE STYLE TRACKER
+                <span class="px-2.5 py-0.5 rounded-full bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF] text-[10px] font-extrabold uppercase tracking-wider border border-[#007AFF]/30">
+                    LIVE TRACKER
                 </span>
-                <span class="text-xs text-slate-500 dark:text-slate-400 font-mono">Live Order #{{ $order->order_number }}</span>
+                <span class="text-xs text-slate-500 dark:text-slate-400 font-mono">Order #{{ $order->order_number }}</span>
             </div>
             <h1 class="text-2xl sm:text-3xl font-extrabold font-['Outfit'] text-slate-900 dark:text-white mt-1">
-                Parcel & Order Tracking
+                Order Tracking & Verification
             </h1>
         </div>
 
         <div class="flex items-center gap-2">
-            <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="px-3 py-2 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-bold hover:opacity-90 transition shadow-sm flex items-center gap-1.5">
-                🖨️ Print Receipt
+            <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="px-3 py-2 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-bold hover:opacity-90 transition shadow-sm">
+                Print Receipt
             </a>
 
             @auth
@@ -32,7 +32,7 @@
         </div>
     </div>
 
-    <div class="app-card p-5 sm:p-7 space-y-6 shadow-xl border-t-4 border-t-[#EE4D2D]">
+    <div class="app-card p-5 sm:p-7 space-y-6 shadow-xl border-t-4 border-t-[#007AFF]">
         
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-black/10 dark:border-white/10 pb-5">
             <div class="space-y-1">
@@ -41,7 +41,7 @@
                         #{{ $order->order_number }}
                     </h2>
                     <button onclick="navigator.clipboard.writeText('{{ $order->order_number }}'); alert('Order ID copied to clipboard!')" class="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300 text-[10px] font-bold hover:bg-[#007AFF] hover:text-white transition">
-                        📋 Copy
+                        Copy
                     </button>
                 </div>
                 <p class="text-xs text-slate-500 dark:text-slate-400">
@@ -56,7 +56,7 @@
                         'completed' => 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/30',
                         'finish' => 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/30',
                         'cancelled' => 'bg-rose-500/15 text-rose-600 dark:text-rose-400 border-rose-500/30',
-                        default => 'bg-[#EE4D2D]/15 text-[#EE4D2D] dark:text-[#FF6647] border-[#EE4D2D]/30',
+                        default => 'bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF] border-[#007AFF]/30',
                     };
                 @endphp
                 <span class="inline-block px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider border {{ $statusBadge }}">
@@ -67,19 +67,19 @@
 
         @php
             $stages = [
-                'pending'          => ['label' => 'Order Placed',      'icon' => '📦', 'pct' => 10],
-                'out_for_pickup'   => ['label' => 'Out for Pickup',    'icon' => '🚚', 'pct' => 22],
-                'received'         => ['label' => 'Store Received',    'icon' => '📥', 'pct' => 35],
-                'washing'          => ['label' => 'Washing',           'icon' => '🧼', 'pct' => 48],
-                'rinsing'          => ['label' => 'Rinsing',           'icon' => '💧', 'pct' => 60],
-                'drying'           => ['label' => 'Drying',            'icon' => '💨', 'pct' => 72],
-                'finish'           => ['label' => 'Finish & Shelved',  'icon' => '✨', 'pct' => 84],
-                'out_for_delivery' => ['label' => 'Out for Delivery',  'icon' => '🛵', 'pct' => 92],
-                'completed'        => ['label' => 'Completed',         'icon' => '🎉', 'pct' => 100],
+                'pending'          => ['label' => 'Order Placed',      'pct' => 10],
+                'out_for_pickup'   => ['label' => 'Out for Pickup',    'pct' => 22],
+                'received'         => ['label' => 'Store Received',    'pct' => 35],
+                'washing'          => ['label' => 'Washing',           'pct' => 48],
+                'rinsing'          => ['label' => 'Rinsing',           'pct' => 60],
+                'drying'           => ['label' => 'Drying',            'pct' => 72],
+                'finish'           => ['label' => 'Finish & Shelved',  'pct' => 84],
+                'out_for_delivery' => ['label' => 'Out for Delivery',  'pct' => 92],
+                'completed'        => ['label' => 'Completed',         'pct' => 100],
             ];
             
             $currentStatus = $order->order_status;
-            $currentStageInfo = $stages[$currentStatus] ?? ['label' => 'Processing', 'icon' => '⚙️', 'pct' => 0];
+            $currentStageInfo = $stages[$currentStatus] ?? ['label' => 'Processing', 'pct' => 0];
             
             $statusKeys = array_keys($stages);
             $currentIndex = array_search($currentStatus, $statusKeys);
@@ -91,21 +91,21 @@
         <div class="space-y-6 bg-slate-50 dark:bg-[#1C1C1E] p-5 rounded-2xl border border-black/5 dark:border-white/10">
             <div class="flex items-center justify-between">
                 <span class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
-                    🚚 Shopee Parcel Tracking Progress
+                    Order Tracking Progress
                 </span>
-                <span class="text-xs font-extrabold text-[#EE4D2D] dark:text-[#FF6647]">
+                <span class="text-xs font-extrabold text-[#007AFF] dark:text-[#0A84FF]">
                     {{ $currentStageInfo['pct'] }}% Completed
                 </span>
             </div>
 
             <div class="relative w-full h-3 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden p-0.5">
-                <div class="h-full bg-gradient-to-r from-[#EE4D2D] via-amber-500 to-emerald-500 rounded-full transition-all duration-700 shadow-sm"
+                <div class="h-full bg-[#007AFF] dark:bg-[#0A84FF] rounded-full transition-all duration-700 shadow-sm"
                      style="width: {{ $currentStageInfo['pct'] }}%"></div>
             </div>
 
             @if($currentStatus === 'cancelled')
                 <div class="bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 p-3.5 rounded-xl text-xs font-semibold text-center">
-                    🚫 This order has been Cancelled.
+                    This order has been Cancelled.
                 </div>
             @endif
 
@@ -116,15 +116,12 @@
                         $isActive = ($currentIndex >= $stageIdx && $currentStatus !== 'cancelled');
                         $isCurrent = ($currentStatus === $key);
                     @endphp
-                    <div class="p-2 rounded-xl border flex flex-col items-center justify-between gap-1.5 transition-all duration-300 relative {{ $isCurrent ? 'bg-[#EE4D2D]/15 border-[#EE4D2D] text-[#EE4D2D] dark:text-[#FF6647] scale-105 shadow-md' : ($isActive ? 'border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10' : 'border-black/5 dark:border-white/5 text-slate-400 opacity-50') }}">
-                        <span class="text-base">
-                            {{ $info['icon'] }}
-                        </span>
+                    <div class="p-2 rounded-xl border flex flex-col items-center justify-center gap-1 transition-all duration-300 relative {{ $isCurrent ? 'bg-[#007AFF]/15 border-[#007AFF] text-[#007AFF] dark:text-[#0A84FF] scale-105 shadow-md' : ($isActive ? 'border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10' : 'border-black/5 dark:border-white/5 text-slate-400 opacity-50') }}">
                         <span class="leading-tight block font-['Outfit']">
                             {{ $info['label'] }}
                         </span>
                         @if($isCurrent)
-                            <span class="w-1.5 h-1.5 rounded-full bg-[#EE4D2D] animate-ping absolute -top-1 -right-1"></span>
+                            <span class="w-1.5 h-1.5 rounded-full bg-[#007AFF] animate-ping absolute -top-1 -right-1"></span>
                         @endif
                     </div>
                 @endforeach
@@ -135,8 +132,8 @@
             
             <div class="md:col-span-7 space-y-4">
                 <div class="p-4 rounded-2xl bg-slate-50 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-3">
-                    <div class="flex items-center gap-2 text-xs font-bold text-[#EE4D2D] dark:text-[#FF6647] uppercase tracking-wider border-b border-black/5 dark:border-white/10 pb-2">
-                        <span>📍 Delivery & Pickup Address</span>
+                    <div class="flex items-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider border-b border-black/5 dark:border-white/10 pb-2">
+                        <span>Delivery & Pickup Address</span>
                     </div>
 
                     <div class="space-y-1 text-xs">
@@ -144,10 +141,10 @@
                             {{ $order->customer->name ?? 'Store Walk-in Customer' }}
                         </div>
                         <div class="text-slate-600 dark:text-slate-300 font-mono">
-                            📞 {{ $order->customer->phone ?? '+63 917 123 4567' }}
+                            {{ $order->customer->phone ?? '+63 917 123 4567' }}
                         </div>
                         <div class="text-slate-500 dark:text-slate-400 pt-1 leading-relaxed">
-                            🏠 {{ $order->customer->customerProfile->address ?? 'Magallanes St., Orosite, Legazpi City, Albay' }}
+                            {{ $order->customer->customerProfile->address ?? 'Magallanes St., Orosite, Legazpi City, Albay' }}
                         </div>
                     </div>
                 </div>
@@ -155,7 +152,7 @@
                 <div class="p-4 rounded-2xl bg-slate-50 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-3">
                     <div class="flex items-center justify-between border-b border-black/5 dark:border-white/10 pb-2">
                         <span class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
-                            📝 Order Items & Package Summary
+                            Order Items & Package Summary
                         </span>
                         <span class="text-[10px] font-mono text-slate-500 dark:text-slate-400">
                             {{ $order->weight_kg }} kg Total Weight
@@ -163,18 +160,13 @@
                     </div>
 
                     <div class="flex items-center justify-between text-xs">
-                        <div class="flex items-center gap-3">
-                            <span class="w-10 h-10 rounded-xl bg-[#EE4D2D]/10 text-[#EE4D2D] dark:text-[#FF6647] flex items-center justify-center text-lg font-bold">
-                                🧺
+                        <div>
+                            <h4 class="font-bold text-slate-900 dark:text-white">
+                                {{ $order->service->name ?? 'Standard Laundry Wash' }}
+                            </h4>
+                            <span class="text-[11px] text-slate-500 dark:text-slate-400">
+                                ₱{{ number_format($order->service->price ?? 0, 2) }} / {{ $order->service->price_unit ?? 'kg' }} • {{ $order->weight_kg }} kg
                             </span>
-                            <div>
-                                <h4 class="font-bold text-slate-900 dark:text-white">
-                                    {{ $order->service->name ?? 'Standard Laundry Wash' }}
-                                </h4>
-                                <span class="text-[11px] text-slate-500 dark:text-slate-400">
-                                    ₱{{ number_format($order->service->price ?? 0, 2) }} / {{ $order->service->price_unit ?? 'kg' }} • {{ $order->weight_kg }} kg
-                                </span>
-                            </div>
                         </div>
                         <span class="font-extrabold text-slate-900 dark:text-white">
                             ₱{{ number_format($order->subtotal ?? $order->total_amount, 2) }}
@@ -200,7 +192,7 @@
                         @endif
                         <div class="flex justify-between items-center text-sm font-extrabold text-slate-900 dark:text-white pt-2 border-t border-black/10 dark:border-white/10">
                             <span>Total Payment Amount</span>
-                            <span class="text-lg font-black text-[#EE4D2D] dark:text-[#FF6647] font-['Outfit']">
+                            <span class="text-lg font-black text-[#007AFF] dark:text-[#0A84FF] font-['Outfit']">
                                 ₱{{ number_format($order->total_amount, 2) }}
                             </span>
                         </div>
@@ -222,7 +214,7 @@
                         </div>
                         @if(in_array($order->order_status, ['pending', 'out_for_pickup', 'received', 'washing', 'rinsing', 'drying', 'finish', 'out_for_delivery']) && $order->estimated_completion && $order->estimated_completion->isFuture())
                             <div class="mt-2 p-2.5 rounded-xl bg-white/10 border border-white/10 flex items-center justify-between text-xs font-mono font-bold text-amber-300">
-                                <span>⏳ Time Remaining:</span>
+                                <span>Time Remaining:</span>
                                 <span id="order-countdown" data-expiry="{{ $order->estimated_completion->timestamp }}">Calculating...</span>
                             </div>
                         @endif
@@ -253,14 +245,14 @@
         </div>
 
         <div class="space-y-3 border-t border-black/10 dark:border-white/10 pt-5">
-            <h3 class="text-xs font-extrabold text-slate-700 dark:text-slate-300 uppercase tracking-wider flex items-center gap-2">
-                <span>📋 Shopee Detailed Logistics History & Status Updates</span>
+            <h3 class="text-xs font-extrabold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
+                Detailed Logistics History & Status Updates
             </h3>
 
             <div class="relative pl-6 space-y-4 border-l-2 border-slate-200 dark:border-slate-800 text-xs">
                 @forelse($order->statusHistory->sortByDesc('created_at') as $history)
                     <div class="relative group">
-                        <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-[#EE4D2D] border-2 border-white dark:border-[#1C1C1E]"></span>
+                        <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-[#007AFF] border-2 border-white dark:border-[#1C1C1E]"></span>
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                             <span class="font-bold text-slate-900 dark:text-white capitalize">
                                 Status Updated to {{ $history->status === 'finish' ? 'Finish & Shelved' : str_replace('_', ' ', $history->status) }}
@@ -277,7 +269,7 @@
                     </div>
                 @empty
                     <div class="relative">
-                        <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-[#EE4D2D] border-2 border-white dark:border-[#1C1C1E]"></span>
+                        <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-[#007AFF] border-2 border-white dark:border-[#1C1C1E]"></span>
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                             <span class="font-bold text-slate-900 dark:text-white">
                                 Order Created & Submitted
@@ -295,7 +287,7 @@
         </div>
 
         <div class="text-center text-[11px] text-slate-500 dark:text-slate-400 pt-2 border-t border-black/5 dark:border-white/5">
-            Store Location: Magallanes St., Orosite, Legazpi City • Hour Wash Logistics & Tracking
+            Store Location: Magallanes St., Orosite, Legazpi City • Hour Wash System
         </div>
 
     </div>
