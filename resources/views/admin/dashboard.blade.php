@@ -169,89 +169,88 @@
                                 ? route('laundry.track', $machine->currentOrder->order_number) 
                                 : route('admin.machines.show', $machine);
                         @endphp
-                        <a href="{{ $targetUrl }}" class="block group" title="{{ $machine->currentOrder ? 'Click to view order details for #' . $machine->currentOrder->order_number : 'View machine details' }}">
-                            <div class="p-3.5 rounded-xl bg-black/5 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-2 hover:border-[#007AFF] hover:shadow-md transition">
+                        <a href="{{ $targetUrl }}" 
+                           class="block p-3.5 rounded-xl bg-black/5 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-2 hover:border-[#007AFF] hover:shadow-lg hover:scale-[1.02] active:scale-95 transition-all cursor-pointer group" 
+                           title="{{ $machine->currentOrder ? 'Click anywhere on box to view order #' . $machine->currentOrder->order_number : 'Click to view machine details' }}">
 
-                                <div class="flex items-center justify-between">
-                                    <span class="text-xs font-bold text-slate-900 dark:text-slate-100 truncate">
-                                        {{ $machine->machine_name }}
-                                    </span>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-slate-900 dark:text-slate-100 truncate group-hover:text-[#007AFF] transition">
+                                    {{ $machine->machine_name }}
+                                </span>
 
-                                    <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono flex-shrink-0">
-                                        {{ $machine->machine_code }}
-                                    </span>
-                                </div>
-
-
-                                @php
-                                    $statusClass = match($machine->status) {
-                                        'washing' => 'bg-teal-500/15 text-teal-700 dark:text-teal-300',
-                                        'rinsing' => 'bg-sky-500/15 text-sky-700 dark:text-sky-300',
-                                        'drying' => 'bg-indigo-500/15 text-indigo-700 dark:text-indigo-300',
-                                        'idle' => 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300',
-                                        default => 'bg-amber-500/15 text-amber-700 dark:text-amber-300',
-                                    };
-                                    $statusTextClass = match($machine->status) {
-                                        'washing' => 'text-teal-600 dark:text-teal-400',
-                                        'rinsing' => 'text-sky-600 dark:text-sky-400',
-                                        'drying' => 'text-indigo-600 dark:text-indigo-400',
-                                        'idle' => 'text-emerald-600 dark:text-emerald-400',
-                                        default => 'text-amber-600 dark:text-amber-400',
-                                    };
-                                @endphp
-                                <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold {{ $statusClass }}">
-                                    <img
-                                        src="{{ asset('favicon.svg') }}"
-                                        alt="HourWash"
-                                        class="w-5 h-5 object-contain"
-                                    />
-                                </div>
-                                <div>
-                                    <span class="text-[10px] font-bold uppercase tracking-wider block {{ $statusTextClass }}">
-                                        {{ strtoupper($machine->status) }}
-                                    </span>
+                                <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono flex-shrink-0">
+                                    {{ $machine->machine_code }}
+                                </span>
+                            </div>
 
 
-                                    <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
+                            @php
+                                $statusClass = match($machine->status) {
+                                    'washing' => 'bg-teal-500/15 text-teal-700 dark:text-teal-300',
+                                    'rinsing' => 'bg-sky-500/15 text-sky-700 dark:text-sky-300',
+                                    'drying' => 'bg-indigo-500/15 text-indigo-700 dark:text-indigo-300',
+                                    'idle' => 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300',
+                                    default => 'bg-amber-500/15 text-amber-700 dark:text-amber-300',
+                                };
+                                $statusTextClass = match($machine->status) {
+                                    'washing' => 'text-teal-600 dark:text-teal-400',
+                                    'rinsing' => 'text-sky-600 dark:text-sky-400',
+                                    'drying' => 'text-indigo-600 dark:text-indigo-400',
+                                    'idle' => 'text-emerald-600 dark:text-emerald-400',
+                                    default => 'text-amber-600 dark:text-amber-400',
+                                };
+                            @endphp
+                            <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold {{ $statusClass }}">
+                                <img
+                                    src="{{ asset('favicon.svg') }}"
+                                    alt="HourWash"
+                                    class="w-5 h-5 object-contain"
+                                />
+                            </div>
+                            <div>
+                                <span class="text-[10px] font-bold uppercase tracking-wider block {{ $statusTextClass }}">
+                                    {{ strtoupper($machine->status) }}
+                                </span>
 
-                                        @if(in_array($machine->status, ['washing', 'rinsing', 'drying']))
 
-                                            <span>
-                                                ⏱ {{ $machine->remaining_minutes ?? 30 }} mins remaining
+                                <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
+
+                                    @if(in_array($machine->status, ['washing', 'rinsing', 'drying']))
+
+                                        <span>
+                                            ⏱ {{ $machine->remaining_minutes ?? 30 }} mins remaining
+                                        </span>
+
+                                        <span class="block text-[9px] text-[#007AFF] dark:text-[#0A84FF] font-bold mt-0.5">
+                                            Est. Finish:
+                                            {{ now()->addMinutes($machine->remaining_minutes ?? 30)->format('h:i A') }}
+                                        </span>
+                                        
+                                        @if($machine->currentOrder)
+                                            <span class="block text-[9px] font-bold text-[#007AFF] dark:text-[#0A84FF] mt-1 underline group-hover:text-blue-700">
+                                                Order: {{ $machine->currentOrder->order_number }} →
                                             </span>
-
-                                            <span class="block text-[9px] text-[#007AFF] dark:text-[#0A84FF] font-bold mt-0.5">
-                                                Est. Finish:
-                                                {{ now()->addMinutes($machine->remaining_minutes ?? 30)->format('h:i A') }}
-                                            </span>
-                                            
-                                            @if($machine->currentOrder)
-                                                <span class="block text-[9px] font-bold text-[#007AFF] dark:text-[#0A84FF] mt-1 underline group-hover:text-blue-700">
-                                                    Order: {{ $machine->currentOrder->order_number }} →
-                                                </span>
-                                            @endif
-
-                                        @elseif($machine->status === 'maintenance')
-
-                                            <span class="text-amber-600 dark:text-amber-400 font-semibold">
-                                                ⚠ Maintenance
-                                            </span>
-
-                                        @elseif($machine->status === 'offline')
-
-                                            <span class="text-rose-600 dark:text-rose-400 font-semibold">
-                                                🚫 Offline
-                                            </span>
-
-                                        @else
-
-                                            Available
-
                                         @endif
 
-                                    </div>
-                                </div>
+                                    @elseif($machine->status === 'maintenance')
 
+                                        <span class="text-amber-600 dark:text-amber-400 font-semibold">
+                                            ⚠ Maintenance
+                                        </span>
+
+                                    @elseif($machine->status === 'offline')
+
+                                        <span class="text-rose-600 dark:text-rose-400 font-semibold">
+                                            🚫 Offline
+                                        </span>
+
+                                    @else
+
+                                        Available
+
+                                    @endif
+
+                                </div>
                             </div>
                         </a>
 

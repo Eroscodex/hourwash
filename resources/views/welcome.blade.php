@@ -342,42 +342,42 @@
                     @endphp
 
                     @if($canViewOrder && $machine->currentOrder)
-                        <a href="{{ route('laundry.track', $machine->currentOrder->order_number) }}" class="block group" title="Click to view order details #{{ $machine->currentOrder->order_number }}">
-                            <div class="app-card p-4 space-y-3 hover:border-[#007AFF] hover:shadow-md transition relative @if($isMyOrder) border-2 border-[#007AFF] bg-[#007AFF]/5 @endif">
-                                @if($isMyOrder)
-                                    <span class="absolute -top-2 -right-1 bg-[#007AFF] text-white text-[8px] font-extrabold px-1.5 py-0.5 rounded-md shadow uppercase tracking-wider">
-                                        YOUR ORDER
-                                    </span>
-                                @endif
-                                <div class="flex items-center justify-between">
-                                    <span class="text-xs font-bold text-slate-900 dark:text-white">{{ $machine->machine_name }}</span>
-                                    <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">{{ $machine->machine_code }}</span>
-                                </div>
-                                <div class="flex items-center justify-between">
-                                    <span class="text-xs text-slate-600 dark:text-slate-300 capitalize">{{ str_replace('_', ' ', $machine->machine_type) }}</span>
-                                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider
-                                        @if($machine->status === 'idle') bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30
-                                        @elseif(in_array($machine->status, ['washing', 'rinsing', 'drying'])) bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF] border border-[#007AFF]/30
-                                        @elseif($machine->status === 'maintenance') bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30
-                                        @else bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 @endif">
-                                        {{ ucfirst($machine->status) }}
-                                    </span>
-                                </div>
-                                <div class="text-[11px] text-slate-500 dark:text-slate-400 pt-1 border-t border-black/10 dark:border-white/10">
-                                    @if(in_array($machine->status, ['washing', 'rinsing', 'drying']))
-                                        <div class="flex flex-col gap-0.5 text-slate-850 dark:text-slate-250 text-[11px] font-semibold">
-                                            <div class="flex items-center gap-1">
-                                                <span>⏱ {{ $machine->remaining_minutes ?? 30 }} mins remaining</span>
-                                            </div>
-                                            <div class="text-[10px] text-[#007AFF] dark:text-[#0A84FF] font-bold">
-                                                Est. Finish: {{ now()->addMinutes($machine->remaining_minutes ?? 30)->format('h:i A') }}
-                                            </div>
-                                            <div class="text-[10px] text-[#007AFF] dark:text-[#0A84FF] font-bold underline mt-1">
-                                                Order: #{{ $machine->currentOrder->order_number }} →
-                                            </div>
+                        <a href="{{ route('laundry.track', $machine->currentOrder->order_number) }}" 
+                           class="block p-4 rounded-xl bg-black/5 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-3 hover:border-[#007AFF] hover:shadow-lg hover:scale-[1.02] active:scale-95 transition-all cursor-pointer relative group @if($isMyOrder) border-2 border-[#007AFF] bg-[#007AFF]/5 @endif" 
+                           title="Click anywhere on box to view order #{{ $machine->currentOrder->order_number }}">
+                            @if($isMyOrder)
+                                <span class="absolute -top-2 -right-1 bg-[#007AFF] text-white text-[8px] font-extrabold px-1.5 py-0.5 rounded-md shadow uppercase tracking-wider">
+                                    YOUR ORDER
+                                </span>
+                            @endif
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-[#007AFF] transition">{{ $machine->machine_name }}</span>
+                                <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">{{ $machine->machine_code }}</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs text-slate-600 dark:text-slate-300 capitalize">{{ str_replace('_', ' ', $machine->machine_type) }}</span>
+                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider
+                                    @if($machine->status === 'idle') bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30
+                                    @elseif(in_array($machine->status, ['washing', 'rinsing', 'drying'])) bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF] border border-[#007AFF]/30
+                                    @elseif($machine->status === 'maintenance') bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30
+                                    @else bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 @endif">
+                                    {{ ucfirst($machine->status) }}
+                                </span>
+                            </div>
+                            <div class="text-[11px] text-slate-500 dark:text-slate-400 pt-1 border-t border-black/10 dark:border-white/10">
+                                @if(in_array($machine->status, ['washing', 'rinsing', 'drying']))
+                                    <div class="flex flex-col gap-0.5 text-slate-850 dark:text-slate-250 text-[11px] font-semibold">
+                                        <div class="flex items-center gap-1">
+                                            <span>⏱ {{ $machine->remaining_minutes ?? 30 }} mins remaining</span>
                                         </div>
-                                    @endif
-                                </div>
+                                        <div class="text-[10px] text-[#007AFF] dark:text-[#0A84FF] font-bold">
+                                            Est. Finish: {{ now()->addMinutes($machine->remaining_minutes ?? 30)->format('h:i A') }}
+                                        </div>
+                                        <div class="text-[10px] text-[#007AFF] dark:text-[#0A84FF] font-bold underline mt-1 group-hover:text-blue-700">
+                                            Order: #{{ $machine->currentOrder->order_number }} →
+                                        </div>
+                                    </div>
+                                @endif
                             </div>
                         </a>
                     @else

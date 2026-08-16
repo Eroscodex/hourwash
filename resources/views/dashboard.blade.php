@@ -258,32 +258,32 @@
                     @endphp
 
                     @if($isMyOrder)
-                        <a href="{{ route('laundry.track', $machine->currentOrder->order_number) }}" class="block group" title="Click to view your order #{{ $machine->currentOrder->order_number }}">
-                            <div class="p-3.5 rounded-xl bg-[#007AFF]/5 dark:bg-[#0A84FF]/10 border-2 border-[#007AFF] space-y-2 hover:shadow-md transition relative">
-                                <span class="absolute -top-2 -right-1 bg-[#007AFF] text-white text-[8px] font-extrabold px-1.5 py-0.5 rounded-md shadow uppercase tracking-wider">
-                                    YOUR ORDER
+                        <a href="{{ route('laundry.track', $machine->currentOrder->order_number) }}" 
+                           class="block p-3.5 rounded-xl bg-[#007AFF]/5 dark:bg-[#0A84FF]/10 border-2 border-[#007AFF] space-y-2 hover:shadow-lg hover:scale-[1.02] active:scale-95 transition-all cursor-pointer relative group" 
+                           title="Click anywhere on box to view your order #{{ $machine->currentOrder->order_number }}">
+                            <span class="absolute -top-2 -right-1 bg-[#007AFF] text-white text-[8px] font-extrabold px-1.5 py-0.5 rounded-md shadow uppercase tracking-wider">
+                                YOUR ORDER
+                            </span>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-slate-900 dark:text-slate-100 truncate group-hover:text-[#007AFF] transition">
+                                    {{ $machine->machine_name }}
                                 </span>
-                                <div class="flex items-center justify-between">
-                                    <span class="text-xs font-bold text-slate-900 dark:text-slate-100 truncate">
-                                        {{ $machine->machine_name }}
+                                <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono flex-shrink-0">
+                                    {{ $machine->machine_code }}
+                                </span>
+                            </div>
+                            <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold {{ $statusClass }}">
+                                <img src="{{ asset('favicon.svg') }}" alt="HourWash" class="w-5 h-5 object-contain" />
+                            </div>
+                            <div>
+                                <span class="text-[10px] font-bold uppercase tracking-wider block {{ $statusTextClass }}">
+                                    {{ strtoupper($machine->status) }}
+                                </span>
+                                <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
+                                    <span>⏱ {{ $machine->remaining_minutes ?? 30 }} mins remaining</span>
+                                    <span class="block text-[9px] font-bold text-[#007AFF] dark:text-[#0A84FF] mt-1 underline group-hover:text-blue-700">
+                                        Order: #{{ $machine->currentOrder->order_number }} →
                                     </span>
-                                    <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono flex-shrink-0">
-                                        {{ $machine->machine_code }}
-                                    </span>
-                                </div>
-                                <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold {{ $statusClass }}">
-                                    <img src="{{ asset('favicon.svg') }}" alt="HourWash" class="w-5 h-5 object-contain" />
-                                </div>
-                                <div>
-                                    <span class="text-[10px] font-bold uppercase tracking-wider block {{ $statusTextClass }}">
-                                        {{ strtoupper($machine->status) }}
-                                    </span>
-                                    <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
-                                        <span>⏱ {{ $machine->remaining_minutes ?? 30 }} mins remaining</span>
-                                        <span class="block text-[9px] font-bold text-[#007AFF] dark:text-[#0A84FF] mt-1 underline">
-                                            Order: #{{ $machine->currentOrder->order_number }} →
-                                        </span>
-                                    </div>
                                 </div>
                             </div>
                         </a>
