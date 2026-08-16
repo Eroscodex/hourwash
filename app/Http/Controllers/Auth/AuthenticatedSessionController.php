@@ -28,6 +28,15 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        $user = auth()->user();
+        if ($user && $user->isRider()) {
+            return redirect()->intended(route('rider.dashboard', absolute: false));
+        }
+
+        if ($user && ($user->isOwner() || $user->isAdmin() || $user->isStaff())) {
+            return redirect()->intended(route('admin.dashboard', absolute: false));
+        }
+
         return redirect()->intended(route('dashboard', absolute: false));
     }
 

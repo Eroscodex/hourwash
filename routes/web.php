@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ChatbotController;
 use App\Http\Controllers\LaundryController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Rider\RiderDashboardController;
 use App\Mail\OrderStatusUpdated;
 use App\Models\CustomerFeedback;
 use App\Models\EmailNotification;
@@ -408,6 +409,9 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/sms', [SmsLogController::class, 'index'])->name('sms.index');
     Route::post('/sms/send', [SmsLogController::class, 'sendTestSms'])->name('sms.send');
     Route::get('/emails', [EmailLogController::class, 'index'])->name('emails.index');
+
+    Route::get('/rider/dashboard', [RiderDashboardController::class, 'index'])->name('rider.dashboard');
+    Route::match(['post', 'patch'], '/rider/order/{order}/status', [RiderDashboardController::class, 'updateStatus'])->name('rider.updateStatus');
 
     Route::post('/orders/reset-all', function () {
         if (! auth()->user()->isOwner() && ! auth()->user()->isStaff()) {
