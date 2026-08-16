@@ -391,10 +391,20 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         $smsCount = Schema::hasTable('sms_notifications') ? SmsNotification::count() : 0;
         $emailCount = Schema::hasTable('email_notifications') ? EmailNotification::count() : 0;
 
-        $outForPickup = Order::where('order_status', 'out_for_pickup')->count();
+        $outForPickup = Order::where('order_status', 'out_for_pickup')
+            ->orWhere(function ($query) {
+                $query->where('order_status', 'pending')
+                    ->whereIn('pickup_type', ['pickup_delivery', 'pickup']);
+            })->count();
+
         $outForDelivery = Order::where('order_status', 'out_for_delivery')->count();
-        $riderOrders = Order::with(['customer', 'service'])
+
+        $riderOrders = Order::with(['customer.customerProfile', 'service'])
             ->whereIn('order_status', ['out_for_pickup', 'out_for_delivery'])
+            ->orWhere(function ($query) {
+                $query->where('order_status', 'pending')
+                    ->whereIn('pickup_type', ['pickup_delivery', 'pickup']);
+            })
             ->latest()
             ->get();
 

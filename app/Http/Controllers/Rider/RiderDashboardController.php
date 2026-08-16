@@ -14,7 +14,13 @@ class RiderDashboardController extends Controller
         $user = auth()->user();
 
         $pickupOrders = Order::with(['customer.customerProfile', 'service'])
-            ->where('order_status', 'out_for_pickup')
+            ->where(function ($query) {
+                $query->where('order_status', 'out_for_pickup')
+                    ->orWhere(function ($q) {
+                        $q->where('order_status', 'pending')
+                            ->whereIn('pickup_type', ['pickup_delivery', 'pickup']);
+                    });
+            })
             ->latest()
             ->get();
 

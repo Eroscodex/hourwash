@@ -229,10 +229,10 @@ class DatabaseSeeder extends Seeder
         $foldService = Service::where('service_type', 'wash_dry_fold')->first();
 
         $activeOrdersData = [
-            ['code' => 'HW884210', 'm_code' => 'WM-001', 'cust' => $customer1, 'status' => 'washing', 'min' => 28, 'service' => $washService],
-            ['code' => 'HW729104', 'm_code' => 'WM-002', 'cust' => $customer2, 'status' => 'rinsing', 'min' => 15, 'service' => $premService],
-            ['code' => 'HW541092', 'm_code' => 'DR-001', 'cust' => $customer1, 'status' => 'drying', 'min' => 35, 'service' => $foldService],
-            ['code' => 'HW903115', 'm_code' => 'WM-003', 'cust' => $customer2, 'status' => 'washing', 'min' => 42, 'service' => $washService],
+            ['code' => 'HW884210', 'm_code' => 'WM-001', 'cust' => $customer1, 'status' => 'out_for_pickup', 'min' => 28, 'service' => $washService, 'pickup_type' => 'pickup_delivery'],
+            ['code' => 'HW729104', 'm_code' => 'WM-002', 'cust' => $customer2, 'status' => 'rinsing', 'min' => 15, 'service' => $premService, 'pickup_type' => 'drop_off'],
+            ['code' => 'HW541092', 'm_code' => 'DR-001', 'cust' => $customer1, 'status' => 'out_for_delivery', 'min' => 35, 'service' => $foldService, 'pickup_type' => 'pickup_delivery'],
+            ['code' => 'HW903115', 'm_code' => 'WM-003', 'cust' => $customer2, 'status' => 'out_for_pickup', 'min' => 42, 'service' => $washService, 'pickup_type' => 'pickup_delivery'],
             ['code' => 'HW618302', 'm_code' => 'DR-002', 'cust' => $customer1, 'status' => 'drying', 'min' => 20, 'service' => $foldService],
             ['code' => 'HW886006', 'm_code' => 'WM-006', 'cust' => $customer2, 'status' => 'washing', 'min' => 38, 'service' => $washService],
             ['code' => 'HW543003', 'm_code' => 'DR-003', 'cust' => $customer1, 'status' => 'drying', 'min' => 45, 'service' => $foldService],
@@ -255,7 +255,7 @@ class DatabaseSeeder extends Seeder
                     'total_amount' => 120.00,
                     'payment_status' => 'paid',
                     'order_status' => $data['status'],
-                    'pickup_type' => 'drop_off',
+                    'pickup_type' => $data['pickup_type'] ?? 'drop_off',
                     'estimated_completion' => Carbon::now()->addMinutes($data['min']),
                     'notes' => 'Handle with extra care.',
                 ]

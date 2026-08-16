@@ -617,9 +617,9 @@
                                 <div class="flex items-center gap-2">
                                     <span class="font-mono font-bold text-sm text-[#0A84FF]">#{{ $order->order_number }}</span>
                                     <span class="px-2.5 py-0.5 rounded text-[10px] font-extrabold uppercase tracking-wider
-                                        @if($order->order_status === 'out_for_pickup') bg-amber-500/20 text-amber-300 border border-amber-500/40
+                                        @if(in_array($order->order_status, ['out_for_pickup', 'pending'])) bg-amber-500/20 text-amber-300 border border-amber-500/40
                                         @else bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 @endif">
-                                        {{ strtoupper(str_replace('_', ' ', $order->order_status)) }}
+                                        {{ strtoupper(str_replace('_', ' ', $order->order_status === 'pending' ? 'out_for_pickup' : $order->order_status)) }}
                                     </span>
                                 </div>
 
@@ -631,7 +631,7 @@
                             </div>
 
                             <div class="flex items-center gap-2 self-start md:self-center">
-                                @if($order->order_status === 'out_for_pickup')
+                                @if(in_array($order->order_status, ['out_for_pickup', 'pending']))
                                     <form method="POST" action="{{ route('admin.laundry.update', $order->id) }}">
                                         @csrf
                                         @method('PATCH')
