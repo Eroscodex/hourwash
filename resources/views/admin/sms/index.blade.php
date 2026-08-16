@@ -31,30 +31,7 @@
             </div>
         @endif
 
-        <!-- Quick Test SMS Card -->
-        <div class="app-card p-5 bg-[#1C1C1E] border border-white/10 rounded-2xl space-y-4">
-            <h2 class="text-sm font-bold text-white flex items-center gap-2">
-                <span>💬</span> Direct Test SMS Dispatcher
-            </h2>
-            <form action="{{ route('admin.sms.send') }}" method="POST" class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
-                @csrf
-                <div class="sm:col-span-4">
-                    <label class="block text-[11px] font-semibold text-slate-400 mb-1">Phone Number</label>
-                    <input type="text" name="phone" value="09100317744" required placeholder="09100317744"
-                           class="w-full px-3 py-2 text-xs rounded-xl bg-black/50 border border-white/10 text-white focus:border-[#007AFF] focus:outline-none">
-                </div>
-                <div class="sm:col-span-6">
-                    <label class="block text-[11px] font-semibold text-slate-400 mb-1">Message Body</label>
-                    <input type="text" name="message" value="HourWash Test Alert: SMS live gateway test is working!" required
-                           class="w-full px-3 py-2 text-xs rounded-xl bg-black/50 border border-white/10 text-white focus:border-[#007AFF] focus:outline-none">
-                </div>
-                <div class="sm:col-span-2">
-                    <button type="submit" class="w-full py-2 px-4 rounded-xl bg-[#007AFF] hover:bg-[#0056b3] text-white font-bold text-xs transition shadow-sm">
-                        Send Test SMS
-                    </button>
-                </div>
-            </form>
-        </div>
+
 
         <!-- SMS Outbox Logs -->
         <div class="space-y-4">
