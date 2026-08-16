@@ -115,19 +115,21 @@ class SmsNotificationService
         }
 
         $statusStr = strtoupper(str_replace('_', ' ', $order->order_status));
-        $custName = $order->customer?->name ?? 'Customer';
+        $custName = explode(' ', trim($order->customer?->name ?? 'Customer'))[0];
         $code = $order->order_number;
         $compTime = $order->estimated_completion
-            ? Carbon::parse($order->estimated_completion)->format('M d, Y h:i A')
+            ? Carbon::parse($order->estimated_completion)->format('M d h:i A')
             : 'TBD';
 
-        $message = "HourWash Alert: Hi {$custName}, your laundry Order #{$code} status is now {$statusStr}. Est Completion: {$compTime}.";
+        $message = "HourWash: Hi {$custName}, Order #{$code} status is {$statusStr}. Est: {$compTime}.";
 
         if (! empty($customNote)) {
             $message .= " {$customNote}";
         }
 
-        $message .= ' Track live: '.url("/laundry/track/{$code}");
+        $appUrl = config('app.url', 'https://hourwashlaundryshop.up.railway.app');
+        $cleanUrl = preg_replace('/^https?:\/\//', '', rtrim($appUrl, '/'));
+        $message .= " Track: {$cleanUrl}/laundry/track/{$code}";
         $smsStatus = 'failed';
 
         try {
