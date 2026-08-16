@@ -1,10 +1,12 @@
 <?php
 
 use App\Http\Controllers\Admin\AnalyticsController;
+use App\Http\Controllers\Admin\EmailLogController;
 use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Admin\LaundryController as AdminLaundryController;
 use App\Http\Controllers\Admin\MachineController;
 use App\Http\Controllers\Admin\ServiceController;
+use App\Http\Controllers\Admin\SmsLogController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ChatbotController;
 use App\Http\Controllers\LaundryController;
@@ -375,6 +377,8 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/laundry', [AdminLaundryController::class, 'index'])->name('laundry.index');
     Route::patch('/laundry/{order}', [AdminLaundryController::class, 'update'])->name('laundry.update');
     Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics');
+    Route::get('/sms', [SmsLogController::class, 'index'])->name('sms.index');
+    Route::get('/emails', [EmailLogController::class, 'index'])->name('emails.index');
 });
 
 /*

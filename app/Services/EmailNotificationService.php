@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Mail\OrderStatusUpdated;
+use App\Models\EmailNotification;
 use App\Models\Order;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -58,6 +59,19 @@ class EmailNotificationService
                     Log::info(
                         "Brevo email sent to {$recipientEmail} for Order #{$order->order_number}"
                     );
+
+                    try {
+                        EmailNotification::create([
+                            'order_id' => $order->id,
+                            'user_id' => $order->customer_id,
+                            'recipient' => $recipientEmail,
+                            'subject' => $subject,
+                            'body' => 'HourWash Alert: Hi '.($order->customer?->name ?? 'Customer').", your laundry Order #{$order->order_number} status is now {$statusStr}. Track live: ".url("/laundry/track/{$order->order_number}"),
+                            'status' => 'sent',
+                        ]);
+                    } catch (\Throwable $e) {
+                        Log::error('EmailNotification creation failed: '.$e->getMessage());
+                    }
 
                     return;
                 }

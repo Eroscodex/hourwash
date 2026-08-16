@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\CustomerFeedback;
 use App\Models\CustomerProfile;
+use App\Models\EmailNotification;
 use App\Models\InventoryItem;
 use App\Models\Machine;
 use App\Models\Notification;
@@ -11,6 +12,7 @@ use App\Models\Order;
 use App\Models\Promotion;
 use App\Models\QrCode;
 use App\Models\Service;
+use App\Models\SmsNotification;
 use App\Models\StaffProfile;
 use App\Models\User;
 use Carbon\Carbon;
@@ -46,9 +48,9 @@ class DatabaseSeeder extends Seeder
         );
 
         StaffProfile::firstOrCreate(
-            ['user_id' => $staff->id],
+            ['employee_id' => 'EMP-001'],
             [
-                'employee_id' => 'EMP-001',
+                'user_id' => $staff->id,
                 'position' => 'Senior Laundry Specialist',
                 'hire_date' => '2024-01-15',
                 'status' => 'active',
@@ -297,6 +299,64 @@ class DatabaseSeeder extends Seeder
                     'comment' => 'Fast drying and excellent service. Staff was friendly and my blankets came out smelling fresh!',
                     'rating' => 5,
                     'status' => 'published',
+                ]
+            );
+        }
+
+        // 11. Sample SMS Outbox Logs
+        $sampleSmsList = [
+            ['phone' => '09123456782', 'msg' => 'HourWash Alert: Hi Lezil Orgasa, your laundry Order #HW-QAQ3SM2V status is now WASHING. Est Completion: Aug 15, 2026 04:28 PM. Track live: https://hourwashlaundryshop.up.railway.app/laundry/track/HW-QAQ3SM2V'],
+            ['phone' => '09123456782', 'msg' => 'HourWash Alert: Hi Lezil Orgasa, your laundry Order #HW-QAQ3SM2V status is now PENDING. Est Completion: Aug 15, 2026 04:28 PM. Track live: https://hourwashlaundryshop.up.railway.app/laundry/track/HW-QAQ3SM2V'],
+            ['phone' => '09222555100', 'msg' => 'HourWash Alert: Hi mark uno, your laundry Order #HW-TBGGCIRT status is now OUT FOR PICKUP. Est Completion: Aug 15, 2026 04:44 PM. Track live: https://hourwashlaundryshop.up.railway.app/laundry/track/HW-TBGGCIRT'],
+            ['phone' => '09222555100', 'msg' => 'HourWash Alert: Hi mark uno, your laundry Order #HW-TBGGCIRT status is now PENDING. Est Completion: Aug 15, 2026 01:44 PM. Track live: https://hourwashlaundryshop.up.railway.app/laundry/track/HW-TBGGCIRT'],
+            ['phone' => '09051378154', 'msg' => 'HourWash Alert: Hi Eroscodex, your laundry Order #HW-3XLDNZ3O status is now OUT FOR PICKUP. Est Completion: Aug 14, 2026 07:00 PM. Track live: https://hourwashlaundryshop.up.railway.app/laundry/track/HW-3XLDNZ3O'],
+            ['phone' => '09100317744', 'msg' => 'HourWash Alert: Hi Eroscodex, your laundry Order #HW-3XLDNZ3O status is now PENDING. Est Completion: Aug 14, 2026 07:00 PM. Track live: https://hourwashlaundryshop.up.railway.app/laundry/track/HW-3XLDNZ3O'],
+            ['phone' => '09051378154', 'msg' => 'HourWash Alert: Hi Alexa Casa, your laundry Order #HW903115 status is now RECEIVED. Est Completion: Aug 09, 2026 04:36 PM. Track live: https://hourwashlaundryshop.up.railway.app/laundry/track/HW903115'],
+            ['phone' => '09175012581', 'msg' => 'HourWash Alert: Hi Alma Alondra, your laundry Order #HW-QAZGIDEE status is now WASHING. Est Completion: Aug 12, 2026 09:58 PM. Track live: https://hourwashlaundryshop.up.railway.app/laundry/track/HW-QAZGIDEE'],
+            ['phone' => '09175012581', 'msg' => 'HourWash Alert: Hi Alma Alondra, your laundry Order #HW-QAZGIDEE status is now RECEIVED. Est Completion: Aug 12, 2026 09:58 PM. Track live: https://hourwashlaundryshop.up.railway.app/laundry/track/HW-QAZGIDEE'],
+            ['phone' => '09175012581', 'msg' => 'HourWash Alert: Hi Alma Alondra, your laundry Order #HW-QAZGIDEE status is now OUT FOR PICKUP. Est Completion: Aug 12, 2026 09:58 PM. Track live: https://hourwashlaundryshop.up.railway.app/laundry/track/HW-QAZGIDEE'],
+        ];
+
+        foreach ($sampleSmsList as $sms) {
+            SmsNotification::firstOrCreate(
+                ['message' => $sms['msg']],
+                [
+                    'phone' => $sms['phone'],
+                    'status' => 'sent',
+                    'user_id' => $customer1->id,
+                    'order_id' => $order1?->id,
+                ]
+            );
+        }
+
+        // 12. Sample Email Outbox Logs
+        $sampleEmailList = [
+            [
+                'recipient' => 'lezorgasa@gmail.com',
+                'subject' => 'HourWash Notification: Order #HW884210 is WASHING',
+                'body' => 'HourWash Alert: Hi Lezil Orgasa, your laundry Order #HW884210 status is now WASHING. Est Completion: Aug 16, 2026 04:28 PM. Track live: https://hourwashlaundryshop.up.railway.app/laundry/track/HW884210',
+            ],
+            [
+                'recipient' => 'casalexa10@gmail.com',
+                'subject' => 'HourWash Notification: Order #HW729104 is RINSING',
+                'body' => 'HourWash Alert: Hi Alexa Casa, your laundry Order #HW729104 status is now RINSING. Est Completion: Aug 16, 2026 04:15 PM. Track live: https://hourwashlaundryshop.up.railway.app/laundry/track/HW729104',
+            ],
+            [
+                'recipient' => 'karlnicko2019@gmail.com',
+                'subject' => 'HourWash Admin Alert: New Order #HW884210 Received',
+                'body' => 'New customer laundry order #HW884210 has been received and assigned to Machine 1.',
+            ],
+        ];
+
+        foreach ($sampleEmailList as $email) {
+            EmailNotification::firstOrCreate(
+                ['subject' => $email['subject']],
+                [
+                    'recipient' => $email['recipient'],
+                    'body' => $email['body'],
+                    'status' => 'sent',
+                    'user_id' => $customer1->id,
+                    'order_id' => $order1?->id,
                 ]
             );
         }
