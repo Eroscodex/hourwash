@@ -123,7 +123,7 @@
                     </p>
                 </div>
                 <a href="{{ route('admin.machines.index') }}" class="text-xs text-[#007AFF] dark:text-[#0A84FF] hover:opacity-80 font-semibold">
-                    Manage Machines →
+                    Manage Machines
                 </a>
             </div>
 

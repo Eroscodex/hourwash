@@ -41,7 +41,7 @@
                         <span class="w-7 h-7 rounded-lg bg-[#007AFF]/15 text-[#007AFF] flex items-center justify-center text-sm font-bold">
                             🧺
                         </span>
-                        <span class="text-[9px] font-extrabold text-[#007AFF] dark:text-[#0A84FF]">GO →</span>
+                        <span class="text-[9px] font-extrabold text-[#007AFF] dark:text-[#0A84FF]">GO</span>
                     </div>
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-[#007AFF] transition block truncate">
@@ -60,7 +60,7 @@
                         <span class="w-7 h-7 rounded-lg bg-teal-500/15 text-teal-600 flex items-center justify-center text-sm font-bold">
                             ⚙️
                         </span>
-                        <span class="text-[9px] font-extrabold text-[#007AFF] dark:text-[#0A84FF]">GO →</span>
+                        <span class="text-[9px] font-extrabold text-[#007AFF] dark:text-[#0A84FF]">GO</span>
                     </div>
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-[#007AFF] transition block truncate">
@@ -79,7 +79,7 @@
                         <span class="w-7 h-7 rounded-lg bg-indigo-500/15 text-indigo-600 flex items-center justify-center text-sm font-bold">
                             🏷️
                         </span>
-                        <span class="text-[9px] font-extrabold text-[#007AFF] dark:text-[#0A84FF]">GO →</span>
+                        <span class="text-[9px] font-extrabold text-[#007AFF] dark:text-[#0A84FF]">GO</span>
                     </div>
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-[#007AFF] transition block truncate">
@@ -98,7 +98,7 @@
                         <span class="w-7 h-7 rounded-lg bg-sky-500/15 text-sky-600 flex items-center justify-center text-sm font-bold">
                             👥
                         </span>
-                        <span class="text-[9px] font-extrabold text-[#007AFF] dark:text-[#0A84FF]">GO →</span>
+                        <span class="text-[9px] font-extrabold text-[#007AFF] dark:text-[#0A84FF]">GO</span>
                     </div>
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-[#007AFF] transition block truncate">
@@ -117,7 +117,7 @@
                         <span class="w-7 h-7 rounded-lg bg-amber-500/15 text-amber-600 flex items-center justify-center text-sm font-bold">
                             📦
                         </span>
-                        <span class="text-[9px] font-extrabold text-[#007AFF] dark:text-[#0A84FF]">GO →</span>
+                        <span class="text-[9px] font-extrabold text-[#007AFF] dark:text-[#0A84FF]">GO</span>
                     </div>
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-[#007AFF] transition block truncate">
@@ -136,7 +136,7 @@
                         <span class="w-7 h-7 rounded-lg bg-emerald-500/15 text-emerald-600 flex items-center justify-center text-sm font-bold">
                             📱
                         </span>
-                        <span class="text-[9px] font-extrabold text-[#007AFF] dark:text-[#0A84FF]">GO →</span>
+                        <span class="text-[9px] font-extrabold text-[#007AFF] dark:text-[#0A84FF]">GO</span>
                     </div>
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-[#007AFF] transition block truncate">
@@ -155,7 +155,7 @@
                         <span class="w-7 h-7 rounded-lg bg-purple-500/15 text-purple-600 flex items-center justify-center text-sm font-bold">
                             ✉️
                         </span>
-                        <span class="text-[9px] font-extrabold text-[#007AFF] dark:text-[#0A84FF]">GO →</span>
+                        <span class="text-[9px] font-extrabold text-[#007AFF] dark:text-[#0A84FF]">GO</span>
                     </div>
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-[#007AFF] transition block truncate">
@@ -305,7 +305,7 @@
                     </div>
                     <a href="{{ route('admin.machines.index') }}"
                        class="text-xs text-[#007AFF] dark:text-[#0A84FF] hover:opacity-80 font-semibold">
-                        Manage Machines →
+                        Manage Machines
                     </a>
                 </div>
 
@@ -483,7 +483,7 @@
                     </div>
                     <a href="{{ route('admin.laundry.index') }}"
                        class="text-xs text-[#007AFF] dark:text-[#0A84FF] hover:opacity-80 font-semibold">
-                        View All Orders →
+                        View All Orders
                     </a>
                 </div>
 
