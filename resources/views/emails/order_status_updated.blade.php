@@ -11,10 +11,10 @@
         <tr>
             <td align="center">
                 
-                <!-- Main Container Card -->
+                
                 <table width="100%" max-width="600" border="0" cellspacing="0" cellpadding="0" style="max-width: 600px; background-color: #FFFFFF; border-radius: 20px; border: 1px solid #E2E8F0; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.06);">
                     
-                    <!-- Header Bar -->
+                    
                     <tr>
                         <td align="center" style="background-color: #0F172A; padding: 28px 20px;">
                             <img src="{{ url('favicon.svg') }}" alt="Hour Wash Logo" width="56" height="56" style="display: block; margin: 0 auto 10px auto; border-radius: 50%; border: 2px solid #38BDF8;">
@@ -27,7 +27,7 @@
                         </td>
                     </tr>
 
-                    <!-- Status Notification Banner -->
+                    
                     <tr>
                         <td align="center" style="padding: 30px 24px 10px 24px;">
                             <h2 style="margin: 0 0 8px 0; font-size: 20px; font-weight: 700; color: #0F172A;">
@@ -37,7 +37,7 @@
                                 This email notifies you that Order <strong style="color: #0284C7;">#{{ $order->order_number }}</strong> has moved to the next stage:
                             </p>
                             
-                            <!-- Dynamic Status Pill Badge -->
+                            
                             <div style="margin-top: 16px;">
                                 @php
                                     $st = strtolower($order->order_status);
@@ -53,7 +53,7 @@
                         </td>
                     </tr>
 
-                    <!-- Order Details Table -->
+                    
                     <tr>
                         <td style="padding: 20px 24px;">
                             <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px; padding: 12px 16px;">
@@ -127,7 +127,7 @@
                         </td>
                     </tr>
 
-                    <!-- Scannable QR Code Section -->
+                    
                     <tr>
                         <td align="center" style="padding: 10px 24px 24px 24px;">
                             <table border="0" cellspacing="0" cellpadding="0" style="background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 14px; padding: 16px; text-align: center; width: 100%;">
@@ -145,7 +145,7 @@
                                             Scan this QR tag with any camera to inspect 5-stage cleaning progress
                                         </p>
                                         
-                                        <!-- Direct Track Link Button -->
+                                        
                                         <a href="{{ url('/laundry/track/' . ($order->qrCode->qr_token ?? $order->order_number)) }}" 
                                            style="display: inline-block; background-color: #0284C7; color: #FFFFFF; text-decoration: none; font-weight: 700; font-size: 12px; padding: 10px 24px; border-radius: 10px; shadow: 0 2px 4px rgba(0,0,0,0.1);">
                                             Click Here to Track Live Order Progress
@@ -156,7 +156,7 @@
                         </td>
                     </tr>
 
-                    <!-- Footer -->
+                    
                     <tr>
                         <td align="center" style="background-color: #F8FAFC; border-top: 1px solid #E2E8F0; padding: 20px; font-size: 11px; color: #64748B; line-height: 1.5;">
                             Store Location: <strong>Magallanes St., Orosite, Legazpi City, Albay</strong><br>

@@ -11,7 +11,7 @@
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}">
 
-    <!-- Google Fonts & Pre-init Theme script -->
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -31,7 +31,7 @@
 
     <div class="w-full max-w-md space-y-6">
 
-        <!-- Top Header & Theme Switcher -->
+        
         <div class="flex items-center justify-between">
             <a href="{{ route('welcome') }}" class="btn-ios-secondary text-xs">Back</a>
             <button id="theme-toggle-btn" onclick="toggleTheme()" class="p-2 px-3 rounded-xl bg-slate-100 dark:bg-white/10 text-slate-900 dark:text-[#F5F5F7] border border-black/10 dark:border-white/10 hover:scale-105 transition-all text-xs font-semibold flex items-center gap-1.5 shadow-sm cursor-pointer" title="Toggle Light/Dark Theme">
@@ -46,7 +46,7 @@
             </button>
         </div>
 
-        <!-- Logo -->
+        
         <div class="flex flex-col items-center text-center mb-6">
             <a href="{{ route('welcome') }}" class="flex items-center gap-3 group">
                 <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-16 h-16 rounded-full object-cover shadow-xl group-hover:scale-105 transition-transform bg-white p-1 border-2 border-[#007AFF]/30">
@@ -57,12 +57,12 @@
             <p class="text-xs text-[#007AFF] dark:text-[#0A84FF] tracking-widest uppercase mt-1 font-semibold">LAUNDRY MANAGEMENT SYSTEM</p>
         </div>
 
-        <!-- Form Card Container -->
+        
         <div class="app-card px-6 py-8 sm:px-8 shadow-2xl">
             {{ $slot }}
         </div>
 
-        <!-- Footer -->
+        
         <p class="text-center text-slate-500 dark:text-slate-400 text-xs mt-6">
             © {{ date('Y') }} Hour Wash Laundry Shop • Legazpi City
         </p>

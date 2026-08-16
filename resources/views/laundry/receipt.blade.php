@@ -17,7 +17,7 @@
 </head>
 <body class="bg-slate-100 text-slate-900 min-h-screen flex flex-col items-center justify-center p-4">
 
-    <!-- Action Bar (No Print) -->
+    
     <div class="no-print mb-4 flex gap-3">
         <button onclick="window.print()" class="bg-[#007AFF] text-white px-5 py-2.5 rounded-xl text-xs font-bold shadow-md hover:bg-blue-600 transition flex items-center gap-2">
             🖨 Print Official Thermal Receipt
@@ -27,10 +27,10 @@
         </button>
     </div>
 
-    <!-- Official Thermal POS Receipt Card -->
+    
     <div class="printable-card max-w-sm w-full bg-white p-6 rounded-2xl shadow-xl border border-slate-200 text-slate-900 space-y-4">
         
-        <!-- Receipt Header -->
+        
         <div class="text-center space-y-1 border-b border-dashed border-slate-300 pb-4">
             <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-14 h-14 mx-auto mb-1 rounded-full object-cover">
             <h1 class="text-xl font-bold font-['Outfit'] tracking-tight">HOUR WASH LAUNDRY</h1>
@@ -39,7 +39,7 @@
             <p class="text-[10px] text-slate-500">Email: karlnicko2019@gmail.com | Mobile: 09123456789</p>
         </div>
 
-        <!-- Order Metadata -->
+        
         <div class="text-[11px] space-y-1 border-b border-dashed border-slate-300 pb-3">
             <div class="flex justify-between">
                 <span>RECEIPT NO:</span>
@@ -65,7 +65,7 @@
             </div>
         </div>
 
-        <!-- Purchased Items / Service Breakdown -->
+        
         <div class="text-[11px] space-y-2 border-b border-dashed border-slate-300 pb-3">
             <div class="flex justify-between font-bold text-slate-700 border-b border-slate-200 pb-1">
                 <span>DESCRIPTION</span>
@@ -95,7 +95,7 @@
             @endif
         </div>
 
-        <!-- Payment & Loyalty Summary -->
+        
         <div class="text-[11px] space-y-1.5 border-b border-dashed border-slate-300 pb-3">
             <div class="flex justify-between text-sm font-bold pt-1">
                 <span>TOTAL AMOUNT:</span>
@@ -117,7 +117,7 @@
             </div>
         </div>
 
-        <!-- Scannable Order QR Code Tag -->
+        
         <div class="text-center pt-2 space-y-2">
             <div class="w-32 h-32 mx-auto bg-white p-1.5 border border-slate-300 rounded-xl flex items-center justify-center">
                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ $order->qrCode->qr_token ?? $order->order_number }}" 

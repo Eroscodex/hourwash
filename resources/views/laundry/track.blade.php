@@ -20,7 +20,6 @@
         @endauth
     </div>
 
-    <!-- Main Order Details Card -->
     <div class="app-card p-6 sm:p-8 space-y-6 shadow-xl">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-black/10 dark:border-white/10 pb-4">
             <div>
@@ -35,7 +34,6 @@
             </div>
         </div>
 
-        <!-- 10-Stage Live Progress Bar -->
         @php
             $stages = [
                 'pending' => ['label' => 'Pending', 'pct' => 10],
@@ -44,7 +42,6 @@
                 'washing' => ['label' => 'Washing', 'pct' => 40],
                 'rinsing' => ['label' => 'Rinsing', 'pct' => 50],
                 'drying' => ['label' => 'Drying', 'pct' => 60],
-                'done' => ['label' => 'Finish', 'pct' => 70],
                 'finish' => ['label' => 'Finish', 'pct' => 70],
                 'out_for_delivery' => ['label' => 'Out for Delivery', 'pct' => 85],
                 'completed' => ['label' => 'Completed', 'pct' => 100],
@@ -63,7 +60,7 @@
         <div class="space-y-4">
             <div class="flex items-center justify-between text-xs font-semibold">
                 <span class="text-slate-500 dark:text-slate-400">Order Progress:</span>
-                <span class="text-[#007AFF] dark:text-[#0A84FF] font-bold capitalize">{{ $currentStatus === 'finish' || $currentStatus === 'done' ? 'Finish' : str_replace('_', ' ', $currentStatus) }}</span>
+                <span class="text-[#007AFF] dark:text-[#0A84FF] font-bold capitalize">{{ $currentStatus === 'finish' ? 'Finish' : str_replace('_', ' ', $currentStatus) }}</span>
             </div>
             
             <div class="w-full h-3 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden p-0.5">
@@ -98,7 +95,6 @@
             </div>
         </div>
 
-        <!-- Real Scannable QR Code Container -->
         <div class="flex flex-col sm:flex-row items-center justify-between gap-6 p-5 bg-slate-100 dark:bg-[#2C2C2E] rounded-2xl border border-black/5 dark:border-white/10">
             <div class="space-y-1 text-center sm:text-left">
                 <span class="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider block">REAL SCANNABLE QR LAUNDRY TAG</span>
@@ -118,7 +114,6 @@
             </div>
         </div>
 
-        <!-- Specifications Grid -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 text-xs bg-slate-100 dark:bg-[#2C2C2E] p-4 rounded-xl border border-black/5 dark:border-white/10">
             <div>
                 <span class="text-slate-500 dark:text-slate-400 text-[11px] block">Customer Name</span>
@@ -141,7 +136,7 @@
                     $durationFormatted = $hrs > 0 ? ($remMins > 0 ? "{$hrs} hrs {$remMins} mins" : "{$hrs} hrs") : "{$mins} mins";
                 @endphp
                 <p class="text-slate-900 dark:text-white font-semibold">{{ $durationFormatted }}</p>
-                @if(in_array($order->order_status, ['pending', 'out_for_pickup', 'received', 'washing', 'rinsing', 'drying', 'done', 'out_for_delivery']) && $order->estimated_completion && $order->estimated_completion->isFuture())
+                @if(in_array($order->order_status, ['pending', 'out_for_pickup', 'received', 'washing', 'rinsing', 'drying', 'finish', 'out_for_delivery']) && $order->estimated_completion && $order->estimated_completion->isFuture())
                     <div class="mt-1 flex items-center gap-1.5 text-[11px] text-[#007AFF] dark:text-[#0A84FF] font-bold" id="order-countdown-container">
                         <span class="w-1.5 h-1.5 rounded-full bg-[#007AFF] dark:bg-[#0A84FF] animate-pulse"></span>
                         <span>Remaining: </span>
@@ -162,7 +157,7 @@
 
 </div>
 
-@if(in_array($order->order_status, ['pending', 'out_for_pickup', 'received', 'washing', 'rinsing', 'drying', 'done', 'out_for_delivery']) && $order->estimated_completion && $order->estimated_completion->isFuture())
+@if(in_array($order->order_status, ['pending', 'out_for_pickup', 'received', 'washing', 'rinsing', 'drying', 'finish', 'out_for_delivery']) && $order->estimated_completion && $order->estimated_completion->isFuture())
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const countdownEl = document.getElementById('order-countdown');

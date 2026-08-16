@@ -1,7 +1,6 @@
 <x-app-layout>
     <div class="space-y-6 sm:space-y-8">
         
-        <!-- Welcome Greeting Header -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
                 <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white">
@@ -18,7 +17,6 @@
             </a>
         </div>
 
-        <!-- Live Shop Status Pills -->
         <div class="grid grid-cols-2 lg:grid-cols-5 gap-3">
             <div class="app-card p-4">
                 <div>
@@ -59,13 +57,10 @@
             </div>
         </div>
 
-        <!-- Main Dashboard Grid Layout (12 Columns) -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
             
-            <!-- Left Side Column (8 cols): Active Laundry Tracker & Orders -->
             <div class="lg:col-span-8 space-y-6">
                 
-                <!-- Active Laundry Live Tracker Card -->
                 <div class="app-card p-5 sm:p-6 space-y-5 shadow-lg border-l-4 border-l-[#007AFF]">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-black/5 dark:border-white/10 pb-4">
                         <div class="flex items-center gap-3">
@@ -84,7 +79,7 @@
                                         Active Order Tracker
                                     </h3>
                                     <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
-                                        {{ isset($activeOrder) ? str_replace('_', ' ', $activeOrder->order_status) : 'Washing In Progress' }}
+                                        {{ isset($activeOrder) ? ($activeOrder->order_status === 'finish' ? 'Finish' : str_replace('_', ' ', $activeOrder->order_status)) : 'Washing In Progress' }}
                                     </span>
                                 </div>
                                 <p class="text-xs text-slate-500 dark:text-slate-400">Live 5-stage cleaning progress monitoring</p>
@@ -119,7 +114,6 @@
                         </div>
                     </div>
 
-                    <!-- 5-Stage Live Progress Bar -->
                     <div class="space-y-2 pt-2">
                         <div class="flex items-center justify-between text-xs font-semibold">
                             <span class="text-slate-700 dark:text-slate-300">Overall Order Progress</span>
@@ -135,19 +129,18 @@
                             <div class="text-[#007AFF] dark:text-[#0A84FF]">● Washing</div>
                             <div>○ RINSING</div>
                             <div>○ DRYING</div>
-                            <div>○ READY</div>
+                            <div>○ FINISH</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Recent Orders History Table -->
                 <div class="app-card p-4 sm:p-6 space-y-4 overflow-hidden">
                     <div class="flex items-center justify-between">
                         <div>
                             <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Order History</h2>
                             <p class="text-xs text-slate-500 dark:text-slate-400">Your recent laundry bookings and invoices</p>
                         </div>
-                        <a href="{{ route('my.orders') }}" class="text-xs text-[#007AFF] dark:text-[#0A84FF] hover:opacity-80 font-semibold">View All History →</a>
+                        <a href="{{ route('my.orders') }}" class="text-xs text-[#007AFF] dark:text-[#0A84FF] hover:opacity-80 font-semibold">View All History</a>
                     </div>
 
                     <div class="overflow-x-auto max-w-full">
@@ -171,9 +164,9 @@
                                         <td class="px-4 py-3">
                                             <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider
                                                 @if($order->order_status === 'completed') bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30
-                                                @elseif($order->order_status === 'ready') bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30
+                                                @elseif($order->order_status === 'finish') bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30
                                                 @else bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30 @endif">
-                                                {{ str_replace('_', ' ', $order->order_status) }}
+                                                {{ $order->order_status === 'finish' ? 'Finish' : str_replace('_', ' ', $order->order_status) }}
                                             </span>
                                         </td>
                                     </tr>
@@ -189,10 +182,8 @@
 
             </div>
 
-            <!-- Right Side Column (4 cols) -->
             <div class="lg:col-span-4 space-y-6">
                 
-                <!-- Loyalty Points & Reward Redemption Card -->
                 <div class="app-card p-4 sm:p-6 space-y-4">
                     <div class="flex items-center justify-between border-b border-black/5 dark:border-white/10 pb-3">
                         <span class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">LOYALTY REWARDS</span>
@@ -219,7 +210,6 @@
             </div>
         </div>
 
-        <!-- MACHINE STATUS MONITOR (Customer View) -->
         <div class="app-card p-4 sm:p-6 space-y-6">
             <div class="flex items-center justify-between">
                 <div>

@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="space-y-6 sm:space-y-8">
 
-        {{-- HEADER --}}
+        
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
                 <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white">
@@ -19,7 +19,7 @@
             </div>
         </div>
 
-        {{-- EMAIL LIST CONTAINER --}}
+        
         <div class="space-y-4">
             @forelse($emailLogs as $email)
                 <div class="app-card p-4 sm:p-5 space-y-3 bg-[#1C1C1E] border border-black/10 dark:border-white/10 rounded-2xl shadow-sm">

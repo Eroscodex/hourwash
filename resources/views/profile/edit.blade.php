@@ -11,7 +11,7 @@
 
         <div class="max-w-4xl space-y-6">
 
-            <!-- Profile Information -->
+            
             <div class="app-card overflow-hidden shadow-xl">
                 <div class="p-5 border-b border-black/10 dark:border-white/10 flex items-center justify-between">
                     <div>
@@ -28,7 +28,7 @@
                 </div>
             </div>
 
-            <!-- Password Update -->
+            
             <div class="app-card overflow-hidden shadow-xl">
                 <div class="p-5 border-b border-black/10 dark:border-white/10 flex items-center justify-between">
                     <div>
@@ -48,7 +48,7 @@
                 </div>
             </div>
 
-            <!-- Delete Account -->
+            
             <div class="app-card overflow-hidden border-rose-500/40 shadow-xl">
                 <div class="p-5 border-b border-black/10 dark:border-white/10 bg-rose-500/10 flex items-center justify-between">
                     <div>

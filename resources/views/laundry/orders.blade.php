@@ -63,7 +63,7 @@
                     </div>
 
                     @if($order->feedback)
-                        <!-- Display Feedback & Delete Option -->
+                        
                         <div class="p-3.5 rounded-xl bg-black/5 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
                             <div class="space-y-1">
                                 <div class="flex items-center text-amber-400 gap-0.5">
@@ -82,7 +82,7 @@
                             </form>
                         </div>
                     @else
-                        <!-- Leave Feedback Form -->
+                        
                         <form method="POST" action="{{ route('feedback.store') }}" class="space-y-3">
                             @csrf
                             <input type="hidden" name="order_id" value="{{ $order->id }}">

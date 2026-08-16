@@ -60,12 +60,12 @@
                             </td>
                             <td class="px-6 py-4 text-right">
                                 <div class="flex items-center justify-end gap-2">
-                                    <!-- Edit User Button -->
+                                    
                                     <button onclick="document.getElementById('edit-user-modal-{{ $user->id }}').classList.remove('hidden')" class="p-1.5 text-blue-500 hover:bg-blue-500/10 rounded-lg transition" title="Edit User">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                                     </button>
 
-                                    <!-- Delete User Form -->
+                                    
                                     <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline">
                                         @csrf
                                         @method('DELETE')
@@ -75,7 +75,7 @@
                                     </form>
                                 </div>
 
-                                <!-- Edit User Modal -->
+                                
                                 <div id="edit-user-modal-{{ $user->id }}" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 text-left">
                                     <div class="app-card max-w-md w-full p-6 space-y-4 shadow-2xl">
                                         <div class="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-3">
@@ -134,7 +134,7 @@
 
     </div>
 
-    <!-- Add User Modal -->
+    
     <div id="add-user-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="app-card max-w-md w-full p-6 space-y-4 shadow-2xl">
             <div class="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-3">

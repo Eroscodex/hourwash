@@ -17,7 +17,7 @@
 <body class="bg-[#F2F2F7] dark:bg-[#000000] text-slate-900 dark:text-[#F5F5F7] font-['Inter'] antialiased min-h-screen py-10 px-4 sm:px-6">
     <div class="w-full max-w-3xl mx-auto space-y-6">
         
-        <!-- Header -->
+        
         <div class="flex items-center justify-between">
             <a href="{{ route('welcome') }}" class="btn-ios-secondary text-xs">Back</a>
             <button id="theme-toggle" class="p-2 px-3 rounded-xl bg-white dark:bg-white/10 text-slate-900 dark:text-[#F5F5F7] border border-black/10 dark:border-white/10 hover:scale-105 transition-all text-xs font-semibold flex items-center gap-1.5 shadow-sm cursor-pointer" title="Toggle Light/Dark Theme">
@@ -32,7 +32,7 @@
             </button>
         </div>
 
-        <!-- Content Card -->
+        
         <div class="bg-white dark:bg-[#1C1C1E] border border-black/10 dark:border-white/15 rounded-2xl p-6 sm:p-8 space-y-6 shadow-xl">
             <div class="text-center space-y-2 border-b border-black/10 dark:border-white/10 pb-5">
                 <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-16 h-16 rounded-full mx-auto bg-white p-1 border border-black/10">

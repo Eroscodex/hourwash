@@ -1,7 +1,6 @@
 <x-app-layout>
     <div class="space-y-6 sm:space-y-8">
         
-        <!-- Staff Workstation Header -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
                 <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white">
@@ -17,7 +16,6 @@
             </a>
         </div>
 
-        <!-- 4 Workstation Status Counters -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
             <div class="app-card p-4 flex items-center justify-between">
                 <div>
@@ -52,14 +50,13 @@
             </div>
         </div>
 
-        <!-- Live Processing Pipeline Table -->
         <div class="app-card p-4 sm:p-6 space-y-4 overflow-hidden">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                 <div>
                     <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Active Processing Pipeline</h2>
                     <p class="text-xs text-slate-600 dark:text-slate-400">Update cleaning status stages as laundry moves through machines</p>
                 </div>
-                <a href="{{ route('admin.laundry.index') }}" class="text-xs text-[#007AFF] dark:text-[#0A84FF] font-semibold hover:opacity-80">Full Orders Queue →</a>
+                <a href="{{ route('admin.laundry.index') }}" class="text-xs text-[#007AFF] dark:text-[#0A84FF] font-semibold hover:opacity-80">Full Orders Queue</a>
             </div>
 
             <div class="overflow-x-auto max-w-full">
@@ -91,10 +88,10 @@
                                 <td class="px-4 py-3">
                                     <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider
                                         @if($order->order_status === 'completed') bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30
-                                        @elseif($order->order_status === 'done') bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30
+                                        @elseif($order->order_status === 'finish') bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30
                                         @elseif($order->order_status === 'cancelled') bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30
                                         @else bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30 @endif">
-                                        {{ str_replace('_', ' ', $order->order_status) }}
+                                        {{ $order->order_status === 'finish' ? 'Finish' : str_replace('_', ' ', $order->order_status) }}
                                     </span>
                                 </td>
                                 <td class="px-4 py-3 text-center">
@@ -111,7 +108,6 @@
             </div>
         </div>
 
-        <!-- MACHINE STATUS MONITOR (Staff View) -->
         <div class="app-card p-4 sm:p-6 space-y-6">
             <div class="flex items-center justify-between">
                 <div>

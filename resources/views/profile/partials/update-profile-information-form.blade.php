@@ -8,14 +8,14 @@
         @method('patch')
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <!-- Name -->
+            
             <div>
                 <x-input-label for="name" :value="__('Full Name')" />
                 <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
                 <x-input-error class="mt-2" :messages="$errors->get('name')" />
             </div>
 
-            <!-- Email -->
+            
             <div>
                 <x-input-label for="email" :value="__('Email Address')" />
                 <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
@@ -41,14 +41,14 @@
             </div>
         </div>
 
-        <!-- Phone Number -->
+        
         <div>
             <x-input-label for="phone" :value="__('Phone Number')" />
             <x-text-input id="phone" name="phone" type="text" class="mt-1 block w-full" :value="old('phone', $user->phone)" placeholder="09123456789" />
             <x-input-error class="mt-2" :messages="$errors->get('phone')" />
         </div>
 
-        <!-- Address -->
+        
         <div>
             <x-input-label for="address" :value="__('Street Address / Barangay')" />
             <x-text-input id="address" name="address" type="text" class="mt-1 block w-full" :value="old('address', $user->customerProfile->address ?? '')" placeholder="e.g. Magallanes St., Orosite" />
@@ -56,14 +56,14 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <!-- City -->
+            
             <div>
                 <x-input-label for="city" :value="__('City / Municipality')" />
                 <x-text-input id="city" name="city" type="text" class="mt-1 block w-full" :value="old('city', $user->customerProfile->city ?? 'Legazpi City')" placeholder="e.g. Legazpi City" />
                 <x-input-error class="mt-2" :messages="$errors->get('city')" />
             </div>
 
-            <!-- Province -->
+            
             <div>
                 <x-input-label for="province" :value="__('Province')" />
                 <x-text-input id="province" name="province" type="text" class="mt-1 block w-full" :value="old('province', $user->customerProfile->province ?? 'Albay')" placeholder="e.g. Albay" />

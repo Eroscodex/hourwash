@@ -1,8 +1,8 @@
-<!-- Reusable iOS Style Success & Error Popup Modal -->
+
 @if(session('success'))
     <div id="pop-success-modal" class="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fade-in">
         <div class="bg-white dark:bg-[#1C1C1E] max-w-sm w-full p-8 rounded-3xl text-center space-y-5 shadow-2xl border border-black/10 dark:border-white/10 transform transition-all scale-100">
-            <!-- Blue Circle Icon with White Checkmark -->
+            
             <div class="w-20 h-20 mx-auto rounded-full bg-[#007AFF] text-white flex items-center justify-center shadow-lg shadow-[#007AFF]/30">
                 <svg class="w-10 h-10 stroke-[3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
@@ -26,7 +26,7 @@
 @if(session('error') || $errors->any())
     <div id="pop-error-modal" class="fixed inset-0 bg-black/60 backdrop-blur-md z-50 flex items-center justify-center p-4 animate-fade-in">
         <div class="bg-white dark:bg-[#1C1C1E] max-w-sm w-full p-8 rounded-3xl text-center space-y-5 shadow-2xl border border-black/10 dark:border-white/10 transform transition-all scale-100">
-            <!-- Red Circle Icon with White Cross -->
+            
             <div class="w-20 h-20 mx-auto rounded-full bg-[#FF3B30] text-white flex items-center justify-center shadow-lg shadow-[#FF3B30]/30">
                 <svg class="w-10 h-10 stroke-[3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -47,7 +47,7 @@
     </div>
 @endif
 
-<!-- Dynamic JS Popup Container -->
+
 <div id="dynamic-pop-modal-container"></div>
 
 <script>

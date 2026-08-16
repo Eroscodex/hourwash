@@ -1,7 +1,6 @@
 <x-app-layout>
     <div class="space-y-6 sm:space-y-8">
 
-        {{-- PAGE HEADER --}}
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
                 <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white font-['Outfit']">
@@ -26,7 +25,6 @@
             </div>
         </div>
 
-        {{-- NAVBAR SELECTION SHORTCUT CARDS GRID --}}
         <div>
             <h2 class="text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">
                 Quick Navbar Selection Shortcuts
@@ -34,7 +32,6 @@
 
             <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
 
-                {{-- 1. Manage Laundry Orders --}}
                 <a href="{{ route('admin.laundry.index') }}" 
                    class="app-card p-3.5 flex flex-col justify-between hover:border-[#007AFF] hover:shadow-md hover:scale-[1.02] active:scale-95 transition-all group">
                     <div class="flex items-center justify-between mb-2">
@@ -53,7 +50,6 @@
                     </div>
                 </a>
 
-                {{-- 2. Machine Monitor --}}
                 <a href="{{ route('admin.machines.index') }}" 
                    class="app-card p-3.5 flex flex-col justify-between hover:border-[#007AFF] hover:shadow-md hover:scale-[1.02] active:scale-95 transition-all group">
                     <div class="flex items-center justify-between mb-2">
@@ -72,7 +68,6 @@
                     </div>
                 </a>
 
-                {{-- 3. Services & Pricing --}}
                 <a href="{{ route('admin.services.index') }}" 
                    class="app-card p-3.5 flex flex-col justify-between hover:border-[#007AFF] hover:shadow-md hover:scale-[1.02] active:scale-95 transition-all group">
                     <div class="flex items-center justify-between mb-2">
@@ -91,7 +86,6 @@
                     </div>
                 </a>
 
-                {{-- 4. Staff & Customers --}}
                 <a href="{{ route('admin.users.index') }}" 
                    class="app-card p-3.5 flex flex-col justify-between hover:border-[#007AFF] hover:shadow-md hover:scale-[1.02] active:scale-95 transition-all group">
                     <div class="flex items-center justify-between mb-2">
@@ -110,7 +104,6 @@
                     </div>
                 </a>
 
-                {{-- 5. Store Inventory --}}
                 <a href="{{ route('admin.inventory.index') }}" 
                    class="app-card p-3.5 flex flex-col justify-between hover:border-[#007AFF] hover:shadow-md hover:scale-[1.02] active:scale-95 transition-all group">
                     <div class="flex items-center justify-between mb-2">
@@ -129,7 +122,6 @@
                     </div>
                 </a>
 
-                {{-- 6. Live SMS Outbox --}}
                 <a href="{{ route('admin.sms.index') }}" 
                    class="app-card p-3.5 flex flex-col justify-between hover:border-[#007AFF] hover:shadow-md hover:scale-[1.02] active:scale-95 transition-all group">
                     <div class="flex items-center justify-between mb-2">
@@ -148,7 +140,6 @@
                     </div>
                 </a>
 
-                {{-- 7. Live Email Outbox --}}
                 <a href="{{ route('admin.emails.index') }}" 
                    class="app-card p-3.5 flex flex-col justify-between hover:border-[#007AFF] hover:shadow-md hover:scale-[1.02] active:scale-95 transition-all group">
                     <div class="flex items-center justify-between mb-2">
@@ -170,10 +161,8 @@
             </div>
         </div>
 
-        {{-- STATISTICS & OVERALL REPORT METRICS --}}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
 
-            {{-- Today's Orders --}}
             <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3">
                 <div>
                     <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
@@ -190,7 +179,6 @@
                 </div>
             </div>
 
-            {{-- In Processing --}}
             <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3">
                 <div>
                     <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
@@ -207,7 +195,6 @@
                 </div>
             </div>
 
-            {{-- Staff Count --}}
             <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3">
                 <div>
                     <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">STAFF COUNT</span>
@@ -220,7 +207,6 @@
                 </div>
             </div>
 
-            {{-- Customer Count --}}
             <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3">
                 <div>
                     <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">REGISTERED CUSTOMERS</span>
@@ -233,7 +219,6 @@
                 </div>
             </div>
 
-            {{-- Total Revenue (Profit Paid) --}}
             <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3">
                 <div>
                     <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">PROFIT (PAID)</span>
@@ -246,7 +231,6 @@
                 </div>
             </div>
 
-            {{-- Total Machines --}}
             <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3">
                 <div>
                     <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">TOTAL MACHINES</span>
@@ -261,7 +245,6 @@
                 </div>
             </div>
 
-            {{-- Total System Orders --}}
             <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3">
                 <div>
                     <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">TOTAL SYSTEM ORDERS</span>
@@ -274,7 +257,6 @@
                 </div>
             </div>
 
-            {{-- Completed Today --}}
             <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3">
                 <div>
                     <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">COMPLETED TODAY</span>
@@ -291,7 +273,6 @@
 
         </div>
 
-        {{-- MACHINE STATUS MONITOR --}}
         <div class="grid grid-cols-1 gap-6">
             <div class="app-card p-4 sm:p-6 space-y-6">
                 <div class="flex items-center justify-between">
@@ -412,7 +393,6 @@
                     @endforelse
                 </div>
 
-                {{-- MACHINE LEGEND --}}
                 <div class="flex flex-wrap items-center gap-3 sm:gap-4 text-[11px] text-slate-500 dark:text-slate-400 border-t border-black/5 dark:border-white/10 pt-4">
                     <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-teal-500"></span>Washing</span>
                     <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-sky-500"></span>Rinsing</span>
@@ -423,7 +403,6 @@
             </div>
         </div>
 
-        {{-- OVERALL REPORTS: ORDER STATUS BREAKDOWN TABLE --}}
         <div class="app-card p-4 sm:p-6 space-y-4">
             <div class="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-3">
                 <div>
@@ -467,10 +446,8 @@
             </div>
         </div>
 
-        {{-- RECENT ORDERS + REVIEWS --}}
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-            {{-- RECENT ORDERS --}}
             <div class="lg:col-span-8 app-card p-4 sm:p-6 space-y-4 overflow-hidden flex flex-col">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <div>
@@ -538,7 +515,6 @@
                 </div>
             </div>
 
-            {{-- CUSTOMER REVIEWS --}}
             <div class="lg:col-span-4 app-card p-4 sm:p-6 space-y-4">
                 <div class="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-3">
                     <div>

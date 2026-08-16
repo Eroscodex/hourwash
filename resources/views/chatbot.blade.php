@@ -30,7 +30,7 @@
 
 <body class="bg-[#F5F5F7] dark:bg-[#000000] font-['Inter'] antialiased min-h-screen flex flex-col transition-colors duration-300">
 
-    <!-- Header -->
+    
     <header class="sticky top-0 z-50 bg-white/95 dark:bg-[#1C1C1E]/95 border-b border-black/10 dark:border-white/10 px-4 md:px-8 py-3 backdrop-blur-xl">
         <div class="max-w-3xl mx-auto flex items-center justify-between">
             <a href="{{ route('welcome') }}" class="flex items-center gap-3 group">
@@ -53,11 +53,11 @@
         </div>
     </header>
 
-    <!-- Chat Area -->
+    
     <main class="flex-1 flex flex-col max-w-3xl mx-auto w-full px-4 py-4">
 
         <div id="chat-box" class="flex-1 overflow-y-auto space-y-4 chat-scroll pb-4" style="max-height: calc(100vh - 180px);">
-            <!-- Welcome message from AI -->
+            
             <div class="flex items-start gap-3">
                 <img src="{{ asset('favicon.svg') }}" alt="HourWash" class="w-8 h-8 rounded-full object-cover bg-white p-0.5 border border-black/10 dark:border-white/10 shadow-sm flex-shrink-0 mt-0.5">
                 <div class="bg-white dark:bg-[#2C2C2E] text-slate-900 dark:text-[#F5F5F7] px-4 py-3 rounded-2xl rounded-tl-none max-w-[80%] border border-black/10 dark:border-white/10 shadow-sm text-sm leading-relaxed">
@@ -67,7 +67,7 @@
             </div>
         </div>
 
-        <!-- Input Bar -->
+        
         <div class="sticky bottom-0 bg-[#F5F5F7] dark:bg-[#000000] pt-2 pb-4">
             <div class="flex gap-2">
                 <input

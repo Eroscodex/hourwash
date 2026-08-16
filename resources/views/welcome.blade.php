@@ -10,7 +10,7 @@
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}">
 
-    <!-- Font & Network Optimizations -->
+    
     <link rel="dns-prefetch" href="//fonts.googleapis.com">
     <link rel="dns-prefetch" href="//unpkg.com">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -131,11 +131,11 @@
         </div>
     </div>
 
-    <!-- Main Content -->
+    
     <main class="flex-1 space-y-16 py-8 md:py-12 px-4 md:px-10 max-w-7xl mx-auto w-full">
         <x-popup-alert />
 
-        <!-- Hero Banner Section -->
+        
         <section id="home" class="relative rounded-[16px] overflow-hidden app-card p-6 md:p-14">
             <div class="grid lg:grid-cols-12 gap-8 lg:gap-10 items-center">
                 <div class="lg:col-span-7 space-y-6">
@@ -153,7 +153,7 @@
                         Magallanes St., Orosite, Legazpi City. Experience 1-hour fast turnarounds, QR code order verification, live machine monitoring, and pickup & delivery services.
                     </p>
 
-                    <!-- Feature Badges -->
+                    
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 pt-2">
                         <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-100 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10">
                             <div class="w-10 h-10 rounded-lg bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center font-bold text-lg flex-shrink-0">
@@ -184,7 +184,7 @@
                         </div>
                     </div>
 
-                    <!-- CTAs -->
+                    
                     <div class="flex flex-wrap items-center gap-3 sm:gap-4 pt-2">
                         <a href="{{ route('register') }}" class="w-full sm:w-auto btn-ios-primary text-center">
                             Book a Pickup Order
@@ -195,7 +195,7 @@
                     </div>
                 </div>
 
-                <!-- Hero Graphic Container -->
+                
                 <div class="lg:col-span-5 relative flex justify-center">
                     <div class="w-full max-w-sm rounded-2xl bg-white/90 dark:bg-[#2C2C2E]/90 border border-black/5 dark:border-white/10 p-6 flex flex-col justify-between shadow-lg dark:shadow-xl space-y-6">
                         <div class="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-3">
@@ -232,7 +232,7 @@
             </div>
         </section>
 
-        <!-- Services & Pricing Section -->
+        
         <section id="services" class="space-y-6">
             <div>
                 <h2 class="text-2xl font-bold text-slate-900 dark:text-white font-['Outfit']">Our Laundry Services & Rates</h2>
@@ -266,7 +266,7 @@
             </div>
         </section>
 
-        <!-- How It Works Section -->
+        
         <section id="how-it-works" class="space-y-6">
             <div>
                 <h2 class="text-2xl font-bold text-slate-900 dark:text-white font-['Outfit']">How Hour Wash Works</h2>
@@ -274,7 +274,7 @@
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-                <!-- Step 1 -->
+                
                 <div class="app-card p-6 space-y-3">
                     <div class="w-10 h-10 rounded-xl bg-[#007AFF]/10 text-[#007AFF] dark:text-[#0A84FF] border border-[#007AFF]/20 flex items-center justify-center font-bold text-lg font-['Outfit']">
                         1
@@ -285,7 +285,7 @@
                     </p>
                 </div>
 
-                <!-- Step 2 -->
+                
                 <div class="app-card p-6 space-y-3">
                     <div class="w-10 h-10 rounded-xl bg-sky-500/10 text-sky-600 dark:text-sky-400 border border-sky-500/20 flex items-center justify-center font-bold text-lg font-['Outfit']">
                         2
@@ -296,7 +296,7 @@
                     </p>
                 </div>
 
-                <!-- Step 3 -->
+                
                 <div class="app-card p-6 space-y-3">
                     <div class="w-10 h-10 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20 flex items-center justify-center font-bold text-lg font-['Outfit']">
                         3
@@ -307,7 +307,7 @@
                     </p>
                 </div>
 
-                <!-- Step 4 -->
+                
                 <div class="app-card p-6 space-y-3">
                     <div class="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center font-bold text-lg font-['Outfit']">
                         4
@@ -320,7 +320,7 @@
             </div>
         </section>
 
-        <!-- Machine Status Section -->
+        
         <section id="machines" class="space-y-6">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
@@ -428,7 +428,7 @@
             </div>
         </section>
 
-        <!-- Simplified QR Code Feature Highlight -->
+        
         <section class="app-card p-6 md:p-10 relative overflow-hidden bg-gradient-to-br from-[#007AFF]/5 via-transparent to-emerald-500/5 border border-[#007AFF]/20 space-y-6">
             <div class="grid lg:grid-cols-12 gap-8 items-center">
                 
@@ -472,14 +472,14 @@
                     </div>
                 </div>
 
-                <!-- Sample QR Code Card Illustration -->
+                
                 <div class="lg:col-span-5 flex justify-center">
                     <div class="w-full max-w-xs app-card p-6 text-center space-y-4 shadow-xl border border-[#007AFF]/30 relative">
                         <div class="px-3 py-1 rounded-md bg-[#007AFF]/10 text-[#007AFF] dark:text-[#0A84FF] text-[10px] font-bold uppercase tracking-wider">
                             SAMPLE QR LAUNDRY TAG
                         </div>
 
-                        <!-- Real Scannable QR Code Image -->
+                        
                         <div class="w-36 h-36 mx-auto bg-white p-2 rounded-2xl shadow-md border border-slate-200 flex items-center justify-center relative group">
                             <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=HW884210" 
                                  alt="Real Scannable QR Tag #HW884210" 
@@ -499,7 +499,7 @@
             </div>
         </section>
 
-        <!-- QR Track Section -->
+        
         <section id="track-section" class="app-card p-6 md:p-8 space-y-6">
             <div class="max-w-xl mx-auto text-center space-y-2">
                 <h2 class="text-2xl font-bold text-slate-900 dark:text-white font-['Outfit']">Track Order Status by QR Code</h2>
@@ -524,7 +524,7 @@
             </div>
         </section>
 
-        <!-- Customer Ratings & Reviews Section -->
+        
         <section id="reviews-section" class="space-y-6">
             <div class="text-center space-y-2 max-w-xl mx-auto">
                 <span class="px-3 py-1 rounded-full bg-amber-500/15 text-amber-600 dark:text-amber-400 text-xs font-bold uppercase tracking-wider">
@@ -568,7 +568,7 @@
 
 
 
-        <!-- Camera Scanner Modal -->
+        
         <div id="camera-scanner-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex-col items-center justify-center p-4 animate-fade-in">
             <div class="app-card max-w-sm w-full p-6 space-y-4 text-center">
                 <div class="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-3">
@@ -691,7 +691,7 @@
         </div>
     </footer>
 
-    <!-- Floating AI Assistant Button & Drawer -->
+    
     <button id="welcome-chat-toggle" class="fixed bottom-6 right-6 w-14 h-14 rounded-2xl bg-[#007AFF] dark:bg-[#0A84FF] text-white chat-bubble-glow flex items-center justify-center hover:scale-110 active:scale-95 transition-transform z-50 group shadow-lg" aria-label="Toggle AI Assistant Chat">
         <span class="absolute -top-1 -right-1 flex h-3.5 w-3.5">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
@@ -725,7 +725,7 @@
         </div>
     </div>
 
-    <!-- Mobile Drawer & Theme Toggle Script -->
+    
     <script>
     document.addEventListener('DOMContentLoaded', function () {
         const toggleBtn = document.getElementById('welcome-mobile-toggle');

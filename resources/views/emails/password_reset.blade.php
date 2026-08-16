@@ -12,10 +12,10 @@
     <tr>
         <td align="center">
 
-            <!-- Main Container Card -->
+            
             <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width: 600px; background-color: #FFFFFF; border-radius: 20px; border: 1px solid #E2E8F0; overflow: hidden;">
 
-                <!-- Header Bar -->
+                
                 <tr>
                     <td align="center" style="background-color: #0F172A; padding: 28px 20px;">
                         <img
@@ -36,7 +36,7 @@
                     </td>
                 </tr>
 
-                <!-- Body Content -->
+                
                 <tr>
                     <td align="left" style="padding: 30px 24px;">
 
@@ -54,7 +54,7 @@
                             <strong>{{ $email }}</strong>.
                         </p>
 
-                        <!-- CTA Button -->
+                        
                         <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin: 28px 0;">
                             <tr>
                                 <td align="center">
@@ -77,7 +77,7 @@
                             If you did not request a password reset, no further action is required and your account remains safe.
                         </p>
 
-                        <!-- URL Direct Link Box -->
+                        
                         <div style="margin-top: 28px; padding: 16px; background-color: #F8FAFC; border: 1px solid #E2E8F0; border-radius: 10px; font-size: 11px; color: #64748B; word-break: break-all;">
                             <p style="margin: 0 0 6px 0; font-weight: 600; color: #334155;">
                                 If you are having trouble clicking the "Reset Password Now" button, copy and paste the link below into your web browser:
@@ -91,7 +91,7 @@
                     </td>
                 </tr>
 
-                <!-- Footer -->
+                
                 <tr>
                     <td align="center" style="background-color: #F8FAFC; padding: 20px; border-top: 1px solid #E2E8F0;">
                         <p style="margin: 0; font-size: 11px; color: #94A3B8;">

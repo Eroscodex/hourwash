@@ -19,7 +19,7 @@
 
     <div class="space-y-6">
 
-        <!-- Stat Cards -->
+        
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
             <div class="app-card p-5 space-y-1">
                 <span class="text-xs text-slate-500 dark:text-slate-400 font-medium">Total Supply Items</span>
@@ -44,7 +44,7 @@
             </div>
         </div>
 
-        <!-- Filter & Search Bar -->
+        
         <div class="app-card p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
             <form method="GET" action="{{ route('admin.inventory.index') }}" class="w-full flex flex-col sm:flex-row items-center gap-3">
                 <div class="relative w-full sm:w-72">
@@ -67,7 +67,7 @@
             </form>
         </div>
 
-        <!-- Inventory Items Table Card -->
+        
         <div class="app-card overflow-hidden">
             <div class="p-5 border-b border-black/10 dark:border-white/10 flex items-center justify-between">
                 <h2 class="text-sm font-bold text-slate-900 dark:text-white">Store Supply Register</h2>
@@ -124,7 +124,7 @@
                                 </td>
                                 <td class="p-4 text-right">
                                     <div class="flex items-center justify-end gap-2">
-                                        <!-- Quick Adjust Stock Form -->
+                                        
                                         <form method="POST" action="{{ route('admin.inventory.adjust', $item->id) }}" class="inline-flex items-center gap-1">
                                             @csrf
                                             <input type="number" name="amount" step="1" min="1" value="10" class="w-14 p-1 text-[11px] rounded-lg bg-slate-100 dark:bg-[#2C2C2E] border border-black/10 dark:border-white/10 text-center font-mono">
@@ -133,12 +133,12 @@
                                             </button>
                                         </form>
 
-                                        <!-- Edit Item Button -->
+                                        
                                         <button onclick="document.getElementById('edit-item-modal-{{ $item->id }}').classList.remove('hidden')" class="p-1.5 text-blue-500 hover:bg-blue-500/10 rounded-lg transition" title="Edit Item Details">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                                         </button>
 
-                                        <!-- Delete Item Form -->
+                                        
                                         <form method="POST" action="{{ route('admin.inventory.destroy', $item->id) }}" class="inline" onsubmit="return confirm('Delete {{ $item->name }} from inventory?')">
                                             @csrf
                                             @method('DELETE')
@@ -148,7 +148,7 @@
                                         </form>
                                     </div>
 
-                                    <!-- Edit Item Modal -->
+                                    
                                     <div id="edit-item-modal-{{ $item->id }}" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 text-left">
                                         <div class="app-card max-w-md w-full p-6 space-y-4 shadow-2xl">
                                             <div class="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-3">
@@ -223,7 +223,7 @@
         </div>
     </div>
 
-    <!-- Add Item Modal -->
+    
     <div id="add-item-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="app-card max-w-md w-full p-6 space-y-4 shadow-2xl">
             <div class="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-3">

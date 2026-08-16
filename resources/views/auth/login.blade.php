@@ -1,25 +1,25 @@
 <x-guest-layout>
-    <!-- Session Status -->
+    
     <x-auth-session-status class="mb-4" :status="session('status')" />
 
     <form method="POST" action="{{ route('login') }}" class="space-y-4">
         @csrf
 
-        <!-- Email Address -->
+        
         <div>
             <x-input-label for="email" :value="__('Email Address')" />
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" placeholder="Enter registered email" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
-        <!-- Password -->
+        
         <div>
             <x-input-label for="password" :value="__('Password')" />
             <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="current-password" placeholder="Enter password" />
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
-        <!-- Remember Me -->
+        
         <div class="flex items-center justify-between pt-1">
             <label for="remember_me" class="inline-flex items-center cursor-pointer">
                 <input id="remember_me" type="checkbox" class="rounded border-black/15 dark:border-white/15 text-[#007AFF] focus:ring-[#007AFF]" name="remember">
