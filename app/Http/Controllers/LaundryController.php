@@ -86,8 +86,6 @@ class LaundryController extends Controller
                 ->with('success', 'Order already submitted! Duplicate order attempt prevented.');
         }
 
-        $orderStatus = $machineId ? 'washing' : 'pending';
-
         $order = Order::create([
             'order_number' => 'HW-'.strtoupper(Str::random(8)),
             'customer_id' => auth()->id(),
@@ -97,7 +95,7 @@ class LaundryController extends Controller
             'subtotal' => $subtotal,
             'discount' => $discount,
             'total_amount' => $totalAmount,
-            'order_status' => $orderStatus,
+            'order_status' => 'pending',
             'payment_status' => 'unpaid',
             'estimated_completion' => now()->addMinutes($service->estimated_minutes),
             'notes' => $notes,
@@ -106,8 +104,8 @@ class LaundryController extends Controller
         if ($machineId) {
             Machine::where('id', $machineId)->update([
                 'current_order_id' => $order->id,
-                'status' => 'washing',
-                'remaining_minutes' => $service->estimated_minutes,
+                'status' => 'idle',
+                'remaining_minutes' => null,
             ]);
         }
 

@@ -41,6 +41,35 @@ class LaundryController extends Controller
             if ($request->filled('status')) {
                 $order->order_status = $request->status;
 
+                // Sync assigned machine status dynamically
+                if ($order->machine_id) {
+                    if ($request->status === 'washing') {
+                        Machine::where('id', $order->machine_id)->update([
+                            'current_order_id' => $order->id,
+                            'status' => 'washing',
+                            'remaining_minutes' => $order->service?->estimated_minutes ?? 30,
+                        ]);
+                    } elseif ($request->status === 'rinsing') {
+                        Machine::where('id', $order->machine_id)->update([
+                            'current_order_id' => $order->id,
+                            'status' => 'rinsing',
+                            'remaining_minutes' => 15,
+                        ]);
+                    } elseif ($request->status === 'drying') {
+                        Machine::where('id', $order->machine_id)->update([
+                            'current_order_id' => $order->id,
+                            'status' => 'drying',
+                            'remaining_minutes' => 35,
+                        ]);
+                    } elseif (in_array($request->status, ['finish', 'completed', 'cancelled'])) {
+                        Machine::where('id', $order->machine_id)->update([
+                            'current_order_id' => null,
+                            'status' => 'idle',
+                            'remaining_minutes' => null,
+                        ]);
+                    }
+                }
+
                 OrderStatusHistory::create([
                     'order_id' => $order->id,
                     'status' => $request->status,

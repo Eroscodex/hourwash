@@ -76,26 +76,26 @@
 
             if ($isWalkIn) {
                 $stages = [
-                    'pending'          => ['step' => 1, 'label' => 'Order Placed',      'pct' => 12],
-                    'received'         => ['step' => 2, 'label' => 'Store Received',    'pct' => 25],
-                    'washing'          => ['step' => 3, 'label' => 'Washing',           'pct' => 38],
-                    'rinsing'          => ['step' => 4, 'label' => 'Rinsing',           'pct' => 50],
-                    'drying'           => ['step' => 5, 'label' => 'Drying',            'pct' => 63],
-                    'finish'           => ['step' => 6, 'label' => 'Finish & Shelved',  'pct' => 75],
-                    'out_for_delivery' => ['step' => 7, 'label' => 'Out for Delivery',  'pct' => 88],
-                    'completed'        => ['step' => 8, 'label' => 'Completed',         'pct' => 100],
+                    'pending'          => ['step' => 1, 'label' => '1. ORDER PLACED',      'pct' => 12],
+                    'received'         => ['step' => 2, 'label' => '2. STORE RECEIVED',    'pct' => 25],
+                    'washing'          => ['step' => 3, 'label' => '3. WASHING',           'pct' => 38],
+                    'rinsing'          => ['step' => 4, 'label' => '4. RINSING',           'pct' => 50],
+                    'drying'           => ['step' => 5, 'label' => '5. DRYING',            'pct' => 63],
+                    'finish'           => ['step' => 6, 'label' => '6. FINISH & SHELVED',  'pct' => 75],
+                    'out_for_delivery' => ['step' => 7, 'label' => '7. OUT FOR DELIVERY',  'pct' => 88],
+                    'completed'        => ['step' => 8, 'label' => '8. COMPLETED',         'pct' => 100],
                 ];
             } else {
                 $stages = [
-                    'pending'          => ['step' => 1, 'label' => 'Order Placed',      'pct' => 10],
-                    'out_for_pickup'   => ['step' => 2, 'label' => 'Out for Pickup',    'pct' => 22],
-                    'received'         => ['step' => 3, 'label' => 'Store Received',    'pct' => 35],
-                    'washing'          => ['step' => 4, 'label' => 'Washing',           'pct' => 48],
-                    'rinsing'          => ['step' => 5, 'label' => 'Rinsing',           'pct' => 60],
-                    'drying'           => ['step' => 6, 'label' => 'Drying',            'pct' => 72],
-                    'finish'           => ['step' => 7, 'label' => 'Finish & Shelved',  'pct' => 84],
-                    'out_for_delivery' => ['step' => 8, 'label' => 'Out for Delivery',  'pct' => 92],
-                    'completed'        => ['step' => 9, 'label' => 'Completed',         'pct' => 100],
+                    'pending'          => ['step' => 1, 'label' => '1. ORDER PLACED',      'pct' => 10],
+                    'out_for_pickup'   => ['step' => 2, 'label' => '2. OUT FOR PICKUP',    'pct' => 22],
+                    'received'         => ['step' => 3, 'label' => '3. STORE RECEIVED',    'pct' => 35],
+                    'washing'          => ['step' => 4, 'label' => '4. WASHING',           'pct' => 48],
+                    'rinsing'          => ['step' => 5, 'label' => '5. RINSING',           'pct' => 60],
+                    'drying'           => ['step' => 6, 'label' => '6. DRYING',            'pct' => 72],
+                    'finish'           => ['step' => 7, 'label' => '7. FINISH & SHELVED',  'pct' => 84],
+                    'out_for_delivery' => ['step' => 8, 'label' => '8. OUT FOR DELIVERY',  'pct' => 92],
+                    'completed'        => ['step' => 9, 'label' => '9. COMPLETED',         'pct' => 100],
                 ];
             }
             

@@ -90,16 +90,16 @@
                             @csrf
                             @method('PATCH')
                             
-                            <select name="status" class="py-1 px-2.5 text-xs rounded-xl">
-                                <option value="pending" {{ $order->order_status === 'pending' ? 'selected' : '' }}>Pending</option>
-                                <option value="out_for_pickup" {{ $order->order_status === 'out_for_pickup' ? 'selected' : '' }}>Out for Pickup</option>
-                                <option value="received" {{ $order->order_status === 'received' ? 'selected' : '' }}>Received</option>
-                                <option value="washing" {{ $order->order_status === 'washing' ? 'selected' : '' }}>Washing</option>
-                                <option value="rinsing" {{ $order->order_status === 'rinsing' ? 'selected' : '' }}>Rinsing</option>
-                                <option value="drying" {{ $order->order_status === 'drying' ? 'selected' : '' }}>Drying</option>
-                                <option value="finish" {{ $order->order_status === 'finish' ? 'selected' : '' }}>Finish</option>
-                                <option value="out_for_delivery" {{ $order->order_status === 'out_for_delivery' ? 'selected' : '' }}>Out for Delivery</option>
-                                <option value="completed" {{ $order->order_status === 'completed' ? 'selected' : '' }}>Completed</option>
+                            <select name="status" class="py-1 px-2.5 text-xs rounded-xl font-bold">
+                                <option value="pending" {{ $order->order_status === 'pending' ? 'selected' : '' }}>1. Pending (Order Placed)</option>
+                                <option value="out_for_pickup" {{ $order->order_status === 'out_for_pickup' ? 'selected' : '' }}>2. Out for Pickup</option>
+                                <option value="received" {{ $order->order_status === 'received' ? 'selected' : '' }}>3. Store Received</option>
+                                <option value="washing" {{ $order->order_status === 'washing' ? 'selected' : '' }}>4. Washing</option>
+                                <option value="rinsing" {{ $order->order_status === 'rinsing' ? 'selected' : '' }}>5. Rinsing</option>
+                                <option value="drying" {{ $order->order_status === 'drying' ? 'selected' : '' }}>6. Drying</option>
+                                <option value="finish" {{ $order->order_status === 'finish' ? 'selected' : '' }}>7. Finish & Shelved</option>
+                                <option value="out_for_delivery" {{ $order->order_status === 'out_for_delivery' ? 'selected' : '' }}>8. Out for Delivery</option>
+                                <option value="completed" {{ $order->order_status === 'completed' ? 'selected' : '' }}>9. Completed</option>
                                 <option value="cancelled" {{ $order->order_status === 'cancelled' ? 'selected' : '' }}>Cancelled</option>
                             </select>
 
