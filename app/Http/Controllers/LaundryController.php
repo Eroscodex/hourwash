@@ -29,6 +29,7 @@ class LaundryController extends Controller
             'service_id' => 'required|exists:services,id',
             'weight_kg' => 'required|numeric|min:0.5',
             'machine_id' => 'nullable|exists:machines,id',
+            'supplies_option' => 'nullable|string|in:store_provided,own_detergent,own_softener,own_both',
         ]);
 
         $service = Service::findOrFail($request->service_id);
@@ -39,6 +40,32 @@ class LaundryController extends Controller
         } else {
             $subtotal = $service->price;
         }
+
+        // Calculate supplies discount (Tipid option: Customer brings own detergent/softener)
+        $discount = 0.00;
+        $suppliesLabel = '';
+
+        switch ($request->supplies_option) {
+            case 'own_detergent':
+                $discount = 15.00;
+                $suppliesLabel = '[Bring Own Detergent/Powder (-₱15.00)]';
+                break;
+            case 'own_softener':
+                $discount = 10.00;
+                $suppliesLabel = '[Bring Own Fabric Softener (-₱10.00)]';
+                break;
+            case 'own_both':
+                $discount = 25.00;
+                $suppliesLabel = '[Bring Own Powder & Softener (-₱25.00 Tipid Combo)]';
+                break;
+            default:
+                $discount = 0.00;
+                $suppliesLabel = '[Store Detergent & Softener]';
+                break;
+        }
+
+        $totalAmount = max(0, $subtotal - $discount);
+        $notes = trim($suppliesLabel.($request->remarks ? ' — '.$request->remarks : ''));
 
         // Auto-assign available machine if not selected
         $machineId = $request->machine_id;
@@ -68,11 +95,12 @@ class LaundryController extends Controller
             'machine_id' => $machineId,
             'weight_kg' => $request->weight_kg,
             'subtotal' => $subtotal,
-            'total_amount' => $subtotal,
+            'discount' => $discount,
+            'total_amount' => $totalAmount,
             'order_status' => $orderStatus,
             'payment_status' => 'unpaid',
             'estimated_completion' => now()->addMinutes($service->estimated_minutes),
-            'notes' => $request->remarks,
+            'notes' => $notes,
         ]);
 
         if ($machineId) {
