@@ -57,11 +57,11 @@ class SmsNotificationService
 
         $message = "HourWash Alert: Hi {$custName}, your laundry Order #{$code} status is now {$statusStr}. Est Completion: {$compTime}.";
 
-        if (!empty($customNote)) {
+        if (! empty($customNote)) {
             $message .= " {$customNote}";
         }
 
-        $message .= ' Track live: ' . url("/laundry/track/{$code}");
+        $message .= ' Track live: '.url("/laundry/track/{$code}");
 
         /*
         |--------------------------------------------------------------------------
@@ -128,23 +128,23 @@ class SmsNotificationService
 
                 if (str_starts_with($recipient, '09')) {
 
-                    $recipient = '63' . substr($recipient, 1);
+                    $recipient = '63'.substr($recipient, 1);
 
-                /*
-                |--------------------------------------------------------------------------
-                | +639XXXXXXXXX
-                |--------------------------------------------------------------------------
-                */
+                    /*
+                    |--------------------------------------------------------------------------
+                    | +639XXXXXXXXX
+                    |--------------------------------------------------------------------------
+                    */
 
                 } elseif (str_starts_with($recipient, '+639')) {
 
                     $recipient = substr($recipient, 1);
 
-                /*
-                |--------------------------------------------------------------------------
-                | 639XXXXXXXXX
-                |--------------------------------------------------------------------------
-                */
+                    /*
+                    |--------------------------------------------------------------------------
+                    | 639XXXXXXXXX
+                    |--------------------------------------------------------------------------
+                    */
 
                 } elseif (
                     str_starts_with($recipient, '639') &&
@@ -154,18 +154,18 @@ class SmsNotificationService
                     // Already correct
                     $recipient = $recipient;
 
-                /*
-                |--------------------------------------------------------------------------
-                | 9XXXXXXXXX
-                |--------------------------------------------------------------------------
-                */
+                    /*
+                    |--------------------------------------------------------------------------
+                    | 9XXXXXXXXX
+                    |--------------------------------------------------------------------------
+                    */
 
                 } elseif (
                     str_starts_with($recipient, '9') &&
                     strlen($recipient) === 10
                 ) {
 
-                    $recipient = '63' . $recipient;
+                    $recipient = '63'.$recipient;
 
                 } else {
 
@@ -188,7 +188,7 @@ class SmsNotificationService
                 */
 
                 if (
-                    !empty($recipient) &&
+                    ! empty($recipient) &&
                     preg_match('/^639[0-9]{9}$/', $recipient)
                 ) {
 
@@ -278,8 +278,7 @@ class SmsNotificationService
                                 'recipient' => $recipient,
                                 'sender_id' => $senderId,
                                 'http_status' => $response->status(),
-                                'message' =>
-                                    $data['message'] ??
+                                'message' => $data['message'] ??
                                     'Unknown PhilSMS error',
                                 'response' => $response->body(),
                                 'order_id' => $order->id,

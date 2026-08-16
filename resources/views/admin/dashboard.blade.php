@@ -179,15 +179,22 @@
 
 
                                 @php
-    $statusClass = match($machine->status) {
-        'washing' => 'bg-teal-500/15 text-teal-700 dark:text-teal-300',
-        'rinsing' => 'bg-sky-500/15 text-sky-700 dark:text-sky-300',
-        'drying' => 'bg-indigo-500/15 text-indigo-700 dark:text-indigo-300',
-        'idle' => 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300',
-        default => 'bg-amber-500/15 text-amber-700 dark:text-amber-300',
-    };
-@endphp
-<div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold {{ $statusClass }}">
+                                    $statusClass = match($machine->status) {
+                                        'washing' => 'bg-teal-500/15 text-teal-700 dark:text-teal-300',
+                                        'rinsing' => 'bg-sky-500/15 text-sky-700 dark:text-sky-300',
+                                        'drying' => 'bg-indigo-500/15 text-indigo-700 dark:text-indigo-300',
+                                        'idle' => 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300',
+                                        default => 'bg-amber-500/15 text-amber-700 dark:text-amber-300',
+                                    };
+                                    $statusTextClass = match($machine->status) {
+                                        'washing' => 'text-teal-600 dark:text-teal-400',
+                                        'rinsing' => 'text-sky-600 dark:text-sky-400',
+                                        'drying' => 'text-indigo-600 dark:text-indigo-400',
+                                        'idle' => 'text-emerald-600 dark:text-emerald-400',
+                                        default => 'text-amber-600 dark:text-amber-400',
+                                    };
+                                @endphp
+                                <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold {{ $statusClass }}">
                                     <img
                                         src="{{ asset('favicon.svg') }}"
                                         alt="HourWash"
@@ -195,21 +202,8 @@
                                     />
                                 </div>
                                 <div>
-                                    <span class="text-[10px] font-bold uppercase tracking-wider block
-                                        @if($machine->status === 'washing')
-                                            text-teal-600 dark:text-teal-400
-                                        @elseif($machine->status === 'rinsing')
-                                            text-sky-600 dark:text-sky-400
-                                        @elseif($machine->status === 'drying')
-                                            text-indigo-600 dark:text-indigo-400
-                                        @elseif($machine->status === 'idle')
-                                            text-emerald-600 dark:text-emerald-400
-                                        @else
-                                            text-amber-600 dark:text-amber-400
-                                        @endif">
-
+                                    <span class="text-[10px] font-bold uppercase tracking-wider block {{ $statusTextClass }}">
                                         {{ strtoupper($machine->status) }}
-
                                     </span>
 
 

@@ -278,7 +278,7 @@ return new class extends Migration
             $table->enum('status', [
                 'sent',
                 'failed',
-                'queued'
+                'queued',
             ])->default('sent');
 
             $table->timestamps();

@@ -356,12 +356,14 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         $readyPickup = Order::where('order_status', 'ready')->count();
         $completedToday = Order::whereDate('updated_at', now()->today())->where('order_status', 'completed')->count();
 
-        $staffCount = \App\Models\User::where('role', 'staff')->count();
-        $customerCount = \App\Models\User::where('role', 'customer')->orWhere('role', 'user')->count();
-        $profitTotal = \App\Models\Order::where('payment_status', 'paid')->sum('total_amount');
+        $staffCount = User::where('role', 'staff')->count();
+        $customerCount = User::where('role', 'customer')->orWhere('role', 'user')->count();
+        $profitTotal = Order::where('payment_status', 'paid')->sum('total_amount');
+        $feedbacks = CustomerFeedback::with('user:id,name')->latest()->take(6)->get();
+        $notifications = Notification::latest()->take(5)->get();
 
         return view('admin.dashboard', compact(
-            'user', 'machines', 'recentOrders', 'totalToday', 'inProgress', 'readyPickup', 'completedToday', 'notifications', 'activeOrder', 'feedbacks', 'staffCount', 'customerCount', 'profitTotal'
+            'user', 'machines', 'recentOrders', 'totalToday', 'inProgress', 'readyPickup', 'completedToday', 'notifications', 'feedbacks', 'staffCount', 'customerCount', 'profitTotal'
         ));
     })->name('dashboard');
 
