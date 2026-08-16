@@ -16,6 +16,16 @@
                 <span class="px-3.5 py-1.5 rounded-full bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF] text-xs font-extrabold tracking-wider uppercase border border-[#007AFF]/30">
                     {{ $totalDispatched }} Emails Dispatched
                 </span>
+
+                @if($totalDispatched > 0)
+                    <form method="POST" action="{{ route('admin.emails.clearAll') }}" onsubmit="return confirm('Are you sure you want to delete all Email notification history permanently?')">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="px-3.5 py-1.5 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 text-rose-600 dark:text-rose-400 text-xs font-bold border border-rose-500/30 transition">
+                            Clear All Email History
+                        </button>
+                    </form>
+                @endif
             </div>
         </div>
 

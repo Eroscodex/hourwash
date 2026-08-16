@@ -441,7 +441,9 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         return redirect()->route('admin.dashboard');
     })->name('analytics');
     Route::get('/sms', [SmsLogController::class, 'index'])->name('sms.index');
+    Route::delete('/sms/clear-all', [SmsLogController::class, 'destroyAll'])->name('sms.clearAll');
     Route::get('/emails', [EmailLogController::class, 'index'])->name('emails.index');
+    Route::delete('/emails/clear-all', [EmailLogController::class, 'destroyAll'])->name('emails.clearAll');
 
     Route::post('/orders/reset-all', function () {
         if (! auth()->user()->isOwner() && ! auth()->user()->isStaff()) {

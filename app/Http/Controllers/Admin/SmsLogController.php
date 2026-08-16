@@ -18,4 +18,18 @@ class SmsLogController extends Controller
 
         return view('admin.sms.index', compact('smsLogs', 'totalDispatched'));
     }
+
+    /**
+     * Clear all SMS outbox log history
+     */
+    public function destroyAll()
+    {
+        if (Schema::hasTable('sms_notifications')) {
+            SmsNotification::query()->delete();
+        }
+
+        return redirect()
+            ->route('admin.sms.index')
+            ->with('success', 'All SMS notification history has been deleted successfully.');
+    }
 }

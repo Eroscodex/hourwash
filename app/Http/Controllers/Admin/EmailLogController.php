@@ -18,4 +18,18 @@ class EmailLogController extends Controller
 
         return view('admin.emails.index', compact('emailLogs', 'totalDispatched'));
     }
+
+    /**
+     * Clear all Email outbox log history
+     */
+    public function destroyAll()
+    {
+        if (Schema::hasTable('email_notifications')) {
+            EmailNotification::query()->delete();
+        }
+
+        return redirect()
+            ->route('admin.emails.index')
+            ->with('success', 'All Email notification history has been deleted successfully.');
+    }
 }

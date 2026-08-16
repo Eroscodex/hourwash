@@ -100,7 +100,7 @@
                    class="app-card p-3.5 flex flex-col justify-between hover:border-[#007AFF] hover:shadow-md hover:scale-[1.02] active:scale-95 transition-all group">
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-[#007AFF] transition block truncate">
-                            Staff & Customers
+                            All Users
                         </span>
                         <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
                             {{ $totalUsers ?? 0 }} accounts
