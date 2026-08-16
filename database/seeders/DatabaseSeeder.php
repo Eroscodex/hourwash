@@ -233,12 +233,12 @@ class DatabaseSeeder extends Seeder
             ['code' => 'HW729104', 'm_code' => 'WM-002', 'cust' => $customer2, 'status' => 'rinsing', 'min' => 15, 'service' => $premService, 'pickup_type' => 'drop_off'],
             ['code' => 'HW541092', 'm_code' => 'DR-001', 'cust' => $customer1, 'status' => 'out_for_delivery', 'min' => 35, 'service' => $foldService, 'pickup_type' => 'pickup_delivery'],
             ['code' => 'HW903115', 'm_code' => 'WM-003', 'cust' => $customer2, 'status' => 'out_for_pickup', 'min' => 42, 'service' => $washService, 'pickup_type' => 'pickup_delivery'],
-            ['code' => 'HW618302', 'm_code' => 'DR-002', 'cust' => $customer1, 'status' => 'drying', 'min' => 20, 'service' => $foldService],
-            ['code' => 'HW886006', 'm_code' => 'WM-006', 'cust' => $customer2, 'status' => 'washing', 'min' => 38, 'service' => $washService],
-            ['code' => 'HW543003', 'm_code' => 'DR-003', 'cust' => $customer1, 'status' => 'drying', 'min' => 45, 'service' => $foldService],
-            ['code' => 'HW727007', 'm_code' => 'WM-007', 'cust' => $customer2, 'status' => 'rinsing', 'min' => 10, 'service' => $premService],
-            ['code' => 'HW545005', 'm_code' => 'DR-005', 'cust' => $customer1, 'status' => 'drying', 'min' => 25, 'service' => $foldService],
-            ['code' => 'HW889009', 'm_code' => 'WM-009', 'cust' => $customer2, 'status' => 'washing', 'min' => 50, 'service' => $washService],
+            ['code' => 'HW618302', 'm_code' => 'DR-002', 'cust' => $customer1, 'status' => 'out_for_delivery', 'min' => 20, 'service' => $foldService, 'pickup_type' => 'pickup_delivery'],
+            ['code' => 'HW886006', 'm_code' => 'WM-006', 'cust' => $customer2, 'status' => 'washing', 'min' => 38, 'service' => $washService, 'pickup_type' => 'drop_off'],
+            ['code' => 'HW543003', 'm_code' => 'DR-003', 'cust' => $customer1, 'status' => 'drying', 'min' => 45, 'service' => $foldService, 'pickup_type' => 'drop_off'],
+            ['code' => 'HW727007', 'm_code' => 'WM-007', 'cust' => $customer2, 'status' => 'rinsing', 'min' => 10, 'service' => $premService, 'pickup_type' => 'drop_off'],
+            ['code' => 'HW545005', 'm_code' => 'DR-005', 'cust' => $customer1, 'status' => 'drying', 'min' => 25, 'service' => $foldService, 'pickup_type' => 'drop_off'],
+            ['code' => 'HW889009', 'm_code' => 'WM-009', 'cust' => $customer2, 'status' => 'washing', 'min' => 50, 'service' => $washService, 'pickup_type' => 'drop_off'],
         ];
 
         foreach ($activeOrdersData as $data) {
