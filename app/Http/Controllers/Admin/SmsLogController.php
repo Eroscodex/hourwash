@@ -58,9 +58,16 @@ class SmsLogController extends Controller
                     ]);
 
                 $data = $response->json();
-                if ($response->successful() && (($data['success'] ?? false) === true || ($data['status'] ?? '') === 'success')) {
+                $isTextbeeSuccess = $response->successful() && (
+                    ($data['data']['success'] ?? false) === true ||
+                    ($data['success'] ?? false) === true ||
+                    ! empty($data['data']['smsBatchId']) ||
+                    ($data['status'] ?? '') === 'success'
+                );
+
+                if ($isTextbeeSuccess) {
                     $status = 'sent';
-                    $logDetails = 'Sent via Textbee.dev API successfully!';
+                    $logDetails = 'Sent via Textbee.dev API successfully! (Batch ID: '.($data['data']['smsBatchId'] ?? 'N/A').')';
                 } else {
                     $logDetails = 'Textbee Error: '.($response->body() ?? 'API request failed');
                 }

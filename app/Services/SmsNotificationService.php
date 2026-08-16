@@ -100,7 +100,14 @@ class SmsNotificationService
                             'order_id' => $order->id,
                         ]);
 
-                        if ($response->successful() && (($data['success'] ?? false) === true || ($data['status'] ?? '') === 'success')) {
+                        $isTextbeeSuccess = $response->successful() && (
+                            ($data['data']['success'] ?? false) === true ||
+                            ($data['success'] ?? false) === true ||
+                            ! empty($data['data']['smsBatchId']) ||
+                            ($data['status'] ?? '') === 'success'
+                        );
+
+                        if ($isTextbeeSuccess) {
                             $smsStatus = 'sent';
                             Log::info('Textbee.dev SMS successfully dispatched.', ['order_id' => $order->id]);
                         } else {
