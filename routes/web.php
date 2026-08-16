@@ -350,6 +350,16 @@ Route::middleware(['auth'])->get('/staff/dashboard', function () {
 
 /*
 |--------------------------------------------------------------------------
+| Rider Logistics Panel
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth'])->group(function () {
+    Route::get('/rider/dashboard', [RiderDashboardController::class, 'index'])->name('rider.dashboard');
+    Route::match(['post', 'patch'], '/rider/order/{order}/status', [RiderDashboardController::class, 'updateStatus'])->name('rider.updateStatus');
+});
+
+/*
+|--------------------------------------------------------------------------
 | Admin / Owner Panel
 |--------------------------------------------------------------------------
 */
@@ -408,9 +418,6 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     })->name('analytics');
     Route::get('/sms', [SmsLogController::class, 'index'])->name('sms.index');
     Route::get('/emails', [EmailLogController::class, 'index'])->name('emails.index');
-
-    Route::get('/rider/dashboard', [RiderDashboardController::class, 'index'])->name('rider.dashboard');
-    Route::match(['post', 'patch'], '/rider/order/{order}/status', [RiderDashboardController::class, 'updateStatus'])->name('rider.updateStatus');
 
     Route::post('/orders/reset-all', function () {
         if (! auth()->user()->isOwner() && ! auth()->user()->isStaff()) {
