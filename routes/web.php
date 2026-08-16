@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Admin\AnalyticsController;
 use App\Http\Controllers\Admin\EmailLogController;
 use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Admin\LaundryController as AdminLaundryController;
@@ -13,16 +12,19 @@ use App\Http\Controllers\LaundryController;
 use App\Http\Controllers\ProfileController;
 use App\Mail\OrderStatusUpdated;
 use App\Models\CustomerFeedback;
+use App\Models\EmailNotification;
 use App\Models\Machine;
 use App\Models\Notification;
 use App\Models\Order;
 use App\Models\Promotion;
 use App\Models\QrCode;
 use App\Models\Service;
+use App\Models\SmsNotification;
 use App\Models\User;
 use App\Services\SmsNotificationService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
@@ -364,8 +366,22 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         $feedbacks = CustomerFeedback::with('user:id,name')->latest()->take(6)->get();
         $notifications = Notification::latest()->take(5)->get();
 
+        // Overall System Reports & Analytics metrics
+        $totalUsers = User::count();
+        $totalMachines = Machine::count();
+        $availableMachines = Machine::where('status', 'idle')->count();
+        $totalLaundry = Order::count();
+        $laundryStatus = Order::select('order_status as status', DB::raw('count(*) as total'))
+            ->groupBy('order_status')
+            ->get();
+        $smsCount = SmsNotification::count();
+        $emailCount = EmailNotification::count();
+
         return view('admin.dashboard', compact(
-            'user', 'machines', 'recentOrders', 'totalToday', 'inProgress', 'readyPickup', 'completedToday', 'notifications', 'feedbacks', 'staffCount', 'customerCount', 'profitTotal'
+            'user', 'machines', 'recentOrders', 'totalToday', 'inProgress', 'readyPickup',
+            'completedToday', 'notifications', 'feedbacks', 'staffCount', 'customerCount',
+            'profitTotal', 'totalUsers', 'totalMachines', 'availableMachines', 'totalLaundry',
+            'laundryStatus', 'smsCount', 'emailCount'
         ));
     })->name('dashboard');
 
@@ -376,7 +392,9 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::post('/inventory/{inventory}/adjust', [InventoryController::class, 'adjust'])->name('inventory.adjust');
     Route::get('/laundry', [AdminLaundryController::class, 'index'])->name('laundry.index');
     Route::patch('/laundry/{order}', [AdminLaundryController::class, 'update'])->name('laundry.update');
-    Route::get('/analytics', [AnalyticsController::class, 'index'])->name('analytics');
+    Route::get('/analytics', function () {
+        return redirect()->route('admin.dashboard');
+    })->name('analytics');
     Route::get('/sms', [SmsLogController::class, 'index'])->name('sms.index');
     Route::get('/emails', [EmailLogController::class, 'index'])->name('emails.index');
 });
