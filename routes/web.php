@@ -391,29 +391,21 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         $smsCount = Schema::hasTable('sms_notifications') ? SmsNotification::count() : 0;
         $emailCount = Schema::hasTable('email_notifications') ? EmailNotification::count() : 0;
 
-        // Rider Analytics & Dispatch Metrics (EXCLUDING Walk-in / Drop-off orders)
-        $riderPickupRequests = Order::whereIn('pickup_type', ['pickup_delivery', 'pickup'])
-            ->whereIn('order_status', ['pending', 'out_for_pickup'])
+        // Rider Analytics & Dispatch Metrics for Admin & Staff
+        $riderPickupRequests = Order::whereIn('order_status', ['pending', 'out_for_pickup'])
+            ->where(function ($q) {
+                $q->whereIn('pickup_type', ['pickup_delivery', 'pickup'])
+                    ->orWhereNull('pickup_type')
+                    ->orWhere('order_status', 'out_for_pickup');
+            })
             ->count();
 
-        $riderReceivedCount = Order::whereIn('pickup_type', ['pickup_delivery', 'pickup'])
-            ->where('order_status', 'received')
-            ->count();
-
-        $riderDeliveryCount = Order::whereIn('pickup_type', ['pickup_delivery', 'pickup'])
-            ->where('order_status', 'out_for_delivery')
-            ->count();
-
-        $riderCompletedCount = Order::whereIn('pickup_type', ['pickup_delivery', 'pickup'])
-            ->where('order_status', 'completed')
-            ->count();
-
-        $riderCancelledCount = Order::whereIn('pickup_type', ['pickup_delivery', 'pickup'])
-            ->where('order_status', 'cancelled')
-            ->count();
+        $riderReceivedCount = Order::where('order_status', 'received')->count();
+        $riderDeliveryCount = Order::where('order_status', 'out_for_delivery')->count();
+        $riderCompletedCount = Order::where('order_status', 'completed')->count();
+        $riderCancelledCount = Order::where('order_status', 'cancelled')->count();
 
         $riderOrders = Order::with(['customer.customerProfile', 'service'])
-            ->whereIn('pickup_type', ['pickup_delivery', 'pickup'])
             ->whereIn('order_status', ['pending', 'out_for_pickup', 'out_for_delivery'])
             ->latest()
             ->get();
