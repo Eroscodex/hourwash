@@ -49,7 +49,7 @@ class SmsNotificationService
             $smsService = app(SmsService::class);
             $res = $smsService->send($phone, $message);
 
-            $isSuccess = ($res['success'] ?? false) === true || ! empty($res['smsBatchId']) || ($res['status'] ?? '') === 'success';
+            $isSuccess = ($res['success'] ?? false) === true || ! empty($res['smsBatchId']) || ($res['status'] ?? '') === 'success' || ($res['data']['success'] ?? false) === true || isset($res['recipientCount']);
 
             if ($isSuccess) {
                 $smsStatus = 'sent';
