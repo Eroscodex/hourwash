@@ -164,8 +164,13 @@
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
 
                     @forelse($machines as $machine)
-                        <a href="{{ route('admin.machines.show', $machine) }}" class="block">
-                            <div class="p-3.5 rounded-xl bg-black/5 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-2 hover:border-[#007AFF]/40 transition">
+                        @php
+                            $targetUrl = $machine->currentOrder 
+                                ? route('laundry.track', $machine->currentOrder->order_number) 
+                                : route('admin.machines.show', $machine);
+                        @endphp
+                        <a href="{{ $targetUrl }}" class="block group" title="{{ $machine->currentOrder ? 'Click to view order details for #' . $machine->currentOrder->order_number : 'View machine details' }}">
+                            <div class="p-3.5 rounded-xl bg-black/5 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-2 hover:border-[#007AFF] hover:shadow-md transition">
 
                                 <div class="flex items-center justify-between">
                                     <span class="text-xs font-bold text-slate-900 dark:text-slate-100 truncate">
@@ -221,8 +226,8 @@
                                             </span>
                                             
                                             @if($machine->currentOrder)
-                                                <span class="block text-[9px] text-slate-700 dark:text-slate-300 mt-0.5">
-                                                    Order: {{ $machine->currentOrder->order_number }}
+                                                <span class="block text-[9px] font-bold text-[#007AFF] dark:text-[#0A84FF] mt-1 underline group-hover:text-blue-700">
+                                                    Order: {{ $machine->currentOrder->order_number }} →
                                                 </span>
                                             @endif
 

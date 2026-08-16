@@ -218,5 +218,115 @@
                 </div>
             </div>
         </div>
+
+        <!-- MACHINE STATUS MONITOR (Customer View) -->
+        <div class="app-card p-4 sm:p-6 space-y-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+                        Live Store Machine Monitor
+                    </h2>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">
+                        Real-time status of commercial washers & dryers. Click your active order to view tracking.
+                    </p>
+                </div>
+                <span class="inline-flex items-center gap-1.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-full">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    Live Updates
+                </span>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+                @forelse($machines as $machine)
+                    @php
+                        $isMyOrder = auth()->check() && $machine->currentOrder && ($machine->currentOrder->customer_id === auth()->id());
+                        
+                        $statusClass = match($machine->status) {
+                            'washing' => 'bg-teal-500/15 text-teal-700 dark:text-teal-300',
+                            'rinsing' => 'bg-sky-500/15 text-sky-700 dark:text-sky-300',
+                            'drying' => 'bg-indigo-500/15 text-indigo-700 dark:text-indigo-300',
+                            'idle' => 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300',
+                            default => 'bg-amber-500/15 text-amber-700 dark:text-amber-300',
+                        };
+                        $statusTextClass = match($machine->status) {
+                            'washing' => 'text-teal-600 dark:text-teal-400',
+                            'rinsing' => 'text-sky-600 dark:text-sky-400',
+                            'drying' => 'text-indigo-600 dark:text-indigo-400',
+                            'idle' => 'text-emerald-600 dark:text-emerald-400',
+                            default => 'text-amber-600 dark:text-amber-400',
+                        };
+                    @endphp
+
+                    @if($isMyOrder)
+                        <a href="{{ route('laundry.track', $machine->currentOrder->order_number) }}" class="block group" title="Click to view your order #{{ $machine->currentOrder->order_number }}">
+                            <div class="p-3.5 rounded-xl bg-[#007AFF]/5 dark:bg-[#0A84FF]/10 border-2 border-[#007AFF] space-y-2 hover:shadow-md transition relative">
+                                <span class="absolute -top-2 -right-1 bg-[#007AFF] text-white text-[8px] font-extrabold px-1.5 py-0.5 rounded-md shadow uppercase tracking-wider">
+                                    YOUR ORDER
+                                </span>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold text-slate-900 dark:text-slate-100 truncate">
+                                        {{ $machine->machine_name }}
+                                    </span>
+                                    <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono flex-shrink-0">
+                                        {{ $machine->machine_code }}
+                                    </span>
+                                </div>
+                                <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold {{ $statusClass }}">
+                                    <img src="{{ asset('favicon.svg') }}" alt="HourWash" class="w-5 h-5 object-contain" />
+                                </div>
+                                <div>
+                                    <span class="text-[10px] font-bold uppercase tracking-wider block {{ $statusTextClass }}">
+                                        {{ strtoupper($machine->status) }}
+                                    </span>
+                                    <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
+                                        <span>⏱ {{ $machine->remaining_minutes ?? 30 }} mins remaining</span>
+                                        <span class="block text-[9px] font-bold text-[#007AFF] dark:text-[#0A84FF] mt-1 underline">
+                                            Order: #{{ $machine->currentOrder->order_number }} →
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    @else
+                        <div class="p-3.5 rounded-xl bg-black/5 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-2 opacity-90">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-slate-900 dark:text-slate-100 truncate">
+                                    {{ $machine->machine_name }}
+                                </span>
+                                <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono flex-shrink-0">
+                                    {{ $machine->machine_code }}
+                                </span>
+                            </div>
+                            <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold {{ $statusClass }}">
+                                <img src="{{ asset('favicon.svg') }}" alt="HourWash" class="w-5 h-5 object-contain" />
+                            </div>
+                            <div>
+                                <span class="text-[10px] font-bold uppercase tracking-wider block {{ $statusTextClass }}">
+                                    {{ strtoupper($machine->status) }}
+                                </span>
+                                <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
+                                    @if(in_array($machine->status, ['washing', 'rinsing', 'drying']))
+                                        <span>⏱ {{ $machine->remaining_minutes ?? 30 }} mins remaining</span>
+                                        <span class="block text-[9px] text-slate-400 dark:text-slate-500 font-medium mt-0.5">
+                                            In Use (Occupied)
+                                        </span>
+                                    @elseif($machine->status === 'maintenance')
+                                        <span class="text-amber-600 dark:text-amber-400 font-semibold">⚠ Maintenance</span>
+                                    @elseif($machine->status === 'offline')
+                                        <span class="text-rose-600 dark:text-rose-400 font-semibold">🚫 Offline</span>
+                                    @else
+                                        Available
+                                    @endif
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @empty
+                    <div class="col-span-full text-center py-6 text-xs text-slate-500">
+                        No machines configured.
+                    </div>
+                @endforelse
+            </div>
+        </div>
     </div>
 </x-app-layout>

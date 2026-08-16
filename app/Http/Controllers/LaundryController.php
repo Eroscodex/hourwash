@@ -151,6 +151,13 @@ class LaundryController extends Controller
             return redirect()->route('welcome')->with('error', 'No active order tracking found for QR token / machine tag: '.$qr);
         }
 
+        // Customers can only view their own orders; Admin & Staff can view any customer order
+        if (auth()->check() && auth()->user()->isCustomer()) {
+            if ($order->customer_id !== auth()->id()) {
+                return redirect()->route('dashboard')->with('error', 'Unauthorized: You are only allowed to view your own order tracking details.');
+            }
+        }
+
         return view(
             'laundry.track',
             compact('order')
