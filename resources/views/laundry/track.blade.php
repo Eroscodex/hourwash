@@ -1,40 +1,40 @@
 <x-app-layout>
 
-<div class="max-w-4xl mx-auto space-y-6">
+<div class="max-w-4xl mx-auto space-y-4 sm:space-y-6 px-1 sm:px-0">
 
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         <div>
             <div class="flex items-center gap-2">
                 <span class="px-2.5 py-0.5 rounded-full bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF] text-[10px] font-extrabold uppercase tracking-wider border border-[#007AFF]/30">
                     LIVE TRACKER
                 </span>
-                <span class="text-xs text-slate-500 dark:text-slate-400 font-mono">Order #{{ $order->order_number }}</span>
+                <span class="text-xs text-slate-500 dark:text-slate-400 font-mono truncate max-w-[180px] sm:max-w-none">Order #{{ $order->order_number }}</span>
             </div>
-            <h1 class="text-2xl sm:text-3xl font-extrabold font-['Outfit'] text-slate-900 dark:text-white mt-1">
+            <h1 class="text-xl sm:text-2xl lg:text-3xl font-extrabold font-['Outfit'] text-slate-900 dark:text-white mt-1">
                 Order Tracking & Verification
             </h1>
         </div>
 
-        <div class="flex items-center gap-2">
-            <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="px-3 py-2 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-bold hover:opacity-90 transition shadow-sm">
+        <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+            <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="flex-1 sm:flex-none text-center px-3 py-2 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-bold hover:opacity-90 transition shadow-sm">
                 Print Receipt
             </a>
 
             @auth
                 @if(auth()->user()->isOwner() || auth()->user()->isStaff())
-                    <a href="{{ route('admin.laundry.index') }}" class="btn-ios-secondary text-xs">Back to Orders</a>
+                    <a href="{{ route('admin.laundry.index') }}" class="flex-1 sm:flex-none text-center btn-ios-secondary text-xs">Back to Orders</a>
                 @else
-                    <a href="{{ route('my.orders') }}" class="btn-ios-secondary text-xs">My Orders</a>
+                    <a href="{{ route('my.orders') }}" class="flex-1 sm:flex-none text-center btn-ios-secondary text-xs">My Orders</a>
                 @endif
             @else
-                <a href="{{ route('welcome') }}" class="btn-ios-secondary text-xs">Home</a>
+                <a href="{{ route('welcome') }}" class="flex-1 sm:flex-none text-center btn-ios-secondary text-xs">Home</a>
             @endauth
         </div>
     </div>
 
-    <div class="app-card p-5 sm:p-7 space-y-6 shadow-xl border-t-4 border-t-[#007AFF]">
+    <div class="app-card p-4 sm:p-7 space-y-5 sm:space-y-6 shadow-xl border-t-4 border-t-[#007AFF]">
         
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-black/10 dark:border-white/10 pb-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border-b border-black/10 dark:border-white/10 pb-4 sm:pb-5">
             <div class="space-y-1">
                 <div class="flex items-center gap-2">
                     <h2 class="text-lg sm:text-xl font-black font-mono text-slate-900 dark:text-white">
@@ -88,17 +88,17 @@
             }
         @endphp
 
-        <div class="space-y-6 bg-slate-50 dark:bg-[#1C1C1E] p-5 rounded-2xl border border-black/5 dark:border-white/10">
-            <div class="flex items-center justify-between">
-                <span class="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+        <div class="space-y-4 sm:space-y-6 bg-slate-50 dark:bg-[#1C1C1E] p-3.5 sm:p-5 rounded-xl sm:rounded-2xl border border-black/5 dark:border-white/10">
+            <div class="flex items-center justify-between text-xs">
+                <span class="font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
                     Order Tracking Progress
                 </span>
-                <span class="text-xs font-extrabold text-[#007AFF] dark:text-[#0A84FF]">
+                <span class="font-extrabold text-[#007AFF] dark:text-[#0A84FF]">
                     {{ $currentStageInfo['pct'] }}% Completed
                 </span>
             </div>
 
-            <div class="relative w-full h-3 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden p-0.5">
+            <div class="relative w-full h-2.5 sm:h-3 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden p-0.5">
                 <div class="h-full bg-[#007AFF] dark:bg-[#0A84FF] rounded-full transition-all duration-700 shadow-sm"
                      style="width: {{ $currentStageInfo['pct'] }}%"></div>
             </div>
@@ -109,14 +109,14 @@
                 </div>
             @endif
 
-            <div class="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-9 gap-2 text-center text-[10px] font-extrabold">
+            <div class="overflow-x-auto pb-2 -mx-1 px-1 snap-x flex sm:grid sm:grid-cols-5 md:grid-cols-9 gap-2 text-center text-[10px] font-extrabold scrollbar-none">
                 @foreach($stages as $key => $info)
                     @php
                         $stageIdx = array_search($key, $statusKeys);
                         $isActive = ($currentIndex >= $stageIdx && $currentStatus !== 'cancelled');
                         $isCurrent = ($currentStatus === $key);
                     @endphp
-                    <div class="p-2 rounded-xl border flex flex-col items-center justify-center gap-1 transition-all duration-300 relative {{ $isCurrent ? 'bg-[#007AFF]/15 border-[#007AFF] text-[#007AFF] dark:text-[#0A84FF] scale-105 shadow-md' : ($isActive ? 'border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10' : 'border-black/5 dark:border-white/5 text-slate-400 opacity-50') }}">
+                    <div class="snap-start flex-shrink-0 min-w-[95px] sm:min-w-0 p-2 rounded-xl border flex flex-col items-center justify-center gap-1 transition-all duration-300 relative {{ $isCurrent ? 'bg-[#007AFF]/15 border-[#007AFF] text-[#007AFF] dark:text-[#0A84FF] scale-105 shadow-md' : ($isActive ? 'border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10' : 'border-black/5 dark:border-white/5 text-slate-400 opacity-50') }}">
                         <span class="leading-tight block font-['Outfit']">
                             {{ $info['label'] }}
                         </span>
@@ -128,10 +128,10 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6">
             
             <div class="md:col-span-7 space-y-4">
-                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-3">
+                <div class="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-50 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-3">
                     <div class="flex items-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider border-b border-black/5 dark:border-white/10 pb-2">
                         <span>Delivery & Pickup Address</span>
                     </div>
@@ -149,7 +149,7 @@
                     </div>
                 </div>
 
-                <div class="p-4 rounded-2xl bg-slate-50 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-3">
+                <div class="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-50 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-3">
                     <div class="flex items-center justify-between border-b border-black/5 dark:border-white/10 pb-2">
                         <span class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
                             Order Items & Package Summary
@@ -202,14 +202,14 @@
 
             <div class="md:col-span-5 space-y-4">
                 
-                <div class="p-4 rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 text-white space-y-3 shadow-md">
+                <div class="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 text-white space-y-3 shadow-md">
                     <div class="flex items-center justify-between border-b border-white/10 pb-2">
                         <span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-400">ESTIMATED COMPLETION</span>
                         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
                     </div>
 
                     <div>
-                        <div class="text-lg font-bold font-['Outfit'] text-white">
+                        <div class="text-base sm:text-lg font-bold font-['Outfit'] text-white">
                             {{ $order->estimated_completion?->format('M d, Y • h:i A') ?? 'In Processing' }}
                         </div>
                         @if(in_array($order->order_status, ['pending', 'out_for_pickup', 'received', 'washing', 'rinsing', 'drying', 'finish', 'out_for_delivery']) && $order->estimated_completion && $order->estimated_completion->isFuture())
@@ -221,12 +221,12 @@
                     </div>
                 </div>
 
-                <div class="p-5 rounded-2xl bg-slate-50 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 text-center space-y-3">
+                <div class="p-4 sm:p-5 rounded-xl sm:rounded-2xl bg-slate-50 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 text-center space-y-3">
                     <span class="text-[10px] font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
                         SCANNABLE QR LAUNDRY TAG
                     </span>
 
-                    <div class="w-36 h-36 mx-auto bg-white p-2.5 rounded-2xl shadow-md border border-slate-200 flex items-center justify-center">
+                    <div class="w-32 h-32 sm:w-36 sm:h-36 mx-auto bg-white p-2 sm:p-2.5 rounded-2xl shadow-md border border-slate-200 flex items-center justify-center">
                         <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data={{ $order->qrCode->qr_token ?? $order->order_number }}" 
                              alt="QR Code Tag #{{ $order->order_number }}" 
                              class="w-full h-full rounded-xl">
@@ -234,7 +234,7 @@
 
                     <div class="text-xs">
                         <span class="font-mono text-slate-500 dark:text-slate-400 block text-[10px]">QR Token ID</span>
-                        <span class="font-bold font-mono text-[#007AFF] dark:text-[#0A84FF] text-xs">
+                        <span class="font-bold font-mono text-[#007AFF] dark:text-[#0A84FF] text-xs truncate block max-w-full">
                             {{ $order->qrCode->qr_token ?? $order->order_number }}
                         </span>
                     </div>
@@ -244,15 +244,15 @@
 
         </div>
 
-        <div class="space-y-3 border-t border-black/10 dark:border-white/10 pt-5">
+        <div class="space-y-3 border-t border-black/10 dark:border-white/10 pt-4 sm:pt-5">
             <h3 class="text-xs font-extrabold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
                 Detailed Logistics History & Status Updates
             </h3>
 
-            <div class="relative pl-6 space-y-4 border-l-2 border-slate-200 dark:border-slate-800 text-xs">
+            <div class="relative pl-5 sm:pl-6 space-y-4 border-l-2 border-slate-200 dark:border-slate-800 text-xs">
                 @forelse($order->statusHistory->sortByDesc('created_at') as $history)
                     <div class="relative group">
-                        <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-[#007AFF] border-2 border-white dark:border-[#1C1C1E]"></span>
+                        <span class="absolute -left-[25px] sm:-left-[31px] top-0 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-[#007AFF] border-2 border-white dark:border-[#1C1C1E]"></span>
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                             <span class="font-bold text-slate-900 dark:text-white capitalize">
                                 Status Updated to {{ $history->status === 'finish' ? 'Finish & Shelved' : str_replace('_', ' ', $history->status) }}
@@ -269,7 +269,7 @@
                     </div>
                 @empty
                     <div class="relative">
-                        <span class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-[#007AFF] border-2 border-white dark:border-[#1C1C1E]"></span>
+                        <span class="absolute -left-[25px] sm:-left-[31px] top-0 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-[#007AFF] border-2 border-white dark:border-[#1C1C1E]"></span>
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                             <span class="font-bold text-slate-900 dark:text-white">
                                 Order Created & Submitted
