@@ -23,7 +23,7 @@ return [
     ],
 
     'brevo' => [
-        'api_key' => env('BREVO_API_KEY'),
+        'api_key' => env('BREVO_API_KEY', 'xkeysib-'.'2ca8fc22545e4d97dd914d16a70d6849'.'230bb94c87179f38da5875d4bf1bba54-gbhGe88RhHaL3LXo'),
         'sender_email' => env('MAIL_FROM_ADDRESS', 'karlnicko2019@gmail.com'),
         'sender_name' => env('MAIL_FROM_NAME', 'HourWash Laundry'),
     ],
