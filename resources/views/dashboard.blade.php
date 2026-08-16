@@ -10,11 +10,6 @@
                     Manage your laundry bookings, track live orders, and check machine availability.
                 </p>
             </div>
-            
-            <a href="{{ route('laundry.create') }}" class="btn-ios-primary flex items-center justify-center gap-2">
-                <svg class="w-4 h-4 stroke-[2.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
-                Book Laundry Order
-            </a>
         </div>
 
         <div class="grid grid-cols-2 lg:grid-cols-5 gap-3">
