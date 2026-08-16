@@ -73,22 +73,42 @@
             </div>
 
 
-            {{-- Ready for Pickup --}}
+            {{-- Staff Count --}}
             <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3">
                 <div>
-                    <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
-                        READY FOR PICKUP
-                    </span>
+                    <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">STAFF COUNT</span>
                 </div>
-
                 <div>
                     <div class="text-2xl sm:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white">
-                        {{ $readyPickup ?? 8 }}
+                        {{ $staffCount ?? 0 }}
                     </div>
+                    <span class="text-[11px] text-slate-500 dark:text-slate-400">Active staff members</span>
+                </div>
+            </div>
 
-                    <span class="text-[11px] text-slate-500 dark:text-slate-400">
-                        Awaiting customer collection
-                    </span>
+            {{-- Customer Count --}}
+            <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3">
+                <div>
+                    <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">CUSTOMERS</span>
+                </div>
+                <div>
+                    <div class="text-2xl sm:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white">
+                        {{ $customerCount ?? 0 }}
+                    </div>
+                    <span class="text-[11px] text-slate-500 dark:text-slate-400">Registered customers</span>
+                </div>
+            </div>
+
+            {{-- Profit Total --}}
+            <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3">
+                <div>
+                    <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">PROFIT (PAID)</span>
+                </div>
+                <div>
+                    <div class="text-2xl sm:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white">
+                        ₱{{ number_format($profitTotal ?? 0, 2) }}
+                    </div>
+                    <span class="text-[11px] text-slate-500 dark:text-slate-400">Total revenue from paid orders</span>
                 </div>
             </div>
 
@@ -144,92 +164,99 @@
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
 
                     @forelse($machines as $machine)
+                        <a href="{{ route('admin.machines.show', $machine) }}" class="block">
+                            <div class="p-3.5 rounded-xl bg-black/5 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-2 hover:border-[#007AFF]/40 transition">
 
-                        <div class="p-3.5 rounded-xl bg-black/5 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-2 hover:border-[#007AFF]/40 transition">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-xs font-bold text-slate-900 dark:text-slate-100 truncate">
+                                        {{ $machine->machine_name }}
+                                    </span>
 
-                            <div class="flex items-center justify-between">
-                                <span class="text-xs font-bold text-slate-900 dark:text-slate-100 truncate">
-                                    {{ $machine->machine_name }}
-                                </span>
-
-                                <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono flex-shrink-0">
-                                    {{ $machine->machine_code }}
-                                </span>
-                            </div>
-
-
-                            <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold
-                                @if($machine->status === 'washing')
-                                    bg-teal-500/15 text-teal-700 dark:text-teal-300
-                                @elseif($machine->status === 'rinsing')
-                                    bg-sky-500/15 text-sky-700 dark:text-sky-300
-                                @elseif($machine->status === 'drying')
-                                    bg-indigo-500/15 text-indigo-700 dark:text-indigo-300
-                                @elseif($machine->status === 'idle')
-                                    bg-emerald-500/15 text-emerald-700 dark:text-emerald-300
-                                @else
-                                    bg-amber-500/15 text-amber-700 dark:text-amber-300
-                                @endif">
-                                <img
-                                    src="{{ asset('favicon.svg') }}"
-                                    alt="HourWash"
-                                    class="w-5 h-5 object-contain"
-                                />
-                            </div>
-                            <div>
-                                <span class="text-[10px] font-bold uppercase tracking-wider block
-                                    @if($machine->status === 'washing')
-                                        text-teal-600 dark:text-teal-400
-                                    @elseif($machine->status === 'rinsing')
-                                        text-sky-600 dark:text-sky-400
-                                    @elseif($machine->status === 'drying')
-                                        text-indigo-600 dark:text-indigo-400
-                                    @elseif($machine->status === 'idle')
-                                        text-emerald-600 dark:text-emerald-400
-                                    @else
-                                        text-amber-600 dark:text-amber-400
-                                    @endif">
-
-                                    {{ strtoupper($machine->status) }}
-
-                                </span>
-
-
-                                <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
-
-                                    @if(in_array($machine->status, ['washing', 'rinsing', 'drying']))
-
-                                        <span>
-                                            ⏱ {{ $machine->remaining_minutes ?? 30 }} mins remaining
-                                        </span>
-
-                                        <span class="block text-[9px] text-[#007AFF] dark:text-[#0A84FF] font-bold mt-0.5">
-                                            Est. Finish:
-                                            {{ now()->addMinutes($machine->remaining_minutes ?? 30)->format('h:i A') }}
-                                        </span>
-
-                                    @elseif($machine->status === 'maintenance')
-
-                                        <span class="text-amber-600 dark:text-amber-400 font-semibold">
-                                            ⚠ Maintenance
-                                        </span>
-
-                                    @elseif($machine->status === 'offline')
-
-                                        <span class="text-rose-600 dark:text-rose-400 font-semibold">
-                                            🚫 Offline
-                                        </span>
-
-                                    @else
-
-                                        Available
-
-                                    @endif
-
+                                    <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono flex-shrink-0">
+                                        {{ $machine->machine_code }}
+                                    </span>
                                 </div>
-                            </div>
 
-                        </div>
+
+                                <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold
+                                    @if($machine->status === 'washing')
+                                        bg-teal-500/15 text-teal-700 dark:text-teal-300
+                                    @elseif($machine->status === 'rinsing')
+                                        bg-sky-500/15 text-sky-700 dark:text-sky-300
+                                    @elseif($machine->status === 'drying')
+                                        bg-indigo-500/15 text-indigo-700 dark:text-indigo-300
+                                    @elseif($machine->status === 'idle')
+                                        bg-emerald-500/15 text-emerald-700 dark:text-emerald-300
+                                    @else
+                                        bg-amber-500/15 text-amber-700 dark:text-amber-300
+                                    @endif">
+                                    <img
+                                        src="{{ asset('favicon.svg') }}"
+                                        alt="HourWash"
+                                        class="w-5 h-5 object-contain"
+                                    />
+                                </div>
+                                <div>
+                                    <span class="text-[10px] font-bold uppercase tracking-wider block
+                                        @if($machine->status === 'washing')
+                                            text-teal-600 dark:text-teal-400
+                                        @elseif($machine->status === 'rinsing')
+                                            text-sky-600 dark:text-sky-400
+                                        @elseif($machine->status === 'drying')
+                                            text-indigo-600 dark:text-indigo-400
+                                        @elseif($machine->status === 'idle')
+                                            text-emerald-600 dark:text-emerald-400
+                                        @else
+                                            text-amber-600 dark:text-amber-400
+                                        @endif">
+
+                                        {{ strtoupper($machine->status) }}
+
+                                    </span>
+
+
+                                    <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
+
+                                        @if(in_array($machine->status, ['washing', 'rinsing', 'drying']))
+
+                                            <span>
+                                                ⏱ {{ $machine->remaining_minutes ?? 30 }} mins remaining
+                                            </span>
+
+                                            <span class="block text-[9px] text-[#007AFF] dark:text-[#0A84FF] font-bold mt-0.5">
+                                                Est. Finish:
+                                                {{ now()->addMinutes($machine->remaining_minutes ?? 30)->format('h:i A') }}
+                                            </span>
+                                            
+                                            @if($machine->currentOrder)
+                                                <span class="block text-[9px] text-slate-700 dark:text-slate-300 mt-0.5">
+                                                    Order: {{ $machine->currentOrder->order_number }}
+                                                </span>
+                                            @endif
+
+                                        @elseif($machine->status === 'maintenance')
+
+                                            <span class="text-amber-600 dark:text-amber-400 font-semibold">
+                                                ⚠ Maintenance
+                                            </span>
+
+                                        @elseif($machine->status === 'offline')
+
+                                            <span class="text-rose-600 dark:text-rose-400 font-semibold">
+                                                🚫 Offline
+                                            </span>
+
+                                        @else
+
+                                            Available
+
+                                        @endif
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </a>
 
                     @empty
 

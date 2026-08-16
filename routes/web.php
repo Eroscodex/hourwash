@@ -356,12 +356,12 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         $readyPickup = Order::where('order_status', 'ready')->count();
         $completedToday = Order::whereDate('updated_at', now()->today())->where('order_status', 'completed')->count();
 
-        $notifications = Notification::latest()->take(4)->get();
-        $activeOrder = Order::with(['customer', 'service', 'machine', 'qrCode'])->latest()->first();
-        $feedbacks = CustomerFeedback::with('user')->latest()->get();
+        $staffCount = \App\Models\User::where('role', 'staff')->count();
+        $customerCount = \App\Models\User::where('role', 'customer')->orWhere('role', 'user')->count();
+        $profitTotal = \App\Models\Order::where('payment_status', 'paid')->sum('total_amount');
 
         return view('admin.dashboard', compact(
-            'user', 'machines', 'recentOrders', 'totalToday', 'inProgress', 'readyPickup', 'completedToday', 'notifications', 'activeOrder', 'feedbacks'
+            'user', 'machines', 'recentOrders', 'totalToday', 'inProgress', 'readyPickup', 'completedToday', 'notifications', 'activeOrder', 'feedbacks', 'staffCount', 'customerCount', 'profitTotal'
         ));
     })->name('dashboard');
 
