@@ -48,7 +48,6 @@ class SmsNotificationService
 
             $response = Http::withHeaders([
                 'x-api-key' => $apiKey,
-                'X-Api-Key' => $apiKey,
             ])
                 ->timeout(15)
                 ->asJson()
