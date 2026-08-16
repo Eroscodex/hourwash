@@ -40,8 +40,18 @@
             </div>
 
             <div class="mb-5">
-                <label class="block text-xs font-semibold text-slate-700 dark:text-slate-200 uppercase tracking-wider mb-2">Weight (kg)</label>
-                <input id="weight_kg" type="number" name="weight_kg" value="{{ old('weight_kg', 1) }}" min="0.5" step="0.5" class="w-full">
+                <div class="flex items-center justify-between mb-2">
+                    <label class="block text-xs font-semibold text-slate-700 dark:text-slate-200 uppercase tracking-wider">
+                        Weight (kg)
+                    </label>
+                    <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF]">
+                        1 Load = 7kg to 8kg Max
+                    </span>
+                </div>
+                <input id="weight_kg" type="number" name="weight_kg" value="{{ old('weight_kg', 7) }}" min="0.5" step="0.5" class="w-full">
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1.5 flex items-center gap-1.5 font-medium">
+                    💡 Standard commercial machine load is 7kg to 8kg max. (7kg–8kg = 1 Load).
+                </p>
             </div>
 
             <!-- Detergent / Powder Supplies Tipid Discount Option -->
