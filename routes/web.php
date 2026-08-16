@@ -90,11 +90,11 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     $user = auth()->user();
 
-    if ($user->role === 'owner' || $user->role === 'admin') {
+    if ($user->isOwner() || $user->isAdmin()) {
         return redirect()->route('admin.dashboard');
     }
 
-    if ($user->role === 'staff') {
+    if ($user->isStaff()) {
         return redirect()->route('staff.dashboard');
     }
 
@@ -108,7 +108,7 @@ Route::get('/dashboard', function () {
     $recentOrders = Order::with('service')
         ->where('customer_id', $user->id)
         ->latest()
-        ->take(5)
+        ->take(10)
         ->get();
 
     $notifications = Notification::where('user_id', $user->id)
@@ -116,11 +116,13 @@ Route::get('/dashboard', function () {
         ->take(4)
         ->get();
 
-    $machines = Machine::all();
+    $machines = Machine::orderBy('id', 'asc')->get();
+    $idleWashers = Machine::whereIn('machine_type', ['washer', 'washer_dryer'])->where('status', 'idle')->count();
+    $idleDryers = Machine::whereIn('machine_type', ['dryer', 'washer_dryer'])->where('status', 'idle')->count();
     $promo = Promotion::where('status', 'active')->first();
-    $loyaltyPoints = $user->customerProfile->loyalty_points ?? 250;
+    $loyaltyPoints = $user->customerProfile->loyalty_points ?? 0;
 
-    return view('dashboard', compact('user', 'activeOrder', 'recentOrders', 'notifications', 'machines', 'promo', 'loyaltyPoints'));
+    return view('dashboard', compact('user', 'activeOrder', 'recentOrders', 'notifications', 'machines', 'idleWashers', 'idleDryers', 'promo', 'loyaltyPoints'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Public QR Order Tracking (Accessible by anyone without login)
