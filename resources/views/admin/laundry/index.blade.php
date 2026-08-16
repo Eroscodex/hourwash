@@ -15,38 +15,6 @@
             </div>
         @endif
 
-        <!-- Live Customer SMS Outbox & Gateway Terminal -->
-        <div class="app-card p-5 space-y-4">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-black/10 dark:border-white/10 pb-3">
-                <div>
-                    <h2 class="text-base font-bold text-slate-900 dark:text-white">
-                        Live SMS Customer Outbox
-                    </h2>
-                    <p class="text-xs text-slate-500 dark:text-slate-400">Automated SMS text messages generated & dispatched to customer phone numbers</p>
-                </div>
-                <span class="px-3 py-1 rounded-full bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF] text-xs font-bold">
-                    {{ count($smsLogs ?? []) }} SMS Dispatched
-                </span>
-            </div>
-
-            <div class="space-y-3">
-                @forelse($smsLogs ?? [] as $sms)
-                    <div class="p-3.5 rounded-xl bg-black/5 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-1">
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs">
-                            <span class="font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                                Phone: <strong class="text-[#007AFF] dark:text-[#0A84FF] font-mono">{{ $sms->phone }}</strong>
-                            </span>
-                            <span class="text-[10px] text-slate-500 font-mono">{{ $sms->created_at->format('M d, Y h:i A') }}</span>
-                        </div>
-                        <p class="text-xs text-slate-700 dark:text-slate-300 font-mono bg-white dark:bg-black/30 p-2.5 rounded-lg border border-black/5 dark:border-white/5 break-all break-words">
-                            {{ $sms->message }}
-                        </p>
-                    </div>
-                @empty
-                    <div class="text-center py-4 text-xs text-slate-500">No SMS text messages in outbox log yet.</div>
-                @endforelse
-            </div>
-        </div>
 
         <div class="space-y-4">
             @forelse($orders as $order)
