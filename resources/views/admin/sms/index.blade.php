@@ -31,8 +31,8 @@
                             <span class="font-mono font-bold text-[#007AFF] dark:text-[#0A84FF]">
                                 {{ $sms->phone }}
                             </span>
-                            <span class="ml-2 px-2 py-0.5 rounded text-[10px] font-extrabold uppercase tracking-wider
-                                @if($sms->status === 'sent') bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30
+                            <span class="ml-2 px-2.5 py-0.5 rounded text-[10px] font-extrabold uppercase tracking-wider
+                                @if(in_array($sms->status, ['sent', 'dispatched', 'delivered'])) bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30
                                 @elseif($sms->status === 'failed') bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30
                                 @else bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30 @endif">
                                 {{ strtoupper($sms->status) }}
