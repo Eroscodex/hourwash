@@ -66,32 +66,48 @@
         </div>
 
         @php
-            $stages = [
-                'pending'          => ['label' => 'Order Placed',      'pct' => 10],
-                'out_for_pickup'   => ['label' => 'Out for Pickup',    'pct' => 22],
-                'received'         => ['label' => 'Store Received',    'pct' => 35],
-                'washing'          => ['label' => 'Washing',           'pct' => 48],
-                'rinsing'          => ['label' => 'Rinsing',           'pct' => 60],
-                'drying'           => ['label' => 'Drying',            'pct' => 72],
-                'finish'           => ['label' => 'Finish & Shelved',  'pct' => 84],
-                'out_for_delivery' => ['label' => 'Out for Delivery',  'pct' => 92],
-                'completed'        => ['label' => 'Completed',         'pct' => 100],
-            ];
+            $isWalkIn = ($order->pickup_type === 'drop_off' || empty($order->pickup_type) || ($order->pickup_type !== 'pickup' && $order->pickup_type !== 'pickup_delivery'));
+
+            if ($isWalkIn) {
+                $stages = [
+                    'pending'          => ['step' => 1, 'label' => 'Order Placed',      'pct' => 12],
+                    'received'         => ['step' => 2, 'label' => 'Store Received',    'pct' => 25],
+                    'washing'          => ['step' => 3, 'label' => 'Washing',           'pct' => 38],
+                    'rinsing'          => ['step' => 4, 'label' => 'Rinsing',           'pct' => 50],
+                    'drying'           => ['step' => 5, 'label' => 'Drying',            'pct' => 63],
+                    'finish'           => ['step' => 6, 'label' => 'Finish & Shelved',  'pct' => 75],
+                    'out_for_delivery' => ['step' => 7, 'label' => 'Out for Delivery',  'pct' => 88],
+                    'completed'        => ['step' => 8, 'label' => 'Completed',         'pct' => 100],
+                ];
+            } else {
+                $stages = [
+                    'pending'          => ['step' => 1, 'label' => 'Order Placed',      'pct' => 10],
+                    'out_for_pickup'   => ['step' => 2, 'label' => 'Out for Pickup',    'pct' => 22],
+                    'received'         => ['step' => 3, 'label' => 'Store Received',    'pct' => 35],
+                    'washing'          => ['step' => 4, 'label' => 'Washing',           'pct' => 48],
+                    'rinsing'          => ['step' => 5, 'label' => 'Rinsing',           'pct' => 60],
+                    'drying'           => ['step' => 6, 'label' => 'Drying',            'pct' => 72],
+                    'finish'           => ['step' => 7, 'label' => 'Finish & Shelved',  'pct' => 84],
+                    'out_for_delivery' => ['step' => 8, 'label' => 'Out for Delivery',  'pct' => 92],
+                    'completed'        => ['step' => 9, 'label' => 'Completed',         'pct' => 100],
+                ];
+            }
             
             $currentStatus = $order->order_status;
-            $currentStageInfo = $stages[$currentStatus] ?? ['label' => 'Processing', 'pct' => 0];
+            $currentStageInfo = $stages[$currentStatus] ?? ['step' => 1, 'label' => 'Processing', 'pct' => 0];
             
             $statusKeys = array_keys($stages);
             $currentIndex = array_search($currentStatus, $statusKeys);
             if ($currentIndex === false) {
                 $currentIndex = -1;
             }
+            $totalSteps = count($stages);
         @endphp
 
         <div class="space-y-3 sm:space-y-5 bg-slate-50 dark:bg-[#1C1C1E] p-3 sm:p-5 rounded-xl sm:rounded-2xl border border-black/5 dark:border-white/10">
             <div class="flex items-center justify-between text-xs">
                 <span class="font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 text-[11px] sm:text-xs">
-                    Order Tracking Progress
+                    Order Tracking Progress ({{ $isWalkIn ? 'Store Walk-in / Drop-off' : 'Pickup & Delivery' }})
                 </span>
                 <span class="font-extrabold text-[#007AFF] dark:text-[#0A84FF] text-[11px] sm:text-xs">
                     {{ $currentStatus === 'completed' ? '100% Completed' : $currentStageInfo['pct'].'% Progress' }}
@@ -109,16 +125,17 @@
                 </div>
             @endif
 
-            <div class="grid grid-cols-3 sm:grid-cols-9 gap-1.5 sm:gap-2 text-center">
+            <div class="grid grid-cols-2 min-[400px]:grid-cols-4 md:grid-cols-{{ $totalSteps }} gap-1.5 sm:gap-2 text-center">
                 @foreach($stages as $key => $info)
                     @php
                         $stageIdx = array_search($key, $statusKeys);
                         $isActive = ($currentIndex >= $stageIdx && $currentStatus !== 'cancelled');
                         $isCurrent = ($currentStatus === $key);
                     @endphp
-                    <div class="p-1.5 sm:p-2 rounded-lg sm:rounded-xl border flex flex-col items-center justify-center transition-all duration-300 relative min-h-[44px] sm:min-h-[52px] {{ $isCurrent ? 'bg-[#007AFF]/15 border-[#007AFF] text-[#007AFF] dark:text-[#0A84FF] font-black shadow-sm' : ($isActive ? 'border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 font-bold' : 'border-black/5 dark:border-white/5 text-slate-400 opacity-50 font-medium') }}">
+                    <div class="p-1.5 sm:p-2 rounded-lg sm:rounded-xl border flex flex-col items-center justify-center transition-all duration-300 relative min-h-[46px] sm:min-h-[54px] {{ $isCurrent ? 'bg-[#007AFF]/15 border-[#007AFF] text-[#007AFF] dark:text-[#0A84FF] font-black shadow-sm' : ($isActive ? 'border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 font-bold' : 'border-black/5 dark:border-white/5 text-slate-400 opacity-50 font-medium') }}">
                         <span class="text-[8px] min-[400px]:text-[9px] sm:text-[10px] md:text-[11px] uppercase leading-tight font-['Outfit'] whitespace-normal break-words text-center w-full px-0.5">
-                            {{ $info['label'] }}
+                            <span class="opacity-75 block text-[7px] min-[400px]:text-[8px] sm:text-[9px]">STEP {{ $info['step'] }}</span>
+                            {{ $info['step'] }}. {{ $info['label'] }}
                         </span>
                         @if($isCurrent)
                             <span class="w-1.5 h-1.5 rounded-full bg-[#007AFF] animate-ping absolute -top-0.5 -right-0.5"></span>
