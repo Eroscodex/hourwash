@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Machine;
 use App\Models\Order;
+use App\Models\OrderStatusHistory;
 use App\Models\QrCode;
 use App\Models\Service;
 use App\Services\EmailNotificationService;
@@ -67,6 +68,14 @@ class LaundryController extends Controller
             'qr_token' => Str::uuid(),
             'status' => 'active',
             'expires_at' => now()->addDays(7),
+        ]);
+
+        OrderStatusHistory::create([
+            'order_id' => $order->id,
+            'status' => 'pending',
+            'changed_by' => auth()->id(),
+            'notes' => 'Order created and submitted.',
+            'created_at' => now(),
         ]);
 
         // Eager load customer and service for emails

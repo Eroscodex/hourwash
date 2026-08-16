@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\OrderStatusHistory;
 use App\Models\SmsNotification;
 use App\Models\User;
 use App\Services\EmailNotificationService;
@@ -39,6 +40,14 @@ class LaundryController extends Controller
 
             if ($request->filled('status')) {
                 $order->order_status = $request->status;
+
+                OrderStatusHistory::create([
+                    'order_id' => $order->id,
+                    'status' => $request->status,
+                    'changed_by' => auth()->id(),
+                    'notes' => 'Status updated to '.($request->status === 'finish' ? 'Finish & Shelved' : str_replace('_', ' ', $request->status)),
+                    'created_at' => now(),
+                ]);
             }
 
             if ($request->filled('payment_status')) {

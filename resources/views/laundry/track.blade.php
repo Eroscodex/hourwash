@@ -259,18 +259,35 @@
                                 Status Updated to {{ $history->status === 'finish' ? 'Finish & Shelved' : str_replace('_', ' ', $history->status) }}
                             </span>
                             <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
-                                {{ $history->created_at->format('M d, Y • h:i A') }} ({{ $history->created_at->diffForHumans() }})
+                                {{ $history->created_at ? \Carbon\Carbon::parse($history->created_at)->format('M d, Y • h:i A') : $order->updated_at->format('M d, Y • h:i A') }}
                             </span>
                         </div>
-                        @if($history->remarks)
+                        @if(!empty($history->notes))
                             <p class="text-slate-600 dark:text-slate-400 text-[11px] mt-0.5 italic">
-                                "{{ $history->remarks }}"
+                                "{{ $history->notes }}"
                             </p>
                         @endif
                     </div>
                 @empty
+                    @if($order->order_status !== 'pending')
+                        <div class="relative group">
+                            <span class="absolute -left-[25px] sm:-left-[31px] top-0 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-[#007AFF] border-2 border-white dark:border-[#1C1C1E]"></span>
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                                <span class="font-bold text-slate-900 dark:text-white capitalize">
+                                    Status Updated to {{ $order->order_status === 'finish' ? 'Finish & Shelved' : str_replace('_', ' ', $order->order_status) }}
+                                </span>
+                                <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
+                                    {{ $order->updated_at->format('M d, Y • h:i A') }}
+                                </span>
+                            </div>
+                            <p class="text-slate-600 dark:text-slate-400 text-[11px] mt-0.5">
+                                Order #{{ $order->order_number }} is currently {{ $order->order_status === 'finish' ? 'finished and shelved' : str_replace('_', ' ', $order->order_status) }} at Hour Wash Legazpi branch.
+                            </p>
+                        </div>
+                    @endif
+
                     <div class="relative">
-                        <span class="absolute -left-[25px] sm:-left-[31px] top-0 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-[#007AFF] border-2 border-white dark:border-[#1C1C1E]"></span>
+                        <span class="absolute -left-[25px] sm:-left-[31px] top-0 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-slate-400 border-2 border-white dark:border-[#1C1C1E]"></span>
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                             <span class="font-bold text-slate-900 dark:text-white">
                                 Order Created & Submitted
