@@ -398,7 +398,6 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         return redirect()->route('admin.dashboard');
     })->name('analytics');
     Route::get('/sms', [SmsLogController::class, 'index'])->name('sms.index');
-    Route::post('/sms/send-test', [SmsLogController::class, 'sendTest'])->name('sms.send-test');
     Route::get('/emails', [EmailLogController::class, 'index'])->name('emails.index');
 
     Route::post('/orders/reset-all', function () {
