@@ -518,9 +518,10 @@
                     @endforelse
                 </div>
             </div>
+        </div>
 
         <!-- RIDER LOGISTICS REAL-TIME ANALYTICS -->
-        <div id="rider-dispatch-section" class="app-card p-4 sm:p-6 space-y-4">
+        <div id="rider-dispatch-section" class="app-card p-4 sm:p-6 space-y-4 w-full">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-black/10 dark:border-white/10 pb-3">
                 <div>
                     <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-['Outfit']">
