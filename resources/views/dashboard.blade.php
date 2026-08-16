@@ -59,6 +59,7 @@
 
         <div class="space-y-6">
             
+            <!-- 1. Active Order Tracker -->
             @if(isset($activeOrder) && $activeOrder)
                 <div class="app-card p-5 sm:p-6 space-y-5 shadow-lg border-l-4 border-l-[#007AFF]">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-black/5 dark:border-white/10 pb-4">
@@ -138,91 +139,7 @@
                 </div>
             @endif
 
-            <div class="app-card p-4 sm:p-6 space-y-4 overflow-hidden">
-                <div class="flex items-center justify-between">
-                    <div>
-                        <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">My Order History</h2>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">Your recent laundry bookings and invoices</p>
-                    </div>
-                    <a href="{{ route('my.orders') }}" class="text-xs text-[#007AFF] dark:text-[#0A84FF] hover:opacity-80 font-semibold">View All History</a>
-                </div>
-
-                <div class="overflow-x-auto max-w-full">
-                    <table class="w-full text-left text-xs whitespace-nowrap min-w-[500px]">
-                        <thead class="bg-black/5 dark:bg-[#2C2C2E] text-slate-700 dark:text-slate-300 uppercase text-[10px] tracking-wider border-b border-black/5 dark:border-white/10">
-                            <tr>
-                                <th class="px-4 py-3">Order #</th>
-                                <th class="px-4 py-3">Service</th>
-                                <th class="px-4 py-3">Date</th>
-                                <th class="px-4 py-3">Amount</th>
-                                <th class="px-4 py-3">Status</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-black/5 dark:divide-white/5 text-slate-900 dark:text-slate-200">
-                            @forelse($recentOrders as $order)
-                                <tr class="hover:bg-black/5 dark:hover:bg-white/5 transition">
-                                    <td class="px-4 py-3 font-mono font-bold text-[#007AFF] dark:text-[#0A84FF]">
-                                        <a href="{{ route('laundry.track', $order->order_number) }}" class="hover:underline">#{{ $order->order_number }}</a>
-                                    </td>
-                                    <td class="px-4 py-3">{{ $order->service->name ?? 'Wash & Dry' }}</td>
-                                    <td class="px-4 py-3 text-slate-500 dark:text-slate-400">{{ $order->created_at->format('M d, Y') }}</td>
-                                    <td class="px-4 py-3 font-bold text-slate-900 dark:text-white">₱{{ number_format($order->total_amount, 2) }}</td>
-                                    <td class="px-4 py-3">
-                                        <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider
-                                            @if($order->order_status === 'completed') bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30
-                                            @elseif($order->order_status === 'finish') bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30
-                                            @else bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30 @endif">
-                                            {{ $order->order_status === 'finish' ? 'Finish' : str_replace('_', ' ', $order->order_status) }}
-                                        </span>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="5" class="text-center py-6 text-slate-500">No order history found.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-            <!-- Loyalty Rewards Section (Moved to Bottom) -->
-            <div class="app-card p-4 sm:p-6 space-y-4 bg-gradient-to-r from-[#007AFF]/5 via-transparent to-amber-500/5 border border-amber-500/20">
-                <div class="flex items-center justify-between border-b border-black/5 dark:border-white/10 pb-3">
-                    <div class="flex items-center gap-2">
-                        <span class="text-xl">🎁</span>
-                        <div>
-                            <h3 class="text-base font-bold text-slate-900 dark:text-white font-['Outfit']">Loyalty Rewards Program</h3>
-                            <p class="text-xs text-slate-500 dark:text-slate-400">Earn points on every wash and claim store discounts</p>
-                        </div>
-                    </div>
-                    <span class="px-2.5 py-1 rounded-full bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF] font-bold text-xs">
-                        CUSTOMER MEMBER
-                    </span>
-                </div>
-
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div class="space-y-1">
-                        <div class="flex items-baseline gap-2">
-                            <span class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white font-['Outfit']">{{ $loyaltyPoints }}</span>
-                            <span class="text-xs text-slate-500 dark:text-slate-400 font-medium">Loyalty Wash Points</span>
-                        </div>
-                        <p class="text-xs text-slate-600 dark:text-slate-300 max-w-xl">
-                            Earn 10 points for every ₱100 spent! Redeem your points for instant store discounts and free wash vouchers.
-                        </p>
-                    </div>
-
-                    <form action="{{ route('loyalty.redeem') }}" method="POST" class="flex-shrink-0">
-                        @csrf
-                        <input type="hidden" name="points" value="100">
-                        <button type="submit" class="btn-ios-primary text-xs py-2.5 px-5" @if($loyaltyPoints < 100) disabled @endif>
-                            Redeem 100 Points for ₱20 Discount
-                        </button>
-                    </form>
-                </div>
-            </div>
-
-            <!-- Live Store Machine Availability -->
+            <!-- 2. Live Store Machine Availability (Placed First before Order History & Loyalty) -->
             <div class="app-card p-4 sm:p-6 space-y-6">
                 <div class="flex items-center justify-between">
                     <div>
@@ -329,6 +246,91 @@
                             No machines configured.
                         </div>
                     @endforelse
+                </div>
+            </div>
+
+            <!-- 3. My Order History -->
+            <div class="app-card p-4 sm:p-6 space-y-4 overflow-hidden">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">My Order History</h2>
+                        <p class="text-xs text-slate-500 dark:text-slate-400">Your recent laundry bookings and invoices</p>
+                    </div>
+                    <a href="{{ route('my.orders') }}" class="text-xs text-[#007AFF] dark:text-[#0A84FF] hover:opacity-80 font-semibold">View All History</a>
+                </div>
+
+                <div class="overflow-x-auto max-w-full">
+                    <table class="w-full text-left text-xs whitespace-nowrap min-w-[500px]">
+                        <thead class="bg-black/5 dark:bg-[#2C2C2E] text-slate-700 dark:text-slate-300 uppercase text-[10px] tracking-wider border-b border-black/5 dark:border-white/10">
+                            <tr>
+                                <th class="px-4 py-3">Order #</th>
+                                <th class="px-4 py-3">Service</th>
+                                <th class="px-4 py-3">Date</th>
+                                <th class="px-4 py-3">Amount</th>
+                                <th class="px-4 py-3">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-black/5 dark:divide-white/5 text-slate-900 dark:text-slate-200">
+                            @forelse($recentOrders as $order)
+                                <tr class="hover:bg-black/5 dark:hover:bg-white/5 transition">
+                                    <td class="px-4 py-3 font-mono font-bold text-[#007AFF] dark:text-[#0A84FF]">
+                                        <a href="{{ route('laundry.track', $order->order_number) }}" class="hover:underline">#{{ $order->order_number }}</a>
+                                    </td>
+                                    <td class="px-4 py-3">{{ $order->service->name ?? 'Wash & Dry' }}</td>
+                                    <td class="px-4 py-3 text-slate-500 dark:text-slate-400">{{ $order->created_at->format('M d, Y') }}</td>
+                                    <td class="px-4 py-3 font-bold text-slate-900 dark:text-white">₱{{ number_format($order->total_amount, 2) }}</td>
+                                    <td class="px-4 py-3">
+                                        <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider
+                                            @if($order->order_status === 'completed') bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30
+                                            @elseif($order->order_status === 'finish') bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30
+                                            @else bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30 @endif">
+                                            {{ $order->order_status === 'finish' ? 'Finish' : str_replace('_', ' ', $order->order_status) }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5" class="text-center py-6 text-slate-500">No order history found.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 4. Loyalty Rewards Section (Placed at bottom) -->
+            <div class="app-card p-4 sm:p-6 space-y-4 bg-gradient-to-r from-[#007AFF]/5 via-transparent to-amber-500/5 border border-amber-500/20">
+                <div class="flex items-center justify-between border-b border-black/5 dark:border-white/10 pb-3">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xl">🎁</span>
+                        <div>
+                            <h3 class="text-base font-bold text-slate-900 dark:text-white font-['Outfit']">Loyalty Rewards Program</h3>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Earn points on every wash and claim store discounts</p>
+                        </div>
+                    </div>
+                    <span class="px-2.5 py-1 rounded-full bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF] font-bold text-xs">
+                        CUSTOMER MEMBER
+                    </span>
+                </div>
+
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div class="space-y-1">
+                        <div class="flex items-baseline gap-2">
+                            <span class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-white font-['Outfit']">{{ $loyaltyPoints }}</span>
+                            <span class="text-xs text-slate-500 dark:text-slate-400 font-medium">Loyalty Wash Points</span>
+                        </div>
+                        <p class="text-xs text-slate-600 dark:text-slate-300 max-w-xl">
+                            Earn 10 points for every ₱100 spent! Redeem your points for instant store discounts and free wash vouchers.
+                        </p>
+                    </div>
+
+                    <form action="{{ route('loyalty.redeem') }}" method="POST" class="flex-shrink-0">
+                        @csrf
+                        <input type="hidden" name="points" value="100">
+                        <button type="submit" class="btn-ios-primary text-xs py-2.5 px-5" @if($loyaltyPoints < 100) disabled @endif>
+                            Redeem 100 Points for ₱20 Discount
+                        </button>
+                    </form>
                 </div>
             </div>
 
