@@ -131,28 +131,40 @@
                 </div>
             @endif
 
+            <style>
+                .desktop-stepper-grid {
+                    display: none !important;
+                }
+                @media (min-width: 640px) {
+                    .desktop-stepper-grid {
+                        display: grid !important;
+                        grid-template-columns: repeat({{ $totalSteps }}, minmax(0, 1fr)) !important;
+                    }
+                }
+            </style>
+
             <!-- Mobile Stepper (< sm) -->
-            <div class="flex sm:hidden overflow-x-auto gap-2 pb-2 pt-1 scrollbar-none snap-x snap-mandatory text-center">
+            <div class="flex sm:hidden overflow-x-auto gap-2.5 pb-2 pt-1 scrollbar-none snap-x snap-mandatory text-center">
                 @foreach($stages as $key => $info)
                     @php
                         $stageIdx = array_search($key, $statusKeys);
                         $isActive = ($currentIndex >= $stageIdx && $currentStatus !== 'cancelled');
                         $isCurrent = ($currentStatus === $key);
                     @endphp
-                    <div class="min-w-[95px] flex-1 p-2 rounded-xl border flex flex-col items-center justify-center transition-all duration-300 relative min-h-[48px] snap-start shrink-0 {{ $isCurrent ? 'bg-[#007AFF]/15 border-[#007AFF] text-[#007AFF] dark:text-[#0A84FF] font-black shadow-sm' : ($isActive ? 'border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 font-bold' : 'border-black/5 dark:border-white/5 text-slate-400 opacity-50 font-medium') }}">
-                        <span class="text-[9.5px] uppercase leading-snug font-['Outfit'] text-center whitespace-normal break-words w-full">
-                            <span class="font-extrabold block text-[#007AFF] dark:text-[#0A84FF] text-[8.5px]">STEP {{ $info['step'] }}</span>
+                    <div class="min-w-[115px] flex-1 p-2.5 rounded-2xl border flex flex-col items-center justify-center transition-all duration-300 relative min-h-[52px] snap-start shrink-0 {{ $isCurrent ? 'bg-[#007AFF]/15 border-[#007AFF] text-[#007AFF] dark:text-[#0A84FF] font-black shadow-md' : ($isActive ? 'border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 font-bold' : 'border-black/5 dark:border-white/5 text-slate-400 opacity-50 font-medium') }}">
+                        <span class="text-[9px] font-extrabold uppercase tracking-wider text-[#007AFF] dark:text-[#0A84FF] block mb-0.5">STEP {{ $info['step'] }}</span>
+                        <span class="text-[10px] uppercase leading-tight font-['Outfit'] font-bold whitespace-normal break-words text-center w-full">
                             {{ $info['label'] }}
                         </span>
                         @if($isCurrent)
-                            <span class="w-1.5 h-1.5 rounded-full bg-[#007AFF] animate-ping absolute -top-0.5 -right-0.5"></span>
+                            <span class="w-2 h-2 rounded-full bg-[#007AFF] animate-ping absolute -top-0.5 -right-0.5"></span>
                         @endif
                     </div>
                 @endforeach
             </div>
 
             <!-- Desktop & Laptop Stepper (>= sm) -->
-            <div class="hidden sm:grid w-full gap-1.5 text-center" style="display: grid; grid-template-columns: repeat({{ $totalSteps }}, minmax(0, 1fr));">
+            <div class="desktop-stepper-grid w-full gap-1.5 text-center">
                 @foreach($stages as $key => $info)
                     @php
                         $stageIdx = array_search($key, $statusKeys);
