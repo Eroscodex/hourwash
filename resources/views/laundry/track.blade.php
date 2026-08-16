@@ -151,6 +151,37 @@
             </div>
         </div>
 
+        <!-- Assigned Dispatch Rider Contact Box -->
+        @if(!in_array($order->order_status, ['cancelled']) && (in_array($order->order_status, ['out_for_pickup', 'out_for_delivery', 'received', 'finish']) || in_array($order->pickup_type, ['pickup_delivery', 'pickup', 'delivery'])))
+            <div class="p-4 sm:p-5 rounded-xl sm:rounded-2xl bg-[#007AFF]/10 border border-[#007AFF]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
+                <div class="space-y-1">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs font-black uppercase tracking-wider text-[#007AFF] dark:text-[#0A84FF] flex items-center gap-1">
+                            <span>🛵</span> ASSIGNED DISPATCH RIDER
+                        </span>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
+                            ON DUTY
+                        </span>
+                    </div>
+                    <p class="text-sm font-extrabold text-slate-900 dark:text-white">
+                        Rider Anthony — HourWash Dispatch Specialist
+                    </p>
+                    <p class="text-xs text-slate-600 dark:text-slate-300">
+                        Contact rider directly for pickup or delivery inquiries: <span class="font-mono font-bold text-[#007AFF] dark:text-[#0A84FF]">09100317744</span>
+                    </p>
+                </div>
+
+                <div class="flex items-center gap-2">
+                    <a href="tel:09100317744" class="px-4 py-2.5 rounded-xl bg-[#007AFF] hover:bg-[#0056b3] text-white font-bold text-xs shadow transition flex items-center gap-1.5">
+                        <span>📞</span> Call Rider (09100317744)
+                    </a>
+                    <a href="sms:09100317744?body=Hi%20Rider%20Anthony,%20inquiring%20about%20Order%20%23{{ $order->order_number }}" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow transition flex items-center gap-1.5">
+                        <span>💬</span> Text Rider
+                    </a>
+                </div>
+            </div>
+        @endif
+
         <div class="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6">
             
             <div class="md:col-span-7 space-y-4">

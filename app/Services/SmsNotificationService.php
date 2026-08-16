@@ -121,7 +121,13 @@ class SmsNotificationService
             ? Carbon::parse($order->estimated_completion)->format('M d h:i A')
             : 'TBD';
 
-        $message = "HourWash: Hi {$custName}, Order #{$code} status is {$statusStr}. Est: {$compTime}.";
+        if ($order->order_status === 'out_for_pickup') {
+            $message = "HourWash Alert: Hi {$custName}, Rider Anthony is EN ROUTE to pick up your laundry Order #{$code}! Rider Hotline: 09100317744.";
+        } elseif ($order->order_status === 'out_for_delivery') {
+            $message = "HourWash Alert: Hi {$custName}, your laundry Order #{$code} is OUT FOR DELIVERY with Rider Anthony! Rider Hotline: 09100317744.";
+        } else {
+            $message = "HourWash: Hi {$custName}, Order #{$code} status is {$statusStr}. Est: {$compTime}.";
+        }
 
         if (! empty($customNote)) {
             $message .= " {$customNote}";
