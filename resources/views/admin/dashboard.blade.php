@@ -227,8 +227,8 @@
                                         </span>
                                         
                                         @if($machine->currentOrder)
-                                            <span class="block text-[9px] font-bold text-[#007AFF] dark:text-[#0A84FF] mt-1 underline group-hover:text-blue-700">
-                                                Order: {{ $machine->currentOrder->order_number }} →
+                                            <span class="block text-[9px] font-bold text-[#007AFF] dark:text-[#0A84FF] mt-1 group-hover:text-blue-700">
+                                                Order: {{ $machine->currentOrder->order_number }}
                                             </span>
                                         @endif
 

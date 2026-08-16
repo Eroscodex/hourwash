@@ -281,8 +281,8 @@
                                 </span>
                                 <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
                                     <span>⏱ {{ $machine->remaining_minutes ?? 30 }} mins remaining</span>
-                                    <span class="block text-[9px] font-bold text-[#007AFF] dark:text-[#0A84FF] mt-1 underline group-hover:text-blue-700">
-                                        Order: #{{ $machine->currentOrder->order_number }} →
+                                    <span class="block text-[9px] font-bold text-[#007AFF] dark:text-[#0A84FF] mt-1 group-hover:text-blue-700">
+                                        Order: {{ $machine->currentOrder->order_number }}
                                     </span>
                                 </div>
                             </div>

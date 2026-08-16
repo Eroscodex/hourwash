@@ -373,8 +373,8 @@
                                         <div class="text-[10px] text-[#007AFF] dark:text-[#0A84FF] font-bold">
                                             Est. Finish: {{ now()->addMinutes($machine->remaining_minutes ?? 30)->format('h:i A') }}
                                         </div>
-                                        <div class="text-[10px] text-[#007AFF] dark:text-[#0A84FF] font-bold underline mt-1 group-hover:text-blue-700">
-                                            Order: #{{ $machine->currentOrder->order_number }} →
+                                        <div class="text-[10px] text-[#007AFF] dark:text-[#0A84FF] font-bold mt-1 group-hover:text-blue-700">
+                                            Order: {{ $machine->currentOrder->order_number }}
                                         </div>
                                     </div>
                                 @endif
