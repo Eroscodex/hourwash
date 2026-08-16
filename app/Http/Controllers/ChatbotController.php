@@ -242,7 +242,7 @@ PROMPT;
 
         // --- Talk to Rider / Rider Contact / Delivery Assistance ---
         if (Str::contains($msg, ['rider', 'driver', 'talk to rider', 'contact rider', 'speak to rider', 'speak to driver', 'call rider', 'text rider', 'deliverer', 'out for pickup', 'out for delivery'])) {
-            return "HourWash Assigned Rider & Dispatch Support:\n- Assigned Rider: Rider Anthony\n- Rider Hotline (Call / Text): 09100317744\n- Shop Counter Hotline: (052) 800-WASH\n\nRider Anthony is on duty for all active 'Out for Pickup' and 'Out for Delivery' orders! You can call or text him directly at 09100317744 or track live status at:\nhttps://hourwashlaundryshop.up.railway.app/laundry/track";
+            return "HourWash Assigned Rider & Dispatch Support:\n- Assigned Rider: Rider Anthony\n- Rider Hotline (Call / Text): 09100317744\n- Shop Counter Hotline: (052) 800-WASH\n\nRider Anthony is on duty for all active 'Out for Pickup' and 'Out for Delivery' orders! You can call or text him directly at 09100317744 or track live status at:\n[Track Live Status](https://hourwashlaundryshop.up.railway.app/laundry/track)";
         }
 
         // --- Machine Availability ---

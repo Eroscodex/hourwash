@@ -372,11 +372,14 @@
             const typingEl = document.getElementById(typingId);
             if (typingEl) typingEl.remove();
 
-            const formattedReply = data.reply.replace(/\n/g, '<br>');
+            let formattedReply = data.reply || '';
+            formattedReply = formattedReply.replace(/\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/g, '<a href="$2" target="_blank" class="text-[#007AFF] dark:text-[#0A84FF] font-bold underline hover:opacity-80 transition break-all">$1</a>');
+            formattedReply = formattedReply.replace(/(?<!href=")(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" class="text-[#007AFF] dark:text-[#0A84FF] font-bold underline hover:opacity-80 transition break-all">$1</a>');
+            formattedReply = formattedReply.replace(/\n/g, '<br>');
 
             chatBox.innerHTML += `
                 <div class="flex justify-start">
-                    <div class="bg-white dark:bg-[#2C2C2E] text-slate-900 dark:text-[#F5F5F7] px-3.5 py-2.5 rounded-2xl rounded-bl-none max-w-[85%] border border-black/10 dark:border-white/10 shadow-sm">
+                    <div class="bg-white dark:bg-[#2C2C2E] text-slate-900 dark:text-[#F5F5F7] px-3.5 py-2.5 rounded-2xl rounded-bl-none max-w-[85%] border border-black/10 dark:border-white/10 shadow-sm break-all [word-break:break-word] overflow-hidden">
                         <strong class="text-[#007AFF] dark:text-[#0A84FF] block mb-0.5">HourWash Assistant</strong>
                         ${formattedReply}
                     </div>

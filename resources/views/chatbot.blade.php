@@ -150,12 +150,15 @@
             const typingEl = document.getElementById(typingId);
             if (typingEl) typingEl.remove();
 
-            const formattedReply = data.reply.replace(/\n/g, '<br>');
+            let formattedReply = data.reply || '';
+            formattedReply = formattedReply.replace(/\[([^\]]+)\]\((https?:\/\/[^\s\)]+)\)/g, '<a href="$2" target="_blank" class="text-[#007AFF] dark:text-[#0A84FF] font-bold underline hover:opacity-80 transition break-all">$1</a>');
+            formattedReply = formattedReply.replace(/(?<!href=")(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" class="text-[#007AFF] dark:text-[#0A84FF] font-bold underline hover:opacity-80 transition break-all">$1</a>');
+            formattedReply = formattedReply.replace(/\n/g, '<br>');
 
             chatBox.innerHTML += `
                 <div class="flex items-start gap-3">
                     <img src="{{ asset('favicon.svg') }}" alt="HourWash" class="w-8 h-8 rounded-full object-cover bg-white p-0.5 border border-black/10 dark:border-white/10 shadow-sm flex-shrink-0 mt-0.5">
-                    <div class="bg-white dark:bg-[#2C2C2E] text-slate-900 dark:text-[#F5F5F7] px-4 py-3 rounded-2xl rounded-tl-none max-w-[80%] border border-black/10 dark:border-white/10 shadow-sm text-sm leading-relaxed">
+                    <div class="bg-white dark:bg-[#2C2C2E] text-slate-900 dark:text-[#F5F5F7] px-4 py-3 rounded-2xl rounded-tl-none max-w-[80%] border border-black/10 dark:border-white/10 shadow-sm text-sm leading-relaxed break-all [word-break:break-word] overflow-hidden">
                         <strong class="text-[#007AFF] dark:text-[#0A84FF] block mb-1 text-xs font-bold">HourWash AI</strong>
                         ${formattedReply}
                     </div>
