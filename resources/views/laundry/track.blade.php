@@ -94,7 +94,7 @@
                     Order Tracking Progress
                 </span>
                 <span class="font-extrabold text-[#007AFF] dark:text-[#0A84FF] text-[11px] sm:text-xs">
-                    {{ $currentStageInfo['pct'] }}% Completed
+                    {{ $currentStatus === 'completed' ? '100% Completed' : $currentStageInfo['pct'].'% Progress' }}
                 </span>
             </div>
 

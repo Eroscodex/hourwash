@@ -117,7 +117,7 @@
                     <div class="space-y-2 pt-2">
                         <div class="flex items-center justify-between text-xs font-semibold">
                             <span class="text-slate-700 dark:text-slate-300">Overall Order Progress</span>
-                            <span class="text-[#007AFF] dark:text-[#0A84FF] font-bold">40% Complete</span>
+                            <span class="text-[#007AFF] dark:text-[#0A84FF] font-bold">40% Progress</span>
                         </div>
                         
                         <div class="w-full h-2.5 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden flex p-0.5">
