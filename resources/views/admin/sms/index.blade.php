@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="space-y-6 sm:space-y-8">
 
-        
+        <!-- Header -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
                 <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white">
@@ -19,9 +19,44 @@
             </div>
         </div>
 
+        @if(session('success'))
+            <div class="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold">
+                {{ session('success') }}
+            </div>
+        @endif
 
+        @if(session('error'))
+            <div class="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-600 dark:text-rose-400 text-xs font-bold">
+                {{ session('error') }}
+            </div>
+        @endif
 
-        
+        <!-- Quick Test SMS Card -->
+        <div class="app-card p-5 bg-[#1C1C1E] border border-white/10 rounded-2xl space-y-4">
+            <h2 class="text-sm font-bold text-white flex items-center gap-2">
+                <span>💬</span> Direct Test SMS Dispatcher
+            </h2>
+            <form action="{{ route('admin.sms.send') }}" method="POST" class="grid grid-cols-1 sm:grid-cols-12 gap-3 items-end">
+                @csrf
+                <div class="sm:col-span-4">
+                    <label class="block text-[11px] font-semibold text-slate-400 mb-1">Phone Number</label>
+                    <input type="text" name="phone" value="09100317744" required placeholder="09100317744"
+                           class="w-full px-3 py-2 text-xs rounded-xl bg-black/50 border border-white/10 text-white focus:border-[#007AFF] focus:outline-none">
+                </div>
+                <div class="sm:col-span-6">
+                    <label class="block text-[11px] font-semibold text-slate-400 mb-1">Message Body</label>
+                    <input type="text" name="message" value="HourWash Test Alert: SMS live gateway test is working!" required
+                           class="w-full px-3 py-2 text-xs rounded-xl bg-black/50 border border-white/10 text-white focus:border-[#007AFF] focus:outline-none">
+                </div>
+                <div class="sm:col-span-2">
+                    <button type="submit" class="w-full py-2 px-4 rounded-xl bg-[#007AFF] hover:bg-[#0056b3] text-white font-bold text-xs transition shadow-sm">
+                        Send Test SMS
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- SMS Outbox Logs -->
         <div class="space-y-4">
             @forelse($smsLogs as $sms)
                 <div class="app-card p-4 sm:p-5 space-y-3 bg-[#1C1C1E] border border-black/10 dark:border-white/10 rounded-2xl shadow-sm">

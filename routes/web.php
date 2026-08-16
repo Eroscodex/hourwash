@@ -394,11 +394,12 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::resource('inventory', InventoryController::class);
     Route::post('/inventory/{inventory}/adjust', [InventoryController::class, 'adjust'])->name('inventory.adjust');
     Route::get('/laundry', [AdminLaundryController::class, 'index'])->name('laundry.index');
-    Route::patch('/laundry/{order}', [AdminLaundryController::class, 'update'])->name('laundry.update');
+    Route::match(['post', 'patch'], '/laundry/{order}', [AdminLaundryController::class, 'update'])->name('laundry.update');
     Route::get('/analytics', function () {
         return redirect()->route('admin.dashboard');
     })->name('analytics');
     Route::get('/sms', [SmsLogController::class, 'index'])->name('sms.index');
+    Route::post('/sms/send', [SmsLogController::class, 'sendTestSms'])->name('sms.send');
     Route::get('/emails', [EmailLogController::class, 'index'])->name('emails.index');
 
     Route::post('/orders/reset-all', function () {
