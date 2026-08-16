@@ -1,7 +1,28 @@
 <x-app-layout>
-    <div class="space-y-6 sm:space-y-8">
+    <div class="space-y-6 sm:space-y-8" x-data="{ mode: '{{ auth()->user()->isRider() ? "rider" : "overall" }}' }">
 
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <!-- Mode Switcher Tab Bar -->
+        <div class="flex items-center gap-2 p-1.5 bg-slate-200 dark:bg-[#1C1C1E] rounded-2xl border border-black/5 dark:border-white/10 w-fit">
+            <button @click="mode = 'overall'" 
+                    :class="mode === 'overall' ? 'bg-[#007AFF] text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium'"
+                    class="px-4 py-2 rounded-xl text-xs transition flex items-center gap-2">
+                <span>📊</span> Overall System Dashboard
+            </button>
+            <button @click="mode = 'rider'" 
+                    :class="mode === 'rider' ? 'bg-[#007AFF] text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium'"
+                    class="px-4 py-2 rounded-xl text-xs transition flex items-center gap-2 relative">
+                <span>🛵</span> Rider Dispatch View
+                @if(($outForPickup + $outForDelivery) > 0)
+                    <span class="px-2 py-0.5 text-[10px] rounded-full bg-amber-500 text-white font-extrabold">
+                        {{ $outForPickup + $outForDelivery }}
+                    </span>
+                @endif
+            </button>
+        </div>
+
+        <!-- OVERALL DASHBOARD CONTAINER -->
+        <div x-show="mode === 'overall'" class="space-y-6 sm:space-y-8">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
                 <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white font-['Outfit']">
                     Overall Reports & System Dashboard
@@ -561,6 +582,89 @@
                 </div>
             </div>
 
+        </div><!-- End Overall Dashboard Container -->
+
+        <!-- RIDER DISPATCH VIEW -->
+        <div x-show="mode === 'rider'" class="space-y-6" x-cloak>
+            <div class="app-card p-5 sm:p-6 bg-[#1C1C1E] border border-white/10 rounded-2xl space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
+                    <div>
+                        <h2 class="text-lg font-bold text-white flex items-center gap-2 font-['Outfit']">
+                            <span>🛵</span> Rider Logistics & Dispatch Tasks
+                        </h2>
+                        <p class="text-xs text-slate-400 mt-1">
+                            Real-time view for customer pickup requests and delivery dispatches. 1-click status updates automatically trigger SMS alerts to customers.
+                        </p>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-3">
+                        <div class="px-3.5 py-2 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-400 text-xs font-bold flex items-center gap-2">
+                            <span>📦 Out for Pickup:</span>
+                            <span class="font-mono text-sm font-extrabold">{{ $outForPickup }}</span>
+                        </div>
+                        <div class="px-3.5 py-2 rounded-xl bg-cyan-500/15 border border-cyan-500/30 text-cyan-400 text-xs font-bold flex items-center gap-2">
+                            <span>🚚 Out for Delivery:</span>
+                            <span class="font-mono text-sm font-extrabold">{{ $outForDelivery }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rider Task Cards -->
+                <div class="space-y-4">
+                    @forelse($riderOrders as $order)
+                        <div class="p-4 rounded-xl bg-black/40 border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-[#007AFF]/50 transition">
+                            <div class="space-y-2">
+                                <div class="flex items-center gap-2">
+                                    <span class="font-mono font-bold text-sm text-[#0A84FF]">#{{ $order->order_number }}</span>
+                                    <span class="px-2.5 py-0.5 rounded text-[10px] font-extrabold uppercase tracking-wider
+                                        @if($order->order_status === 'out_for_pickup') bg-amber-500/20 text-amber-300 border border-amber-500/40
+                                        @else bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 @endif">
+                                        {{ strtoupper(str_replace('_', ' ', $order->order_status)) }}
+                                    </span>
+                                </div>
+
+                                <div class="text-xs text-slate-300 space-y-1">
+                                    <p>👤 <span class="font-bold text-white">{{ $order->customer->name ?? 'Customer' }}</span> — 📞 <a href="tel:{{ $order->customer->phone ?? '' }}" class="text-[#0A84FF] font-mono hover:underline">{{ $order->customer->phone ?? 'No phone listed' }}</a></p>
+                                    <p>📍 <span class="text-slate-300 font-semibold">{{ $order->customer->customerProfile->address ?? 'Legazpi City Shop Pick-Up / Delivery' }}</span></p>
+                                    <p>🧺 <span class="text-slate-400">Service: {{ $order->service->name ?? 'Laundry Service' }}</span> | <span class="text-emerald-400 font-bold">P{{ number_format($order->total_amount, 2) }}</span></p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center gap-2 self-start md:self-center">
+                                @if($order->order_status === 'out_for_pickup')
+                                    <form method="POST" action="{{ route('admin.laundry.update', $order->id) }}">
+                                        @csrf
+                                        @method('PATCH')
+                                        <input type="hidden" name="status" value="received">
+                                        <button type="submit" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow transition flex items-center gap-1.5">
+                                            <span>✓</span> Mark Laundry Received
+                                        </button>
+                                    </form>
+                                @elseif($order->order_status === 'out_for_delivery')
+                                    <form method="POST" action="{{ route('admin.laundry.update', $order->id) }}">
+                                        @csrf
+                                        @method('PATCH')
+                                        <input type="hidden" name="status" value="completed">
+                                        <button type="submit" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow transition flex items-center gap-1.5">
+                                            <span>✓</span> Mark Laundry Delivered
+                                        </button>
+                                    </form>
+                                @endif
+
+                                <a href="{{ route('admin.laundry.index') }}" class="px-3 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-medium text-xs transition">
+                                    View Order
+                                </a>
+                            </div>
+                        </div>
+                    @empty
+                        <div class="p-8 text-center text-slate-400 space-y-2">
+                            <div class="text-3xl">🛵</div>
+                            <p class="text-sm font-bold text-white">No Active Rider Tasks Right Now</p>
+                            <p class="text-xs text-slate-500">Orders marked as "Out for Pickup" or "Out for Delivery" will automatically appear here for rider routing.</p>
+                        </div>
+                    @endforelse
+                </div>
+            </div>
         </div>
 
     </div>

@@ -48,7 +48,12 @@ class User extends Authenticatable
 
     public function isStaff(): bool
     {
-        return $this->role === 'staff';
+        return $this->role === 'staff' || $this->role === 'rider';
+    }
+
+    public function isRider(): bool
+    {
+        return $this->role === 'rider';
     }
 
     public function isCustomer(): bool

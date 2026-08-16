@@ -118,8 +118,10 @@ class ChatbotController extends Controller
         // --- Recent Orders Summary (today) ---
         $todayOrders = Order::whereDate('created_at', today())->count();
         $pendingOrders = Order::where('order_status', 'pending')->count();
+        $outForPickupOrders = Order::where('order_status', 'out_for_pickup')->count();
         $processingOrders = Order::whereIn('order_status', ['received', 'washing', 'rinsing', 'drying'])->count();
-        $readyOrders = Order::where('order_status', 'done')->count();
+        $readyOrders = Order::where('order_status', 'finish')->count();
+        $outForDeliveryOrders = Order::where('order_status', 'out_for_delivery')->count();
         $completedToday = Order::where('order_status', 'completed')->whereDate('updated_at', today())->count();
 
         // --- Active Promotions ---
@@ -152,6 +154,7 @@ CRITICAL RULES:
 - ONLY answer questions about laundry services, order tracking, machine status, store hours, promotions, and shop info.
 - NEVER reveal user passwords, tokens, secret keys, or any sensitive authentication data.
 - NEVER reveal personal details of staff or admin users (phone numbers, addresses, roles).
+- If a customer requests to talk to a rider, contact a rider, or speak to a delivery driver, inform them that their request has been logged and provide our dispatch rider contact hotline: 09100317744.
 - You MAY help customers look up their OWN order status by name, email, or order number.
 - Politely decline any non-laundry questions (cooking, coding, politics, etc.).
 - Always reply in a friendly, helpful, professional tone.
@@ -170,8 +173,10 @@ Dryers: {$dryersIdle} available out of {$dryersTotal} total
 TODAY'S ORDER STATS:
 - Orders placed today: {$todayOrders}
 - Currently pending: {$pendingOrders}
+- Out for pickup: {$outForPickupOrders}
 - In processing (washing/rinsing/drying): {$processingOrders}
-- Done & ready: {$readyOrders}
+- Finish & ready: {$readyOrders}
+- Out for delivery: {$outForDeliveryOrders}
 - Completed today: {$completedToday}
 
 ACTIVE PROMOTIONS:
@@ -233,6 +238,11 @@ PROMPT;
             }
 
             return "To check your laundry order status, you can:\n- Enter your Order Code (e.g. HW-XXXXXXXX)\n- Tell me your registered email\n- Tell me the name on your account\n\nHow would you like to look up your order?";
+        }
+
+        // --- Talk to Rider / Rider Contact / Delivery Assistance ---
+        if (Str::contains($msg, ['rider', 'driver', 'talk to rider', 'contact rider', 'speak to rider', 'speak to driver', 'call rider', 'deliverer', 'out for pickup', 'out for delivery'])) {
+            return "HourWash Dispatch & Rider Support:\n- Rider Dispatch Hotline: 09100317744\n- Store Hotline: (052) 800-WASH\n\nIf you have an active order 'Out for Pickup' or 'Out for Delivery', our rider is currently en route to your location. You can track live status at:\nhttps://hourwashlaundryshop.up.railway.app/laundry/track";
         }
 
         // --- Machine Availability ---
