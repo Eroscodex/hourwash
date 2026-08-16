@@ -13,6 +13,13 @@
             </div>
 
             <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 sm:gap-3">
+                <form method="POST" action="{{ route('admin.orders.reset') }}" class="inline" onsubmit="return confirm('⚠️ ARE YOU SURE YOU WANT TO RESET ALL ORDERS?\n\nThis will permanently delete all order history and set all machines to idle status.')">
+                    @csrf
+                    <button type="submit" class="bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 hover:bg-rose-500/25 px-3 py-2 rounded-xl text-xs font-bold transition w-full sm:w-auto">
+                        Reset All Orders
+                    </button>
+                </form>
+
                 <a href="{{ route('admin.laundry.index') }}"
                    class="btn-ios-secondary text-center">
                     View Orders

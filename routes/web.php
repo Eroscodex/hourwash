@@ -397,6 +397,23 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     })->name('analytics');
     Route::get('/sms', [SmsLogController::class, 'index'])->name('sms.index');
     Route::get('/emails', [EmailLogController::class, 'index'])->name('emails.index');
+
+    Route::post('/orders/reset-all', function () {
+        if (! auth()->user()->isOwner() && ! auth()->user()->isStaff()) {
+            abort(403);
+        }
+
+        DB::transaction(function () {
+            Order::query()->delete();
+            Machine::query()->update([
+                'current_order_id' => null,
+                'status' => 'idle',
+                'remaining_minutes' => null,
+            ]);
+        });
+
+        return back()->with('success', 'All laundry orders have been reset successfully! All store machines reset to idle.');
+    })->name('orders.reset');
 });
 
 /*

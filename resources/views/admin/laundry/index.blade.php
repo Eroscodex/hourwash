@@ -6,7 +6,15 @@
                 <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white">Store Orders & Cashier Queue</h1>
                 <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">Manage active laundry stages, process cashier payments, award loyalty points, and print store receipts.</p>
             </div>
-            <a href="{{ route('laundry.create') }}" class="btn-ios-primary w-full sm:w-fit text-center">+ New Drop-Off Order</a>
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                <form method="POST" action="{{ route('admin.orders.reset') }}" class="inline" onsubmit="return confirm('⚠️ ARE YOU SURE YOU WANT TO RESET ALL ORDERS?\n\nThis will permanently delete all order history and set all machines to idle status.')">
+                    @csrf
+                    <button type="submit" class="bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 hover:bg-rose-500/25 px-3 py-2 rounded-xl text-xs font-bold transition w-full sm:w-auto">
+                        Reset All Orders
+                    </button>
+                </form>
+                <a href="{{ route('laundry.create') }}" class="btn-ios-primary w-full sm:w-fit text-center">+ New Drop-Off Order</a>
+            </div>
         </div>
 
         @if(session('success'))
