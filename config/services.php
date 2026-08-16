@@ -41,11 +41,6 @@ return [
         ],
     ],
 
-    'philsms' => [
-        'api_token' => env('PHILSMS_API_TOKEN'),
-        'sender_id' => env('PHILSMS_SENDER_ID', 'PhilSMS'),
-    ],
-
     'textbee' => [
         'api_key' => env('TEXTBEE_API_KEY'),
         'device_id' => env('TEXTBEE_DEVICE_ID'),

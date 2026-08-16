@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Models\Order;
 use App\Models\SmsNotification;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class SmsNotificationService
@@ -18,7 +17,7 @@ class SmsNotificationService
         $phone = $order->customer?->phone;
 
         if (empty($phone)) {
-            Log::warning('SMS not sent: customer has no phone number.', [
+            Log::warning('SMS skipped: Customer has no phone number.', [
                 'order_id' => $order->id,
             ]);
 
@@ -41,105 +40,31 @@ class SmsNotificationService
         $message .= ' Track live: '.url("/laundry/track/{$code}");
         $smsStatus = 'failed';
 
-        $textbeeApiKey = config('textbee.api_key') ?: config('services.textbee.api_key');
-        $textbeeDeviceId = config('textbee.device_id') ?: config('services.textbee.device_id');
-        $philsmsToken = config('services.philsms.api_token');
+        try {
+            $smsService = app(SmsService::class);
+            $res = $smsService->send($phone, $message);
 
-        if (empty($philsmsToken) && (empty($textbeeApiKey) || empty($textbeeDeviceId))) {
-            Log::error('No SMS gateway provider (Textbee.dev or PhilSMS) is configured in environment.');
-        } else {
-            try {
-                $recipient = trim($phone);
-                $recipient = preg_replace('/[^0-9+]/', '', $recipient);
+            $isSuccess = ($res['success'] ?? false) === true || ! empty($res['smsBatchId']) || ($res['status'] ?? '') === 'success';
 
-                if (str_starts_with($recipient, '+639')) {
-                    $recipient = '09'.substr($recipient, 4);
-                } elseif (str_starts_with($recipient, '639')) {
-                    $recipient = '09'.substr($recipient, 3);
-                } elseif (str_starts_with($recipient, '9') && strlen($recipient) === 10) {
-                    $recipient = '09'.substr($recipient, 1);
-                } elseif (str_starts_with($recipient, '09')) {
-                    $recipient = $recipient;
-                } else {
-                    Log::error('Invalid Philippine mobile number format.', [
-                        'original_phone' => $phone,
-                        'normalized_phone' => $recipient,
-                        'order_id' => $order->id,
-                    ]);
-                    $recipient = null;
-                }
-
-                if (! empty($recipient) && preg_match('/^09[0-9]{9}$/', $recipient)) {
-
-                    // 1. Textbee.dev Service Class (Official Pattern)
-                    if (! empty($textbeeApiKey) && ! empty($textbeeDeviceId)) {
-                        Log::info('Sending SMS through Textbee.dev Gateway.', [
-                            'recipient' => $recipient,
-                            'order_id' => $order->id,
-                        ]);
-
-                        $smsService = app(SmsService::class);
-                        $res = $smsService->send($recipient, $message);
-
-                        $isSuccess = ($res['success'] ?? false) === true || ! empty($res['smsBatchId']) || ($res['status'] ?? '') === 'success';
-
-                        if ($isSuccess) {
-                            $smsStatus = 'sent';
-                            Log::info('Textbee.dev SMS successfully dispatched.', [
-                                'order_id' => $order->id,
-                                'batch_id' => $res['smsBatchId'] ?? null,
-                            ]);
-                        } else {
-                            $smsStatus = 'failed';
-                            Log::error('Textbee.dev SMS failed.', [
-                                'response' => $res,
-                                'order_id' => $order->id,
-                            ]);
-                        }
-
-                        // 2. PhilSMS Gateway Provider
-                    } elseif (! empty($philsmsToken)) {
-                        Log::info('Sending SMS through PhilSMS.', [
-                            'recipient' => $recipient,
-                            'order_id' => $order->id,
-                        ]);
-
-                        $response = Http::timeout(20)
-                            ->withToken($philsmsToken)
-                            ->acceptJson()
-                            ->asJson()
-                            ->post('https://dashboard.philsms.com/api/v3/sms/send', [
-                                'recipient' => $recipient,
-                                'sender_id' => config('services.philsms.sender_id', 'PhilSMS'),
-                                'type' => 'plain',
-                                'message' => $message,
-                            ]);
-
-                        $data = $response->json();
-
-                        if ($response->successful() && ($data['status'] ?? null) === 'success') {
-                            $smsStatus = 'sent';
-                            Log::info('PhilSMS SMS successfully dispatched.', ['order_id' => $order->id]);
-                        } else {
-                            $smsStatus = 'failed';
-                            Log::error('PhilSMS SMS failed.', ['response' => $response->body(), 'order_id' => $order->id]);
-                        }
-                    }
-                } else {
-                    $smsStatus = 'failed';
-                    Log::error('SMS failed because mobile number is invalid.', [
-                        'phone' => $phone,
-                        'order_id' => $order->id,
-                    ]);
-                }
-            } catch (\Throwable $e) {
-                $smsStatus = 'failed';
-                Log::error('SMS exception.', [
-                    'phone' => $phone,
+            if ($isSuccess) {
+                $smsStatus = 'sent';
+                Log::info('Textbee SMS dispatched successfully.', [
                     'order_id' => $order->id,
-                    'error' => $e->getMessage(),
+                    'batch_id' => $res['smsBatchId'] ?? null,
+                ]);
+            } else {
+                $smsStatus = 'failed';
+                Log::error('Textbee SMS dispatch failed.', [
+                    'response' => $res,
+                    'order_id' => $order->id,
                 ]);
             }
+        } catch (\Throwable $e) {
+            $smsStatus = 'failed';
+            Log::error('SMS Exception: '.$e->getMessage(), [
+                'phone' => $phone,
+                'order_id' => $order->id,
+            ]);
         }
 
         try {
@@ -151,10 +76,9 @@ class SmsNotificationService
                 'status' => $smsStatus,
             ]);
         } catch (\Throwable $e) {
-            Log::error('SMS Notification database record error.', [
+            Log::error('SMS Notification database record error: '.$e->getMessage(), [
                 'phone' => $phone,
                 'order_id' => $order->id,
-                'error' => $e->getMessage(),
             ]);
 
             return null;
