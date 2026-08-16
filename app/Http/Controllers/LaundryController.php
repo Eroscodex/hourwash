@@ -7,10 +7,13 @@ use App\Models\Order;
 use App\Models\OrderStatusHistory;
 use App\Models\QrCode;
 use App\Models\Service;
+use App\Models\User;
 use App\Services\EmailNotificationService;
 use App\Services\SmsNotificationService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 
 class LaundryController extends Controller
@@ -19,18 +22,55 @@ class LaundryController extends Controller
     {
         $services = Service::where('status', 'active')->get();
         $availableMachines = Machine::where('status', 'idle')->orderBy('id', 'asc')->get();
+        $customers = User::where('role', 'customer')->orderBy('name', 'asc')->get();
 
-        return view('laundry.create', compact('services', 'availableMachines'));
+        return view('laundry.create', compact('services', 'availableMachines', 'customers'));
     }
 
     public function store(Request $request)
     {
+        $isStaffOrAdmin = auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isOwner() || auth()->user()->isStaff());
+
         $request->validate([
             'service_id' => 'required|exists:services,id',
             'weight_kg' => 'required|numeric|min:0.5|max:24.0',
             'machine_id' => 'nullable|exists:machines,id',
             'supplies_option' => 'nullable|string|in:store_provided,own_detergent,own_softener,own_both',
+            'customer_id' => 'nullable|exists:users,id',
+            'new_customer_name' => 'required_if:customer_mode,new|nullable|string|max:255',
+            'new_customer_email' => 'nullable|email|max:255|unique:users,email',
+            'new_customer_phone' => 'nullable|string|max:50',
+            'new_customer_address' => 'nullable|string|max:255',
         ]);
+
+        $customerId = auth()->id();
+
+        if ($isStaffOrAdmin) {
+            if ($request->input('customer_mode') === 'new' || ($request->filled('new_customer_name') && ! $request->filled('customer_id'))) {
+                $email = $request->input('new_customer_email');
+                if (empty($email)) {
+                    $email = 'walkin_'.time().'_'.Str::random(4).'@hourwash.com';
+                }
+
+                $newCust = User::create([
+                    'name' => $request->new_customer_name,
+                    'email' => $email,
+                    'phone' => $request->new_customer_phone,
+                    'role' => 'customer',
+                    'password' => Hash::make($request->new_customer_password ?: 'password'),
+                ]);
+
+                if (Schema::hasTable('customer_profiles')) {
+                    $newCust->customerProfile()->create([
+                        'address' => $request->new_customer_address ?: 'Magallanes St., Orosite, Legazpi City',
+                    ]);
+                }
+
+                $customerId = $newCust->id;
+            } elseif ($request->filled('customer_id')) {
+                $customerId = $request->customer_id;
+            }
+        }
 
         $service = Service::findOrFail($request->service_id);
 
@@ -75,20 +115,22 @@ class LaundryController extends Controller
         }
 
         // Prevent duplicate order submission within 60 seconds
-        $existingDuplicate = Order::where('customer_id', auth()->id())
+        $existingDuplicate = Order::where('customer_id', $customerId)
             ->where('service_id', $request->service_id)
             ->where('created_at', '>=', now()->subSeconds(60))
             ->first();
 
         if ($existingDuplicate) {
+            $redirectRoute = $isStaffOrAdmin ? 'admin.laundry.index' : 'my.orders';
+
             return redirect()
-                ->route('my.orders')
+                ->route($redirectRoute)
                 ->with('success', 'Order already submitted! Duplicate order attempt prevented.');
         }
 
         $order = Order::create([
             'order_number' => 'HW-'.strtoupper(Str::random(8)),
-            'customer_id' => auth()->id(),
+            'customer_id' => $customerId,
             'service_id' => $request->service_id,
             'machine_id' => $machineId,
             'weight_kg' => $request->weight_kg,
@@ -129,7 +171,7 @@ class LaundryController extends Controller
 
         // 1. Send email notification to Customer & Admin
         try {
-            $customerEmail = $order->customer?->email ?? auth()->user()?->email;
+            $customerEmail = $order->customer?->email;
             if (! empty($customerEmail)) {
                 EmailNotificationService::sendStatusEmail($order, $customerEmail);
             }
@@ -147,6 +189,12 @@ class LaundryController extends Controller
             SmsNotificationService::sendOrderStatusSms($order);
         } catch (\Throwable $e) {
             Log::error('Customer SMS new order notification failed: '.$e->getMessage());
+        }
+
+        if ($isStaffOrAdmin) {
+            return redirect()
+                ->route('admin.laundry.index')
+                ->with('success', 'Order #'.$order->order_number.' created successfully for '.($order->customer->name ?? 'Walk-in Customer').'!');
         }
 
         return redirect()

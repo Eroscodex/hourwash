@@ -28,6 +28,77 @@
         <form id="laundry-order-form" method="POST" action="{{ route('laundry.store') }}" onsubmit="const btn = this.querySelector('button[type=submit]'); if (btn) { btn.disabled = true; btn.innerText = 'Submitting Order...'; }">
             @csrf
 
+            @if(auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isOwner() || auth()->user()->isStaff()))
+                <!-- WALK-IN CUSTOMER SELECTION & INSTANT REGISTRATION (Admin & Staff Only) -->
+                <div class="mb-6 p-4 rounded-xl bg-slate-100 dark:bg-[#2C2C2E] border border-black/10 dark:border-white/10 space-y-4" x-data="{ customerMode: '{{ old('customer_mode', 'select') }}' }">
+                    <div class="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-2.5">
+                        <label class="block text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+                            👤 Customer Assignment (Walk-In / Order Owner)
+                        </label>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-sky-500/15 text-sky-600 dark:text-sky-400">
+                            Staff / Admin Mode
+                        </span>
+                    </div>
+
+                    <!-- Mode Switchers -->
+                    <div class="flex flex-wrap items-center gap-4 text-xs font-semibold">
+                        <label class="flex items-center gap-2 cursor-pointer text-slate-900 dark:text-white">
+                            <input type="radio" name="customer_mode" value="select" x-model="customerMode" class="text-[#007AFF]">
+                            <span>Select Existing Customer</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer text-slate-900 dark:text-white">
+                            <input type="radio" name="customer_mode" value="new" x-model="customerMode" class="text-[#007AFF]">
+                            <span class="text-[#007AFF] dark:text-[#0A84FF] font-bold">+ Register New Walk-in Customer</span>
+                        </label>
+                    </div>
+
+                    <!-- Option A: Select Existing Registered Customer -->
+                    <div x-show="customerMode === 'select'" class="space-y-1.5">
+                        <label class="block text-[11px] font-semibold text-slate-600 dark:text-slate-400">Registered Customer Account</label>
+                        <select name="customer_id" class="w-full text-xs">
+                            <option value="">-- Select Registered Customer --</option>
+                            @foreach($customers ?? [] as $c)
+                                <option value="{{ $c->id }}" {{ old('customer_id') == $c->id ? 'selected' : '' }}>
+                                    {{ $c->name }} ({{ $c->email }}{{ $c->phone ? ' • 📞 '.$c->phone : '' }})
+                                </option>
+                            @endforeach
+                        </select>
+                        <p class="text-[10.5px] text-slate-500 dark:text-slate-400">
+                            Pumili sa listahan ng mga nakarehistrong customer. Hindi na kailangang i-fill up ang pangalan kapag rehistrado na!
+                        </p>
+                    </div>
+
+                    <!-- Option B: Register New Walk-in Customer -->
+                    <div x-show="customerMode === 'new'" x-cloak class="space-y-3 pt-2 border-t border-black/5 dark:border-white/5">
+                        <p class="text-[11px] font-bold text-[#007AFF] dark:text-[#0A84FF]">
+                            Instant Registration for New Customer:
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                            <div>
+                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Full Name <span class="text-rose-500">*</span></label>
+                                <input type="text" name="new_customer_name" value="{{ old('new_customer_name') }}" placeholder="e.g. Juan Dela Cruz" class="w-full">
+                            </div>
+                            <div>
+                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Email Address (Optional)</label>
+                                <input type="email" name="new_customer_email" value="{{ old('new_customer_email') }}" placeholder="e.g. juan@gmail.com (Auto-generated if blank)" class="w-full">
+                            </div>
+                            <div>
+                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Phone Number (Optional)</label>
+                                <input type="text" name="new_customer_phone" value="{{ old('new_customer_phone') }}" placeholder="e.g. 09171234567" class="w-full">
+                            </div>
+                            <div>
+                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Street Address (Optional)</label>
+                                <input type="text" name="new_customer_address" value="{{ old('new_customer_address') }}" placeholder="e.g. Magallanes St., Legazpi City" class="w-full">
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Account Password (Optional)</label>
+                                <input type="password" name="new_customer_password" placeholder="Default: password (if left blank)" class="w-full">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             <div class="mb-5">
                 <label class="block text-xs font-semibold text-slate-700 dark:text-slate-200 uppercase tracking-wider mb-2">Service Package</label>
                 <select id="service_id" name="service_id" class="w-full">
