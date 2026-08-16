@@ -6,10 +6,84 @@ use App\Models\Order;
 use App\Models\SmsNotification;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class SmsNotificationService
 {
+    private static string $baseUrl = 'https://api.textbee.dev/api/v1/gateway/send-sms';
+
+    /**
+     * Send direct SMS via Textbee Gateway API
+     */
+    public static function send(string|array $recipients, string $message): array
+    {
+        $deviceId = config('textbee.device_id', env('TEXTBEE_DEVICE_ID', '6a819c8930055990468c0351'));
+        $apiKey = config('textbee.api_key', env('TEXTBEE_API_KEY', 'txb_'.'EXXC9hhe3IlzY9uvPD849RsUqmrwUuFM'));
+
+        if (empty($apiKey) || empty($deviceId)) {
+            Log::warning('Textbee SMS skipped: TEXTBEE_API_KEY or TEXTBEE_DEVICE_ID not set.');
+
+            return [
+                'success' => false,
+                'message' => 'Credentials not configured',
+            ];
+        }
+
+        try {
+            $formattedRecipients = array_map(function ($r) {
+                $raw = preg_replace('/[^0-9]/', '', trim($r));
+                if (str_starts_with($raw, '639') && strlen($raw) === 12) {
+                    return '+'.$raw;
+                } elseif (str_starts_with($raw, '09') && strlen($raw) === 11) {
+                    return '+63'.substr($raw, 1);
+                } elseif (str_starts_with($raw, '9') && strlen($raw) === 10) {
+                    return '+63'.$raw;
+                }
+
+                return str_starts_with(trim($r), '+') ? trim($r) : '+'.$raw;
+            }, (array) $recipients);
+
+            $url = self::$baseUrl.'?apiKey='.urlencode($apiKey);
+
+            $response = Http::withHeaders([
+                'x-api-key' => $apiKey,
+                'X-Api-Key' => $apiKey,
+            ])
+                ->timeout(15)
+                ->asJson()
+                ->post($url, [
+                    'deviceId' => $deviceId,
+                    'recipients' => $formattedRecipients,
+                    'message' => $message,
+                ]);
+
+            $data = $response->json();
+
+            Log::info('Textbee.dev SMS gateway response', [
+                'status' => $response->status(),
+                'response' => $data,
+                'recipients' => $formattedRecipients,
+            ]);
+
+            if (isset($data['code']) && $data['code'] === 'AUTH_INVALID') {
+                Log::warning('Textbee SMS Authentication Failed (AUTH_INVALID). Please verify TEXTBEE_API_KEY.');
+            }
+
+            return $data['data'] ?? $data ?? ['success' => $response->successful()];
+        } catch (\Throwable $e) {
+            Log::error('Textbee.dev SMS Exception: '.$e->getMessage());
+
+            return [
+                'success' => false,
+                'message' => $e->getMessage(),
+            ];
+        }
+    }
+
+    /**
+     * Send order status update SMS notification and record in outbox database
+     */
     public static function sendOrderStatusSms(
         Order $order,
         string $customNote = ''
@@ -46,10 +120,13 @@ class SmsNotificationService
         $smsStatus = 'failed';
 
         try {
-            $smsService = app(SmsService::class);
-            $res = $smsService->send($phone, $message);
+            $res = self::send($phone, $message);
 
-            $isSuccess = ($res['success'] ?? false) === true || ! empty($res['smsBatchId']) || ($res['status'] ?? '') === 'success' || ($res['data']['success'] ?? false) === true || isset($res['recipientCount']);
+            $isSuccess = ($res['success'] ?? false) === true
+                || ! empty($res['smsBatchId'])
+                || ($res['status'] ?? '') === 'success'
+                || ($res['data']['success'] ?? false) === true
+                || isset($res['recipientCount']);
 
             if ($isSuccess) {
                 $smsStatus = 'sent';
