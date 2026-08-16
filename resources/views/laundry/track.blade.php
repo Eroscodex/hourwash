@@ -131,15 +131,15 @@
                 </div>
             @endif
 
-            <div class="grid grid-cols-2 min-[400px]:grid-cols-4 md:grid-cols-{{ $totalSteps }} gap-1.5 sm:gap-2 text-center">
+            <div class="grid grid-cols-{{ $totalSteps }} gap-0.5 sm:gap-1.5 text-center">
                 @foreach($stages as $key => $info)
                     @php
                         $stageIdx = array_search($key, $statusKeys);
                         $isActive = ($currentIndex >= $stageIdx && $currentStatus !== 'cancelled');
                         $isCurrent = ($currentStatus === $key);
                     @endphp
-                    <div class="p-1.5 sm:p-2 rounded-lg sm:rounded-xl border flex flex-col items-center justify-center transition-all duration-300 relative min-h-[46px] sm:min-h-[54px] {{ $isCurrent ? 'bg-[#007AFF]/15 border-[#007AFF] text-[#007AFF] dark:text-[#0A84FF] font-black shadow-sm' : ($isActive ? 'border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 font-bold' : 'border-black/5 dark:border-white/5 text-slate-400 opacity-50 font-medium') }}">
-                        <span class="text-[8px] min-[400px]:text-[9px] sm:text-[10px] md:text-[11px] uppercase leading-tight font-['Outfit'] whitespace-normal break-words text-center w-full px-0.5">
+                    <div class="p-0.5 sm:p-1.5 rounded-md sm:rounded-xl border flex flex-col items-center justify-center transition-all duration-300 relative min-h-[38px] sm:min-h-[48px] {{ $isCurrent ? 'bg-[#007AFF]/15 border-[#007AFF] text-[#007AFF] dark:text-[#0A84FF] font-black shadow-sm' : ($isActive ? 'border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 font-bold' : 'border-black/5 dark:border-white/5 text-slate-400 opacity-50 font-medium') }}">
+                        <span class="text-[6.5px] min-[360px]:text-[7.5px] sm:text-[9px] md:text-[10.5px] uppercase leading-tight font-['Outfit'] whitespace-normal break-words text-center w-full px-0.5">
                             {{ $info['step'] }}. {{ $info['label'] }}
                         </span>
                         @if($isCurrent)
