@@ -13,26 +13,40 @@ class RiderDashboardController extends Controller
     {
         $user = auth()->user();
 
+        // Rider Analytics & Dispatch Metrics (EXCLUDING Walk-in / Drop-off orders)
+        $riderPickupRequests = Order::whereIn('pickup_type', ['pickup_delivery', 'pickup'])
+            ->whereIn('order_status', ['pending', 'out_for_pickup'])
+            ->count();
+
+        $riderReceivedCount = Order::whereIn('pickup_type', ['pickup_delivery', 'pickup'])
+            ->where('order_status', 'received')
+            ->count();
+
+        $riderDeliveryCount = Order::whereIn('pickup_type', ['pickup_delivery', 'pickup'])
+            ->where('order_status', 'out_for_delivery')
+            ->count();
+
+        $riderCompletedCount = Order::whereIn('pickup_type', ['pickup_delivery', 'pickup'])
+            ->where('order_status', 'completed')
+            ->count();
+
+        $riderCancelledCount = Order::whereIn('pickup_type', ['pickup_delivery', 'pickup'])
+            ->where('order_status', 'cancelled')
+            ->count();
+
         $pickupOrders = Order::with(['customer.customerProfile', 'service'])
-            ->where(function ($query) {
-                $query->where('order_status', 'out_for_pickup')
-                    ->orWhere(function ($q) {
-                        $q->where('order_status', 'pending')
-                            ->whereIn('pickup_type', ['pickup_delivery', 'pickup']);
-                    });
-            })
+            ->whereIn('pickup_type', ['pickup_delivery', 'pickup'])
+            ->whereIn('order_status', ['pending', 'out_for_pickup'])
             ->latest()
             ->get();
 
         $deliveryOrders = Order::with(['customer.customerProfile', 'service'])
+            ->whereIn('pickup_type', ['pickup_delivery', 'pickup'])
             ->where('order_status', 'out_for_delivery')
             ->latest()
             ->get();
 
-        $completedTodayCount = Order::whereIn('order_status', ['completed', 'finish'])
-            ->whereDate('updated_at', today())
-            ->count();
-
+        $completedTodayCount = $riderCompletedCount;
         $totalActiveTasks = $pickupOrders->count() + $deliveryOrders->count();
 
         return view('rider.dashboard', compact(
@@ -40,7 +54,12 @@ class RiderDashboardController extends Controller
             'pickupOrders',
             'deliveryOrders',
             'completedTodayCount',
-            'totalActiveTasks'
+            'totalActiveTasks',
+            'riderPickupRequests',
+            'riderReceivedCount',
+            'riderDeliveryCount',
+            'riderCompletedCount',
+            'riderCancelledCount'
         ));
     }
 

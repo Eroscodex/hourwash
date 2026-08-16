@@ -30,19 +30,27 @@
                 </div>
             </div>
 
-            <!-- Rider Quick Metrics Grid -->
-            <div class="grid grid-cols-3 gap-3 pt-2 border-t border-white/10">
+            <!-- Rider 5-Stage Logistics Analytics Grid (Excludes Walk-In Orders) -->
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5 pt-2 border-t border-white/10">
                 <div class="p-3 rounded-2xl bg-black/40 border border-amber-500/30 text-center">
-                    <span class="text-[10px] font-extrabold text-amber-400 uppercase tracking-wider block">Out For Pickup</span>
-                    <span class="text-xl font-extrabold text-white font-mono">{{ $pickupOrders->count() }}</span>
+                    <span class="text-[9px] font-extrabold text-amber-400 uppercase tracking-wider block">1. Pickup Requests</span>
+                    <span class="text-xl font-extrabold text-white font-mono">{{ $riderPickupRequests ?? 0 }}</span>
+                </div>
+                <div class="p-3 rounded-2xl bg-black/40 border border-blue-500/30 text-center">
+                    <span class="text-[9px] font-extrabold text-blue-400 uppercase tracking-wider block">2. In-Shop Received</span>
+                    <span class="text-xl font-extrabold text-white font-mono">{{ $riderReceivedCount ?? 0 }}</span>
                 </div>
                 <div class="p-3 rounded-2xl bg-black/40 border border-cyan-500/30 text-center">
-                    <span class="text-[10px] font-extrabold text-cyan-400 uppercase tracking-wider block">Out For Delivery</span>
-                    <span class="text-xl font-extrabold text-white font-mono">{{ $deliveryOrders->count() }}</span>
+                    <span class="text-[9px] font-extrabold text-cyan-400 uppercase tracking-wider block">3. Out For Delivery</span>
+                    <span class="text-xl font-extrabold text-white font-mono">{{ $riderDeliveryCount ?? 0 }}</span>
                 </div>
                 <div class="p-3 rounded-2xl bg-black/40 border border-emerald-500/30 text-center">
-                    <span class="text-[10px] font-extrabold text-emerald-400 uppercase tracking-wider block">Completed Today</span>
-                    <span class="text-xl font-extrabold text-white font-mono">{{ $completedTodayCount }}</span>
+                    <span class="text-[9px] font-extrabold text-emerald-400 uppercase tracking-wider block">4. Completed / Delivered</span>
+                    <span class="text-xl font-extrabold text-white font-mono">{{ $riderCompletedCount ?? 0 }}</span>
+                </div>
+                <div class="p-3 rounded-2xl bg-black/40 border border-rose-500/30 text-center col-span-2 sm:col-span-1">
+                    <span class="text-[9px] font-extrabold text-rose-400 uppercase tracking-wider block">5. Cancelled</span>
+                    <span class="text-xl font-extrabold text-white font-mono">{{ $riderCancelledCount ?? 0 }}</span>
                 </div>
             </div>
         </div>

@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="space-y-6 sm:space-y-8" x-data="{ mode: '{{ auth()->user()->isRider() ? "rider" : "overall" }}' }">
+    <div class="space-y-6 sm:space-y-8" x-data="{ mode: 'overall' }">
 
         <!-- Mode Switcher Tab Bar -->
         <div class="flex items-center gap-2 p-1.5 bg-slate-200 dark:bg-[#1C1C1E] rounded-2xl border border-black/5 dark:border-white/10 w-fit">
@@ -585,12 +585,12 @@
         </div><!-- End Overall Dashboard Container -->
 
         <!-- RIDER DISPATCH VIEW -->
-        <div x-show="mode === 'rider'" class="space-y-6" x-cloak>
+        <div x-show="mode === 'rider'" class="space-y-6">
             <div class="app-card p-5 sm:p-6 bg-[#1C1C1E] border border-white/10 rounded-2xl space-y-6">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
                     <div>
                         <h2 class="text-lg font-bold text-white flex items-center gap-2 font-['Outfit']">
-                            <span>🛵</span> Rider Logistics & Dispatch Tasks
+                            <span>🛵</span> Rider Logistics & Dispatch Tasks (Excludes Walk-In Orders)
                         </h2>
                         <p class="text-xs text-slate-400 mt-1">
                             Real-time view for customer pickup requests and delivery dispatches. 1-click status updates automatically trigger SMS alerts to customers.
@@ -599,13 +599,37 @@
 
                     <div class="flex flex-wrap items-center gap-3">
                         <div class="px-3.5 py-2 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-400 text-xs font-bold flex items-center gap-2">
-                            <span>📦 Out for Pickup:</span>
-                            <span class="font-mono text-sm font-extrabold">{{ $outForPickup }}</span>
+                            <span>📦 Pickup Requests:</span>
+                            <span class="font-mono text-sm font-extrabold">{{ $riderPickupRequests ?? 0 }}</span>
                         </div>
                         <div class="px-3.5 py-2 rounded-xl bg-cyan-500/15 border border-cyan-500/30 text-cyan-400 text-xs font-bold flex items-center gap-2">
                             <span>🚚 Out for Delivery:</span>
-                            <span class="font-mono text-sm font-extrabold">{{ $outForDelivery }}</span>
+                            <span class="font-mono text-sm font-extrabold">{{ $riderDeliveryCount ?? 0 }}</span>
                         </div>
+                    </div>
+                </div>
+
+                <!-- Rider 5-Stage Logistics Analytics Grid (Excludes Walk-In Orders) -->
+                <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5 pt-2">
+                    <div class="p-3 rounded-2xl bg-black/40 border border-amber-500/30 text-center">
+                        <span class="text-[9px] font-extrabold text-amber-400 uppercase tracking-wider block">1. Pickup Requests</span>
+                        <span class="text-xl font-extrabold text-white font-mono">{{ $riderPickupRequests ?? 0 }}</span>
+                    </div>
+                    <div class="p-3 rounded-2xl bg-black/40 border border-blue-500/30 text-center">
+                        <span class="text-[9px] font-extrabold text-blue-400 uppercase tracking-wider block">2. In-Shop Received</span>
+                        <span class="text-xl font-extrabold text-white font-mono">{{ $riderReceivedCount ?? 0 }}</span>
+                    </div>
+                    <div class="p-3 rounded-2xl bg-black/40 border border-cyan-500/30 text-center">
+                        <span class="text-[9px] font-extrabold text-cyan-400 uppercase tracking-wider block">3. Out For Delivery</span>
+                        <span class="text-xl font-extrabold text-white font-mono">{{ $riderDeliveryCount ?? 0 }}</span>
+                    </div>
+                    <div class="p-3 rounded-2xl bg-black/40 border border-emerald-500/30 text-center">
+                        <span class="text-[9px] font-extrabold text-emerald-400 uppercase tracking-wider block">4. Completed / Delivered</span>
+                        <span class="text-xl font-extrabold text-white font-mono">{{ $riderCompletedCount ?? 0 }}</span>
+                    </div>
+                    <div class="p-3 rounded-2xl bg-black/40 border border-rose-500/30 text-center col-span-2 sm:col-span-1">
+                        <span class="text-[9px] font-extrabold text-rose-400 uppercase tracking-wider block">5. Cancelled</span>
+                        <span class="text-xl font-extrabold text-white font-mono">{{ $riderCancelledCount ?? 0 }}</span>
                     </div>
                 </div>
 

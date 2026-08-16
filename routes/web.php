@@ -391,28 +391,42 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         $smsCount = Schema::hasTable('sms_notifications') ? SmsNotification::count() : 0;
         $emailCount = Schema::hasTable('email_notifications') ? EmailNotification::count() : 0;
 
-        $outForPickup = Order::where('order_status', 'out_for_pickup')
-            ->orWhere(function ($query) {
-                $query->where('order_status', 'pending')
-                    ->whereIn('pickup_type', ['pickup_delivery', 'pickup']);
-            })->count();
+        // Rider Analytics & Dispatch Metrics (EXCLUDING Walk-in / Drop-off orders)
+        $riderPickupRequests = Order::whereIn('pickup_type', ['pickup_delivery', 'pickup'])
+            ->whereIn('order_status', ['pending', 'out_for_pickup'])
+            ->count();
 
-        $outForDelivery = Order::where('order_status', 'out_for_delivery')->count();
+        $riderReceivedCount = Order::whereIn('pickup_type', ['pickup_delivery', 'pickup'])
+            ->where('order_status', 'received')
+            ->count();
+
+        $riderDeliveryCount = Order::whereIn('pickup_type', ['pickup_delivery', 'pickup'])
+            ->where('order_status', 'out_for_delivery')
+            ->count();
+
+        $riderCompletedCount = Order::whereIn('pickup_type', ['pickup_delivery', 'pickup'])
+            ->where('order_status', 'completed')
+            ->count();
+
+        $riderCancelledCount = Order::whereIn('pickup_type', ['pickup_delivery', 'pickup'])
+            ->where('order_status', 'cancelled')
+            ->count();
 
         $riderOrders = Order::with(['customer.customerProfile', 'service'])
-            ->whereIn('order_status', ['out_for_pickup', 'out_for_delivery'])
-            ->orWhere(function ($query) {
-                $query->where('order_status', 'pending')
-                    ->whereIn('pickup_type', ['pickup_delivery', 'pickup']);
-            })
+            ->whereIn('pickup_type', ['pickup_delivery', 'pickup'])
+            ->whereIn('order_status', ['pending', 'out_for_pickup', 'out_for_delivery'])
             ->latest()
             ->get();
+
+        $outForPickup = $riderPickupRequests;
+        $outForDelivery = $riderDeliveryCount;
 
         return view('admin.dashboard', compact(
             'user', 'machines', 'recentOrders', 'totalToday', 'inProgress', 'readyPickup',
             'completedToday', 'notifications', 'feedbacks', 'staffCount', 'customerCount',
             'profitTotal', 'totalUsers', 'totalMachines', 'availableMachines', 'totalLaundry',
-            'laundryStatus', 'smsCount', 'emailCount', 'outForPickup', 'outForDelivery', 'riderOrders'
+            'laundryStatus', 'smsCount', 'emailCount', 'outForPickup', 'outForDelivery', 'riderOrders',
+            'riderPickupRequests', 'riderReceivedCount', 'riderDeliveryCount', 'riderCompletedCount', 'riderCancelledCount'
         ));
     })->name('dashboard');
 
