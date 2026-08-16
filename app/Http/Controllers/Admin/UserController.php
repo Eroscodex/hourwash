@@ -14,11 +14,46 @@ class UserController extends Controller
     /**
      * Display all users
      */
-    public function index()
+    /**
+     * Display all users with search & role filter
+     */
+    public function index(Request $request)
     {
-        $users = User::with('customerProfile')->latest()->paginate(10);
+        $query = User::with('customerProfile');
 
-        return view('admin.users.index', compact('users'));
+        if ($request->filled('role')) {
+            if ($request->role === 'customer') {
+                $query->whereIn('role', ['customer', 'user']);
+            } else {
+                $query->where('role', $request->role);
+            }
+        }
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%")
+                    ->orWhere('phone', 'like', "%{$search}%");
+            });
+        }
+
+        $users = $query->latest()->paginate(12)->withQueryString();
+
+        $totalUsers = User::count();
+        $adminCount = User::whereIn('role', ['owner', 'admin'])->count();
+        $staffCount = User::where('role', 'staff')->count();
+        $riderCount = User::where('role', 'rider')->count();
+        $customerCount = User::whereIn('role', ['customer', 'user'])->count();
+
+        return view('admin.users.index', compact(
+            'users',
+            'totalUsers',
+            'adminCount',
+            'staffCount',
+            'riderCount',
+            'customerCount'
+        ));
     }
 
     /**
@@ -40,7 +75,7 @@ class UserController extends Controller
             'phone' => 'nullable|string|max:20|unique:users',
             'address' => 'nullable|string|max:255',
             'password' => 'required|min:8',
-            'role' => 'required',
+            'role' => ['required', 'string', Rule::in(['owner', 'admin', 'staff', 'rider', 'customer', 'user'])],
         ]);
 
         $user = User::create([
@@ -49,6 +84,7 @@ class UserController extends Controller
             'phone' => $request->phone,
             'password' => Hash::make($request->password),
             'role' => $request->role,
+            'status' => 'active',
         ]);
 
         if ($request->filled('address')) {
@@ -60,7 +96,7 @@ class UserController extends Controller
 
         return redirect()
             ->route('admin.users.index')
-            ->with('success', 'User account created successfully');
+            ->with('success', "User account for '{$user->name}' created successfully as ".strtoupper($user->role).'!');
     }
 
     /**
@@ -85,15 +121,27 @@ class UserController extends Controller
             'email' => ['required', 'email', Rule::unique('users')->ignore($id)],
             'phone' => ['nullable', 'string', 'max:20', Rule::unique('users')->ignore($id)],
             'address' => ['nullable', 'string', 'max:255'],
-            'role' => 'required',
+            'role' => ['required', 'string', Rule::in(['owner', 'admin', 'staff', 'rider', 'customer', 'user'])],
+            'password' => ['nullable', 'min:8'],
+            'status' => ['nullable', 'string', Rule::in(['active', 'inactive', 'blocked'])],
         ]);
 
-        $user->update([
+        $updateData = [
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
             'role' => $request->role,
-        ]);
+        ];
+
+        if ($request->filled('password')) {
+            $updateData['password'] = Hash::make($request->password);
+        }
+
+        if ($request->filled('status')) {
+            $updateData['status'] = $request->status;
+        }
+
+        $user->update($updateData);
 
         if ($request->has('address')) {
             CustomerProfile::updateOrCreate(
@@ -104,7 +152,7 @@ class UserController extends Controller
 
         return redirect()
             ->route('admin.users.index')
-            ->with('success', 'User account updated successfully');
+            ->with('success', "User account '{$user->name}' updated successfully!");
     }
 
     /**
@@ -113,11 +161,12 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         $user = User::findOrFail($id);
+        $name = $user->name;
 
         $user->delete();
 
         return redirect()
             ->route('admin.users.index')
-            ->with('success', 'User deleted successfully');
+            ->with('success', "User account '{$name}' deleted successfully!");
     }
 }
