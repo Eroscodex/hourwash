@@ -41,11 +41,9 @@ class SmsNotificationService
         $message .= ' Track live: '.url("/laundry/track/{$code}");
         $smsStatus = 'failed';
 
+        $textbeeApiKey = config('textbee.api_key') ?: config('services.textbee.api_key');
+        $textbeeDeviceId = config('textbee.device_id') ?: config('services.textbee.device_id');
         $philsmsToken = config('services.philsms.api_token');
-        $philsmsSenderId = config('services.philsms.sender_id', 'PhilSMS');
-
-        $textbeeApiKey = config('services.textbee.api_key');
-        $textbeeDeviceId = config('services.textbee.device_id');
 
         if (empty($philsmsToken) && (empty($textbeeApiKey) || empty($textbeeDeviceId))) {
             Log::error('No SMS gateway provider (Textbee.dev or PhilSMS) is configured in environment.');
@@ -73,53 +71,36 @@ class SmsNotificationService
 
                 if (! empty($recipient) && preg_match('/^639[0-9]{9}$/', $recipient)) {
 
-                    // 1. Textbee.dev Gateway Provider (Primary if configured)
+                    // 1. Textbee.dev Service Class (Official Pattern)
                     if (! empty($textbeeApiKey) && ! empty($textbeeDeviceId)) {
                         Log::info('Sending SMS through Textbee.dev Gateway.', [
                             'recipient' => '+'.$recipient,
-                            'device_id' => $textbeeDeviceId,
                             'order_id' => $order->id,
                         ]);
 
-                        $response = Http::timeout(20)
-                            ->withHeaders([
-                                'x-api-key' => $textbeeApiKey,
-                            ])
-                            ->acceptJson()
-                            ->asJson()
-                            ->post("https://api.textbee.dev/api/v1/gateway/devices/{$textbeeDeviceId}/send-sms", [
-                                'recipients' => ['+'.$recipient],
-                                'message' => $message,
-                            ]);
+                        $smsService = app(SmsService::class);
+                        $res = $smsService->send('+'.$recipient, $message);
 
-                        $data = $response->json();
+                        $isSuccess = ($res['success'] ?? false) === true || ! empty($res['smsBatchId']) || ($res['status'] ?? '') === 'success';
 
-                        Log::info('Textbee.dev API response.', [
-                            'http_status' => $response->status(),
-                            'response' => $data,
-                            'order_id' => $order->id,
-                        ]);
-
-                        $isTextbeeSuccess = $response->successful() && (
-                            ($data['data']['success'] ?? false) === true ||
-                            ($data['success'] ?? false) === true ||
-                            ! empty($data['data']['smsBatchId']) ||
-                            ($data['status'] ?? '') === 'success'
-                        );
-
-                        if ($isTextbeeSuccess) {
+                        if ($isSuccess) {
                             $smsStatus = 'sent';
-                            Log::info('Textbee.dev SMS successfully dispatched.', ['order_id' => $order->id]);
+                            Log::info('Textbee.dev SMS successfully dispatched.', [
+                                'order_id' => $order->id,
+                                'batch_id' => $res['smsBatchId'] ?? null,
+                            ]);
                         } else {
                             $smsStatus = 'failed';
-                            Log::error('Textbee.dev SMS failed.', ['response' => $response->body(), 'order_id' => $order->id]);
+                            Log::error('Textbee.dev SMS failed.', [
+                                'response' => $res,
+                                'order_id' => $order->id,
+                            ]);
                         }
 
                         // 2. PhilSMS Gateway Provider
                     } elseif (! empty($philsmsToken)) {
                         Log::info('Sending SMS through PhilSMS.', [
                             'recipient' => $recipient,
-                            'sender_id' => $philsmsSenderId,
                             'order_id' => $order->id,
                         ]);
 
@@ -129,18 +110,12 @@ class SmsNotificationService
                             ->asJson()
                             ->post('https://dashboard.philsms.com/api/v3/sms/send', [
                                 'recipient' => $recipient,
-                                'sender_id' => $philsmsSenderId,
+                                'sender_id' => config('services.philsms.sender_id', 'PhilSMS'),
                                 'type' => 'plain',
                                 'message' => $message,
                             ]);
 
                         $data = $response->json();
-
-                        Log::info('PhilSMS API response.', [
-                            'http_status' => $response->status(),
-                            'response' => $data,
-                            'order_id' => $order->id,
-                        ]);
 
                         if ($response->successful() && ($data['status'] ?? null) === 'success') {
                             $smsStatus = 'sent';
