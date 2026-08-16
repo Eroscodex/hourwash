@@ -67,19 +67,19 @@
 
         @php
             $stages = [
-                'pending'          => ['label' => 'Order Placed',      'short' => 'Placed',    'pct' => 10],
-                'out_for_pickup'   => ['label' => 'Out for Pickup',    'short' => 'Pickup',    'pct' => 22],
-                'received'         => ['label' => 'Store Received',    'short' => 'Received',  'pct' => 35],
-                'washing'          => ['label' => 'Washing',           'short' => 'Washing',   'pct' => 48],
-                'rinsing'          => ['label' => 'Rinsing',           'short' => 'Rinsing',   'pct' => 60],
-                'drying'           => ['label' => 'Drying',            'short' => 'Drying',    'pct' => 72],
-                'finish'           => ['label' => 'Finish & Shelved',  'short' => 'Finish',    'pct' => 84],
-                'out_for_delivery' => ['label' => 'Out for Delivery',  'short' => 'Delivery',  'pct' => 92],
-                'completed'        => ['label' => 'Completed',         'short' => 'Complete',  'pct' => 100],
+                'pending'          => ['label' => 'Order Placed',      'pct' => 10],
+                'out_for_pickup'   => ['label' => 'Out for Pickup',    'pct' => 22],
+                'received'         => ['label' => 'Store Received',    'pct' => 35],
+                'washing'          => ['label' => 'Washing',           'pct' => 48],
+                'rinsing'          => ['label' => 'Rinsing',           'pct' => 60],
+                'drying'           => ['label' => 'Drying',            'pct' => 72],
+                'finish'           => ['label' => 'Finish & Shelved',  'pct' => 84],
+                'out_for_delivery' => ['label' => 'Out for Delivery',  'pct' => 92],
+                'completed'        => ['label' => 'Completed',         'pct' => 100],
             ];
             
             $currentStatus = $order->order_status;
-            $currentStageInfo = $stages[$currentStatus] ?? ['label' => 'Processing', 'short' => 'Process', 'pct' => 0];
+            $currentStageInfo = $stages[$currentStatus] ?? ['label' => 'Processing', 'pct' => 0];
             
             $statusKeys = array_keys($stages);
             $currentIndex = array_search($currentStatus, $statusKeys);
@@ -109,17 +109,16 @@
                 </div>
             @endif
 
-            <div class="grid grid-cols-9 gap-1 sm:gap-1.5 text-center">
+            <div class="grid grid-cols-3 sm:grid-cols-9 gap-1.5 sm:gap-2 text-center">
                 @foreach($stages as $key => $info)
                     @php
                         $stageIdx = array_search($key, $statusKeys);
                         $isActive = ($currentIndex >= $stageIdx && $currentStatus !== 'cancelled');
                         $isCurrent = ($currentStatus === $key);
                     @endphp
-                    <div class="p-1 sm:p-2 rounded-lg sm:rounded-xl border flex flex-col items-center justify-center transition-all duration-300 relative min-h-[40px] sm:min-h-[46px] {{ $isCurrent ? 'bg-[#007AFF]/15 border-[#007AFF] text-[#007AFF] dark:text-[#0A84FF] font-black shadow-sm' : ($isActive ? 'border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 font-bold' : 'border-black/5 dark:border-white/5 text-slate-400 opacity-50 font-medium') }}">
-                        <span class="text-[7px] min-[360px]:text-[8px] sm:text-[10px] uppercase leading-tight tracking-tighter sm:tracking-normal font-['Outfit'] block truncate w-full">
-                            <span class="sm:hidden">{{ $info['short'] }}</span>
-                            <span class="hidden sm:inline">{{ $info['label'] }}</span>
+                    <div class="p-1.5 sm:p-2 rounded-lg sm:rounded-xl border flex flex-col items-center justify-center transition-all duration-300 relative min-h-[44px] sm:min-h-[52px] {{ $isCurrent ? 'bg-[#007AFF]/15 border-[#007AFF] text-[#007AFF] dark:text-[#0A84FF] font-black shadow-sm' : ($isActive ? 'border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 font-bold' : 'border-black/5 dark:border-white/5 text-slate-400 opacity-50 font-medium') }}">
+                        <span class="text-[8px] min-[400px]:text-[9px] sm:text-[10px] md:text-[11px] uppercase leading-tight font-['Outfit'] whitespace-normal break-words text-center w-full px-0.5">
+                            {{ $info['label'] }}
                         </span>
                         @if($isCurrent)
                             <span class="w-1.5 h-1.5 rounded-full bg-[#007AFF] animate-ping absolute -top-0.5 -right-0.5"></span>
