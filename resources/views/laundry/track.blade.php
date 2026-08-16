@@ -140,8 +140,7 @@
                     @endphp
                     <div class="p-1.5 sm:p-2 rounded-lg sm:rounded-xl border flex flex-col items-center justify-center transition-all duration-300 relative min-h-[46px] sm:min-h-[54px] {{ $isCurrent ? 'bg-[#007AFF]/15 border-[#007AFF] text-[#007AFF] dark:text-[#0A84FF] font-black shadow-sm' : ($isActive ? 'border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 font-bold' : 'border-black/5 dark:border-white/5 text-slate-400 opacity-50 font-medium') }}">
                         <span class="text-[8px] min-[400px]:text-[9px] sm:text-[10px] md:text-[11px] uppercase leading-tight font-['Outfit'] whitespace-normal break-words text-center w-full px-0.5">
-                            <span class="opacity-75 block text-[7px] min-[400px]:text-[8px] sm:text-[9px]">STEP {{ $info['step'] }}</span>
-                            {{ $info['label'] }}
+                            {{ $info['step'] }}. {{ $info['label'] }}
                         </span>
                         @if($isCurrent)
                             <span class="w-1.5 h-1.5 rounded-full bg-[#007AFF] animate-ping absolute -top-0.5 -right-0.5"></span>
