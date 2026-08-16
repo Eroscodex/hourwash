@@ -25,18 +25,16 @@ class SmsService
 
         try {
             $formattedRecipients = array_map(function ($r) {
-                $num = preg_replace('/[^0-9+]/', '', trim($r));
-                if (str_starts_with($num, '+639')) {
-                    return '09'.substr($num, 4);
-                } elseif (str_starts_with($num, '639')) {
-                    return '09'.substr($num, 3);
-                } elseif (str_starts_with($num, '9') && strlen($num) === 10) {
-                    return '09'.substr($num, 1);
-                } elseif (str_starts_with($num, '09')) {
-                    return $num;
+                $raw = preg_replace('/[^0-9]/', '', trim($r));
+                if (str_starts_with($raw, '639') && strlen($raw) === 12) {
+                    return '+'.$raw;
+                } elseif (str_starts_with($raw, '09') && strlen($raw) === 11) {
+                    return '+63'.substr($raw, 1);
+                } elseif (str_starts_with($raw, '9') && strlen($raw) === 10) {
+                    return '+63'.$raw;
                 }
 
-                return $num;
+                return str_starts_with(trim($r), '+') ? trim($r) : '+'.$raw;
             }, (array) $recipients);
 
             $response = Http::withHeader('x-api-key', $apiKey)
