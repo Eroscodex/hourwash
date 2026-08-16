@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Machine;
 use App\Models\Order;
 use App\Models\OrderStatusHistory;
 use App\Models\SmsNotification;
@@ -16,7 +17,7 @@ class LaundryController extends Controller
 {
     public function index()
     {
-        $orders = Order::with(['customer', 'customer.customerProfile', 'service', 'qrCode'])
+        $orders = Order::with(['customer', 'customer.customerProfile', 'service', 'qrCode', 'machine'])
             ->latest()
             ->get();
 
@@ -44,6 +45,14 @@ class LaundryController extends Controller
                 // When washing cycle starts, recalculate estimated completion time starting from now
                 if ($request->status === 'washing') {
                     $order->estimated_completion = now()->addMinutes($order->service?->estimated_minutes ?? 30);
+                }
+
+                // If order has no machine assigned yet, assign an available idle machine
+                if (! $order->machine_id && in_array($request->status, ['washing', 'rinsing', 'drying'])) {
+                    $availableMachine = Machine::where('status', 'idle')->first();
+                    if ($availableMachine) {
+                        $order->machine_id = $availableMachine->id;
+                    }
                 }
 
                 // Sync assigned machine status dynamically
@@ -102,7 +111,7 @@ class LaundryController extends Controller
                 }
             }
 
-            // Eager load relationships so customer and service data are present in the email
+            // Eager load relationships so customer and service data are present in notifications
             $order->load(['customer', 'service', 'customer.customerProfile']);
 
             // Send Email & SMS Notifications efficiently
@@ -134,7 +143,7 @@ class LaundryController extends Controller
         } catch (\Throwable $e) {
             Log::error("Order update error for #{$order->order_number}: ".$e->getMessage());
 
-            return back()->with('success', "Order #{$order->order_number} status saved successfully!");
+            return back()->with('error', "Error updating Order #{$order->order_number}: ".$e->getMessage());
         }
     }
 }
