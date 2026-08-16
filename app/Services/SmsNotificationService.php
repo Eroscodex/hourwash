@@ -58,7 +58,7 @@ class SmsNotificationService
                     'message' => $message,
                 ]);
 
-            $data = $response->json();
+            $data = $response->json() ?? [];
 
             Log::info('Textbee.dev SMS gateway response', [
                 'status' => $response->status(),
@@ -70,7 +70,19 @@ class SmsNotificationService
                 Log::warning('Textbee SMS Authentication Failed (AUTH_INVALID). Please verify TEXTBEE_API_KEY.');
             }
 
-            return $data['data'] ?? $data ?? ['success' => $response->successful()];
+            if ($response->successful()) {
+                $payload = is_array($data) && isset($data['data']) && is_array($data['data']) ? $data['data'] : (is_array($data) ? $data : []);
+                $payload['success'] = true;
+
+                return $payload;
+            }
+
+            $errMsg = $data['message'] ?? $data['error'] ?? 'Textbee API Error (HTTP '.$response->status().')';
+
+            return [
+                'success' => false,
+                'message' => $errMsg,
+            ];
         } catch (\Throwable $e) {
             Log::error('Textbee.dev SMS Exception: '.$e->getMessage());
 
