@@ -130,10 +130,10 @@ class LaundryController extends Controller
         $qrCode = QrCode::where('qr_token', $cleanQr)->first();
 
         if ($qrCode) {
-            $order = Order::with(['service', 'customer', 'machine', 'qrCode'])->find($qrCode->order_id);
+            $order = Order::with(['service', 'customer', 'machine', 'qrCode', 'statusHistory'])->find($qrCode->order_id);
         } else {
             // 2. Check if code is Order Code or Order ID
-            $order = Order::with(['service', 'customer', 'machine', 'qrCode'])
+            $order = Order::with(['service', 'customer', 'machine', 'qrCode', 'statusHistory'])
                 ->where('order_number', $cleanQr)
                 ->orWhere('id', $cleanQr)
                 ->first();
@@ -142,7 +142,7 @@ class LaundryController extends Controller
             if (! $order) {
                 $machine = Machine::where('machine_code', $cleanQr)->first();
                 if ($machine && $machine->current_order_id) {
-                    $order = Order::with(['service', 'customer', 'machine', 'qrCode'])->find($machine->current_order_id);
+                    $order = Order::with(['service', 'customer', 'machine', 'qrCode', 'statusHistory'])->find($machine->current_order_id);
                 }
             }
         }
