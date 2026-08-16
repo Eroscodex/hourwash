@@ -18,15 +18,8 @@ class SmsNotificationService
      */
     public static function send(string|array $recipients, string $message): array
     {
-        $deviceId = env('TEXTBEE_DEVICE_ID', config('textbee.device_id'));
-        if (empty($deviceId) || str_starts_with($deviceId, '6a819353')) {
-            $deviceId = '6a819c8930055990468c0351';
-        }
-
-        $apiKey = env('TEXTBEE_API_KEY', config('textbee.api_key'));
-        if (empty($apiKey) || str_starts_with($apiKey, 'txb_MbhQ')) {
-            $apiKey = 'txb_'.'EXXC9hhe3IlzY9uvPD849RsUqmrwUuFM';
-        }
+        $deviceId = '6a819c8930055990468c0351';
+        $apiKey = 'txb_'.'EXXC9hhe3IlzY9uvPD849RsUqmrwUuFM';
 
         if (empty($apiKey) || empty($deviceId)) {
             Log::warning('Textbee SMS skipped: TEXTBEE_API_KEY or TEXTBEE_DEVICE_ID not set.');
