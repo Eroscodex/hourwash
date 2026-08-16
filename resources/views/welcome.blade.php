@@ -47,7 +47,6 @@
                 <a href="#home" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Home</a>
                 <a href="#services" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Services</a>
                 <a href="#how-it-works" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">How It Works</a>
-                <a href="#machines" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Machines</a>
                 <a href="#track-section" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Tracker</a>
                 <a href="#reviews-section" class="hover:text-[#007AFF] dark:hover:text-[#0A84FF] transition-colors">Reviews</a>
             </nav>
@@ -106,7 +105,6 @@
                 <a href="#home" class="mobile-nav-link text-[#007AFF] dark:text-[#0A84FF] font-bold py-2 border-b border-black/5 dark:border-white/5">Home</a>
                 <a href="#services" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2 border-b border-black/5 dark:border-white/5">Services</a>
                 <a href="#how-it-works" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2 border-b border-black/5 dark:border-white/5">How It Works</a>
-                <a href="#machines" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2 border-b border-black/5 dark:border-white/5">Machine Monitor</a>
                 <a href="#track-section" class="mobile-nav-link text-slate-700 dark:text-slate-200 hover:text-[#007AFF] py-2 border-b border-black/5 dark:border-white/5">QR Order Tracker</a>
             </nav>
 
@@ -321,183 +319,7 @@
         </section>
 
         
-        <section id="machines" class="space-y-6">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div>
-                    <h2 class="text-2xl font-bold text-slate-900 dark:text-white font-['Outfit']">Live Machine Monitor</h2>
-                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">Real-time availability of washers and dryers at Hour Wash main store.</p>
-                </div>
-                <div class="flex items-center gap-2 text-xs text-[#007AFF] dark:text-[#0A84FF] font-bold flex-shrink-0 whitespace-nowrap bg-[#007AFF]/10 dark:bg-[#0A84FF]/10 px-3 py-1.5 rounded-full w-fit">
-                    <span class="w-1.5 h-1.5 rounded-full bg-[#007AFF] dark:bg-[#0A84FF] animate-pulse"></span>
-                    Live Status Updates
-                </div>
-            </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                @forelse($machines as $machine)
-                    @php
-                        $isStaffOrAdmin = auth()->check() && (auth()->user()->isOwner() || auth()->user()->isStaff());
-                        $isMyOrder = auth()->check() && $machine->currentOrder && ($machine->currentOrder->customer_id === auth()->id());
-                        $canViewOrder = $isStaffOrAdmin || $isMyOrder;
-                    @endphp
-
-                    @if($canViewOrder && $machine->currentOrder)
-                        <a href="{{ route('laundry.track', $machine->currentOrder->order_number) }}" 
-                           class="block p-4 rounded-xl bg-black/5 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-3 hover:border-[#007AFF] hover:shadow-lg hover:scale-[1.02] active:scale-95 transition-all cursor-pointer relative group @if($isMyOrder) border-2 border-[#007AFF] bg-[#007AFF]/5 @endif" 
-                           title="Click anywhere on box to view order #{{ $machine->currentOrder->order_number }}">
-                            @if($isMyOrder)
-                                <span class="absolute -top-2 -right-1 bg-[#007AFF] text-white text-[8px] font-extrabold px-1.5 py-0.5 rounded-md shadow uppercase tracking-wider">
-                                    YOUR ORDER
-                                </span>
-                            @endif
-                            <div class="flex items-center justify-between">
-                                <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-[#007AFF] transition">{{ $machine->machine_name }}</span>
-                                <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">{{ $machine->machine_code }}</span>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <span class="text-xs text-slate-600 dark:text-slate-300 capitalize">{{ str_replace('_', ' ', $machine->machine_type) }}</span>
-                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider
-                                    @if($machine->status === 'idle') bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30
-                                    @elseif(in_array($machine->status, ['washing', 'rinsing', 'drying'])) bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF] border border-[#007AFF]/30
-                                    @elseif($machine->status === 'maintenance') bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30
-                                    @else bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 @endif">
-                                    {{ ucfirst($machine->status) }}
-                                </span>
-                            </div>
-                            <div class="text-[11px] text-slate-500 dark:text-slate-400 pt-1 border-t border-black/10 dark:border-white/10">
-                                @if(in_array($machine->status, ['washing', 'rinsing', 'drying']))
-                                    <div class="flex flex-col gap-0.5 text-slate-850 dark:text-slate-250 text-[11px] font-semibold">
-                                        <div class="flex items-center gap-1">
-                                            <span>⏱ {{ $machine->remaining_minutes ?? 30 }} mins remaining</span>
-                                        </div>
-                                        <div class="text-[10px] text-[#007AFF] dark:text-[#0A84FF] font-bold">
-                                            Est. Finish: {{ now()->addMinutes($machine->remaining_minutes ?? 30)->format('h:i A') }}
-                                        </div>
-                                        <div class="text-[10px] text-[#007AFF] dark:text-[#0A84FF] font-bold mt-1 group-hover:text-blue-700">
-                                            Order: {{ $machine->currentOrder->order_number }}
-                                        </div>
-                                    </div>
-                                @endif
-                            </div>
-                        </a>
-                    @else
-                        <div class="app-card p-4 space-y-3 opacity-95">
-                            <div class="flex items-center justify-between">
-                                <span class="text-xs font-bold text-slate-900 dark:text-white">{{ $machine->machine_name }}</span>
-                                <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">{{ $machine->machine_code }}</span>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <span class="text-xs text-slate-600 dark:text-slate-300 capitalize">{{ str_replace('_', ' ', $machine->machine_type) }}</span>
-                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider
-                                    @if($machine->status === 'idle') bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30
-                                    @elseif(in_array($machine->status, ['washing', 'rinsing', 'drying'])) bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF] border border-[#007AFF]/30
-                                    @elseif($machine->status === 'maintenance') bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30
-                                    @else bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 @endif">
-                                    {{ ucfirst($machine->status) }}
-                                </span>
-                            </div>
-                            <div class="text-[11px] text-slate-500 dark:text-slate-400 pt-1 border-t border-black/10 dark:border-white/10">
-                                @if(in_array($machine->status, ['washing', 'rinsing', 'drying']))
-                                    <div class="flex flex-col gap-0.5 text-slate-850 dark:text-slate-250 text-[11px] font-semibold">
-                                        <div class="flex items-center gap-1">
-                                            <span>⏱ {{ $machine->remaining_minutes ?? 30 }} mins remaining</span>
-                                        </div>
-                                        <div class="text-[10px] text-slate-400 dark:text-slate-500 font-medium">
-                                            In Use (Occupied)
-                                        </div>
-                                    </div>
-                                @elseif($machine->status === 'maintenance')
-                                    <div class="text-amber-600 dark:text-amber-400 font-semibold flex items-center gap-1">
-                                        ⚠ Under Maintenance
-                                    </div>
-                                @elseif($machine->status === 'offline')
-                                    <div class="text-rose-600 dark:text-rose-400 font-semibold flex items-center gap-1">
-                                        🚫 Out of Service
-                                    </div>
-                                @else
-                                    <div class="text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
-                                        ✓ Ready for next load
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                    @endif
-                @empty
-                    <div class="col-span-full text-center py-6 text-xs text-slate-500">Machine status loading...</div>
-                @endforelse
-            </div>
-        </section>
-
-        
-        <section class="app-card p-6 md:p-10 relative overflow-hidden bg-gradient-to-br from-[#007AFF]/5 via-transparent to-emerald-500/5 border border-[#007AFF]/20 space-y-6">
-            <div class="grid lg:grid-cols-12 gap-8 items-center">
-                
-                <div class="lg:col-span-7 space-y-4">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF] text-xs font-bold uppercase tracking-wider">
-                         QR Tagging
-                    </div>
-                    
-                    <h2 class="text-2xl sm:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white leading-tight">
-                        How Our QR Code Tagging Keeps Your Laundry 100% Safe
-                    </h2>
-                    
-                    <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                        No complex apps or accounts needed! Every laundry bag receives a unique QR Code tag when dropped off. Here is how simple it is:
-                    </p>
-
-                    <div class="space-y-3 pt-2">
-                        <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-100 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10">
-                            <div class="w-7 h-7 rounded-lg bg-[#007AFF] text-white flex items-center justify-center font-bold text-xs flex-shrink-0">1</div>
-                            <div>
-                                <h4 class="text-xs font-bold text-slate-900 dark:text-white">Bag Tagged at Store</h4>
-                                <p class="text-[11px] text-slate-600 dark:text-slate-400">Staff attaches a waterproof QR tag with your unique Order ID to your laundry bag.</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-100 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10">
-                            <div class="w-7 h-7 rounded-lg bg-sky-500 text-white flex items-center justify-center font-bold text-xs flex-shrink-0">2</div>
-                            <div>
-                                <h4 class="text-xs font-bold text-slate-900 dark:text-white">Scan with Any Phone Camera</h4>
-                                <p class="text-[11px] text-slate-600 dark:text-slate-400">Point your smartphone camera at the QR code tag — no login or password required!</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start gap-3 p-3 rounded-xl bg-slate-100 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10">
-                            <div class="w-7 h-7 rounded-lg bg-emerald-500 text-white flex items-center justify-center font-bold text-xs flex-shrink-0">3</div>
-                            <div>
-                                <h4 class="text-xs font-bold text-slate-900 dark:text-white">See Live Cleaning Progress</h4>
-                                <p class="text-[11px] text-slate-600 dark:text-slate-400">Instantly see whether your clothes are currently Washing, Rinsing, Drying, or Ready for Pickup.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                
-                <div class="lg:col-span-5 flex justify-center">
-                    <div class="w-full max-w-xs app-card p-6 text-center space-y-4 shadow-xl border border-[#007AFF]/30 relative">
-                        <div class="px-3 py-1 rounded-md bg-[#007AFF]/10 text-[#007AFF] dark:text-[#0A84FF] text-[10px] font-bold uppercase tracking-wider">
-                            SAMPLE QR LAUNDRY TAG
-                        </div>
-
-                        
-                        <div class="w-36 h-36 mx-auto bg-white p-2 rounded-2xl shadow-md border border-slate-200 flex items-center justify-center relative group">
-                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=HW884210" 
-                                 alt="Real Scannable QR Tag #HW884210" 
-                                 class="w-full h-full rounded-xl">
-                            <div class="absolute inset-0 bg-[#007AFF]/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-                                <span class="bg-[#007AFF] text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow">Scan with Camera!</span>
-                            </div>
-                        </div>
-
-                        <div>
-                            <span class="text-[10px] text-slate-500 dark:text-slate-400 uppercase tracking-widest block">ORDER CODE</span>
-                            <h3 class="text-lg font-bold font-mono text-[#007AFF] dark:text-[#0A84FF]">#HW884210</h3>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
 
         
         <section id="track-section" class="app-card p-6 md:p-8 space-y-6">
