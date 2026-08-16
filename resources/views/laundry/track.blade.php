@@ -233,12 +233,22 @@
 
                     <div>
                         <div class="text-base sm:text-lg font-bold font-['Outfit'] text-white">
-                            {{ $order->estimated_completion?->format('M d, Y • h:i A') ?? 'In Processing' }}
+                            {{ in_array($order->order_status, ['pending', 'out_for_pickup', 'received']) ? 'Starts Upon Washing' : ($order->estimated_completion?->format('M d, Y • h:i A') ?? 'In Processing') }}
                         </div>
-                        @if(in_array($order->order_status, ['pending', 'out_for_pickup', 'received', 'washing', 'rinsing', 'drying', 'finish', 'out_for_delivery']) && $order->estimated_completion && $order->estimated_completion->isFuture())
+                        @if(in_array($order->order_status, ['washing', 'rinsing', 'drying']) && $order->estimated_completion && $order->estimated_completion->isFuture())
                             <div class="mt-2 p-2.5 rounded-xl bg-white/10 border border-white/10 flex items-center justify-between text-xs font-mono font-bold text-amber-300">
                                 <span>Time Remaining:</span>
                                 <span id="order-countdown" data-expiry="{{ $order->estimated_completion->timestamp }}">Calculating...</span>
+                            </div>
+                        @elseif(in_array($order->order_status, ['pending', 'out_for_pickup', 'received']))
+                            <div class="mt-2 p-2.5 rounded-xl bg-white/10 border border-white/10 flex items-center justify-between text-xs font-mono font-bold text-amber-200">
+                                <span>Status:</span>
+                                <span>Order Received (Pending Start)</span>
+                            </div>
+                        @elseif(in_array($order->order_status, ['finish', 'out_for_delivery']))
+                            <div class="mt-2 p-2.5 rounded-xl bg-emerald-500/20 border border-emerald-400/30 flex items-center justify-between text-xs font-mono font-bold text-emerald-300">
+                                <span>Status:</span>
+                                <span>Washing & Drying Finished</span>
                             </div>
                         @endif
                     </div>
@@ -334,7 +344,7 @@
 
 </div>
 
-@if(in_array($order->order_status, ['pending', 'out_for_pickup', 'received', 'washing', 'rinsing', 'drying', 'finish', 'out_for_delivery']) && $order->estimated_completion && $order->estimated_completion->isFuture())
+@if(in_array($order->order_status, ['washing', 'rinsing', 'drying']) && $order->estimated_completion && $order->estimated_completion->isFuture())
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const countdownEl = document.getElementById('order-countdown');
