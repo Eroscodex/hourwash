@@ -26,12 +26,14 @@ class SmsService
         try {
             $formattedRecipients = array_map(function ($r) {
                 $num = preg_replace('/[^0-9+]/', '', trim($r));
-                if (str_starts_with($num, '09')) {
-                    return '+63'.substr($num, 1);
+                if (str_starts_with($num, '+639')) {
+                    return '09'.substr($num, 4);
                 } elseif (str_starts_with($num, '639')) {
-                    return '+'.$num;
+                    return '09'.substr($num, 3);
                 } elseif (str_starts_with($num, '9') && strlen($num) === 10) {
-                    return '+63'.$num;
+                    return '09'.substr($num, 1);
+                } elseif (str_starts_with($num, '09')) {
+                    return $num;
                 }
 
                 return $num;

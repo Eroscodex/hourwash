@@ -52,14 +52,14 @@ class SmsNotificationService
                 $recipient = trim($phone);
                 $recipient = preg_replace('/[^0-9+]/', '', $recipient);
 
-                if (str_starts_with($recipient, '09')) {
-                    $recipient = '63'.substr($recipient, 1);
-                } elseif (str_starts_with($recipient, '+639')) {
-                    $recipient = substr($recipient, 1);
-                } elseif (str_starts_with($recipient, '639') && strlen($recipient) === 12) {
-                    $recipient = $recipient;
+                if (str_starts_with($recipient, '+639')) {
+                    $recipient = '09'.substr($recipient, 4);
+                } elseif (str_starts_with($recipient, '639')) {
+                    $recipient = '09'.substr($recipient, 3);
                 } elseif (str_starts_with($recipient, '9') && strlen($recipient) === 10) {
-                    $recipient = '63'.$recipient;
+                    $recipient = '09'.substr($recipient, 1);
+                } elseif (str_starts_with($recipient, '09')) {
+                    $recipient = $recipient;
                 } else {
                     Log::error('Invalid Philippine mobile number format.', [
                         'original_phone' => $phone,
@@ -69,17 +69,17 @@ class SmsNotificationService
                     $recipient = null;
                 }
 
-                if (! empty($recipient) && preg_match('/^639[0-9]{9}$/', $recipient)) {
+                if (! empty($recipient) && preg_match('/^09[0-9]{9}$/', $recipient)) {
 
                     // 1. Textbee.dev Service Class (Official Pattern)
                     if (! empty($textbeeApiKey) && ! empty($textbeeDeviceId)) {
                         Log::info('Sending SMS through Textbee.dev Gateway.', [
-                            'recipient' => '+'.$recipient,
+                            'recipient' => $recipient,
                             'order_id' => $order->id,
                         ]);
 
                         $smsService = app(SmsService::class);
-                        $res = $smsService->send('+'.$recipient, $message);
+                        $res = $smsService->send($recipient, $message);
 
                         $isSuccess = ($res['success'] ?? false) === true || ! empty($res['smsBatchId']) || ($res['status'] ?? '') === 'success';
 
