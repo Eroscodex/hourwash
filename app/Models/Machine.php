@@ -26,7 +26,7 @@ class Machine extends Model
     public function getRemainingMinutesAttribute($value)
     {
         if (in_array($this->status, ['washing', 'rinsing', 'drying'])) {
-            $baseMins = $value ?: match ($this->status) {
+            $baseMins = ($value !== null && $value > 0) ? (int) $value : match ($this->status) {
                 'washing' => $this->currentOrder?->service?->estimated_minutes ?? 30,
                 'rinsing' => 15,
                 'drying' => 35,
@@ -35,9 +35,17 @@ class Machine extends Model
 
             $lastUpdate = $this->last_status_update ?? $this->updated_at;
             if ($lastUpdate) {
-                $elapsed = (int) now()->diffInMinutes(Carbon::parse($lastUpdate));
+                $lastUpdateCarbon = Carbon::parse($lastUpdate);
+                if ($lastUpdateCarbon->isPast()) {
+                    $elapsed = (int) $lastUpdateCarbon->diffInMinutes(now());
+                    // If lastUpdate was seeded long ago (more than 2 hours elapsed), fallback to baseMins or 20 mins
+                    if ($elapsed > ($baseMins + 120)) {
+                        return min($baseMins, 25);
+                    }
+                    $remaining = $baseMins - $elapsed;
 
-                return max(1, $baseMins - $elapsed);
+                    return max(1, min($baseMins, $remaining));
+                }
             }
 
             return $baseMins;
