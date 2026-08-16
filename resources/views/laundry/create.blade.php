@@ -44,13 +44,13 @@
                     <label class="block text-xs font-semibold text-slate-700 dark:text-slate-200 uppercase tracking-wider">
                         Weight (kg)
                     </label>
-                    <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF]">
-                        1 Load = 7kg to 8kg Max
+                    <span id="load-count-badge" class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF]">
+                        1 Machine Load (7-8kg Max)
                     </span>
                 </div>
-                <input id="weight_kg" type="number" name="weight_kg" value="{{ old('weight_kg', 7) }}" min="0.5" step="0.5" class="w-full">
-                <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1.5 flex items-center gap-1.5 font-medium">
-                    💡 Standard commercial machine load is 7kg to 8kg max. (7kg–8kg = 1 Load).
+                <input id="weight_kg" type="number" name="weight_kg" value="{{ old('weight_kg', 7) }}" min="0.5" max="24.0" step="0.5" class="w-full">
+                <p id="weight-hint" class="text-[11px] text-slate-500 dark:text-slate-400 mt-1.5 flex items-center gap-1.5 font-medium">
+                    💡 Standard commercial machine load capacity is 7kg to 8kg max. (Max limit: 24.0kg / 3 loads per booking).
                 </p>
             </div>
 
@@ -128,6 +128,10 @@
             <!-- Price Breakdown Summary Box -->
             <div class="mb-6 p-4 rounded-xl bg-black/5 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-2 text-xs">
                 <div class="flex justify-between text-slate-600 dark:text-slate-300">
+                    <span>Est. Commercial Machine Loads:</span>
+                    <span id="summary-loads" class="font-bold text-[#007AFF] dark:text-[#0A84FF]">1 Load (7-8kg capacity)</span>
+                </div>
+                <div class="flex justify-between text-slate-600 dark:text-slate-300">
                     <span>Service Subtotal:</span>
                     <span id="summary-subtotal" class="font-semibold text-slate-900 dark:text-white">₱0.00</span>
                 </div>
@@ -157,6 +161,10 @@
         const weightInput = document.getElementById('weight_kg');
         const suppliesRadios = document.querySelectorAll('input[name="supplies_option"]');
         
+        const loadBadge = document.getElementById('load-count-badge');
+        const weightHint = document.getElementById('weight-hint');
+        const summaryLoads = document.getElementById('summary-loads');
+
         const summarySubtotal = document.getElementById('summary-subtotal');
         const summaryDiscount = document.getElementById('summary-discount');
         const summaryTotal = document.getElementById('summary-total');
@@ -167,7 +175,29 @@
 
             const price = parseFloat(selectedOption.getAttribute('data-price')) || 0;
             const unit = selectedOption.getAttribute('data-unit') || 'kg';
-            const weight = parseFloat(weightInput.value) || 1;
+            const weight = parseFloat(weightInput.value) || 0;
+
+            const loadCount = Math.ceil(weight / 8) || 1;
+
+            if (weight > 24) {
+                loadBadge.className = "text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-rose-500/20 text-rose-600 dark:text-rose-400";
+                loadBadge.textContent = "Exceeds 24kg Max Limit";
+                weightHint.className = "text-[11px] text-rose-600 dark:text-rose-400 mt-1.5 flex items-center gap-1.5 font-bold";
+                weightHint.textContent = "⚠️ Maximum weight limit per booking is 24 kg (3 Loads max). Please enter 24kg or less.";
+                summaryLoads.textContent = loadCount + " Loads (Exceeds Max Booking Limit)";
+            } else if (loadCount === 1) {
+                loadBadge.className = "text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF]";
+                loadBadge.textContent = "1 Machine Load (7-8kg Max)";
+                weightHint.className = "text-[11px] text-slate-500 dark:text-slate-400 mt-1.5 flex items-center gap-1.5 font-medium";
+                weightHint.textContent = "💡 Standard commercial machine load capacity is 7kg to 8kg max. (7kg–8kg = 1 Load).";
+                summaryLoads.textContent = "1 Machine Load (7-8kg max)";
+            } else {
+                loadBadge.className = "text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-amber-500/20 text-amber-700 dark:text-amber-300";
+                loadBadge.textContent = loadCount + " Machine Loads Required";
+                weightHint.className = "text-[11px] text-amber-600 dark:text-amber-400 mt-1.5 flex items-center gap-1.5 font-bold";
+                weightHint.textContent = "📦 " + weight + " kg requires " + loadCount + " Commercial Machine Loads (7-8kg capacity per machine load).";
+                summaryLoads.textContent = loadCount + " Machine Loads Required (" + weight + "kg total)";
+            }
 
             let subtotal = price;
             if (unit === 'kg') {

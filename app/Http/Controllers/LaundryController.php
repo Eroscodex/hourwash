@@ -27,7 +27,7 @@ class LaundryController extends Controller
     {
         $request->validate([
             'service_id' => 'required|exists:services,id',
-            'weight_kg' => 'required|numeric|min:0.5',
+            'weight_kg' => 'required|numeric|min:0.5|max:24.0',
             'machine_id' => 'nullable|exists:machines,id',
             'supplies_option' => 'nullable|string|in:store_provided,own_detergent,own_softener,own_both',
         ]);
