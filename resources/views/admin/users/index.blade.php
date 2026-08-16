@@ -54,10 +54,10 @@
                 @if(request('role'))
                     <input type="hidden" name="role" value="{{ request('role') }}">
                 @endif
-                <div class="relative flex-1">
+                <div class="relative flex-1 flex items-center">
+                    <svg class="w-4 h-4 absolute left-3 text-slate-400 pointer-events-none shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                     <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by name, email, or phone number..."
                            class="w-full pl-9 pr-4 py-2 text-xs rounded-xl bg-slate-100 dark:bg-[#2C2C2E] border border-black/10 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-500 focus:border-[#007AFF] focus:outline-none">
-                    <svg class="w-4 h-4 absolute left-3 top-2.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                 </div>
                 <button type="submit" class="px-3.5 py-2 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-bold text-xs transition">
                     Search
@@ -162,8 +162,8 @@
                                 </div>
 
                                 <!-- Edit Modal -->
-                                <div id="edit-user-modal-{{ $user->id }}" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 text-left">
-                                    <div class="app-card max-w-md w-full p-6 space-y-4 shadow-2xl">
+                                <div id="edit-user-modal-{{ $user->id }}" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden overflow-y-auto p-4 sm:p-6 text-left flex items-center justify-center">
+                                    <div class="app-card max-w-md w-full p-5 sm:p-6 space-y-3.5 shadow-2xl max-h-[85vh] overflow-y-auto my-auto">
                                         <div class="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-3">
                                             <h3 class="text-sm font-bold text-slate-900 dark:text-white">Edit User: {{ $user->name }}</h3>
                                             <button type="button" onclick="document.getElementById('edit-user-modal-{{ $user->id }}').classList.add('hidden')" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
@@ -248,8 +248,8 @@
     </div>
 
     <!-- Add User Modal -->
-    <div id="add-user-modal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 text-left">
-        <div class="app-card max-w-md w-full p-6 space-y-4 shadow-2xl">
+    <div id="add-user-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden overflow-y-auto p-4 sm:p-6 text-left flex items-center justify-center">
+        <div class="app-card max-w-md w-full p-5 sm:p-6 space-y-3.5 shadow-2xl max-h-[85vh] overflow-y-auto my-auto">
             <div class="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-3">
                 <h3 class="text-sm font-bold text-slate-900 dark:text-white">Register New User Account</h3>
                 <button type="button" onclick="document.getElementById('add-user-modal').classList.add('hidden')" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
