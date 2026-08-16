@@ -76,26 +76,26 @@
 
             if ($isWalkIn) {
                 $stages = [
-                    'pending'          => ['step' => 1, 'label' => '1. ORDER PLACED',      'pct' => 12],
-                    'received'         => ['step' => 2, 'label' => '2. STORE RECEIVED',    'pct' => 25],
-                    'washing'          => ['step' => 3, 'label' => '3. WASHING',           'pct' => 38],
-                    'rinsing'          => ['step' => 4, 'label' => '4. RINSING',           'pct' => 50],
-                    'drying'           => ['step' => 5, 'label' => '5. DRYING',            'pct' => 63],
-                    'finish'           => ['step' => 6, 'label' => '6. FINISH & SHELVED',  'pct' => 75],
-                    'out_for_delivery' => ['step' => 7, 'label' => '7. OUT FOR DELIVERY',  'pct' => 88],
-                    'completed'        => ['step' => 8, 'label' => '8. COMPLETED',         'pct' => 100],
+                    'pending'          => ['step' => 1, 'label' => 'ORDER PLACED',      'pct' => 12],
+                    'received'         => ['step' => 2, 'label' => 'STORE RECEIVED',    'pct' => 25],
+                    'washing'          => ['step' => 3, 'label' => 'WASHING',           'pct' => 38],
+                    'rinsing'          => ['step' => 4, 'label' => 'RINSING',           'pct' => 50],
+                    'drying'           => ['step' => 5, 'label' => 'DRYING',            'pct' => 63],
+                    'finish'           => ['step' => 6, 'label' => 'FINISH & SHELVED',  'pct' => 75],
+                    'out_for_delivery' => ['step' => 7, 'label' => 'OUT FOR DELIVERY',  'pct' => 88],
+                    'completed'        => ['step' => 8, 'label' => 'COMPLETED',         'pct' => 100],
                 ];
             } else {
                 $stages = [
-                    'pending'          => ['step' => 1, 'label' => '1. ORDER PLACED',      'pct' => 10],
-                    'out_for_pickup'   => ['step' => 2, 'label' => '2. OUT FOR PICKUP',    'pct' => 22],
-                    'received'         => ['step' => 3, 'label' => '3. STORE RECEIVED',    'pct' => 35],
-                    'washing'          => ['step' => 4, 'label' => '4. WASHING',           'pct' => 48],
-                    'rinsing'          => ['step' => 5, 'label' => '5. RINSING',           'pct' => 60],
-                    'drying'           => ['step' => 6, 'label' => '6. DRYING',            'pct' => 72],
-                    'finish'           => ['step' => 7, 'label' => '7. FINISH & SHELVED',  'pct' => 84],
-                    'out_for_delivery' => ['step' => 8, 'label' => '8. OUT FOR DELIVERY',  'pct' => 92],
-                    'completed'        => ['step' => 9, 'label' => '9. COMPLETED',         'pct' => 100],
+                    'pending'          => ['step' => 1, 'label' => 'ORDER PLACED',      'pct' => 10],
+                    'out_for_pickup'   => ['step' => 2, 'label' => 'OUT FOR PICKUP',    'pct' => 22],
+                    'received'         => ['step' => 3, 'label' => 'STORE RECEIVED',    'pct' => 35],
+                    'washing'          => ['step' => 4, 'label' => 'WASHING',           'pct' => 48],
+                    'rinsing'          => ['step' => 5, 'label' => 'RINSING',           'pct' => 60],
+                    'drying'           => ['step' => 6, 'label' => 'DRYING',            'pct' => 72],
+                    'finish'           => ['step' => 7, 'label' => 'FINISH & SHELVED',  'pct' => 84],
+                    'out_for_delivery' => ['step' => 8, 'label' => 'OUT FOR DELIVERY',  'pct' => 92],
+                    'completed'        => ['step' => 9, 'label' => 'COMPLETED',         'pct' => 100],
                 ];
             }
             
@@ -131,48 +131,16 @@
                 </div>
             @endif
 
-            <style>
-                .desktop-stepper-grid {
-                    display: none !important;
-                }
-                @media (min-width: 640px) {
-                    .desktop-stepper-grid {
-                        display: grid !important;
-                        grid-template-columns: repeat({{ $totalSteps }}, minmax(0, 1fr)) !important;
-                    }
-                }
-            </style>
-
-            <!-- Mobile Stepper (< sm) -->
-            <div class="flex sm:hidden overflow-x-auto gap-2.5 pb-2 pt-1 scrollbar-none snap-x snap-mandatory text-center">
+            <!-- Clean Unified Responsive Stepper -->
+            <div class="flex overflow-x-auto sm:grid gap-1.5 pb-2 sm:pb-0 text-center scrollbar-none snap-x snap-mandatory" style="grid-template-columns: repeat({{ $totalSteps }}, minmax(0, 1fr));">
                 @foreach($stages as $key => $info)
                     @php
                         $stageIdx = array_search($key, $statusKeys);
                         $isActive = ($currentIndex >= $stageIdx && $currentStatus !== 'cancelled');
                         $isCurrent = ($currentStatus === $key);
                     @endphp
-                    <div class="min-w-[115px] flex-1 p-2.5 rounded-2xl border flex flex-col items-center justify-center transition-all duration-300 relative min-h-[52px] snap-start shrink-0 {{ $isCurrent ? 'bg-[#007AFF]/15 border-[#007AFF] text-[#007AFF] dark:text-[#0A84FF] font-black shadow-md' : ($isActive ? 'border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 font-bold' : 'border-black/5 dark:border-white/5 text-slate-400 opacity-50 font-medium') }}">
-                        <span class="text-[9px] font-extrabold uppercase tracking-wider text-[#007AFF] dark:text-[#0A84FF] block mb-0.5">STEP {{ $info['step'] }}</span>
-                        <span class="text-[10px] uppercase leading-tight font-['Outfit'] font-bold whitespace-normal break-words text-center w-full">
-                            {{ $info['label'] }}
-                        </span>
-                        @if($isCurrent)
-                            <span class="w-2 h-2 rounded-full bg-[#007AFF] animate-ping absolute -top-0.5 -right-0.5"></span>
-                        @endif
-                    </div>
-                @endforeach
-            </div>
-
-            <!-- Desktop & Laptop Stepper (>= sm) -->
-            <div class="desktop-stepper-grid w-full gap-1.5 text-center">
-                @foreach($stages as $key => $info)
-                    @php
-                        $stageIdx = array_search($key, $statusKeys);
-                        $isActive = ($currentIndex >= $stageIdx && $currentStatus !== 'cancelled');
-                        $isCurrent = ($currentStatus === $key);
-                    @endphp
-                    <div class="p-1.5 rounded-xl border flex flex-col items-center justify-center transition-all duration-300 relative min-h-[48px] {{ $isCurrent ? 'bg-[#007AFF]/15 border-[#007AFF] text-[#007AFF] dark:text-[#0A84FF] font-black shadow-sm' : ($isActive ? 'border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 font-bold' : 'border-black/5 dark:border-white/5 text-slate-400 opacity-50 font-medium') }}">
-                        <span class="text-[9px] md:text-[10.5px] uppercase leading-tight font-['Outfit'] whitespace-normal break-words text-center w-full px-0.5">
+                    <div class="min-w-[110px] sm:min-w-0 flex-1 p-2 sm:p-1.5 rounded-xl border flex flex-col items-center justify-center transition-all duration-300 relative min-h-[48px] snap-start shrink-0 {{ $isCurrent ? 'bg-[#007AFF]/15 border-[#007AFF] text-[#007AFF] dark:text-[#0A84FF] font-black shadow-sm' : ($isActive ? 'border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 font-bold' : 'border-black/5 dark:border-white/5 text-slate-400 opacity-50 font-medium') }}">
+                        <span class="text-[10px] md:text-[10.5px] uppercase leading-tight font-['Outfit'] whitespace-normal break-words text-center w-full px-0.5">
                             {{ $info['step'] }}. {{ $info['label'] }}
                         </span>
                         @if($isCurrent)
