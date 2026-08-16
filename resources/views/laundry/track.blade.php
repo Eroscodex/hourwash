@@ -131,7 +131,7 @@
                 </div>
             @endif
 
-            <div class="grid grid-cols-{{ $totalSteps }} gap-0.5 sm:gap-1.5 text-center">
+            <div class="w-full gap-0.5 sm:gap-1.5 text-center" style="display: grid; grid-template-columns: repeat({{ $totalSteps }}, minmax(0, 1fr));">
                 @foreach($stages as $key => $info)
                     @php
                         $stageIdx = array_search($key, $statusKeys);
