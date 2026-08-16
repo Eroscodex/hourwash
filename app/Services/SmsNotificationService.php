@@ -15,12 +15,6 @@ class SmsNotificationService
         string $customNote = ''
     ): ?SmsNotification {
 
-        /*
-        |--------------------------------------------------------------------------
-        | Get Customer Phone
-        |--------------------------------------------------------------------------
-        */
-
         $phone = $order->customer?->phone;
 
         if (empty($phone)) {
@@ -31,29 +25,12 @@ class SmsNotificationService
             return null;
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | Order Information
-        |--------------------------------------------------------------------------
-        */
-
-        $statusStr = strtoupper(
-            str_replace('_', ' ', $order->order_status)
-        );
-
+        $statusStr = strtoupper(str_replace('_', ' ', $order->order_status));
         $custName = $order->customer?->name ?? 'Customer';
         $code = $order->order_number;
-
         $compTime = $order->estimated_completion
-            ? Carbon::parse($order->estimated_completion)
-                ->format('M d, Y h:i A')
+            ? Carbon::parse($order->estimated_completion)->format('M d, Y h:i A')
             : 'TBD';
-
-        /*
-        |--------------------------------------------------------------------------
-        | SMS Message
-        |--------------------------------------------------------------------------
-        */
 
         $message = "HourWash Alert: Hi {$custName}, your laundry Order #{$code} status is now {$statusStr}. Est Completion: {$compTime}.";
 
@@ -62,269 +39,128 @@ class SmsNotificationService
         }
 
         $message .= ' Track live: '.url("/laundry/track/{$code}");
-
-        /*
-        |--------------------------------------------------------------------------
-        | Default Status
-        |--------------------------------------------------------------------------
-        */
-
         $smsStatus = 'failed';
 
-        /*
-        |--------------------------------------------------------------------------
-        | PhilSMS Configuration
-        |--------------------------------------------------------------------------
-        */
+        $philsmsToken = config('services.philsms.api_token');
+        $philsmsSenderId = config('services.philsms.sender_id', 'PhilSMS');
 
-        $apiToken = config('services.philsms.api_token');
-        $senderId = config(
-            'services.philsms.sender_id',
-            'PhilSMS'
-        );
+        $textbeeApiKey = config('services.textbee.api_key');
+        $textbeeDeviceId = config('services.textbee.device_id');
 
-        /*
-        |--------------------------------------------------------------------------
-        | Check API Token
-        |--------------------------------------------------------------------------
-        */
-
-        if (empty($apiToken)) {
-
-            Log::error('PhilSMS API token is not configured.');
-
+        if (empty($philsmsToken) && (empty($textbeeApiKey) || empty($textbeeDeviceId))) {
+            Log::error('No SMS gateway provider (Textbee.dev or PhilSMS) is configured in environment.');
         } else {
-
             try {
-
-                /*
-                |--------------------------------------------------------------------------
-                | Normalize Philippine Mobile Number
-                |--------------------------------------------------------------------------
-                |
-                | Supported:
-                |
-                | 09175012581
-                | 9175012581
-                | 639175012581
-                | +639175012581
-                |
-                | PhilSMS API format:
-                |
-                | 639175012581
-                |
-                */
-
                 $recipient = trim($phone);
-
-                // Remove spaces, hyphens, parentheses, etc.
                 $recipient = preg_replace('/[^0-9+]/', '', $recipient);
 
-                /*
-                |--------------------------------------------------------------------------
-                | 09XXXXXXXXX
-                |--------------------------------------------------------------------------
-                */
-
                 if (str_starts_with($recipient, '09')) {
-
                     $recipient = '63'.substr($recipient, 1);
-
-                    /*
-                    |--------------------------------------------------------------------------
-                    | +639XXXXXXXXX
-                    |--------------------------------------------------------------------------
-                    */
-
                 } elseif (str_starts_with($recipient, '+639')) {
-
                     $recipient = substr($recipient, 1);
-
-                    /*
-                    |--------------------------------------------------------------------------
-                    | 639XXXXXXXXX
-                    |--------------------------------------------------------------------------
-                    */
-
-                } elseif (
-                    str_starts_with($recipient, '639') &&
-                    strlen($recipient) === 12
-                ) {
-
-                    // Already correct
+                } elseif (str_starts_with($recipient, '639') && strlen($recipient) === 12) {
                     $recipient = $recipient;
-
-                    /*
-                    |--------------------------------------------------------------------------
-                    | 9XXXXXXXXX
-                    |--------------------------------------------------------------------------
-                    */
-
-                } elseif (
-                    str_starts_with($recipient, '9') &&
-                    strlen($recipient) === 10
-                ) {
-
+                } elseif (str_starts_with($recipient, '9') && strlen($recipient) === 10) {
                     $recipient = '63'.$recipient;
-
                 } else {
-
-                    Log::error(
-                        'Invalid Philippine mobile number.',
-                        [
-                            'original_phone' => $phone,
-                            'normalized_phone' => $recipient,
-                            'order_id' => $order->id,
-                        ]
-                    );
-
+                    Log::error('Invalid Philippine mobile number format.', [
+                        'original_phone' => $phone,
+                        'normalized_phone' => $recipient,
+                        'order_id' => $order->id,
+                    ]);
                     $recipient = null;
                 }
 
-                /*
-                |--------------------------------------------------------------------------
-                | Validate Number
-                |--------------------------------------------------------------------------
-                */
+                if (! empty($recipient) && preg_match('/^639[0-9]{9}$/', $recipient)) {
 
-                if (
-                    ! empty($recipient) &&
-                    preg_match('/^639[0-9]{9}$/', $recipient)
-                ) {
-
-                    Log::info(
-                        'Sending SMS through PhilSMS.',
-                        [
-                            'recipient' => $recipient,
-                            'sender_id' => $senderId,
+                    // 1. Textbee.dev Gateway Provider (Primary if configured)
+                    if (! empty($textbeeApiKey) && ! empty($textbeeDeviceId)) {
+                        Log::info('Sending SMS through Textbee.dev Gateway.', [
+                            'recipient' => '+'.$recipient,
+                            'device_id' => $textbeeDeviceId,
                             'order_id' => $order->id,
-                        ]
-                    );
+                        ]);
 
-                    /*
-                    |--------------------------------------------------------------------------
-                    | PhilSMS API Request
-                    |--------------------------------------------------------------------------
-                    */
-
-                    $response = Http::timeout(20)
-                        ->withToken($apiToken)
-                        ->acceptJson()
-                        ->asJson()
-                        ->post(
-                            'https://dashboard.philsms.com/api/v3/sms/send',
-                            [
-                                'recipient' => $recipient,
-                                'sender_id' => $senderId,
-                                'type' => 'plain',
+                        $response = Http::timeout(20)
+                            ->withHeaders([
+                                'x-api-key' => $textbeeApiKey,
+                            ])
+                            ->acceptJson()
+                            ->asJson()
+                            ->post("https://api.textbee.dev/api/v1/gateway/devices/{$textbeeDeviceId}/send-sms", [
+                                'recipients' => ['+'.$recipient],
                                 'message' => $message,
-                            ]
-                        );
+                            ]);
 
-                    /*
-                    |--------------------------------------------------------------------------
-                    | Get Response
-                    |--------------------------------------------------------------------------
-                    */
+                        $data = $response->json();
 
-                    $data = $response->json();
-
-                    Log::info(
-                        'PhilSMS API response.',
-                        [
+                        Log::info('Textbee.dev API response.', [
                             'http_status' => $response->status(),
                             'response' => $data,
-                            'body' => $response->body(),
+                            'order_id' => $order->id,
+                        ]);
+
+                        if ($response->successful() && (($data['success'] ?? false) === true || ($data['status'] ?? '') === 'success')) {
+                            $smsStatus = 'sent';
+                            Log::info('Textbee.dev SMS successfully dispatched.', ['order_id' => $order->id]);
+                        } else {
+                            $smsStatus = 'failed';
+                            Log::error('Textbee.dev SMS failed.', ['response' => $response->body(), 'order_id' => $order->id]);
+                        }
+
+                        // 2. PhilSMS Gateway Provider
+                    } elseif (! empty($philsmsToken)) {
+                        Log::info('Sending SMS through PhilSMS.', [
                             'recipient' => $recipient,
+                            'sender_id' => $philsmsSenderId,
                             'order_id' => $order->id,
-                        ]
-                    );
+                        ]);
 
-                    /*
-                    |--------------------------------------------------------------------------
-                    | Successful SMS
-                    |--------------------------------------------------------------------------
-                    */
-
-                    if (
-                        $response->successful() &&
-                        ($data['status'] ?? null) === 'success'
-                    ) {
-
-                        $smsStatus = 'sent';
-
-                        Log::info(
-                            'PhilSMS SMS successfully dispatched.',
-                            [
+                        $response = Http::timeout(20)
+                            ->withToken($philsmsToken)
+                            ->acceptJson()
+                            ->asJson()
+                            ->post('https://dashboard.philsms.com/api/v3/sms/send', [
                                 'recipient' => $recipient,
-                                'order_id' => $order->id,
-                                'message_id' => $data['data']['uid'] ?? null,
-                            ]
-                        );
+                                'sender_id' => $philsmsSenderId,
+                                'type' => 'plain',
+                                'message' => $message,
+                            ]);
 
-                    } else {
+                        $data = $response->json();
 
-                        /*
-                        |--------------------------------------------------------------------------
-                        | Failed SMS
-                        |--------------------------------------------------------------------------
-                        */
+                        Log::info('PhilSMS API response.', [
+                            'http_status' => $response->status(),
+                            'response' => $data,
+                            'order_id' => $order->id,
+                        ]);
 
-                        $smsStatus = 'failed';
-
-                        Log::error(
-                            'PhilSMS SMS failed.',
-                            [
-                                'recipient' => $recipient,
-                                'sender_id' => $senderId,
-                                'http_status' => $response->status(),
-                                'message' => $data['message'] ??
-                                    'Unknown PhilSMS error',
-                                'response' => $response->body(),
-                                'order_id' => $order->id,
-                            ]
-                        );
+                        if ($response->successful() && ($data['status'] ?? null) === 'success') {
+                            $smsStatus = 'sent';
+                            Log::info('PhilSMS SMS successfully dispatched.', ['order_id' => $order->id]);
+                        } else {
+                            $smsStatus = 'failed';
+                            Log::error('PhilSMS SMS failed.', ['response' => $response->body(), 'order_id' => $order->id]);
+                        }
                     }
-
                 } else {
-
                     $smsStatus = 'failed';
-
-                    Log::error(
-                        'PhilSMS SMS failed because phone number is invalid.',
-                        [
-                            'original_phone' => $phone,
-                            'normalized_phone' => $recipient,
-                            'order_id' => $order->id,
-                        ]
-                    );
-                }
-
-            } catch (\Throwable $e) {
-
-                $smsStatus = 'failed';
-
-                Log::error(
-                    'PhilSMS exception.',
-                    [
+                    Log::error('SMS failed because mobile number is invalid.', [
                         'phone' => $phone,
                         'order_id' => $order->id,
-                        'error' => $e->getMessage(),
-                        'file' => $e->getFile(),
-                        'line' => $e->getLine(),
-                    ]
-                );
+                    ]);
+                }
+            } catch (\Throwable $e) {
+                $smsStatus = 'failed';
+                Log::error('SMS exception.', [
+                    'phone' => $phone,
+                    'order_id' => $order->id,
+                    'error' => $e->getMessage(),
+                ]);
             }
         }
 
-        /*
-        |--------------------------------------------------------------------------
-        | Save SMS Notification
-        |--------------------------------------------------------------------------
-        */
-
         try {
-
             return SmsNotification::create([
                 'order_id' => $order->id,
                 'user_id' => $order->customer_id,
@@ -332,17 +168,12 @@ class SmsNotificationService
                 'message' => $message,
                 'status' => $smsStatus,
             ]);
-
         } catch (\Throwable $e) {
-
-            Log::error(
-                'SMS Notification database error.',
-                [
-                    'phone' => $phone,
-                    'order_id' => $order->id,
-                    'error' => $e->getMessage(),
-                ]
-            );
+            Log::error('SMS Notification database record error.', [
+                'phone' => $phone,
+                'order_id' => $order->id,
+                'error' => $e->getMessage(),
+            ]);
 
             return null;
         }
