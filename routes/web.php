@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Schema;
 
 /*
 |--------------------------------------------------------------------------
@@ -376,8 +377,8 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         $laundryStatus = Order::select('order_status as status', DB::raw('count(*) as total'))
             ->groupBy('order_status')
             ->get();
-        $smsCount = SmsNotification::count();
-        $emailCount = EmailNotification::count();
+        $smsCount = Schema::hasTable('sms_notifications') ? SmsNotification::count() : 0;
+        $emailCount = Schema::hasTable('email_notifications') ? EmailNotification::count() : 0;
 
         return view('admin.dashboard', compact(
             'user', 'machines', 'recentOrders', 'totalToday', 'inProgress', 'readyPickup',
