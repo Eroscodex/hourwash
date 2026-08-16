@@ -6,12 +6,12 @@
             <button @click="mode = 'overall'" 
                     :class="mode === 'overall' ? 'bg-[#007AFF] text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium'"
                     class="px-4 py-2 rounded-xl text-xs transition flex items-center gap-2">
-                <span>📊</span> Overall System Dashboard
+                Overall System Dashboard
             </button>
             <button @click="mode = 'rider'" 
                     :class="mode === 'rider' ? 'bg-[#007AFF] text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium'"
                     class="px-4 py-2 rounded-xl text-xs transition flex items-center gap-2 relative">
-                <span>🛵</span> Rider Dispatch View
+                Rider Dispatch View
                 @if(($outForPickup + $outForDelivery) > 0)
                     <span class="px-2 py-0.5 text-[10px] rounded-full bg-amber-500 text-white font-extrabold">
                         {{ $outForPickup + $outForDelivery }}
