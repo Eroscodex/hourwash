@@ -2,18 +2,18 @@
     <div class="space-y-6 sm:space-y-8" x-data="{ mode: 'overall' }">
 
         <!-- Mode Switcher Tab Bar -->
-        <div class="flex items-center gap-2 p-1.5 bg-slate-200 dark:bg-[#1C1C1E] rounded-2xl border border-black/5 dark:border-white/10 w-fit">
+        <div class="flex items-center gap-2 p-1.5 bg-slate-200 dark:bg-[#1C1C1E] rounded-2xl border border-black/5 dark:border-white/10 w-fit max-w-full overflow-x-auto whitespace-nowrap">
             <button @click="mode = 'overall'" 
                     :class="mode === 'overall' ? 'bg-[#007AFF] text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium'"
-                    class="px-4 py-2 rounded-xl text-xs transition flex items-center gap-2">
+                    class="px-4 py-2 rounded-xl text-xs transition flex items-center gap-2 whitespace-nowrap shrink-0">
                 Overall System Dashboard
             </button>
-            <button @click="mode = 'rider'" 
+            <button @click="mode = 'rider'; $nextTick(() => document.getElementById('rider-dispatch-section')?.scrollIntoView({ behavior: 'smooth' }))" 
                     :class="mode === 'rider' ? 'bg-[#007AFF] text-white shadow-sm font-bold' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white font-medium'"
-                    class="px-4 py-2 rounded-xl text-xs transition flex items-center gap-2 relative">
+                    class="px-4 py-2 rounded-xl text-xs transition flex items-center gap-2 relative whitespace-nowrap shrink-0">
                 Rider Dispatch View
                 @if(($outForPickup + $outForDelivery) > 0)
-                    <span class="px-2 py-0.5 text-[10px] rounded-full bg-amber-500 text-white font-extrabold">
+                    <span class="px-2 py-0.5 text-[10px] rounded-full bg-amber-500 text-white font-extrabold ml-1">
                         {{ $outForPickup + $outForDelivery }}
                     </span>
                 @endif
@@ -542,8 +542,8 @@
 
         </div><!-- End Overall Dashboard Container -->
 
-        <!-- RIDER DISPATCH VIEW -->
-        <div x-show="mode === 'rider'" class="space-y-6">
+        <!-- RIDER DISPATCH SECTION (Always Available at Bottom of Dashboard) -->
+        <div id="rider-dispatch-section" class="space-y-6 pt-2">
             <div class="app-card p-5 sm:p-6 bg-[#1C1C1E] border border-white/10 rounded-2xl space-y-6">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
                     <div>
