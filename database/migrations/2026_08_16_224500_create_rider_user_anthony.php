@@ -23,7 +23,7 @@ return new class extends Migration
             ['email' => 'caymeanthony1@gmail.com'],
             [
                 'name' => 'Anthony',
-                'password' => Hash::make('Anthony1234!'),
+                'password' => Hash::make('password'),
                 'phone' => '09100317744',
                 'role' => 'rider',
                 'status' => 'active',

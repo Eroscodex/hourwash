@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\Models\User;
 use Illuminate\Auth\Events\Lockout;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -43,14 +44,29 @@ class LoginRequest extends FormRequest
         $this->ensureIsNotRateLimited();
 
         $loginInput = trim($this->input('email'));
-        $fieldType = filter_var($loginInput, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
+        $password = $this->input('password');
 
-        $credentials = [
-            $fieldType => $loginInput,
-            'password' => $this->input('password'),
-        ];
+        // Check if user matches email, phone, or name
+        $user = User::where('email', $loginInput)
+            ->orWhere('phone', $loginInput)
+            ->orWhere('name', $loginInput)
+            ->first();
 
-        if (! Auth::attempt($credentials, $this->boolean('remember'))) {
+        $authenticated = false;
+        if ($user) {
+            if (Auth::attempt(['email' => $user->email, 'password' => $password], $this->boolean('remember'))) {
+                $authenticated = true;
+            }
+        }
+
+        if (! $authenticated) {
+            $fieldType = filter_var($loginInput, FILTER_VALIDATE_EMAIL) ? 'email' : 'phone';
+            if (Auth::attempt([$fieldType => $loginInput, 'password' => $password], $this->boolean('remember'))) {
+                $authenticated = true;
+            }
+        }
+
+        if (! $authenticated) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
