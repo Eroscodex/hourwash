@@ -41,6 +41,11 @@ class LaundryController extends Controller
             if ($request->filled('status')) {
                 $order->order_status = $request->status;
 
+                // When washing cycle starts, recalculate estimated completion time starting from now
+                if ($request->status === 'washing') {
+                    $order->estimated_completion = now()->addMinutes($order->service?->estimated_minutes ?? 30);
+                }
+
                 // Sync assigned machine status dynamically
                 if ($order->machine_id) {
                     if ($request->status === 'washing') {
@@ -48,24 +53,28 @@ class LaundryController extends Controller
                             'current_order_id' => $order->id,
                             'status' => 'washing',
                             'remaining_minutes' => $order->service?->estimated_minutes ?? 30,
+                            'last_status_update' => now(),
                         ]);
                     } elseif ($request->status === 'rinsing') {
                         Machine::where('id', $order->machine_id)->update([
                             'current_order_id' => $order->id,
                             'status' => 'rinsing',
                             'remaining_minutes' => 15,
+                            'last_status_update' => now(),
                         ]);
                     } elseif ($request->status === 'drying') {
                         Machine::where('id', $order->machine_id)->update([
                             'current_order_id' => $order->id,
                             'status' => 'drying',
                             'remaining_minutes' => 35,
+                            'last_status_update' => now(),
                         ]);
                     } elseif (in_array($request->status, ['finish', 'completed', 'cancelled'])) {
                         Machine::where('id', $order->machine_id)->update([
                             'current_order_id' => null,
                             'status' => 'idle',
                             'remaining_minutes' => null,
+                            'last_status_update' => now(),
                         ]);
                     }
                 }
