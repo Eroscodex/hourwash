@@ -55,7 +55,7 @@
             </div>
             <div class="flex justify-between">
                 <span>CUSTOMER PHONE:</span>
-                <span>{{ $order->customer->phone ?? 'N/A' }}</span>
+                <span class="font-bold">{{ $order->customer->phone ?? ($order->customer->customerProfile->phone ?? 'N/A') }}</span>
             </div>
             <div class="flex justify-between">
                 <span>VIP STATUS:</span>

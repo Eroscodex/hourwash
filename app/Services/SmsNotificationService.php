@@ -14,7 +14,11 @@ class SmsNotificationService
         string $customNote = ''
     ): ?SmsNotification {
 
-        $phone = $order->customer?->phone;
+        $phone = $order->customer?->phone ?? $order->customer?->customerProfile?->phone;
+
+        if (empty($phone) && $order->customer_id) {
+            $phone = User::find($order->customer_id)?->phone;
+        }
 
         if (empty($phone)) {
             Log::warning('SMS skipped: Customer has no phone number.', [
