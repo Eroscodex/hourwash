@@ -519,109 +519,46 @@
                 </div>
             </div>
 
-        <!-- RIDER DISPATCH SECTION (Always Available at Bottom of Dashboard) -->
-        <div id="rider-dispatch-section" class="space-y-6 pt-2">
-            <div class="app-card p-5 sm:p-6 bg-[#1C1C1E] border border-white/10 rounded-2xl space-y-6">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
-                    <div>
-                        <h2 class="text-lg font-bold text-white flex items-center gap-2 font-['Outfit']">
-                            <span>🛵</span> Rider Logistics & Dispatch Tasks (Excludes Walk-In Orders)
-                        </h2>
-                        <p class="text-xs text-slate-400 mt-1">
-                            Real-time view for customer pickup requests and delivery dispatches. 1-click status updates automatically trigger SMS alerts to customers.
-                        </p>
-                    </div>
-
-                    <div class="flex flex-wrap items-center gap-3">
-                        <div class="px-3.5 py-2 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-400 text-xs font-bold flex items-center gap-2">
-                            <span>📦 Pickup Requests:</span>
-                            <span class="font-mono text-sm font-extrabold">{{ $riderPickupRequests ?? 0 }}</span>
-                        </div>
-                        <div class="px-3.5 py-2 rounded-xl bg-cyan-500/15 border border-cyan-500/30 text-cyan-400 text-xs font-bold flex items-center gap-2">
-                            <span>🚚 Out for Delivery:</span>
-                            <span class="font-mono text-sm font-extrabold">{{ $riderDeliveryCount ?? 0 }}</span>
-                        </div>
-                    </div>
+        <!-- RIDER LOGISTICS REAL-TIME ANALYTICS -->
+        <div id="rider-dispatch-section" class="app-card p-4 sm:p-6 space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-black/10 dark:border-white/10 pb-3">
+                <div>
+                    <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white font-['Outfit']">
+                        Rider Logistics Real-Time Analytics
+                    </h2>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">
+                        Live 5-stage pickup and delivery dispatch metrics for store dispatches.
+                    </p>
                 </div>
 
-                <!-- Rider 5-Stage Logistics Analytics Grid (Excludes Walk-In Orders) -->
-                <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5 pt-2">
-                    <div class="p-3 rounded-2xl bg-black/40 border border-amber-500/30 text-center">
-                        <span class="text-[9px] font-extrabold text-amber-400 uppercase tracking-wider block">1. Pickup Requests</span>
-                        <span class="text-xl font-extrabold text-white font-mono">{{ $riderPickupRequests ?? 0 }}</span>
-                    </div>
-                    <div class="p-3 rounded-2xl bg-black/40 border border-blue-500/30 text-center">
-                        <span class="text-[9px] font-extrabold text-blue-400 uppercase tracking-wider block">2. In-Shop Received</span>
-                        <span class="text-xl font-extrabold text-white font-mono">{{ $riderReceivedCount ?? 0 }}</span>
-                    </div>
-                    <div class="p-3 rounded-2xl bg-black/40 border border-cyan-500/30 text-center">
-                        <span class="text-[9px] font-extrabold text-cyan-400 uppercase tracking-wider block">3. Out For Delivery</span>
-                        <span class="text-xl font-extrabold text-white font-mono">{{ $riderDeliveryCount ?? 0 }}</span>
-                    </div>
-                    <div class="p-3 rounded-2xl bg-black/40 border border-emerald-500/30 text-center">
-                        <span class="text-[9px] font-extrabold text-emerald-400 uppercase tracking-wider block">4. Completed / Delivered</span>
-                        <span class="text-xl font-extrabold text-white font-mono">{{ $riderCompletedCount ?? 0 }}</span>
-                    </div>
-                    <div class="p-3 rounded-2xl bg-black/40 border border-rose-500/30 text-center col-span-2 sm:col-span-1">
-                        <span class="text-[9px] font-extrabold text-rose-400 uppercase tracking-wider block">5. Cancelled</span>
-                        <span class="text-xl font-extrabold text-white font-mono">{{ $riderCancelledCount ?? 0 }}</span>
-                    </div>
+                <div class="flex items-center gap-2">
+                    <a href="{{ route('admin.laundry.index') }}" class="text-xs text-[#007AFF] dark:text-[#0A84FF] font-semibold hover:opacity-80">
+                        View All Orders Queue
+                    </a>
                 </div>
+            </div>
 
-                <!-- Rider Task Cards -->
-                <div class="space-y-4">
-                    @forelse($riderOrders as $order)
-                        <div class="p-4 rounded-xl bg-black/40 border border-white/10 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:border-[#007AFF]/50 transition">
-                            <div class="space-y-2">
-                                <div class="flex items-center gap-2">
-                                    <span class="font-mono font-bold text-sm text-[#0A84FF]">#{{ $order->order_number }}</span>
-                                    <span class="px-2.5 py-0.5 rounded text-[10px] font-extrabold uppercase tracking-wider
-                                        @if(in_array($order->order_status, ['out_for_pickup', 'pending'])) bg-amber-500/20 text-amber-300 border border-amber-500/40
-                                        @else bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 @endif">
-                                        {{ strtoupper(str_replace('_', ' ', $order->order_status === 'pending' ? 'out_for_pickup' : $order->order_status)) }}
-                                    </span>
-                                </div>
-
-                                <div class="text-xs text-slate-300 space-y-1">
-                                    <p>👤 <span class="font-bold text-white">{{ $order->customer->name ?? 'Customer' }}</span> — 📞 <a href="tel:{{ $order->customer->phone ?? '' }}" class="text-[#0A84FF] font-mono hover:underline">{{ $order->customer->phone ?? 'No phone listed' }}</a></p>
-                                    <p>📍 <span class="text-slate-300 font-semibold">{{ $order->customer->customerProfile->address ?? 'Legazpi City Shop Pick-Up / Delivery' }}</span></p>
-                                    <p>🧺 <span class="text-slate-400">Service: {{ $order->service->name ?? 'Laundry Service' }}</span> | <span class="text-emerald-400 font-bold">P{{ number_format($order->total_amount, 2) }}</span></p>
-                                </div>
-                            </div>
-
-                            <div class="flex items-center gap-2 self-start md:self-center">
-                                @if(in_array($order->order_status, ['out_for_pickup', 'pending']))
-                                    <form method="POST" action="{{ route('admin.laundry.update', $order->id) }}">
-                                        @csrf
-                                        @method('PATCH')
-                                        <input type="hidden" name="status" value="received">
-                                        <button type="submit" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow transition flex items-center gap-1.5">
-                                            <span>✓</span> Mark Laundry Received
-                                        </button>
-                                    </form>
-                                @elseif($order->order_status === 'out_for_delivery')
-                                    <form method="POST" action="{{ route('admin.laundry.update', $order->id) }}">
-                                        @csrf
-                                        @method('PATCH')
-                                        <input type="hidden" name="status" value="completed">
-                                        <button type="submit" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow transition flex items-center gap-1.5">
-                                            <span>✓</span> Mark Laundry Delivered
-                                        </button>
-                                    </form>
-                                @endif
-
-                                <a href="{{ route('admin.laundry.index') }}" class="px-3 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-medium text-xs transition">
-                                    View Order
-                                </a>
-                            </div>
-                        </div>
-                    @empty
-                        <div class="p-8 text-center text-slate-400 space-y-2">
-                            <div class="text-3xl">🛵</div>
-                            <p class="text-sm font-bold text-white">No Active Rider Tasks Right Now</p>
-                            <p class="text-xs text-slate-500">Orders marked as "Out for Pickup" or "Out for Delivery" will automatically appear here for rider routing.</p>
-                        </div>
-                    @endforelse
+            <!-- Rider 5-Stage Logistics Analytics Grid -->
+            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                <div class="app-card p-4 text-center border-amber-500/30">
+                    <span class="text-[10px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider block">1. Pickup Requests</span>
+                    <span class="text-xl font-bold text-slate-900 dark:text-white font-mono mt-1 block">{{ $riderPickupRequests ?? 0 }}</span>
+                </div>
+                <div class="app-card p-4 text-center border-blue-500/30">
+                    <span class="text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider block">2. In-Shop Received</span>
+                    <span class="text-xl font-bold text-slate-900 dark:text-white font-mono mt-1 block">{{ $riderReceivedCount ?? 0 }}</span>
+                </div>
+                <div class="app-card p-4 text-center border-cyan-500/30">
+                    <span class="text-[10px] font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider block">3. Out For Delivery</span>
+                    <span class="text-xl font-bold text-slate-900 dark:text-white font-mono mt-1 block">{{ $riderDeliveryCount ?? 0 }}</span>
+                </div>
+                <div class="app-card p-4 text-center border-emerald-500/30">
+                    <span class="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block">4. Completed / Delivered</span>
+                    <span class="text-xl font-bold text-slate-900 dark:text-white font-mono mt-1 block">{{ $riderCompletedCount ?? 0 }}</span>
+                </div>
+                <div class="app-card p-4 text-center border-rose-500/30 col-span-2 sm:col-span-1">
+                    <span class="text-[10px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider block">5. Cancelled</span>
+                    <span class="text-xl font-bold text-slate-900 dark:text-white font-mono mt-1 block">{{ $riderCancelledCount ?? 0 }}</span>
                 </div>
             </div>
         </div>
