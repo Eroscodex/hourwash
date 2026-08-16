@@ -381,18 +381,11 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         $smsCount = Schema::hasTable('sms_notifications') ? SmsNotification::count() : 0;
         $emailCount = Schema::hasTable('email_notifications') ? EmailNotification::count() : 0;
 
-        $outForPickup = Order::where('order_status', 'out_for_pickup')->count();
-        $outForDelivery = Order::where('order_status', 'out_for_delivery')->count();
-        $riderOrders = Order::with(['customer', 'service'])
-            ->whereIn('order_status', ['out_for_pickup', 'out_for_delivery'])
-            ->latest()
-            ->get();
-
         return view('admin.dashboard', compact(
             'user', 'machines', 'recentOrders', 'totalToday', 'inProgress', 'readyPickup',
             'completedToday', 'notifications', 'feedbacks', 'staffCount', 'customerCount',
             'profitTotal', 'totalUsers', 'totalMachines', 'availableMachines', 'totalLaundry',
-            'laundryStatus', 'smsCount', 'emailCount', 'outForPickup', 'outForDelivery', 'riderOrders'
+            'laundryStatus', 'smsCount', 'emailCount'
         ));
     })->name('dashboard');
 
