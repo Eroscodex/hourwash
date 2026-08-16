@@ -195,7 +195,13 @@
                                         {{ strtoupper($machine->status) }}
                                     </span>
                                     <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
-                                        <span>⏱ {{ $machine->remaining_minutes ?? 30 }} mins remaining</span>
+                                        @if(in_array($machine->status, ['washing', 'rinsing', 'drying']) && $machine->remaining_minutes)
+                                            <span>⏱ {{ $machine->remaining_minutes }} mins remaining</span>
+                                        @elseif($machine->currentOrder && in_array($machine->currentOrder->order_status, ['pending', 'out_for_pickup', 'received']))
+                                            <span class="text-amber-600 dark:text-amber-400 font-semibold">⏳ Order Received (Pending Start)</span>
+                                        @else
+                                            <span class="text-emerald-600 dark:text-emerald-400 font-semibold">✓ Reserved for your order</span>
+                                        @endif
                                         <span class="block text-[9px] font-bold text-[#007AFF] dark:text-[#0A84FF] mt-1 group-hover:text-blue-700">
                                             Order: {{ $machine->currentOrder->order_number }}
                                         </span>
@@ -220,8 +226,8 @@
                                         {{ strtoupper($machine->status) }}
                                     </span>
                                     <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
-                                        @if(in_array($machine->status, ['washing', 'rinsing', 'drying']))
-                                            <span>⏱ {{ $machine->remaining_minutes ?? 30 }} mins remaining</span>
+                                        @if(in_array($machine->status, ['washing', 'rinsing', 'drying']) && $machine->remaining_minutes)
+                                            <span>⏱ {{ $machine->remaining_minutes }} mins remaining</span>
                                             <span class="block text-[9px] text-slate-400 dark:text-slate-500 font-medium mt-0.5">
                                                 In Use (Occupied)
                                             </span>
@@ -229,6 +235,8 @@
                                             <span class="text-amber-600 dark:text-amber-400 font-semibold">⚠ Maintenance</span>
                                         @elseif($machine->status === 'offline')
                                             <span class="text-rose-600 dark:text-rose-400 font-semibold">🚫 Offline</span>
+                                        @elseif($machine->currentOrder && in_array($machine->currentOrder->order_status, ['pending', 'out_for_pickup', 'received']))
+                                            <span class="text-amber-600 dark:text-amber-400 font-semibold">⏳ Order Received</span>
                                         @else
                                             Available
                                         @endif
