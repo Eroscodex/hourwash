@@ -66,7 +66,7 @@
                         </div>
                         <div>
                             <span class="text-slate-500 dark:text-slate-400 text-[11px] block">Current Stage</span>
-                            <span class="font-bold uppercase text-[#007AFF] dark:text-[#0A84FF]">{{ str_replace('_', ' ', $order->order_status) }}</span>
+                            <span class="font-bold uppercase text-[#007AFF] dark:text-[#0A84FF]">{{ $order->order_status === 'finish' ? 'Finish' : str_replace('_', ' ', $order->order_status) }}</span>
                         </div>
                     </div>
 
@@ -89,7 +89,7 @@
                                 <option value="washing" {{ $order->order_status === 'washing' ? 'selected' : '' }}>Washing</option>
                                 <option value="rinsing" {{ $order->order_status === 'rinsing' ? 'selected' : '' }}>Rinsing</option>
                                 <option value="drying" {{ $order->order_status === 'drying' ? 'selected' : '' }}>Drying</option>
-                                <option value="done" {{ $order->order_status === 'done' ? 'selected' : '' }}>Done</option>
+                                <option value="finish" {{ $order->order_status === 'finish' ? 'selected' : '' }}>Finish</option>
                                 <option value="out_for_delivery" {{ $order->order_status === 'out_for_delivery' ? 'selected' : '' }}>Out for Delivery</option>
                                 <option value="completed" {{ $order->order_status === 'completed' ? 'selected' : '' }}>Completed</option>
                                 <option value="cancelled" {{ $order->order_status === 'cancelled' ? 'selected' : '' }}>Cancelled</option>

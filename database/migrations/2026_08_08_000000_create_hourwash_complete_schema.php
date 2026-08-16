@@ -79,8 +79,8 @@ return new class extends Migration
             $table->decimal('total_amount', 10, 2)->default(0.00);
             $table->enum('payment_status', ['unpaid', 'pending', 'paid', 'partial', 'refunded', 'failed'])->default('unpaid');
             $table->enum('order_status', [
-                'pending', 'received', 'washing', 'rinsing', 'drying',
-                'ready', 'picked_up', 'delivering', 'delivered', 'completed', 'cancelled',
+                'pending', 'out_for_pickup', 'received', 'washing', 'rinsing', 'drying',
+                'finish', 'out_for_delivery', 'completed', 'cancelled',
             ])->default('pending');
             $table->enum('pickup_type', ['drop_off', 'pickup', 'delivery', 'pickup_delivery'])->default('drop_off');
             $table->date('pickup_date')->nullable();
@@ -105,8 +105,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete()->cascadeOnUpdate();
             $table->enum('status', [
-                'pending', 'received', 'washing', 'rinsing', 'drying',
-                'ready', 'picked_up', 'delivering', 'delivered', 'completed', 'cancelled',
+                'pending', 'out_for_pickup', 'received', 'washing', 'rinsing', 'drying',
+                'finish', 'out_for_delivery', 'completed', 'cancelled',
             ]);
             $table->foreignId('changed_by')->nullable()->constrained('users')->nullOnDelete()->cascadeOnUpdate();
             $table->text('notes')->nullable();

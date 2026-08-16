@@ -451,7 +451,7 @@
                         @forelse($laundryStatus ?? [] as $status)
                             <tr class="hover:bg-black/5 dark:hover:bg-white/5 transition">
                                 <td class="px-4 py-3 text-slate-900 dark:text-slate-200 capitalize font-medium">
-                                    {{ str_replace('_', ' ', $status->status) }}
+                                    {{ $status->status === 'finish' ? 'Finish' : str_replace('_', ' ', $status->status) }}
                                 </td>
                                 <td class="px-4 py-3 text-slate-900 dark:text-white font-bold">
                                     {{ $status->total }}
@@ -513,10 +513,10 @@
                                     <td class="px-4 py-3">
                                         <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider
                                             @if($order->order_status === 'completed') bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30
-                                            @elseif($order->order_status === 'ready') bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30
+                                            @elseif($order->order_status === 'ready' || $order->order_status === 'finish') bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30
                                             @elseif($order->order_status === 'pending') bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300
                                             @else bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30 @endif">
-                                            {{ str_replace('_', ' ', $order->order_status) }}
+                                            {{ $order->order_status === 'finish' ? 'Finish' : str_replace('_', ' ', $order->order_status) }}
                                         </span>
                                     </td>
                                     <td class="px-4 py-3">

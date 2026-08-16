@@ -44,7 +44,8 @@
                 'washing' => ['label' => 'Washing', 'pct' => 40],
                 'rinsing' => ['label' => 'Rinsing', 'pct' => 50],
                 'drying' => ['label' => 'Drying', 'pct' => 60],
-                'done' => ['label' => 'Done', 'pct' => 70],
+                'done' => ['label' => 'Finish', 'pct' => 70],
+                'finish' => ['label' => 'Finish', 'pct' => 70],
                 'out_for_delivery' => ['label' => 'Out for Delivery', 'pct' => 85],
                 'completed' => ['label' => 'Completed', 'pct' => 100],
                 'cancelled' => ['label' => 'Cancelled', 'pct' => 100]
@@ -52,7 +53,7 @@
             $currentStatus = $order->order_status;
             $currentStageInfo = $stages[$currentStatus] ?? ['label' => 'Unknown', 'pct' => 0];
             
-            $statusKeys = ['pending', 'out_for_pickup', 'received', 'washing', 'rinsing', 'drying', 'done', 'out_for_delivery', 'completed'];
+            $statusKeys = ['pending', 'out_for_pickup', 'received', 'washing', 'rinsing', 'drying', 'finish', 'out_for_delivery', 'completed'];
             $currentIndex = array_search($currentStatus, $statusKeys);
             if ($currentIndex === false) {
                 $currentIndex = -1;
@@ -62,7 +63,7 @@
         <div class="space-y-4">
             <div class="flex items-center justify-between text-xs font-semibold">
                 <span class="text-slate-500 dark:text-slate-400">Order Progress:</span>
-                <span class="text-[#007AFF] dark:text-[#0A84FF] font-bold capitalize">{{ str_replace('_', ' ', $currentStatus) }}</span>
+                <span class="text-[#007AFF] dark:text-[#0A84FF] font-bold capitalize">{{ $currentStatus === 'finish' || $currentStatus === 'done' ? 'Finish' : str_replace('_', ' ', $currentStatus) }}</span>
             </div>
             
             <div class="w-full h-3 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden p-0.5">
