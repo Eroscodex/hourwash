@@ -28,20 +28,20 @@
 <body class="bg-slate-50 text-slate-900 dark:bg-[#09090B] dark:text-zinc-100 font-sans antialiased selection:bg-blue-600 selection:text-white min-h-screen flex flex-col transition-colors duration-200">
 
     <!-- Storefront Main Navigation Header -->
-    <header class="sticky top-0 z-50 bg-white/95 dark:bg-[#141417]/95 border-b border-slate-200 dark:border-zinc-800 px-4 md:px-10 py-3.5 shadow-sm backdrop-blur-sm">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <header class="sticky top-0 z-50 bg-white/95 dark:bg-[#141417]/95 border-b border-slate-200 dark:border-zinc-800 px-4 md:px-8 py-3 shadow-sm backdrop-blur-sm">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
 
-            <a href="{{ route('welcome') }}" class="flex items-center gap-3 flex-shrink-0">
-                <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-10 h-10 rounded-md object-cover bg-white p-0.5 border border-slate-200 dark:border-zinc-700 shadow-sm">
+            <a href="{{ route('welcome') }}" class="flex items-center gap-2.5 shrink-0">
+                <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-9 h-9 sm:w-10 sm:h-10 rounded-md object-cover bg-white p-0.5 border border-slate-200 dark:border-zinc-700 shadow-sm shrink-0">
                 <div>
-                    <span class="text-lg font-bold tracking-tight text-slate-900 dark:text-white block">
+                    <span class="text-base sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white block leading-tight">
                         HOUR WASH
                     </span>
-                    <span class="text-[10px] text-blue-600 dark:text-blue-400 tracking-wider uppercase font-semibold block">LAUNDRY MANAGEMENT SYSTEM</span>
+                    <span class="hidden sm:block text-[9px] sm:text-[10px] text-blue-600 dark:text-blue-400 tracking-wider uppercase font-semibold whitespace-nowrap">LAUNDRY MANAGEMENT SYSTEM</span>
                 </div>
             </a>
 
-            <nav class="hidden xl:flex items-center gap-6 text-xs font-semibold text-slate-600 dark:text-zinc-300 whitespace-nowrap">
+            <nav class="hidden lg:flex items-center gap-5 text-xs font-semibold text-slate-600 dark:text-zinc-300 whitespace-nowrap">
                 <a href="#home" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Home</a>
                 <a href="#services" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Services & Rates</a>
                 <a href="#how-it-works" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">How It Works</a>
@@ -49,32 +49,34 @@
                 <a href="#reviews-section" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Customer Reviews</a>
             </nav>
 
-            <div class="flex items-center gap-2.5 flex-shrink-0">
-                <button id="welcome-theme-toggle" class="p-1.5 px-3 rounded-md bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 border border-slate-200 dark:border-zinc-700 hover:bg-slate-200 dark:hover:bg-zinc-700 transition text-xs font-medium flex items-center gap-1.5 shadow-sm" title="Toggle Light/Dark Theme">
+            <div class="flex items-center gap-2 shrink-0">
+                <button id="welcome-theme-toggle" class="p-1.5 sm:px-2.5 rounded-md bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 border border-slate-200 dark:border-zinc-700 hover:bg-slate-200 dark:hover:bg-zinc-700 transition text-[11px] font-medium flex items-center gap-1.5 shadow-sm whitespace-nowrap" title="Toggle Light/Dark Theme">
                     <span class="dark:hidden flex items-center gap-1.5">
-                        <svg class="w-3.5 h-3.5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
-                        Light
+                        <svg class="w-3.5 h-3.5 text-amber-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                        <span class="hidden sm:inline">Light</span>
                     </span>
                     <span class="hidden dark:flex items-center gap-1.5">
-                        <svg class="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
-                        Dark
+                        <svg class="w-3.5 h-3.5 text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+                        <span class="hidden sm:inline">Dark</span>
                     </span>
                 </button>
 
-                @auth
-                    <a href="{{ route('dashboard') }}" class="btn-primary hidden sm:inline-flex text-xs">
-                        Go to Dashboard
-                    </a>
-                @else
-                    <a href="{{ route('login') }}" class="btn-secondary hidden sm:inline-flex text-xs">
-                        Log In
-                    </a>
-                    <a href="{{ route('register') }}" class="btn-primary hidden sm:inline-flex text-xs">
-                        Register Account
-                    </a>
-                @endauth
+                <div class="hidden lg:flex items-center gap-2">
+                    @auth
+                        <a href="{{ route('dashboard') }}" class="btn-primary text-[11px] py-1.5 px-3 whitespace-nowrap">
+                            Go to Dashboard
+                        </a>
+                    @else
+                        <a href="{{ route('login') }}" class="btn-secondary text-[11px] py-1.5 px-3 whitespace-nowrap">
+                            Log In
+                        </a>
+                        <a href="{{ route('register') }}" class="btn-primary text-[11px] py-1.5 px-3 whitespace-nowrap">
+                            Register Account
+                        </a>
+                    @endauth
+                </div>
 
-                <button id="welcome-mobile-toggle" class="xl:hidden p-1.5 rounded-md text-slate-700 dark:text-zinc-300 hover:bg-slate-100 dark:hover:bg-zinc-800 focus:outline-none" aria-label="Toggle Mobile Navigation">
+                <button id="welcome-mobile-toggle" class="lg:hidden p-1.5 rounded-md text-slate-700 dark:text-zinc-300 hover:bg-slate-100 dark:hover:bg-zinc-800 focus:outline-none" aria-label="Toggle Mobile Navigation">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                     </svg>
@@ -84,9 +86,9 @@
     </header>
 
     <!-- Mobile Slideover Navigation Drawer -->
-    <div id="welcome-mobile-overlay" class="fixed inset-0 bg-slate-900/60 dark:bg-black/80 z-50 hidden xl:hidden transition-opacity"></div>
+    <div id="welcome-mobile-overlay" class="fixed inset-0 bg-slate-900/60 dark:bg-black/80 z-50 hidden lg:hidden transition-opacity"></div>
 
-    <div id="welcome-mobile-menu" class="fixed top-0 right-0 bottom-0 w-72 bg-white dark:bg-[#141417] border-l border-slate-200 dark:border-zinc-800 z-50 transform translate-x-full xl:hidden transition-transform duration-200 flex flex-col justify-between p-6 shadow-xl">
+    <div id="welcome-mobile-menu" class="fixed top-0 right-0 bottom-0 w-72 bg-white dark:bg-[#141417] border-l border-slate-200 dark:border-zinc-800 z-50 transform translate-x-full lg:hidden transition-transform duration-200 flex flex-col justify-between p-6 shadow-xl">
         <div class="space-y-6">
             <div class="flex items-center justify-between border-b border-slate-200 dark:border-zinc-800 pb-4">
                 <div class="flex items-center gap-2">
@@ -241,12 +243,12 @@
                 <p class="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 mt-1">Select from our wide range of professional washing, drying, and folding packages.</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3.5">
                 @forelse($services as $service)
                     <div class="app-card p-5 flex flex-col justify-between space-y-4 hover:border-blue-500/40 transition">
                         <div class="space-y-2">
                             <div class="flex items-center justify-between">
-                                <h3 class="text-base font-bold text-slate-900 dark:text-white">{{ $service->name }}</h3>
+                                <h3 class="text-lg font-bold text-slate-900 dark:text-white">{{ $service->name }}</h3>
                                 <span class="text-blue-600 dark:text-blue-400 font-bold text-base">₱{{ number_format($service->price, 2) }}</span>
                             </div>
                             <p class="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed">{{ $service->description ?? 'Full wash, rinse, and dry cycle.' }}</p>
