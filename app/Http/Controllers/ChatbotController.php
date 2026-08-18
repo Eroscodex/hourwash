@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Machine;
 use App\Models\Order;
-use App\Models\Promotion;
 use App\Models\QrCode;
 use App\Models\Service;
 use App\Models\User;
@@ -123,14 +122,6 @@ class ChatbotController extends Controller
         $outForDeliveryOrders = Order::where('order_status', 'out_for_delivery')->count();
         $completedToday = Order::where('order_status', 'completed')->whereDate('updated_at', today())->count();
 
-        // --- Active Promotions ---
-        $promos = Promotion::where('status', 'active')
-            ->where('end_date', '>=', now())
-            ->get(['name', 'code', 'discount_type', 'discount_value']);
-        $promoList = $promos->isEmpty()
-            ? 'No active promotions right now.'
-            : $promos->map(fn ($p) => "{$p->name} (Code: {$p->code}) — {$p->discount_value}".($p->discount_type === 'percentage' ? '%' : ' pesos').' off')->implode('; ');
-
         // --- Customer List (names & emails only — NO passwords, NO phone, NO admin/staff details) ---
         $customers = User::where('role', 'customer')
             ->orWhere('role', 'user')
@@ -143,7 +134,7 @@ You are STRICTLY the AI Assistant for Hour Wash Laundry Shop located in Magallan
 Store Hours: 7:00 AM – 6:00 PM Daily.
 
 CRITICAL RULES:
-- ONLY answer questions about laundry services, order tracking, machine status, store hours, promotions, and shop info.
+- ONLY answer questions about laundry services, order tracking, machine status, store hours, and shop info.
 - NEVER reveal user passwords, tokens, secret keys, or any sensitive authentication data.
 - NEVER reveal personal details of staff or admin users (phone numbers, addresses, roles).
 - If a customer requests to talk to a rider, contact a rider, or speak to a delivery driver, inform them that their request has been logged and provide our dispatch rider contact hotline: 09100317744.
@@ -170,9 +161,6 @@ TODAY'S ORDER STATS:
 - Finish & ready: {$readyOrders}
 - Out for delivery: {$outForDeliveryOrders}
 - Completed today: {$completedToday}
-
-ACTIVE PROMOTIONS:
-{$promoList}
 
 REGISTERED CUSTOMERS (name & email only):
 {$customerDirectory}
@@ -258,21 +246,11 @@ PROMPT;
             return "Our Active Laundry Services:\n{$servList}\n\nVisit our shop or book online!";
         }
 
-        if (Str::contains($msg, ['promo', 'discount', 'offer', 'deal', 'voucher'])) {
-            $promos = Promotion::where('status', 'active')->where('end_date', '>=', now())->get();
-            if ($promos->isEmpty()) {
-                return 'There are no active promotions right now, but check back soon! We regularly offer special deals for our loyal customers.';
-            }
-            $promoList = $promos->map(fn ($p) => "- {$p->name} (Code: {$p->code}) — {$p->discount_value}".($p->discount_type === 'percentage' ? '%' : ' pesos').' off')->implode("\n");
-
-            return "Active Promotions:\n{$promoList}\n\nUse the promo code when booking your order!";
-        }
-
         if (Str::contains($msg, ['hi', 'hello', 'hey', 'good', 'kumusta', 'musta'])) {
-            return "Hello! Welcome to Hour Wash Laundry Shop! I can help you with:\n- Order tracking (by name, email, or order number)\n- Machine availability\n- Service rates & packages\n- Active promotions\n- Store hours\n\nHow can I assist you today?";
+            return "Hello! Welcome to Hour Wash Laundry Shop! I can help you with:\n- Order tracking (by name, email, or order number)\n- Machine availability\n- Service rates & packages\n- Store hours\n\nHow can I assist you today?";
         }
 
-        return "I am the HourWash Assistant dedicated to Hour Wash Laundry Shop. I can help you with:\n- Track your order (tell me your name, email, or order number)\n- Check machine availability\n- View services & rates\n- See active promos\n- Store hours: 7:00 AM – 6:00 PM Daily\n\nMagallanes St., Orosite, Legazpi City!";
+        return "I am the HourWash Assistant dedicated to Hour Wash Laundry Shop. I can help you with:\n- Track your order (tell me your name, email, or order number)\n- Check machine availability\n- View services & rates\n- Store hours: 7:00 AM – 6:00 PM Daily\n\nMagallanes St., Orosite, Legazpi City!";
     }
 
     /**

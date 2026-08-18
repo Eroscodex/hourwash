@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Machine;
 use App\Models\Order;
-use App\Models\OrderStatusHistory;
 use App\Models\SmsNotification;
 use App\Models\User;
 use App\Services\EmailNotificationService;
@@ -100,16 +99,6 @@ class LaundryController extends Controller
                         ]);
                     }
                 }
-
-                OrderStatusHistory::create([
-                    'order_id' => $order->id,
-                    'status' => $request->status,
-                    'changed_by' => auth()->id(),
-                    'notes' => $request->status === 'pending'
-                        ? 'Order created and submitted successfully.'
-                        : 'Status updated to '.($request->status === 'finish' ? 'Finish & Shelved' : str_replace('_', ' ', $request->status)),
-                    'created_at' => now(),
-                ]);
             }
 
             if ($request->filled('payment_status')) {

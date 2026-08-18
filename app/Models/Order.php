@@ -17,6 +17,8 @@ class Order extends Model
         'discount',
         'total_amount',
         'payment_status',
+        'payment_method',
+        'paid_at',
         'order_status',
         'pickup_type',
         'pickup_date',
@@ -29,6 +31,7 @@ class Order extends Model
     protected $casts = [
         'estimated_completion' => 'datetime',
         'completed_at' => 'datetime',
+        'paid_at' => 'datetime',
     ];
 
     public function customer()
@@ -54,16 +57,6 @@ class Order extends Model
     public function items()
     {
         return $this->hasMany(OrderItem::class);
-    }
-
-    public function statusHistory()
-    {
-        return $this->hasMany(OrderStatusHistory::class);
-    }
-
-    public function payments()
-    {
-        return $this->hasMany(Payment::class);
     }
 
     public function feedback()

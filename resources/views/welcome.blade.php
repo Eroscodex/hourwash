@@ -427,10 +427,12 @@
     </footer>
 
     <!-- AI Assistant Floating Widget -->
-    <button id="welcome-chat-toggle" class="fixed bottom-6 right-6 w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center hover:bg-blue-700 transition-all shadow-lg z-50" aria-label="Toggle AI Assistant Chat">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
-        </svg>
+    <button id="welcome-chat-toggle" class="fixed bottom-6 right-6 w-13 h-13 rounded-lg bg-blue-600 text-white flex items-center justify-center hover:bg-blue-700 transition-all shadow-lg z-50 p-2 group" aria-label="Toggle AI Assistant Chat">
+        <span class="absolute -top-1 -right-1 flex h-3.5 w-3.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-md bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-md h-3.5 w-3.5 bg-emerald-500 border-2 border-slate-900"></span>
+        </span>
+        <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-8 h-8 rounded-full object-cover group-hover:rotate-12 transition-transform bg-white p-0.5 border border-white/20 shadow-sm">
     </button>
 
     <div id="welcome-chat-window" class="fixed bottom-20 right-6 w-80 sm:w-96 bg-white dark:bg-[#141417] border border-slate-200 dark:border-zinc-800 rounded-lg shadow-xl z-50 hidden flex-col overflow-hidden">

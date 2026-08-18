@@ -14,19 +14,9 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // 1. Admin / Owner User
-        $owner = User::firstOrCreate(
-            ['email' => 'karlnicko2019@gmail.com'],
-            [
-                'name' => 'Karl Nicko',
-                'password' => Hash::make('Karlnicko0202!'),
-                'phone' => '09123456789',
-                'role' => 'owner',
-                'status' => 'active',
-            ]
-        );
+        $this->call(AdminUserSeeder::class);
 
-        // 2. Staff User
+        // 1. Staff User
         $staff = User::firstOrCreate(
             ['email' => 'shayneformento@gmail.com'],
             [
@@ -42,7 +32,7 @@ class DatabaseSeeder extends Seeder
             ['employee_id' => 'EMP-001'],
             [
                 'user_id' => $staff->id,
-                'position' => 'Senior Laundry Specialist',
+                'position' => 'Regular',
                 'hire_date' => '2024-01-15',
                 'status' => 'active',
             ]
@@ -81,11 +71,11 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // 4. Customer User 2: Alexa Casa
+        // 4. Customer User 2: Alexa Cas
         $customer2 = User::firstOrCreate(
             ['email' => 'casalexa10@gmail.com'],
             [
-                'name' => 'Alexa Casa',
+                'name' => 'Alexa Cas',
                 'password' => Hash::make('Alexa1234!'),
                 'phone' => '09123456783',
                 'role' => 'customer',

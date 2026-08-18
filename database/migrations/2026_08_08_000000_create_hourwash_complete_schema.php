@@ -75,7 +75,9 @@ return new class extends Migration
             $table->decimal('delivery_fee', 10, 2)->default(0.00);
             $table->decimal('discount', 10, 2)->default(0.00);
             $table->decimal('total_amount', 10, 2)->default(0.00);
-            $table->enum('payment_status', ['unpaid', 'pending', 'paid', 'partial', 'refunded', 'failed'])->default('unpaid');
+            $table->string('payment_status', 50)->default('unpaid');
+            $table->string('payment_method', 50)->default('cash');
+            $table->dateTime('paid_at')->nullable();
             $table->enum('order_status', [
                 'pending', 'out_for_pickup', 'received', 'washing', 'rinsing', 'drying',
                 'finish', 'out_for_delivery', 'completed', 'cancelled',
@@ -132,20 +134,6 @@ return new class extends Migration
             $table->string('device', 255)->nullable();
             $table->string('ip_address', 45)->nullable();
             $table->timestamp('created_at')->useCurrent();
-        });
-
-        // 12. PAYMENTS
-        Schema::create('payments', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->string('payment_reference', 100)->nullable()->unique();
-            $table->enum('payment_method', ['cash', 'gcash', 'maya', 'bank_transfer', 'qr_payment', 'other'])->default('cash');
-            $table->decimal('amount', 10, 2)->default(0.00);
-            $table->enum('status', ['pending', 'paid', 'failed', 'refunded', 'cancelled'])->default('pending');
-            $table->dateTime('paid_at')->nullable();
-            $table->foreignId('received_by')->nullable()->constrained('users')->nullOnDelete()->cascadeOnUpdate();
-            $table->text('notes')->nullable();
-            $table->timestamps();
         });
 
         // 13. PICKUP / DELIVERY
@@ -212,7 +200,6 @@ return new class extends Migration
         Schema::dropIfExists('sms_notifications');
         Schema::dropIfExists('customer_feedbacks');
         Schema::dropIfExists('pickup_delivery');
-        Schema::dropIfExists('payments');
         Schema::dropIfExists('qr_scan_logs');
         Schema::dropIfExists('qr_codes');
         Schema::dropIfExists('order_status_history');

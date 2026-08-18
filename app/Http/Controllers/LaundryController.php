@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Machine;
 use App\Models\Order;
-use App\Models\OrderStatusHistory;
 use App\Models\QrCode;
 use App\Models\QrScanLog;
 use App\Models\Service;
@@ -12,6 +11,7 @@ use App\Models\User;
 use App\Services\EmailNotificationService;
 use App\Services\SmsNotificationService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -23,7 +23,9 @@ class LaundryController extends Controller
     public function create()
     {
         $storeStatus = Cache::get('store_status', 'open');
-        $isStaffOrAdmin = auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isOwner() || auth()->user()->isStaff());
+        /** @var User|null $user */
+        $user = Auth::user();
+        $isStaffOrAdmin = $user && ($user->isAdmin() || $user->isOwner() || $user->isStaff());
 
         if ($storeStatus === 'closed' && ! $isStaffOrAdmin) {
             return redirect()->route('dashboard')->with('error', '⚠️ Store is currently CLOSED TODAY. New order bookings are disabled until the store re-opens.');
@@ -43,7 +45,9 @@ class LaundryController extends Controller
     public function store(Request $request)
     {
         $storeStatus = Cache::get('store_status', 'open');
-        $isStaffOrAdmin = auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isOwner() || auth()->user()->isStaff());
+        /** @var User|null $user */
+        $user = Auth::user();
+        $isStaffOrAdmin = $user && ($user->isAdmin() || $user->isOwner() || $user->isStaff());
 
         if ($storeStatus === 'closed' && ! $isStaffOrAdmin) {
             return back()->withInput()->with('error', '⚠️ Store is currently CLOSED TODAY. New order bookings are disabled until the store re-opens.');
@@ -61,7 +65,7 @@ class LaundryController extends Controller
             'new_customer_address' => 'nullable|string|max:255',
         ]);
 
-        $customerId = auth()->id();
+        $customerId = Auth::user()->id;
 
         if ($isStaffOrAdmin) {
             if ($request->input('customer_mode') === 'new' || ($request->filled('new_customer_name') && ! $request->filled('customer_id'))) {
@@ -153,6 +157,7 @@ class LaundryController extends Controller
             'total_amount' => $totalAmount,
             'order_status' => 'pending',
             'payment_status' => 'unpaid',
+            'payment_method' => 'cash',
             'estimated_completion' => now()->addMinutes($service->estimated_minutes),
             'notes' => $notes,
         ]);
@@ -162,14 +167,6 @@ class LaundryController extends Controller
             'qr_token' => Str::uuid(),
             'status' => 'active',
             'expires_at' => now()->addDays(7),
-        ]);
-
-        OrderStatusHistory::create([
-            'order_id' => $order->id,
-            'status' => 'pending',
-            'changed_by' => auth()->id(),
-            'notes' => 'Order created and submitted.',
-            'created_at' => now(),
         ]);
 
         // Eager load customer and service for emails
@@ -211,7 +208,7 @@ class LaundryController extends Controller
     public function myOrders()
     {
         $orders = Order::with(['service', 'qrCode', 'feedback', 'machine'])
-            ->where('customer_id', auth()->id())
+            ->where('customer_id', Auth::user()->id)
             ->latest()
             ->get();
 
@@ -260,13 +257,17 @@ class LaundryController extends Controller
             return redirect()->route('welcome')->with('error', 'No active order tracking found for QR token / machine tag: '.$qr);
         }
 
+        /** @var User|null $authUser */
+        $authUser = Auth::user();
+        $isStaffOrAdmin = $authUser && ($authUser->isStaff() || $authUser->isAdmin() || $authUser->isOwner());
+
         if ($order->qrCode) {
             try {
                 QrScanLog::create([
                     'qr_code_id' => $order->qrCode->id,
                     'order_id' => $order->id,
-                    'scanned_by' => auth()->id(),
-                    'scan_type' => auth()->check() ? (auth()->user()->isStaff() || auth()->user()->isAdmin() || auth()->user()->isOwner() ? 'staff_scan' : 'customer_scan') : 'customer_scan',
+                    'scanned_by' => $authUser?->id,
+                    'scan_type' => $isStaffOrAdmin ? 'staff_scan' : 'customer_scan',
                     'device' => request()->header('User-Agent'),
                     'ip_address' => request()->ip(),
                 ]);
@@ -276,8 +277,8 @@ class LaundryController extends Controller
         }
 
         // Customers can only view their own orders; Admin & Staff can view any customer order
-        if (auth()->check() && auth()->user()->isCustomer()) {
-            if ($order->customer_id !== auth()->id()) {
+        if ($authUser && $authUser->isCustomer()) {
+            if ($order->customer_id !== $authUser->id) {
                 return redirect()->route('dashboard')->with('error', 'Unauthorized: You are only allowed to view your own order tracking details.');
             }
         }
