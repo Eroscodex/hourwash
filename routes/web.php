@@ -24,6 +24,7 @@ use App\Models\User;
 use App\Services\SmsNotificationService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -101,7 +102,8 @@ Route::get('/', function () {
 |--------------------------------------------------------------------------
 */
 Route::get('/dashboard', function () {
-    $user = auth()->user();
+    /** @var User $user */
+    $user = Auth::user();
 
     if ($user->isOwner() || $user->isAdmin()) {
         return redirect()->route('admin.dashboard');
@@ -153,7 +155,9 @@ Route::get('/laundry/receipt/{order}', function (Order $order) {
 
 // Customer & Admin Order Cancellation Route
 Route::post('/laundry/{order}/cancel', function (Order $order) {
-    if (auth()->id() !== $order->customer_id && ! auth()->user()->isStaff() && ! auth()->user()->isOwner()) {
+    /** @var User|null $authUser */
+    $authUser = Auth::user();
+    if (Auth::id() !== $order->customer_id && (! $authUser || (! $authUser->isStaff() && ! $authUser->isOwner()))) {
         abort(403);
     }
 
@@ -236,10 +240,13 @@ Route::get('/search', function (Request $request) {
         return redirect()->route('laundry.track', $order->order_number);
     }
 
+    /** @var User|null $authUser */
+    $authUser = Auth::user();
+
     // 2. Match Machine Code
     $machine = Machine::where('machine_code', $cleanQ)->orWhere('machine_name', 'like', "%{$q}%")->first();
     if ($machine) {
-        if (auth()->check() && (auth()->user()->isOwner() || auth()->user()->isStaff())) {
+        if ($authUser && ($authUser->isOwner() || $authUser->isStaff())) {
             return redirect()->route('admin.machines.index');
         }
 
@@ -247,7 +254,7 @@ Route::get('/search', function (Request $request) {
     }
 
     // 3. Match User Name / Email (Owner & Staff only)
-    if (auth()->check() && (auth()->user()->isOwner() || auth()->user()->isStaff())) {
+    if ($authUser && ($authUser->isOwner() || $authUser->isStaff())) {
         $foundUser = User::where('name', 'like', "%{$q}%")->orWhere('email', 'like', "%{$q}%")->first();
         if ($foundUser) {
             return redirect()->route('admin.users.index');
@@ -282,7 +289,7 @@ Route::middleware('auth')->group(function () {
 
         $order = Order::findOrFail($request->order_id);
 
-        if ($order->customer_id !== auth()->id()) {
+        if ($order->customer_id !== Auth::id()) {
             return back()->with('error', 'Unauthorized order feedback attempt.');
         }
 
@@ -296,18 +303,19 @@ Route::middleware('auth')->group(function () {
         }
 
         CustomerFeedback::create([
-            'user_id' => auth()->id(),
+            'user_id' => Auth::id(),
             'order_id' => $request->order_id,
             'rating' => $request->rating,
             'comment' => $request->comment,
             'status' => 'published',
         ]);
 
-        return back()->with('success', 'Thank you! Your feedback & star rating have been published. ⭐');
+        return back()->with('success', 'Thank you! Your feedback & star rating have been published.');
     })->name('feedback.store');
 
     Route::delete('/feedback/{feedback}', function (CustomerFeedback $feedback) {
-        $user = auth()->user();
+        /** @var User $user */
+        $user = Auth::user();
         if ($user->isAdmin() || $user->isOwner() || $feedback->user_id === $user->id) {
             $feedback->delete();
 
@@ -323,7 +331,8 @@ Route::middleware('auth')->group(function () {
 |--------------------------------------------------------------------------
 */
 Route::middleware(['auth'])->get('/staff/dashboard', function () {
-    $user = auth()->user();
+    /** @var User $user */
+    $user = Auth::user();
 
     if ($user->isRider()) {
         return redirect()->route('rider.dashboard');
@@ -366,7 +375,8 @@ Route::middleware(['auth'])->group(function () {
 */
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', function () {
-        $user = auth()->user();
+        /** @var User $user */
+        $user = Auth::user();
 
         if (! $user->isAdmin() && ! $user->isOwner()) {
             if ($user->isStaff()) {
@@ -453,7 +463,9 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::delete('/qr-scan-logs/clear', [QrScanLogController::class, 'clear'])->name('qr_scan_logs.clear');
 
     Route::post('/store-status/toggle', function () {
-        if (! auth()->user()->isAdmin() && ! auth()->user()->isOwner() && ! auth()->user()->isStaff()) {
+        /** @var User $user */
+        $user = Auth::user();
+        if (! $user->isAdmin() && ! $user->isOwner() && ! $user->isStaff()) {
             abort(403);
         }
 
@@ -480,7 +492,9 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::delete('/emails/clear-all', [EmailLogController::class, 'destroyAll'])->name('emails.clearAll');
 
     Route::post('/orders/reset-all', function () {
-        if (! auth()->user()->isOwner() && ! auth()->user()->isStaff()) {
+        /** @var User $user */
+        $user = Auth::user();
+        if (! $user->isOwner() && ! $user->isStaff()) {
             abort(403);
         }
 
