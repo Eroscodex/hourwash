@@ -8,9 +8,9 @@
             <p class="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 mt-1">Review all your current and past laundry bookings, track status, and submit feedback.</p>
         </div>
         @if(\Illuminate\Support\Facades\Cache::get('store_status', 'open') === 'open' || (auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isOwner() || auth()->user()->isStaff())))
-            <a href="{{ route('laundry.create') }}" class="btn-primary w-fit">Book New Order</a>
+            <a href="{{ route('laundry.create') }}" class="btn-primary py-2 px-4 text-xs font-bold w-full sm:w-auto text-center flex items-center justify-center shrink-0">Book New Order</a>
         @else
-            <button disabled class="opacity-65 bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30 px-4 py-2 rounded-lg text-xs font-bold cursor-not-allowed inline-flex items-center gap-1.5 w-fit">
+            <button disabled class="opacity-65 bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30 px-4 py-2 rounded-lg text-xs font-bold cursor-not-allowed inline-flex items-center justify-center gap-1.5 w-full sm:w-auto shrink-0">
                 🚫 Store Closed Today (Bookings Disabled)
             </button>
         @endif

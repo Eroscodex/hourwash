@@ -12,36 +12,36 @@
                 </p>
             </div>
 
-            <div class="flex flex-wrap sm:flex-nowrap items-center gap-1.5 overflow-x-auto shrink-0">
-                <form method="POST" action="{{ route('admin.store-status.toggle') }}" class="inline shrink-0">
+            <div class="grid grid-cols-2 sm:flex sm:items-center gap-2 w-full sm:w-auto">
+                <form method="POST" action="{{ route('admin.store-status.toggle') }}" class="w-full sm:w-auto">
                     @csrf
                     @if(($storeStatus ?? 'open') === 'open')
-                        <button type="submit" title="Click to Mark Store Closed Today" class="px-2 py-1 rounded-lg bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 font-extrabold text-[10px] whitespace-nowrap hover:bg-emerald-500/25 transition flex items-center justify-center gap-1">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <button type="submit" title="Click to Mark Store Closed Today" class="w-full px-2.5 py-1.5 rounded-lg bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 font-extrabold text-[10px] whitespace-nowrap hover:bg-emerald-500/25 transition flex items-center justify-center gap-1.5 h-full">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
                             <span>STORE OPEN TODAY</span>
                             <span class="hidden xl:inline-block text-[9px] text-slate-500 dark:text-slate-400 font-normal pl-1 border-l border-emerald-500/30">(Click to Close)</span>
                         </button>
                     @else
-                        <button type="submit" title="Click to Re-open Store Today" class="px-2 py-1 rounded-lg bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 font-extrabold text-[10px] whitespace-nowrap hover:bg-rose-500/25 transition flex items-center justify-center gap-1">
-                            <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+                        <button type="submit" title="Click to Re-open Store Today" class="w-full px-2.5 py-1.5 rounded-lg bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 font-extrabold text-[10px] whitespace-nowrap hover:bg-rose-500/25 transition flex items-center justify-center gap-1.5 h-full">
+                            <span class="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0"></span>
                             <span>STORE CLOSED TODAY</span>
                             <span class="hidden xl:inline-block text-[9px] text-slate-500 dark:text-slate-400 font-normal pl-1 border-l border-rose-500/30">(Click to Open)</span>
                         </button>
                     @endif
                 </form>
 
-                <form method="POST" action="{{ route('admin.orders.reset') }}" class="inline shrink-0" onsubmit="return confirm('⚠️ ARE YOU SURE YOU WANT TO RESET ALL ORDERS?\n\nThis will permanently delete all order history and set all machines to idle status.')">
+                <form method="POST" action="{{ route('admin.orders.reset') }}" class="w-full sm:w-auto" onsubmit="return confirm('⚠️ ARE YOU SURE YOU WANT TO RESET ALL ORDERS?\n\nThis will permanently delete all order history and set all machines to idle status.')">
                     @csrf
-                    <button type="submit" class="bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 hover:bg-rose-500/25 px-2 py-1 rounded-lg text-[10px] font-bold transition whitespace-nowrap">
+                    <button type="submit" class="w-full bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 hover:bg-rose-500/25 px-2.5 py-1.5 rounded-lg text-[10px] font-bold transition whitespace-nowrap flex items-center justify-center h-full">
                         Reset All Orders
                     </button>
                 </form>
 
-                <a href="{{ route('admin.laundry.index') }}" class="btn-primary text-[10px] py-1 px-2 whitespace-nowrap text-center shrink-0">
+                <a href="{{ route('admin.laundry.index') }}" class="btn-primary text-[10px] py-1.5 px-2.5 whitespace-nowrap text-center w-full sm:w-auto flex items-center justify-center h-full">
                     Manage Orders Queue
                 </a>
 
-                <a href="{{ route('admin.machines.create') }}" class="btn-secondary text-[10px] py-1 px-2 whitespace-nowrap text-center shrink-0">
+                <a href="{{ route('admin.machines.create') }}" class="btn-secondary text-[10px] py-1.5 px-2.5 whitespace-nowrap text-center w-full sm:w-auto flex items-center justify-center h-full">
                     Add New Machine
                 </a>
             </div>
@@ -569,17 +569,17 @@
                         Live feed of active store and online orders
                     </p>
                 </div>
-                <div class="flex items-center gap-2">
-                    <a href="{{ route('laundry.create') }}" class="btn-primary py-1.5 px-3 text-xs">
+                <div class="grid grid-cols-2 sm:flex sm:items-center gap-2 w-full sm:w-auto">
+                    <a href="{{ route('laundry.create') }}" class="btn-primary py-1.5 px-3 text-xs w-full sm:w-auto text-center flex items-center justify-center">
                         + New Order
                     </a>
-                    <a href="{{ route('admin.laundry.index') }}" class="btn-secondary py-1.5 px-3 text-xs">
+                    <a href="{{ route('admin.laundry.index') }}" class="btn-secondary py-1.5 px-3 text-xs w-full sm:w-auto text-center flex items-center justify-center">
                         View All Orders Queue
                     </a>
                 </div>
             </div>
 
-            <div class="overflow-x-auto max-w-full flex-1 mt-2">
+            <div class="overflow-x-auto max-w-full flex-1 mt-2 border border-slate-200 dark:border-zinc-800 rounded-lg">
                 <table class="w-full text-left text-xs whitespace-nowrap min-w-[650px]">
                     <thead class="bg-black/5 dark:bg-[#18181B] text-slate-700 dark:text-slate-300 uppercase text-[10px] tracking-wider border-b border-slate-200 dark:border-zinc-700">
                         <tr>
@@ -650,11 +650,11 @@
                     </p>
                 </div>
 
-                <div class="flex items-center gap-2">
-                    <a href="{{ route('laundry.create') }}" class="btn-primary py-1.5 px-3 text-xs">
+                <div class="grid grid-cols-2 sm:flex sm:items-center gap-2 w-full sm:w-auto">
+                    <a href="{{ route('laundry.create') }}" class="btn-primary py-1.5 px-3 text-xs w-full sm:w-auto text-center flex items-center justify-center">
                         + New Order
                     </a>
-                    <a href="{{ route('admin.laundry.index') }}" class="btn-secondary py-1.5 px-3 text-xs">
+                    <a href="{{ route('admin.laundry.index') }}" class="btn-secondary py-1.5 px-3 text-xs w-full sm:w-auto text-center flex items-center justify-center">
                         View All Orders Queue
                     </a>
                 </div>
@@ -686,7 +686,7 @@
         </div>
 
                 <div class="app-card p-4 sm:p-6 space-y-4">
-            <div class="flex items-center justify-between border-b border-slate-200 dark:dark:border-zinc-700 pb-3">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-zinc-800 pb-3">
                 <div>
                     <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
                         Overall System Reports & Order Stage Breakdown
@@ -695,8 +695,8 @@
                         Comprehensive summary of order distribution across laundry lifecycle stages
                     </p>
                 </div>
-                <span class="px-3 py-1 rounded-md bg-blue-600/15 text-blue-600 dark:text-blue-400 text-xs font-bold">
-                    {{ count($laundryStatus ?? []) }} Stages
+                <span class="px-3 py-1 rounded-md bg-blue-600/15 text-blue-600 dark:text-blue-400 text-xs font-bold shrink-0 w-fit">
+                    {{ count($laundryStatus ?? []) }} Stage(s) Reported
                 </span>
             </div>
 

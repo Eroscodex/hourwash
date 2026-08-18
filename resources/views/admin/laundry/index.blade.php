@@ -6,21 +6,21 @@
                 <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white">Store Orders & Cashier Queue</h1>
                 <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">Manage active laundry stages, process cashier payments, and print store receipts.</p>
             </div>
-            <div class="flex flex-wrap sm:flex-nowrap items-center gap-1.5 overflow-x-auto shrink-0">
-                <button type="button" onclick="openAdminCameraScanner()" class="btn-secondary text-[10px] py-1 px-2 whitespace-nowrap flex items-center justify-center gap-1 shrink-0">
-                    <svg class="w-3 h-3 text-blue-600 dark:text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="grid grid-cols-2 sm:flex sm:items-center gap-2 w-full sm:w-auto">
+                <button type="button" onclick="openAdminCameraScanner()" class="btn-secondary text-[10px] py-1.5 px-2.5 whitespace-nowrap flex items-center justify-center gap-1 w-full sm:w-auto">
+                    <svg class="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
                         <circle cx="12" cy="13" r="3"/>
                     </svg>
                     <span>Scan Order QR</span>
                 </button>
-                <form method="POST" action="{{ route('admin.orders.reset') }}" class="inline shrink-0" onsubmit="return confirm('⚠️ ARE YOU SURE YOU WANT TO RESET ALL ORDERS?\n\nThis will permanently delete all order history and set all machines to idle status.')">
+                <form method="POST" action="{{ route('admin.orders.reset') }}" class="w-full sm:w-auto" onsubmit="return confirm('⚠️ ARE YOU SURE YOU WANT TO RESET ALL ORDERS?\n\nThis will permanently delete all order history and set all machines to idle status.')">
                     @csrf
-                    <button type="submit" class="bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 hover:bg-rose-500/25 px-2 py-1 rounded-lg text-[10px] font-bold transition whitespace-nowrap">
+                    <button type="submit" class="w-full bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 hover:bg-rose-500/25 px-2.5 py-1.5 rounded-lg text-[10px] font-bold transition whitespace-nowrap flex items-center justify-center h-full">
                         Reset All Orders
                     </button>
                 </form>
-                <a href="{{ route('laundry.create') }}" class="btn-primary text-[10px] py-1 px-2 whitespace-nowrap text-center shrink-0">New Drop-Off Order</a>
+                <a href="{{ route('laundry.create') }}" class="btn-primary text-[10px] py-1.5 px-2.5 whitespace-nowrap text-center col-span-2 sm:col-span-1 w-full sm:w-auto flex items-center justify-center">New Drop-Off Order</a>
             </div>
         </div>
 
@@ -36,8 +36,8 @@
                 <div class="app-card p-5 space-y-4 shadow-sm hover:border-blue-600/30 transition">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:dark:border-zinc-700 pb-3">
                         <div class="flex items-center gap-4">
-                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data={{ $order->qrCode->qr_token ?? $order->order_number }}" 
-                                 alt="QR Tag #{{ $order->order_number }}" 
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data={{ $order->qrCode->qr_token ?? $order->order_number }}"
+                                 alt="QR Tag #{{ $order->order_number }}"
                                  class="w-14 h-14 bg-white p-1 rounded-lg border border-slate-200 shadow-sm flex-shrink-0">
                             <div>
                                 <div class="flex items-center gap-2">
@@ -102,7 +102,7 @@
                         <form method="POST" action="{{ route('admin.laundry.update', $order->id) }}" class="flex flex-wrap items-center gap-2">
                             @csrf
                             @method('PATCH')
-                            
+
                             <select name="status" class="max-w-[180px] sm:max-w-[220px] truncate py-1 px-2.5 text-xs rounded-lg font-bold">
                                 <option value="pending" {{ $order->order_status === 'pending' ? 'selected' : '' }}>1. Pending (Order Placed)</option>
                                 <option value="out_for_pickup" {{ $order->order_status === 'out_for_pickup' ? 'selected' : '' }}>2. Out for Pickup</option>

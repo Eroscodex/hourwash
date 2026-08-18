@@ -12,7 +12,7 @@
                 </p>
             </div>
 
-            <div class="flex items-center gap-3">
+            <div class="flex flex-wrap sm:flex-nowrap items-center gap-2 shrink-0">
                 <span class="px-3.5 py-1.5 rounded-md bg-blue-600/15 text-blue-600 dark:text-blue-400 text-xs font-extrabold tracking-wider uppercase border border-blue-600/30">
                     {{ $totalDispatched }} SMS Dispatched
                 </span>

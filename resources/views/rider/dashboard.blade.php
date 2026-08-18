@@ -17,8 +17,8 @@
                 </p>
             </div>
 
-            <div class="flex items-center gap-2">
-                <a href="tel:09100317744" class="btn-primary text-xs flex items-center gap-1.5 shadow-sm">
+            <div class="w-full sm:w-auto">
+                <a href="tel:09100317744" class="btn-primary text-xs flex items-center justify-center gap-1.5 shadow-sm w-full sm:w-auto py-2 px-4">
                     Shop Dispatch (09100317744)
                 </a>
             </div>

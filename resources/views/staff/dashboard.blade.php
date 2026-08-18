@@ -12,37 +12,37 @@
                 </p>
             </div>
 
-            <div class="flex flex-wrap sm:flex-nowrap items-center gap-1.5 overflow-x-auto shrink-0">
-                <form method="POST" action="{{ route('admin.store-status.toggle') }}" class="inline shrink-0">
+            <div class="grid grid-cols-2 sm:flex sm:items-center gap-2 w-full sm:w-auto">
+                <form method="POST" action="{{ route('admin.store-status.toggle') }}" class="w-full sm:w-auto">
                     @csrf
                     @if(($storeStatus ?? 'open') === 'open')
-                        <button type="submit" title="Click to Mark Store Closed Today" class="px-2 py-1 rounded-lg bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 font-extrabold text-[10px] whitespace-nowrap hover:bg-emerald-500/25 transition flex items-center justify-center gap-1">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <button type="submit" title="Click to Mark Store Closed Today" class="w-full px-2.5 py-1.5 rounded-lg bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 font-extrabold text-[10px] whitespace-nowrap hover:bg-emerald-500/25 transition flex items-center justify-center gap-1.5 h-full">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
                             <span>STORE OPEN TODAY</span>
                             <span class="hidden xl:inline-block text-[9px] text-slate-500 dark:text-slate-400 font-normal pl-1 border-l border-emerald-500/30">(Click to Close)</span>
                         </button>
                     @else
-                        <button type="submit" title="Click to Re-open Store Today" class="px-2 py-1 rounded-lg bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 font-extrabold text-[10px] whitespace-nowrap hover:bg-rose-500/25 transition flex items-center justify-center gap-1">
-                            <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+                        <button type="submit" title="Click to Re-open Store Today" class="w-full px-2.5 py-1.5 rounded-lg bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 font-extrabold text-[10px] whitespace-nowrap hover:bg-rose-500/25 transition flex items-center justify-center gap-1.5 h-full">
+                            <span class="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0"></span>
                             <span>STORE CLOSED TODAY</span>
                             <span class="hidden xl:inline-block text-[9px] text-slate-500 dark:text-slate-400 font-normal pl-1 border-l border-rose-500/30">(Click to Open)</span>
                         </button>
                     @endif
                 </form>
 
-                <button type="button" onclick="openAdminCameraScanner()" class="btn-secondary text-[10px] py-1 px-2 whitespace-nowrap flex items-center justify-center gap-1 shrink-0">
-                    <svg class="w-3 h-3 text-blue-600 dark:text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button type="button" onclick="openAdminCameraScanner()" class="btn-secondary text-[10px] py-1.5 px-2.5 whitespace-nowrap flex items-center justify-center gap-1 w-full sm:w-auto h-full">
+                    <svg class="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
                         <circle cx="12" cy="13" r="3"/>
                     </svg>
                     <span>Scan QR</span>
                 </button>
 
-                <a href="{{ route('admin.laundry.index') }}" class="btn-secondary text-[10px] py-1 px-2 whitespace-nowrap text-center shrink-0">
+                <a href="{{ route('admin.laundry.index') }}" class="btn-secondary text-[10px] py-1.5 px-2.5 whitespace-nowrap text-center w-full sm:w-auto flex items-center justify-center h-full">
                     Orders Queue
                 </a>
 
-                <a href="{{ route('laundry.create') }}" class="btn-primary text-[10px] py-1 px-2 whitespace-nowrap text-center shrink-0">
+                <a href="{{ route('laundry.create') }}" class="btn-primary text-[10px] py-1.5 px-2.5 whitespace-nowrap text-center w-full sm:w-auto flex items-center justify-center h-full">
                     New Order
                 </a>
             </div>
@@ -381,15 +381,15 @@
                     <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Active Processing Pipeline</h2>
                     <p class="text-xs text-slate-600 dark:text-slate-400">Update cleaning status stages as laundry moves through machines</p>
                 </div>
-                <div class="flex items-center gap-2">
-                    <a href="{{ route('laundry.create') }}" class="btn-primary py-1.5 px-3 text-xs">
+                <div class="grid grid-cols-2 sm:flex sm:items-center gap-2 w-full sm:w-auto">
+                    <a href="{{ route('laundry.create') }}" class="btn-primary py-1.5 px-3 text-xs w-full sm:w-auto text-center flex items-center justify-center">
                         + New Order
                     </a>
-                    <a href="{{ route('admin.laundry.index') }}" class="btn-secondary py-1.5 px-3 text-xs">Full Orders Queue</a>
+                    <a href="{{ route('admin.laundry.index') }}" class="btn-secondary py-1.5 px-3 text-xs w-full sm:w-auto text-center flex items-center justify-center">Full Orders Queue</a>
                 </div>
             </div>
 
-            <div class="overflow-x-auto max-w-full">
+            <div class="overflow-x-auto max-w-full border border-slate-200 dark:border-zinc-800 rounded-lg">
                 <table class="w-full text-left text-xs whitespace-nowrap min-w-[650px]">
                     <thead class="bg-slate-100 dark:bg-[#18181B] text-slate-700 dark:text-slate-300 uppercase text-[10px] tracking-wider border-b border-slate-200 dark:border-zinc-700">
                         <tr>

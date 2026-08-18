@@ -11,7 +11,7 @@
 
         <div class="max-w-4xl space-y-6">
 
-            
+
             <div class="app-card overflow-hidden shadow-sm">
                 <div class="p-5 border-b border-slate-200 dark:dark:border-zinc-700 flex items-center justify-between">
                     <div>
@@ -28,7 +28,7 @@
                 </div>
             </div>
 
-            
+
             <div class="app-card overflow-hidden shadow-sm">
                 <div class="p-5 border-b border-slate-200 dark:dark:border-zinc-700 flex items-center justify-between">
                     <div>
@@ -47,7 +47,7 @@
                 </div>
             </div>
 
-            
+
             <div class="app-card overflow-hidden border-rose-500/40 shadow-sm">
                 <div class="p-5 border-b border-slate-200 dark:dark:border-zinc-700 bg-rose-500/10 flex items-center justify-between">
                     <div>
