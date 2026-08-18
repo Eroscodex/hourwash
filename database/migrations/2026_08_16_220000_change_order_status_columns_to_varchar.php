@@ -13,7 +13,9 @@ return new class extends Migration
         if (DB::getDriverName() === 'mysql') {
             try {
                 DB::statement("ALTER TABLE orders MODIFY COLUMN order_status VARCHAR(50) DEFAULT 'pending'");
-                DB::statement("ALTER TABLE order_status_history MODIFY COLUMN status VARCHAR(50) DEFAULT 'pending'");
+                DB::statement("ALTER TABLE orders MODIFY COLUMN payment_status VARCHAR(50) DEFAULT 'unpaid'");
+                DB::statement("ALTER TABLE services MODIFY COLUMN service_type VARCHAR(50) DEFAULT 'wash_dry'");
+                DB::statement("ALTER TABLE services MODIFY COLUMN price_unit VARCHAR(50) DEFAULT 'kg'");
             } catch (Throwable $e) {
                 // Ignore if driver does not support alter modify
             }

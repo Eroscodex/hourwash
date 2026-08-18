@@ -55,17 +55,20 @@ class LaundryController extends Controller
 
         $request->validate([
             'service_id' => 'required|exists:services,id',
-            'weight_kg' => 'required|numeric|min:0.5|max:24.0',
+            'weight_kg' => 'nullable|numeric|min:0|max:100',
             'machine_id' => 'nullable|exists:machines,id',
             'supplies_option' => 'nullable|string|in:store_provided,own_detergent,own_softener,own_both',
             'customer_id' => 'nullable|exists:users,id',
             'new_customer_name' => 'required_if:customer_mode,new|nullable|string|max:255',
             'new_customer_email' => 'nullable|email|max:255|unique:users,email',
-            'new_customer_phone' => 'nullable|string|max:50',
+            'new_customer_phone' => 'nullable|string|max:50|unique:users,phone',
             'new_customer_address' => 'nullable|string|max:255',
+        ], [
+            'new_customer_phone.unique' => 'This phone number is already registered to an existing customer.',
+            'new_customer_email.unique' => 'This email address is already registered to an existing customer.',
         ]);
 
-        $customerId = Auth::user()->id;
+        $customerId = Auth::id();
 
         if ($isStaffOrAdmin) {
             if ($request->input('customer_mode') === 'new' || ($request->filled('new_customer_name') && ! $request->filled('customer_id'))) {
@@ -207,8 +210,12 @@ class LaundryController extends Controller
 
     public function myOrders()
     {
+        if (! Auth::check()) {
+            return redirect()->route('login');
+        }
+
         $orders = Order::with(['service', 'qrCode', 'feedback', 'machine'])
-            ->where('customer_id', Auth::user()->id)
+            ->where('customer_id', Auth::id())
             ->latest()
             ->get();
 
@@ -218,7 +225,7 @@ class LaundryController extends Controller
         );
     }
 
-    public function track($qr)
+    public function track(string $qr)
     {
         $qrStr = trim($qr);
 

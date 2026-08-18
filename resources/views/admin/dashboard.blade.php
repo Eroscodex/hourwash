@@ -609,9 +609,15 @@
                                     </span>
                                 </td>
                                 <td class="px-4 py-3">
-                                    <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider @if($order->order_status === 'completed') bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 @elseif($order->order_status === 'ready' || $order->order_status === 'finish') bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30 @elseif($order->order_status === 'pending') bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 @else bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30 @endif">
-                                        {{ $order->order_status === 'finish' ? 'Finish' : str_replace('_', ' ', $order->order_status) }}
-                                    </span>
+                                    @if($order->order_status === 'completed')
+                                        <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">Completed</span>
+                                    @elseif($order->order_status === 'ready' || $order->order_status === 'finish')
+                                        <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30">Finish</span>
+                                    @elseif($order->order_status === 'pending')
+                                        <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300">Pending</span>
+                                    @else
+                                        <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30">{{ str_replace('_', ' ', $order->order_status) }}</span>
+                                    @endif
                                 </td>
                                 <td class="px-4 py-3 text-center">
                                     <a href="{{ route('admin.laundry.index') }}"
