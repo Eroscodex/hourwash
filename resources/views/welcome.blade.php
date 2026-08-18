@@ -37,7 +37,7 @@
                     <span class="text-base sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white block leading-tight">
                         HOUR WASH
                     </span>
-                    <span class="hidden sm:block text-[9px] sm:text-[10px] text-blue-600 dark:text-blue-400 tracking-wider uppercase font-semibold whitespace-nowrap">LAUNDRY MANAGEMENT SYSTEM</span>
+                    <span class="text-[8.5px] sm:text-[10px] text-blue-600 dark:text-blue-400 tracking-wider uppercase font-semibold block whitespace-nowrap">LAUNDRY MANAGEMENT SYSTEM</span>
                 </div>
             </a>
 
