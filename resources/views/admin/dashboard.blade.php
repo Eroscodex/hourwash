@@ -40,10 +40,8 @@
                 <a href="{{ route('admin.laundry.index') }}" class="btn-primary text-[10px] py-1 px-2 whitespace-nowrap text-center shrink-0">
                     Manage Orders Queue
                 </a>
-            </div>
 
-                <a href="{{ route('admin.machines.create') }}"
-                   class="btn-primary text-center">
+                <a href="{{ route('admin.machines.create') }}" class="btn-secondary text-[10px] py-1 px-2 whitespace-nowrap text-center shrink-0">
                     Add New Machine
                 </a>
             </div>
