@@ -13,7 +13,7 @@
             @csrf
             @method('delete')
 
-            <h2 class="text-base font-bold text-white font-['Outfit']">
+            <h2 class="text-base font-bold text-white ">
                 {{ __('Are you sure you want to delete your account?') }}
             </h2>
 
@@ -47,3 +47,4 @@
         </form>
     </x-modal>
 </section>
+

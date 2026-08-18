@@ -18,12 +18,12 @@ return new class extends Migration
             DB::statement("ALTER TABLE `users` MODIFY COLUMN `role` VARCHAR(50) NOT NULL DEFAULT 'customer'");
         }
 
-        // 2. Create or update Rider User: Anthony
+        // 2. Create or update Rider User: Anthony Cayme
         User::updateOrCreate(
             ['email' => 'caymeanthony1@gmail.com'],
             [
-                'name' => 'Anthony',
-                'password' => Hash::make('password'),
+                'name' => 'Anthony Cayme',
+                'password' => Hash::make('Anthony1234!'),
                 'phone' => '09100317744',
                 'role' => 'rider',
                 'status' => 'active',

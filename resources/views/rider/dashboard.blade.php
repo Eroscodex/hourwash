@@ -5,10 +5,10 @@
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
                 <div class="flex items-center gap-2">
-                    <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white">
+                    <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white">
                         Rider Logistics & Dispatch Portal
                     </h1>
-                    <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 text-[10px] font-extrabold uppercase tracking-wider border border-emerald-500/30">
+                    <span class="px-2.5 py-0.5 rounded-md bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 text-[10px] font-extrabold uppercase tracking-wider border border-emerald-500/30">
                         ACTIVE RIDER
                     </span>
                 </div>
@@ -18,20 +18,20 @@
             </div>
 
             <div class="flex items-center gap-2">
-                <a href="tel:09100317744" class="btn-ios-primary text-xs flex items-center gap-1.5 shadow-md">
-                    <span>📞</span> Shop Dispatch (09100317744)
+                <a href="tel:09100317744" class="btn-primary text-xs flex items-center gap-1.5 shadow-sm">
+                    Shop Dispatch (09100317744)
                 </a>
             </div>
         </div>
 
         @if(session('success'))
-            <div class="p-4 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 text-xs font-semibold">
+            <div class="p-4 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 text-xs font-semibold">
                 {{ session('success') }}
             </div>
         @endif
 
         @if(session('error'))
-            <div class="p-4 rounded-xl bg-rose-500/15 border border-rose-500/30 text-rose-700 dark:text-rose-400 text-xs font-semibold">
+            <div class="p-4 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-700 dark:text-rose-400 text-xs font-semibold">
                 {{ session('error') }}
             </div>
         @endif
@@ -62,8 +62,8 @@
 
         <!-- SECTION 1: PICKUP REQUESTS -->
         <div class="space-y-4">
-            <div class="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-3">
-                <h2 class="text-base font-bold text-slate-900 dark:text-white font-['Outfit']">
+            <div class="flex items-center justify-between border-b border-slate-200 dark:dark:border-zinc-700 pb-3">
+                <h2 class="text-base font-bold text-slate-900 dark:text-white">
                     Customer Pickup Requests ({{ $pickupOrders->count() }})
                 </h2>
                 <span class="text-xs text-amber-600 dark:text-amber-400 font-semibold">Collect Laundry from Customer</span>
@@ -71,9 +71,9 @@
 
             @forelse($pickupOrders as $order)
                 <div class="app-card p-5 border-l-4 border-l-amber-500 space-y-4">
-                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-black/10 dark:border-white/10 pb-3">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 dark:dark:border-zinc-700 pb-3">
                         <div class="flex items-center gap-2">
-                            <span class="font-mono font-bold text-base text-[#007AFF] dark:text-[#0A84FF]">#{{ $order->order_number }}</span>
+                            <span class="font-mono font-bold text-base text-blue-600 dark:text-blue-400">#{{ $order->order_number }}</span>
                             <span class="px-2.5 py-0.5 rounded text-[10px] font-extrabold uppercase bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30">
                                 OUT FOR PICKUP
                             </span>
@@ -84,18 +84,18 @@
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                        <div class="p-3 rounded-xl bg-slate-50 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/5 space-y-1">
+                        <div class="p-3 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-black/5 dark:border-white/5 space-y-1">
                             <p class="text-slate-500 dark:text-slate-400 font-semibold uppercase text-[10px] tracking-wider">Customer Details</p>
                             <p class="font-bold text-slate-900 dark:text-white text-sm">{{ $order->customer->name ?? 'Customer' }}</p>
                             <p class="flex items-center gap-2 font-mono">
-                                📞 <a href="tel:{{ $order->customer->phone ?? '' }}" class="text-[#007AFF] dark:text-[#0A84FF] font-bold hover:underline">{{ $order->customer->phone ?? 'No phone listed' }}</a>
+                                <a href="tel:{{ $order->customer->phone ?? '' }}" class="text-blue-600 dark:text-blue-400 font-bold hover:underline">{{ $order->customer->phone ?? 'No phone listed' }}</a>
                                 @if($order->customer?->phone)
                                     <a href="sms:{{ $order->customer->phone }}" class="px-2 py-0.5 rounded bg-blue-500/15 text-blue-600 dark:text-blue-400 text-[10px] font-bold">SMS</a>
                                 @endif
                             </p>
                         </div>
 
-                        <div class="p-3 rounded-xl bg-slate-50 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/5 space-y-1">
+                        <div class="p-3 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-black/5 dark:border-white/5 space-y-1">
                             <p class="text-slate-500 dark:text-slate-400 font-semibold uppercase text-[10px] tracking-wider">Pickup Address & Package</p>
                             <p class="text-slate-900 dark:text-white font-semibold">📍 {{ $order->customer->customerProfile->address ?? 'Magallanes St., Orosite, Legazpi City' }}</p>
                             <p class="text-slate-600 dark:text-slate-400">Service: <span class="text-slate-900 dark:text-white font-bold">{{ $order->service->name ?? 'Laundry Service' }}</span></p>
@@ -111,7 +111,7 @@
                             @csrf
                             @method('PATCH')
                             <input type="hidden" name="status" value="received">
-                            <button type="submit" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow transition flex items-center gap-1.5">
+                            <button type="submit" class="px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow transition flex items-center gap-1.5">
                                 <span>✓</span> Mark Laundry Received & In Shop
                             </button>
                         </form>
@@ -126,8 +126,8 @@
 
         <!-- SECTION 2: DELIVERY DISPATCHES -->
         <div class="space-y-4 pt-2">
-            <div class="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-3">
-                <h2 class="text-base font-bold text-slate-900 dark:text-white font-['Outfit']">
+            <div class="flex items-center justify-between border-b border-slate-200 dark:dark:border-zinc-700 pb-3">
+                <h2 class="text-base font-bold text-slate-900 dark:text-white">
                     Clean Laundry Delivery Dispatches ({{ $deliveryOrders->count() }})
                 </h2>
                 <span class="text-xs text-cyan-600 dark:text-cyan-400 font-semibold">Deliver Laundry to Customer</span>
@@ -135,12 +135,17 @@
 
             @forelse($deliveryOrders as $order)
                 <div class="app-card p-5 border-l-4 border-l-cyan-500 space-y-4">
-                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-black/10 dark:border-white/10 pb-3">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 dark:dark:border-zinc-700 pb-3">
                         <div class="flex items-center gap-2">
-                            <span class="font-mono font-bold text-base text-[#007AFF] dark:text-[#0A84FF]">#{{ $order->order_number }}</span>
+                            <span class="font-mono font-bold text-base text-blue-600 dark:text-blue-400">#{{ $order->order_number }}</span>
                             <span class="px-2.5 py-0.5 rounded text-[10px] font-extrabold uppercase bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border border-cyan-500/30">
                                 OUT FOR DELIVERY
                             </span>
+                            @if($order->machine)
+                                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30">
+                                    Machine: {{ $order->machine->machine_name }}
+                                </span>
+                            @endif
                         </div>
                         <span class="text-xs text-slate-500 dark:text-slate-400 font-mono">
                             Dispatched: {{ $order->updated_at->format('M d, Y • h:i A') }}
@@ -148,18 +153,18 @@
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                        <div class="p-3 rounded-xl bg-slate-50 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/5 space-y-1">
+                        <div class="p-3 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-black/5 dark:border-white/5 space-y-1">
                             <p class="text-slate-500 dark:text-slate-400 font-semibold uppercase text-[10px] tracking-wider">Customer Details</p>
                             <p class="font-bold text-slate-900 dark:text-white text-sm">{{ $order->customer->name ?? 'Customer' }}</p>
                             <p class="flex items-center gap-2 font-mono">
-                                📞 <a href="tel:{{ $order->customer->phone ?? '' }}" class="text-[#007AFF] dark:text-[#0A84FF] font-bold hover:underline">{{ $order->customer->phone ?? 'No phone listed' }}</a>
+                                <a href="tel:{{ $order->customer->phone ?? '' }}" class="text-blue-600 dark:text-blue-400 font-bold hover:underline">{{ $order->customer->phone ?? 'No phone listed' }}</a>
                                 @if($order->customer?->phone)
                                     <a href="sms:{{ $order->customer->phone }}" class="px-2 py-0.5 rounded bg-blue-500/15 text-blue-600 dark:text-blue-400 text-[10px] font-bold">SMS</a>
                                 @endif
                             </p>
                         </div>
 
-                        <div class="p-3 rounded-xl bg-slate-50 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/5 space-y-1">
+                        <div class="p-3 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-black/5 dark:border-white/5 space-y-1">
                             <p class="text-slate-500 dark:text-slate-400 font-semibold uppercase text-[10px] tracking-wider">Delivery Destination</p>
                             <p class="text-slate-900 dark:text-white font-semibold">📍 {{ $order->customer->customerProfile->address ?? 'Magallanes St., Orosite, Legazpi City' }}</p>
                             <p class="text-slate-600 dark:text-slate-400">Service: <span class="text-slate-900 dark:text-white font-bold">{{ $order->service->name ?? 'Laundry Service' }}</span></p>
@@ -175,7 +180,7 @@
                             @csrf
                             @method('PATCH')
                             <input type="hidden" name="status" value="completed">
-                            <button type="submit" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow transition flex items-center gap-1.5">
+                            <button type="submit" class="px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow transition flex items-center gap-1.5">
                                 <span>✓</span> Mark Delivered & Completed
                             </button>
                         </form>

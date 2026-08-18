@@ -4,19 +4,19 @@
 
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-                <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white">
+                <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white">
                     Machine Management
                 </h1>
                 <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">Configure commercial washers, dryers, live statuses, and scannable machine QR tags.</p>
             </div>
-            <a href="{{ route('admin.machines.create') }}" class="btn-ios-primary w-full sm:w-fit text-center flex items-center justify-center gap-1.5 shadow-md">
+            <a href="{{ route('admin.machines.create') }}" class="btn-primary w-full sm:w-fit text-center flex items-center justify-center gap-1.5 shadow-sm">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
                 Add New Machine
             </a>
         </div>
 
         @if(session('success'))
-            <div class="bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 px-4 py-3 rounded-xl text-xs font-semibold">
+            <div class="bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 px-4 py-3 rounded-lg text-xs font-semibold">
                 {{ session('success') }}
             </div>
         @endif
@@ -24,7 +24,7 @@
         <div class="app-card overflow-hidden">
             <div class="overflow-x-auto max-w-full">
                 <table class="w-full text-left text-xs sm:text-sm whitespace-nowrap min-w-[600px]">
-                    <thead class="bg-slate-100 dark:bg-[#2C2C2E] text-slate-700 dark:text-slate-300 uppercase text-[10px] tracking-wider border-b border-black/10 dark:border-white/10">
+                    <thead class="bg-slate-100 dark:bg-[#18181B] text-slate-700 dark:text-slate-300 uppercase text-[10px] tracking-wider border-b border-slate-200 dark:dark:border-zinc-700">
                         <tr>
                             <th class="px-4 sm:px-6 py-3.5">Machine Tag QR</th>
                             <th class="px-4 sm:px-6 py-3.5">Machine Name</th>
@@ -50,13 +50,13 @@
                             <td class="px-4 sm:px-6 py-4 text-slate-700 dark:text-slate-300 capitalize">{{ str_replace('_', ' ', $machine->machine_type) }}</td>
                             <td class="px-4 sm:px-6 py-4">
                                 @if($machine->status === 'idle')
-                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">Idle</span>
+                                    <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">Idle</span>
                                 @elseif(in_array($machine->status, ['washing', 'rinsing', 'drying']))
-                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-teal-500/15 text-teal-700 dark:text-teal-300 border border-teal-500/30">{{ ucfirst($machine->status) }}</span>
+                                    <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-teal-500/15 text-teal-700 dark:text-teal-300 border border-teal-500/30">{{ ucfirst($machine->status) }}</span>
                                 @elseif($machine->status === 'maintenance')
-                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30">Maintenance</span>
+                                    <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30">Maintenance</span>
                                 @else
-                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30">Offline</span>
+                                    <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30">Offline</span>
                                 @endif
                             </td>
                             <td class="px-4 sm:px-6 py-4 text-right">
@@ -82,7 +82,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="p-4 border-t border-black/10 dark:border-white/10">{{ $machines->links() }}</div>
+            <div class="p-4 border-t border-slate-200 dark:dark:border-zinc-700">{{ $machines->links() }}</div>
         </div>
     </div>
 

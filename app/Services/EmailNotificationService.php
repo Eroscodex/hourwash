@@ -24,7 +24,7 @@ class EmailNotificationService
         }
 
         $statusStr = strtoupper(str_replace('_', ' ', $order->order_status));
-        $subject = "HourWash Notification: Order #{$order->order_number} is {$statusStr}";
+        $subject = "Hour Wash Notification: Order #{$order->order_number} is {$statusStr}";
 
         $html = view('emails.order_status_updated', [
             'order' => $order,
@@ -45,7 +45,7 @@ class EmailNotificationService
                     ->timeout(15)
                     ->post('https://api.brevo.com/v3/smtp/email', [
                         'sender' => [
-                            'name' => config('services.brevo.sender_name', 'HourWash Laundry'),
+                            'name' => config('services.brevo.sender_name', 'Hour Wash Laundry'),
                             'email' => config('services.brevo.sender_email', 'karlnicko2019@gmail.com'),
                         ],
                         'to' => [
@@ -66,7 +66,7 @@ class EmailNotificationService
                             'user_id' => $order->customer_id,
                             'recipient' => $recipientEmail,
                             'subject' => $subject,
-                            'body' => 'HourWash Alert: Hi '.($order->customer?->name ?? 'Customer').", your laundry Order #{$order->order_number} status is now {$statusStr}. Track live: ".url("/laundry/track/{$order->order_number}"),
+                            'body' => 'Hour Wash Alert: Hi '.($order->customer?->name ?? 'Customer').", your laundry Order #{$order->order_number} status is now {$statusStr}. Track live: ".url("/laundry/track/{$order->order_number}"),
                             'status' => 'sent',
                         ]);
                     } catch (\Throwable $e) {

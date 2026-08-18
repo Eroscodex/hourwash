@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\InventoryItem;
 use App\Models\Machine;
 use App\Models\Order;
 use App\Models\Promotion;
@@ -132,13 +131,6 @@ class ChatbotController extends Controller
             ? 'No active promotions right now.'
             : $promos->map(fn ($p) => "{$p->name} (Code: {$p->code}) — {$p->discount_value}".($p->discount_type === 'percentage' ? '%' : ' pesos').' off')->implode('; ');
 
-        // --- Inventory Low Stock Alerts ---
-        $lowStock = InventoryItem::whereColumn('quantity', '<=', 'minimum_stock')
-            ->where('status', 'active')
-            ->pluck('name')
-            ->implode(', ');
-        $lowStockNote = $lowStock ?: 'All supplies are well-stocked.';
-
         // --- Customer List (names & emails only — NO passwords, NO phone, NO admin/staff details) ---
         $customers = User::where('role', 'customer')
             ->orWhere('role', 'user')
@@ -181,9 +173,6 @@ TODAY'S ORDER STATS:
 
 ACTIVE PROMOTIONS:
 {$promoList}
-
-INVENTORY STATUS:
-Low stock items: {$lowStockNote}
 
 REGISTERED CUSTOMERS (name & email only):
 {$customerDirectory}

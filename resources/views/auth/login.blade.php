@@ -22,19 +22,19 @@
         
         <div class="flex items-center justify-between pt-1">
             <label for="remember_me" class="inline-flex items-center cursor-pointer">
-                <input id="remember_me" type="checkbox" class="rounded border-black/15 dark:border-white/15 text-[#007AFF] focus:ring-[#007AFF]" name="remember">
-                <span class="ms-2 text-xs text-slate-700 dark:text-slate-300 font-medium">{{ __('Remember me') }}</span>
+                <input id="remember_me" type="checkbox" class="rounded border-slate-300 dark:border-zinc-600 text-blue-600 focus:ring-blue-600" name="remember">
+                <span class="ms-2 text-xs text-slate-700 dark:text-zinc-300 font-medium">{{ __('Remember me') }}</span>
             </label>
 
             @if (Route::has('password.request'))
-                <a class="text-xs text-slate-500 dark:text-slate-400 hover:text-[#007AFF] transition" href="{{ route('password.request') }}">
+                <a class="text-xs text-slate-500 dark:text-zinc-400 hover:text-blue-600 transition" href="{{ route('password.request') }}">
                     {{ __('Forgot password?') }}
                 </a>
             @endif
         </div>
 
         <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <a class="text-xs text-[#007AFF] dark:text-[#0A84FF] hover:underline font-semibold" href="{{ route('register') }}">
+            <a class="text-xs text-blue-600 dark:text-blue-400 hover:underline font-semibold" href="{{ route('register') }}">
                 {{ __("Don't have an account? Register") }}
             </a>
 

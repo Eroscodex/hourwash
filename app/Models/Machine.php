@@ -23,11 +23,24 @@ class Machine extends Model
         return $this->belongsTo(Order::class, 'current_order_id');
     }
 
+    public function activeOrder()
+    {
+        return $this->hasOne(Order::class, 'machine_id')
+            ->whereNotIn('order_status', ['completed', 'cancelled', 'finish'])
+            ->latestOfMany();
+    }
+
+    public function getDisplayOrderAttribute()
+    {
+        return $this->currentOrder ?? $this->activeOrder;
+    }
+
     public function getRemainingMinutesAttribute($value)
     {
         if (in_array($this->status, ['washing', 'rinsing', 'drying'])) {
+            $ord = $this->displayOrder;
             $baseMins = ($value !== null && $value > 0) ? (int) $value : match ($this->status) {
-                'washing' => $this->currentOrder?->service?->estimated_minutes ?? 30,
+                'washing' => $ord?->service?->estimated_minutes ?? 30,
                 'rinsing' => 15,
                 'drying' => 35,
                 default => 30,
@@ -38,7 +51,6 @@ class Machine extends Model
                 $lastUpdateCarbon = Carbon::parse($lastUpdate);
                 if ($lastUpdateCarbon->isPast()) {
                     $elapsed = (int) $lastUpdateCarbon->diffInMinutes(now());
-                    // If lastUpdate was seeded long ago (more than 2 hours elapsed), fallback to baseMins or 20 mins
                     if ($elapsed > ($baseMins + 120)) {
                         return min($baseMins, 25);
                     }

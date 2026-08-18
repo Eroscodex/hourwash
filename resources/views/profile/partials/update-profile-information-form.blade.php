@@ -26,7 +26,7 @@
                         <p class="text-xs mt-2 text-slate-600 dark:text-slate-300">
                             {{ __('Your email address is unverified.') }}
 
-                            <button form="send-verification" class="underline text-xs text-[#007AFF] dark:text-[#0A84FF] hover:opacity-80 rounded-md focus:outline-none">
+                            <button form="send-verification" class="underline text-xs text-blue-600 dark:text-blue-400 hover:opacity-80 rounded-md focus:outline-none">
                                 {{ __('Click here to re-send the verification email.') }}
                             </button>
                         </p>
@@ -86,3 +86,4 @@
         </div>
     </form>
 </section>
+

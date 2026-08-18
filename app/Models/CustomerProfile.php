@@ -13,7 +13,6 @@ class CustomerProfile extends Model
         'city',
         'province',
         'notes',
-        'loyalty_points',
     ];
 
     public function user()

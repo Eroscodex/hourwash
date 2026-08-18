@@ -23,7 +23,7 @@ class OrderStatusUpdated extends Mailable
         $statusStr = strtoupper(str_replace('_', ' ', $this->order->order_status));
 
         return new Envelope(
-            subject: "HourWash Notification: Order #{$this->order->order_number} is {$statusStr}",
+            subject: "Hour Wash Notification: Order #{$this->order->order_number} is {$statusStr}",
         );
     }
 

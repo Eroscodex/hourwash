@@ -117,16 +117,18 @@ class SmsNotificationService
         $statusStr = strtoupper(str_replace('_', ' ', $order->order_status));
         $custName = explode(' ', trim($order->customer?->name ?? 'Customer'))[0];
         $code = $order->order_number;
+        $machineName = $order->machine ? $order->machine->machine_name : null;
         $compTime = $order->estimated_completion
             ? Carbon::parse($order->estimated_completion)->format('M d h:i A')
             : 'TBD';
 
         if ($order->order_status === 'out_for_pickup') {
-            $message = "HourWash Alert: Hi {$custName}, Rider Anthony is EN ROUTE to pick up your laundry Order #{$code}! Rider Hotline: 09100317744.";
+            $message = "Hour Wash Alert: Hi {$custName}, Rider Anthony is EN ROUTE to pick up your laundry Order #{$code}! Rider Hotline: 09100317744.";
         } elseif ($order->order_status === 'out_for_delivery') {
-            $message = "HourWash Alert: Hi {$custName}, your laundry Order #{$code} is OUT FOR DELIVERY with Rider Anthony! Rider Hotline: 09100317744.";
+            $message = "Hour Wash Alert: Hi {$custName}, your laundry Order #{$code} is OUT FOR DELIVERY with Rider Anthony! Rider Hotline: 09100317744.";
         } else {
-            $message = "HourWash: Hi {$custName}, Order #{$code} status is {$statusStr}. Est: {$compTime}.";
+            $machStr = $machineName ? " Machine: {$machineName}." : '';
+            $message = "Hour Wash: Hi {$custName}, Order #{$code} status is {$statusStr}.{$machStr} Est: {$compTime}.";
         }
 
         if (! empty($customNote)) {

@@ -4,7 +4,7 @@
         <!-- Header -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-                <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white">
+                <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white">
                     Live SMS Customer Outbox
                 </h1>
                 <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
@@ -13,7 +13,7 @@
             </div>
 
             <div class="flex items-center gap-3">
-                <span class="px-3.5 py-1.5 rounded-full bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF] text-xs font-extrabold tracking-wider uppercase border border-[#007AFF]/30">
+                <span class="px-3.5 py-1.5 rounded-md bg-blue-600/15 text-blue-600 dark:text-blue-400 text-xs font-extrabold tracking-wider uppercase border border-blue-600/30">
                     {{ $totalDispatched }} SMS Dispatched
                 </span>
 
@@ -21,7 +21,7 @@
                     <form method="POST" action="{{ route('admin.sms.clearAll') }}" onsubmit="return confirm('Are you sure you want to delete all SMS notification history permanently?')">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="px-3.5 py-1.5 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 text-rose-600 dark:text-rose-400 text-xs font-bold border border-rose-500/30 transition">
+                        <button type="submit" class="px-3.5 py-1.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-600 dark:text-rose-400 text-xs font-bold border border-rose-500/30 transition">
                             Clear All SMS History
                         </button>
                     </form>
@@ -30,13 +30,13 @@
         </div>
 
         @if(session('success'))
-            <div class="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold">
+            <div class="p-4 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold">
                 {{ session('success') }}
             </div>
         @endif
 
         @if(session('error'))
-            <div class="p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-600 dark:text-rose-400 text-xs font-bold">
+            <div class="p-4 rounded-lg bg-rose-500/10 border border-rose-500/30 text-rose-600 dark:text-rose-400 text-xs font-bold">
                 {{ session('error') }}
             </div>
         @endif
@@ -46,35 +46,29 @@
         <!-- SMS Outbox Logs -->
         <div class="space-y-4">
             @forelse($smsLogs as $sms)
-                <div class="app-card p-4 sm:p-5 space-y-3 bg-[#1C1C1E] border border-black/10 dark:border-white/10 rounded-2xl shadow-sm">
-                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-black/5 dark:border-white/10 pb-2.5">
+                <div class="app-card p-4 sm:p-5 space-y-3 shadow-sm">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 dark:border-zinc-700 pb-2.5">
                         <div class="flex items-center gap-2 text-xs">
-                            <span class="font-bold text-slate-400">Phone:</span>
-                            <span class="font-mono font-bold text-[#007AFF] dark:text-[#0A84FF]">
+                            <span class="font-bold text-slate-700 dark:text-slate-300">Phone:</span>
+                            <span class="font-mono font-bold text-blue-600 dark:text-blue-400">
                                 {{ $sms->phone }}
                             </span>
-                            <span class="ml-2 px-2.5 py-0.5 rounded text-[10px] font-extrabold uppercase tracking-wider
-                                @if(in_array($sms->status, ['sent', 'dispatched', 'delivered'])) bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30
-                                @elseif($sms->status === 'failed') bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30
-                                @else bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30 @endif">
+                            <span class="ml-2 px-2.5 py-0.5 rounded text-[10px] font-extrabold uppercase tracking-wider @if(in_array($sms->status, ['sent', 'dispatched', 'delivered'])) bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 @elseif($sms->status === 'failed') bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30 @else bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30 @endif">
                                 {{ strtoupper($sms->status) }}
                             </span>
                         </div>
 
-                        <span class="text-[11px] font-medium text-slate-400 dark:text-slate-400 font-mono">
+                        <span class="text-[11px] font-medium text-slate-500 dark:text-slate-400 font-mono">
                             {{ $sms->created_at->format('M d, Y h:i A') }}
                         </span>
                     </div>
 
-                    <div class="p-3.5 rounded-xl bg-black/40 text-slate-200 font-mono text-xs leading-relaxed break-words border border-white/5">
+                    <div class="p-3.5 rounded-lg bg-emerald-100/90 dark:bg-emerald-950/40 text-emerald-950 dark:text-emerald-100 font-mono text-xs leading-relaxed break-words border border-emerald-300 dark:border-emerald-700/50 shadow-sm">
                         {{ $sms->message }}
                     </div>
                 </div>
             @empty
                 <div class="app-card p-8 text-center space-y-3">
-                    <div class="w-12 h-12 rounded-full bg-[#007AFF]/10 text-[#007AFF] mx-auto flex items-center justify-center text-xl">
-                        📱
-                    </div>
                     <h3 class="text-sm font-bold text-slate-900 dark:text-white">No SMS Outbox Records</h3>
                     <p class="text-xs text-slate-500 dark:text-slate-400">
                         SMS notifications sent to customers when order status changes will automatically appear here.

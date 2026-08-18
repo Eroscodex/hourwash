@@ -1,133 +1,279 @@
 <x-app-layout>
     <div class="space-y-6 sm:space-y-8">
-        
+
+        <!-- Header -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-                <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white">
+                <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white">
                     Staff Processing Terminal
                 </h1>
                 <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
-                    Manage active washing, drying, and folding pipeline for customer orders.
+                    Manage active washing, drying, and shelving pipeline for customer orders.
                 </p>
             </div>
-            
-            <a href="{{ route('admin.laundry.index') }}" class="btn-ios-primary text-center">
-                + New Walk-in Order
-            </a>
-        </div>
 
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-            <div class="app-card p-4 flex items-center justify-between">
-                <div>
-                    <span class="text-[10px] font-extrabold text-slate-900 dark:text-slate-200 uppercase tracking-wider block">RECEIVED</span>
-                    <span class="text-2xl font-bold text-slate-900 dark:text-white font-['Outfit']">6</span>
-                    <p class="text-[10px] text-slate-500 dark:text-slate-400">Awaiting washer loading</p>
-                </div>
-            </div>
+            <div class="flex flex-wrap sm:flex-nowrap items-center gap-1.5 overflow-x-auto shrink-0">
+                <form method="POST" action="{{ route('admin.store-status.toggle') }}" class="inline shrink-0">
+                    @csrf
+                    @if(($storeStatus ?? 'open') === 'open')
+                        <button type="submit" title="Click to Mark Store Closed Today" class="px-2 py-1 rounded-lg bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 font-extrabold text-[10px] whitespace-nowrap hover:bg-emerald-500/25 transition flex items-center justify-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span>STORE OPEN TODAY</span>
+                            <span class="hidden xl:inline-block text-[9px] text-slate-500 dark:text-slate-400 font-normal pl-1 border-l border-emerald-500/30">(Click to Close)</span>
+                        </button>
+                    @else
+                        <button type="submit" title="Click to Re-open Store Today" class="px-2 py-1 rounded-lg bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 font-extrabold text-[10px] whitespace-nowrap hover:bg-rose-500/25 transition flex items-center justify-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span>
+                            <span>STORE CLOSED TODAY</span>
+                            <span class="hidden xl:inline-block text-[9px] text-slate-500 dark:text-slate-400 font-normal pl-1 border-l border-rose-500/30">(Click to Open)</span>
+                        </button>
+                    @endif
+                </form>
 
-            <div class="app-card p-4 flex items-center justify-between">
-                <div>
-                    <span class="text-[10px] font-extrabold text-slate-900 dark:text-slate-200 uppercase tracking-wider block">WASHING & RINSING</span>
-                    <span class="text-2xl font-bold text-[#007AFF] dark:text-[#0A84FF] font-['Outfit']">8</span>
-                    <p class="text-[10px] text-slate-500 dark:text-slate-400">Machines running</p>
-                </div>
-            </div>
+                <button type="button" onclick="openAdminCameraScanner()" class="btn-secondary text-[10px] py-1 px-2 whitespace-nowrap flex items-center justify-center gap-1 shrink-0">
+                    <svg class="w-3 h-3 text-blue-600 dark:text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                        <circle cx="12" cy="13" r="3"/>
+                    </svg>
+                    <span>Scan QR</span>
+                </button>
 
-            <div class="app-card p-4 flex items-center justify-between">
-                <div>
-                    <span class="text-[10px] font-extrabold text-slate-900 dark:text-slate-200 uppercase tracking-wider block">DRYING CYCLE</span>
-                    <span class="text-2xl font-bold text-indigo-600 dark:text-indigo-400 font-['Outfit']">4</span>
-                    <p class="text-[10px] text-slate-500 dark:text-slate-400">In dryer units</p>
-                </div>
-            </div>
+                <a href="{{ route('admin.laundry.index') }}" class="btn-secondary text-[10px] py-1 px-2 whitespace-nowrap text-center shrink-0">
+                    Orders Queue
+                </a>
 
-            <div class="app-card p-4 flex items-center justify-between">
-                <div>
-                    <span class="text-[10px] font-extrabold text-slate-900 dark:text-slate-200 uppercase tracking-wider block">READY FOR PICKUP</span>
-                    <span class="text-2xl font-bold text-amber-600 dark:text-amber-400 font-['Outfit']">12</span>
-                    <p class="text-[10px] text-slate-500 dark:text-slate-400">Shelved & tagged</p>
-                </div>
+                <a href="{{ route('laundry.create') }}" class="btn-primary text-[10px] py-1 px-2 whitespace-nowrap text-center shrink-0">
+                    New Order
+                </a>
             </div>
         </div>
 
-        <div class="app-card p-4 sm:p-6 space-y-4 overflow-hidden">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <div>
-                    <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Active Processing Pipeline</h2>
-                    <p class="text-xs text-slate-600 dark:text-slate-400">Update cleaning status stages as laundry moves through machines</p>
-                </div>
-                <a href="{{ route('admin.laundry.index') }}" class="text-xs text-[#007AFF] dark:text-[#0A84FF] font-semibold hover:opacity-80">Full Orders Queue</a>
-            </div>
+        @php
+            $unpaidOrders = $orders->where('payment_status', 'unpaid');
+            $unpaidCount = $unpaidOrders->count();
+            $unpaidTotal = $unpaidOrders->sum('total_amount');
 
-            <div class="overflow-x-auto max-w-full">
-                <table class="w-full text-left text-xs whitespace-nowrap min-w-[600px]">
-                    <thead class="bg-slate-100 dark:bg-[#2C2C2E] text-slate-700 dark:text-slate-300 uppercase text-[10px] tracking-wider border-b border-black/10 dark:border-white/10">
-                        <tr>
-                            <th class="px-4 py-3">Order Tag</th>
-                            <th class="px-4 py-3">Customer</th>
-                            <th class="px-4 py-3">Service</th>
-                            <th class="px-4 py-3">Weight</th>
-                            <th class="px-4 py-3">Current Stage</th>
-                            <th class="px-4 py-3 text-center">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-black/5 dark:divide-white/5 text-slate-900 dark:text-slate-200">
-                        @forelse($orders as $order)
-                            <tr class="hover:bg-black/5 dark:hover:bg-white/5 transition">
-                                <td class="px-4 py-3 font-mono font-bold text-[#007AFF] dark:text-[#0A84FF]">#{{ $order->order_number }}</td>
-                                <td class="px-4 py-3">
-                                    <div class="font-medium">{{ $order->customer->name ?? 'Walk-in' }}</div>
-                                    @if(!empty($order->notes))
-                                        <div class="text-[10px] text-slate-500 dark:text-slate-400 italic max-w-xs truncate" title="{{ $order->notes }}">
-                                            📝 {{ $order->notes }}
-                                        </div>
-                                    @endif
-                                </td>
-                                <td class="px-4 py-3 text-slate-600 dark:text-slate-300">{{ $order->service->name ?? 'Standard Wash' }}</td>
-                                <td class="px-4 py-3 text-slate-600 dark:text-slate-300">{{ $order->weight_kg }} kg</td>
-                                <td class="px-4 py-3">
-                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider
-                                        @if($order->order_status === 'completed') bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30
-                                        @elseif($order->order_status === 'finish') bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30
-                                        @elseif($order->order_status === 'cancelled') bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30
-                                        @else bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30 @endif">
-                                        {{ $order->order_status === 'finish' ? 'Finish' : str_replace('_', ' ', $order->order_status) }}
-                                    </span>
-                                </td>
-                                <td class="px-4 py-3 text-center">
-                                    <a href="{{ route('admin.laundry.index') }}" class="btn-ios-secondary py-1 px-3 text-[11px]">Manage</a>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6" class="text-center py-6 text-slate-500">No active processing orders.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+            $paidOrders = $orders->where('payment_status', 'paid');
+            $paidCount = $paidOrders->count();
+            $paidTotal = $paidOrders->sum('total_amount');
+
+            $pendingCount = $orders->where('order_status', 'pending')->count();
+            $pickupCount = $orders->where('order_status', 'out_for_pickup')->count();
+            $receivedCount = $orders->where('order_status', 'received')->count();
+            $washRinseCount = $orders->whereIn('order_status', ['washing', 'rinsing'])->count();
+            $dryingCount = $orders->where('order_status', 'drying')->count();
+            $finishCount = $orders->where('order_status', 'finish')->count();
+            $deliveryCount = $orders->where('order_status', 'out_for_delivery')->count();
+            $completedCount = $orders->where('order_status', 'completed')->count();
+        @endphp
+
+        <!-- Quick Terminal Shortcuts -->
+        <div>
+            <h2 class="text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">
+                Quick Terminal Shortcuts
+            </h2>
+
+            <div class="grid grid-cols-2 sm:grid-cols-6 lg:grid-cols-6 gap-3">
+                <a href="{{ route('admin.laundry.index') }}"
+                   class="app-card p-3.5 flex flex-col justify-between hover:border-blue-600 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group">
+                    <div>
+                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
+                            Manage Laundry Orders
+                        </span>
+                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
+                            {{ $totalOrders ?? 0 }} total orders
+                        </span>
+                    </div>
+                </a>
+
+                <a href="{{ route('admin.machines.index') }}"
+                   class="app-card p-3.5 flex flex-col justify-between hover:border-blue-600 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group">
+                    <div>
+                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
+                            Machine Monitor
+                        </span>
+                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
+                            {{ count($machines ?? []) }} commercial units
+                        </span>
+                    </div>
+                </a>
+
+                <a href="{{ route('laundry.create') }}"
+                   class="app-card p-3.5 flex flex-col justify-between hover:border-blue-600 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group">
+                    <div>
+                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
+                            New Walk-in Order
+                        </span>
+                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
+                            Book customer wash
+                        </span>
+                    </div>
+                </a>
+
+                <a href="{{ route('admin.qr_scan_logs.index') }}"
+                   class="app-card p-3.5 flex flex-col justify-between hover:border-blue-600 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group">
+                    <div>
+                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
+                            QR Scan Logs Outbox
+                        </span>
+                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
+                            Scan audit history
+                        </span>
+                    </div>
+                </a>
+
+                <a href="{{ route('welcome') }}"
+                   class="app-card p-3.5 flex flex-col justify-between hover:border-blue-600 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group">
+                    <div>
+                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
+                            Home Dashboard
+                        </span>
+                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
+                            Public storefront
+                        </span>
+                    </div>
+                </a>
+
+                <a href="{{ route('profile.edit') }}"
+                   class="app-card p-3.5 flex flex-col justify-between hover:border-blue-600 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group">
+                    <div>
+                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
+                            Account Settings
+                        </span>
+                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
+                            Staff Profile & Security
+                        </span>
+                    </div>
+                </a>
             </div>
         </div>
 
-        <div class="app-card p-4 sm:p-6 space-y-6">
-            <div class="flex items-center justify-between">
+        <!-- Payment & Financial Status Summary (Pera / Payment Collection) -->
+        <div>
+            <h2 class="text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">
+                Payment Collection & Cashier Summary
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="app-card p-4 flex items-center justify-between border-l-4 border-rose-500 shadow-sm">
+                    <div>
+                        <span class="text-[10px] font-extrabold text-rose-600 dark:text-rose-400 uppercase tracking-wider block">
+                            UNPAID ORDERS (NEED PAYMENT COLLECTION)
+                        </span>
+                        <span class="text-2xl font-extrabold text-slate-900 dark:text-white font-mono">
+                            ₱{{ number_format($unpaidTotal, 2) }}
+                        </span>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
+                            <span class="font-bold text-rose-600 dark:text-rose-400">{{ $unpaidCount }} order(s)</span> pending cashier payment
+                        </p>
+                    </div>
+                    <span class="px-3 py-1 rounded-md bg-rose-500/15 text-rose-700 dark:text-rose-300 font-extrabold text-xs uppercase border border-rose-500/30">
+                        UNPAID
+                    </span>
+                </div>
+
+                <div class="app-card p-4 flex items-center justify-between border-l-4 border-emerald-500 shadow-sm">
+                    <div>
+                        <span class="text-[10px] font-extrabold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block">
+                            PAID ORDERS (COLLECTED REVENUE)
+                        </span>
+                        <span class="text-2xl font-extrabold text-slate-900 dark:text-white font-mono">
+                            ₱{{ number_format($paidTotal, 2) }}
+                        </span>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
+                            <span class="font-bold text-emerald-600 dark:text-emerald-400">{{ $paidCount }} order(s)</span> paid & cleared
+                        </p>
+                    </div>
+                    <span class="px-3 py-1 rounded-md bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-extrabold text-xs uppercase border border-emerald-500/30">
+                        PAID
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8-Stage Order Status Pipeline Breakdown -->
+        <div>
+            <h2 class="text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">
+                Live Order Stage Pipeline Breakdown
+            </h2>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
+                <div class="app-card p-3 flex flex-col justify-between shadow-sm">
+                    <span class="text-[9.5px] font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider block truncate">1. PENDING</span>
+                    <span class="text-xl font-bold text-slate-900 dark:text-white mt-1">{{ $pendingCount }}</span>
+                    <p class="text-[9px] text-slate-500 dark:text-slate-400 truncate mt-0.5">Order Placed</p>
+                </div>
+
+                <div class="app-card p-3 flex flex-col justify-between shadow-sm">
+                    <span class="text-[9.5px] font-extrabold text-sky-600 dark:text-sky-400 uppercase tracking-wider block truncate">2. PICKUP</span>
+                    <span class="text-xl font-bold text-sky-600 dark:text-sky-400 mt-1">{{ $pickupCount }}</span>
+                    <p class="text-[9px] text-slate-500 dark:text-slate-400 truncate mt-0.5">Out for Pickup</p>
+                </div>
+
+                <div class="app-card p-3 flex flex-col justify-between shadow-sm">
+                    <span class="text-[9.5px] font-extrabold text-blue-600 dark:text-blue-400 uppercase tracking-wider block truncate">3. RECEIVED</span>
+                    <span class="text-xl font-bold text-blue-600 dark:text-blue-400 mt-1">{{ $receivedCount }}</span>
+                    <p class="text-[9px] text-slate-500 dark:text-slate-400 truncate mt-0.5">Store Received</p>
+                </div>
+
+                <div class="app-card p-3 flex flex-col justify-between shadow-sm">
+                    <span class="text-[9.5px] font-extrabold text-teal-600 dark:text-teal-400 uppercase tracking-wider block truncate">4. WASHING</span>
+                    <span class="text-xl font-bold text-teal-600 dark:text-teal-400 mt-1">{{ $washRinseCount }}</span>
+                    <p class="text-[9px] text-slate-500 dark:text-slate-400 truncate mt-0.5">Wash & Rinse</p>
+                </div>
+
+                <div class="app-card p-3 flex flex-col justify-between shadow-sm">
+                    <span class="text-[9.5px] font-extrabold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider block truncate">5. DRYING</span>
+                    <span class="text-xl font-bold text-indigo-600 dark:text-indigo-400 mt-1">{{ $dryingCount }}</span>
+                    <p class="text-[9px] text-slate-500 dark:text-slate-400 truncate mt-0.5">Dryer Units</p>
+                </div>
+
+                <div class="app-card p-3 flex flex-col justify-between shadow-sm">
+                    <span class="text-[9.5px] font-extrabold text-amber-600 dark:text-amber-400 uppercase tracking-wider block truncate">6. FINISH</span>
+                    <span class="text-xl font-bold text-amber-600 dark:text-amber-400 mt-1">{{ $finishCount }}</span>
+                    <p class="text-[9px] text-slate-500 dark:text-slate-400 truncate mt-0.5">Shelved & Tagged</p>
+                </div>
+
+                <div class="app-card p-3 flex flex-col justify-between shadow-sm">
+                    <span class="text-[9.5px] font-extrabold text-purple-600 dark:text-purple-400 uppercase tracking-wider block truncate">7. DELIVERY</span>
+                    <span class="text-xl font-bold text-purple-600 dark:text-purple-400 mt-1">{{ $deliveryCount }}</span>
+                    <p class="text-[9px] text-slate-500 dark:text-slate-400 truncate mt-0.5">Out for Delivery</p>
+                </div>
+
+                <div class="app-card p-3 flex flex-col justify-between shadow-sm">
+                    <span class="text-[9.5px] font-extrabold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block truncate">8. COMPLETED</span>
+                    <span class="text-xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">{{ $completedCount }}</span>
+                    <p class="text-[9px] text-slate-500 dark:text-slate-400 truncate mt-0.5">Fulfilled & Done</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Machine Status Monitor Grid -->
+        <div class="app-card p-4 sm:p-6 space-y-6 shadow-sm">
+            <div class="flex items-center justify-between border-b border-slate-200 dark:border-zinc-700 pb-3">
                 <div>
                     <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
                         Machine Status Monitor
                     </h2>
-                    <p class="text-xs text-slate-500 dark:text-slate-400">
+                    <p class="text-xs text-slate-600 dark:text-slate-400">
                         Real-time status of commercial washers & dryers. Click any active order to view details.
                     </p>
                 </div>
-                <a href="{{ route('admin.machines.index') }}" class="text-xs text-[#007AFF] dark:text-[#0A84FF] hover:opacity-80 font-semibold">
-                    Manage Machines
-                </a>
+                <div class="flex items-center gap-2">
+                    <a href="{{ route('admin.machines.create') }}" class="btn-primary py-1.5 px-3 text-xs">
+                        + Add Machine
+                    </a>
+                    <a href="{{ route('admin.machines.index') }}" class="btn-secondary py-1.5 px-3 text-xs">
+                        Manage Machines
+                    </a>
+                </div>
             </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5">
                 @forelse($machines as $machine)
                     @php
-                        $targetUrl = $machine->currentOrder 
-                            ? route('laundry.track', $machine->currentOrder->order_number) 
+                        $targetUrl = $machine->currentOrder
+                            ? route('laundry.track', $machine->currentOrder->order_number)
                             : route('admin.machines.index');
 
                         $statusClass = match($machine->status) {
@@ -144,46 +290,49 @@
                             'idle' => 'text-emerald-600 dark:text-emerald-400',
                             default => 'text-amber-600 dark:text-amber-400',
                         };
+                        $ord = $machine->displayOrder;
                     @endphp
 
-                    @if($machine->currentOrder)
-                        <a href="{{ route('laundry.track', $machine->currentOrder->order_number) }}" 
-                           class="block p-3.5 rounded-xl bg-[#007AFF]/5 dark:bg-[#0A84FF]/10 border border-[#007AFF]/40 space-y-2 hover:border-[#007AFF] hover:shadow-lg hover:scale-[1.02] active:scale-95 transition-all cursor-pointer group" 
-                           title="Click to view order #{{ $machine->currentOrder->order_number }}">
+                    @if($ord)
+                        <a href="{{ route('laundry.track', $ord->order_number) }}"
+                           class="block p-3.5 rounded-lg bg-blue-600/5 dark:bg-blue-600/10 border border-blue-600/40 space-y-2 hover:border-blue-600 shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer group"
+                           title="Click to view order #{{ $ord->order_number }}">
                             <div class="flex items-center justify-between">
-                                <span class="text-xs font-bold text-slate-900 dark:text-slate-100 truncate group-hover:text-[#007AFF] transition">
+                                <span class="text-xs font-bold text-slate-900 dark:text-slate-100 truncate group-hover:text-blue-600 transition">
                                     {{ $machine->machine_name }}
                                 </span>
                                 <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono flex-shrink-0">
                                     {{ $machine->machine_code }}
                                 </span>
                             </div>
+
                             <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold {{ $statusClass }}">
-                                <img src="{{ asset('favicon.svg') }}" alt="HourWash" class="w-5 h-5 object-contain" />
+                                <img src="{{ asset('favicon.svg') }}" alt="Hour Wash" class="w-5 h-5 object-contain" />
                             </div>
+
                             <div>
                                 <span class="text-[10px] font-bold uppercase tracking-wider block {{ $statusTextClass }}">
-                                    {{ strtoupper($machine->status) }}
+                                    {{ strtoupper($machine->status === 'idle' ? str_replace('_', ' ', $ord->order_status) : $machine->status) }}
                                 </span>
                                 <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 space-y-0.5">
                                     @if(in_array($machine->status, ['washing', 'rinsing', 'drying']) && $machine->remaining_minutes)
-                                        <span>⏱ {{ $machine->remaining_minutes }} mins remaining</span>
-                                    @elseif($machine->currentOrder->order_status === 'finish')
+                                        <span>{{ $machine->remaining_minutes }} mins remaining</span>
+                                    @elseif($ord->order_status === 'finish')
                                         <span class="text-emerald-600 dark:text-emerald-400 font-bold">✓ Finish & Shelved</span>
                                     @else
-                                        <span class="text-amber-600 dark:text-amber-400 font-bold">⏳ Order Received</span>
+                                        <span class="text-amber-600 dark:text-amber-400 font-bold">Order {{ ucfirst(str_replace('_', ' ', $ord->order_status)) }}</span>
                                     @endif
-                                    <span class="block text-[9.5px] font-bold text-[#007AFF] dark:text-[#0A84FF] mt-1 group-hover:underline truncate">
-                                        Order: #{{ $machine->currentOrder->order_number }}
+                                    <span class="block text-[9.5px] font-bold text-blue-600 dark:text-blue-400 mt-1 group-hover:underline truncate">
+                                        Order: #{{ $ord->order_number }}
                                     </span>
                                     <span class="block text-[9px] font-semibold text-slate-700 dark:text-slate-300 truncate">
-                                        👤 {{ $machine->currentOrder->customer->name ?? 'Customer' }}
+                                        Customer: {{ $ord->customer->name ?? 'Customer' }}
                                     </span>
                                 </div>
                             </div>
                         </a>
                     @else
-                        <div class="p-3.5 rounded-xl bg-black/5 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-2 opacity-85 select-none"
+                        <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700 space-y-2 opacity-90 select-none shadow-xs"
                              title="No active order for {{ $machine->machine_name }}">
                             <div class="flex items-center justify-between">
                                 <span class="text-xs font-bold text-slate-900 dark:text-slate-100 truncate">
@@ -194,7 +343,7 @@
                                 </span>
                             </div>
                             <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold {{ $statusClass }}">
-                                <img src="{{ asset('favicon.svg') }}" alt="HourWash" class="w-5 h-5 object-contain" />
+                                <img src="{{ asset('favicon.svg') }}" alt="Hour Wash" class="w-5 h-5 object-contain" />
                             </div>
                             <div>
                                 <span class="text-[10px] font-bold uppercase tracking-wider block {{ $statusTextClass }}">
@@ -202,8 +351,8 @@
                                 </span>
                                 <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
                                     @if(in_array($machine->status, ['washing', 'rinsing', 'drying']))
-                                        <span>⏱ {{ $machine->remaining_minutes ?? 30 }} mins remaining</span>
-                                        <span class="block text-[9px] text-[#007AFF] dark:text-[#0A84FF] font-bold mt-0.5">
+                                        <span>{{ $machine->remaining_minutes ?? 30 }} mins remaining</span>
+                                        <span class="block text-[9px] text-blue-600 dark:text-blue-400 font-bold mt-0.5">
                                             Est. Finish: {{ now()->addMinutes($machine->remaining_minutes ?? 30)->format('h:i A') }}
                                         </span>
                                     @elseif($machine->status === 'maintenance')
@@ -224,5 +373,74 @@
                 @endforelse
             </div>
         </div>
+
+                <!-- Active Processing Pipeline -->
+        <div class="app-card p-4 sm:p-6 space-y-4 overflow-hidden shadow-sm">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 dark:border-zinc-700 pb-3">
+                <div>
+                    <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Active Processing Pipeline</h2>
+                    <p class="text-xs text-slate-600 dark:text-slate-400">Update cleaning status stages as laundry moves through machines</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <a href="{{ route('laundry.create') }}" class="btn-primary py-1.5 px-3 text-xs">
+                        + New Order
+                    </a>
+                    <a href="{{ route('admin.laundry.index') }}" class="btn-secondary py-1.5 px-3 text-xs">Full Orders Queue</a>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto max-w-full">
+                <table class="w-full text-left text-xs whitespace-nowrap min-w-[650px]">
+                    <thead class="bg-slate-100 dark:bg-[#18181B] text-slate-700 dark:text-slate-300 uppercase text-[10px] tracking-wider border-b border-slate-200 dark:border-zinc-700">
+                        <tr>
+                            <th class="px-4 py-3">Order Tag</th>
+                            <th class="px-4 py-3">Customer</th>
+                            <th class="px-4 py-3">Service</th>
+                            <th class="px-4 py-3">Weight</th>
+                            <th class="px-4 py-3">Payment</th>
+                            <th class="px-4 py-3">Current Stage</th>
+                            <th class="px-4 py-3 text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 dark:divide-zinc-700 text-slate-900 dark:text-slate-200">
+                        @forelse($orders->take(10) as $order)
+                            <tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition">
+                                <td class="px-4 py-3 font-mono font-bold text-blue-600 dark:text-blue-400">#{{ $order->order_number }}</td>
+                                <td class="px-4 py-3">
+                                    <div class="font-medium text-slate-900 dark:text-slate-100">{{ $order->customer->name ?? 'Walk-in' }}</div>
+                                    @if(!empty($order->notes))
+                                        <div class="text-[10px] text-slate-500 dark:text-slate-400 italic max-w-xs truncate" title="{{ $order->notes }}">
+                                            {{ $order->notes }}
+                                        </div>
+                                    @endif
+                                </td>
+                                <td class="px-4 py-3 text-slate-700 dark:text-slate-300">{{ $order->service->name ?? 'Standard Wash' }}</td>
+                                <td class="px-4 py-3 text-slate-700 dark:text-slate-300 font-mono">{{ $order->weight_kg }} kg</td>
+                                <td class="px-4 py-3 font-mono">
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
+                                        {{ strtoupper($order->payment_status) }} (₱{{ number_format($order->total_amount, 2) }})
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider @if($order->order_status === 'completed') bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 @elseif($order->order_status === 'finish') bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30 @elseif($order->order_status === 'cancelled') bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 @else bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30 @endif">
+                                        {{ $order->order_status === 'finish' ? 'Finish' : str_replace('_', ' ', $order->order_status) }}
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3 text-center">
+                                    <a href="{{ route('admin.laundry.index') }}" class="btn-secondary py-1 px-3 text-[11px]">Manage</a>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" class="text-center py-6 text-slate-500">No active processing orders.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
+
+    <x-camera-qr-scanner />
+
 </x-app-layout>

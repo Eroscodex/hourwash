@@ -32,14 +32,17 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255', 'unique:'.User::class],
+            'name' => ['required', 'string', 'min:8', 'max:255', 'unique:'.User::class],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'phone' => ['nullable', 'string', 'max:20', 'unique:'.User::class],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', 'confirmed', Rules\Password::min(8)->symbols()],
         ], [
-            'name.unique' => 'The name has already been registered. Please use your full name.',
+            'name.min' => 'Full Name must be at least 8 characters long.',
+            'name.unique' => 'This name has already been registered. Please use your full name.',
             'phone.unique' => 'This phone number is already registered to another account.',
             'email.unique' => 'This email address is already registered to another account.',
+            'password.min' => 'Password must be at least 8 characters long.',
+            'password.symbols' => 'Password must contain at least one special symbol character (e.g. !@#$%^&*).',
         ]);
 
         $user = User::create([
@@ -51,10 +54,9 @@ class RegisteredUserController extends Controller
             'status' => 'active',
         ]);
 
-        CustomerProfile::firstOrCreate(
-            ['user_id' => $user->id],
-            ['loyalty_points' => 0]
-        );
+        CustomerProfile::firstOrCreate([
+            'user_id' => $user->id,
+        ]);
 
         event(new Registered($user));
 

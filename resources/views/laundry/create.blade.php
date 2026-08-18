@@ -3,18 +3,25 @@
 <div class="max-w-3xl mx-auto space-y-6">
 
     <div>
-        <h1 class="text-xl sm:text-2xl font-bold font-['Outfit'] text-slate-900 dark:text-white">Book Laundry Order</h1>
+        <h1 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">Book Laundry Order</h1>
         <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Select your service package, laundry supplies option, input weight, and choose an available machine.</p>
     </div>
 
+    @if(\Illuminate\Support\Facades\Cache::get('store_status', 'open') === 'closed')
+        <div class="bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 px-4 py-3 rounded-lg text-xs font-bold flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-rose-500 flex-shrink-0"></span>
+            <span>⚠️ NOTICE: HourWash Store is currently CLOSED TODAY. New bookings will be queued for processing on the next business day.</span>
+        </div>
+    @endif
+
     @if(session('success'))
-        <div class="bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 px-4 py-3 rounded-xl text-xs font-semibold">
+        <div class="bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 px-4 py-3 rounded-lg text-xs font-semibold">
             {{ session('success') }}
         </div>
     @endif
 
     @if($errors->any())
-        <div class="bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 px-4 py-3 rounded-xl text-xs font-semibold">
+        <div class="bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 px-4 py-3 rounded-lg text-xs font-semibold">
             <ul class="list-disc list-inside">
                 @foreach($errors->all() as $error)
                     <li>{{ $error }}</li>
@@ -30,10 +37,10 @@
 
             @if(auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isOwner() || auth()->user()->isStaff()))
                 <!-- WALK-IN CUSTOMER SELECTION & INSTANT REGISTRATION (Admin & Staff Only) -->
-                <div class="mb-6 p-4 rounded-xl bg-slate-100 dark:bg-[#2C2C2E] border border-black/10 dark:border-white/10 space-y-4" x-data="{ customerMode: '{{ old('customer_mode', 'select') }}' }">
-                    <div class="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-2.5">
+                <div class="mb-6 p-4 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 space-y-4" x-data="{ customerMode: '{{ old('customer_mode', 'select') }}' }">
+                    <div class="flex items-center justify-between border-b border-slate-200 dark:dark:border-zinc-700 pb-2.5">
                         <label class="block text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
-                            👤 Customer Assignment (Walk-In / Order Owner)
+                            Customer Assignment (Walk-In / Order Owner)
                         </label>
                         <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-sky-500/15 text-sky-600 dark:text-sky-400">
                             Staff / Admin Mode
@@ -43,12 +50,12 @@
                     <!-- Mode Switchers -->
                     <div class="flex flex-wrap items-center gap-4 text-xs font-semibold">
                         <label class="flex items-center gap-2 cursor-pointer text-slate-900 dark:text-white">
-                            <input type="radio" name="customer_mode" value="select" x-model="customerMode" class="text-[#007AFF]">
+                            <input type="radio" name="customer_mode" value="select" x-model="customerMode" class="text-blue-600">
                             <span>Select Existing Customer</span>
                         </label>
                         <label class="flex items-center gap-2 cursor-pointer text-slate-900 dark:text-white">
-                            <input type="radio" name="customer_mode" value="new" x-model="customerMode" class="text-[#007AFF]">
-                            <span class="text-[#007AFF] dark:text-[#0A84FF] font-bold">+ Register New Walk-in Customer</span>
+                            <input type="radio" name="customer_mode" value="new" x-model="customerMode" class="text-blue-600">
+                            <span class="text-blue-600 dark:text-blue-400 font-bold">Register New Walk-in Customer</span>
                         </label>
                     </div>
 
@@ -59,7 +66,7 @@
                             <option value="">-- Select Registered Customer --</option>
                             @foreach($customers ?? [] as $c)
                                 <option value="{{ $c->id }}" {{ old('customer_id') == $c->id ? 'selected' : '' }}>
-                                    {{ $c->name }} ({{ $c->email }}{{ $c->phone ? ' • 📞 '.$c->phone : '' }})
+                                    {{ $c->name }} ({{ $c->email }}{{ $c->phone ? ' • '.$c->phone : '' }})
                                 </option>
                             @endforeach
                         </select>
@@ -70,7 +77,7 @@
 
                     <!-- Option B: Register New Walk-in Customer -->
                     <div x-show="customerMode === 'new'" x-cloak class="space-y-3 pt-2 border-t border-black/5 dark:border-white/5">
-                        <p class="text-[11px] font-bold text-[#007AFF] dark:text-[#0A84FF]">
+                        <p class="text-[11px] font-bold text-blue-600 dark:text-blue-400">
                             Instant Registration for New Customer:
                         </p>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
@@ -115,21 +122,21 @@
                     <label class="block text-xs font-semibold text-slate-700 dark:text-slate-200 uppercase tracking-wider">
                         Weight (kg)
                     </label>
-                    <span id="load-count-badge" class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF]">
+                    <span id="load-count-badge" class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-blue-600/15 text-blue-600 dark:text-blue-400">
                         1 Machine Load (7-8kg Max)
                     </span>
                 </div>
                 <input id="weight_kg" type="number" name="weight_kg" value="{{ old('weight_kg', 7) }}" min="0.5" max="24.0" step="0.5" class="w-full">
                 <p id="weight-hint" class="text-[11px] text-slate-500 dark:text-slate-400 mt-1.5 flex items-center gap-1.5 font-medium">
-                    💡 Standard commercial machine load capacity is 7kg to 8kg max. (Max limit: 24.0kg / 3 loads per booking).
+                    Standard commercial machine load capacity is 7kg to 8kg max. (Max limit: 24.0kg / 3 loads per booking).
                 </p>
             </div>
 
             <!-- Detergent / Powder Supplies Tipid Discount Option -->
-            <div class="mb-5 p-4 rounded-xl bg-[#007AFF]/5 dark:bg-[#0A84FF]/10 border border-[#007AFF]/20 space-y-3">
+            <div class="mb-5 p-4 rounded-lg bg-blue-600/5 dark:bg-blue-600/10 border border-blue-600/20 space-y-3">
                 <div class="flex items-center justify-between">
                     <label class="block text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
-                        🧼 Detergent & Supplies Option (Tipid Discount)
+                        Detergent & Supplies Option (Tipid Discount)
                     </label>
                     <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-600 dark:text-emerald-400">
                         SAVE MONEY
@@ -140,15 +147,15 @@
                 </p>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
-                    <label class="flex items-start gap-2.5 p-3 rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#2C2C2E] cursor-pointer hover:border-[#007AFF] transition">
-                        <input type="radio" name="supplies_option" value="store_provided" class="mt-0.5 text-[#007AFF]" {{ old('supplies_option', 'store_provided') === 'store_provided' ? 'checked' : '' }}>
+                    <label class="flex items-start gap-2.5 p-3 rounded-lg border border-slate-200 dark:dark:border-zinc-700 bg-white dark:bg-[#18181B] cursor-pointer hover:border-blue-600 transition">
+                        <input type="radio" name="supplies_option" value="store_provided" class="mt-0.5 text-blue-600" {{ old('supplies_option', 'store_provided') === 'store_provided' ? 'checked' : '' }}>
                         <div class="text-xs">
                             <span class="font-bold text-slate-900 dark:text-white block">Store Detergent & Softener</span>
                             <span class="text-[10.5px] text-slate-500 dark:text-slate-400">Standard Service (No discount)</span>
                         </div>
                     </label>
 
-                    <label class="flex items-start gap-2.5 p-3 rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#2C2C2E] cursor-pointer hover:border-emerald-500 transition">
+                    <label class="flex items-start gap-2.5 p-3 rounded-lg border border-slate-200 dark:dark:border-zinc-700 bg-white dark:bg-[#18181B] cursor-pointer hover:border-emerald-500 transition">
                         <input type="radio" name="supplies_option" value="own_detergent" class="mt-0.5 text-emerald-500" {{ old('supplies_option') === 'own_detergent' ? 'checked' : '' }}>
                         <div class="text-xs">
                             <span class="font-bold text-emerald-600 dark:text-emerald-400 block">Bring Own Powder / Detergent</span>
@@ -156,7 +163,7 @@
                         </div>
                     </label>
 
-                    <label class="flex items-start gap-2.5 p-3 rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#2C2C2E] cursor-pointer hover:border-emerald-500 transition">
+                    <label class="flex items-start gap-2.5 p-3 rounded-lg border border-slate-200 dark:dark:border-zinc-700 bg-white dark:bg-[#18181B] cursor-pointer hover:border-emerald-500 transition">
                         <input type="radio" name="supplies_option" value="own_softener" class="mt-0.5 text-emerald-500" {{ old('supplies_option') === 'own_softener' ? 'checked' : '' }}>
                         <div class="text-xs">
                             <span class="font-bold text-emerald-600 dark:text-emerald-400 block">Bring Own Fabric Softener</span>
@@ -164,7 +171,7 @@
                         </div>
                     </label>
 
-                    <label class="flex items-start gap-2.5 p-3 rounded-xl border border-black/10 dark:border-white/10 bg-white dark:bg-[#2C2C2E] cursor-pointer hover:border-emerald-500 transition">
+                    <label class="flex items-start gap-2.5 p-3 rounded-lg border border-slate-200 dark:dark:border-zinc-700 bg-white dark:bg-[#18181B] cursor-pointer hover:border-emerald-500 transition">
                         <input type="radio" name="supplies_option" value="own_both" class="mt-0.5 text-emerald-500" {{ old('supplies_option') === 'own_both' ? 'checked' : '' }}>
                         <div class="text-xs">
                             <span class="font-bold text-emerald-600 dark:text-emerald-400 block">Bring Own Powder & Softener</span>
@@ -197,10 +204,10 @@
             </div>
 
             <!-- Price Breakdown Summary Box -->
-            <div class="mb-6 p-4 rounded-xl bg-black/5 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-2 text-xs">
+            <div class="mb-6 p-4 rounded-lg bg-black/5 dark:bg-[#18181B] border border-black/5 dark:dark:border-zinc-700 space-y-2 text-xs">
                 <div class="flex justify-between text-slate-600 dark:text-slate-300">
                     <span>Est. Commercial Machine Loads:</span>
-                    <span id="summary-loads" class="font-bold text-[#007AFF] dark:text-[#0A84FF]">1 Load (7-8kg capacity)</span>
+                    <span id="summary-loads" class="font-bold text-blue-600 dark:text-blue-400">1 Load (7-8kg capacity)</span>
                 </div>
                 <div class="flex justify-between text-slate-600 dark:text-slate-300">
                     <span>Service Subtotal:</span>
@@ -210,15 +217,21 @@
                     <span>Supplies Discount (Tipid Option):</span>
                     <span id="summary-discount">-₱0.00</span>
                 </div>
-                <div class="flex justify-between text-sm font-bold text-slate-900 dark:text-white pt-2 border-t border-black/10 dark:border-white/10">
+                <div class="flex justify-between text-sm font-bold text-slate-900 dark:text-white pt-2 border-t border-slate-200 dark:dark:border-zinc-700">
                     <span>Total Amount:</span>
-                    <span id="summary-total" class="text-[#007AFF] dark:text-[#0A84FF]">₱0.00</span>
+                    <span id="summary-total" class="text-blue-600 dark:text-blue-400">₱0.00</span>
                 </div>
             </div>
 
             <div class="flex flex-col sm:flex-row gap-3">
-                <button type="submit" class="btn-ios-primary w-full sm:w-auto text-center">Create Order</button>
-                <a href="{{ route('my.orders') }}" class="btn-ios-secondary w-full sm:w-auto text-center">My Orders</a>
+                @if(\Illuminate\Support\Facades\Cache::get('store_status', 'open') === 'open' || (auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isOwner() || auth()->user()->isStaff())))
+                    <button type="submit" class="btn-primary w-full sm:w-auto text-center">Create Order</button>
+                @else
+                    <button type="button" disabled class="opacity-65 bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30 px-5 py-2.5 rounded-lg text-xs font-bold cursor-not-allowed w-full sm:w-auto text-center">
+                        🚫 Store Closed Today (Bookings Disabled)
+                    </button>
+                @endif
+                <a href="{{ route('my.orders') }}" class="btn-secondary w-full sm:w-auto text-center">My Orders</a>
             </div>
         </form>
 
@@ -257,10 +270,10 @@
                 weightHint.textContent = "⚠️ Maximum weight limit per booking is 24 kg (3 Loads max). Please enter 24kg or less.";
                 summaryLoads.textContent = loadCount + " Loads (Exceeds Max Booking Limit)";
             } else if (loadCount === 1) {
-                loadBadge.className = "text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF]";
+                loadBadge.className = "text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-blue-600/15 text-blue-600 dark:text-blue-400";
                 loadBadge.textContent = "1 Machine Load (7-8kg Max)";
                 weightHint.className = "text-[11px] text-slate-500 dark:text-slate-400 mt-1.5 flex items-center gap-1.5 font-medium";
-                weightHint.textContent = "💡 Standard commercial machine load capacity is 7kg to 8kg max. (7kg–8kg = 1 Load).";
+                weightHint.textContent = "Standard commercial machine load capacity is 7kg to 8kg max. (7kg–8kg = 1 Load).";
                 summaryLoads.textContent = "1 Machine Load (7-8kg max)";
             } else {
                 loadBadge.className = "text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-amber-500/20 text-amber-700 dark:text-amber-300";

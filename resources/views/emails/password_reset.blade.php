@@ -61,7 +61,7 @@
                                     <a
                                         href="{{ $url }}"
                                         target="_blank"
-                                        style="display: inline-block; background-color: #007AFF; color: #FFFFFF; font-size: 14px; font-weight: 700; text-decoration: none; padding: 14px 32px; border-radius: 12px;"
+                                        style="display: inline-block; background-color: #2563EB; color: #FFFFFF; font-size: 14px; font-weight: 700; text-decoration: none; padding: 14px 32px; border-radius: 12px;"
                                     >
                                         Reset Password Now →
                                     </a>
@@ -83,7 +83,7 @@
                                 If you are having trouble clicking the "Reset Password Now" button, copy and paste the link below into your web browser:
                             </p>
 
-                            <a href="{{ $url }}" style="color: #007AFF; text-decoration: underline;">
+                            <a href="{{ $url }}" style="color: #2563EB; text-decoration: underline;">
                                 {{ $url }}
                             </a>
                         </div>
@@ -95,7 +95,7 @@
                 <tr>
                     <td align="center" style="background-color: #F8FAFC; padding: 20px; border-top: 1px solid #E2E8F0;">
                         <p style="margin: 0; font-size: 11px; color: #94A3B8;">
-                            © {{ date('Y') }} Hour Wash Laundry Shop • Legazpi City, Albay. All rights reserved.
+                            © {{ date('Y') }} Hour Wash Laundry Shop. All rights reserved.
                         </p>
                     </td>
                 </tr>
@@ -108,3 +108,4 @@
 
 </body>
 </html>
+

@@ -4,10 +4,10 @@
 
         <div class="flex items-center justify-between">
             <div>
-                <h1 class="text-xl sm:text-2xl font-bold font-['Outfit'] text-slate-900 dark:text-white">Edit Service Package: {{ $service->name }}</h1>
+                <h1 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">Edit Service Package: {{ $service->name }}</h1>
                 <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">Update service package pricing, estimated completion duration, and options.</p>
             </div>
-            <a href="{{ route('admin.services.index') }}" class="btn-ios-secondary text-xs">← Back to Services</a>
+            <a href="{{ route('admin.services.index') }}" class="btn-secondary text-xs">← Back to Services</a>
         </div>
 
         <div class="app-card p-6 sm:p-8 space-y-6">
@@ -78,8 +78,8 @@
                 </div>
 
                 <div class="pt-4 border-t border-black/10 dark:border-white/10 flex justify-end gap-3">
-                    <a href="{{ route('admin.services.index') }}" class="btn-ios-secondary text-xs">Cancel</a>
-                    <button type="submit" class="btn-ios-primary text-xs">Update Service Package</button>
+                    <a href="{{ route('admin.services.index') }}" class="btn-secondary text-xs">Cancel</a>
+                    <button type="submit" class="btn-primary text-xs">Update Service Package</button>
                 </div>
             </form>
         </div>

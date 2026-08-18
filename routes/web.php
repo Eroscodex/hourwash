@@ -1,9 +1,9 @@
 <?php
 
 use App\Http\Controllers\Admin\EmailLogController;
-use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Admin\LaundryController as AdminLaundryController;
 use App\Http\Controllers\Admin\MachineController;
+use App\Http\Controllers\Admin\QrScanLogController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\SmsLogController;
 use App\Http\Controllers\Admin\UserController;
@@ -15,16 +15,16 @@ use App\Mail\OrderStatusUpdated;
 use App\Models\CustomerFeedback;
 use App\Models\EmailNotification;
 use App\Models\Machine;
-use App\Models\Notification;
 use App\Models\Order;
-use App\Models\Promotion;
 use App\Models\QrCode;
+use App\Models\QrScanLog;
 use App\Models\Service;
 use App\Models\SmsNotification;
 use App\Models\User;
 use App\Services\SmsNotificationService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -79,9 +79,20 @@ Route::get('/', function () {
 
     $machines = Machine::with('currentOrder')->orderBy('id', 'asc')->get();
     $services = Service::where('status', 'active')->get();
-    $feedbacks = CustomerFeedback::with('user:id,name')->where('status', 'published')->latest()->take(6)->get();
+    $feedbacks = CustomerFeedback::with('user:id,name')->where('status', 'published')->latest()->take(10)->get();
+    $avgRating = round(CustomerFeedback::where('status', 'published')->avg('rating') ?? 5.0, 1);
+    $totalReviews = CustomerFeedback::where('status', 'published')->count();
+    $ratingCounts = [
+        5 => CustomerFeedback::where('status', 'published')->where('rating', 5)->count(),
+        4 => CustomerFeedback::where('status', 'published')->where('rating', 4)->count(),
+        3 => CustomerFeedback::where('status', 'published')->where('rating', 3)->count(),
+        2 => CustomerFeedback::where('status', 'published')->where('rating', 2)->count(),
+        1 => CustomerFeedback::where('status', 'published')->where('rating', 1)->count(),
+    ];
 
-    return view('welcome', compact('machines', 'services', 'feedbacks'));
+    $storeStatus = Cache::get('store_status', 'open');
+
+    return view('welcome', compact('machines', 'services', 'feedbacks', 'avgRating', 'totalReviews', 'ratingCounts', 'storeStatus'));
 })->name('welcome');
 
 /*
@@ -100,6 +111,10 @@ Route::get('/dashboard', function () {
         return redirect()->route('staff.dashboard');
     }
 
+    if ($user->isRider()) {
+        return redirect()->route('rider.dashboard');
+    }
+
     // Customer Dashboard Data
     $activeOrder = Order::with(['service', 'machine', 'qrCode'])
         ->where('customer_id', $user->id)
@@ -113,7 +128,7 @@ Route::get('/dashboard', function () {
         ->take(10)
         ->get();
 
-    $notifications = Notification::where('user_id', $user->id)
+    $notifications = SmsNotification::where('user_id', $user->id)
         ->latest()
         ->take(4)
         ->get();
@@ -121,10 +136,9 @@ Route::get('/dashboard', function () {
     $machines = Machine::orderBy('id', 'asc')->get();
     $idleWashers = Machine::whereIn('machine_type', ['washer', 'washer_dryer'])->where('status', 'idle')->count();
     $idleDryers = Machine::whereIn('machine_type', ['dryer', 'washer_dryer'])->where('status', 'idle')->count();
-    $promo = Promotion::where('status', 'active')->first();
-    $loyaltyPoints = $user->customerProfile->loyalty_points ?? 0;
+    $storeStatus = Cache::get('store_status', 'open');
 
-    return view('dashboard', compact('user', 'activeOrder', 'recentOrders', 'notifications', 'machines', 'idleWashers', 'idleDryers', 'promo', 'loyaltyPoints'));
+    return view('dashboard', compact('user', 'activeOrder', 'recentOrders', 'notifications', 'machines', 'idleWashers', 'idleDryers', 'storeStatus'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Public QR Order Tracking (Accessible by anyone without login)
@@ -289,13 +303,7 @@ Route::middleware('auth')->group(function () {
             'status' => 'published',
         ]);
 
-        // Award +10 bonus loyalty points for reviewing!
-        $profile = auth()->user()->customerProfile;
-        if ($profile) {
-            $profile->increment('loyalty_points', 10);
-        }
-
-        return back()->with('success', 'Thank you! Your feedback & star rating have been published. +10 Bonus Loyalty Points earned! ⭐');
+        return back()->with('success', 'Thank you! Your feedback & star rating have been published. ⭐');
     })->name('feedback.store');
 
     Route::delete('/feedback/{feedback}', function (CustomerFeedback $feedback) {
@@ -307,22 +315,6 @@ Route::middleware('auth')->group(function () {
         }
         abort(403);
     })->name('feedback.destroy');
-
-    // Loyalty Points Redemption Route
-    Route::post('/loyalty/redeem', function (Request $request) {
-        $user = auth()->user();
-        $profile = $user->customerProfile;
-        $pointsToRedeem = (int) $request->get('points', 100);
-
-        if (! $profile || $profile->loyalty_points < $pointsToRedeem) {
-            return back()->with('error', 'Insufficient Loyalty Points to redeem this reward.');
-        }
-
-        $profile->decrement('loyalty_points', $pointsToRedeem);
-        $discountAmount = $pointsToRedeem == 100 ? 20 : 50;
-
-        return back()->with('success', "Redeemed {$pointsToRedeem} Loyalty Points for ₱{$discountAmount} discount voucher code: HW-LOYALTY".rand(100, 999).'!');
-    })->name('loyalty.redeem');
 });
 
 /*
@@ -332,7 +324,15 @@ Route::middleware('auth')->group(function () {
 */
 Route::middleware(['auth'])->get('/staff/dashboard', function () {
     $user = auth()->user();
-    $machines = Machine::with(['currentOrder', 'currentOrder.customer'])->orderBy('id', 'asc')->get();
+
+    if ($user->isRider()) {
+        return redirect()->route('rider.dashboard');
+    }
+
+    if (! $user->isStaff() && ! $user->isAdmin() && ! $user->isOwner()) {
+        return redirect()->route('dashboard');
+    }
+    $machines = Machine::with(['currentOrder', 'currentOrder.customer', 'activeOrder', 'activeOrder.customer'])->orderBy('id', 'asc')->get();
     $orders = Order::with(['customer', 'service', 'qrCode'])->latest()->get();
     $recentOrders = $orders->take(6);
 
@@ -341,10 +341,11 @@ Route::middleware(['auth'])->get('/staff/dashboard', function () {
     $readyPickup = Order::where('order_status', 'ready')->count();
     $completedToday = Order::whereDate('updated_at', now()->today())->where('order_status', 'completed')->count();
 
-    $notifications = Notification::latest()->take(5)->get();
+    $notifications = SmsNotification::latest()->take(5)->get();
+    $storeStatus = Cache::get('store_status', 'open');
 
     return view('staff.dashboard', compact(
-        'user', 'machines', 'orders', 'recentOrders', 'totalOrders', 'inProgress', 'readyPickup', 'completedToday', 'notifications'
+        'user', 'machines', 'orders', 'recentOrders', 'totalOrders', 'inProgress', 'readyPickup', 'completedToday', 'notifications', 'storeStatus'
     ));
 })->name('staff.dashboard');
 
@@ -366,7 +367,19 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', function () {
         $user = auth()->user();
-        $machines = Machine::with(['currentOrder', 'currentOrder.customer'])->orderBy('id', 'asc')->get();
+
+        if (! $user->isAdmin() && ! $user->isOwner()) {
+            if ($user->isStaff()) {
+                return redirect()->route('staff.dashboard');
+            }
+
+            if ($user->isRider()) {
+                return redirect()->route('rider.dashboard');
+            }
+
+            return redirect()->route('dashboard');
+        }
+        $machines = Machine::with(['currentOrder', 'currentOrder.customer', 'activeOrder', 'activeOrder.customer'])->orderBy('id', 'asc')->get();
         $recentOrders = Order::with(['customer', 'service', 'qrCode'])->latest()->take(6)->get();
 
         $totalToday = Order::whereDate('created_at', now()->today())->count();
@@ -375,10 +388,11 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         $completedToday = Order::whereDate('updated_at', now()->today())->where('order_status', 'completed')->count();
 
         $staffCount = User::where('role', 'staff')->count();
+        $riderCount = User::where('role', 'rider')->count();
         $customerCount = User::where('role', 'customer')->orWhere('role', 'user')->count();
         $profitTotal = Order::where('payment_status', 'paid')->sum('total_amount');
         $feedbacks = CustomerFeedback::with('user:id,name')->latest()->take(6)->get();
-        $notifications = Notification::latest()->take(5)->get();
+        $notifications = SmsNotification::latest()->take(5)->get();
 
         // Overall System Reports & Analytics metrics
         $totalUsers = User::count();
@@ -390,6 +404,8 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
             ->get();
         $smsCount = Schema::hasTable('sms_notifications') ? SmsNotification::count() : 0;
         $emailCount = Schema::hasTable('email_notifications') ? EmailNotification::count() : 0;
+        $qrScanCount = Schema::hasTable('qr_scan_logs') ? QrScanLog::count() : 0;
+        $reviewCount = Schema::hasTable('customer_feedbacks') ? CustomerFeedback::count() : 0;
 
         // Rider Analytics & Dispatch Metrics for Admin & Staff
         $riderPickupRequests = Order::whereIn('order_status', ['pending', 'out_for_pickup'])
@@ -413,20 +429,46 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         $outForPickup = $riderPickupRequests;
         $outForDelivery = $riderDeliveryCount;
 
+        $storeStatus = Cache::get('store_status', 'open');
+
         return view('admin.dashboard', compact(
             'user', 'machines', 'recentOrders', 'totalToday', 'inProgress', 'readyPickup',
-            'completedToday', 'notifications', 'feedbacks', 'staffCount', 'customerCount',
+            'completedToday', 'notifications', 'feedbacks', 'staffCount', 'riderCount', 'customerCount',
             'profitTotal', 'totalUsers', 'totalMachines', 'availableMachines', 'totalLaundry',
-            'laundryStatus', 'smsCount', 'emailCount', 'outForPickup', 'outForDelivery', 'riderOrders',
-            'riderPickupRequests', 'riderReceivedCount', 'riderDeliveryCount', 'riderCompletedCount', 'riderCancelledCount'
+            'laundryStatus', 'smsCount', 'emailCount', 'qrScanCount', 'reviewCount', 'outForPickup', 'outForDelivery', 'riderOrders',
+            'riderPickupRequests', 'riderReceivedCount', 'riderDeliveryCount', 'riderCompletedCount', 'riderCancelledCount',
+            'storeStatus'
         ));
     })->name('dashboard');
+
+    Route::get('/reviews', function () {
+        $feedbacks = CustomerFeedback::with(['user', 'order'])->latest()->paginate(15);
+        $totalReviews = CustomerFeedback::count();
+        $avgRating = number_format(CustomerFeedback::avg('rating') ?? 5.0, 1);
+
+        return view('admin.reviews.index', compact('feedbacks', 'totalReviews', 'avgRating'));
+    })->name('reviews.index');
+
+    Route::get('/qr-scan-logs', [QrScanLogController::class, 'index'])->name('qr_scan_logs.index');
+    Route::delete('/qr-scan-logs/clear', [QrScanLogController::class, 'clear'])->name('qr_scan_logs.clear');
+
+    Route::post('/store-status/toggle', function () {
+        if (! auth()->user()->isAdmin() && ! auth()->user()->isOwner() && ! auth()->user()->isStaff()) {
+            abort(403);
+        }
+
+        $current = Cache::get('store_status', 'open');
+        $newStatus = $current === 'open' ? 'closed' : 'open';
+        Cache::forever('store_status', $newStatus);
+
+        $label = $newStatus === 'open' ? 'STORE OPEN TODAY' : 'STORE CLOSED TODAY';
+
+        return back()->with('success', "Store status updated: {$label}.");
+    })->name('store-status.toggle');
 
     Route::resource('machines', MachineController::class);
     Route::resource('services', ServiceController::class);
     Route::resource('users', UserController::class);
-    Route::resource('inventory', InventoryController::class);
-    Route::post('/inventory/{inventory}/adjust', [InventoryController::class, 'adjust'])->name('inventory.adjust');
     Route::get('/laundry', [AdminLaundryController::class, 'index'])->name('laundry.index');
     Route::match(['post', 'patch'], '/laundry/{order}', [AdminLaundryController::class, 'update'])->name('laundry.update');
     Route::get('/analytics', function () {

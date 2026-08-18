@@ -4,7 +4,7 @@
         <!-- Header -->
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-                <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white">
+                <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white">
                     User Accounts & Directory
                 </h1>
                 <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
@@ -12,21 +12,21 @@
                 </p>
             </div>
 
-            <button onclick="document.getElementById('add-user-modal').classList.remove('hidden')" class="btn-ios-primary w-full sm:w-fit text-center flex items-center justify-center gap-1.5 shadow-md">
+            <button onclick="document.getElementById('add-user-modal').classList.remove('hidden')" class="btn-primary w-full sm:w-fit text-center flex items-center justify-center gap-1.5 shadow-sm">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
-                + Add User Account
+                Add User Account
             </button>
         </div>
 
         @if(session('success'))
-            <div class="p-4 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 text-xs font-semibold">
+            <div class="p-4 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 text-xs font-semibold">
                 {{ session('success') }}
             </div>
         @endif
 
         <!-- Summary KPI Cards -->
         <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
-            <a href="{{ route('admin.users.index') }}" class="app-card p-4 flex flex-col justify-between hover:border-[#007AFF] transition">
+            <a href="{{ route('admin.users.index') }}" class="app-card p-4 flex flex-col justify-between hover:border-blue-600 transition">
                 <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Total Users</span>
                 <span class="text-xl font-bold text-slate-900 dark:text-white font-mono mt-1">{{ $totalUsers }}</span>
             </a>
@@ -57,13 +57,13 @@
                 <div class="relative flex-1 flex items-center">
                     <svg class="w-4 h-4 absolute left-3 text-slate-400 pointer-events-none shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                     <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by name, email, or phone number..."
-                           class="w-full pl-9 pr-4 py-2 text-xs rounded-xl bg-slate-100 dark:bg-[#2C2C2E] border border-black/10 dark:border-white/10 text-slate-900 dark:text-white placeholder-slate-500 focus:border-[#007AFF] focus:outline-none">
+                           class="w-full pl-9 pr-4 py-2 text-xs rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white placeholder-slate-500 focus:border-blue-600 focus:outline-none">
                 </div>
-                <button type="submit" class="px-3.5 py-2 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-bold text-xs transition">
+                <button type="submit" class="px-3.5 py-2 rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-900 font-bold text-xs transition">
                     Search
                 </button>
                 @if(request('search') || request('role'))
-                    <a href="{{ route('admin.users.index') }}" class="px-3.5 py-2 rounded-xl bg-rose-500/15 text-rose-600 dark:text-rose-400 font-bold text-xs transition">
+                    <a href="{{ route('admin.users.index') }}" class="px-3.5 py-2 rounded-lg bg-rose-500/15 text-rose-600 dark:text-rose-400 font-bold text-xs transition">
                         Clear
                     </a>
                 @endif
@@ -71,19 +71,19 @@
 
             <div class="flex flex-wrap items-center gap-1.5 text-xs">
                 <a href="{{ route('admin.users.index') }}" 
-                   class="px-3 py-1.5 rounded-xl font-bold transition {{ !request('role') ? 'bg-[#007AFF] text-white' : 'bg-slate-100 dark:bg-white/10 text-slate-700 dark:text-slate-300 hover:bg-slate-200' }}">
+                   class="px-3 py-1.5 rounded-lg font-bold transition {{ !request('role') ? 'bg-blue-600 text-white' : 'bg-slate-100 dark:dark:bg-zinc-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200' }}">
                     All
                 </a>
                 <a href="{{ route('admin.users.index', ['role' => 'rider']) }}" 
-                   class="px-3 py-1.5 rounded-xl font-bold transition {{ request('role') === 'rider' ? 'bg-cyan-600 text-white' : 'bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border border-cyan-500/30' }}">
+                   class="px-3 py-1.5 rounded-lg font-bold transition {{ request('role') === 'rider' ? 'bg-cyan-600 text-white' : 'bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border border-cyan-500/30' }}">
                     Riders ({{ $riderCount }})
                 </a>
                 <a href="{{ route('admin.users.index', ['role' => 'staff']) }}" 
-                   class="px-3 py-1.5 rounded-xl font-bold transition {{ request('role') === 'staff' ? 'bg-amber-600 text-white' : 'bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30' }}">
+                   class="px-3 py-1.5 rounded-lg font-bold transition {{ request('role') === 'staff' ? 'bg-amber-600 text-white' : 'bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30' }}">
                     Staff ({{ $staffCount }})
                 </a>
                 <a href="{{ route('admin.users.index', ['role' => 'customer']) }}" 
-                   class="px-3 py-1.5 rounded-xl font-bold transition {{ request('role') === 'customer' ? 'bg-sky-600 text-white' : 'bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-500/30' }}">
+                   class="px-3 py-1.5 rounded-lg font-bold transition {{ request('role') === 'customer' ? 'bg-sky-600 text-white' : 'bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-500/30' }}">
                     Customers ({{ $customerCount }})
                 </a>
             </div>
@@ -93,7 +93,7 @@
         <div class="app-card overflow-hidden">
             <div class="overflow-x-auto max-w-full">
                 <table class="w-full text-left text-xs sm:text-sm whitespace-nowrap min-w-[750px]">
-                    <thead class="bg-slate-100 dark:bg-[#2C2C2E] text-slate-700 dark:text-slate-300 uppercase text-[10px] tracking-wider border-b border-black/10 dark:border-white/10">
+                    <thead class="bg-slate-100 dark:bg-[#18181B] text-slate-700 dark:text-slate-300 uppercase text-[10px] tracking-wider border-b border-slate-200 dark:dark:border-zinc-700">
                         <tr>
                             <th class="px-6 py-3.5">User Name</th>
                             <th class="px-6 py-3.5">Email Address</th>
@@ -108,7 +108,7 @@
                     @forelse($users as $user)
                         <tr class="hover:bg-black/5 dark:hover:bg-white/5 transition">
                             <td class="px-6 py-4 font-bold text-slate-900 dark:text-white flex items-center gap-3">
-                                <div class="w-8 h-8 rounded-lg bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF] font-bold flex items-center justify-center text-xs flex-shrink-0">
+                                <div class="w-8 h-8 rounded-lg bg-blue-600/15 text-blue-600 dark:text-blue-400 font-bold flex items-center justify-center text-xs flex-shrink-0">
                                     {{ strtoupper(substr($user->name, 0, 1)) }}
                                 </div>
                                 <span class="text-slate-900 dark:text-white font-bold">{{ $user->name }}</span>
@@ -122,27 +122,25 @@
                             </td>
                             <td class="px-6 py-4">
                                 @if($user->role === 'owner' || $user->role === 'admin')
-                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30">
+                                    <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30">
                                         {{ ucfirst($user->role) }}
                                     </span>
                                 @elseif($user->role === 'staff')
-                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30">
+                                    <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30">
                                         Staff Specialist
                                     </span>
                                 @elseif($user->role === 'rider')
-                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border border-cyan-500/30">
+                                    <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border border-cyan-500/30">
                                         Rider
                                     </span>
                                 @else
-                                    <span class="px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-500/30">
+                                    <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-500/30">
                                         Customer
                                     </span>
                                 @endif
                             </td>
                             <td class="px-6 py-4">
-                                <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase
-                                    @if(($user->status ?? 'active') === 'active') bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30
-                                    @else bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 @endif">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase @if(($user->status ?? 'active') === 'active') bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 @else bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 @endif">
                                     {{ strtoupper($user->status ?? 'active') }}
                                 </span>
                             </td>
@@ -163,8 +161,8 @@
 
                                 <!-- Edit Modal -->
                                 <div id="edit-user-modal-{{ $user->id }}" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden overflow-y-auto p-4 sm:p-6 text-left flex items-center justify-center">
-                                    <div class="app-card max-w-md w-full p-5 sm:p-6 space-y-3.5 shadow-2xl max-h-[85vh] overflow-y-auto my-auto">
-                                        <div class="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-3">
+                                    <div class="app-card max-w-md w-full p-5 sm:p-6 space-y-3.5 shadow-sm max-h-[85vh] overflow-y-auto my-auto">
+                                        <div class="flex items-center justify-between border-b border-slate-200 dark:dark:border-zinc-700 pb-3">
                                             <h3 class="text-sm font-bold text-slate-900 dark:text-white">Edit User: {{ $user->name }}</h3>
                                             <button type="button" onclick="document.getElementById('edit-user-modal-{{ $user->id }}').classList.add('hidden')" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
                                         </div>
@@ -175,28 +173,28 @@
 
                                             <div>
                                                 <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Full Name</label>
-                                                <input type="text" name="name" value="{{ $user->name }}" class="w-full p-2.5 rounded-xl bg-slate-100 dark:bg-[#2C2C2E] border border-black/10 dark:border-white/10 text-slate-900 dark:text-white" required>
+                                                <input type="text" name="name" value="{{ $user->name }}" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required>
                                             </div>
 
                                             <div>
                                                 <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Email Address</label>
-                                                <input type="email" name="email" value="{{ $user->email }}" class="w-full p-2.5 rounded-xl bg-slate-100 dark:bg-[#2C2C2E] border border-black/10 dark:border-white/10 text-slate-900 dark:text-white" required>
+                                                <input type="email" name="email" value="{{ $user->email }}" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required>
                                             </div>
 
                                             <div>
                                                 <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Phone Number</label>
-                                                <input type="text" name="phone" value="{{ $user->phone }}" placeholder="e.g. 09100317744" class="w-full p-2.5 rounded-xl bg-slate-100 dark:bg-[#2C2C2E] border border-black/10 dark:border-white/10 text-slate-900 dark:text-white">
+                                                <input type="text" name="phone" value="{{ $user->phone }}" placeholder="e.g. 09100317744" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
                                             </div>
 
                                             <div>
                                                 <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Physical Address</label>
-                                                <textarea name="address" rows="2" placeholder="e.g. Magallanes St., Orosite, Legazpi City" class="w-full p-2.5 rounded-xl bg-slate-100 dark:bg-[#2C2C2E] border border-black/10 dark:border-white/10 text-slate-900 dark:text-white">{{ $user->customerProfile->address ?? '' }}</textarea>
+                                                <textarea name="address" rows="2" placeholder="e.g. Magallanes St., Orosite, Legazpi City" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">{{ $user->customerProfile->address ?? '' }}</textarea>
                                             </div>
 
                                             <div class="grid grid-cols-2 gap-3">
                                                 <div>
                                                     <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Account Role</label>
-                                                    <select name="role" class="w-full p-2.5 rounded-xl bg-slate-100 dark:bg-[#2C2C2E] border border-black/10 dark:border-white/10 text-slate-900 dark:text-white" required>
+                                                    <select name="role" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required>
                                                         <option value="rider" {{ $user->role === 'rider' ? 'selected' : '' }}>Rider</option>
                                                         <option value="customer" {{ in_array($user->role, ['customer', 'user']) ? 'selected' : '' }}>Customer</option>
                                                         <option value="staff" {{ $user->role === 'staff' ? 'selected' : '' }}>Staff Specialist</option>
@@ -207,7 +205,7 @@
 
                                                 <div>
                                                     <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Account Status</label>
-                                                    <select name="status" class="w-full p-2.5 rounded-xl bg-slate-100 dark:bg-[#2C2C2E] border border-black/10 dark:border-white/10 text-slate-900 dark:text-white">
+                                                    <select name="status" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
                                                         <option value="active" {{ ($user->status ?? 'active') === 'active' ? 'selected' : '' }}>Active</option>
                                                         <option value="inactive" {{ ($user->status ?? '') === 'inactive' ? 'selected' : '' }}>Inactive</option>
                                                         <option value="blocked" {{ ($user->status ?? '') === 'blocked' ? 'selected' : '' }}>Blocked</option>
@@ -217,12 +215,12 @@
 
                                             <div>
                                                 <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Reset Password (Optional)</label>
-                                                <input type="password" name="password" placeholder="Leave blank to keep current password" class="w-full p-2.5 rounded-xl bg-slate-100 dark:bg-[#2C2C2E] border border-black/10 dark:border-white/10 text-slate-900 dark:text-white">
+                                                <input type="password" name="password" placeholder="Leave blank to keep current password" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
                                             </div>
 
-                                            <div class="flex items-center justify-end gap-2 pt-2 border-t border-black/10 dark:border-white/10">
-                                                <button type="button" onclick="document.getElementById('edit-user-modal-{{ $user->id }}').classList.add('hidden')" class="btn-ios-secondary text-xs">Cancel</button>
-                                                <button type="submit" class="btn-ios-primary text-xs">Update Account</button>
+                                            <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-200 dark:dark:border-zinc-700">
+                                                <button type="button" onclick="document.getElementById('edit-user-modal-{{ $user->id }}').classList.add('hidden')" class="btn-secondary text-xs">Cancel</button>
+                                                <button type="submit" class="btn-primary text-xs">Update Account</button>
                                             </div>
                                         </form>
                                     </div>
@@ -240,7 +238,7 @@
                 </table>
             </div>
 
-            <div class="p-4 border-t border-black/10 dark:border-white/10">
+            <div class="p-4 border-t border-slate-200 dark:dark:border-zinc-700">
                 {{ $users->links() }}
             </div>
         </div>
@@ -249,8 +247,8 @@
 
     <!-- Add User Modal -->
     <div id="add-user-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden overflow-y-auto p-4 sm:p-6 text-left flex items-center justify-center">
-        <div class="app-card max-w-md w-full p-5 sm:p-6 space-y-3.5 shadow-2xl max-h-[85vh] overflow-y-auto my-auto">
-            <div class="flex items-center justify-between border-b border-black/10 dark:border-white/10 pb-3">
+        <div class="app-card max-w-md w-full p-5 sm:p-6 space-y-3.5 shadow-sm max-h-[85vh] overflow-y-auto my-auto">
+            <div class="flex items-center justify-between border-b border-slate-200 dark:dark:border-zinc-700 pb-3">
                 <h3 class="text-sm font-bold text-slate-900 dark:text-white">Register New User Account</h3>
                 <button type="button" onclick="document.getElementById('add-user-modal').classList.add('hidden')" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
             </div>
@@ -260,32 +258,32 @@
 
                 <div>
                     <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Full Name</label>
-                    <input type="text" name="name" placeholder="e.g. Anthony Cayme" class="w-full p-2.5 rounded-xl bg-slate-100 dark:bg-[#2C2C2E] border border-black/10 dark:border-white/10 text-slate-900 dark:text-white" required>
+                    <input type="text" name="name" placeholder="e.g. Anthony Cayme" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required>
                 </div>
 
                 <div>
                     <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Email Address</label>
-                    <input type="email" name="email" placeholder="e.g. caymeanthony1@gmail.com" class="w-full p-2.5 rounded-xl bg-slate-100 dark:bg-[#2C2C2E] border border-black/10 dark:border-white/10 text-slate-900 dark:text-white" required>
+                    <input type="email" name="email" placeholder="e.g. caymeanthony1@gmail.com" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required>
                 </div>
 
                 <div>
                     <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Phone Number</label>
-                    <input type="text" name="phone" placeholder="e.g. 09100317744" class="w-full p-2.5 rounded-xl bg-slate-100 dark:bg-[#2C2C2E] border border-black/10 dark:border-white/10 text-slate-900 dark:text-white">
+                    <input type="text" name="phone" placeholder="e.g. 09100317744" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
                 </div>
 
                 <div>
                     <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Physical Address</label>
-                    <textarea name="address" rows="2" placeholder="e.g. Magallanes St., Orosite, Legazpi City" class="w-full p-2.5 rounded-xl bg-slate-100 dark:bg-[#2C2C2E] border border-black/10 dark:border-white/10 text-slate-900 dark:text-white"></textarea>
+                    <textarea name="address" rows="2" placeholder="e.g. Magallanes St., Orosite, Legazpi City" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white"></textarea>
                 </div>
 
                 <div>
                     <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Password</label>
-                    <input type="password" name="password" placeholder="Minimum 8 characters" class="w-full p-2.5 rounded-xl bg-slate-100 dark:bg-[#2C2C2E] border border-black/10 dark:border-white/10 text-slate-900 dark:text-white" required>
+                    <input type="password" name="password" placeholder="Minimum 8 characters" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required>
                 </div>
 
                 <div>
                     <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Account Role</label>
-                    <select name="role" class="w-full p-2.5 rounded-xl bg-slate-100 dark:bg-[#2C2C2E] border border-black/10 dark:border-white/10 text-slate-900 dark:text-white" required>
+                    <select name="role" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required>
                         <option value="rider">Rider</option>
                         <option value="customer" selected>Customer</option>
                         <option value="staff">Staff Specialist</option>
@@ -294,9 +292,9 @@
                     </select>
                 </div>
 
-                <div class="flex items-center justify-end gap-2 pt-2 border-t border-black/10 dark:border-white/10">
-                    <button type="button" onclick="document.getElementById('add-user-modal').classList.add('hidden')" class="btn-ios-secondary text-xs">Cancel</button>
-                    <button type="submit" class="btn-ios-primary text-xs">Save User Account</button>
+                <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-200 dark:dark:border-zinc-700">
+                    <button type="button" onclick="document.getElementById('add-user-modal').classList.add('hidden')" class="btn-secondary text-xs">Cancel</button>
+                    <button type="submit" class="btn-primary text-xs">Save User Account</button>
                 </div>
             </form>
         </div>

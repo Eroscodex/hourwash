@@ -11,7 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::dropIfExists('laundries');
         Schema::dropIfExists('machines');
 
         // 2. CUSTOMER PROFILES
@@ -23,7 +22,6 @@ return new class extends Migration
             $table->string('city', 100)->nullable();
             $table->string('province', 100)->nullable();
             $table->text('notes')->nullable();
-            $table->unsignedInteger('loyalty_points')->default(0);
             $table->timestamps();
         });
 
@@ -168,85 +166,6 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        // 14. PROMOTIONS
-        Schema::create('promotions', function (Blueprint $table) {
-            $table->id();
-            $table->string('code', 50)->unique();
-            $table->string('name', 150);
-            $table->text('description')->nullable();
-            $table->enum('discount_type', ['percentage', 'fixed'])->default('percentage');
-            $table->decimal('discount_value', 10, 2)->default(0.00);
-            $table->decimal('minimum_amount', 10, 2)->default(0.00);
-            $table->dateTime('start_date');
-            $table->dateTime('end_date');
-            $table->unsignedInteger('usage_limit')->nullable();
-            $table->unsignedInteger('usage_count')->default(0);
-            $table->enum('status', ['active', 'inactive', 'expired'])->default('active');
-            $table->timestamps();
-        });
-
-        // 15. PROMOTION USAGE
-        Schema::create('promotion_usage', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('promotion_id')->constrained('promotions')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('user_id')->constrained('users')->restrictOnDelete()->cascadeOnUpdate();
-            $table->foreignId('order_id')->constrained('orders')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->decimal('discount_amount', 10, 2)->default(0.00);
-            $table->timestamp('used_at')->useCurrent();
-
-            $table->unique(['promotion_id', 'order_id']);
-        });
-
-        // 16. NOTIFICATIONS
-        Schema::create('notifications', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->string('title', 255);
-            $table->text('message');
-            $table->enum('type', ['order', 'payment', 'pickup', 'delivery', 'machine', 'promotion', 'system', 'other'])->default('system');
-            $table->unsignedBigInteger('reference_id')->nullable();
-            $table->boolean('is_read')->default(false);
-            $table->dateTime('read_at')->nullable();
-            $table->timestamp('created_at')->useCurrent();
-
-            $table->index('is_read');
-        });
-
-        // 17. LOYALTY TRANSACTIONS
-        Schema::create('loyalty_transactions', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('order_id')->nullable()->constrained('orders')->nullOnDelete()->cascadeOnUpdate();
-            $table->integer('points');
-            $table->enum('transaction_type', ['earned', 'redeemed', 'adjustment', 'expired']);
-            $table->string('description', 255)->nullable();
-            $table->timestamp('created_at')->useCurrent();
-        });
-
-        // 18. INVENTORY ITEMS
-        Schema::create('inventory_items', function (Blueprint $table) {
-            $table->id();
-            $table->string('name', 150);
-            $table->string('category', 100)->nullable();
-            $table->string('unit', 30)->default('piece');
-            $table->decimal('quantity', 10, 2)->default(0.00);
-            $table->decimal('minimum_stock', 10, 2)->default(0.00);
-            $table->decimal('unit_cost', 10, 2)->default(0.00);
-            $table->enum('status', ['in_stock', 'low_stock', 'out_of_stock', 'inactive'])->default('in_stock');
-            $table->timestamps();
-        });
-
-        // 19. INVENTORY TRANSACTIONS
-        Schema::create('inventory_transactions', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('inventory_item_id')->constrained('inventory_items')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->enum('type', ['stock_in', 'stock_out', 'adjustment']);
-            $table->decimal('quantity', 10, 2);
-            $table->string('reason', 255)->nullable();
-            $table->foreignId('performed_by')->nullable()->constrained('users')->nullOnDelete()->cascadeOnUpdate();
-            $table->timestamp('created_at')->useCurrent();
-        });
-
         // 23. CUSTOMER FEEDBACKS & RATINGS
         Schema::create('customer_feedbacks', function (Blueprint $table) {
             $table->id();
@@ -290,12 +209,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('inventory_transactions');
-        Schema::dropIfExists('inventory_items');
-        Schema::dropIfExists('loyalty_transactions');
-        Schema::dropIfExists('notifications');
-        Schema::dropIfExists('promotion_usage');
-        Schema::dropIfExists('promotions');
+        Schema::dropIfExists('sms_notifications');
+        Schema::dropIfExists('customer_feedbacks');
         Schema::dropIfExists('pickup_delivery');
         Schema::dropIfExists('payments');
         Schema::dropIfExists('qr_scan_logs');

@@ -5,42 +5,42 @@
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
         <div>
             <div class="flex items-center gap-2">
-                <span class="px-2.5 py-0.5 rounded-full bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF] text-[10px] font-extrabold uppercase tracking-wider border border-[#007AFF]/30">
+                <span class="px-2.5 py-0.5 rounded-md bg-blue-600/15 text-blue-600 dark:text-blue-400 text-[10px] font-extrabold uppercase tracking-wider border border-blue-600/30">
                     LIVE TRACKER
                 </span>
                 <span class="text-xs text-slate-500 dark:text-slate-400 font-mono truncate max-w-[180px] sm:max-w-none">Order #{{ $order->order_number }}</span>
             </div>
-            <h1 class="text-xl sm:text-2xl lg:text-3xl font-extrabold font-['Outfit'] text-slate-900 dark:text-white mt-1">
+            <h1 class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 dark:text-white mt-1">
                 Order Tracking & Verification
             </h1>
         </div>
 
         <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-            <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="flex-1 sm:flex-none text-center px-3 py-2 rounded-xl bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-bold hover:opacity-90 transition shadow-sm">
+            <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="flex-1 sm:flex-none text-center px-3 py-2 rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-bold hover:opacity-90 transition shadow-sm">
                 Print Receipt
             </a>
 
             @auth
                 @if(auth()->user()->isOwner() || auth()->user()->isStaff())
-                    <a href="{{ route('admin.laundry.index') }}" class="flex-1 sm:flex-none text-center btn-ios-secondary text-xs">Back to Orders</a>
+                    <a href="{{ route('admin.laundry.index') }}" class="flex-1 sm:flex-none text-center btn-secondary text-xs">Back to Orders</a>
                 @else
-                    <a href="{{ route('my.orders') }}" class="flex-1 sm:flex-none text-center btn-ios-secondary text-xs">My Orders</a>
+                    <a href="{{ route('my.orders') }}" class="flex-1 sm:flex-none text-center btn-secondary text-xs">My Orders</a>
                 @endif
             @else
-                <a href="{{ route('welcome') }}" class="flex-1 sm:flex-none text-center btn-ios-secondary text-xs">Home</a>
+                <a href="{{ route('welcome') }}" class="flex-1 sm:flex-none text-center btn-secondary text-xs">Home</a>
             @endauth
         </div>
     </div>
 
-    <div class="app-card p-4 sm:p-7 space-y-5 sm:space-y-6 shadow-xl border-t-4 border-t-[#007AFF]">
+    <div class="app-card p-4 sm:p-7 space-y-5 sm:space-y-6 shadow-sm border-t-4 border-t-[#2563EB]">
         
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border-b border-black/10 dark:border-white/10 pb-4 sm:pb-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border-b border-slate-200 dark:dark:border-zinc-700 pb-4 sm:pb-5">
             <div class="space-y-1">
                 <div class="flex items-center gap-2">
                     <h2 class="text-lg sm:text-xl font-black font-mono text-slate-900 dark:text-white">
                         #{{ $order->order_number }}
                     </h2>
-                    <button onclick="navigator.clipboard.writeText('{{ $order->order_number }}'); alert('Order ID copied to clipboard!')" class="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-white/10 text-slate-600 dark:text-slate-300 text-[10px] font-bold hover:bg-[#007AFF] hover:text-white transition">
+                    <button onclick="navigator.clipboard.writeText('{{ $order->order_number }}'); alert('Order ID copied to clipboard!')" class="px-2 py-0.5 rounded-md bg-slate-100 dark:dark:bg-zinc-800 text-slate-600 dark:text-slate-300 text-[10px] font-bold hover:bg-blue-600 hover:text-white transition">
                         Copy
                     </button>
                 </div>
@@ -50,18 +50,23 @@
             </div>
 
             <div class="text-left sm:text-right space-y-1">
-                <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">CURRENT LOGISTICS STATUS</span>
+                <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">LOGISTICS & PAYMENT STATUS</span>
                 @php
                     $statusBadge = match($order->order_status) {
                         'completed' => 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/30',
                         'finish' => 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/30',
                         'cancelled' => 'bg-rose-500/15 text-rose-600 dark:text-rose-400 border-rose-500/30',
-                        default => 'bg-[#007AFF]/15 text-[#007AFF] dark:text-[#0A84FF] border-[#007AFF]/30',
+                        default => 'bg-blue-600/15 text-blue-600 dark:text-blue-400 border-blue-600/30',
                     };
                 @endphp
-                <span class="inline-block px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider border {{ $statusBadge }}">
-                    {{ $order->order_status === 'finish' ? 'FINISH & READY' : str_replace('_', ' ', $order->order_status) }}
-                </span>
+                <div class="flex items-center sm:justify-end gap-2">
+                    <span class="inline-block px-3 py-1 rounded-md text-xs font-black uppercase tracking-wider border {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border-rose-500/30' }}">
+                        {{ strtoupper($order->payment_status) }}
+                    </span>
+                    <span class="inline-block px-3 py-1 rounded-md text-xs font-black uppercase tracking-wider border {{ $statusBadge }}">
+                        {{ $order->order_status === 'finish' ? 'FINISH & READY' : str_replace('_', ' ', $order->order_status) }}
+                    </span>
+                </div>
             </div>
         </div>
 
@@ -110,23 +115,23 @@
             $totalSteps = count($stages);
         @endphp
 
-        <div class="space-y-3 sm:space-y-5 bg-slate-50 dark:bg-[#1C1C1E] p-3 sm:p-5 rounded-xl sm:rounded-2xl border border-black/5 dark:border-white/10">
+        <div class="space-y-3 sm:space-y-5 bg-slate-50 dark:bg-[#141417] p-3 sm:p-5 rounded-lg sm:rounded-lg border border-black/5 dark:dark:border-zinc-700">
             <div class="flex items-center justify-between text-xs">
                 <span class="font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 text-[11px] sm:text-xs">
                     Order Tracking Progress ({{ $isWalkIn ? 'Store Walk-in / Drop-off' : 'Pickup & Delivery' }})
                 </span>
-                <span class="font-extrabold text-[#007AFF] dark:text-[#0A84FF] text-[11px] sm:text-xs">
+                <span class="font-extrabold text-blue-600 dark:text-blue-400 text-[11px] sm:text-xs">
                     {{ $currentStatus === 'completed' ? '100% Completed' : $currentStageInfo['pct'].'% Progress' }}
                 </span>
             </div>
 
             <div class="relative w-full h-2 sm:h-3 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden p-0.5">
-                <div class="h-full bg-[#007AFF] dark:bg-[#0A84FF] rounded-full transition-all duration-700 shadow-sm"
+                <div class="h-full bg-blue-600 dark:bg-blue-600 rounded-full transition-all duration-700 shadow-sm"
                      style="width: {{ $currentStageInfo['pct'] }}%"></div>
             </div>
 
             @if($currentStatus === 'cancelled')
-                <div class="bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 p-3 rounded-xl text-xs font-semibold text-center">
+                <div class="bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 p-3 rounded-lg text-xs font-semibold text-center">
                     This order has been Cancelled.
                 </div>
             @endif
@@ -139,12 +144,12 @@
                         $isActive = ($currentIndex >= $stageIdx && $currentStatus !== 'cancelled');
                         $isCurrent = ($currentStatus === $key);
                     @endphp
-                    <div class="min-w-[110px] sm:min-w-0 flex-1 p-2 sm:p-1.5 rounded-xl border flex flex-col items-center justify-center transition-all duration-300 relative min-h-[48px] snap-start shrink-0 {{ $isCurrent ? 'bg-[#007AFF]/15 border-[#007AFF] text-[#007AFF] dark:text-[#0A84FF] font-black shadow-sm' : ($isActive ? 'border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 font-bold' : 'border-black/5 dark:border-white/5 text-slate-400 opacity-50 font-medium') }}">
-                        <span class="text-[10px] md:text-[10.5px] uppercase leading-tight font-['Outfit'] whitespace-normal break-words text-center w-full px-0.5">
+                    <div class="min-w-[110px] sm:min-w-0 flex-1 p-2 sm:p-1.5 rounded-lg border flex flex-col items-center justify-center transition-all duration-300 relative min-h-[48px] snap-start shrink-0 {{ $isCurrent ? 'bg-blue-600/15 border-blue-600 text-blue-600 dark:text-blue-400 font-black shadow-sm' : ($isActive ? 'border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 font-bold' : 'border-black/5 dark:border-white/5 text-slate-400 opacity-50 font-medium') }}">
+                        <span class="text-[10px] md:text-[10.5px] uppercase leading-tight whitespace-normal break-words text-center w-full px-0.5">
                             {{ $info['step'] }}. {{ $info['label'] }}
                         </span>
                         @if($isCurrent)
-                            <span class="w-1.5 h-1.5 rounded-full bg-[#007AFF] animate-ping absolute -top-0.5 -right-0.5"></span>
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-600 animate-ping absolute -top-0.5 -right-0.5"></span>
                         @endif
                     </div>
                 @endforeach
@@ -152,31 +157,33 @@
         </div>
 
         <!-- Assigned Dispatch Rider Contact Box -->
-        @if(!in_array($order->order_status, ['cancelled']) && (in_array($order->order_status, ['out_for_pickup', 'out_for_delivery', 'received', 'finish']) || in_array($order->pickup_type, ['pickup_delivery', 'pickup', 'delivery'])))
-            <div class="p-4 sm:p-5 rounded-xl sm:rounded-2xl bg-[#007AFF]/10 border border-[#007AFF]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
+        @if($isPickupDeliveryService || $isPickupType || in_array($order->order_status, ['out_for_pickup', 'out_for_delivery']))
+            @php
+                $riderObj = \App\Models\User::where('role', 'rider')->first();
+                $riderName = $order->pickupDelivery->rider_name ?? ($riderObj->name ?? 'Hour Wash Logistics Rider');
+                $riderPhone = $order->pickupDelivery->rider_phone ?? ($riderObj->phone ?? '09100317744');
+            @endphp
+            <div class="p-4 sm:p-5 rounded-lg bg-blue-600/10 dark:bg-blue-600/15 border border-blue-600/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
                 <div class="space-y-1">
                     <div class="flex items-center gap-2">
-                        <span class="text-xs font-black uppercase tracking-wider text-[#007AFF] dark:text-[#0A84FF] flex items-center gap-1">
-                            <span>🛵</span> ASSIGNED DISPATCH RIDER
-                        </span>
-                        <span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30">
-                            ON DUTY
+                        <span class="px-2.5 py-0.5 rounded-md bg-blue-600/15 text-blue-600 dark:text-blue-400 text-[10px] font-extrabold uppercase tracking-wider border border-blue-600/30">
+                            ASSIGNED LOGISTICS RIDER
                         </span>
                     </div>
                     <p class="text-sm font-extrabold text-slate-900 dark:text-white">
-                        Rider Anthony — HourWash Dispatch Specialist
+                        {{ $riderName }} — Hour Wash Dispatch Specialist
                     </p>
                     <p class="text-xs text-slate-600 dark:text-slate-300">
-                        Contact rider directly for pickup or delivery inquiries: <span class="font-mono font-bold text-[#007AFF] dark:text-[#0A84FF]">09100317744</span>
+                        Contact rider directly for pickup or delivery inquiries: <span class="font-mono font-bold text-blue-600 dark:text-blue-400">{{ $riderPhone }}</span>
                     </p>
                 </div>
 
                 <div class="flex items-center gap-2">
-                    <a href="tel:09100317744" class="px-4 py-2.5 rounded-xl bg-[#007AFF] hover:bg-[#0056b3] text-white font-bold text-xs shadow transition flex items-center gap-1.5">
-                        <span>📞</span> Call Rider (09100317744)
+                    <a href="tel:{{ $riderPhone }}" class="px-4 py-2.5 rounded-lg bg-blue-600 hover:bg-[#0056b3] text-white font-bold text-xs shadow transition flex items-center gap-1.5">
+                        Call Rider ({{ $riderPhone }})
                     </a>
-                    <a href="sms:09100317744?body=Hi%20Rider%20Anthony,%20inquiring%20about%20Order%20%23{{ $order->order_number }}" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow transition flex items-center gap-1.5">
-                        <span>💬</span> Text Rider
+                    <a href="sms:{{ $riderPhone }}?body=Hi%20{{ urlencode($riderName) }},%20inquiring%20about%20Order%20%23{{ $order->order_number }}" class="px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow transition flex items-center gap-1.5">
+                        Text Rider
                     </a>
                 </div>
             </div>
@@ -185,8 +192,8 @@
         <div class="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6">
             
             <div class="md:col-span-7 space-y-4">
-                <div class="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-50 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-3">
-                    <div class="flex items-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider border-b border-black/5 dark:border-white/10 pb-2">
+                <div class="p-3.5 sm:p-4 rounded-lg sm:rounded-lg bg-slate-50 dark:bg-[#18181B] border border-black/5 dark:dark:border-zinc-700 space-y-3">
+                    <div class="flex items-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider border-b border-black/5 dark:dark:border-zinc-700 pb-2">
                         <span>Delivery & Pickup Address</span>
                     </div>
 
@@ -203,8 +210,8 @@
                     </div>
                 </div>
 
-                <div class="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-50 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 space-y-3">
-                    <div class="flex items-center justify-between border-b border-black/5 dark:border-white/10 pb-2">
+                <div class="p-3.5 sm:p-4 rounded-lg sm:rounded-lg bg-slate-50 dark:bg-[#18181B] border border-black/5 dark:dark:border-zinc-700 space-y-3">
+                    <div class="flex items-center justify-between border-b border-black/5 dark:dark:border-zinc-700 pb-2">
                         <span class="text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
                             Order Items & Package Summary
                         </span>
@@ -227,7 +234,7 @@
                         </span>
                     </div>
 
-                    <div class="border-t border-black/5 dark:border-white/10 pt-3 space-y-1.5 text-xs text-slate-600 dark:text-slate-300">
+                    <div class="border-t border-black/5 dark:dark:border-zinc-700 pt-3 space-y-1.5 text-xs text-slate-600 dark:text-slate-300">
                         <div class="flex justify-between">
                             <span>Subtotal</span>
                             <span>₱{{ number_format($order->subtotal ?? $order->total_amount, 2) }}</span>
@@ -244,9 +251,14 @@
                                 <span>-₱{{ number_format($order->discount, 2) }}</span>
                             </div>
                         @endif
-                        <div class="flex justify-between items-center text-sm font-extrabold text-slate-900 dark:text-white pt-2 border-t border-black/10 dark:border-white/10">
-                            <span>Total Payment Amount</span>
-                            <span class="text-lg font-black text-[#007AFF] dark:text-[#0A84FF] font-['Outfit']">
+                        <div class="flex justify-between items-center text-sm font-extrabold text-slate-900 dark:text-white pt-2 border-t border-slate-200 dark:dark:border-zinc-700">
+                            <div class="flex items-center gap-2">
+                                <span>Total Payment Amount</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
+                                    {{ strtoupper($order->payment_status) }}
+                                </span>
+                            </div>
+                            <span class="text-lg font-black text-blue-600 dark:text-blue-400">
                                 ₱{{ number_format($order->total_amount, 2) }}
                             </span>
                         </div>
@@ -256,51 +268,42 @@
 
             <div class="md:col-span-5 space-y-4">
                 
-                <div class="p-3.5 sm:p-4 rounded-xl sm:rounded-2xl bg-slate-900 text-white space-y-3 shadow-lg border border-slate-800">
-                    <div class="flex items-center justify-between border-b border-white/15 pb-2">
-                        <span class="text-[10px] font-extrabold uppercase tracking-wider text-amber-400">ESTIMATED COMPLETION</span>
-                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                <!-- Single Combined Live Machine & Completion Card -->
+                <div class="p-4 rounded-lg bg-slate-900 text-white space-y-3 shadow-lg border border-slate-800">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                        <span class="text-[10px] font-extrabold uppercase tracking-wider text-blue-400">MACHINE & LOGISTICS STATUS</span>
+                        <span class="text-[10px] font-mono text-emerald-400 font-bold">● LIVE</span>
                     </div>
 
-                    <div>
-                        <div class="text-base sm:text-lg font-bold font-['Outfit'] text-white">
-                            {{ in_array($order->order_status, ['pending', 'out_for_pickup', 'received']) ? 'Starts Upon Washing' : ($order->estimated_completion?->format('M d, Y • h:i A') ?? 'In Processing') }}
+                    <div class="grid grid-cols-2 gap-3 text-xs">
+                        <div class="space-y-1">
+                            <span class="text-[10px] text-slate-400 font-semibold block uppercase">Assigned Unit</span>
+                            <div class="font-bold text-white font-mono text-xs sm:text-sm">
+                                {{ $order->machine ? $order->machine->machine_name . ' (' . $order->machine->machine_code . ')' : 'Auto-Assign' }}
+                            </div>
                         </div>
-                        @if(in_array($order->order_status, ['washing', 'rinsing', 'drying']) && $order->estimated_completion && $order->estimated_completion->isFuture())
-                            <div class="mt-2.5 p-3 rounded-xl bg-slate-800/90 border border-amber-400/40 flex items-center justify-between text-xs font-mono font-bold text-amber-300">
-                                <span class="text-amber-300 font-bold">Time Remaining:</span>
-                                <span id="order-countdown" data-expiry="{{ $order->estimated_completion->timestamp }}" class="text-amber-300 font-extrabold text-sm tracking-wide">Calculating...</span>
+                        <div class="space-y-1">
+                            <span class="text-[10px] text-slate-400 font-semibold block uppercase">Est. Completion</span>
+                            <div class="font-bold text-amber-400 text-xs sm:text-sm">
+                                {{ in_array($order->order_status, ['pending', 'out_for_pickup', 'received']) ? 'Pending Wash Start' : ($order->estimated_completion?->format('M d • h:i A') ?? 'In Processing') }}
                             </div>
-                        @elseif(in_array($order->order_status, ['pending', 'out_for_pickup', 'received']))
-                            <div class="mt-2.5 p-3 rounded-xl bg-slate-800/90 border border-amber-400/40 flex items-center justify-between text-xs font-mono font-bold text-amber-300">
-                                <span class="text-amber-300 font-bold">Status:</span>
-                                <span class="text-amber-300 font-extrabold">Order Received (Pending Start)</span>
-                            </div>
-                        @elseif(in_array($order->order_status, ['finish', 'out_for_delivery']))
-                            <div class="mt-2.5 p-3 rounded-xl bg-emerald-950/90 border border-emerald-400/40 flex items-center justify-between text-xs font-mono font-bold text-emerald-300">
-                                <span class="text-emerald-300 font-bold">Status:</span>
-                                <span class="text-emerald-300 font-extrabold">Washing & Drying Finished</span>
-                            </div>
-                        @endif
+                        </div>
                     </div>
+
+                    @if(in_array($order->order_status, ['washing', 'rinsing', 'drying']) && $order->estimated_completion && $order->estimated_completion->isFuture())
+                        <div class="p-2.5 rounded-lg bg-slate-800/90 border border-amber-400/40 flex items-center justify-between text-xs font-mono font-bold text-amber-300">
+                            <span>Time Remaining:</span>
+                            <span id="order-countdown" data-expiry="{{ $order->estimated_completion->timestamp }}" class="text-amber-300 font-extrabold">Calculating...</span>
+                        </div>
+                    @endif
                 </div>
 
-                <div class="p-4 sm:p-5 rounded-xl sm:rounded-2xl bg-slate-50 dark:bg-[#2C2C2E] border border-black/5 dark:border-white/10 text-center space-y-3">
-                    <span class="text-[10px] font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
-                        SCANNABLE QR LAUNDRY TAG
-                    </span>
-
-                    <div class="w-32 h-32 sm:w-36 sm:h-36 mx-auto bg-white p-2 sm:p-2.5 rounded-2xl shadow-md border border-slate-200 flex items-center justify-center">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data={{ $order->qrCode->qr_token ?? $order->order_number }}" 
+                <!-- Scannable QR Laundry Tag Card -->
+                <div class="p-4 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-black/5 dark:dark:border-zinc-700 flex items-center justify-center">
+                    <div class="w-44 h-44 sm:w-48 sm:h-48 mx-auto bg-white p-2.5 rounded-xl shadow-sm border border-slate-200 flex items-center justify-center">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data={{ $order->qrCode->qr_token ?? $order->order_number }}" 
                              alt="QR Code Tag #{{ $order->order_number }}" 
-                             class="w-full h-full rounded-xl">
-                    </div>
-
-                    <div class="text-xs">
-                        <span class="font-mono text-slate-500 dark:text-slate-400 block text-[10px]">QR Token ID</span>
-                        <span class="font-bold font-mono text-[#007AFF] dark:text-[#0A84FF] text-xs truncate block max-w-full">
-                            {{ $order->qrCode->qr_token ?? $order->order_number }}
-                        </span>
+                             class="w-full h-full rounded-lg">
                     </div>
                 </div>
 
@@ -308,33 +311,53 @@
 
         </div>
 
-        <div class="space-y-3 border-t border-black/10 dark:border-white/10 pt-4 sm:pt-5">
+        <div class="space-y-3 border-t border-slate-200 dark:dark:border-zinc-700 pt-4 sm:pt-5">
             <h3 class="text-xs font-extrabold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
                 Detailed Logistics History & Status Updates
             </h3>
 
             <div class="relative pl-5 sm:pl-6 space-y-4 border-l-2 border-slate-200 dark:border-slate-800 text-xs">
                 @forelse($order->statusHistory->sortByDesc('created_at') as $history)
+                    @php
+                        $formattedTitle = match($history->status) {
+                            'pending' => 'Order Placed',
+                            'out_for_pickup' => 'Out for Pickup',
+                            'received' => 'Store Received Laundry',
+                            'washing' => 'Washing Cycle Started',
+                            'rinsing' => 'Rinsing Cycle Started',
+                            'drying' => 'Drying Cycle Started',
+                            'finish' => 'Finish & Shelved',
+                            'out_for_delivery' => 'Out for Delivery',
+                            'completed' => 'Order Completed',
+                            'cancelled' => 'Order Cancelled',
+                            default => 'Status Updated to ' . str_replace('_', ' ', $history->status),
+                        };
+
+                        $formattedNote = $history->notes;
+                        if (in_array(strtolower(trim($history->notes ?? '')), ['status updated to pending', 'pending'])) {
+                            $formattedNote = 'Order created and submitted successfully.';
+                        }
+                    @endphp
                     <div class="relative group">
-                        <span class="absolute -left-[25px] sm:-left-[31px] top-0 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-[#007AFF] border-2 border-white dark:border-[#1C1C1E]"></span>
+                        <span class="absolute -left-[25px] sm:-left-[31px] top-0 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-blue-600 border-2 border-white dark:border-[#1C1C1E]"></span>
                         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-                            <span class="font-bold text-slate-900 dark:text-white capitalize">
-                                Status Updated to {{ $history->status === 'finish' ? 'Finish & Shelved' : str_replace('_', ' ', $history->status) }}
+                            <span class="font-bold text-slate-900 dark:text-white">
+                                {{ $formattedTitle }}
                             </span>
                             <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
                                 {{ $history->created_at ? \Carbon\Carbon::parse($history->created_at)->format('M d, Y • h:i A') : $order->updated_at->format('M d, Y • h:i A') }}
                             </span>
                         </div>
-                        @if(!empty($history->notes))
+                        @if(!empty($formattedNote))
                             <p class="text-slate-600 dark:text-slate-400 text-[11px] mt-0.5 italic">
-                                "{{ $history->notes }}"
+                                "{{ $formattedNote }}"
                             </p>
                         @endif
                     </div>
                 @empty
                     @if($order->order_status !== 'pending')
                         <div class="relative group">
-                            <span class="absolute -left-[25px] sm:-left-[31px] top-0 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-[#007AFF] border-2 border-white dark:border-[#1C1C1E]"></span>
+                            <span class="absolute -left-[25px] sm:-left-[31px] top-0 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-blue-600 border-2 border-white dark:border-[#1C1C1E]"></span>
                             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                                 <span class="font-bold text-slate-900 dark:text-white capitalize">
                                     Status Updated to {{ $order->order_status === 'finish' ? 'Finish & Shelved' : str_replace('_', ' ', $order->order_status) }}

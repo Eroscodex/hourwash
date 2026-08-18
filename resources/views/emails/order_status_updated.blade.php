@@ -22,7 +22,7 @@
                                 HOUR WASH LAUNDRY
                             </h1>
                             <p style="margin: 4px 0 0 0; font-size: 11px; color: #94A3B8; letter-spacing: 0.5px;">
-                                Self-Service & Drop-Off Laundry Systems • Legazpi City
+                                Laundry Management System • Legazpi City
                             </p>
                         </td>
                     </tr>
@@ -95,6 +95,14 @@
                                     </td>
                                     <td style="padding: 10px 0; border-bottom: 1px solid #E2E8F0; font-size: 13px; font-weight: 600; color: #0F172A; text-align: right;">
                                         {{ $order->weight_kg }} kg
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding: 10px 0; border-bottom: 1px solid #E2E8F0; font-size: 13px; color: #64748B;">
+                                        Assigned Machine Unit:
+                                    </td>
+                                    <td style="padding: 10px 0; border-bottom: 1px solid #E2E8F0; font-size: 13px; font-weight: 700; color: #0284C7; text-align: right;">
+                                        {{ $order->machine ? $order->machine->machine_name . ' (' . $order->machine->machine_code . ')' : 'Auto-Assign on Wash' }}
                                     </td>
                                 </tr>
                                 <tr>

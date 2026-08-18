@@ -19,22 +19,22 @@
 
     
     <div class="no-print mb-4 flex gap-3">
-        <button onclick="window.print()" class="bg-[#007AFF] text-white px-5 py-2.5 rounded-xl text-xs font-bold shadow-md hover:bg-blue-600 transition flex items-center gap-2">
+        <button onclick="window.print()" class="bg-blue-600 text-white px-5 py-2.5 rounded-lg text-xs font-bold shadow-md hover:bg-blue-600 transition flex items-center gap-2">
             🖨 Print Official Thermal Receipt
         </button>
-        <button onclick="window.close()" class="bg-slate-200 text-slate-700 px-4 py-2.5 rounded-xl text-xs font-bold hover:bg-slate-300 transition">
+        <button onclick="window.close()" class="bg-slate-200 text-slate-700 px-4 py-2.5 rounded-lg text-xs font-bold hover:bg-slate-300 transition">
             Close Window
         </button>
     </div>
 
     
-    <div class="printable-card max-w-sm w-full bg-white p-6 rounded-2xl shadow-xl border border-slate-200 text-slate-900 space-y-4">
+    <div class="printable-card max-w-sm w-full bg-white p-6 rounded-lg shadow-sm border border-slate-200 text-slate-900 space-y-4">
         
         
         <div class="text-center space-y-1 border-b border-dashed border-slate-300 pb-4">
             <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-14 h-14 mx-auto mb-1 rounded-full object-cover">
-            <h1 class="text-xl font-bold font-['Outfit'] tracking-tight">HOUR WASH LAUNDRY</h1>
-            <p class="text-[11px] font-sans text-slate-600">Self-Service & Drop-Off Laundry Systems</p>
+            <h1 class="text-xl font-bold  tracking-tight">HOUR WASH LAUNDRY</h1>
+            <p class="text-[11px] font-sans text-slate-600">Laundry Management System</p>
             <p class="text-[10px] text-slate-500">Magallanes St., Orosite, Legazpi City, Albay</p>
             <p class="text-[10px] text-slate-500">Email: karlnicko2019@gmail.com | Mobile: 09123456789</p>
         </div>
@@ -58,9 +58,9 @@
                 <span class="font-bold">{{ $order->customer->phone ?? ($order->customer->customerProfile->phone ?? 'N/A') }}</span>
             </div>
             <div class="flex justify-between">
-                <span>VIP STATUS:</span>
-                <span class="font-bold text-[#007AFF]">
-                    {{ ($order->customer->customerProfile->loyalty_points ?? 0) >= 200 ? '⭐ VIP MEMBER' : 'STANDARD MEMBER' }}
+                <span>ASSIGNED MACHINE:</span>
+                <span class="font-bold text-slate-900 font-mono">
+                    {{ $order->machine ? $order->machine->machine_name . ' (' . $order->machine->machine_code . ')' : 'UNASSIGNED (AUTO-ASSIGN)' }}
                 </span>
             </div>
         </div>
@@ -107,19 +107,11 @@
                     {{ strtoupper($order->payment_status) }} (CASHIER)
                 </span>
             </div>
-            <div class="flex justify-between">
-                <span>POINTS EARNED THIS ORDER:</span>
-                <span class="font-bold text-[#007AFF]">+{{ floor($order->total_amount / 10) }} PTS</span>
-            </div>
-            <div class="flex justify-between">
-                <span>TOTAL LOYALTY POINTS:</span>
-                <span class="font-bold text-[#007AFF]">{{ $order->customer->customerProfile->loyalty_points ?? 0 }} PTS</span>
-            </div>
         </div>
 
         
         <div class="text-center pt-2 space-y-2">
-            <div class="w-32 h-32 mx-auto bg-white p-1.5 border border-slate-300 rounded-xl flex items-center justify-center">
+            <div class="w-32 h-32 mx-auto bg-white p-1.5 border border-slate-300 rounded-lg flex items-center justify-center">
                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ $order->qrCode->qr_token ?? $order->order_number }}" 
                      alt="Order QR Tag {{ $order->order_number }}" 
                      class="w-full h-full">
@@ -132,3 +124,4 @@
 
 </body>
 </html>
+

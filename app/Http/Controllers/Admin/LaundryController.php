@@ -21,11 +21,12 @@ class LaundryController extends Controller
             ->latest()
             ->get();
 
+        $machines = Machine::orderBy('id', 'asc')->get();
         $smsLogs = SmsNotification::with('order')->latest()->take(10)->get();
 
         return view(
             'admin.laundry.index',
-            compact('orders', 'smsLogs')
+            compact('orders', 'smsLogs', 'machines')
         );
     }
 
@@ -35,9 +36,14 @@ class LaundryController extends Controller
             $request->validate([
                 'status' => 'nullable|string',
                 'payment_status' => 'nullable|string',
+                'machine_id' => 'nullable',
             ]);
 
             $prevPaymentStatus = $order->payment_status;
+
+            if ($request->has('machine_id')) {
+                $order->machine_id = $request->machine_id ?: null;
+            }
 
             if ($request->filled('status')) {
                 $order->order_status = $request->status;
@@ -48,7 +54,7 @@ class LaundryController extends Controller
                 }
 
                 // If order has no machine assigned yet, assign an available idle machine
-                if (! $order->machine_id && in_array($request->status, ['washing', 'rinsing', 'drying'])) {
+                if (! $order->machine_id && in_array($request->status, ['washing', 'rinsing', 'drying', 'received'])) {
                     $availableMachine = Machine::where('status', 'idle')->first();
                     if ($availableMachine) {
                         $order->machine_id = $availableMachine->id;
@@ -78,7 +84,14 @@ class LaundryController extends Controller
                             'remaining_minutes' => 35,
                             'last_status_update' => now(),
                         ]);
-                    } elseif (in_array($request->status, ['finish', 'completed', 'cancelled'])) {
+                    } elseif ($request->status === 'received') {
+                        Machine::where('id', $order->machine_id)->update([
+                            'current_order_id' => $order->id,
+                            'status' => 'idle',
+                            'remaining_minutes' => null,
+                            'last_status_update' => now(),
+                        ]);
+                    } elseif (in_array($request->status, ['pending', 'out_for_pickup', 'ready', 'finish', 'completed', 'cancelled'])) {
                         Machine::where('id', $order->machine_id)->update([
                             'current_order_id' => null,
                             'status' => 'idle',
@@ -92,7 +105,9 @@ class LaundryController extends Controller
                     'order_id' => $order->id,
                     'status' => $request->status,
                     'changed_by' => auth()->id(),
-                    'notes' => 'Status updated to '.($request->status === 'finish' ? 'Finish & Shelved' : str_replace('_', ' ', $request->status)),
+                    'notes' => $request->status === 'pending'
+                        ? 'Order created and submitted successfully.'
+                        : 'Status updated to '.($request->status === 'finish' ? 'Finish & Shelved' : str_replace('_', ' ', $request->status)),
                     'created_at' => now(),
                 ]);
             }
@@ -103,16 +118,8 @@ class LaundryController extends Controller
 
             $order->save();
 
-            // Award Loyalty Points if payment is marked as Paid (and was not paid previously)
-            if ($order->payment_status === 'paid' && $prevPaymentStatus !== 'paid') {
-                $earnedPoints = (int) floor($order->total_amount / 10);
-                if ($earnedPoints > 0 && $order->customer && $order->customer->customerProfile) {
-                    $order->customer->customerProfile->increment('loyalty_points', $earnedPoints);
-                }
-            }
-
             // Eager load relationships so customer and service data are present in notifications
-            $order->load(['customer', 'service', 'customer.customerProfile']);
+            $order->load(['customer', 'service', 'customer.customerProfile', 'machine']);
 
             // Send Email & SMS Notifications efficiently
             try {

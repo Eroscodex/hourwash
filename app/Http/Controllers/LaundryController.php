@@ -6,11 +6,13 @@ use App\Models\Machine;
 use App\Models\Order;
 use App\Models\OrderStatusHistory;
 use App\Models\QrCode;
+use App\Models\QrScanLog;
 use App\Models\Service;
 use App\Models\User;
 use App\Services\EmailNotificationService;
 use App\Services\SmsNotificationService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
@@ -20,8 +22,19 @@ class LaundryController extends Controller
 {
     public function create()
     {
+        $storeStatus = Cache::get('store_status', 'open');
+        $isStaffOrAdmin = auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isOwner() || auth()->user()->isStaff());
+
+        if ($storeStatus === 'closed' && ! $isStaffOrAdmin) {
+            return redirect()->route('dashboard')->with('error', '⚠️ Store is currently CLOSED TODAY. New order bookings are disabled until the store re-opens.');
+        }
+
         $services = Service::where('status', 'active')->get();
-        $availableMachines = Machine::where('status', 'idle')->orderBy('id', 'asc')->get();
+        $availableMachines = Machine::where('status', 'idle')
+            ->whereNull('current_order_id')
+            ->whereDoesntHave('activeOrder')
+            ->orderBy('id', 'asc')
+            ->get();
         $customers = User::where('role', 'customer')->orderBy('name', 'asc')->get();
 
         return view('laundry.create', compact('services', 'availableMachines', 'customers'));
@@ -29,7 +42,12 @@ class LaundryController extends Controller
 
     public function store(Request $request)
     {
+        $storeStatus = Cache::get('store_status', 'open');
         $isStaffOrAdmin = auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isOwner() || auth()->user()->isStaff());
+
+        if ($storeStatus === 'closed' && ! $isStaffOrAdmin) {
+            return back()->withInput()->with('error', '⚠️ Store is currently CLOSED TODAY. New order bookings are disabled until the store re-opens.');
+        }
 
         $request->validate([
             'service_id' => 'required|exists:services,id',
@@ -107,12 +125,8 @@ class LaundryController extends Controller
         $totalAmount = max(0, $subtotal - $discount);
         $notes = trim($suppliesLabel.($request->remarks ? ' — '.$request->remarks : ''));
 
-        // Auto-assign available machine if not selected
+        // Machine is assigned dynamically when staff processes or starts washing
         $machineId = $request->machine_id;
-        if (! $machineId) {
-            $firstAvailable = Machine::where('status', 'idle')->first();
-            $machineId = $firstAvailable?->id;
-        }
 
         // Prevent duplicate order submission within 60 seconds
         $existingDuplicate = Order::where('customer_id', $customerId)
@@ -142,14 +156,6 @@ class LaundryController extends Controller
             'estimated_completion' => now()->addMinutes($service->estimated_minutes),
             'notes' => $notes,
         ]);
-
-        if ($machineId) {
-            Machine::where('id', $machineId)->update([
-                'current_order_id' => $order->id,
-                'status' => 'idle',
-                'remaining_minutes' => null,
-            ]);
-        }
 
         QrCode::create([
             'order_id' => $order->id,
@@ -204,7 +210,7 @@ class LaundryController extends Controller
 
     public function myOrders()
     {
-        $orders = Order::with(['service', 'qrCode', 'feedback'])
+        $orders = Order::with(['service', 'qrCode', 'feedback', 'machine'])
             ->where('customer_id', auth()->id())
             ->latest()
             ->get();
@@ -252,6 +258,21 @@ class LaundryController extends Controller
 
         if (! $order) {
             return redirect()->route('welcome')->with('error', 'No active order tracking found for QR token / machine tag: '.$qr);
+        }
+
+        if ($order->qrCode) {
+            try {
+                QrScanLog::create([
+                    'qr_code_id' => $order->qrCode->id,
+                    'order_id' => $order->id,
+                    'scanned_by' => auth()->id(),
+                    'scan_type' => auth()->check() ? (auth()->user()->isStaff() || auth()->user()->isAdmin() || auth()->user()->isOwner() ? 'staff_scan' : 'customer_scan') : 'customer_scan',
+                    'device' => request()->header('User-Agent'),
+                    'ip_address' => request()->ip(),
+                ]);
+            } catch (\Exception $e) {
+                Log::warning('Failed to log QR scan: '.$e->getMessage());
+            }
         }
 
         // Customers can only view their own orders; Admin & Staff can view any customer order

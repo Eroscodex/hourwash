@@ -2,7 +2,7 @@
 
     <div class="space-y-6">
         <div>
-            <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold font-['Outfit'] text-slate-900 dark:text-white">Edit Machine #{{ $machine->machine_code }}</h1>
+            <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white">Edit Machine #{{ $machine->machine_code }}</h1>
             <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">Update specifications and live operational status.</p>
         </div>
 
@@ -43,8 +43,8 @@
                 </div>
 
                 <div class="flex flex-col sm:flex-row gap-3 pt-2">
-                    <button type="submit" class="btn-ios-primary w-full sm:w-auto text-center">Update Machine</button>
-                    <a href="{{ route('admin.machines.index') }}" class="btn-ios-secondary w-full sm:w-auto text-center">Cancel</a>
+                    <button type="submit" class="btn-primary w-full sm:w-auto text-center">Update Machine</button>
+                    <a href="{{ route('admin.machines.index') }}" class="btn-secondary w-full sm:w-auto text-center">Cancel</a>
                 </div>
             </form>
         </div>

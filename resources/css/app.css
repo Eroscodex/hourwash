@@ -8,19 +8,19 @@
     }
 
     body {
-        @apply bg-[#F5F5F7] text-slate-900 dark:bg-[#000000] dark:text-[#F5F5F7] font-sans antialiased selection:bg-[#007AFF] selection:text-white min-h-screen transition-colors duration-300;
+        @apply bg-slate-50 text-slate-900 dark:bg-[#09090B] dark:text-zinc-100 font-sans antialiased selection:bg-blue-600 selection:text-white min-h-screen transition-colors duration-200;
     }
     
     h1, h2, h3, h4, h5, h6 {
-        @apply font-['Outfit'] tracking-tight text-slate-900 dark:text-white;
+        @apply font-sans tracking-tight text-slate-900 dark:text-zinc-50;
     }
 
     p, label, span, td, th, div {
-        @apply text-slate-700 dark:text-slate-200;
+        @apply text-slate-700 dark:text-zinc-300;
     }
 }
 
-/* Custom iOS Scrollbars */
+/* Professional Scrollbar */
 ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -29,50 +29,64 @@
     background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-    background: rgba(142, 142, 147, 0.4);
-    border-radius: 9999px;
+    background: rgba(161, 161, 170, 0.3);
+    border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: #007AFF;
+    background: #2563EB;
 }
 
-/* iOS Glassmorphic Cards with High Contrast Text */
+/* Enterprise App Cards (8-12px Radius, Restrained 1px Borders) */
 .app-card {
-    @apply bg-white/90 dark:bg-[#1C1C1E]/90 backdrop-blur-xl border border-black/10 dark:border-white/10 rounded-[16px] shadow-sm dark:shadow-2xl transition-all duration-300 text-slate-900 dark:text-[#F5F5F7];
+    @apply bg-white dark:bg-[#141417] border border-slate-200 dark:border-zinc-800/80 rounded-lg shadow-sm transition-all duration-200 text-slate-900 dark:text-zinc-100;
 }
 
 .app-card-interactive {
-    @apply bg-white/90 dark:bg-[#1C1C1E]/90 backdrop-blur-xl border border-black/10 dark:border-white/10 rounded-[16px] shadow-sm dark:shadow-2xl transition-all duration-300 text-slate-900 dark:text-[#F5F5F7];
+    @apply bg-white dark:bg-[#141417] border border-slate-200 dark:border-zinc-800/80 rounded-lg shadow-sm transition-all duration-200 text-slate-900 dark:text-zinc-100;
 }
 .app-card-interactive:hover {
-    @apply border-[#007AFF]/40 dark:border-[#0A84FF]/50 -translate-y-0.5 shadow-lg dark:shadow-[0_8px_30px_rgba(10,132,255,0.2)];
+    @apply border-blue-500/40 dark:border-blue-500/40 shadow-sm;
 }
 
-/* iOS Accent Buttons */
+/* Commercial Enterprise Buttons (6-8px Radius, Subtraction of AI Vibe Code Bouncing) */
+.btn-primary {
+    @apply bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white font-semibold rounded-md px-4 py-2 text-xs sm:text-sm shadow-sm transition-all duration-150 active:scale-[0.98] inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-600/30;
+}
+.btn-secondary {
+    @apply bg-white hover:bg-slate-50 dark:bg-zinc-800 dark:hover:bg-zinc-700 text-slate-700 dark:text-zinc-200 border border-slate-300 dark:border-zinc-700 font-semibold rounded-md px-4 py-2 text-xs sm:text-sm shadow-sm transition-all duration-150 active:scale-[0.98] inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-slate-400/30;
+}
+.btn-danger {
+    @apply bg-rose-600 hover:bg-rose-700 dark:bg-rose-600 dark:hover:bg-rose-500 text-white font-semibold rounded-md px-4 py-2 text-xs sm:text-sm shadow-sm transition-all duration-150 active:scale-[0.98] inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-rose-600/30;
+}
+
+/* Legacy Class Aliases */
 .btn-ios-primary {
-    @apply bg-[#007AFF] hover:bg-[#0062CC] dark:bg-[#0A84FF] dark:hover:bg-[#0071E3] text-white font-semibold rounded-xl px-5 py-2.5 shadow-md hover:shadow-lg transition-all duration-200 active:scale-95 text-xs sm:text-sm;
+    @apply btn-primary;
 }
 .btn-ios-secondary {
-    @apply bg-black/5 hover:bg-black/10 dark:bg-white/10 dark:hover:bg-white/15 text-slate-900 dark:text-[#F5F5F7] border border-black/10 dark:border-white/10 font-semibold rounded-xl px-5 py-2.5 transition-all duration-200 text-xs sm:text-sm;
+    @apply btn-secondary;
 }
 
-/* Clean status indicator badges */
-.badge-idle {
-    @apply bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 font-semibold px-2.5 py-1 rounded-full text-[11px] uppercase tracking-wider;
+/* Status Indicator Badges */
+.badge-status {
+    @apply font-semibold px-2.5 py-0.5 rounded-md text-[11px] uppercase tracking-wider inline-flex items-center gap-1 border;
 }
-.badge-active {
-    @apply bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30 font-semibold px-2.5 py-1 rounded-full text-[11px] uppercase tracking-wider;
+.badge-idle, .badge-available, .badge-completed, .badge-green {
+    @apply bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-400 dark:border-emerald-800/60;
 }
-.badge-blue {
-    @apply bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30 font-semibold px-2.5 py-1 rounded-full text-[11px] uppercase tracking-wider;
+.badge-active, .badge-processing, .badge-washing, .badge-blue {
+    @apply bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800/60;
 }
-.badge-danger {
-    @apply bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 font-semibold px-2.5 py-1 rounded-full text-[11px] uppercase tracking-wider;
+.badge-pending, .badge-waiting, .badge-ready, .badge-orange {
+    @apply bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-400 dark:border-amber-800/60;
+}
+.badge-danger, .badge-cancelled, .badge-failed, .badge-offline, .badge-red {
+    @apply bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/40 dark:text-rose-400 dark:border-rose-800/60;
 }
 
-/* Form inputs with high contrast readability & mobile auto-zoom prevention */
-input[type="text"], input[type="email"], input[type="password"], input[type="number"], select, textarea {
-    @apply bg-white dark:bg-[#2C2C2E] border-black/15 dark:border-white/15 text-slate-900 dark:text-[#F5F5F7] placeholder-slate-400 dark:placeholder-slate-400 focus:border-[#007AFF] dark:focus:border-[#0A84FF] focus:ring-[#007AFF] rounded-xl text-xs sm:text-sm transition-all duration-200;
+/* Form Inputs */
+input[type="text"], input[type="email"], input[type="password"], input[type="number"], input[type="search"], select, textarea {
+    @apply bg-white dark:bg-[#18181B] border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100 placeholder-slate-400 dark:placeholder-zinc-500 focus:border-blue-600 focus:ring-1 focus:ring-blue-600 rounded-md text-xs sm:text-sm transition-all duration-150;
 }
 
 @media (max-width: 767px) {
@@ -81,26 +95,10 @@ input[type="text"], input[type="email"], input[type="password"], input[type="num
     }
 }
 
-/* Table header & row text contrast */
+/* Table Headers & Rows */
 table thead {
-    @apply bg-slate-100 dark:bg-[#2C2C2E] text-slate-700 dark:text-slate-300;
+    @apply bg-slate-100/80 dark:bg-zinc-800/80 text-slate-700 dark:text-zinc-300 text-[11px] uppercase tracking-wider font-semibold;
 }
 table tbody tr {
-    @apply border-b border-black/5 dark:border-white/5 hover:bg-black/5 dark:hover:bg-white/5 text-slate-900 dark:text-slate-100;
-}
-
-/* Glowing AI Assistant Bubble Animation */
-@keyframes float-glow {
-    0%, 100% {
-        box-shadow: 0 0 20px rgba(0, 122, 255, 0.4), 0 0 35px rgba(0, 122, 255, 0.2);
-        transform: scale(1);
-    }
-    50% {
-        box-shadow: 0 0 30px rgba(10, 132, 255, 0.7), 0 0 50px rgba(10, 132, 255, 0.4);
-        transform: scale(1.06);
-    }
-}
-
-.chat-bubble-glow {
-    animation: float-glow 2.5s ease-in-out infinite;
+    @apply border-b border-slate-200/70 dark:border-zinc-800/70 hover:bg-slate-50 dark:hover:bg-zinc-800/40 transition-colors text-slate-900 dark:text-zinc-100 text-xs sm:text-sm;
 }

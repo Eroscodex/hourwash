@@ -13,6 +13,10 @@ class RiderDashboardController extends Controller
     {
         $user = auth()->user();
 
+        if ($user->isCustomer()) {
+            return redirect()->route('dashboard');
+        }
+
         // Rider Analytics & Dispatch Metrics
         $riderPickupRequests = Order::whereIn('order_status', ['pending', 'out_for_pickup'])
             ->where(function ($q) {

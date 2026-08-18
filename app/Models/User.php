@@ -48,7 +48,7 @@ class User extends Authenticatable
 
     public function isStaff(): bool
     {
-        return $this->role === 'staff' || $this->role === 'rider';
+        return $this->role === 'staff';
     }
 
     public function isRider(): bool
@@ -74,11 +74,6 @@ class User extends Authenticatable
     public function orders()
     {
         return $this->hasMany(Order::class, 'customer_id');
-    }
-
-    public function notifications()
-    {
-        return $this->hasMany(Notification::class);
     }
 
     /**

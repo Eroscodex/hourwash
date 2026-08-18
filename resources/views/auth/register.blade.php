@@ -5,7 +5,7 @@
         
         <div>
             <x-input-label for="name" :value="__('Full Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" placeholder="e.g. Maria Santos" />
+            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" placeholder="e.g. Maria Santos (Min. 8 characters)" minlength="8" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
@@ -26,7 +26,7 @@
         
         <div>
             <x-input-label for="password" :value="__('Password')" />
-            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" placeholder="Minimum 8 characters" />
+            <x-text-input id="password" class="block mt-1 w-full" type="password" name="password" required autocomplete="new-password" placeholder="Min. 8 chars with symbols (e.g. @#$%)" minlength="8" />
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
@@ -38,7 +38,7 @@
         </div>
 
         <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <a class="text-xs text-[#007AFF] dark:text-[#0A84FF] hover:underline font-semibold" href="{{ route('login') }}">
+            <a class="text-xs text-blue-600 dark:text-blue-400 hover:underline font-semibold" href="{{ route('login') }}">
                 {{ __('Already registered? Log In') }}
             </a>
 
