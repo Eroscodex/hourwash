@@ -3,11 +3,11 @@
 
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-                <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white">
-                    Overall Reports & System Dashboard
+                <h1 class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                    Welcome back, {{ auth()->user()->name }}!
                 </h1>
 
-                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
+                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1 font-medium">
                     Central operational hub, system analytics, and quick navigation shortcuts.
                 </p>
             </div>
