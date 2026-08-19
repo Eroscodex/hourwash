@@ -16,32 +16,54 @@
                 <form method="POST" action="{{ route('admin.store-status.toggle') }}" class="w-full sm:w-auto">
                     @csrf
                     @if(($storeStatus ?? 'open') === 'open')
-                        <button type="submit" title="Click to Mark Store Closed Today" class="w-full px-2.5 py-1.5 rounded-lg bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 font-extrabold text-[10px] whitespace-nowrap hover:bg-emerald-500/25 transition flex items-center justify-center gap-1.5 h-full">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+                        <button type="submit" title="Click to Mark Store Closed Today" class="w-full px-3 py-2 rounded-lg bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 font-extrabold text-xs whitespace-nowrap hover:bg-emerald-500/25 transition flex items-center justify-center gap-1.5 h-full">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
                             <span>STORE OPEN TODAY</span>
-                            <span class="hidden xl:inline-block text-[9px] text-slate-500 dark:text-slate-400 font-normal pl-1 border-l border-emerald-500/30">(Click to Close)</span>
+                            <span class="hidden xl:inline-block text-[10px] text-slate-500 dark:text-slate-400 font-normal pl-1 border-l border-emerald-500/30">(Click to Close)</span>
                         </button>
                     @else
-                        <button type="submit" title="Click to Re-open Store Today" class="w-full px-2.5 py-1.5 rounded-lg bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 font-extrabold text-[10px] whitespace-nowrap hover:bg-rose-500/25 transition flex items-center justify-center gap-1.5 h-full">
-                            <span class="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0"></span>
+                        <button type="submit" title="Click to Re-open Store Today" class="w-full px-3 py-2 rounded-lg bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 font-extrabold text-xs whitespace-nowrap hover:bg-rose-500/25 transition flex items-center justify-center gap-1.5 h-full">
+                            <span class="w-2 h-2 rounded-full bg-rose-500 shrink-0"></span>
                             <span>STORE CLOSED TODAY</span>
-                            <span class="hidden xl:inline-block text-[9px] text-slate-500 dark:text-slate-400 font-normal pl-1 border-l border-rose-500/30">(Click to Open)</span>
+                            <span class="hidden xl:inline-block text-[10px] text-slate-500 dark:text-slate-400 font-normal pl-1 border-l border-rose-500/30">(Click to Open)</span>
                         </button>
                     @endif
                 </form>
 
-                <form method="POST" action="{{ route('admin.orders.reset') }}" class="w-full sm:w-auto" onsubmit="return confirm('⚠️ ARE YOU SURE YOU WANT TO RESET ALL ORDERS?\n\nThis will permanently delete all order history and set all machines to idle status.')">
-                    @csrf
-                    <button type="submit" class="w-full bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 hover:bg-rose-500/25 px-2.5 py-1.5 rounded-lg text-[10px] font-bold transition whitespace-nowrap flex items-center justify-center h-full">
-                        Reset All Orders
-                    </button>
-                </form>
+                <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-admin-reset-all-orders')" class="w-full bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 hover:bg-rose-500/25 px-3 py-2 rounded-lg text-xs font-bold transition whitespace-nowrap flex items-center justify-center h-full">
+                    Reset All Orders
+                </button>
 
-                <a href="{{ route('admin.laundry.index') }}" class="btn-primary text-[10px] py-1.5 px-2.5 whitespace-nowrap text-center w-full sm:w-auto flex items-center justify-center h-full">
+                <x-modal name="confirm-admin-reset-all-orders" maxWidth="md">
+                    <div class="p-6 bg-white dark:bg-[#141417] text-slate-900 dark:text-zinc-100 space-y-4 rounded-lg">
+                        <div class="flex items-center gap-3 text-rose-600 dark:text-rose-400">
+                            <svg class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                            <h2 class="text-base font-bold">Reset All Orders?</h2>
+                        </div>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                            This action will permanently purge all order history and set all commercial machines to idle status.
+                        </p>
+                        <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-200 dark:border-zinc-800">
+                            <button type="button" x-on:click="$dispatch('close')" class="btn-secondary text-xs py-1.5 px-3">
+                                Cancel
+                            </button>
+                            <form method="POST" action="{{ route('admin.orders.reset') }}">
+                                @csrf
+                                <button type="submit" class="btn-danger text-xs py-1.5 px-3">
+                                    Yes, Reset All Orders
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </x-modal>
+
+                <a href="{{ route('admin.laundry.index') }}" class="btn-primary text-xs py-2 px-3 whitespace-nowrap text-center w-full sm:w-auto flex items-center justify-center h-full">
                     Manage Orders Queue
                 </a>
 
-                <a href="{{ route('admin.machines.create') }}" class="btn-secondary text-[10px] py-1.5 px-2.5 whitespace-nowrap text-center w-full sm:w-auto flex items-center justify-center h-full">
+                <a href="{{ route('admin.machines.create') }}" class="btn-secondary text-xs py-2 px-3 whitespace-nowrap text-center w-full sm:w-auto flex items-center justify-center h-full">
                     Add New Machine
                 </a>
             </div>

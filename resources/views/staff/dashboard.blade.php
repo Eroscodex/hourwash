@@ -38,7 +38,7 @@
                     <span>Scan QR</span>
                 </button>
 
-                <a href="{{ route('admin.laundry.index') }}" class="btn-secondary text-[10px] py-1.5 px-2.5 whitespace-nowrap text-center w-full sm:w-auto flex items-center justify-center h-full">
+                <a href="{{ route('staff.laundry.index') }}" class="btn-secondary text-[10px] py-1.5 px-2.5 whitespace-nowrap text-center w-full sm:w-auto flex items-center justify-center h-full">
                     Orders Queue
                 </a>
 
@@ -74,7 +74,7 @@
             </h2>
 
             <div class="grid grid-cols-2 sm:grid-cols-6 lg:grid-cols-6 gap-3">
-                <a href="{{ route('admin.laundry.index') }}"
+                <a href="{{ route('staff.laundry.index') }}"
                    class="app-card p-3.5 flex flex-col justify-between hover:border-blue-600 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group">
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
@@ -86,7 +86,7 @@
                     </div>
                 </a>
 
-                <a href="{{ route('admin.machines.index') }}"
+                <a href="{{ route('staff.machines.index') }}"
                    class="app-card p-3.5 flex flex-col justify-between hover:border-blue-600 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group">
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
@@ -260,10 +260,10 @@
                     </p>
                 </div>
                 <div class="flex items-center gap-2">
-                    <a href="{{ route('admin.machines.create') }}" class="btn-primary py-1.5 px-3 text-xs">
+                    <a href="{{ route('staff.machines.create') }}" class="btn-primary py-1.5 px-3 text-xs">
                         + Add Machine
                     </a>
-                    <a href="{{ route('admin.machines.index') }}" class="btn-secondary py-1.5 px-3 text-xs">
+                    <a href="{{ route('staff.machines.index') }}" class="btn-secondary py-1.5 px-3 text-xs">
                         Manage Machines
                     </a>
                 </div>
@@ -274,7 +274,7 @@
                     @php
                         $targetUrl = $machine->currentOrder
                             ? route('laundry.track', $machine->currentOrder->order_number)
-                            : route('admin.machines.index');
+                            : route('staff.machines.index');
 
                         $statusClass = match($machine->status) {
                             'washing' => 'bg-teal-500/15 text-teal-700 dark:text-teal-300',
@@ -385,7 +385,7 @@
                     <a href="{{ route('laundry.create') }}" class="btn-primary py-1.5 px-3 text-xs w-full sm:w-auto text-center flex items-center justify-center">
                         + New Order
                     </a>
-                    <a href="{{ route('admin.laundry.index') }}" class="btn-secondary py-1.5 px-3 text-xs w-full sm:w-auto text-center flex items-center justify-center">Full Orders Queue</a>
+                    <a href="{{ route('staff.laundry.index') }}" class="btn-secondary py-1.5 px-3 text-xs w-full sm:w-auto text-center flex items-center justify-center">Full Orders Queue</a>
                 </div>
             </div>
 
@@ -433,7 +433,7 @@
                                      @endif
                                  </td>
                                 <td class="px-4 py-3 text-center">
-                                    <a href="{{ route('admin.laundry.index') }}" class="btn-secondary py-1 px-3 text-[11px]">Manage</a>
+                                    <a href="{{ route('staff.laundry.index') }}" class="btn-secondary py-1 px-3 text-[11px]">Manage</a>
                                 </td>
                             </tr>
                         @empty

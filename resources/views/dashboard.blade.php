@@ -122,40 +122,49 @@
             </div>
         </div>
 
-
-        <div class="grid grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3">
-            <div class="app-card p-2.5 sm:p-4">
+        <div class="grid grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3">
+            <div class="app-card p-3 sm:p-4">
                 <div>
-                    <h5 class="text-[9px] sm:text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold truncate">Washers</h5>
-                    <p class="text-xs sm:text-sm font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">{{ $idleWashers ?? 0 }} Idle</p>
+                    <h5 class="text-[10px] sm:text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold truncate">Washers</h5>
+                    <p class="text-sm sm:text-base font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">{{ $idleWashers ?? 0 }} Idle</p>
                 </div>
             </div>
 
-            <div class="app-card p-2.5 sm:p-4">
+            <div class="app-card p-3 sm:p-4">
                 <div>
-                    <h5 class="text-[9px] sm:text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold truncate">Dryers</h5>
-                    <p class="text-xs sm:text-sm font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">{{ $idleDryers ?? 0 }} Ready</p>
+                    <h5 class="text-[10px] sm:text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold truncate">Dryers</h5>
+                    <p class="text-sm sm:text-base font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">{{ $idleDryers ?? 0 }} Ready</p>
                 </div>
             </div>
 
-            <div class="app-card p-2.5 sm:p-4">
+            <div class="app-card p-3 sm:p-4">
                 <div>
-                    <h5 class="text-[9px] sm:text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold truncate">My Orders</h5>
-                    <p class="text-xs sm:text-sm font-bold text-blue-600 dark:text-blue-400 mt-0.5">{{ $recentOrders->count() }} Orders</p>
+                    <h5 class="text-[10px] sm:text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold truncate">My Orders</h5>
+                    <p class="text-sm sm:text-base font-bold text-blue-600 dark:text-blue-400 mt-0.5">{{ $recentOrders->count() }} Orders</p>
                 </div>
             </div>
 
-            <div class="col-span-3 lg:col-span-1 app-card p-2.5 sm:p-4 flex items-center justify-between">
+            <div class="col-span-3 lg:col-span-1 app-card p-3.5 sm:p-4 flex flex-col justify-center">
                 <div>
-                    <span class="inline-flex items-center gap-1.5 text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
-                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
-                        STORE OPEN
-                    </span>
-                    <p class="text-sm font-semibold text-slate-700 dark:text-slate-300 mt-0.5">7:00 AM - 6:00 PM</p>
+                    @if(($storeStatus ?? 'open') === 'open')
+                        <span class="inline-flex items-center gap-2 text-xs sm:text-sm font-extrabold text-emerald-600 dark:text-emerald-400 tracking-wide">
+                            <span class="relative flex h-2 w-2 shrink-0">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                            </span>
+                            STORE OPEN TODAY
+                        </span>
+                        <p class="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 mt-1">7:00 AM - 6:00 PM</p>
+                    @else
+                        <span class="inline-flex items-center gap-2 text-xs sm:text-sm font-extrabold text-rose-600 dark:text-rose-400 tracking-wide">
+                            <span class="w-2 h-2 rounded-full bg-rose-500 shrink-0"></span>
+                            STORE CLOSED TODAY
+                        </span>
+                        <p class="text-sm sm:text-base font-bold text-slate-500 dark:text-slate-400 mt-1">Closed All Day</p>
+                    @endif
                 </div>
             </div>
         </div>
-
 
         <div class="space-y-6">
 
@@ -166,19 +175,22 @@
                         <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
                             Live Store Machine Availability
                         </h2>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                             Real-time status of commercial washers & dryers at Hour Wash store.
                         </p>
                     </div>
                     @if(($storeStatus ?? 'open') === 'open')
-                        <span class="inline-flex items-center gap-1.5 text-[10px] font-extrabold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-md border border-emerald-500/20 whitespace-nowrap shrink-0 w-fit">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                            STORE OPEN TODAY
+                        <span class="inline-flex items-center gap-1.5 text-xs font-extrabold text-emerald-600 dark:text-emerald-400 bg-emerald-500/15 px-3 py-1.5 rounded-md border border-emerald-500/30 whitespace-nowrap shrink-0 self-start sm:self-auto">
+                            <span class="relative flex h-2 w-2 shrink-0">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                            </span>
+                            {{ $availableMachinesCount ?? $machines->where('status', 'idle')->count() }} Available
                         </span>
                     @else
-                        <span class="inline-flex items-center gap-1.5 text-[10px] font-extrabold text-rose-600 dark:text-rose-400 bg-rose-500/10 px-3 py-1 rounded-md border border-rose-500/20 whitespace-nowrap shrink-0 w-fit">
-                            <span class="w-2 h-2 rounded-full bg-rose-500"></span>
-                            STORE CLOSED TODAY
+                        <span class="inline-flex items-center gap-1.5 text-xs font-extrabold text-rose-600 dark:text-rose-400 bg-rose-500/15 px-3 py-1.5 rounded-md border border-rose-500/30 whitespace-nowrap shrink-0 self-start sm:self-auto">
+                            <span class="w-2 h-2 rounded-full bg-rose-500 shrink-0"></span>
+                            Store Closed
                         </span>
                     @endif
                 </div>
@@ -316,12 +328,29 @@
                                 Track Live Status
                             </a>
                             @if(in_array($activeOrder->order_status, ['pending', 'received']))
-                                <form method="POST" action="{{ route('laundry.cancel', $activeOrder->id) }}" class="inline">
-                                    @csrf
-                                    <button onclick="return confirm('Are you sure you want to cancel this pending order?')" class="bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 hover:bg-rose-500/25 px-2.5 py-1 rounded-lg text-xs font-bold transition">
-                                        Cancel
-                                    </button>
-                                </form>
+                                <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'cancel-active-order-{{ $activeOrder->id }}')" class="bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 hover:bg-rose-500/25 px-2.5 py-1 rounded-lg text-xs font-bold transition">
+                                    Cancel
+                                </button>
+
+                                <x-modal name="cancel-active-order-{{ $activeOrder->id }}" maxWidth="sm">
+                                    <div class="p-6 bg-white dark:bg-[#141417] text-slate-900 dark:text-zinc-100 space-y-4 rounded-lg text-left">
+                                        <h2 class="text-base font-bold text-rose-600 dark:text-rose-400">Cancel Order?</h2>
+                                        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                                            Are you sure you want to cancel pending order <strong>#{{ $activeOrder->order_number }}</strong>?
+                                        </p>
+                                        <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-200 dark:border-zinc-800">
+                                            <button type="button" x-on:click="$dispatch('close')" class="btn-secondary text-xs py-1.5 px-3">
+                                                Keep Order
+                                            </button>
+                                            <form method="POST" action="{{ route('laundry.cancel', $activeOrder->id) }}" class="inline">
+                                                @csrf
+                                                <button type="submit" class="btn-danger text-xs py-1.5 px-3">
+                                                    Yes, Cancel Order
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </x-modal>
                             @endif
                         </div>
                     </div>
@@ -354,18 +383,18 @@
                     </div>
                 </div>
             @else
-                <div class="app-card p-4 sm:p-6 text-center space-y-2.5 border-dashed border border-slate-300 dark:border-zinc-700 max-w-lg mx-auto">
-                    <h3 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white">No Active Laundry Order</h3>
-                    <p class="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto leading-relaxed">
+                <div class="app-card p-4 sm:p-6 text-center space-y-3 border-dashed border border-slate-300 dark:border-zinc-700 w-full">
+                    <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">No Active Laundry Order</h3>
+                    <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
                         You currently have no laundry orders in progress. Place a new drop-off or pickup order to track live cleaning progress!
                     </p>
                     <div class="pt-1">
                         @if(($storeStatus ?? 'open') === 'open' || (auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isOwner() || auth()->user()->isStaff())))
-                            <a href="{{ route('laundry.create') }}" class="btn-primary text-xs py-2 px-5 w-full sm:w-auto inline-flex items-center justify-center max-w-xs shadow-sm">
+                            <a href="{{ route('laundry.create') }}" class="btn-primary text-xs sm:text-sm py-2 px-6 inline-flex items-center justify-center shadow-sm">
                                 Book New Laundry Order
                             </a>
                         @else
-                            <button disabled class="opacity-65 bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30 px-4 py-2 rounded-lg text-xs font-bold cursor-not-allowed inline-flex items-center justify-center gap-1.5 w-full sm:w-auto">
+                            <button disabled class="opacity-65 bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30 px-4 py-2 rounded-lg text-xs font-bold cursor-not-allowed inline-flex items-center justify-center gap-1.5">
                                 Store Closed Today (Bookings Disabled)
                             </button>
                         @endif

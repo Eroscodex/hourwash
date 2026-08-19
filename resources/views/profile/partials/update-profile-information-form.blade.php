@@ -49,21 +49,29 @@
         </div>
 
         
+        <!-- House No. / Street Name -->
         <div>
-            <x-input-label for="address" :value="__('Street Address / Barangay')" />
-            <x-text-input id="address" name="address" type="text" class="mt-1 block w-full" :value="old('address', $user->customerProfile->address ?? '')" placeholder="e.g. Magallanes St., Orosite" />
+            <x-input-label for="address" :value="__('House No. / Street Name')" />
+            <x-text-input id="address" name="address" type="text" class="mt-1 block w-full" :value="old('address', $user->customerProfile->address ?? '')" placeholder="e.g. #123 Magallanes St., Sampaguita Village" />
             <x-input-error class="mt-2" :messages="$errors->get('address')" />
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <!-- Barangay -->
+            <div>
+                <x-input-label for="barangay" :value="__('Barangay')" />
+                <x-text-input id="barangay" name="barangay" type="text" class="mt-1 block w-full" :value="old('barangay', $user->customerProfile->barangay ?? '')" placeholder="e.g. Brgy. Orosite" />
+                <x-input-error class="mt-2" :messages="$errors->get('barangay')" />
+            </div>
+
+            <!-- City / Municipality -->
             <div>
                 <x-input-label for="city" :value="__('City / Municipality')" />
                 <x-text-input id="city" name="city" type="text" class="mt-1 block w-full" :value="old('city', $user->customerProfile->city ?? 'Legazpi City')" placeholder="e.g. Legazpi City" />
                 <x-input-error class="mt-2" :messages="$errors->get('city')" />
             </div>
 
-            
+            <!-- Province -->
             <div>
                 <x-input-label for="province" :value="__('Province')" />
                 <x-text-input id="province" name="province" type="text" class="mt-1 block w-full" :value="old('province', $user->customerProfile->province ?? 'Albay')" placeholder="e.g. Albay" />

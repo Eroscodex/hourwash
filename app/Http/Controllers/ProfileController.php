@@ -48,12 +48,13 @@ class ProfileController extends Controller
             ['user_id' => $user->id],
             [
                 'address' => $request->address,
+                'barangay' => $request->barangay,
                 'city' => $request->city,
                 'province' => $request->province,
             ]
         );
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::back()->with('status', 'profile-updated');
     }
 
     /**

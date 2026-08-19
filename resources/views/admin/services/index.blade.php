@@ -72,13 +72,30 @@
                                     <a href="{{ route('admin.services.edit', $srv) }}" class="p-1.5 text-blue-500 hover:bg-blue-500/10 rounded-lg transition" title="Edit Service">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                                     </a>
-                                    <form action="{{ route('admin.services.destroy', $srv) }}" method="POST" class="inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button onclick="return confirm('Delete this service package?')" class="p-1.5 text-rose-500 hover:bg-rose-500/10 rounded-lg transition" title="Delete Service">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                                        </button>
-                                    </form>
+                                    <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'delete-service-{{ $srv->id }}')" class="p-1.5 text-rose-500 hover:bg-rose-500/10 rounded-lg transition" title="Delete Service">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                    </button>
+
+                                    <x-modal name="delete-service-{{ $srv->id }}" maxWidth="sm">
+                                        <div class="p-6 bg-white dark:bg-[#141417] text-slate-900 dark:text-zinc-100 space-y-4 rounded-lg text-left">
+                                            <h2 class="text-base font-bold text-rose-600 dark:text-rose-400">Delete Service Package?</h2>
+                                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                                                Are you sure you want to delete service package <strong>{{ $srv->name }}</strong>?
+                                            </p>
+                                            <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-200 dark:border-zinc-800">
+                                                <button type="button" x-on:click="$dispatch('close')" class="btn-secondary text-xs py-1.5 px-3">
+                                                    Cancel
+                                                </button>
+                                                <form action="{{ route('admin.services.destroy', $srv) }}" method="POST" class="inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn-danger text-xs py-1.5 px-3">
+                                                        Delete Package
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </x-modal>
                                 </div>
                             </td>
                         </tr>

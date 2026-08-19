@@ -32,17 +32,27 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'min:8', 'max:255', 'unique:'.User::class],
+            'name' => ['required', 'string', 'min:3', 'max:255'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
-            'phone' => ['nullable', 'string', 'max:20', 'unique:'.User::class],
+            'phone' => ['required', 'string', 'max:20', 'unique:'.User::class],
+            'address' => ['required', 'string', 'max:255'],
+            'city' => ['required', 'string', 'max:255'],
+            'province' => ['required', 'string', 'max:255'],
             'password' => ['required', 'confirmed', Rules\Password::min(8)->symbols()],
         ], [
-            'name.min' => 'Full Name must be at least 8 characters long.',
-            'name.unique' => 'This name has already been registered. Please use your full name.',
-            'phone.unique' => 'This phone number is already registered to another account.',
+            'name.required' => 'Please enter your full name.',
+            'name.min' => 'Full Name must be at least 3 characters long.',
+            'email.required' => 'Please enter a valid email address.',
             'email.unique' => 'This email address is already registered to another account.',
+            'phone.required' => 'Please fill up your contact phone number.',
+            'phone.unique' => 'This phone number is already registered to another account.',
+            'address.required' => 'Please fill up your street address or barangay.',
+            'city.required' => 'Please fill up your city or municipality.',
+            'province.required' => 'Please fill up your province.',
+            'password.required' => 'Please create a password for your account.',
             'password.min' => 'Password must be at least 8 characters long.',
             'password.symbols' => 'Password must contain at least one special symbol character (e.g. !@#$%^&*).',
+            'password.confirmed' => 'Password confirmation does not match.',
         ]);
 
         $user = User::create([
@@ -54,9 +64,14 @@ class RegisteredUserController extends Controller
             'status' => 'active',
         ]);
 
-        CustomerProfile::firstOrCreate([
-            'user_id' => $user->id,
-        ]);
+        CustomerProfile::updateOrCreate(
+            ['user_id' => $user->id],
+            [
+                'address' => $request->address,
+                'city' => $request->city,
+                'province' => $request->province,
+            ]
+        );
 
         event(new Registered($user));
 

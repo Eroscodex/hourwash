@@ -102,3 +102,15 @@ table thead {
 table tbody tr {
     @apply border-b border-slate-200/70 dark:border-zinc-800/70 hover:bg-slate-50 dark:hover:bg-zinc-800/40 transition-colors text-slate-900 dark:text-zinc-100 text-xs sm:text-sm;
 }
+
+/* Sidebar Collapsed State */
+html.sidebar-collapsed #sidebar {
+    width: 4.5rem !important;
+}
+html.sidebar-collapsed #sidebar .sidebar-text,
+html.sidebar-collapsed #sidebar .sidebar-subtitle {
+    display: none !important;
+}
+html.sidebar-collapsed #main-wrapper {
+    padding-left: 4.5rem !important;
+}

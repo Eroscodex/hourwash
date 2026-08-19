@@ -14,12 +14,34 @@
                     </svg>
                     <span>Scan Order QR</span>
                 </button>
-                <form method="POST" action="{{ route('admin.orders.reset') }}" class="w-full sm:w-auto" onsubmit="return confirm('⚠️ ARE YOU SURE YOU WANT TO RESET ALL ORDERS?\n\nThis will permanently delete all order history and set all machines to idle status.')">
-                    @csrf
-                    <button type="submit" class="w-full bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 hover:bg-rose-500/25 px-2.5 py-1.5 rounded-lg text-[10px] font-bold transition whitespace-nowrap flex items-center justify-center h-full">
-                        Reset All Orders
-                    </button>
-                </form>
+                <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-reset-all-orders')" class="w-full bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 hover:bg-rose-500/25 px-2.5 py-1.5 rounded-lg text-[10px] font-bold transition whitespace-nowrap flex items-center justify-center h-full">
+                    Reset All Orders
+                </button>
+
+                <x-modal name="confirm-reset-all-orders" maxWidth="md">
+                    <div class="p-6 bg-white dark:bg-[#141417] text-slate-900 dark:text-zinc-100 space-y-4 rounded-lg">
+                        <div class="flex items-center gap-3 text-rose-600 dark:text-rose-400">
+                            <svg class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                            </svg>
+                            <h2 class="text-base font-bold">Reset All Orders?</h2>
+                        </div>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                            This action will permanently purge all order history and set all commercial machines to idle status.
+                        </p>
+                        <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-200 dark:border-zinc-800">
+                            <button type="button" x-on:click="$dispatch('close')" class="btn-secondary text-xs py-1.5 px-3">
+                                Cancel
+                            </button>
+                            <form method="POST" action="{{ route('admin.orders.reset') }}">
+                                @csrf
+                                <button type="submit" class="btn-danger text-xs py-1.5 px-3">
+                                    Yes, Reset All Orders
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </x-modal>
                 <a href="{{ route('laundry.create') }}" class="btn-primary text-[10px] py-1.5 px-2.5 whitespace-nowrap text-center col-span-2 sm:col-span-1 w-full sm:w-auto flex items-center justify-center">New Drop-Off Order</a>
             </div>
         </div>
@@ -165,18 +187,35 @@
                             </button>
                         </form>
 
-                        <form method="POST" action="{{ route('admin.laundry.extend', $order->id) }}" class="flex items-center gap-2">
-                            @csrf
-                            <select name="delay_minutes" class="py-1 px-2 text-xs rounded-lg">
-                                <option value="30">+30 mins delay</option>
-                                <option value="60" selected>+60 mins delay</option>
-                                <option value="120">+2 hours delay</option>
-                                <option value="180">+3 hours delay</option>
-                            </select>
-                            <button type="submit" onclick="return confirm('Extend estimated completion time for Power Outage / Interruption?')" class="bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30 hover:bg-amber-500/25 px-3 py-1.5 rounded-lg text-xs font-bold transition">
-                                Power Outage Extension
-                            </button>
-                        </form>
+                        <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'power-outage-{{ $order->id }}')" class="bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30 hover:bg-amber-500/25 px-3 py-1.5 rounded-lg text-xs font-bold transition">
+                            Power Outage Extension
+                        </button>
+
+                        <x-modal name="power-outage-{{ $order->id }}" maxWidth="sm">
+                            <form method="POST" action="{{ route('admin.laundry.extend', $order->id) }}" class="p-6 bg-white dark:bg-[#141417] text-slate-900 dark:text-zinc-100 space-y-4 rounded-lg text-left">
+                                @csrf
+                                <h2 class="text-base font-bold text-amber-600 dark:text-amber-400">Power Outage Extension?</h2>
+                                <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                                    Select estimated brownout delay time for order <strong>#{{ $order->order_number }}</strong>:
+                                </p>
+                                <div>
+                                    <select name="delay_minutes" class="w-full py-2 px-3 text-xs rounded-md bg-slate-50 dark:bg-[#18181B] border border-slate-300 dark:border-zinc-700">
+                                        <option value="30">+30 mins delay</option>
+                                        <option value="60" selected>+60 mins delay</option>
+                                        <option value="120">+2 hours delay</option>
+                                        <option value="180">+3 hours delay</option>
+                                    </select>
+                                </div>
+                                <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-200 dark:border-zinc-800">
+                                    <button type="button" x-on:click="$dispatch('close')" class="btn-secondary text-xs py-1.5 px-3">
+                                        Cancel
+                                    </button>
+                                    <button type="submit" class="btn-primary text-xs py-1.5 px-3">
+                                        Apply Delay & Notify Customer
+                                    </button>
+                                </div>
+                            </form>
+                        </x-modal>
                     </div>
                 </div>
             @empty

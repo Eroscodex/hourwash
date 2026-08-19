@@ -70,12 +70,20 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255|unique:users',
-            'email' => 'required|email|unique:users',
-            'phone' => 'nullable|string|max:20|unique:users',
+            'name' => 'required|string|min:3|max:255',
+            'email' => 'required|email|max:255|unique:users,email',
+            'phone' => 'nullable|string|max:20|unique:users,phone',
             'address' => 'nullable|string|max:255',
+            'barangay' => 'nullable|string|max:255',
+            'city' => 'nullable|string|max:255',
+            'province' => 'nullable|string|max:255',
             'password' => 'required|min:8',
             'role' => ['required', 'string', Rule::in(['owner', 'admin', 'staff', 'rider', 'customer', 'user'])],
+        ], [
+            'email.unique' => 'This email address is already registered to another user.',
+            'phone.unique' => 'This phone number is already registered to another user.',
+            'name.min' => 'Full Name must be at least 3 characters long.',
+            'password.min' => 'Password must be at least 8 characters long.',
         ]);
 
         $user = User::create([
@@ -87,12 +95,15 @@ class UserController extends Controller
             'status' => 'active',
         ]);
 
-        if ($request->filled('address')) {
-            CustomerProfile::updateOrCreate(
-                ['user_id' => $user->id],
-                ['address' => $request->address]
-            );
-        }
+        CustomerProfile::updateOrCreate(
+            ['user_id' => $user->id],
+            [
+                'address' => $request->address,
+                'barangay' => $request->barangay,
+                'city' => $request->city,
+                'province' => $request->province,
+            ]
+        );
 
         return redirect()
             ->route('admin.users.index')
@@ -117,13 +128,21 @@ class UserController extends Controller
         $user = User::findOrFail($id);
 
         $request->validate([
-            'name' => ['required', 'string', 'max:255', Rule::unique('users')->ignore($id)],
-            'email' => ['required', 'email', Rule::unique('users')->ignore($id)],
+            'name' => ['required', 'string', 'min:3', 'max:255'],
+            'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($id)],
             'phone' => ['nullable', 'string', 'max:20', Rule::unique('users')->ignore($id)],
             'address' => ['nullable', 'string', 'max:255'],
+            'barangay' => ['nullable', 'string', 'max:255'],
+            'city' => ['nullable', 'string', 'max:255'],
+            'province' => ['nullable', 'string', 'max:255'],
             'role' => ['required', 'string', Rule::in(['owner', 'admin', 'staff', 'rider', 'customer', 'user'])],
             'password' => ['nullable', 'min:8'],
             'status' => ['nullable', 'string', Rule::in(['active', 'inactive', 'blocked'])],
+        ], [
+            'email.unique' => 'This email address is already registered to another user.',
+            'phone.unique' => 'This phone number is already registered to another user.',
+            'name.min' => 'Full Name must be at least 3 characters long.',
+            'password.min' => 'Password must be at least 8 characters long.',
         ]);
 
         $updateData = [
@@ -143,12 +162,15 @@ class UserController extends Controller
 
         $user->update($updateData);
 
-        if ($request->has('address')) {
-            CustomerProfile::updateOrCreate(
-                ['user_id' => $user->id],
-                ['address' => $request->address]
-            );
-        }
+        CustomerProfile::updateOrCreate(
+            ['user_id' => $user->id],
+            [
+                'address' => $request->address,
+                'barangay' => $request->barangay,
+                'city' => $request->city,
+                'province' => $request->province,
+            ]
+        );
 
         return redirect()
             ->route('admin.users.index')

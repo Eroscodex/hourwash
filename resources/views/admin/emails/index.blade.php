@@ -17,15 +17,30 @@
                     {{ $totalDispatched }} Emails Dispatched
                 </span>
 
-                @if($totalDispatched > 0)
-                    <form method="POST" action="{{ route('admin.emails.clearAll') }}" onsubmit="return confirm('Are you sure you want to delete all Email notification history permanently?')">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="px-3.5 py-1.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-600 dark:text-rose-400 text-xs font-bold border border-rose-500/30 transition">
-                            Clear All Email History
-                        </button>
-                    </form>
-                @endif
+                    <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-clear-emails')" class="px-3.5 py-1.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-600 dark:text-rose-400 text-xs font-bold border border-rose-500/30 transition">
+                        Clear All Email History
+                    </button>
+
+                    <x-modal name="confirm-clear-emails" maxWidth="sm">
+                        <div class="p-6 bg-white dark:bg-[#141417] text-slate-900 dark:text-zinc-100 space-y-4 rounded-lg text-left">
+                            <h2 class="text-base font-bold text-rose-600 dark:text-rose-400">Clear All Email History?</h2>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                                Are you sure you want to delete all email notification logs permanently?
+                            </p>
+                            <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-200 dark:border-zinc-800">
+                                <button type="button" x-on:click="$dispatch('close')" class="btn-secondary text-xs py-1.5 px-3">
+                                    Cancel
+                                </button>
+                                <form method="POST" action="{{ route('admin.emails.clearAll') }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-danger text-xs py-1.5 px-3">
+                                        Clear History
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </x-modal>
             </div>
         </div>
 

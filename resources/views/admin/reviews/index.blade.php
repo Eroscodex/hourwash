@@ -46,13 +46,30 @@
                                 {{ $fb->created_at->format('M d, Y h:i A') }} ({{ $fb->created_at->diffForHumans() }})
                             </span>
 
-                            <form method="POST" action="{{ route('feedback.destroy', $fb->id) }}" onsubmit="return confirm('Are you sure you want to delete this customer review?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-xs text-rose-600 dark:text-rose-400 hover:underline font-semibold">
-                                    Delete Review
-                                </button>
-                            </form>
+                            <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'delete-review-{{ $fb->id }}')" class="text-xs text-rose-600 dark:text-rose-400 hover:underline font-semibold">
+                                Delete Review
+                            </button>
+
+                            <x-modal name="delete-review-{{ $fb->id }}" maxWidth="sm">
+                                <div class="p-6 bg-white dark:bg-[#141417] text-slate-900 dark:text-zinc-100 space-y-4 rounded-lg text-left">
+                                    <h2 class="text-base font-bold text-rose-600 dark:text-rose-400">Delete Review?</h2>
+                                    <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                                        Are you sure you want to delete this customer review?
+                                    </p>
+                                    <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-200 dark:border-zinc-800">
+                                        <button type="button" x-on:click="$dispatch('close')" class="btn-secondary text-xs py-1.5 px-3">
+                                            Cancel
+                                        </button>
+                                        <form method="POST" action="{{ route('feedback.destroy', $fb->id) }}">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn-danger text-xs py-1.5 px-3">
+                                                Delete Review
+                                            </button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </x-modal>
                         </div>
                     </div>
 

@@ -137,10 +137,11 @@ Route::get('/dashboard', function () {
 
     $machines = Machine::orderBy('id', 'asc')->get();
     $idleWashers = Machine::whereIn('machine_type', ['washer', 'washer_dryer'])->where('status', 'idle')->count();
-    $idleDryers = Machine::whereIn('machine_type', ['dryer', 'washer_dryer'])->where('status', 'idle')->count();
+    $idleDryers = Machine::where('machine_type', 'dryer')->where('status', 'idle')->count();
+    $availableMachinesCount = Machine::where('status', 'idle')->count();
     $storeStatus = Cache::get('store_status', 'open');
 
-    return view('dashboard', compact('user', 'activeOrder', 'recentOrders', 'notifications', 'machines', 'idleWashers', 'idleDryers', 'storeStatus'));
+    return view('dashboard', compact('user', 'activeOrder', 'recentOrders', 'notifications', 'machines', 'idleWashers', 'idleDryers', 'availableMachinesCount', 'storeStatus'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 // Public QR Order Tracking (Accessible by anyone without login)
@@ -274,10 +275,25 @@ Route::middleware('auth')->group(function () {
     Route::post('/laundry', [LaundryController::class, 'store'])->name('laundry.store');
     Route::get('/my-orders', [LaundryController::class, 'myOrders'])->name('my.orders');
 
-    // Profile Routes
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    // Profile Router (Auto-redirects to role-specific URL: /admin/profile, /staff/profile, or /customer/profile)
+    Route::get('/profile', function () {
+        /** @var User $user */
+        $user = Auth::user();
+        if ($user && ($user->isAdmin() || $user->isOwner())) {
+            return redirect()->route('admin.profile.edit');
+        }
+        if ($user && $user->isStaff()) {
+            return redirect()->route('staff.profile.edit');
+        }
+
+        return redirect()->route('customer.profile.edit');
+    })->name('profile.edit');
+
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Customer Dedicated Profile Route
+    Route::get('/customer/profile', [ProfileController::class, 'edit'])->name('customer.profile.edit');
 
     // Customer Feedback Submission Route
     Route::post('/feedback', function (Request $request) {
@@ -330,33 +346,41 @@ Route::middleware('auth')->group(function () {
 | Staff Panel
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth'])->get('/staff/dashboard', function () {
-    /** @var User $user */
-    $user = Auth::user();
+Route::middleware(['auth'])->prefix('staff')->name('staff.')->group(function () {
+    Route::get('/dashboard', function () {
+        /** @var User $user */
+        $user = Auth::user();
 
-    if ($user->isRider()) {
-        return redirect()->route('rider.dashboard');
-    }
+        if ($user->isRider()) {
+            return redirect()->route('rider.dashboard');
+        }
 
-    if (! $user->isStaff() && ! $user->isAdmin() && ! $user->isOwner()) {
-        return redirect()->route('dashboard');
-    }
-    $machines = Machine::with(['currentOrder', 'currentOrder.customer', 'activeOrder', 'activeOrder.customer'])->orderBy('id', 'asc')->get();
-    $orders = Order::with(['customer', 'service', 'qrCode'])->latest()->get();
-    $recentOrders = $orders->take(6);
+        if (! $user->isStaff() && ! $user->isAdmin() && ! $user->isOwner()) {
+            return redirect()->route('dashboard');
+        }
+        $machines = Machine::with(['currentOrder', 'currentOrder.customer', 'activeOrder', 'activeOrder.customer'])->orderBy('id', 'asc')->get();
+        $orders = Order::with(['customer', 'service', 'qrCode'])->latest()->get();
+        $recentOrders = $orders->take(6);
 
-    $totalOrders = Order::count();
-    $inProgress = Order::whereIn('order_status', ['received', 'washing', 'rinsing', 'drying'])->count();
-    $readyPickup = Order::where('order_status', 'ready')->count();
-    $completedToday = Order::whereDate('updated_at', now()->today())->where('order_status', 'completed')->count();
+        $totalOrders = Order::count();
+        $inProgress = Order::whereIn('order_status', ['received', 'washing', 'rinsing', 'drying'])->count();
+        $readyPickup = Order::where('order_status', 'ready')->count();
+        $completedToday = Order::whereDate('updated_at', now()->today())->where('order_status', 'completed')->count();
 
-    $notifications = SmsNotification::latest()->take(5)->get();
-    $storeStatus = Cache::get('store_status', 'open');
+        $notifications = SmsNotification::latest()->take(5)->get();
+        $storeStatus = Cache::get('store_status', 'open');
 
-    return view('staff.dashboard', compact(
-        'user', 'machines', 'orders', 'recentOrders', 'totalOrders', 'inProgress', 'readyPickup', 'completedToday', 'notifications', 'storeStatus'
-    ));
-})->name('staff.dashboard');
+        return view('staff.dashboard', compact(
+            'user', 'machines', 'orders', 'recentOrders', 'totalOrders', 'inProgress', 'readyPickup', 'completedToday', 'notifications', 'storeStatus'
+        ));
+    })->name('dashboard');
+
+    Route::get('/laundry', [AdminLaundryController::class, 'index'])->name('laundry.index');
+    Route::get('/machines', [MachineController::class, 'index'])->name('machines.index');
+    Route::get('/machines/create', [MachineController::class, 'create'])->name('machines.create');
+    Route::get('/qr-scan-logs', [QrScanLogController::class, 'index'])->name('qr_scan_logs.index');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+});
 
 /*
 |--------------------------------------------------------------------------
@@ -486,6 +510,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/analytics', function () {
         return redirect()->route('admin.dashboard');
     })->name('analytics');
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::get('/sms', [SmsLogController::class, 'index'])->name('sms.index');
     Route::delete('/sms/clear-all', [SmsLogController::class, 'destroyAll'])->name('sms.clearAll');
     Route::get('/emails', [EmailLogController::class, 'index'])->name('emails.index');

@@ -150,18 +150,35 @@
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                                     </button>
 
-                                    <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button onclick="return confirm('Delete {{ $user->name }} permanently?')" class="p-1 text-rose-500 hover:bg-rose-500/10 rounded-lg transition" title="Delete User">
-                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                                        </button>
-                                    </form>
+                                    <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'delete-user-{{ $user->id }}')" class="p-1 text-rose-500 hover:bg-rose-500/10 rounded-lg transition" title="Delete User">
+                                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                    </button>
+
+                                    <x-modal name="delete-user-{{ $user->id }}" maxWidth="sm">
+                                        <div class="p-6 bg-white dark:bg-[#141417] text-slate-900 dark:text-zinc-100 space-y-4 rounded-lg text-left">
+                                            <h2 class="text-base font-bold text-rose-600 dark:text-rose-400">Delete User Account?</h2>
+                                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                                                Are you sure you want to delete user <strong>{{ $user->name }}</strong> ({{ $user->email }}) permanently?
+                                            </p>
+                                            <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-200 dark:border-zinc-800">
+                                                <button type="button" x-on:click="$dispatch('close')" class="btn-secondary text-xs py-1.5 px-3">
+                                                    Cancel
+                                                </button>
+                                                <form action="{{ route('admin.users.destroy', $user) }}" method="POST" class="inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn-danger text-xs py-1.5 px-3">
+                                                        Delete User
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </x-modal>
                                 </div>
 
                                 <!-- Edit Modal -->
                                 <div id="edit-user-modal-{{ $user->id }}" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden overflow-y-auto p-4 sm:p-6 text-left flex items-center justify-center">
-                                    <div class="app-card max-w-md w-full p-5 sm:p-6 space-y-3.5 shadow-sm max-h-[85vh] overflow-y-auto my-auto">
+                                    <div class="app-card max-w-lg w-full p-5 sm:p-6 space-y-3.5 shadow-sm max-h-[85vh] overflow-y-auto my-auto">
                                         <div class="flex items-center justify-between border-b border-slate-200 dark:dark:border-zinc-700 pb-3">
                                             <h3 class="text-sm font-bold text-slate-900 dark:text-white">Edit User: {{ $user->name }}</h3>
                                             <button type="button" onclick="document.getElementById('edit-user-modal-{{ $user->id }}').classList.add('hidden')" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
@@ -176,19 +193,37 @@
                                                 <input type="text" name="name" value="{{ $user->name }}" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required>
                                             </div>
 
-                                            <div>
-                                                <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Email Address</label>
-                                                <input type="email" name="email" value="{{ $user->email }}" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required>
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                                <div>
+                                                    <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Email Address</label>
+                                                    <input type="email" name="email" value="{{ $user->email }}" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required>
+                                                </div>
+                                                <div>
+                                                    <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Phone Number</label>
+                                                    <input type="text" name="phone" value="{{ $user->phone }}" placeholder="e.g. 09100317744" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
+                                                </div>
                                             </div>
 
-                                            <div>
-                                                <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Phone Number</label>
-                                                <input type="text" name="phone" value="{{ $user->phone }}" placeholder="e.g. 09100317744" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                                <div>
+                                                    <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">House No. / Street Name</label>
+                                                    <input type="text" name="address" value="{{ $user->customerProfile->address ?? '' }}" placeholder="e.g. #123 Magallanes St." class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
+                                                </div>
+                                                <div>
+                                                    <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Barangay</label>
+                                                    <input type="text" name="barangay" value="{{ $user->customerProfile->barangay ?? '' }}" placeholder="e.g. Brgy. Orosite" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
+                                                </div>
                                             </div>
 
-                                            <div>
-                                                <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Physical Address</label>
-                                                <textarea name="address" rows="2" placeholder="e.g. Magallanes St., Orosite, Legazpi City" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">{{ $user->customerProfile->address ?? '' }}</textarea>
+                                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                                <div>
+                                                    <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">City / Municipality</label>
+                                                    <input type="text" name="city" value="{{ $user->customerProfile->city ?? '' }}" placeholder="e.g. Legazpi City" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
+                                                </div>
+                                                <div>
+                                                    <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Province</label>
+                                                    <input type="text" name="province" value="{{ $user->customerProfile->province ?? '' }}" placeholder="e.g. Albay" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
+                                                </div>
                                             </div>
 
                                             <div class="grid grid-cols-2 gap-3">
@@ -247,7 +282,7 @@
 
     <!-- Add User Modal -->
     <div id="add-user-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden overflow-y-auto p-4 sm:p-6 text-left flex items-center justify-center">
-        <div class="app-card max-w-md w-full p-5 sm:p-6 space-y-3.5 shadow-sm max-h-[85vh] overflow-y-auto my-auto">
+        <div class="app-card max-w-lg w-full p-5 sm:p-6 space-y-3.5 shadow-sm max-h-[85vh] overflow-y-auto my-auto">
             <div class="flex items-center justify-between border-b border-slate-200 dark:dark:border-zinc-700 pb-3">
                 <h3 class="text-sm font-bold text-slate-900 dark:text-white">Register New User Account</h3>
                 <button type="button" onclick="document.getElementById('add-user-modal').classList.add('hidden')" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
@@ -261,19 +296,37 @@
                     <input type="text" name="name" placeholder="e.g. Anthony Cayme" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required>
                 </div>
 
-                <div>
-                    <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Email Address</label>
-                    <input type="email" name="email" placeholder="e.g. caymeanthony1@gmail.com" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Email Address</label>
+                        <input type="email" name="email" placeholder="e.g. caymeanthony1@gmail.com" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required>
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Phone Number</label>
+                        <input type="text" name="phone" placeholder="e.g. 09100317744" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
+                    </div>
                 </div>
 
-                <div>
-                    <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Phone Number</label>
-                    <input type="text" name="phone" placeholder="e.g. 09100317744" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">House No. / Street Name</label>
+                        <input type="text" name="address" placeholder="e.g. #123 Magallanes St." class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Barangay</label>
+                        <input type="text" name="barangay" placeholder="e.g. Brgy. Orosite" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
+                    </div>
                 </div>
 
-                <div>
-                    <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Physical Address</label>
-                    <textarea name="address" rows="2" placeholder="e.g. Magallanes St., Orosite, Legazpi City" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white"></textarea>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">City / Municipality</label>
+                        <input type="text" name="city" placeholder="e.g. Legazpi City" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Province</label>
+                        <input type="text" name="province" placeholder="e.g. Albay" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
+                    </div>
                 </div>
 
                 <div>

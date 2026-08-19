@@ -9,13 +9,30 @@
             </div>
 
             @if(count($logs) > 0)
-                <form method="POST" action="{{ route('admin.qr_scan_logs.clear') }}" onsubmit="return confirm('Are you sure you want to clear all QR scan logs?')">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="px-3.5 py-2 rounded-lg bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 text-xs font-bold hover:bg-rose-500 hover:text-white transition shadow-sm">
-                        🗑️ Clear All Scan Logs
-                    </button>
-                </form>
+                <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-clear-qr-logs')" class="px-3.5 py-2 rounded-lg bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 text-xs font-bold hover:bg-rose-500 hover:text-white transition shadow-sm">
+                    🗑️ Clear All Scan Logs
+                </button>
+
+                <x-modal name="confirm-clear-qr-logs" maxWidth="sm">
+                    <div class="p-6 bg-white dark:bg-[#141417] text-slate-900 dark:text-zinc-100 space-y-4 rounded-lg text-left">
+                        <h2 class="text-base font-bold text-rose-600 dark:text-rose-400">Clear All QR Scan Logs?</h2>
+                        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                            Are you sure you want to clear all QR code audit scan logs permanently?
+                        </p>
+                        <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-200 dark:border-zinc-800">
+                            <button type="button" x-on:click="$dispatch('close')" class="btn-secondary text-xs py-1.5 px-3">
+                                Cancel
+                            </button>
+                            <form method="POST" action="{{ route('admin.qr_scan_logs.clear') }}">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn-danger text-xs py-1.5 px-3">
+                                    Clear Scan Logs
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </x-modal>
             @endif
         </div>
 
