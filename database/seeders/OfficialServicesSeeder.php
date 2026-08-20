@@ -9,8 +9,6 @@ class OfficialServicesSeeder extends Seeder
 {
     public function run(): void
     {
-        Service::query()->delete();
-
         $services = [
             [
                 'name' => 'Wash Only',
@@ -60,7 +58,10 @@ class OfficialServicesSeeder extends Seeder
         ];
 
         foreach ($services as $srv) {
-            Service::create($srv);
+            Service::updateOrCreate(
+                ['service_type' => $srv['service_type']],
+                $srv
+            );
         }
     }
 }

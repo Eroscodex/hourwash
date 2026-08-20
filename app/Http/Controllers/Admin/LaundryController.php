@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Services\EmailNotificationService;
 use App\Services\SmsNotificationService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 class LaundryController extends Controller
@@ -35,25 +36,28 @@ class LaundryController extends Controller
         try {
             $request->validate([
                 'status' => 'nullable|string',
+                'order_status' => 'nullable|string',
                 'payment_status' => 'nullable|string',
                 'machine_id' => 'nullable',
             ]);
 
+            $previousStatus = $order->order_status;
             $prevPaymentStatus = $order->payment_status;
+            $statusInput = $request->input('status') ?? $request->input('order_status');
 
             if ($request->has('machine_id')) {
                 $order->machine_id = $request->machine_id ?: null;
             }
 
-            if ($request->filled('status')) {
-                $order->order_status = $request->status;
+            if (! empty($statusInput)) {
+                $order->order_status = $statusInput;
 
                 try {
                     OrderStatusHistory::create([
                         'order_id' => $order->id,
-                        'status' => $request->status,
-                        'changed_by' => auth()->id(),
-                        'notes' => 'Order status updated to '.strtoupper(str_replace('_', ' ', $request->status)),
+                        'status' => $statusInput,
+                        'changed_by' => Auth::id(),
+                        'notes' => 'Order status updated to '.strtoupper(str_replace('_', ' ', $statusInput)),
                         'created_at' => now(),
                     ]);
                 } catch (\Throwable $e) {
@@ -61,12 +65,12 @@ class LaundryController extends Controller
                 }
 
                 // When washing cycle starts, recalculate estimated completion time starting from now
-                if ($request->status === 'washing') {
+                if ($statusInput === 'washing') {
                     $order->estimated_completion = now()->addMinutes($order->service?->estimated_minutes ?? 30);
                 }
 
                 // If order has no machine assigned yet, assign an available idle machine
-                if (! $order->machine_id && in_array($request->status, ['washing', 'rinsing', 'drying', 'received'])) {
+                if (! $order->machine_id && in_array($statusInput, ['washing', 'rinsing', 'drying', 'received'])) {
                     $availableMachine = Machine::where('status', 'idle')->first();
                     if ($availableMachine) {
                         $order->machine_id = $availableMachine->id;
@@ -75,35 +79,35 @@ class LaundryController extends Controller
 
                 // Sync assigned machine status dynamically
                 if ($order->machine_id) {
-                    if ($request->status === 'washing') {
+                    if ($statusInput === 'washing') {
                         Machine::where('id', $order->machine_id)->update([
                             'current_order_id' => $order->id,
                             'status' => 'washing',
                             'remaining_minutes' => $order->service?->estimated_minutes ?? 30,
                             'last_status_update' => now(),
                         ]);
-                    } elseif ($request->status === 'rinsing') {
+                    } elseif ($statusInput === 'rinsing') {
                         Machine::where('id', $order->machine_id)->update([
                             'current_order_id' => $order->id,
                             'status' => 'rinsing',
                             'remaining_minutes' => 15,
                             'last_status_update' => now(),
                         ]);
-                    } elseif ($request->status === 'drying') {
+                    } elseif ($statusInput === 'drying') {
                         Machine::where('id', $order->machine_id)->update([
                             'current_order_id' => $order->id,
                             'status' => 'drying',
                             'remaining_minutes' => 35,
                             'last_status_update' => now(),
                         ]);
-                    } elseif ($request->status === 'received') {
+                    } elseif ($statusInput === 'received') {
                         Machine::where('id', $order->machine_id)->update([
                             'current_order_id' => $order->id,
                             'status' => 'idle',
                             'remaining_minutes' => null,
                             'last_status_update' => now(),
                         ]);
-                    } elseif (in_array($request->status, ['pending', 'out_for_pickup', 'ready', 'finish', 'completed', 'cancelled'])) {
+                    } elseif (in_array($statusInput, ['pending', 'out_for_pickup', 'ready', 'finish', 'completed', 'cancelled'])) {
                         Machine::where('id', $order->machine_id)->update([
                             'current_order_id' => null,
                             'status' => 'idle',
@@ -112,12 +116,8 @@ class LaundryController extends Controller
                         ]);
                     }
                 }
-            }
 
-            $previousStatus = $order->getOriginal('order_status');
-            if ($request->filled('status')) {
-                $order->order_status = $request->status;
-                if ($request->status === 'completed' && $previousStatus !== 'completed') {
+                if ($statusInput === 'completed' && $previousStatus !== 'completed') {
                     $order->completed_at = now();
                 }
             }
@@ -129,9 +129,10 @@ class LaundryController extends Controller
             $order->save();
 
             // Award 1 Frequent User stamp if order completed
-            if ($request->filled('status') && $request->status === 'completed' && $previousStatus !== 'completed') {
-                if ($order->customer) {
-                    $order->customer->addStamp(1);
+            if (! empty($statusInput) && $statusInput === 'completed' && $previousStatus !== 'completed') {
+                $customer = User::find($order->customer_id);
+                if ($customer) {
+                    $customer->addStamp(1);
                 }
             }
 

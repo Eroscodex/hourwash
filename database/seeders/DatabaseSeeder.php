@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\CustomerProfile;
-use App\Models\Machine;
 use App\Models\StaffProfile;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -13,10 +12,11 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+        // 1. Admin User
         $this->call(AdminUserSeeder::class);
 
-        // 1. Staff User
-        $staff = User::firstOrCreate(
+        // 2. Staff User: Shayne Formento
+        $staff = User::updateOrCreate(
             ['email' => 'shayneformento@gmail.com'],
             [
                 'name' => 'Shayne Formento',
@@ -27,7 +27,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        StaffProfile::firstOrCreate(
+        StaffProfile::updateOrCreate(
             ['employee_id' => 'EMP-001'],
             [
                 'user_id' => $staff->id,
@@ -37,8 +37,8 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // 2b. Rider User: Anthony Cayme
-        $rider = User::firstOrCreate(
+        // 3. Rider User: Anthony Cayme
+        User::updateOrCreate(
             ['email' => 'caymeanthony1@gmail.com'],
             [
                 'name' => 'Anthony Cayme',
@@ -49,8 +49,8 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // 3. Customer User 1: Lezil Orgasa
-        $customer1 = User::firstOrCreate(
+        // 4. Customer User 1: Lezil Orgasa
+        $customer1 = User::updateOrCreate(
             ['email' => 'lezorgasa@gmail.com'],
             [
                 'name' => 'Lezil Orgasa',
@@ -61,7 +61,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        CustomerProfile::firstOrCreate(
+        CustomerProfile::updateOrCreate(
             ['user_id' => $customer1->id],
             [
                 'address' => 'Magallanes St., Orosite',
@@ -70,8 +70,8 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // 4. Customer User 2: Alexa Cas
-        $customer2 = User::firstOrCreate(
+        // 5. Customer User 2: Alexa Cas
+        $customer2 = User::updateOrCreate(
             ['email' => 'casalexa10@gmail.com'],
             [
                 'name' => 'Alexa Cas',
@@ -82,7 +82,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        CustomerProfile::firstOrCreate(
+        CustomerProfile::updateOrCreate(
             ['user_id' => $customer2->id],
             [
                 'address' => 'Rizal St., Cabangan',
@@ -91,10 +91,10 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // 5. Laundry Services (Official Hour Wash Packages & Pricing)
+        // 6. Laundry Services (Official Hour Wash Packages & Pricing)
         $this->call(OfficialServicesSeeder::class);
 
-        // 6. Machines (Full 20 Commercial Washer & Dryer Combo Machine Fleet)
+        // 7. Machines (Full 20 Commercial Washer & Dryer Combo Machine Fleet)
         $this->call(CleanMachineFleetSeeder::class);
     }
 }
