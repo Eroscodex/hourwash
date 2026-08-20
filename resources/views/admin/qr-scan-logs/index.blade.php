@@ -10,7 +10,7 @@
 
             @if(count($logs) > 0)
                 <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-clear-qr-logs')" class="px-3.5 py-2 rounded-lg bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 text-xs font-bold hover:bg-rose-500 hover:text-white transition shadow-sm">
-                    🗑️ Clear All Scan Logs
+                    Clear All Scan Logs
                 </button>
 
                 <x-modal name="confirm-clear-qr-logs" maxWidth="sm">

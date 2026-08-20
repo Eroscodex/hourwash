@@ -21,6 +21,9 @@ class User extends Authenticatable
         'role',
         'profile_image',
         'status',
+        'stamps_count',
+        'completed_cards_count',
+        'discount_rewards_available',
     ];
 
     protected $hidden = [
@@ -33,6 +36,9 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'stamps_count' => 'integer',
+            'completed_cards_count' => 'integer',
+            'discount_rewards_available' => 'integer',
         ];
     }
 
@@ -74,6 +80,47 @@ class User extends Authenticatable
     public function orders()
     {
         return $this->hasMany(Order::class, 'customer_id');
+    }
+
+    /**
+     * Add stamp(s) to customer's Frequent User Card.
+     * Card capacity is 12 stamps. Reaching 12 stamps completes 1 card and unlocks a discount reward.
+     */
+    public function addStamp(int $count = 1): void
+    {
+        $newStamps = $this->stamps_count + $count;
+
+        while ($newStamps >= 12) {
+            $newStamps -= 12;
+            $this->completed_cards_count++;
+            $this->discount_rewards_available++;
+        }
+
+        $this->stamps_count = $newStamps;
+        $this->save();
+    }
+
+    /**
+     * Check if customer has earned discount rewards available.
+     */
+    public function hasDiscountReward(): bool
+    {
+        return $this->discount_rewards_available > 0;
+    }
+
+    /**
+     * Consume 1 earned discount reward.
+     */
+    public function useDiscountReward(): bool
+    {
+        if ($this->discount_rewards_available > 0) {
+            $this->discount_rewards_available--;
+            $this->save();
+
+            return true;
+        }
+
+        return false;
     }
 
     /**

@@ -99,11 +99,14 @@ class LaundryController extends Controller
 
         $service = Service::findOrFail($request->service_id);
 
-        // Calculate subtotal: multiply by weight only if price_unit is 'kg'
+        $weight = max(1.0, (float) ($request->weight_kg ?: 7.0));
+        $loadCount = max(1, (int) ceil($weight / 7.0));
+
+        // Calculate subtotal based on load count (each load capacity is max 7kg)
         if ($service->price_unit === 'kg') {
-            $subtotal = $service->price * $request->weight_kg;
+            $subtotal = $service->price * $weight;
         } else {
-            $subtotal = $service->price;
+            $subtotal = $service->price * $loadCount;
         }
 
         // Calculate supplies discount (Tipid option: Customer brings own detergent/softener)
@@ -129,8 +132,17 @@ class LaundryController extends Controller
                 break;
         }
 
+        // Apply Frequent User Card Loyalty Reward Discount if customer requested & eligible
+        $targetCustomer = User::find($customerId);
+        if ($request->boolean('apply_loyalty_discount') && $targetCustomer && $targetCustomer->hasDiscountReward()) {
+            $discount += 50.00;
+            $suppliesLabel .= ' [Frequent User Loyalty Discount (-₱50.00)]';
+            $targetCustomer->useDiscountReward();
+        }
+
         $totalAmount = max(0, $subtotal - $discount);
-        $notes = trim($suppliesLabel.($request->remarks ? ' — '.$request->remarks : ''));
+        $cutoffNote = now()->format('H:i') >= '16:30' ? ' [Placed past 4:30 PM cut-off time]' : '';
+        $notes = trim($suppliesLabel.$cutoffNote.($request->remarks ? ' — '.$request->remarks : ''));
 
         // Machine is assigned dynamically when staff processes or starts washing
         $machineId = $request->machine_id;

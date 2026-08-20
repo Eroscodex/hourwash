@@ -140,17 +140,17 @@
             <div class="grid lg:grid-cols-12 gap-8 lg:gap-10 items-center">
                 <div class="lg:col-span-7 space-y-5">
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800/60 text-xs font-semibold">
-                        <span class="w-2 h-2 rounded-full bg-blue-600 dark:bg-blue-400"></span>
-                        Laundry Management System
+                        <span class="w-2 h-2 rounded-full bg-blue-600 dark:bg-blue-400 animate-pulse"></span>
+                        Hour Wash Laundry • Legazpi City
                     </div>
 
-                    <h1 class="text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-slate-900 dark:text-white leading-tight">
+                    <h1 class="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight">
                         Professional Clean. <br>
-                        <span class="text-blue-600 dark:text-blue-400">Fast & Real-Time Tracking</span>
+                        <span class="text-blue-600 dark:text-blue-400">Fast 1-Hour Wash & Live Tracking</span>
                     </h1>
 
-                    <p class="text-slate-600 dark:text-zinc-400 text-xs sm:text-sm max-w-xl leading-relaxed">
-                        Magallanes St., Orosite, Legazpi City. Experience 1-hour fast turnarounds, QR code order verification, live machine monitoring, and doorstep pickup & delivery services.
+                    <p class="text-slate-600 dark:text-zinc-400 text-xs sm:text-sm max-w-xl leading-relaxed font-medium">
+                        Magallanes St., Orosite, Legazpi City. Experience 7kg capacity commercial washing & drying, QR code verification, automated real-time monitoring, and doorstep pickup & delivery.
                     </p>
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
@@ -159,8 +159,8 @@
                                 1H
                             </div>
                             <div>
-                                <h4 class="text-xs font-bold text-slate-900 dark:text-zinc-100">1-Hour Cycle</h4>
-                                <p class="text-[11px] text-slate-500 dark:text-zinc-400">Express washing</p>
+                                <h4 class="text-xs font-bold text-slate-900 dark:text-zinc-100">1-Hour Express</h4>
+                                <p class="text-[11px] text-slate-500 dark:text-zinc-400">Washing & drying</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3 p-3 rounded-md bg-slate-50 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-800">
@@ -168,27 +168,27 @@
                                 QR
                             </div>
                             <div>
-                                <h4 class="text-xs font-bold text-slate-900 dark:text-zinc-100">QR Order Tag</h4>
-                                <p class="text-[11px] text-slate-500 dark:text-zinc-400">Instant verification</p>
+                                <h4 class="text-xs font-bold text-slate-900 dark:text-zinc-100">QR Tag Track</h4>
+                                <p class="text-[11px] text-slate-500 dark:text-zinc-400">Real-time status</p>
                             </div>
                         </div>
                         <div class="flex items-center gap-3 p-3 rounded-md bg-slate-50 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-800">
                             <div class="w-9 h-9 rounded-md bg-amber-50 text-amber-600 dark:bg-amber-950/40 dark:text-amber-400 flex items-center justify-center font-extrabold text-xs shrink-0 border border-amber-200 dark:border-amber-800/60">
-                                VIP
+                                7KG
                             </div>
                             <div>
-                                <h4 class="text-xs font-bold text-slate-900 dark:text-zinc-100">Pickup & Delivery</h4>
-                                <p class="text-[11px] text-slate-500 dark:text-zinc-400">Doorstep service</p>
+                                <h4 class="text-xs font-bold text-slate-900 dark:text-zinc-100">7kg Max Load</h4>
+                                <p class="text-[11px] text-slate-500 dark:text-zinc-400">Per machine load</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="flex flex-wrap items-center gap-3 pt-2">
                         <a href="{{ route('register') }}" class="w-full sm:w-auto btn-primary text-center">
-                            Book a Pickup Order
+                            Book Laundry Order
                         </a>
                         <a href="#services" class="w-full sm:w-auto btn-secondary text-center">
-                            Explore Services
+                            View Services & Rates
                         </a>
                     </div>
                 </div>
@@ -207,7 +207,7 @@
                         <div class="space-y-3">
                             <div>
                                 <h3 class="text-base font-bold text-slate-900 dark:text-white">HOUR WASH LAUNDRY</h3>
-                                <p class="text-xs text-slate-500 dark:text-zinc-400 mt-0.5">Operating Hours: 7:00 AM – 6:00 PM Daily</p>
+                                <p class="text-xs text-slate-500 dark:text-zinc-400 mt-0.5">Operating Hours: 7:30 AM – 6:00 PM (Mon – Sun) • Same-Day Cut-Off: 4:30 PM</p>
                             </div>
                             @php
                                 $idleWashers = $machines->filter(function($m) {
@@ -239,8 +239,11 @@
         <!-- Services & Rates Catalog -->
         <section id="services" class="space-y-5">
             <div>
-                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">Our Laundry Services & Rates</h2>
-                <p class="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 mt-1">Select from our wide range of professional washing, drying, and folding packages.</p>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                    <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">Services Offered</h2>
+                    <span class="text-xs font-bold text-amber-600 dark:text-amber-400">*Detergent, Fabcon & Bleach not included</span>
+                </div>
+                <p class="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 mt-1">Select from our wide range of professional washing, drying, and folding packages per load (max 7kg).</p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3.5">
@@ -270,51 +273,80 @@
             </div>
         </section>
 
-        <!-- How It Works 4-Step Guide -->
+        <!-- How It Works 4-Step Guide (Official Store Poster Steps) -->
         <section id="how-it-works" class="space-y-5">
             <div>
-                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">How Hour Wash Works</h2>
-                <p class="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 mt-1">Simple 4-step process from booking to clean, folded clothes.</p>
+                <span class="text-xs font-extrabold uppercase tracking-wider text-blue-600 dark:text-blue-400">It's Laundry Day!</span>
+                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mt-0.5">How Does It Work?</h2>
+                <p class="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 mt-1">Follow our simple 4-step process from sorting your clothes to relaxing in our lounge.</p>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div class="app-card p-5 space-y-3">
-                    <div class="w-8 h-8 rounded-md bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400 border border-blue-200 dark:border-blue-800/60 flex items-center justify-center font-bold text-xs">
-                        1
+                <!-- Step 1 -->
+                <div class="app-card p-5 space-y-3 relative overflow-hidden group hover:border-blue-500/40 transition">
+                    <div class="flex items-center justify-between">
+                        <div class="w-8 h-8 rounded-md bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400 border border-blue-200 dark:border-blue-800/60 flex items-center justify-center font-extrabold text-xs">
+                            1
+                        </div>
+                        <span class="text-[11px] font-mono font-bold text-slate-400 dark:text-zinc-500 uppercase">Step 01</span>
                     </div>
-                    <h3 class="text-sm font-bold text-slate-900 dark:text-white">Book or Drop Off</h3>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white">Sort</h3>
+                        <p class="text-xs font-semibold text-blue-600 dark:text-blue-400 mt-0.5">whites | colors</p>
+                    </div>
                     <p class="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed">
-                        Book online or visit our store in Orosite, Legazpi City to select your preferred laundry package.
+                        Separate your white garments and colored clothes before loading to prevent color bleeding.
                     </p>
                 </div>
 
-                <div class="app-card p-5 space-y-3">
-                    <div class="w-8 h-8 rounded-md bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400 border border-blue-200 dark:border-blue-800/60 flex items-center justify-center font-bold text-xs">
-                        2
+                <!-- Step 2 -->
+                <div class="app-card p-5 space-y-3 relative overflow-hidden group hover:border-blue-500/40 transition">
+                    <div class="flex items-center justify-between">
+                        <div class="w-8 h-8 rounded-md bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400 border border-blue-200 dark:border-blue-800/60 flex items-center justify-center font-extrabold text-xs">
+                            2
+                        </div>
+                        <span class="text-[11px] font-mono font-bold text-slate-400 dark:text-zinc-500 uppercase">Step 02</span>
                     </div>
-                    <h3 class="text-sm font-bold text-slate-900 dark:text-white">QR Tag Verification</h3>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white">Load</h3>
+                        <p class="text-xs font-semibold text-blue-600 dark:text-blue-400 mt-0.5">laundry | detergent | fabcon</p>
+                    </div>
                     <p class="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed">
-                        Your laundry receives a unique QR code tag for instant identification and automated tracking throughout the cycle.
+                        Load your sorted clothes into the commercial machine along with your detergent and fabric conditioner.
                     </p>
                 </div>
 
-                <div class="app-card p-5 space-y-3">
-                    <div class="w-8 h-8 rounded-md bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400 border border-blue-200 dark:border-blue-800/60 flex items-center justify-center font-bold text-xs">
-                        3
+                <!-- Step 3 -->
+                <div class="app-card p-5 space-y-3 relative overflow-hidden group hover:border-blue-500/40 transition">
+                    <div class="flex items-center justify-between">
+                        <div class="w-8 h-8 rounded-md bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400 border border-blue-200 dark:border-blue-800/60 flex items-center justify-center font-extrabold text-xs">
+                            3
+                        </div>
+                        <span class="text-[11px] font-mono font-bold text-slate-400 dark:text-zinc-500 uppercase">Step 03</span>
                     </div>
-                    <h3 class="text-sm font-bold text-slate-900 dark:text-white">Washing & Drying</h3>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white">Wash • Dry</h3>
+                        <p class="text-xs font-semibold text-blue-600 dark:text-blue-400 mt-0.5">select machine mode</p>
+                    </div>
                     <p class="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed">
-                        Our commercial washers and dryers clean and sanitize your load with premium detergents in under 1 hour.
+                        Select your machine wash cycle (Whites, Colors, Perm Press, or Delicates) and start the cycle.
                     </p>
                 </div>
 
-                <div class="app-card p-5 space-y-3">
-                    <div class="w-8 h-8 rounded-md bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 flex items-center justify-center font-bold text-xs">
-                        4
+                <!-- Step 4 -->
+                <div class="app-card p-5 space-y-3 relative overflow-hidden group hover:border-emerald-500/40 transition">
+                    <div class="flex items-center justify-between">
+                        <div class="w-8 h-8 rounded-md bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 flex items-center justify-center font-extrabold text-xs">
+                            4
+                        </div>
+                        <span class="text-[11px] font-mono font-bold text-slate-400 dark:text-zinc-500 uppercase">Step 04</span>
                     </div>
-                    <h3 class="text-sm font-bold text-slate-900 dark:text-white">Pickup or Delivery</h3>
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-900 dark:text-white">Hangout & Track</h3>
+                        <p class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mt-0.5">watch | snack | wifi | live system monitoring</p>
+                    </div>
                     <p class="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed">
-                        Get SMS and system notifications when ready for in-store pickup or rider delivery right to your doorstep.
+                        Relax with free Wi-Fi & snacks while our automated system monitors your load in real-time and sends instant SMS updates!
                     </p>
                 </div>
             </div>

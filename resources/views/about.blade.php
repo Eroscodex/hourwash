@@ -58,11 +58,71 @@
                     </ul>
                 </div>
 
+                <div class="space-y-3 border-t border-slate-200 dark:border-zinc-700 pt-4">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                        <h3 class="text-base font-bold text-slate-900 dark:text-white">Services Offered & Official Pricing</h3>
+                        <span class="text-xs font-bold text-amber-600 dark:text-amber-400">*Detergent, Fabcon & Bleach not included</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div class="p-3 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700">
+                            <div class="flex items-center justify-between font-bold text-slate-900 dark:text-white mb-1">
+                                <span>Wash Only</span>
+                                <span class="text-blue-600 dark:text-blue-400 font-extrabold">₱75.00</span>
+                            </div>
+                            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
+                                <span>Per load (max 7kg)</span>
+                                <span class="font-semibold text-blue-600 dark:text-blue-400">~35 mins</span>
+                            </div>
+                        </div>
+                        <div class="p-3 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700">
+                            <div class="flex items-center justify-between font-bold text-slate-900 dark:text-white mb-1">
+                                <span>Dry Only</span>
+                                <span class="text-blue-600 dark:text-blue-400 font-extrabold">₱75.00</span>
+                            </div>
+                            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
+                                <span>Per load (max 7kg)</span>
+                                <span class="font-semibold text-blue-600 dark:text-blue-400">~40 mins</span>
+                            </div>
+                        </div>
+                        <div class="p-3 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700">
+                            <div class="flex items-center justify-between font-bold text-slate-900 dark:text-white mb-1">
+                                <span>Fold Only</span>
+                                <span class="text-blue-600 dark:text-blue-400 font-extrabold">₱50.00</span>
+                            </div>
+                            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
+                                <span>Per load (max 7kg)</span>
+                                <span class="font-semibold text-blue-600 dark:text-blue-400">~15 mins</span>
+                            </div>
+                        </div>
+                        <div class="p-3 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700">
+                            <div class="flex items-center justify-between font-bold text-slate-900 dark:text-white mb-1">
+                                <span>Self-Service (Wash & Dry)</span>
+                                <span class="text-blue-600 dark:text-blue-400 font-extrabold">₱150.00</span>
+                            </div>
+                            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
+                                <span>Per load (max 7kg)</span>
+                                <span class="font-semibold text-blue-600 dark:text-blue-400">~1 hr 15 mins (75m)</span>
+                            </div>
+                        </div>
+                        <div class="p-3 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700 sm:col-span-2">
+                            <div class="flex items-center justify-between font-bold text-slate-900 dark:text-white mb-1">
+                                <span>Full-Service (Wash, Dry & Fold)</span>
+                                <span class="text-blue-600 dark:text-blue-400 font-extrabold">₱200.00</span>
+                            </div>
+                            <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
+                                <span>Per load (max 7kg) — Complete drop-off care</span>
+                                <span class="font-semibold text-blue-600 dark:text-blue-400">~1 hr 30 mins (90m)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="space-y-2 border-t border-slate-200 dark:border-zinc-700 pt-4">
                     <h3 class="text-base font-bold  text-slate-900 dark:text-white">Contact & Shop Details</h3>
                     <p>
                         <strong>Address:</strong> Magallanes St., Orosite, Legazpi City, Albay, Philippines<br>
-                        <strong>Store Hours:</strong> 7:00 AM – 6:00 PM Daily<br>
+                        <strong>Store Hours:</strong> 7:30 AM – 6:00 PM (Monday – Sunday)<br>
+                        <strong>Same-Day Order Cut-Off:</strong> 4:30 PM (Orders placed after 4:30 PM processed next morning)<br>
                         <strong>Support Helpline:</strong> Available via our customer dashboard and live AI assistant
                     </p>
                 </div>

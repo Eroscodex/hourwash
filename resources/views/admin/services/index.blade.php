@@ -42,7 +42,8 @@
                             $mins = $srv->estimated_minutes;
                             $hrs = floor($mins / 60);
                             $remMins = $mins % 60;
-                            $durationFormatted = $hrs > 0 ? ($remMins > 0 ? "{$hrs} hrs {$remMins} mins" : "{$hrs} hrs") : "{$mins} mins";
+                            $hrLabel = $hrs == 1 ? 'hr' : 'hrs';
+                            $durationFormatted = $hrs > 0 ? ($remMins > 0 ? "{$hrs} {$hrLabel} {$remMins} mins" : "{$hrs} {$hrLabel}") : "{$mins} mins";
                         @endphp
                         <tr class="hover:bg-black/5 dark:hover:bg-white/5 transition">
                             <td class="px-4 sm:px-6 py-4 font-mono text-slate-500 font-bold">#{{ $srv->id }}</td>

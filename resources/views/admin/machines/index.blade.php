@@ -21,6 +21,75 @@
             </div>
         @endif
 
+        <!-- Machine Cycle Guide (Washer & Dryer Button Definitions) -->
+        <div class="p-4 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700 space-y-3" x-data="{ showGuide: false }">
+            <div class="flex items-center justify-between cursor-pointer" @click="showGuide = !showGuide">
+                <div class="flex items-center gap-2">
+                    <svg class="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span class="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">💡 Physical Machine Control Panel Cycle Guide</span>
+                </div>
+                <button type="button" class="text-xs text-blue-600 dark:text-blue-400 font-bold hover:underline">
+                    <span x-text="showGuide ? 'Hide Cycle Definitions ▲' : 'View Cycle Definitions ▼'">View Cycle Definitions ▼</span>
+                </button>
+            </div>
+
+            <div x-show="showGuide" x-collapse class="space-y-4 pt-2 border-t border-slate-200 dark:border-zinc-700 text-xs">
+                <!-- Dryer Buttons -->
+                <div class="space-y-2">
+                    <h4 class="font-extrabold text-blue-600 dark:text-blue-400 flex items-center gap-1.5 text-[11px] uppercase tracking-wider">
+                        <span>♨️ Dryer Panel Buttons</span>
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        <div class="p-2.5 rounded bg-white dark:bg-[#141417] border border-slate-200 dark:border-zinc-800">
+                            <span class="font-bold text-slate-900 dark:text-white block">Whites & Colors</span>
+                            <span class="text-[11px] text-slate-500 dark:text-slate-400">High heat for towels, jeans, white cottons & heavy clothes (~40 mins).</span>
+                        </div>
+                        <div class="p-2.5 rounded bg-white dark:bg-[#141417] border border-slate-200 dark:border-zinc-800">
+                            <span class="font-bold text-slate-900 dark:text-white block">Perm Press</span>
+                            <span class="text-[11px] text-slate-500 dark:text-slate-400">Medium heat for dress shirts, uniforms & synthetic fabrics (anti-wrinkle).</span>
+                        </div>
+                        <div class="p-2.5 rounded bg-white dark:bg-[#141417] border border-slate-200 dark:border-zinc-800">
+                            <span class="font-bold text-slate-900 dark:text-white block">Delicates</span>
+                            <span class="text-[11px] text-slate-500 dark:text-slate-400">Low heat gentle dry for activewear, silk, lace & sensitive fabrics.</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Washer Buttons -->
+                <div class="space-y-2">
+                    <h4 class="font-extrabold text-blue-600 dark:text-blue-400 flex items-center gap-1.5 text-[11px] uppercase tracking-wider">
+                        <span>🧺 Washer Panel Buttons</span>
+                    </h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                        <div class="p-2.5 rounded bg-white dark:bg-[#141417] border border-slate-200 dark:border-zinc-800">
+                            <span class="font-bold text-slate-900 dark:text-white block">Whites</span>
+                            <span class="text-[11px] text-slate-500 dark:text-slate-400">Warm/hot water wash for white clothes & deep stain removal.</span>
+                        </div>
+                        <div class="p-2.5 rounded bg-white dark:bg-[#141417] border border-slate-200 dark:border-zinc-800">
+                            <span class="font-bold text-slate-900 dark:text-white block">Colors</span>
+                            <span class="text-[11px] text-slate-500 dark:text-slate-400">Regular color-safe wash for daily colored garments.</span>
+                        </div>
+                        <div class="p-2.5 rounded bg-white dark:bg-[#141417] border border-slate-200 dark:border-zinc-800">
+                            <span class="font-bold text-slate-900 dark:text-white block">Brights</span>
+                            <span class="text-[11px] text-slate-500 dark:text-slate-400">Anti-fade wash for bright, vibrant colored clothing.</span>
+                        </div>
+                        <div class="p-2.5 rounded bg-white dark:bg-[#141417] border border-slate-200 dark:border-zinc-800">
+                            <span class="font-bold text-slate-900 dark:text-white block">Perm Press</span>
+                            <span class="text-[11px] text-slate-500 dark:text-slate-400">Medium spin for workwear, slacks & wrinkle-resistant items.</span>
+                        </div>
+                        <div class="p-2.5 rounded bg-white dark:bg-[#141417] border border-slate-200 dark:border-zinc-800">
+                            <span class="font-bold text-slate-900 dark:text-white block">Delicates & Knits</span>
+                            <span class="text-[11px] text-slate-500 dark:text-slate-400">Gentle agitation for sweaters, knitted clothes & underwear.</span>
+                        </div>
+                        <div class="p-2.5 rounded bg-white dark:bg-[#141417] border border-slate-200 dark:border-zinc-800">
+                            <span class="font-bold text-slate-900 dark:text-white block">Quick Cycle</span>
+                            <span class="text-[11px] text-slate-500 dark:text-slate-400">Fast 20–25 min wash for lightly soiled small loads.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="app-card overflow-hidden">
             <div class="overflow-x-auto max-w-full">
                 <table class="w-full text-left text-xs sm:text-sm whitespace-nowrap min-w-[600px]">

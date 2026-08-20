@@ -274,6 +274,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/laundry/create', [LaundryController::class, 'create'])->name('laundry.create');
     Route::post('/laundry', [LaundryController::class, 'store'])->name('laundry.store');
     Route::get('/my-orders', [LaundryController::class, 'myOrders'])->name('my.orders');
+    Route::get('/frequent-user-card', function () {
+        return view('frequent_card.index');
+    })->name('frequent_card.index');
 
     // Profile Router (Auto-redirects to role-specific URL: /admin/profile, /staff/profile, or /customer/profile)
     Route::get('/profile', function () {
@@ -482,6 +485,18 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
         return view('admin.reviews.index', compact('feedbacks', 'totalReviews', 'avgRating'));
     })->name('reviews.index');
+
+    Route::delete('/reviews/clear-all', function () {
+        /** @var User $user */
+        $user = Auth::user();
+        if (! $user->isAdmin() && ! $user->isOwner()) {
+            abort(403);
+        }
+
+        CustomerFeedback::query()->truncate();
+
+        return back()->with('success', 'All customer reviews have been cleared successfully.');
+    })->name('reviews.clearAll');
 
     Route::get('/qr-scan-logs', [QrScanLogController::class, 'index'])->name('qr_scan_logs.index');
     Route::delete('/qr-scan-logs/clear', [QrScanLogController::class, 'clear'])->name('qr_scan_logs.clear');

@@ -19,8 +19,44 @@
                 <span class="px-3.5 py-1.5 rounded-md bg-blue-600/15 text-blue-600 dark:text-blue-400 text-xs font-extrabold tracking-wider uppercase border border-blue-600/30">
                     {{ $totalReviews }} Total Reviews
                 </span>
+                @if($totalReviews > 0)
+                    <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-clear-reviews')" class="px-3.5 py-1.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-600 dark:text-rose-400 text-xs font-bold border border-rose-500/30 transition">
+                        Clear All Reviews
+                    </button>
+
+                    <x-modal name="confirm-clear-reviews" maxWidth="sm">
+                        <div class="p-6 bg-white dark:bg-[#141417] text-slate-900 dark:text-zinc-100 space-y-4 rounded-lg text-left">
+                            <h2 class="text-base font-bold text-rose-600 dark:text-rose-400">Clear All Customer Reviews?</h2>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                                Are you sure you want to delete all customer ratings & review comments permanently?
+                            </p>
+                            <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-200 dark:border-zinc-800">
+                                <button type="button" x-on:click="$dispatch('close')" class="btn-secondary text-xs py-1.5 px-3">
+                                    Cancel
+                                </button>
+                                <form method="POST" action="{{ route('admin.reviews.clearAll') }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-danger text-xs py-1.5 px-3">
+                                        Clear All Reviews
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </x-modal>
+                @else
+                    <button type="button" disabled class="px-3.5 py-1.5 rounded-lg bg-slate-500/10 text-slate-400 dark:text-zinc-500 text-xs font-bold border border-slate-500/20 opacity-60 cursor-not-allowed">
+                        Clear All Reviews
+                    </button>
+                @endif
             </div>
         </div>
+
+        @if(session('success'))
+            <div class="bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 px-4 py-3 rounded-lg text-xs font-semibold">
+                {{ session('success') }}
+            </div>
+        @endif
 
         <!-- Reviews Outbox Feed -->
         <div class="space-y-4">

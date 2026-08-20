@@ -27,43 +27,45 @@
         }
     </script>
     <style>
-        /* Collapsed Sidebar (Tiklop) Styles */
-        html.sidebar-collapsed #sidebar {
-            width: 4.5rem !important;
-        }
-        html.sidebar-collapsed #main-wrapper {
-            padding-left: 4.5rem !important;
-        }
-        html.sidebar-collapsed .sidebar-text,
-        html.sidebar-collapsed .sidebar-section-header {
-            display: none !important;
-        }
-        html.sidebar-collapsed #sidebar-toggle-icon {
-            transform: rotate(180deg);
-        }
-        html.sidebar-collapsed #sidebar-header-box {
-            padding-left: 0 !important;
-            padding-right: 0 !important;
-            justify-content: center !important;
-        }
-        html.sidebar-collapsed #sidebar-header-box a {
-            justify-content: center !important;
-            width: 100% !important;
-        }
-        html.sidebar-collapsed #sidebar-user-box {
-            padding-left: 0 !important;
-            padding-right: 0 !important;
-            justify-content: center !important;
-        }
-        html.sidebar-collapsed #sidebar-user-box > div {
-            justify-content: center !important;
-            width: 100% !important;
-        }
-        html.sidebar-collapsed .sidebar-nav-item {
-            justify-content: center !important;
-            padding-left: 0 !important;
-            padding-right: 0 !important;
-            width: 100% !important;
+        /* Collapsed Sidebar (Tiklop) Styles - Desktop Only (min-width: 768px) */
+        @media (min-width: 768px) {
+            html.sidebar-collapsed #sidebar {
+                width: 4.5rem !important;
+            }
+            html.sidebar-collapsed #main-wrapper {
+                padding-left: 4.5rem !important;
+            }
+            html.sidebar-collapsed .sidebar-text,
+            html.sidebar-collapsed .sidebar-section-header {
+                display: none !important;
+            }
+            html.sidebar-collapsed #sidebar-toggle-icon {
+                transform: rotate(180deg);
+            }
+            html.sidebar-collapsed #sidebar-header-box {
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+                justify-content: center !important;
+            }
+            html.sidebar-collapsed #sidebar-header-box a {
+                justify-content: center !important;
+                width: 100% !important;
+            }
+            html.sidebar-collapsed #sidebar-user-box {
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+                justify-content: center !important;
+            }
+            html.sidebar-collapsed #sidebar-user-box > div {
+                justify-content: center !important;
+                width: 100% !important;
+            }
+            html.sidebar-collapsed .sidebar-nav-item {
+                justify-content: center !important;
+                padding-left: 0 !important;
+                padding-right: 0 !important;
+                width: 100% !important;
+            }
         }
     </style>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -85,7 +87,7 @@
                             <h1 class="text-lg font-bold tracking-wide text-slate-900 dark:text-white">
                                 HOUR WASH
                             </h1>
-                            <p class="text-[10px] text-blue-600 dark:text-blue-400 tracking-widest uppercase font-semibold">LAUNDRY MANAGEMENT SYSTEM</p>
+                            <p class="text-[8.5px] text-blue-600 dark:text-blue-400 tracking-wider uppercase font-bold whitespace-nowrap leading-none mt-0.5">LAUNDRY MANAGEMENT SYSTEM</p>
                         </div>
                     </a>
                     <button id="close-sidebar" class="md:hidden text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white p-1">
@@ -249,6 +251,14 @@
                                     <p class="text-[10.5px] opacity-75 font-normal block leading-tight mt-0.5">Track bookings & receipts</p>
                                 </div>
                             </a>
+
+                            <a href="{{ route('frequent_card.index') }}" title="Frequent User Card" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all {{ request()->routeIs('frequent_card.*') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:dark:bg-zinc-800' }}">
+                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5h14a2 2 0 012 2v3a2 2 0 000 4v3a2 2 0 01-2 2H5a2 2 0 01-2-2v-3a2 2 0 000-4V7a2 2 0 012-2z"/></svg>
+                                <div class="sidebar-text">
+                                    <span class="block leading-snug">Frequent User Card</span>
+                                    <p class="text-[10.5px] opacity-75 font-normal block leading-tight mt-0.5">12-stamp loyalty rewards</p>
+                                </div>
+                            </a>
                         @endif
 
                         <div class="pt-4 border-t border-slate-200 dark:dark:border-zinc-700 my-2"></div>
@@ -305,7 +315,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                         </svg>
                     </button>
-                    <button id="toggle-collapse-sidebar" class="hidden md:flex p-2 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-zinc-800 focus:outline-none transition-all cursor-pointer" title="Toggle Sidebar Collapse (Tiklop)">
+                    <button id="toggle-collapse-sidebar" class="hidden md:flex p-2 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:dark:bg-zinc-800 focus:outline-none transition-all cursor-pointer" title="Toggle Sidebar Collapse (Tiklop)">
                         <svg id="sidebar-toggle-icon" class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/>
                         </svg>

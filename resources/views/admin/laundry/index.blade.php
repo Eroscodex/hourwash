@@ -121,68 +121,137 @@
                     @endif
 
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-black/5 dark:border-white/5">
-                        <form method="POST" action="{{ route('admin.laundry.update', $order->id) }}" class="flex flex-wrap items-center gap-2">
+                        <form method="POST" action="{{ route('admin.laundry.update', $order->id) }}" class="flex flex-wrap items-center gap-2" x-data="{
+                            statusOpen: false,
+                            statusVal: '{{ $order->order_status }}',
+
+                            machineOpen: false,
+                            machineVal: '{{ $order->machine_id ?? '' }}',
+
+                            paymentOpen: false,
+                            paymentVal: '{{ $order->payment_status }}'
+                        }">
                             @csrf
                             @method('PATCH')
 
-                            <select name="status" class="max-w-[180px] sm:max-w-[220px] truncate py-1 px-2.5 text-xs rounded-lg font-bold">
-                                <option value="pending" {{ $order->order_status === 'pending' ? 'selected' : '' }}>1. Pending (Order Placed)</option>
-                                <option value="out_for_pickup" {{ $order->order_status === 'out_for_pickup' ? 'selected' : '' }}>2. Out for Pickup</option>
-                                <option value="received" {{ $order->order_status === 'received' ? 'selected' : '' }}>3. Store Received</option>
-                                <option value="washing" {{ $order->order_status === 'washing' ? 'selected' : '' }}>4. Washing</option>
-                                <option value="rinsing" {{ $order->order_status === 'rinsing' ? 'selected' : '' }}>5. Rinsing</option>
-                                <option value="drying" {{ $order->order_status === 'drying' ? 'selected' : '' }}>6. Drying</option>
-                                <option value="finish" {{ $order->order_status === 'finish' ? 'selected' : '' }}>7. Finish & Shelved</option>
-                                <option value="out_for_delivery" {{ $order->order_status === 'out_for_delivery' ? 'selected' : '' }}>8. Out for Delivery</option>
-                                <option value="completed" {{ $order->order_status === 'completed' ? 'selected' : '' }}>9. Completed</option>
-                                <option value="cancelled" {{ $order->order_status === 'cancelled' ? 'selected' : '' }}>Cancelled</option>
-                            </select>
+                            <!-- Hidden inputs for backend form submission -->
+                            <input type="hidden" name="status" :value="statusVal">
+                            <input type="hidden" name="machine_id" :value="machineVal">
+                            <input type="hidden" name="payment_status" :value="paymentVal">
 
-                            <select name="machine_id" class="max-w-[220px] sm:max-w-[260px] truncate py-1 px-2.5 text-xs rounded-lg font-semibold bg-white dark:bg-[#18181B] border border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100">
-                                <option value="">-- Assign Machine --</option>
-                                @php
-                                    $availableM = [];
-                                    $occupiedM = [];
-                                    foreach($machines ?? [] as $m) {
-                                        $mOrd = $m->displayOrder;
-                                        $isOccupied = ($m->id != $order->machine_id) && ($m->status !== 'idle' || $m->current_order_id !== null || ($mOrd && $mOrd->id !== $order->id));
-                                        if ($isOccupied) {
-                                            $occupiedM[] = ['m' => $m, 'mOrd' => $mOrd];
-                                        } else {
-                                            $availableM[] = ['m' => $m, 'mOrd' => $mOrd];
-                                        }
+                            <!-- 1. Order Status Dropdown -->
+                            <div class="relative inline-block" @click.outside="statusOpen = false">
+                                <button type="button" @click="statusOpen = !statusOpen; machineOpen = false; paymentOpen = false;" class="h-9 min-w-[170px] py-1 px-3 text-xs rounded-lg font-bold bg-white dark:bg-[#18181B] border border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100 flex items-center justify-between gap-2 shadow-sm">
+                                    <span class="truncate" x-text="{
+                                        'pending': '1. Pending (Order Placed)',
+                                        'out_for_pickup': '2. Out for Pickup',
+                                        'received': '3. Store Received',
+                                        'washing': '4. Washing',
+                                        'rinsing': '5. Rinsing',
+                                        'drying': '6. Drying',
+                                        'finish': '7. Finish & Shelved',
+                                        'out_for_delivery': '8. Out for Delivery',
+                                        'completed': '9. Completed',
+                                        'cancelled': 'Cancelled'
+                                    }[statusVal]"></span>
+                                    <svg class="w-3.5 h-3.5 text-slate-500 shrink-0 transition-transform duration-200" :class="statusOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                                </button>
+
+                                <div x-show="statusOpen" x-cloak x-transition class="absolute z-50 top-full left-0 mt-1 min-w-[200px] w-full bg-white dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700 rounded-lg shadow-xl max-h-60 overflow-y-auto py-1 divide-y divide-slate-100 dark:divide-zinc-800/60">
+                                    @foreach([
+                                        'pending' => '1. Pending (Order Placed)',
+                                        'out_for_pickup' => '2. Out for Pickup',
+                                        'received' => '3. Store Received',
+                                        'washing' => '4. Washing',
+                                        'rinsing' => '5. Rinsing',
+                                        'drying' => '6. Drying',
+                                        'finish' => '7. Finish & Shelved',
+                                        'out_for_delivery' => '8. Out for Delivery',
+                                        'completed' => '9. Completed',
+                                        'cancelled' => 'Cancelled'
+                                    ] as $sKey => $sVal)
+                                        <button type="button" @click="statusVal = '{{ $sKey }}'; statusOpen = false;" class="w-full text-left px-3.5 py-2 text-xs font-medium transition flex items-center justify-between hover:bg-blue-600 hover:text-white" :class="statusVal == '{{ $sKey }}' ? 'bg-blue-600/15 text-blue-600 dark:text-blue-400 font-bold' : 'text-slate-800 dark:text-zinc-200'">
+                                            <span>{{ $sVal }}</span>
+                                            <span x-show="statusVal == '{{ $sKey }}'" class="font-bold shrink-0 ml-2">✓</span>
+                                        </button>
+                                    @endforeach
+                                </div>
+                            </div>
+
+                            <!-- 2. Machine Dropdown -->
+                            @php
+                                $availableM = [];
+                                $occupiedM = [];
+                                foreach($machines ?? [] as $m) {
+                                    $mOrd = $m->displayOrder;
+                                    $isOccupied = ($m->id != $order->machine_id) && ($m->status !== 'idle' || $m->current_order_id !== null || ($mOrd && $mOrd->id !== $order->id));
+                                    if ($isOccupied) {
+                                        $occupiedM[] = ['m' => $m, 'mOrd' => $mOrd];
+                                    } else {
+                                        $availableM[] = ['m' => $m, 'mOrd' => $mOrd];
                                     }
-                                @endphp
+                                }
+                                $allMachineMap = [];
+                                foreach($machines ?? [] as $m) {
+                                    $allMachineMap[$m->id] = $m->machine_name . " (" . $m->machine_code . ")";
+                                }
+                            @endphp
 
-                                @if(count($availableM) > 0)
-                                    <optgroup label="AVAILABLE MACHINES">
+                            <div class="relative inline-block" @click.outside="machineOpen = false">
+                                <button type="button" @click="machineOpen = !machineOpen; statusOpen = false; paymentOpen = false;" class="h-9 min-w-[210px] py-1 px-3 text-xs rounded-lg font-medium bg-white dark:bg-[#18181B] border border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100 flex items-center justify-between gap-2 shadow-sm">
+                                    <span class="truncate" x-text="machineVal ? ({{ json_encode($allMachineMap) }}[machineVal] || '-- Assign Machine --') : '-- Assign Machine --'"></span>
+                                    <svg class="w-3.5 h-3.5 text-slate-500 shrink-0 transition-transform duration-200" :class="machineOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                                </button>
+
+                                <div x-show="machineOpen" x-cloak x-transition class="absolute z-50 top-full left-0 mt-1 min-w-[230px] w-full bg-white dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700 rounded-lg shadow-xl max-h-60 overflow-y-auto py-1 divide-y divide-slate-100 dark:divide-zinc-800/60">
+                                    <button type="button" @click="machineVal = ''; machineOpen = false;" class="w-full text-left px-3.5 py-2 text-xs font-semibold text-slate-500 hover:bg-slate-100 dark:hover:bg-zinc-800">
+                                        -- No Machine Assigned --
+                                    </button>
+
+                                    @if(count($availableM) > 0)
+                                        <div class="px-3 py-1 text-[10px] font-extrabold text-emerald-600 dark:text-emerald-400 uppercase bg-emerald-50 dark:bg-emerald-950/40">Available Machines</div>
                                         @foreach($availableM as $item)
                                             @php $m = $item['m']; @endphp
-                                            <option value="{{ $m->id }}" {{ $order->machine_id == $m->id ? 'selected' : '' }}>
-                                                {{ $m->machine_name }} ({{ $m->machine_code }}) [AVAILABLE]
-                                            </option>
+                                            <button type="button" @click="machineVal = '{{ $m->id }}'; machineOpen = false;" class="w-full text-left px-3.5 py-2 text-xs font-medium transition flex items-center justify-between hover:bg-blue-600 hover:text-white" :class="machineVal == '{{ $m->id }}' ? 'bg-blue-600/15 text-blue-600 dark:text-blue-400 font-bold' : 'text-slate-800 dark:text-zinc-200'">
+                                                <span>{{ $m->machine_name }} ({{ $m->machine_code }}) [AVAILABLE]</span>
+                                                <span x-show="machineVal == '{{ $m->id }}'" class="font-bold shrink-0 ml-2">✓</span>
+                                            </button>
                                         @endforeach
-                                    </optgroup>
-                                @endif
+                                    @endif
 
-                                @if(count($occupiedM) > 0)
-                                    <optgroup label="BUSY / IN-USE MACHINES">
+                                    @if(count($occupiedM) > 0)
+                                        <div class="px-3 py-1 text-[10px] font-extrabold text-amber-600 dark:text-amber-400 uppercase bg-amber-50 dark:bg-amber-950/40">Busy / In Use Machines</div>
                                         @foreach($occupiedM as $item)
                                             @php $m = $item['m']; $mOrd = $item['mOrd']; @endphp
-                                            <option value="{{ $m->id }}" {{ $order->machine_id == $m->id ? 'selected' : '' }} disabled>
+                                            <button type="button" disabled class="w-full text-left px-3.5 py-2 text-xs font-medium text-slate-400 dark:text-slate-600 opacity-60 cursor-not-allowed">
                                                 {{ $m->machine_name }} ({{ $m->machine_code }}) [BUSY - Order #{{ $mOrd->order_number ?? 'In Use' }}]
-                                            </option>
+                                            </button>
                                         @endforeach
-                                    </optgroup>
-                                @endif
-                            </select>
+                                    @endif
+                                </div>
+                            </div>
 
-                            <select name="payment_status" class="py-1 px-2.5 text-xs rounded-lg">
-                                <option value="unpaid" {{ $order->payment_status === 'unpaid' ? 'selected' : '' }}>Unpaid</option>
-                                <option value="paid" {{ $order->payment_status === 'paid' ? 'selected' : '' }}>Paid</option>
-                            </select>
+                            <!-- 3. Payment Status Dropdown -->
+                            <div class="relative inline-block" @click.outside="paymentOpen = false">
+                                <button type="button" @click="paymentOpen = !paymentOpen; statusOpen = false; machineOpen = false;" class="h-9 min-w-[95px] py-1 px-3 text-xs rounded-lg font-bold bg-white dark:bg-[#18181B] border border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100 flex items-center justify-between gap-2 shadow-sm">
+                                    <span class="capitalize" x-text="paymentVal"></span>
+                                    <svg class="w-3.5 h-3.5 text-slate-500 shrink-0 transition-transform duration-200" :class="paymentOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                                </button>
 
-                            <button type="submit" class="btn-primary py-1 px-3 text-xs">
+                                <div x-show="paymentOpen" x-cloak x-transition class="absolute z-50 top-full left-0 mt-1 min-w-[110px] w-full bg-white dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700 rounded-lg shadow-xl py-1 divide-y divide-slate-100 dark:divide-zinc-800/60">
+                                    <button type="button" @click="paymentVal = 'unpaid'; paymentOpen = false;" class="w-full text-left px-3.5 py-2 text-xs font-medium transition flex items-center justify-between hover:bg-blue-600 hover:text-white" :class="paymentVal == 'unpaid' ? 'bg-blue-600/15 text-blue-600 dark:text-blue-400 font-bold' : 'text-slate-800 dark:text-zinc-200'">
+                                        <span>Unpaid</span>
+                                        <span x-show="paymentVal == 'unpaid'" class="font-bold shrink-0 ml-2">✓</span>
+                                    </button>
+                                    <button type="button" @click="paymentVal = 'paid'; paymentOpen = false;" class="w-full text-left px-3.5 py-2 text-xs font-medium transition flex items-center justify-between hover:bg-blue-600 hover:text-white" :class="paymentVal == 'paid' ? 'bg-blue-600/15 text-blue-600 dark:text-blue-400 font-bold' : 'text-slate-800 dark:text-zinc-200'">
+                                        <span>Paid</span>
+                                        <span x-show="paymentVal == 'paid'" class="font-bold shrink-0 ml-2">✓</span>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- 4. Update Button -->
+                            <button type="submit" class="btn-primary h-9 py-1 px-3 text-xs whitespace-nowrap">
                                 Update Order & Machine
                             </button>
                         </form>

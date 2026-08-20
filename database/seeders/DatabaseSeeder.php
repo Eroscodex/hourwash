@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\CustomerProfile;
 use App\Models\Machine;
-use App\Models\Service;
 use App\Models\StaffProfile;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -92,85 +91,10 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // 5. Laundry Services
-        $services = [
-            [
-                'name' => 'Wash & Dry',
-                'description' => 'Complete washing and drying service.',
-                'service_type' => 'wash_dry',
-                'price' => 120.00,
-                'price_unit' => 'kg',
-                'estimated_minutes' => 120,
-                'status' => 'active',
-            ],
-            [
-                'name' => 'Premium Wash',
-                'description' => 'Premium cleaning service for regular clothing.',
-                'service_type' => 'wash',
-                'price' => 100.00,
-                'price_unit' => 'kg',
-                'estimated_minutes' => 90,
-                'status' => 'active',
-            ],
-            [
-                'name' => 'Wash, Dry & Fold',
-                'description' => 'Complete wash, dry and folding service.',
-                'service_type' => 'wash_dry_fold',
-                'price' => 200.00,
-                'price_unit' => 'kg',
-                'estimated_minutes' => 150,
-                'status' => 'active',
-            ],
-            [
-                'name' => 'Comforters & Blankets',
-                'description' => 'Special care for large laundry items.',
-                'service_type' => 'blanket',
-                'price' => 250.00,
-                'price_unit' => 'item',
-                'estimated_minutes' => 180,
-                'status' => 'active',
-            ],
-            [
-                'name' => 'Pickup & Delivery',
-                'description' => 'Laundry pickup and delivery service.',
-                'service_type' => 'pickup_delivery',
-                'price' => 50.00,
-                'price_unit' => 'service',
-                'estimated_minutes' => 30,
-                'status' => 'active',
-            ],
-        ];
+        // 5. Laundry Services (Official Hour Wash Packages & Pricing)
+        $this->call(OfficialServicesSeeder::class);
 
-        foreach ($services as $srv) {
-            Service::firstOrCreate(['name' => $srv['name']], $srv);
-        }
-
-        // 6. Machines (Full 20-Machine Store Fleet)
-        $machines = [
-            ['machine_code' => 'WM-001', 'machine_name' => 'Machine 1', 'machine_type' => 'washer', 'status' => 'idle', 'remaining_minutes' => null],
-            ['machine_code' => 'WM-002', 'machine_name' => 'Machine 2', 'machine_type' => 'washer', 'status' => 'idle', 'remaining_minutes' => null],
-            ['machine_code' => 'DR-001', 'machine_name' => 'Machine 3', 'machine_type' => 'dryer', 'status' => 'idle', 'remaining_minutes' => null],
-            ['machine_code' => 'WD-001', 'machine_name' => 'Machine 4', 'machine_type' => 'washer_dryer', 'status' => 'idle', 'remaining_minutes' => null],
-            ['machine_code' => 'WM-003', 'machine_name' => 'Machine 5', 'machine_type' => 'washer', 'status' => 'idle', 'remaining_minutes' => null],
-            ['machine_code' => 'WM-004', 'machine_name' => 'Machine 6', 'machine_type' => 'washer', 'status' => 'idle', 'remaining_minutes' => null],
-            ['machine_code' => 'DR-002', 'machine_name' => 'Machine 7', 'machine_type' => 'dryer', 'status' => 'idle', 'remaining_minutes' => null],
-            ['machine_code' => 'WD-002', 'machine_name' => 'Machine 8', 'machine_type' => 'washer_dryer', 'status' => 'idle', 'remaining_minutes' => null],
-            ['machine_code' => 'WM-005', 'machine_name' => 'Machine 9', 'machine_type' => 'washer', 'status' => 'idle', 'remaining_minutes' => null],
-            ['machine_code' => 'WM-006', 'machine_name' => 'Machine 10', 'machine_type' => 'washer', 'status' => 'idle', 'remaining_minutes' => null],
-            ['machine_code' => 'DR-003', 'machine_name' => 'Machine 11', 'machine_type' => 'dryer', 'status' => 'idle', 'remaining_minutes' => null],
-            ['machine_code' => 'DR-004', 'machine_name' => 'Machine 12', 'machine_type' => 'dryer', 'status' => 'idle', 'remaining_minutes' => null],
-            ['machine_code' => 'WM-007', 'machine_name' => 'Machine 13', 'machine_type' => 'washer', 'status' => 'idle', 'remaining_minutes' => null],
-            ['machine_code' => 'WM-008', 'machine_name' => 'Machine 14', 'machine_type' => 'washer', 'status' => 'idle', 'remaining_minutes' => null],
-            ['machine_code' => 'DR-005', 'machine_name' => 'Machine 15', 'machine_type' => 'dryer', 'status' => 'idle', 'remaining_minutes' => null],
-            ['machine_code' => 'WD-003', 'machine_name' => 'Machine 16', 'machine_type' => 'washer_dryer', 'status' => 'idle', 'remaining_minutes' => null],
-            ['machine_code' => 'WM-009', 'machine_name' => 'Machine 17', 'machine_type' => 'washer', 'status' => 'idle', 'remaining_minutes' => null],
-            ['machine_code' => 'WM-010', 'machine_name' => 'Machine 18', 'machine_type' => 'washer', 'status' => 'idle', 'remaining_minutes' => null],
-            ['machine_code' => 'DR-006', 'machine_name' => 'Machine 19', 'machine_type' => 'dryer', 'status' => 'idle', 'remaining_minutes' => null],
-            ['machine_code' => 'WD-004', 'machine_name' => 'Machine 20', 'machine_type' => 'washer_dryer', 'status' => 'idle', 'remaining_minutes' => null],
-        ];
-
-        foreach ($machines as $m) {
-            Machine::firstOrCreate(['machine_code' => $m['machine_code']], $m);
-        }
+        // 6. Machines (Full 20 Commercial Washer & Dryer Combo Machine Fleet)
+        $this->call(CleanMachineFleetSeeder::class);
     }
 }

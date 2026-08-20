@@ -12,7 +12,7 @@
             </div>
         </div>
 
-                <!-- Quick Navbar Selection Shortcuts -->
+        <!-- Quick Navbar Selection Shortcuts -->
         <div>
             <h2 class="text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">
                 Quick Navbar Selection Shortcuts
@@ -39,6 +39,23 @@
                         </span>
                         <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
                             {{ $recentOrders->count() }} total bookings
+                        </span>
+                    </div>
+                </a>
+
+                <a href="{{ route('frequent_card.index') }}"
+                   class="app-card p-3.5 flex flex-col justify-between hover:border-pink-500 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group border-l-4 border-l-pink-500">
+                    <div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-pink-600 transition block truncate">
+                                Frequent User Card
+                            </span>
+                        </div>
+                        <span class="text-[10px] text-pink-600 dark:text-pink-400 font-mono font-bold block mt-1">
+                            {{ auth()->user()->stamps_count ?? 0 }}/12 Stamps
+                            @if((auth()->user()->discount_rewards_available ?? 0) > 0)
+                                <span class="text-[9px] bg-emerald-600 text-white px-1 rounded ml-1 font-bold">REWARD</span>
+                            @endif
                         </span>
                     </div>
                 </a>
@@ -154,13 +171,15 @@
                             </span>
                             STORE OPEN TODAY
                         </span>
-                        <p class="text-sm sm:text-base font-bold text-slate-900 dark:text-slate-100 mt-1">7:00 AM - 6:00 PM</p>
+                        <p class="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100 mt-1">7:30 AM – 6:00 PM (Mon – Sun)</p>
+                        <p class="text-[11px] font-semibold text-amber-600 dark:text-amber-400 mt-0.5">⏱️ Same-Day Cut-Off: 4:30 PM</p>
                     @else
                         <span class="inline-flex items-center gap-2 text-xs sm:text-sm font-extrabold text-rose-600 dark:text-rose-400 tracking-wide">
                             <span class="w-2 h-2 rounded-full bg-rose-500 shrink-0"></span>
                             STORE CLOSED TODAY
                         </span>
-                        <p class="text-sm sm:text-base font-bold text-slate-500 dark:text-slate-400 mt-1">Closed All Day</p>
+                        <p class="text-xs sm:text-sm font-bold text-slate-500 dark:text-slate-400 mt-1">7:30 AM – 6:00 PM (Mon – Sun)</p>
+                        <p class="text-[11px] font-semibold text-rose-500 dark:text-rose-400 mt-0.5">Closed All Day</p>
                     @endif
                 </div>
             </div>

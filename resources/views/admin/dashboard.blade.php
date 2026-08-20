@@ -672,13 +672,10 @@
                     </p>
                 </div>
 
-                <div class="grid grid-cols-2 sm:flex sm:items-center gap-2 w-full sm:w-auto">
-                    <a href="{{ route('laundry.create') }}" class="btn-primary py-1.5 px-3 text-xs w-full sm:w-auto text-center flex items-center justify-center">
-                        + New Order
-                    </a>
-                    <a href="{{ route('admin.laundry.index') }}" class="btn-secondary py-1.5 px-3 text-xs w-full sm:w-auto text-center flex items-center justify-center">
-                        View All Orders Queue
-                    </a>
+                <div class="flex items-center gap-2">
+                    <span class="px-3 py-1.5 rounded-lg bg-blue-600/15 text-blue-600 dark:text-blue-400 text-xs font-bold shrink-0 border border-blue-600/30">
+                        Live Rider Dispatch Fleet
+                    </span>
                 </div>
             </div>
 
@@ -707,42 +704,107 @@
             </div>
         </div>
 
-                <div class="app-card p-4 sm:p-6 space-y-4">
+        <!-- Top Store Customers & Laundry Order Frequency -->
+        @php
+            $laundryCustomers = \App\Models\User::whereIn('role', ['customer', 'user'])
+                ->withCount('orders')
+                ->withSum('orders', 'total_amount')
+                ->with(['orders' => function($q) {
+                    $q->latest()->limit(1);
+                }])
+                ->orderByDesc('orders_count')
+                ->take(8)
+                ->get();
+        @endphp
+
+        <div class="app-card p-4 sm:p-6 space-y-4">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-zinc-800 pb-3">
                 <div>
                     <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
-                        Overall System Reports & Order Stage Breakdown
+                        Customer Laundry Activity & Order History
                     </h2>
-                    <p class="text-xs text-slate-500 dark:text-slate-400">
-                        Comprehensive summary of order distribution across laundry lifecycle stages
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                        Overview of registered store customers and their total accumulated laundry orders
                     </p>
                 </div>
-                <span class="px-3 py-1 rounded-md bg-blue-600/15 text-blue-600 dark:text-blue-400 text-xs font-bold shrink-0 w-fit">
-                    {{ count($laundryStatus ?? []) }} Stage(s) Reported
-                </span>
+                <a href="{{ route('admin.users.index') }}" class="btn-secondary py-1.5 px-3 text-xs w-full sm:w-auto text-center flex items-center justify-center">
+                    Manage All Customers
+                </a>
             </div>
 
-            <div class="overflow-x-auto">
-                <table class="w-full text-xs">
-                    <thead class="bg-black/5 dark:bg-[#18181B] text-slate-700 dark:text-slate-300 uppercase text-[10px] tracking-wider border-b border-slate-200 dark:dark:border-zinc-700">
+            <div class="overflow-x-auto border border-slate-200 dark:border-zinc-800 rounded-lg">
+                <table class="w-full text-xs whitespace-nowrap min-w-[650px]">
+                    <thead class="bg-black/5 dark:bg-[#18181B] text-slate-700 dark:text-slate-300 uppercase text-[10px] tracking-wider border-b border-slate-200 dark:border-zinc-700">
                         <tr>
-                            <th class="text-left px-4 py-3">Stage Status</th>
-                            <th class="text-left px-4 py-3">Total Orders Count</th>
+                            <th class="text-left px-4 py-3">Customer</th>
+                            <th class="text-left px-4 py-3">Phone Contact</th>
+                            <th class="text-center px-4 py-3">Total Orders Placed</th>
+                            <th class="text-left px-4 py-3">Total Spent</th>
+                            <th class="text-left px-4 py-3">Latest Order</th>
+                            <th class="text-center px-4 py-3">Action</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-black/5 dark:divide-white/5 text-slate-900 dark:text-slate-200">
-                        @forelse($laundryStatus ?? [] as $status)
+                        @forelse($laundryCustomers as $customer)
+                            @php $latestOrder = $customer->orders->first(); @endphp
                             <tr class="hover:bg-black/5 dark:hover:bg-white/5 transition">
-                                <td class="px-4 py-3 text-slate-900 dark:text-slate-200 capitalize font-medium">
-                                    {{ $status->status === 'finish' ? 'Finish' : str_replace('_', ' ', $status->status) }}
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center gap-2.5">
+                                        <div class="w-8 h-8 rounded-full bg-blue-600/15 text-blue-600 dark:text-blue-400 font-bold flex items-center justify-center text-xs shrink-0 border border-blue-600/30 uppercase">
+                                            {{ substr($customer->name, 0, 1) }}
+                                        </div>
+                                        <div>
+                                            <span class="font-semibold block text-slate-900 dark:text-white leading-tight">
+                                                {{ $customer->name }}
+                                            </span>
+                                            <span class="text-[10px] text-slate-500 dark:text-slate-400 block truncate">
+                                                {{ $customer->email }}
+                                            </span>
+                                        </div>
+                                    </div>
                                 </td>
-                                <td class="px-4 py-3 text-slate-900 dark:text-white font-bold">
-                                    {{ $status->total }}
+                                <td class="px-4 py-3 text-slate-600 dark:text-slate-300 text-[11px] font-medium">
+                                    {{ $customer->phone ?? 'No phone' }}
+                                </td>
+                                <td class="px-4 py-3 text-center">
+                                    <div class="flex flex-col items-center gap-1">
+                                        <span class="px-2.5 py-1 rounded-md text-xs font-bold inline-flex items-center gap-1 {{ $customer->orders_count > 0 ? 'bg-blue-600/15 text-blue-600 dark:text-blue-400 border border-blue-600/30' : 'bg-slate-100 text-slate-500 dark:bg-zinc-800 dark:text-slate-400 border border-slate-200 dark:border-zinc-700' }}">
+                                            {{ $customer->orders_count }} {{ Str::plural('Order', $customer->orders_count) }}
+                                        </span>
+                                        <span class="text-[10px] font-bold text-pink-600 dark:text-pink-400 inline-flex items-center gap-1">
+                                            {{ $customer->stamps_count ?? 0 }}/12 Stamps
+                                            @if(($customer->discount_rewards_available ?? 0) > 0)
+                                                <span class="text-[9px] bg-pink-500 text-white px-1.5 py-0.2 rounded font-extrabold">REWARD READY</span>
+                                            @endif
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-3 font-semibold text-emerald-600 dark:text-emerald-400 text-xs">
+                                    ₱{{ number_format($customer->orders_sum_total_amount ?? 0, 2) }}
+                                </td>
+                                <td class="px-4 py-3">
+                                    @if($latestOrder)
+                                        <div>
+                                            <span class="font-mono font-bold text-blue-600 dark:text-blue-400 text-[11px]">#{{ $latestOrder->order_number }}</span>
+                                            <span class="text-[10px] text-slate-500 dark:text-slate-400 block">
+                                                {{ $latestOrder->created_at->format('M d, Y') }} ({{ str_replace('_', ' ', $latestOrder->order_status) }})
+                                            </span>
+                                        </div>
+                                    @else
+                                        <span class="text-[10px] text-slate-400 dark:text-slate-500 italic">No orders yet</span>
+                                    @endif
+                                </td>
+                                <td class="px-4 py-3 text-center">
+                                    <a href="{{ route('admin.laundry.index') }}" class="btn-secondary py-1 px-3 text-[11px]">
+                                        View Orders
+                                    </a>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="2" class="text-center py-4 text-xs text-slate-500">No order stage data available.</td>
+                                <td colspan="6" class="text-center py-6 text-xs text-slate-500">
+                                    No registered customers found.
+                                </td>
                             </tr>
                         @endforelse
                     </tbody>

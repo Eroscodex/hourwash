@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Machine;
 use App\Models\Order;
+use App\Models\OrderStatusHistory;
 use App\Models\SmsNotification;
 use App\Models\User;
 use App\Services\EmailNotificationService;
@@ -46,6 +47,18 @@ class LaundryController extends Controller
 
             if ($request->filled('status')) {
                 $order->order_status = $request->status;
+
+                try {
+                    OrderStatusHistory::create([
+                        'order_id' => $order->id,
+                        'status' => $request->status,
+                        'changed_by' => auth()->id(),
+                        'notes' => 'Order status updated to '.strtoupper(str_replace('_', ' ', $request->status)),
+                        'created_at' => now(),
+                    ]);
+                } catch (\Throwable $e) {
+                    Log::warning('Failed to log order status history: '.$e->getMessage());
+                }
 
                 // When washing cycle starts, recalculate estimated completion time starting from now
                 if ($request->status === 'washing') {
@@ -101,11 +114,26 @@ class LaundryController extends Controller
                 }
             }
 
+            $previousStatus = $order->getOriginal('order_status');
+            if ($request->filled('status')) {
+                $order->order_status = $request->status;
+                if ($request->status === 'completed' && $previousStatus !== 'completed') {
+                    $order->completed_at = now();
+                }
+            }
+
             if ($request->filled('payment_status')) {
                 $order->payment_status = $request->payment_status;
             }
 
             $order->save();
+
+            // Award 1 Frequent User stamp if order completed
+            if ($request->filled('status') && $request->status === 'completed' && $previousStatus !== 'completed') {
+                if ($order->customer) {
+                    $order->customer->addStamp(1);
+                }
+            }
 
             // Eager load relationships so customer and service data are present in notifications
             $order->load(['customer', 'service', 'customer.customerProfile', 'machine']);
