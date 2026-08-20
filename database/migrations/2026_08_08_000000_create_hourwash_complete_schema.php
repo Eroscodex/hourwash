@@ -41,9 +41,9 @@ return new class extends Migration
             $table->id();
             $table->string('name', 150);
             $table->text('description')->nullable();
-            $table->enum('service_type', ['wash', 'dry', 'wash_dry', 'wash_dry_fold', 'blanket', 'pickup_delivery', 'other'])->default('wash_dry');
+            $table->string('service_type', 50)->default('wash_dry');
             $table->decimal('price', 10, 2)->default(0.00);
-            $table->enum('price_unit', ['kg', 'load', 'item', 'service'])->default('kg');
+            $table->string('price_unit', 50)->default('load');
             $table->unsignedInteger('estimated_minutes')->default(60);
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
