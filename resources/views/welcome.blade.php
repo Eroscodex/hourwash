@@ -141,10 +141,10 @@
                 <div class="lg:col-span-7 space-y-5">
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800/60 text-xs font-semibold">
                         <span class="w-2 h-2 rounded-full bg-blue-600 dark:bg-blue-400 animate-pulse"></span>
-                        Hour Wash Laundry • Legazpi City
+                        Hour Wash Laundry Shop
                     </div>
 
-                    <h1 class="text-2xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-tight">
+                    <h1 class="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-snug">
                         Professional Clean. <br>
                         <span class="text-blue-600 dark:text-blue-400">Fast 1-Hour Wash & Live Tracking</span>
                     </h1>
@@ -248,23 +248,23 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3.5">
                 @forelse($services as $service)
-                    <div class="app-card p-5 flex flex-col justify-between space-y-4 hover:border-blue-500/40 transition">
+                    <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3 hover:border-blue-500/40 transition">
                         <div class="space-y-2">
-                            <div class="flex items-center justify-between">
-                                <h3 class="text-lg font-bold text-slate-900 dark:text-white">{{ $service->name }}</h3>
-                                <span class="text-blue-600 dark:text-blue-400 font-bold text-base">₱{{ number_format($service->price, 2) }}</span>
+                            <div class="flex items-start justify-between gap-2">
+                                <h3 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white leading-tight flex-1">{{ $service->name }}</h3>
+                                <span class="text-blue-600 dark:text-blue-400 font-extrabold text-sm sm:text-base shrink-0 whitespace-nowrap">₱{{ number_format($service->price, 2) }}</span>
                             </div>
-                            <p class="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed">{{ $service->description ?? 'Full wash, rinse, and dry cycle.' }}</p>
+                            <p class="text-[11px] sm:text-xs text-slate-600 dark:text-zinc-400 leading-relaxed">{{ $service->description ?? 'Full wash, rinse, and dry cycle.' }}</p>
                         </div>
-                        <div class="pt-3 border-t border-slate-200 dark:border-zinc-800 flex items-center justify-between text-xs">
-                            <span class="text-slate-500 dark:text-zinc-400">Price Unit: <strong class="text-slate-800 dark:text-zinc-200">Per {{ $service->price_unit }}</strong></span>
+                        <div class="pt-2.5 border-t border-slate-200 dark:border-zinc-800 flex items-center justify-between text-[11px] gap-1">
+                            <span class="text-slate-500 dark:text-zinc-400 truncate">Per {{ $service->price_unit }}</span>
                             @php
                                 $mins = $service->estimated_minutes;
                                 $hrs = floor($mins / 60);
                                 $remMins = $mins % 60;
-                                $durationFormatted = $hrs > 0 ? ($remMins > 0 ? "~{$hrs} hrs {$remMins} mins" : "~{$hrs} hrs") : "~{$mins} mins";
+                                $durationFormatted = $hrs > 0 ? ($remMins > 0 ? "~{$hrs}h {$remMins}m" : "~{$hrs} hrs") : "~{$mins} mins";
                             @endphp
-                            <span class="text-blue-600 dark:text-blue-400 font-semibold">{{ $durationFormatted }}</span>
+                            <span class="text-blue-600 dark:text-blue-400 font-bold shrink-0 whitespace-nowrap">{{ $durationFormatted }}</span>
                         </div>
                     </div>
                 @empty
@@ -453,7 +453,7 @@
                 <span>•</span>
                 <a href="{{ route('terms') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Terms & Conditions</a>
                 <span>•</span>
-                <a href="https://maps.app.goo.gl/3yJAPrj4HQTZJPRb9" target="_blank" rel="noopener noreferrer" class="font-medium text-slate-700 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400 transition">Magallanes St., Orosite, Legazpi City</a>
+                <a href="https://maps.app.goo.gl/3yJAPrj4HQTZJPRb9" target="_blank" rel="noopener noreferrer" class="font-medium text-slate-700 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400 transition">Location: Magallanes St., Orosite, Legazpi City</a>
             </div>
         </div>
     </footer>

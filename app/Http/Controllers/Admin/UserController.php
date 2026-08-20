@@ -191,4 +191,26 @@ class UserController extends Controller
             ->route('admin.users.index')
             ->with('success', "User account '{$name}' deleted successfully!");
     }
+
+    /**
+     * Update customer Frequent User Card stamps & rewards (Admin Management)
+     */
+    public function updateStamps(Request $request, string $id)
+    {
+        $user = User::findOrFail($id);
+
+        $request->validate([
+            'stamps_count' => 'required|integer|min:0|max:12',
+            'discount_rewards_available' => 'required|integer|min:0|max:99',
+            'completed_cards_count' => 'required|integer|min:0|max:999',
+        ]);
+
+        $user->update([
+            'stamps_count' => $request->stamps_count,
+            'discount_rewards_available' => $request->discount_rewards_available,
+            'completed_cards_count' => $request->completed_cards_count,
+        ]);
+
+        return back()->with('success', "Frequent User Card updated for customer '{$user->name}'! (Stamps: {$user->stamps_count}/12, Rewards: {$user->discount_rewards_available}, Completed Cards: {$user->completed_cards_count})");
+    }
 }

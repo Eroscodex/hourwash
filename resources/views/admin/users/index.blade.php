@@ -70,19 +70,19 @@
             </form>
 
             <div class="flex flex-wrap items-center gap-1.5 text-xs">
-                <a href="{{ route('admin.users.index') }}" 
+                <a href="{{ route('admin.users.index') }}"
                    class="px-3 py-1.5 rounded-lg font-bold transition {{ !request('role') ? 'bg-blue-600 text-white' : 'bg-slate-100 dark:dark:bg-zinc-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200' }}">
                     All
                 </a>
-                <a href="{{ route('admin.users.index', ['role' => 'rider']) }}" 
+                <a href="{{ route('admin.users.index', ['role' => 'rider']) }}"
                    class="px-3 py-1.5 rounded-lg font-bold transition {{ request('role') === 'rider' ? 'bg-cyan-600 text-white' : 'bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border border-cyan-500/30' }}">
                     Riders ({{ $riderCount }})
                 </a>
-                <a href="{{ route('admin.users.index', ['role' => 'staff']) }}" 
+                <a href="{{ route('admin.users.index', ['role' => 'staff']) }}"
                    class="px-3 py-1.5 rounded-lg font-bold transition {{ request('role') === 'staff' ? 'bg-amber-600 text-white' : 'bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30' }}">
                     Staff ({{ $staffCount }})
                 </a>
-                <a href="{{ route('admin.users.index', ['role' => 'customer']) }}" 
+                <a href="{{ route('admin.users.index', ['role' => 'customer']) }}"
                    class="px-3 py-1.5 rounded-lg font-bold transition {{ request('role') === 'customer' ? 'bg-sky-600 text-white' : 'bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-500/30' }}">
                     Customers ({{ $customerCount }})
                 </a>
@@ -146,6 +146,10 @@
                             </td>
                             <td class="px-4 py-2 text-right">
                                 <div class="flex items-center justify-end gap-1.5">
+                                    <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'manage-stamps-{{ $user->id }}')" class="p-1 text-pink-600 dark:text-pink-400 hover:bg-pink-500/10 rounded-lg transition" title="Manage Frequent User Stamp Card">
+                                        Voucher Stamps
+                                    </button>
+
                                     <button onclick="document.getElementById('edit-user-modal-{{ $user->id }}').classList.remove('hidden')" class="p-1 text-blue-500 hover:bg-blue-500/10 rounded-lg transition" title="Edit User">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                                     </button>
@@ -153,6 +157,55 @@
                                     <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'delete-user-{{ $user->id }}')" class="p-1 text-rose-500 hover:bg-rose-500/10 rounded-lg transition" title="Delete User">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                                     </button>
+
+                                    <!-- Manage Stamp Card Modal -->
+                                    <x-modal name="manage-stamps-{{ $user->id }}" maxWidth="md">
+                                        <form method="POST" action="{{ route('admin.users.stamps.update', $user->id) }}" class="p-6 bg-white dark:bg-[#141417] text-slate-900 dark:text-zinc-100 space-y-4 rounded-lg text-left">
+                                            @csrf
+                                            @method('PATCH')
+                                            <div class="flex items-center justify-between border-b border-slate-200 dark:border-zinc-800 pb-3">
+                                                <h2 class="text-sm font-bold text-pink-600 dark:text-pink-400 flex items-center gap-2">
+                                                    Manage Loyalty Stamp Card ({{ $user->name }})
+                                                </h2>
+                                                <button type="button" x-on:click="$dispatch('close')" class="text-slate-400 hover:text-slate-600">✕</button>
+                                            </div>
+
+                                            <div class="space-y-3 text-xs">
+                                                <div>
+                                                    <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Active Stamp Count (0 to 12)</label>
+                                                    <input type="number" name="stamps_count" value="{{ $user->stamps_count ?? 0 }}" min="0" max="12" class="w-full">
+                                                    <p class="text-[10.5px] text-slate-500 dark:text-slate-400 mt-1">
+                                                        Current progress on active Frequent User Card.
+                                                    </p>
+                                                </div>
+
+                                                <div>
+                                                    <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Discount Rewards Available (₱50.00 OFF Tokens)</label>
+                                                    <input type="number" name="discount_rewards_available" value="{{ $user->discount_rewards_available ?? 0 }}" min="0" max="99" class="w-full">
+                                                    <p class="text-[10.5px] text-slate-500 dark:text-slate-400 mt-1">
+                                                        Number of unlocked ₱50.00 OFF loyalty discount rewards available for redemption.
+                                                    </p>
+                                                </div>
+
+                                                <div>
+                                                    <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Completed Cards History (Total 12-Stamp Cards)</label>
+                                                    <input type="number" name="completed_cards_count" value="{{ $user->completed_cards_count ?? 0 }}" min="0" max="999" class="w-full">
+                                                    <p class="text-[10.5px] text-slate-500 dark:text-slate-400 mt-1">
+                                                        Total lifetime completed 12-stamp cards earned by this customer.
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <div class="pt-3 flex items-center justify-end gap-3 border-t border-slate-200 dark:border-zinc-800">
+                                                <button type="button" x-on:click="$dispatch('close')" class="btn-secondary text-xs py-1.5 px-3">
+                                                    Cancel
+                                                </button>
+                                                <button type="submit" class="btn-primary text-xs py-1.5 px-3 bg-pink-600 hover:bg-pink-700">
+                                                    Save Stamp Changes
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </x-modal>
 
                                     <x-modal name="delete-user-{{ $user->id }}" maxWidth="sm">
                                         <div class="p-6 bg-white dark:bg-[#141417] text-slate-900 dark:text-zinc-100 space-y-4 rounded-lg text-left">

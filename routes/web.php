@@ -520,6 +520,7 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::resource('machines', MachineController::class);
     Route::resource('services', ServiceController::class);
     Route::resource('users', UserController::class);
+    Route::patch('/users/{user}/stamps', [UserController::class, 'updateStamps'])->name('users.stamps.update');
     Route::get('/laundry', [AdminLaundryController::class, 'index'])->name('laundry.index');
     Route::match(['post', 'patch'], '/laundry/{order}', [AdminLaundryController::class, 'update'])->name('laundry.update');
     Route::get('/analytics', function () {
