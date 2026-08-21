@@ -715,25 +715,40 @@
 
             <!-- Rider 5-Stage Logistics Analytics Grid -->
             <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
-                <div class="app-card p-4 text-center border-amber-500/30">
-                    <span class="text-[10px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider block">1. Pickup Requests</span>
-                    <span class="text-xl font-bold text-slate-900 dark:text-white font-mono mt-1 block">{{ $riderPickupRequests ?? 0 }}</span>
+                <div class="card-accent-amber p-4 flex items-center justify-between shadow-sm">
+                    <div>
+                        <span class="text-[10.5px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider block">1. Pickup</span>
+                        <span class="text-xs text-slate-500 dark:text-slate-400">Requests</span>
+                    </div>
+                    <span class="text-2xl font-black text-amber-600 dark:text-amber-400 font-mono">{{ $riderPickupRequests ?? 0 }}</span>
                 </div>
-                <div class="app-card p-4 text-center border-blue-500/30">
-                    <span class="text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider block">2. In-Shop Received</span>
-                    <span class="text-xl font-bold text-slate-900 dark:text-white font-mono mt-1 block">{{ $riderReceivedCount ?? 0 }}</span>
+                <div class="card-accent-blue p-4 flex items-center justify-between shadow-sm">
+                    <div>
+                        <span class="text-[10.5px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider block">2. In-Shop</span>
+                        <span class="text-xs text-slate-500 dark:text-slate-400">Received</span>
+                    </div>
+                    <span class="text-2xl font-black text-blue-600 dark:text-blue-400 font-mono">{{ $riderReceivedCount ?? 0 }}</span>
                 </div>
-                <div class="app-card p-4 text-center border-cyan-500/30">
-                    <span class="text-[10px] font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider block">3. Out For Delivery</span>
-                    <span class="text-xl font-bold text-slate-900 dark:text-white font-mono mt-1 block">{{ $riderDeliveryCount ?? 0 }}</span>
+                <div class="card-accent-purple p-4 flex items-center justify-between shadow-sm">
+                    <div>
+                        <span class="text-[10.5px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider block">3. Delivery</span>
+                        <span class="text-xs text-slate-500 dark:text-slate-400">Out en-route</span>
+                    </div>
+                    <span class="text-2xl font-black text-purple-600 dark:text-purple-400 font-mono">{{ $riderDeliveryCount ?? 0 }}</span>
                 </div>
-                <div class="app-card p-4 text-center border-emerald-500/30">
-                    <span class="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block">4. Completed / Delivered</span>
-                    <span class="text-xl font-bold text-slate-900 dark:text-white font-mono mt-1 block">{{ $riderCompletedCount ?? 0 }}</span>
+                <div class="card-accent-emerald p-4 flex items-center justify-between shadow-sm">
+                    <div>
+                        <span class="text-[10.5px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block">4. Done</span>
+                        <span class="text-xs text-slate-500 dark:text-slate-400">Completed</span>
+                    </div>
+                    <span class="text-2xl font-black text-emerald-600 dark:text-emerald-400 font-mono">{{ $riderCompletedCount ?? 0 }}</span>
                 </div>
-                <div class="app-card p-4 text-center border-rose-500/30 col-span-2 sm:col-span-1">
-                    <span class="text-[10px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider block">5. Cancelled</span>
-                    <span class="text-xl font-bold text-slate-900 dark:text-white font-mono mt-1 block">{{ $riderCancelledCount ?? 0 }}</span>
+                <div class="card-accent-rose p-4 flex items-center justify-between shadow-sm col-span-2 sm:col-span-1">
+                    <div>
+                        <span class="text-[10.5px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider block">5. Cancelled</span>
+                        <span class="text-xs text-slate-500 dark:text-slate-400">Orders</span>
+                    </div>
+                    <span class="text-2xl font-black text-rose-600 dark:text-rose-400 font-mono">{{ $riderCancelledCount ?? 0 }}</span>
                 </div>
             </div>
         </div>
