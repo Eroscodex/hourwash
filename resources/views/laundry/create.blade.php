@@ -187,11 +187,11 @@
                 </p>
             </div>
 
-            <!-- Detergent / Powder Supplies Tipid Discount Option -->
+            <!-- Detergent / Powder Supplies Discount Option -->
             <div class="mb-5 p-4 rounded-lg bg-blue-600/5 dark:bg-blue-600/10 border border-blue-600/20 space-y-3">
                 <div class="flex items-center justify-between">
                     <label class="block text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
-                        Detergent & Supplies Option (Tipid Discount)
+                        Detergent & Supplies Option (Discount)
                     </label>
                     <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-600 dark:text-emerald-400">
                         SAVE MONEY
@@ -230,7 +230,7 @@
                         <input type="radio" name="supplies_option" value="own_both" class="mt-0.5 text-emerald-500" {{ old('supplies_option') === 'own_both' ? 'checked' : '' }}>
                         <div class="text-xs">
                             <span class="font-bold text-emerald-600 dark:text-emerald-400 block">Bring Own Powder & Softener</span>
-                            <span class="text-[10.5px] font-bold text-emerald-500 block">-₱25.00 Tipid Combo Discount</span>
+                            <span class="text-[10.5px] font-bold text-emerald-500 block">-₱25.00 Combo Discount</span>
                         </div>
                     </label>
                 </div>
@@ -384,7 +384,7 @@
                     <span id="summary-subtotal" class="font-semibold text-slate-900 dark:text-white">₱0.00</span>
                 </div>
                 <div class="flex justify-between text-emerald-600 dark:text-emerald-400 font-semibold">
-                    <span>Supplies Discount (Tipid Option):</span>
+                    <span>Supplies Discount Option:</span>
                     <span id="summary-discount">-₱0.00</span>
                 </div>
                 <div class="flex justify-between text-sm font-bold text-slate-900 dark:text-white pt-2 border-t border-slate-200 dark:dark:border-zinc-700">

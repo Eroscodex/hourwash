@@ -48,7 +48,7 @@
     @apply border-blue-500/40 dark:border-blue-500/40 shadow-sm;
 }
 
-/* Commercial Enterprise Buttons (6-8px Radius, Subtraction of AI Vibe Code Bouncing) */
+/* Commercial Enterprise Buttons */
 .btn-primary {
     @apply bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white font-semibold rounded-md px-4 py-2 text-xs sm:text-sm shadow-sm transition-all duration-150 active:scale-[0.98] inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-600/30;
 }

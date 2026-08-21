@@ -27,7 +27,7 @@
         }
     </script>
     <style>
-        /* Collapsed Sidebar (Tiklop) Styles - Desktop Only (min-width: 768px) */
+        /* Collapsed Sidebar Styles - Desktop Only (min-width: 768px) */
         @media (min-width: 768px) {
             html.sidebar-collapsed #sidebar {
                 width: 4.5rem !important;
@@ -315,7 +315,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                         </svg>
                     </button>
-                    <button id="toggle-collapse-sidebar" class="hidden md:flex p-2 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:dark:bg-zinc-800 focus:outline-none transition-all cursor-pointer" title="Toggle Sidebar Collapse (Tiklop)">
+                    <button id="toggle-collapse-sidebar" class="hidden md:flex p-2 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:dark:bg-zinc-800 focus:outline-none transition-all cursor-pointer" title="Toggle Sidebar Collapse">
                         <svg id="sidebar-toggle-icon" class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/>
                         </svg>

@@ -114,7 +114,7 @@ class LaundryController extends Controller
                 $subtotal = $service->price * $loadCount;
             }
 
-            // Calculate supplies discount (Tipid option: Customer brings own detergent/softener)
+            // Calculate supplies discount for self-provided detergent or softener
             $discount = 0.00;
             $suppliesLabel = '';
 
@@ -129,7 +129,7 @@ class LaundryController extends Controller
                     break;
                 case 'own_both':
                     $discount = 25.00;
-                    $suppliesLabel = '[Bring Own Powder & Softener (-₱25.00 Tipid Combo)]';
+                    $suppliesLabel = '[Bring Own Powder & Softener (-₱25.00 Combo Discount)]';
                     break;
                 default:
                     $discount = 0.00;
