@@ -139,37 +139,67 @@
                             <input type="hidden" name="machine_id" :value="machineVal">
                             <input type="hidden" name="payment_status" :value="paymentVal">
 
+                             @php
+                                $serviceType = $order->service?->service_type ?? '';
+                                $serviceName = strtolower($order->service?->name ?? '');
+
+                                $isWashOnly = str_contains($serviceName, 'wash only') || ($serviceType === 'wash') || (str_contains($serviceName, 'wash') && !str_contains($serviceName, 'dry') && !str_contains($serviceName, 'fold') && !str_contains($serviceName, 'full'));
+                                $isDryOnly = str_contains($serviceName, 'dry only') || ($serviceType === 'dry') || (str_contains($serviceName, 'dry') && !str_contains($serviceName, 'wash') && !str_contains($serviceName, 'full'));
+                                $isFoldOnly = str_contains($serviceName, 'fold only') || ($serviceType === 'fold') || (str_contains($serviceName, 'fold') && !str_contains($serviceName, 'wash') && !str_contains($serviceName, 'dry'));
+                                $isSelfService = str_contains($serviceName, 'self') || ($serviceType === 'wash_dry');
+
+                                $isPickupDeliveryService = ($serviceType === 'pickup_delivery' || str_contains($serviceName, 'pickup'));
+                                $isPickupType = in_array($order->pickup_type, ['pickup', 'delivery', 'pickup_delivery']);
+                                $isDeliveryOrder = ($isPickupDeliveryService || $isPickupType);
+
+                                $orderStatusOptions = [];
+                                $stepNum = 1;
+
+                                $orderStatusOptions['pending'] = $stepNum++ . '. Pending (Order Placed)';
+
+                                if ($isDeliveryOrder) {
+                                    $orderStatusOptions['out_for_pickup'] = $stepNum++ . '. Out for Pickup';
+                                }
+
+                                $orderStatusOptions['received'] = $stepNum++ . '. Store Received';
+
+                                if ($isWashOnly || $isSelfService || (!$isDryOnly && !$isFoldOnly)) {
+                                    $orderStatusOptions['washing'] = $stepNum++ . '. Washing';
+                                    $orderStatusOptions['rinsing'] = $stepNum++ . '. Rinsing';
+                                }
+
+                                if ($isDryOnly || $isSelfService || (!$isWashOnly && !$isFoldOnly)) {
+                                    $orderStatusOptions['drying'] = $stepNum++ . '. Drying';
+                                }
+
+                                if ($isWashOnly) {
+                                    $finishLabel = 'FINISH (Washing Done - Ready for Claim)';
+                                } elseif ($isDryOnly) {
+                                    $finishLabel = 'FINISH (Drying Done - Ready for Claim)';
+                                } elseif ($isFoldOnly) {
+                                    $finishLabel = 'FINISH (Folding Done - Ready for Claim)';
+                                } else {
+                                    $finishLabel = 'FINISH (Folding & Ready - Ready for Claim)';
+                                }
+                                $orderStatusOptions['finish'] = $stepNum++ . '. ' . $finishLabel;
+
+                                if ($isDeliveryOrder) {
+                                    $orderStatusOptions['out_for_delivery'] = $stepNum++ . '. Out for Delivery';
+                                }
+
+                                $orderStatusOptions['completed'] = $stepNum++ . '. Completed';
+                                $orderStatusOptions['cancelled'] = 'Cancelled';
+                            @endphp
+
                             <!-- 1. Order Status Dropdown -->
                             <div class="relative inline-block" @click.outside="statusOpen = false">
                                 <button type="button" @click="statusOpen = !statusOpen; machineOpen = false; paymentOpen = false;" class="h-9 min-w-[170px] py-1 px-3 text-xs rounded-lg font-bold bg-white dark:bg-[#18181B] border border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100 flex items-center justify-between gap-2 shadow-sm">
-                                    <span class="truncate" x-text="{
-                                        'pending': '1. Pending (Order Placed)',
-                                        'out_for_pickup': '2. Out for Pickup',
-                                        'received': '3. Store Received',
-                                        'washing': '4. Washing',
-                                        'rinsing': '5. Rinsing',
-                                        'drying': '6. Drying',
-                                        'finish': '6. FINISH (Folding - Please Claim Order)',
-                                        'out_for_delivery': '8. Out for Delivery',
-                                        'completed': '9. Completed',
-                                        'cancelled': 'Cancelled'
-                                    }[statusVal]"></span>
+                                    <span class="truncate" x-text="({{ json_encode($orderStatusOptions) }}[statusVal] || statusVal)"></span>
                                     <svg class="w-3.5 h-3.5 text-slate-500 shrink-0 transition-transform duration-200" :class="statusOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                                 </button>
 
-                                <div x-show="statusOpen" x-cloak x-transition class="absolute z-50 top-full left-0 mt-1 min-w-[200px] w-full bg-white dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700 rounded-lg shadow-xl max-h-60 overflow-y-auto py-1 divide-y divide-slate-100 dark:divide-zinc-800/60">
-                                    @foreach([
-                                        'pending' => '1. Pending (Order Placed)',
-                                        'out_for_pickup' => '2. Out for Pickup',
-                                        'received' => '3. Store Received',
-                                        'washing' => '4. Washing',
-                                        'rinsing' => '5. Rinsing',
-                                        'drying' => '6. Drying',
-                                        'finish' => '6. FINISH (Folding - Please Claim Order)',
-                                        'out_for_delivery' => '8. Out for Delivery',
-                                        'completed' => '9. Completed',
-                                        'cancelled' => 'Cancelled'
-                                    ] as $sKey => $sVal)
+                                <div x-show="statusOpen" x-cloak x-transition class="absolute z-50 top-full left-0 mt-1 min-w-[220px] w-full bg-white dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700 rounded-lg shadow-xl max-h-60 overflow-y-auto py-1 divide-y divide-slate-100 dark:divide-zinc-800/60">
+                                    @foreach($orderStatusOptions as $sKey => $sVal)
                                         <button type="button" @click="statusVal = '{{ $sKey }}'; statusOpen = false;" class="w-full text-left px-3.5 py-2 text-xs font-medium transition flex items-center justify-between hover:bg-blue-600 hover:text-white" :class="statusVal == '{{ $sKey }}' ? 'bg-blue-600/15 text-blue-600 dark:text-blue-400 font-bold' : 'text-slate-800 dark:text-zinc-200'">
                                             <span>{{ $sVal }}</span>
                                             <span x-show="statusVal == '{{ $sKey }}'" class="font-bold shrink-0 ml-2">✓</span>
