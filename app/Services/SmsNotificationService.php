@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\SmsNotification;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -127,8 +128,8 @@ class SmsNotificationService
         $riderPhone = $order->pickupDelivery?->rider_phone;
 
         if (empty($riderName) || empty($riderPhone)) {
-            $currentUser = auth()->user();
-            if ($currentUser && $currentUser->isRider()) {
+            $currentUser = Auth::user();
+            if ($currentUser && $currentUser->role === 'rider') {
                 $riderName = $currentUser->name;
                 $riderPhone = $currentUser->phone;
             } else {
@@ -140,22 +141,22 @@ class SmsNotificationService
 
         if ($order->order_status === 'out_for_pickup') {
             if (! empty($riderName) && ! empty($riderPhone)) {
-                $message = "Hour Wash Alert: Hi {$custName}, Rider {$riderName} is EN ROUTE to pick up your laundry Order #{$code}! Rider Hotline: {$riderPhone}.";
+                $message = "HourWash: Hi {$custName}, Rider {$riderName} is on the way to pick up your laundry Order #{$code}! Rider Hotline: {$riderPhone}.";
             } else {
-                $message = "Hour Wash Alert: Hi {$custName}, your laundry Order #{$code} is QUEUED for pickup! A rider will be assigned shortly.";
+                $message = "HourWash: Hi {$custName}, your laundry Order #{$code} is QUEUED for pickup! A rider will be assigned shortly.";
             }
         } elseif ($order->order_status === 'out_for_delivery') {
             if (! empty($riderName) && ! empty($riderPhone)) {
-                $message = "Hour Wash Alert: Hi {$custName}, your laundry Order #{$code} is OUT FOR DELIVERY with Rider {$riderName}! Rider Hotline: {$riderPhone}.";
+                $message = "HourWash: Hi {$custName}, your laundry Order #{$code} is OUT FOR DELIVERY with Rider {$riderName}! Rider Hotline: {$riderPhone}.";
             } else {
-                $message = "Hour Wash Alert: Hi {$custName}, your laundry Order #{$code} is QUEUED for delivery! A rider will be dispatched shortly.";
+                $message = "HourWash: Hi {$custName}, your laundry Order #{$code} is QUEUED for delivery! A rider will be dispatched shortly.";
             }
         } elseif (in_array(strtolower($order->order_status), ['finish', 'folding', 'ready', 'ready_for_pickup', 'shelved_and_tagged'])) {
             $hotlineStr = ! empty($riderPhone) ? " Hotline: {$riderPhone}." : '';
-            $message = "Hour Wash Alert: Hi {$custName}, Order #{$code} is FINISHED & FOLDED! PLEASE CLAIM YOUR LAUNDRY ORDER AT HOUR WASH STORE.{$hotlineStr}";
+            $message = "HourWash: Hi {$custName}, Order #{$code} is FINISHED & FOLDED! PLEASE CLAIM YOUR LAUNDRY ORDER AT HOUR WASH STORE.{$hotlineStr}";
         } else {
             $machStr = $machineName ? " Machine: {$machineName}." : '';
-            $message = "Hour Wash: Hi {$custName}, Order #{$code} status is {$statusStr}.{$machStr} Est: {$compTime}.";
+            $message = "HourWash: Hi {$custName}, Order #{$code} status is {$statusStr}.{$machStr} Est: {$compTime}.";
         }
 
         if (! empty($customNote)) {
