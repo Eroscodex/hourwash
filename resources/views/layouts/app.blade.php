@@ -159,7 +159,7 @@
                             </a>
 
                             <a href="{{ route('admin.reviews.index') }}" title="Customer Reviews Outbox" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all {{ request()->routeIs('admin.reviews.*') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
-                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.１１８l-3.976-2.888c-.784-.57-.38-１．８１．５８８-１．８１h4．９１４a１ １ ０ ００．９５１-.６９l１．５１９-４．６７４z"/></svg>
+                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
                                 <div class="sidebar-text">
                                     <span class="block leading-snug text-[11.5px] font-bold whitespace-nowrap">Customer Reviews Outbox</span>
                                     <p class="text-[10px] opacity-75 font-normal block leading-tight mt-0.5 whitespace-nowrap">Ratings & feedback logs</p>
@@ -167,7 +167,7 @@
                             </a>
 
                             <a href="{{ route('admin.qr_scan_logs.index') }}" title="QR Scan Logs Outbox" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all {{ request()->routeIs('admin.qr_scan_logs.*') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
-                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a１ １ ０ ００１ －１．８１．５８８－１．８１h４．９１４a１ １ ０ ００．９５１－．６９l１．５１９－４．６７４z"/></svg>
+                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
                                 <div class="sidebar-text">
                                     <span class="block leading-snug text-[11.5px] font-bold whitespace-nowrap">QR Scan Logs Outbox</span>
                                     <p class="text-[10px] opacity-75 font-normal block leading-tight mt-0.5 whitespace-nowrap">Audit log of all QR scans</p>
@@ -187,7 +187,11 @@
                             <div class="sidebar-section-header px-3 py-2 text-[11px] font-extrabold text-slate-900 dark:text-slate-200 uppercase tracking-wider">Navigation</div>
 
                             <a href="{{ route('staff.dashboard') }}" title="Workstation Dashboard" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all {{ request()->routeIs('staff.dashboard') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
-                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a２ ２ ０ ０１２ －２v２a２ ２ ０ ０１－２ －２H６a２ ２ ０ ０１－２ －２v－２zM14 16a２ ２ ０ ０１２ －２h２a２
+                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                                <div class="sidebar-text">
+                                    <span class="block leading-snug">Workstation Dashboard</span>
+                                    <p class="text-[10.5px] opacity-75 font-normal block leading-tight mt-0.5">Queue & cashier processing</p>
+                                </div>
                             </a>
 
                             <a href="{{ route('staff.laundry.index') }}" title="Manage Laundry Orders" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all {{ request()->routeIs('staff.laundry.*') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
@@ -215,7 +219,7 @@
                             </a>
 
                             <a href="{{ route('staff.qr_scan_logs.index') }}" title="QR Scan Logs Outbox" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all {{ request()->routeIs('staff.qr_scan_logs.*') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
-                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a１ １ ０ ００１ －１zM5 2０h２a１ １ ０ ００１ －１v－２a１ １ ０ ００－１ －１H５a１ １ ０ ００－１ －１v２a１ １ ０ ００１ －１z"/></svg>
+                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
                                 <div class="sidebar-text">
                                     <span class="block leading-snug">QR Scan Logs Outbox</span>
                                     <p class="text-[10.5px] opacity-75 font-normal block leading-tight mt-0.5">Audit log of all QR scans</p>
