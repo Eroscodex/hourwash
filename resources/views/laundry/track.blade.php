@@ -74,34 +74,87 @@
             $serviceType = $order->service?->service_type ?? '';
             $serviceName = strtolower($order->service?->name ?? '');
 
+            $isWashOnly = str_contains($serviceName, 'wash only') || ($serviceType === 'wash') || (str_contains($serviceName, 'wash') && !str_contains($serviceName, 'dry') && !str_contains($serviceName, 'fold') && !str_contains($serviceName, 'full'));
+            $isDryOnly = str_contains($serviceName, 'dry only') || ($serviceType === 'dry') || (str_contains($serviceName, 'dry') && !str_contains($serviceName, 'wash') && !str_contains($serviceName, 'full'));
+            $isFoldOnly = str_contains($serviceName, 'fold only') || ($serviceType === 'fold') || (str_contains($serviceName, 'fold') && !str_contains($serviceName, 'wash') && !str_contains($serviceName, 'dry'));
+
             $isPickupDeliveryService = ($serviceType === 'pickup_delivery' || str_contains($serviceName, 'pickup'));
             $isPickupType = in_array($order->pickup_type, ['pickup', 'delivery', 'pickup_delivery']);
-
             $isWalkIn = (! $isPickupDeliveryService && ! $isPickupType);
 
-            if ($isWalkIn) {
+            if ($isWashOnly) {
+                if ($isWalkIn) {
+                    $stages = [
+                        'pending'   => ['step' => 1, 'label' => 'ORDER PLACED',    'pct' => 16],
+                        'received'  => ['step' => 2, 'label' => 'STORE RECEIVED',  'pct' => 33],
+                        'washing'   => ['step' => 3, 'label' => 'WASHING',         'pct' => 50],
+                        'rinsing'   => ['step' => 4, 'label' => 'RINSING',         'pct' => 66],
+                        'finish'    => ['step' => 5, 'label' => 'READY FOR PICKUP','pct' => 83],
+                        'completed' => ['step' => 6, 'label' => 'COMPLETED',       'pct' => 100],
+                    ];
+                } else {
+                    $stages = [
+                        'pending'          => ['step' => 1, 'label' => 'ORDER PLACED',    'pct' => 14],
+                        'out_for_pickup'   => ['step' => 2, 'label' => 'OUT FOR PICKUP',  'pct' => 28],
+                        'received'         => ['step' => 3, 'label' => 'STORE RECEIVED',  'pct' => 42],
+                        'washing'          => ['step' => 4, 'label' => 'WASHING',         'pct' => 57],
+                        'rinsing'          => ['step' => 5, 'label' => 'RINSING',         'pct' => 71],
+                        'finish'           => ['step' => 6, 'label' => 'READY FOR PICKUP','pct' => 82],
+                        'out_for_delivery' => ['step' => 7, 'label' => 'OUT FOR DELIVERY','pct' => 91],
+                        'completed'        => ['step' => 8, 'label' => 'COMPLETED',       'pct' => 100],
+                    ];
+                }
+            } elseif ($isDryOnly) {
+                if ($isWalkIn) {
+                    $stages = [
+                        'pending'   => ['step' => 1, 'label' => 'ORDER PLACED',    'pct' => 20],
+                        'received'  => ['step' => 2, 'label' => 'STORE RECEIVED',  'pct' => 40],
+                        'drying'    => ['step' => 3, 'label' => 'DRYING',          'pct' => 60],
+                        'finish'    => ['step' => 4, 'label' => 'READY FOR PICKUP','pct' => 80],
+                        'completed' => ['step' => 5, 'label' => 'COMPLETED',       'pct' => 100],
+                    ];
+                } else {
+                    $stages = [
+                        'pending'          => ['step' => 1, 'label' => 'ORDER PLACED',    'pct' => 16],
+                        'out_for_pickup'   => ['step' => 2, 'label' => 'OUT FOR PICKUP',  'pct' => 33],
+                        'received'         => ['step' => 3, 'label' => 'STORE RECEIVED',  'pct' => 50],
+                        'drying'           => ['step' => 4, 'label' => 'DRYING',          'pct' => 66],
+                        'finish'           => ['step' => 5, 'label' => 'READY FOR PICKUP','pct' => 80],
+                        'out_for_delivery' => ['step' => 6, 'label' => 'OUT FOR DELIVERY','pct' => 90],
+                        'completed'        => ['step' => 7, 'label' => 'COMPLETED',       'pct' => 100],
+                    ];
+                }
+            } elseif ($isFoldOnly) {
                 $stages = [
-                    'pending'          => ['step' => 1, 'label' => 'ORDER PLACED',      'pct' => 12],
-                    'received'         => ['step' => 2, 'label' => 'STORE RECEIVED',    'pct' => 25],
-                    'washing'          => ['step' => 3, 'label' => 'WASHING',           'pct' => 38],
-                    'rinsing'          => ['step' => 4, 'label' => 'RINSING',           'pct' => 50],
-                    'drying'           => ['step' => 5, 'label' => 'DRYING',            'pct' => 63],
-                    'finish'           => ['step' => 6, 'label' => 'FOLDING & READY',   'pct' => 75],
-                    'out_for_delivery' => ['step' => 7, 'label' => 'OUT FOR DELIVERY',  'pct' => 88],
-                    'completed'        => ['step' => 8, 'label' => 'COMPLETED',         'pct' => 100],
+                    'pending'   => ['step' => 1, 'label' => 'ORDER PLACED',    'pct' => 25],
+                    'received'  => ['step' => 2, 'label' => 'STORE RECEIVED',  'pct' => 50],
+                    'finish'    => ['step' => 3, 'label' => 'FOLDING & READY', 'pct' => 75],
+                    'completed' => ['step' => 4, 'label' => 'COMPLETED',       'pct' => 100],
                 ];
             } else {
-                $stages = [
-                    'pending'          => ['step' => 1, 'label' => 'ORDER PLACED',      'pct' => 10],
-                    'out_for_pickup'   => ['step' => 2, 'label' => 'OUT FOR PICKUP',    'pct' => 22],
-                    'received'         => ['step' => 3, 'label' => 'STORE RECEIVED',    'pct' => 35],
-                    'washing'          => ['step' => 4, 'label' => 'WASHING',           'pct' => 48],
-                    'rinsing'          => ['step' => 5, 'label' => 'RINSING',           'pct' => 60],
-                    'drying'           => ['step' => 6, 'label' => 'DRYING',            'pct' => 72],
-                    'finish'           => ['step' => 7, 'label' => 'FOLDING & READY',   'pct' => 84],
-                    'out_for_delivery' => ['step' => 8, 'label' => 'OUT FOR DELIVERY',  'pct' => 92],
-                    'completed'        => ['step' => 9, 'label' => 'COMPLETED',         'pct' => 100],
-                ];
+                if ($isWalkIn) {
+                    $stages = [
+                        'pending'          => ['step' => 1, 'label' => 'ORDER PLACED',      'pct' => 14],
+                        'received'         => ['step' => 2, 'label' => 'STORE RECEIVED',    'pct' => 28],
+                        'washing'          => ['step' => 3, 'label' => 'WASHING',           'pct' => 42],
+                        'rinsing'          => ['step' => 4, 'label' => 'RINSING',           'pct' => 57],
+                        'drying'           => ['step' => 5, 'label' => 'DRYING',            'pct' => 71],
+                        'finish'           => ['step' => 6, 'label' => 'FOLDING & READY',   'pct' => 85],
+                        'completed'        => ['step' => 7, 'label' => 'COMPLETED',         'pct' => 100],
+                    ];
+                } else {
+                    $stages = [
+                        'pending'          => ['step' => 1, 'label' => 'ORDER PLACED',      'pct' => 10],
+                        'out_for_pickup'   => ['step' => 2, 'label' => 'OUT FOR PICKUP',    'pct' => 22],
+                        'received'         => ['step' => 3, 'label' => 'STORE RECEIVED',    'pct' => 35],
+                        'washing'          => ['step' => 4, 'label' => 'WASHING',           'pct' => 48],
+                        'rinsing'          => ['step' => 5, 'label' => 'RINSING',           'pct' => 60],
+                        'drying'           => ['step' => 6, 'label' => 'DRYING',            'pct' => 72],
+                        'finish'           => ['step' => 7, 'label' => 'FOLDING & READY',   'pct' => 84],
+                        'out_for_delivery' => ['step' => 8, 'label' => 'OUT FOR DELIVERY',  'pct' => 92],
+                        'completed'        => ['step' => 9, 'label' => 'COMPLETED',         'pct' => 100],
+                    ];
+                }
             }
             
             $currentStatus = $order->order_status;
@@ -294,8 +347,8 @@
 
                     @if(in_array($order->order_status, ['washing', 'rinsing', 'drying']) && $order->estimated_completion && $order->estimated_completion->isFuture())
                         <div class="p-2.5 rounded-lg bg-slate-800/90 border border-amber-400/40 flex items-center justify-between text-xs font-mono font-bold text-amber-300">
-                            <span>Time Remaining:</span>
-                            <span id="order-countdown" data-expiry="{{ $order->estimated_completion->timestamp }}" class="text-amber-300 font-extrabold">Calculating...</span>
+                            <span class="text-amber-300 dark:text-amber-300 font-bold opacity-100 !text-amber-300">Time Remaining:</span>
+                            <span id="order-countdown" data-expiry="{{ $order->estimated_completion->timestamp }}" class="text-amber-300 dark:text-amber-300 font-extrabold !text-amber-300">Calculating...</span>
                         </div>
                     @endif
                 </div>

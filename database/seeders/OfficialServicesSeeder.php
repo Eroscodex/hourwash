@@ -55,6 +55,15 @@ class OfficialServicesSeeder extends Seeder
                 'estimated_minutes' => 90,
                 'status' => 'active',
             ],
+            [
+                'name' => 'Full Service with Pickup & Delivery',
+                'description' => 'Complete premium door-to-door laundry service with doorstep pickup and delivery per load (max 7kg).',
+                'service_type' => 'pickup_delivery',
+                'price' => 250.00,
+                'price_unit' => 'load',
+                'estimated_minutes' => 120,
+                'status' => 'active',
+            ],
         ];
 
         foreach ($services as $srv) {

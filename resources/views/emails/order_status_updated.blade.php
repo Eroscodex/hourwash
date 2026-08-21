@@ -108,12 +108,34 @@
                             </p>
 
                             @if(in_array($st, ['finish', 'folding', 'ready', 'ready_for_pickup', 'shelved_and_tagged']))
+                                @php
+                                    $serviceName = strtolower($order->service?->name ?? '');
+                                    $serviceType = strtolower($order->service?->service_type ?? '');
+
+                                    $isWashOnly = str_contains($serviceName, 'wash only') || ($serviceType === 'wash') || (str_contains($serviceName, 'wash') && !str_contains($serviceName, 'dry') && !str_contains($serviceName, 'fold') && !str_contains($serviceName, 'full'));
+                                    $isDryOnly = str_contains($serviceName, 'dry only') || ($serviceType === 'dry') || (str_contains($serviceName, 'dry') && !str_contains($serviceName, 'wash') && !str_contains($serviceName, 'full'));
+                                    $isFoldOnly = str_contains($serviceName, 'fold only') || ($serviceType === 'fold') || (str_contains($serviceName, 'fold') && !str_contains($serviceName, 'wash') && !str_contains($serviceName, 'dry'));
+
+                                    if ($isWashOnly) {
+                                        $claimHeading = 'YOUR LAUNDRY WASHING IS COMPLETED!';
+                                        $claimDesc = 'You can now claim your laundry order at our store counter (or await delivery if dispatch was requested).';
+                                    } elseif ($isDryOnly) {
+                                        $claimHeading = 'YOUR LAUNDRY DRYING IS COMPLETED!';
+                                        $claimDesc = 'You can now claim your laundry order at our store counter (or await delivery if dispatch was requested).';
+                                    } elseif ($isFoldOnly) {
+                                        $claimHeading = 'YOUR LAUNDRY FOLDING IS COMPLETED!';
+                                        $claimDesc = 'You can now claim your laundry order at our store counter (or await delivery if dispatch was requested).';
+                                    } else {
+                                        $claimHeading = 'YOUR LAUNDRY IS FINISHED & FOLDED!';
+                                        $claimDesc = 'PLEASE CLAIM YOUR LAUNDRY ORDER AT OUR STORE COUNTER (or await delivery if dispatch was requested).';
+                                    }
+                                @endphp
                                 <!-- Mobile-Responsive Claim Banner Table -->
                                 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-bottom: 20px;">
                                     <tr>
                                         <td class="claim-box-td" style="background-color: #FEF3C7; border-left: 4px solid #F59E0B; border-radius: 8px; padding: 14px 16px; color: #78350F; font-size: 13px; line-height: 1.5; font-weight: 600;">
-                                            <strong style="display: block; font-size: 14px; margin-bottom: 4px; color: #92400E; font-weight: 800;">YOUR LAUNDRY IS FINISHED & FOLDED!</strong>
-                                            PLEASE CLAIM YOUR LAUNDRY ORDER AT OUR STORE COUNTER.
+                                            <strong style="display: block; font-size: 14px; margin-bottom: 4px; color: #92400E; font-weight: 800;">{{ $claimHeading }}</strong>
+                                            {{ $claimDesc }}
                                         </td>
                                     </tr>
                                 </table>

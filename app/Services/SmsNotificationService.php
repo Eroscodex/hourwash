@@ -152,8 +152,29 @@ class SmsNotificationService
                 $message = "HourWash: Hi {$custName}, your laundry Order #{$code} is QUEUED for delivery! A rider will be dispatched shortly.";
             }
         } elseif (in_array(strtolower($order->order_status), ['finish', 'folding', 'ready', 'ready_for_pickup', 'shelved_and_tagged'])) {
+            $serviceName = strtolower($order->service?->name ?? '');
+            $serviceType = strtolower($order->service?->service_type ?? '');
+
+            $isWashOnly = str_contains($serviceName, 'wash only') || ($serviceType === 'wash') || (str_contains($serviceName, 'wash') && ! str_contains($serviceName, 'dry') && ! str_contains($serviceName, 'fold') && ! str_contains($serviceName, 'full'));
+            $isDryOnly = str_contains($serviceName, 'dry only') || ($serviceType === 'dry') || (str_contains($serviceName, 'dry') && ! str_contains($serviceName, 'wash') && ! str_contains($serviceName, 'full'));
+            $isFoldOnly = str_contains($serviceName, 'fold only') || ($serviceType === 'fold') || (str_contains($serviceName, 'fold') && ! str_contains($serviceName, 'wash') && ! str_contains($serviceName, 'dry'));
+
+            if ($isWashOnly) {
+                $claimMsg = 'WASHING IS COMPLETED! YOU CAN NOW CLAIM YOUR LAUNDRY ORDER AT HOUR WASH STORE.';
+            } elseif ($isDryOnly) {
+                $claimMsg = 'DRYING IS COMPLETED! YOU CAN NOW CLAIM YOUR LAUNDRY ORDER AT HOUR WASH STORE.';
+            } elseif ($isFoldOnly) {
+                $claimMsg = 'FOLDING IS COMPLETED! YOU CAN NOW CLAIM YOUR LAUNDRY ORDER AT HOUR WASH STORE.';
+            } else {
+                $claimMsg = 'FINISHED & FOLDED! PLEASE CLAIM YOUR LAUNDRY ORDER AT HOUR WASH STORE.';
+            }
+
+            if (in_array($order->pickup_type, ['delivery', 'pickup_delivery']) || str_contains($serviceName, 'delivery')) {
+                $claimMsg .= ' (Or await rider delivery).';
+            }
+
             $hotlineStr = ! empty($riderPhone) ? " Hotline: {$riderPhone}." : '';
-            $message = "HourWash: Hi {$custName}, Order #{$code} is FINISHED & FOLDED! PLEASE CLAIM YOUR LAUNDRY ORDER AT HOUR WASH STORE.{$hotlineStr}";
+            $message = "HourWash: Hi {$custName}, Order #{$code} {$claimMsg}{$hotlineStr}";
         } else {
             $machStr = $machineName ? " Machine: {$machineName}." : '';
             $message = "HourWash: Hi {$custName}, Order #{$code} status is {$statusStr}.{$machStr} Est: {$compTime}.";
