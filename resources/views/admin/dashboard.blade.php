@@ -356,9 +356,9 @@
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
 
-            <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3">
+            <div class="card-accent-blue p-4 sm:p-5 flex flex-col justify-between space-y-3">
                 <div>
-                    <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                    <span class="text-[11px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
                         TODAY'S ORDERS
                     </span>
                 </div>
@@ -372,9 +372,9 @@
                 </div>
             </div>
 
-            <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3">
+            <div class="card-accent-purple p-4 sm:p-5 flex flex-col justify-between space-y-3">
                 <div>
-                    <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                    <span class="text-[11px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider">
                         IN PROCESSING
                     </span>
                 </div>
@@ -388,9 +388,9 @@
                 </div>
             </div>
 
-            <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3">
+            <div class="card-accent-emerald p-4 sm:p-5 flex flex-col justify-between space-y-3">
                 <div>
-                    <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">COMPLETED TODAY</span>
+                    <span class="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">COMPLETED TODAY</span>
                 </div>
                 <div>
                     <div class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
@@ -402,9 +402,9 @@
                 </div>
             </div>
 
-            <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3">
+            <div class="card-accent-amber p-4 sm:p-5 flex flex-col justify-between space-y-3">
                 <div>
-                    <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">STAFF COUNT</span>
+                    <span class="text-[11px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider">STAFF COUNT</span>
                 </div>
                 <div>
                     <div class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
@@ -414,9 +414,9 @@
                 </div>
             </div>
 
-            <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3">
+            <div class="card-accent-blue p-4 sm:p-5 flex flex-col justify-between space-y-3">
                 <div>
-                    <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">DISPATCH RIDERS</span>
+                    <span class="text-[11px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">DISPATCH RIDERS</span>
                 </div>
                 <div>
                     <div class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
@@ -426,9 +426,9 @@
                 </div>
             </div>
 
-            <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3">
+            <div class="card-accent-purple p-4 sm:p-5 flex flex-col justify-between space-y-3">
                 <div>
-                    <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">REGISTERED CUSTOMERS</span>
+                    <span class="text-[11px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider">REGISTERED CUSTOMERS</span>
                 </div>
                 <div>
                     <div class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
@@ -438,9 +438,9 @@
                 </div>
             </div>
 
-            <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3">
+            <div class="card-accent-emerald p-4 sm:p-5 flex flex-col justify-between space-y-3">
                 <div>
-                    <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">PROFIT (PAID)</span>
+                    <span class="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">PROFIT (PAID)</span>
                 </div>
                 <div>
                     <div class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
@@ -450,9 +450,9 @@
                 </div>
             </div>
 
-            <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3">
+            <div class="card-accent-blue p-4 sm:p-5 flex flex-col justify-between space-y-3">
                 <div>
-                    <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">TOTAL MACHINES</span>
+                    <span class="text-[11px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">TOTAL MACHINES</span>
                 </div>
                 <div>
                     <div class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
@@ -464,9 +464,9 @@
                 </div>
             </div>
 
-            <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3">
+            <div class="card-accent-purple p-4 sm:p-5 flex flex-col justify-between space-y-3">
                 <div>
-                    <span class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">TOTAL SYSTEM ORDERS</span>
+                    <span class="text-[11px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider">TOTAL SYSTEM ORDERS</span>
                 </div>
                 <div>
                     <div class="text-2xl sm:text-3xl font-bold text-blue-600 dark:text-blue-400">

@@ -26,25 +26,40 @@
 
         <!-- Summary KPI Cards -->
         <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
-            <a href="{{ route('admin.users.index') }}" class="app-card p-4 flex flex-col justify-between hover:border-blue-600 transition">
-                <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Total Users</span>
-                <span class="text-xl font-bold text-slate-900 dark:text-white font-mono mt-1">{{ $totalUsers }}</span>
+            <a href="{{ route('admin.users.index') }}" class="card-accent-blue p-4 flex items-center justify-between shadow-sm hover:border-blue-600 transition">
+                <div>
+                    <span class="text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider block">Total Users</span>
+                    <span class="text-xs text-slate-500 dark:text-slate-400">All Accounts</span>
+                </div>
+                <span class="text-2xl font-black text-blue-600 dark:text-blue-400 font-mono">{{ $totalUsers }}</span>
             </a>
-            <a href="{{ route('admin.users.index', ['role' => 'admin']) }}" class="app-card p-4 flex flex-col justify-between border-rose-500/30 hover:border-rose-500 transition">
-                <span class="text-[10px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider block">Owners & Admins</span>
-                <span class="text-xl font-bold text-rose-700 dark:text-rose-300 font-mono mt-1">{{ $adminCount }}</span>
+            <a href="{{ route('admin.users.index', ['role' => 'admin']) }}" class="card-accent-rose p-4 flex items-center justify-between shadow-sm hover:border-rose-600 transition">
+                <div>
+                    <span class="text-[10px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider block">Owners & Admins</span>
+                    <span class="text-xs text-slate-500 dark:text-slate-400">Management</span>
+                </div>
+                <span class="text-2xl font-black text-rose-600 dark:text-rose-400 font-mono">{{ $adminCount }}</span>
             </a>
-            <a href="{{ route('admin.users.index', ['role' => 'staff']) }}" class="app-card p-4 flex flex-col justify-between border-amber-500/30 hover:border-amber-500 transition">
-                <span class="text-[10px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider block">Staff Specialists</span>
-                <span class="text-xl font-bold text-amber-700 dark:text-amber-300 font-mono mt-1">{{ $staffCount }}</span>
+            <a href="{{ route('admin.users.index', ['role' => 'staff']) }}" class="card-accent-amber p-4 flex items-center justify-between shadow-sm hover:border-amber-600 transition">
+                <div>
+                    <span class="text-[10px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider block">Staff Specialists</span>
+                    <span class="text-xs text-slate-500 dark:text-slate-400">Operators</span>
+                </div>
+                <span class="text-2xl font-black text-amber-600 dark:text-amber-400 font-mono">{{ $staffCount }}</span>
             </a>
-            <a href="{{ route('admin.users.index', ['role' => 'rider']) }}" class="app-card p-4 flex flex-col justify-between border-cyan-500/30 hover:border-cyan-500 transition">
-                <span class="text-[10px] font-bold text-cyan-600 dark:text-cyan-400 uppercase tracking-wider block">Riders</span>
-                <span class="text-xl font-bold text-cyan-700 dark:text-cyan-300 font-mono mt-1">{{ $riderCount }}</span>
+            <a href="{{ route('admin.users.index', ['role' => 'rider']) }}" class="card-accent-purple p-4 flex items-center justify-between shadow-sm hover:border-purple-600 transition">
+                <div>
+                    <span class="text-[10px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider block">Riders</span>
+                    <span class="text-xs text-slate-500 dark:text-slate-400">Logistics</span>
+                </div>
+                <span class="text-2xl font-black text-purple-600 dark:text-purple-400 font-mono">{{ $riderCount }}</span>
             </a>
-            <a href="{{ route('admin.users.index', ['role' => 'customer']) }}" class="app-card p-4 flex flex-col justify-between border-sky-500/30 hover:border-sky-500 transition col-span-2 sm:col-span-1">
-                <span class="text-[10px] font-bold text-sky-600 dark:text-sky-400 uppercase tracking-wider block">Customers</span>
-                <span class="text-xl font-bold text-sky-700 dark:text-sky-300 font-mono mt-1">{{ $customerCount }}</span>
+            <a href="{{ route('admin.users.index', ['role' => 'customer']) }}" class="card-accent-emerald p-4 flex items-center justify-between shadow-sm hover:border-emerald-600 transition col-span-2 sm:col-span-1">
+                <div>
+                    <span class="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block">Customers</span>
+                    <span class="text-xs text-slate-500 dark:text-slate-400">Registered</span>
+                </div>
+                <span class="text-2xl font-black text-emerald-600 dark:text-emerald-400 font-mono">{{ $customerCount }}</span>
             </a>
         </div>
 

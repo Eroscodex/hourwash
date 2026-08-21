@@ -44,21 +44,33 @@
 
         <!-- Quick Summary Metrics -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
-            <div class="app-card p-4">
-                <span class="text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold block">Total Scans Logged</span>
-                <p class="text-xl font-extrabold text-blue-600 dark:text-blue-400 font-mono mt-1">{{ count($logs) }}</p>
+            <div class="card-accent-blue p-4 flex items-center justify-between shadow-sm">
+                <div>
+                    <span class="text-[10px] uppercase tracking-wider text-blue-600 dark:text-blue-400 font-bold block">Total Scans Logged</span>
+                    <span class="text-xs text-slate-500 dark:text-slate-400">Scan count</span>
+                </div>
+                <span class="text-2xl font-black text-blue-600 dark:text-blue-400 font-mono">{{ count($logs) }}</span>
             </div>
-            <div class="app-card p-4">
-                <span class="text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold block">Customer Scans</span>
-                <p class="text-xl font-extrabold text-emerald-600 dark:text-emerald-400 font-mono mt-1">{{ $logs->where('scan_type', 'customer_scan')->count() }}</p>
+            <div class="card-accent-emerald p-4 flex items-center justify-between shadow-sm">
+                <div>
+                    <span class="text-[10px] uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-bold block">Customer Scans</span>
+                    <span class="text-xs text-slate-500 dark:text-slate-400">Public scans</span>
+                </div>
+                <span class="text-2xl font-black text-emerald-600 dark:text-emerald-400 font-mono">{{ $logs->where('scan_type', 'customer_scan')->count() }}</span>
             </div>
-            <div class="app-card p-4">
-                <span class="text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold block">Staff / Admin Scans</span>
-                <p class="text-xl font-extrabold text-indigo-600 dark:text-indigo-400 font-mono mt-1">{{ $logs->where('scan_type', 'staff_scan')->count() }}</p>
+            <div class="card-accent-purple p-4 flex items-center justify-between shadow-sm">
+                <div>
+                    <span class="text-[10px] uppercase tracking-wider text-purple-600 dark:text-purple-400 font-bold block">Staff / Admin Scans</span>
+                    <span class="text-xs text-slate-500 dark:text-slate-400">Internal scans</span>
+                </div>
+                <span class="text-2xl font-black text-purple-600 dark:text-purple-400 font-mono">{{ $logs->where('scan_type', 'staff_scan')->count() }}</span>
             </div>
-            <div class="app-card p-4">
-                <span class="text-[10px] uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold block">Unique Scanned Orders</span>
-                <p class="text-xl font-extrabold text-amber-600 dark:text-amber-400 font-mono mt-1">{{ $logs->pluck('order_id')->unique()->count() }}</p>
+            <div class="card-accent-amber p-4 flex items-center justify-between shadow-sm">
+                <div>
+                    <span class="text-[10px] uppercase tracking-wider text-amber-600 dark:text-amber-400 font-bold block">Unique Orders</span>
+                    <span class="text-xs text-slate-500 dark:text-slate-400">Tracked orders</span>
+                </div>
+                <span class="text-2xl font-black text-amber-600 dark:text-amber-400 font-mono">{{ $logs->pluck('order_id')->unique()->count() }}</span>
             </div>
         </div>
 
