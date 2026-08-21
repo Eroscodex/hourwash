@@ -44,180 +44,190 @@ class LaundryController extends Controller
 
     public function store(Request $request)
     {
-        $storeStatus = Cache::get('store_status', 'open');
-        /** @var User|null $user */
-        $user = Auth::user();
-        $isStaffOrAdmin = $user && ($user->isAdmin() || $user->isOwner() || $user->isStaff());
+        try {
+            $storeStatus = Cache::get('store_status', 'open');
+            /** @var User|null $user */
+            $user = Auth::user();
+            $isStaffOrAdmin = $user && ($user->isAdmin() || $user->isOwner() || $user->isStaff());
 
-        if ($storeStatus === 'closed' && ! $isStaffOrAdmin) {
-            return back()->withInput()->with('error', '⚠️ Store is currently CLOSED TODAY. New order bookings are disabled until the store re-opens.');
-        }
+            if ($storeStatus === 'closed' && ! $isStaffOrAdmin) {
+                return back()->withInput()->with('error', '⚠️ Store is currently CLOSED TODAY. New order bookings are disabled until the store re-opens.');
+            }
 
-        $request->validate([
-            'service_id' => 'required|exists:services,id',
-            'weight_kg' => 'nullable|numeric|min:0|max:100',
-            'machine_id' => 'nullable|exists:machines,id',
-            'supplies_option' => 'nullable|string|in:store_provided,own_detergent,own_softener,own_both',
-            'customer_id' => 'nullable|exists:users,id',
-            'new_customer_name' => 'required_if:customer_mode,new|nullable|string|max:255',
-            'new_customer_email' => 'nullable|email|max:255|unique:users,email',
-            'new_customer_phone' => 'nullable|string|max:50|unique:users,phone',
-            'new_customer_address' => 'nullable|string|max:255',
-        ], [
-            'new_customer_phone.unique' => 'This phone number is already registered to an existing customer.',
-            'new_customer_email.unique' => 'This email address is already registered to an existing customer.',
-        ]);
+            $request->validate([
+                'service_id' => 'required|exists:services,id',
+                'weight_kg' => 'nullable|numeric|min:0|max:100',
+                'machine_id' => 'nullable',
+                'supplies_option' => 'nullable|string|in:store_provided,own_detergent,own_softener,own_both',
+                'customer_id' => 'nullable|exists:users,id',
+                'new_customer_name' => 'required_if:customer_mode,new|nullable|string|max:255',
+                'new_customer_email' => 'nullable|email|max:255|unique:users,email',
+                'new_customer_phone' => 'nullable|string|max:50|unique:users,phone',
+                'new_customer_address' => 'nullable|string|max:255',
+            ], [
+                'new_customer_phone.unique' => 'This phone number is already registered to an existing customer.',
+                'new_customer_email.unique' => 'This email address is already registered to an existing customer.',
+            ]);
 
-        $customerId = Auth::id();
+            $customerId = Auth::id();
 
-        if ($isStaffOrAdmin) {
-            if ($request->input('customer_mode') === 'new' || ($request->filled('new_customer_name') && ! $request->filled('customer_id'))) {
-                $email = $request->input('new_customer_email');
-                if (empty($email)) {
-                    $email = 'walkin_'.time().'_'.Str::random(4).'@hourwash.com';
-                }
+            if ($isStaffOrAdmin) {
+                if ($request->input('customer_mode') === 'new' || ($request->filled('new_customer_name') && ! $request->filled('customer_id'))) {
+                    $email = $request->input('new_customer_email');
+                    if (empty($email)) {
+                        $email = 'walkin_'.time().'_'.Str::random(4).'@hourwash.com';
+                    }
 
-                $newCust = User::create([
-                    'name' => $request->new_customer_name,
-                    'email' => $email,
-                    'phone' => $request->new_customer_phone,
-                    'role' => 'customer',
-                    'password' => Hash::make($request->new_customer_password ?: 'password'),
-                ]);
-
-                if (Schema::hasTable('customer_profiles')) {
-                    $newCust->customerProfile()->create([
-                        'address' => $request->new_customer_address ?: 'Magallanes St., Orosite, Legazpi City',
+                    $newCust = User::create([
+                        'name' => $request->new_customer_name,
+                        'email' => $email,
+                        'phone' => $request->new_customer_phone,
+                        'role' => 'customer',
+                        'password' => Hash::make($request->new_customer_password ?: 'password'),
                     ]);
+
+                    if (Schema::hasTable('customer_profiles')) {
+                        $newCust->customerProfile()->create([
+                            'address' => $request->new_customer_address ?: 'Magallanes St., Orosite, Legazpi City',
+                        ]);
+                    }
+
+                    $customerId = $newCust->id;
+                } elseif ($request->filled('customer_id')) {
+                    $customerId = (int) $request->customer_id;
+                }
+            }
+
+            if (! $customerId) {
+                return back()->withInput()->with('error', 'Unable to determine customer account for this order. Please log in or select a customer.');
+            }
+
+            $service = Service::findOrFail($request->service_id);
+
+            $weight = max(1.0, (float) ($request->weight_kg ?: 7.0));
+            $loadCount = max(1, (int) ceil($weight / 7.0));
+
+            // Calculate subtotal based on load count (each load capacity is max 7kg)
+            if ($service->price_unit === 'kg') {
+                $subtotal = $service->price * $weight;
+            } else {
+                $subtotal = $service->price * $loadCount;
+            }
+
+            // Calculate supplies discount (Tipid option: Customer brings own detergent/softener)
+            $discount = 0.00;
+            $suppliesLabel = '';
+
+            switch ($request->supplies_option) {
+                case 'own_detergent':
+                    $discount = 15.00;
+                    $suppliesLabel = '[Bring Own Detergent/Powder (-₱15.00)]';
+                    break;
+                case 'own_softener':
+                    $discount = 10.00;
+                    $suppliesLabel = '[Bring Own Fabric Softener (-₱10.00)]';
+                    break;
+                case 'own_both':
+                    $discount = 25.00;
+                    $suppliesLabel = '[Bring Own Powder & Softener (-₱25.00 Tipid Combo)]';
+                    break;
+                default:
+                    $discount = 0.00;
+                    $suppliesLabel = '[Store Detergent & Softener]';
+                    break;
+            }
+
+            // Apply Frequent User Card Loyalty Reward Discount if customer requested & eligible
+            $targetCustomer = User::find($customerId);
+            if ($request->boolean('apply_loyalty_discount') && $targetCustomer && $targetCustomer->hasDiscountReward()) {
+                $discount += 50.00;
+                $suppliesLabel .= ' [Frequent User Loyalty Discount (-₱50.00)]';
+                $targetCustomer->useDiscountReward();
+            }
+
+            $totalAmount = max(0, $subtotal - $discount);
+            $cutoffNote = now()->format('H:i') >= '16:30' ? ' [Placed past 4:30 PM cut-off time]' : '';
+            $notes = trim($suppliesLabel.$cutoffNote.($request->remarks ? ' — '.$request->remarks : ''));
+
+            // Safely parse machine_id: convert empty strings or non-numeric to null for MySQL foreign key safety
+            $machineId = ($request->filled('machine_id') && is_numeric($request->machine_id)) ? (int) $request->machine_id : null;
+
+            // Prevent duplicate order submission within 60 seconds
+            $existingDuplicate = Order::where('customer_id', $customerId)
+                ->where('service_id', $request->service_id)
+                ->where('created_at', '>=', now()->subSeconds(60))
+                ->first();
+
+            if ($existingDuplicate) {
+                $redirectRoute = $isStaffOrAdmin ? 'admin.laundry.index' : 'my.orders';
+
+                return redirect()
+                    ->route($redirectRoute)
+                    ->with('success', 'Order already submitted! Duplicate order attempt prevented.');
+            }
+
+            $order = Order::create([
+                'order_number' => 'HW-'.strtoupper(Str::random(8)),
+                'customer_id' => $customerId,
+                'service_id' => $service->id,
+                'machine_id' => $machineId,
+                'weight_kg' => $weight,
+                'subtotal' => $subtotal,
+                'discount' => $discount,
+                'total_amount' => $totalAmount,
+                'order_status' => 'pending',
+                'payment_status' => 'unpaid',
+                'payment_method' => 'cash',
+                'estimated_completion' => now()->addMinutes($service->estimated_minutes),
+                'notes' => $notes,
+            ]);
+
+            QrCode::create([
+                'order_id' => $order->id,
+                'qr_token' => Str::uuid(),
+                'status' => 'active',
+                'expires_at' => now()->addDays(7),
+            ]);
+
+            // Eager load customer and service for emails
+            $order->load(['customer', 'service']);
+
+            // 1. Send email notification to Customer & Admin
+            try {
+                $customerEmail = $order->customer?->email;
+                if (! empty($customerEmail)) {
+                    EmailNotificationService::sendStatusEmail($order, $customerEmail);
                 }
 
-                $customerId = $newCust->id;
-            } elseif ($request->filled('customer_id')) {
-                $customerId = $request->customer_id;
+                $adminEmail = config('mail.from.address', 'karlnicko2019@gmail.com');
+                if (! empty($adminEmail) && strtolower($adminEmail) !== strtolower((string) $customerEmail)) {
+                    EmailNotificationService::sendStatusEmail($order, $adminEmail);
+                }
+            } catch (\Throwable $e) {
+                Log::error('New order email notification failed: '.$e->getMessage());
             }
-        }
 
-        $service = Service::findOrFail($request->service_id);
+            // 2. Send SMS Phone Text Notification to Customer Phone Number
+            try {
+                SmsNotificationService::sendOrderStatusSms($order);
+            } catch (\Throwable $e) {
+                Log::error('Customer SMS new order notification failed: '.$e->getMessage());
+            }
 
-        $weight = max(1.0, (float) ($request->weight_kg ?: 7.0));
-        $loadCount = max(1, (int) ceil($weight / 7.0));
-
-        // Calculate subtotal based on load count (each load capacity is max 7kg)
-        if ($service->price_unit === 'kg') {
-            $subtotal = $service->price * $weight;
-        } else {
-            $subtotal = $service->price * $loadCount;
-        }
-
-        // Calculate supplies discount (Tipid option: Customer brings own detergent/softener)
-        $discount = 0.00;
-        $suppliesLabel = '';
-
-        switch ($request->supplies_option) {
-            case 'own_detergent':
-                $discount = 15.00;
-                $suppliesLabel = '[Bring Own Detergent/Powder (-₱15.00)]';
-                break;
-            case 'own_softener':
-                $discount = 10.00;
-                $suppliesLabel = '[Bring Own Fabric Softener (-₱10.00)]';
-                break;
-            case 'own_both':
-                $discount = 25.00;
-                $suppliesLabel = '[Bring Own Powder & Softener (-₱25.00 Tipid Combo)]';
-                break;
-            default:
-                $discount = 0.00;
-                $suppliesLabel = '[Store Detergent & Softener]';
-                break;
-        }
-
-        // Apply Frequent User Card Loyalty Reward Discount if customer requested & eligible
-        $targetCustomer = User::find($customerId);
-        if ($request->boolean('apply_loyalty_discount') && $targetCustomer && $targetCustomer->hasDiscountReward()) {
-            $discount += 50.00;
-            $suppliesLabel .= ' [Frequent User Loyalty Discount (-₱50.00)]';
-            $targetCustomer->useDiscountReward();
-        }
-
-        $totalAmount = max(0, $subtotal - $discount);
-        $cutoffNote = now()->format('H:i') >= '16:30' ? ' [Placed past 4:30 PM cut-off time]' : '';
-        $notes = trim($suppliesLabel.$cutoffNote.($request->remarks ? ' — '.$request->remarks : ''));
-
-        // Machine is assigned dynamically when staff processes or starts washing
-        $machineId = $request->machine_id;
-
-        // Prevent duplicate order submission within 60 seconds
-        $existingDuplicate = Order::where('customer_id', $customerId)
-            ->where('service_id', $request->service_id)
-            ->where('created_at', '>=', now()->subSeconds(60))
-            ->first();
-
-        if ($existingDuplicate) {
-            $redirectRoute = $isStaffOrAdmin ? 'admin.laundry.index' : 'my.orders';
+            if ($isStaffOrAdmin) {
+                return redirect()
+                    ->route('admin.laundry.index')
+                    ->with('success', 'Order #'.$order->order_number.' created successfully for '.($order->customer->name ?? 'Walk-in Customer').'!');
+            }
 
             return redirect()
-                ->route($redirectRoute)
-                ->with('success', 'Order already submitted! Duplicate order attempt prevented.');
-        }
-
-        $order = Order::create([
-            'order_number' => 'HW-'.strtoupper(Str::random(8)),
-            'customer_id' => $customerId,
-            'service_id' => $request->service_id,
-            'machine_id' => $machineId,
-            'weight_kg' => $request->weight_kg,
-            'subtotal' => $subtotal,
-            'discount' => $discount,
-            'total_amount' => $totalAmount,
-            'order_status' => 'pending',
-            'payment_status' => 'unpaid',
-            'payment_method' => 'cash',
-            'estimated_completion' => now()->addMinutes($service->estimated_minutes),
-            'notes' => $notes,
-        ]);
-
-        QrCode::create([
-            'order_id' => $order->id,
-            'qr_token' => Str::uuid(),
-            'status' => 'active',
-            'expires_at' => now()->addDays(7),
-        ]);
-
-        // Eager load customer and service for emails
-        $order->load(['customer', 'service']);
-
-        // 1. Send email notification to Customer & Admin
-        try {
-            $customerEmail = $order->customer?->email;
-            if (! empty($customerEmail)) {
-                EmailNotificationService::sendStatusEmail($order, $customerEmail);
-            }
-
-            $adminEmail = config('mail.from.address', 'karlnicko2019@gmail.com');
-            if (! empty($adminEmail) && strtolower($adminEmail) !== strtolower((string) $customerEmail)) {
-                EmailNotificationService::sendStatusEmail($order, $adminEmail);
-            }
+                ->route('my.orders')
+                ->with('success', 'Order submitted successfully. Confirmation email & SMS sent to your phone!');
         } catch (\Throwable $e) {
-            Log::error('New order email notification failed: '.$e->getMessage());
-        }
+            Log::error('Order booking failed: '.$e->getMessage());
 
-        // 3. Send SMS Phone Text Notification to Customer Phone Number
-        try {
-            SmsNotificationService::sendOrderStatusSms($order);
-        } catch (\Throwable $e) {
-            Log::error('Customer SMS new order notification failed: '.$e->getMessage());
+            return back()->withInput()->with('error', 'Unable to submit order: '.$e->getMessage());
         }
-
-        if ($isStaffOrAdmin) {
-            return redirect()
-                ->route('admin.laundry.index')
-                ->with('success', 'Order #'.$order->order_number.' created successfully for '.($order->customer->name ?? 'Walk-in Customer').'!');
-        }
-
-        return redirect()
-            ->route('my.orders')
-            ->with('success', 'Order submitted successfully. Confirmation email & SMS sent to your phone!');
     }
 
     public function myOrders()
