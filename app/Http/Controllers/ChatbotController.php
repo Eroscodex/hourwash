@@ -24,7 +24,7 @@ class ChatbotController extends Controller
         // 1. Guardrail Check: Intercept non-laundry queries
         if (Str::contains($msg, ['pancit', 'cook', 'recipe', 'food', 'noodle', 'dish', 'ingredient', 'python', 'code', 'math', 'politic'])) {
             return response()->json([
-                'reply' => 'I am the HourWash AI Assistant, specialized exclusively for Hour Wash Laundry Shop in Magallanes St., Orosite, Legazpi City! I can help you track laundry orders, check operating hours (7:00 AM – 6:00 PM), or inspect service packages & rates. How can I assist with your laundry today?',
+                'reply' => 'I am the HourWash AI Assistant, specialized exclusively for Hour Wash Laundry Shop in Magallanes St., Orosite, Legazpi City! I can help you track laundry orders, check operating hours (7:30 AM – 6:00 PM daily • cut-off: 4:30 PM), or inspect service packages & rates. How can I assist with your laundry today?',
             ]);
         }
 
@@ -102,9 +102,16 @@ class ChatbotController extends Controller
      */
     private function buildSystemPrompt(): string
     {
-        // --- Live Services ---
+        // --- Live Services with Duration Breakdown ---
         $services = Service::where('status', 'active')->get(['name', 'price', 'price_unit', 'estimated_minutes']);
-        $serviceList = $services->map(fn ($s) => "{$s->name}: P{$s->price}/{$s->price_unit} (~{$s->estimated_minutes} min)")->implode('; ');
+        $serviceList = $services->map(function ($s) {
+            $mins = $s->estimated_minutes;
+            $hrs = floor($mins / 60);
+            $remMins = $mins % 60;
+            $dur = $hrs > 0 ? ($remMins > 0 ? "{$hrs}h {$remMins}m" : "{$hrs} hrs") : "{$mins} mins";
+
+            return "{$s->name}: P{$s->price}/{$s->price_unit} (~{$dur})";
+        })->implode('; ');
 
         // --- Live Machine Status ---
         $machines = Machine::all(['machine_name', 'machine_type', 'status']);
@@ -122,22 +129,26 @@ class ChatbotController extends Controller
         $outForDeliveryOrders = Order::where('order_status', 'out_for_delivery')->count();
         $completedToday = Order::where('order_status', 'completed')->whereDate('updated_at', today())->count();
 
+        // --- Active Riders ---
+        $riders = User::where('role', 'rider')->get(['name', 'phone']);
+        $riderList = $riders->map(fn ($r) => "{$r->name} (".($r->phone ?? '09100317744').')')->implode('; ');
+        if (empty($riderList)) {
+            $riderList = 'Rider Anthony (09100317744)';
+        }
+
         // --- Customer List (names & emails only — NO passwords, NO phone, NO admin/staff details) ---
-        $customers = User::where('role', 'customer')
-            ->orWhere('role', 'user')
-            ->get(['id', 'name', 'email']);
+        $customers = User::whereIn('role', ['customer', 'user'])->get(['id', 'name', 'email']);
         $customerDirectory = $customers->map(fn ($c) => "ID:{$c->id} {$c->name} ({$c->email})")->implode('; ');
 
-        // --- Build the full system prompt ---
         return <<<PROMPT
 You are STRICTLY the AI Assistant for Hour Wash Laundry Shop located in Magallanes St., Orosite, Legazpi City.
-Store Hours: 7:00 AM – 6:00 PM Daily.
+Store Hours: 7:30 AM – 6:00 PM Daily (Monday – Sunday). Same-Day Cut-Off: 4:30 PM.
 
 CRITICAL RULES:
-- ONLY answer questions about laundry services, order tracking, machine status, store hours, and shop info.
+- ONLY answer questions about laundry services, order tracking, machine status, store hours, rider dispatch, and shop info.
 - NEVER reveal user passwords, tokens, secret keys, or any sensitive authentication data.
 - NEVER reveal personal details of staff or admin users (phone numbers, addresses, roles).
-- If a customer requests to talk to a rider, contact a rider, or speak to a delivery driver, inform them that their request has been logged and provide our dispatch rider contact hotline: 09100317744.
+- If a customer requests to talk to a rider, contact a rider, or check delivery status, provide our assigned rider dispatch contact details: {$riderList} or Shop Hotline: (052) 800-WASH.
 - You MAY help customers look up their OWN order status by name, email, or order number.
 - Politely decline any non-laundry questions (cooking, coding, politics, etc.).
 - Always reply in a friendly, helpful, professional tone.
@@ -148,6 +159,9 @@ LIVE DATABASE CONTEXT (as of now):
 
 SERVICES AVAILABLE:
 {$serviceList}
+
+ON-DUTY RIDERS & DISPATCH:
+{$riderList}
 
 MACHINE STATUS:
 Washers: {$washersIdle} available out of {$washersTotal} total
@@ -185,7 +199,7 @@ PROMPT;
                 $completion = $order->estimated_completion ? $order->estimated_completion->format('M d, Y h:i A') : 'In Progress';
                 $customerName = $order->customer ? $order->customer->name : 'Customer';
 
-                return "Order #{$order->order_number}\nCustomer: {$customerName}\nStatus: {$status}\nService: {$order->service->name}\nEst. Completion: {$completion}\nTotal: P".number_format($order->total_amount, 2);
+                return "Order #{$order->order_number}\nCustomer: {$customerName}\nStatus: {$status}\nService: {$order->service->name}\nEst. Completion: {$completion}\nTotal Amount: P".number_format($order->total_amount, 2);
             }
         }
 
@@ -218,8 +232,19 @@ PROMPT;
         }
 
         // --- Talk to Rider / Rider Contact / Delivery Assistance ---
-        if (Str::contains($msg, ['rider', 'driver', 'talk to rider', 'contact rider', 'speak to rider', 'speak to driver', 'call rider', 'text rider', 'deliverer', 'out for pickup', 'out for delivery'])) {
-            return "HourWash Assigned Rider & Dispatch Support:\n- Assigned Rider: Rider Anthony\n- Rider Hotline (Call / Text): 09100317744\n- Shop Counter Hotline: (052) 800-WASH\n\nRider Anthony is on duty for all active 'Out for Pickup' and 'Out for Delivery' orders! You can call or text him directly at 09100317744 or track live status at:\n[Track Live Status](https://hourwashlaundryshop.up.railway.app/laundry/track)";
+        if (Str::contains($msg, ['rider', 'driver', 'talk to rider', 'contact rider', 'speak to rider', 'speak to driver', 'call rider', 'text rider', 'deliverer', 'out for pickup', 'out for delivery', 'pickup', 'delivery'])) {
+            $riders = User::where('role', 'rider')->get();
+            $riderStr = '';
+            if ($riders->isNotEmpty()) {
+                foreach ($riders as $r) {
+                    $ph = $r->phone ?? '09100317744';
+                    $riderStr .= "- Assigned Rider: {$r->name} (Phone: {$ph})\n";
+                }
+            } else {
+                $riderStr = "- Assigned Rider: Rider Anthony (Phone: 09100317744)\n";
+            }
+
+            return "HourWash Assigned Rider & Doorstep Dispatch Support:\n{$riderStr}- Shop Counter Hotline: (052) 800-WASH\n\nOur riders are on duty for all active 'Out for Pickup' and 'Out for Delivery' orders! You can call or text them directly or track your order live at:\nhttps://hourwashlaundryshop.up.railway.app/laundry/track";
         }
 
         // --- Machine Availability ---
@@ -228,29 +253,36 @@ PROMPT;
             $washersIdle = $machines->where('machine_type', 'washer')->where('status', 'idle')->count();
             $dryersIdle = $machines->where('machine_type', 'dryer')->where('status', 'idle')->count();
 
-            return "Machine Availability Right Now:\n- Washers Available: {$washersIdle}\n- Dryers Available: {$dryersIdle}\n\nVisit us at Magallanes St., Orosite, Legazpi City!";
+            return "Machine Availability Right Now:\n- Washers Available: {$washersIdle}\n- Dryers Available: {$dryersIdle}\n\nVisit us at Magallanes St., Orosite, Legazpi City! Operating Hours: 7:30 AM – 6:00 PM Daily.";
         }
 
-        if (Str::contains($msg, ['hour', 'time', 'open', 'close', 'schedule'])) {
-            return 'Hour Wash Laundry Shop is open daily from 7:00 AM to 6:00 PM at Magallanes St., Orosite, Legazpi City.';
+        if (Str::contains($msg, ['hour', 'time', 'open', 'close', 'schedule', 'cutoff', 'cut-off'])) {
+            return "Hour Wash Laundry Shop Operating Hours:\n- Store Hours: 7:30 AM – 6:00 PM (Monday – Sunday)\n- Same-Day Laundry Cut-Off: 4:30 PM\n- Location: Magallanes St., Orosite, Legazpi City";
         }
 
         if (Str::contains($msg, ['location', 'where', 'address', 'place', 'legazpi', 'orosite'])) {
-            return 'We are located at Magallanes St., Orosite, Legazpi City, Albay, Philippines.';
+            return "Hour Wash Laundry Shop Location:\n- Address: Magallanes St., Orosite, Legazpi City, Albay, Philippines.\n- Operating Hours: 7:30 AM – 6:00 PM Daily (Cut-Off: 4:30 PM)";
         }
 
-        if (Str::contains($msg, ['price', 'rate', 'cost', 'fee', 'package', 'service', 'wash', 'dry'])) {
-            $services = Service::where('status', 'active')->get(['name', 'price', 'price_unit']);
-            $servList = $services->map(fn ($s) => "- {$s->name}: P{$s->price}/{$s->price_unit}")->implode("\n");
+        if (Str::contains($msg, ['price', 'rate', 'cost', 'fee', 'package', 'service', 'wash', 'dry', 'fold'])) {
+            $services = Service::where('status', 'active')->get(['name', 'price', 'price_unit', 'estimated_minutes']);
+            $servList = $services->map(function ($s) {
+                $mins = $s->estimated_minutes;
+                $hrs = floor($mins / 60);
+                $remMins = $mins % 60;
+                $dur = $hrs > 0 ? ($remMins > 0 ? "~{$hrs}h {$remMins}m" : "~{$hrs} hrs") : "~{$mins} mins";
 
-            return "Our Active Laundry Services:\n{$servList}\n\nVisit our shop or book online!";
+                return "- {$s->name}: P{$s->price}/{$s->price_unit} ({$dur})";
+            })->implode("\n");
+
+            return "Our Active Laundry Service Packages & Rates:\n{$servList}\n\n*Note: Detergent, Fabcon & Bleach not included. Visit our shop or book online!";
         }
 
         if (Str::contains($msg, ['hi', 'hello', 'hey', 'good', 'kumusta', 'musta'])) {
-            return "Hello! Welcome to Hour Wash Laundry Shop! I can help you with:\n- Order tracking (by name, email, or order number)\n- Machine availability\n- Service rates & packages\n- Store hours\n\nHow can I assist you today?";
+            return "Hello! Welcome to Hour Wash Laundry Shop! I can help you with:\n- Order tracking (by name, email, or order number)\n- Service packages, rates & estimated completion time\n- Rider contact & doorstep dispatch info\n- Machine availability\n- Store hours (7:30 AM – 6:00 PM Daily)\n\nHow can I assist you today?";
         }
 
-        return "I am the HourWash Assistant dedicated to Hour Wash Laundry Shop. I can help you with:\n- Track your order (tell me your name, email, or order number)\n- Check machine availability\n- View services & rates\n- Store hours: 7:00 AM – 6:00 PM Daily\n\nMagallanes St., Orosite, Legazpi City!";
+        return "I am the HourWash Assistant dedicated to Hour Wash Laundry Shop. I can help you with:\n- Track your order (tell me your name, email, or order number)\n- Service packages & completion times\n- Contact assigned riders for pickup/delivery\n- Check machine availability\n- Store hours: 7:30 AM – 6:00 PM Daily (Cut-Off: 4:30 PM)\n\nMagallanes St., Orosite, Legazpi City!";
     }
 
     /**
