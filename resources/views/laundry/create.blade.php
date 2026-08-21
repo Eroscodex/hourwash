@@ -86,7 +86,7 @@
                             @endforeach
                         </select>
                         <p class="text-[10.5px] text-slate-500 dark:text-slate-400">
-                            Pumili sa listahan ng mga nakarehistrong customer. Hindi na kailangang i-fill up ang pangalan kapag rehistrado na!
+                            Select from the list of registered customers. Name and details will automatically link to their account.
                         </p>
                     </div>
 
@@ -109,10 +109,22 @@
                                 <input type="text" name="new_customer_phone" value="{{ old('new_customer_phone') }}" placeholder="e.g. 09171234567" class="w-full">
                             </div>
                             <div>
-                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Street Address (Optional)</label>
-                                <input type="text" name="new_customer_address" value="{{ old('new_customer_address') }}" placeholder="e.g. Magallanes St., Legazpi City" class="w-full">
+                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">House No. / Street Address (Optional)</label>
+                                <input type="text" name="new_customer_address" value="{{ old('new_customer_address') }}" placeholder="e.g. #123 Magallanes St." class="w-full">
                             </div>
-                            <div class="sm:col-span-2">
+                            <div>
+                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Barangay (Optional)</label>
+                                <input type="text" name="new_customer_barangay" value="{{ old('new_customer_barangay') }}" placeholder="e.g. Brgy. Orosite" class="w-full">
+                            </div>
+                            <div>
+                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">City / Municipality (Optional)</label>
+                                <input type="text" name="new_customer_city" value="{{ old('new_customer_city') }}" placeholder="e.g. Legazpi City" class="w-full">
+                            </div>
+                            <div>
+                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Province (Optional)</label>
+                                <input type="text" name="new_customer_province" value="{{ old('new_customer_province') }}" placeholder="e.g. Albay" class="w-full">
+                            </div>
+                            <div>
                                 <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Account Password (Optional)</label>
                                 <input type="password" name="new_customer_password" placeholder="Default: password (if left blank)" class="w-full">
                             </div>

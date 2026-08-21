@@ -64,6 +64,9 @@ class LaundryController extends Controller
                 'new_customer_email' => 'nullable|email|max:255|unique:users,email',
                 'new_customer_phone' => 'nullable|string|max:50|unique:users,phone',
                 'new_customer_address' => 'nullable|string|max:255',
+                'new_customer_barangay' => 'nullable|string|max:255',
+                'new_customer_city' => 'nullable|string|max:255',
+                'new_customer_province' => 'nullable|string|max:255',
             ], [
                 'new_customer_phone.unique' => 'This phone number is already registered to an existing customer.',
                 'new_customer_email.unique' => 'This email address is already registered to an existing customer.',
@@ -88,7 +91,10 @@ class LaundryController extends Controller
 
                     if (Schema::hasTable('customer_profiles')) {
                         $newCust->customerProfile()->create([
-                            'address' => $request->new_customer_address ?: 'Magallanes St., Orosite, Legazpi City',
+                            'address' => $request->new_customer_address ?: 'Magallanes St.',
+                            'barangay' => $request->new_customer_barangay ?: 'Brgy. Orosite',
+                            'city' => $request->new_customer_city ?: 'Legazpi City',
+                            'province' => $request->new_customer_province ?: 'Albay',
                         ]);
                     }
 
