@@ -130,7 +130,7 @@
         </div>
 
         <footer class="pt-4 border-t border-slate-200 dark:border-zinc-800 text-center text-[11px] text-slate-500 dark:text-zinc-400 space-y-1.5">
-            <div class="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1">
+            <div class="flex items-center justify-center gap-x-1.5 sm:gap-x-3 text-[10px] sm:text-xs">
                 <a href="{{ route('about') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">About Us</a>
                 <span class="text-slate-300 dark:text-zinc-700">•</span>
                 <a href="{{ route('developers') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Developers</a>

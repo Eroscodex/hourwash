@@ -376,7 +376,7 @@
 
             <footer class="border-t border-slate-200 dark:dark:border-zinc-700 py-3.5 px-4 sm:px-6 md:px-8 bg-white dark:bg-[#141417] w-full">
                 <div class="max-w-7xl mx-auto space-y-2.5">
-                    <nav class="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-xs text-slate-500 dark:text-zinc-400">
+                    <nav class="flex items-center justify-center gap-x-1.5 sm:gap-x-3 text-[10px] sm:text-xs text-slate-500 dark:text-zinc-400">
                         <a href="{{ route('about') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap">About Us</a>
                         <span class="text-slate-300 dark:text-zinc-700">•</span>
                         <a href="{{ route('developers') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap">Developers</a>
