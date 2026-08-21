@@ -33,7 +33,7 @@
     </div>
 
     <div class="app-card p-4 sm:p-7 space-y-5 sm:space-y-6 shadow-sm border-t-4 border-t-[#2563EB]">
-        
+
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border-b border-slate-200 dark:dark:border-zinc-700 pb-4 sm:pb-5">
             <div class="space-y-1">
                 <div class="flex items-center gap-2">
@@ -156,10 +156,10 @@
                     ];
                 }
             }
-            
+
             $currentStatus = $order->order_status;
             $currentStageInfo = $stages[$currentStatus] ?? ['step' => 1, 'label' => 'Processing', 'pct' => 0];
-            
+
             $statusKeys = array_keys($stages);
             $currentIndex = array_search($currentStatus, $statusKeys);
             if ($currentIndex === false) {
@@ -243,7 +243,7 @@
         @endif
 
         <div class="grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6">
-            
+
             <div class="md:col-span-7 space-y-4">
                 <div class="p-3.5 sm:p-4 rounded-lg sm:rounded-lg bg-slate-50 dark:bg-[#18181B] border border-black/5 dark:dark:border-zinc-700 space-y-3">
                     <div class="flex items-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider border-b border-black/5 dark:dark:border-zinc-700 pb-2">
@@ -252,7 +252,7 @@
 
                     @php
                         $isAuthorizedViewer = Auth::check() && (Auth::id() === $order->customer_id || Auth::user()->isStaff() || Auth::user()->isAdmin() || Auth::user()->isOwner() || Auth::user()->isRider());
-                        
+
                         $rawPhone = $order->customer->phone ?? '09171234567';
                         $maskedPhone = (strlen($rawPhone) >= 10) ? substr($rawPhone, 0, 4) . ' *** ' . substr($rawPhone, -4) : '09** *** ****';
                         $displayPhone = $isAuthorizedViewer ? $rawPhone : $maskedPhone;
@@ -338,7 +338,7 @@
             </div>
 
             <div class="md:col-span-5 space-y-4">
-                
+
                 <!-- Single Combined Live Machine & Completion Card -->
                 <div class="p-4 rounded-lg bg-slate-900 text-white space-y-3 shadow-lg border border-slate-800">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-2">
@@ -346,22 +346,26 @@
                         <span class="text-[10px] font-mono text-emerald-400 font-bold">● LIVE</span>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-3 text-xs">
-                        <div class="space-y-1">
-                            <span class="text-[10px] text-slate-400 font-semibold block uppercase">Assigned Unit</span>
-                            <div class="font-bold text-white font-mono text-xs sm:text-sm">
+                    <div class="grid grid-cols-2 gap-3 text-xs items-stretch">
+                        <div class="space-y-1 min-w-0 flex flex-col">
+                            <span class="text-[10px] text-slate-400 font-semibold block uppercase min-h-[30px]">Assigned Unit</span>
+                            <div class="font-bold text-white font-mono text-xs sm:text-sm min-h-[40px] break-words">
                                 {{ $order->machine ? $order->machine->machine_name . ' (' . $order->machine->machine_code . ')' : 'Auto-Assign' }}
                             </div>
                         </div>
-                        <div class="space-y-1">
-                            <span class="text-[10px] text-slate-400 font-semibold block uppercase">Est. Completion</span>
-                            <div class="font-bold text-amber-400 text-xs sm:text-sm">
-                                {{ in_array($order->order_status, ['pending', 'out_for_pickup', 'received']) ? 'Pending Wash Start' : ($order->estimated_completion?->format('M d • h:i A') ?? 'In Processing') }}
+                        <div class="space-y-1 min-w-0 flex flex-col">
+                            <span class="text-[10px] text-slate-400 font-semibold block uppercase min-h-[30px]">Est. Completion</span>
+                            <div class="font-bold text-amber-400 text-xs sm:text-sm min-h-[40px] break-words">
+                                @if(in_array($order->order_status, ['pending', 'out_for_pickup', 'received']))
+                                    {{ $isDryOnly ? 'Pending Dry Start' : ($isFoldOnly ? 'Pending Fold Start' : 'Pending Wash Start') }}
+                                @else
+                                    {{ $order->estimated_completion?->format('M d • h:i A') ?? 'In Processing' }}
+                                @endif
                             </div>
                         </div>
                     </div>
 
-                    @if(in_array($order->order_status, ['washing', 'rinsing', 'drying']) && $order->estimated_completion && $order->estimated_completion->isFuture())
+                    @if((in_array($order->order_status, ['washing', 'rinsing', 'drying']) || ($isFoldOnly && $order->order_status === 'finish')) && $order->estimated_completion && $order->estimated_completion->isFuture())
                         <div class="p-2.5 rounded-lg bg-slate-800/90 border border-amber-400/40 flex items-center justify-between text-xs font-mono font-bold text-amber-300">
                             <span class="text-amber-300 dark:text-amber-300 font-bold opacity-100 !text-amber-300">Time Remaining:</span>
                             <span id="order-countdown" data-expiry="{{ $order->estimated_completion->timestamp }}" class="text-amber-300 dark:text-amber-300 font-extrabold !text-amber-300">Calculating...</span>
@@ -372,8 +376,8 @@
                 <!-- Scannable QR Laundry Tag Card -->
                 <div class="p-4 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-black/5 dark:dark:border-zinc-700 flex items-center justify-center">
                     <div class="w-44 h-44 sm:w-48 sm:h-48 mx-auto bg-white p-2.5 rounded-xl shadow-sm border border-slate-200 flex items-center justify-center">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data={{ $order->qrCode->qr_token ?? $order->order_number }}" 
-                             alt="QR Code Tag #{{ $order->order_number }}" 
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data={{ $order->qrCode->qr_token ?? $order->order_number }}"
+                             alt="QR Code Tag #{{ $order->order_number }}"
                              class="w-full h-full rounded-lg">
                     </div>
                 </div>
@@ -469,36 +473,36 @@
 
 </div>
 
-@if(in_array($order->order_status, ['washing', 'rinsing', 'drying']) && $order->estimated_completion && $order->estimated_completion->isFuture())
+@if((in_array($order->order_status, ['washing', 'rinsing', 'drying']) || ($isFoldOnly && $order->order_status === 'finish')) && $order->estimated_completion && $order->estimated_completion->isFuture())
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const countdownEl = document.getElementById('order-countdown');
         if (countdownEl) {
             const expiryTimestamp = parseInt(countdownEl.getAttribute('data-expiry')) * 1000;
-            
+
             function updateCountdown() {
                 const now = new Date().getTime();
                 const distance = expiryTimestamp - now;
-                
+
                 if (distance < 0) {
                     countdownEl.innerText = "Processing Completion...";
                     clearInterval(timerInterval);
                     return;
                 }
-                
+
                 const hours = Math.floor(distance / (1000 * 60 * 60));
                 const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                 const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                
+
                 let timeString = "";
                 if (hours > 0) {
                     timeString += hours + "h ";
                 }
                 timeString += minutes + "m " + seconds + "s";
-                
+
                 countdownEl.innerText = timeString;
             }
-            
+
             updateCountdown();
             const timerInterval = setInterval(updateCountdown, 1000);
         }

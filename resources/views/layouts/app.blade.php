@@ -54,11 +54,15 @@
             html.sidebar-collapsed #sidebar-user-box {
                 padding-left: 0 !important;
                 padding-right: 0 !important;
+                display: flex !important;
                 justify-content: center !important;
             }
             html.sidebar-collapsed #sidebar-user-box > div {
                 justify-content: center !important;
                 width: 100% !important;
+            }
+            html.sidebar-collapsed #sidebar-user-box .sidebar-user-avatar {
+                margin: 0 auto !important;
             }
             html.sidebar-collapsed .sidebar-nav-item {
                 justify-content: center !important;
@@ -293,7 +297,7 @@
             <div id="sidebar-user-box" class="p-4 border-t border-slate-200 dark:dark:border-zinc-700 bg-slate-50 dark:bg-white/5 transition-all">
                 <div class="flex items-center justify-between gap-3 w-full transition-all">
                     <div class="flex items-center gap-3 min-w-0 flex-1">
-                        <div class="w-10 h-10 rounded-lg bg-blue-600 dark:bg-blue-600 text-white flex items-center justify-center font-bold shadow-sm shrink-0">
+                        <div class="w-10 h-10 rounded-lg bg-blue-600 dark:bg-blue-600 text-white flex items-center justify-center font-bold shadow-sm shrink-0 sidebar-user-avatar">
                             {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
                         </div>
                         <div class="sidebar-text flex-1 overflow-hidden">
