@@ -83,12 +83,12 @@
                         <select id="status" 
                                 name="status" 
                                 class="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-300 dark:border-zinc-700 rounded-md px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-zinc-100 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition shadow-sm appearance-none pr-10">
-                            <option value="idle" {{ old('status', 'idle') === 'idle' ? 'selected' : '' }}>🟢 Idle (Available for Laundry)</option>
-                            <option value="washing" {{ old('status') === 'washing' ? 'selected' : '' }}>🌀 Washing Cycle Active</option>
-                            <option value="rinsing" {{ old('status') === 'rinsing' ? 'selected' : '' }}>💧 Rinsing Cycle Active</option>
-                            <option value="drying" {{ old('status') === 'drying' ? 'selected' : '' }}>♨️ Drying Cycle Active</option>
-                            <option value="maintenance" {{ old('status') === 'maintenance' ? 'selected' : '' }}>🔧 Maintenance / Servicing</option>
-                            <option value="offline" {{ old('status') === 'offline' ? 'selected' : '' }}>🔴 Offline (Out of Order)</option>
+                            <option value="idle" {{ old('status', 'idle') === 'idle' ? 'selected' : '' }}>Idle (Available for Laundry)</option>
+                            <option value="washing" {{ old('status') === 'washing' ? 'selected' : '' }}>Washing Cycle Active</option>
+                            <option value="rinsing" {{ old('status') === 'rinsing' ? 'selected' : '' }}>Rinsing Cycle Active</option>
+                            <option value="drying" {{ old('status') === 'drying' ? 'selected' : '' }}>Drying Cycle Active</option>
+                            <option value="maintenance" {{ old('status') === 'maintenance' ? 'selected' : '' }}>Maintenance / Servicing</option>
+                            <option value="offline" {{ old('status') === 'offline' ? 'selected' : '' }}>Offline (Out of Order)</option>
                         </select>
                         <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>

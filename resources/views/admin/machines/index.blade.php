@@ -26,7 +26,7 @@
             <div class="flex items-center justify-between cursor-pointer" @click="showGuide = !showGuide">
                 <div class="flex items-center gap-2">
                     <svg class="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    <span class="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">💡 Physical Machine Control Panel Cycle Guide</span>
+                    <span class="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">Physical Machine Control Panel Cycle Guide</span>
                 </div>
                 <button type="button" class="text-xs text-blue-600 dark:text-blue-400 font-bold hover:underline">
                     <span x-text="showGuide ? 'Hide Cycle Definitions ▲' : 'View Cycle Definitions ▼'">View Cycle Definitions ▼</span>
@@ -37,7 +37,7 @@
                 <!-- Dryer Buttons -->
                 <div class="space-y-2">
                     <h4 class="font-extrabold text-blue-600 dark:text-blue-400 flex items-center gap-1.5 text-[11px] uppercase tracking-wider">
-                        <span>♨️ Dryer Panel Buttons</span>
+                        <span>Dryer Panel Buttons</span>
                     </h4>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
                         <div class="p-2.5 rounded bg-white dark:bg-[#141417] border border-slate-200 dark:border-zinc-800">
@@ -58,7 +58,7 @@
                 <!-- Washer Buttons -->
                 <div class="space-y-2">
                     <h4 class="font-extrabold text-blue-600 dark:text-blue-400 flex items-center gap-1.5 text-[11px] uppercase tracking-wider">
-                        <span>🧺 Washer Panel Buttons</span>
+                        <span>Washer Panel Buttons</span>
                     </h4>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
                         <div class="p-2.5 rounded bg-white dark:bg-[#141417] border border-slate-200 dark:border-zinc-800">
