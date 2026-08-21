@@ -499,100 +499,88 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3.5">
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-3.5">
                     @forelse($machines as $machine)
                         @php
-                            $statusClass = match($machine->status) {
-                                'washing' => 'bg-teal-500/15 text-teal-700 dark:text-teal-300',
-                                'rinsing' => 'bg-sky-500/15 text-sky-700 dark:text-sky-300',
-                                'drying' => 'bg-indigo-500/15 text-indigo-700 dark:text-indigo-300',
-                                'idle' => 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300',
-                                default => 'bg-amber-500/15 text-amber-700 dark:text-amber-300',
+                            $statusBadgeClass = match($machine->status) {
+                                'washing' => 'bg-teal-50 dark:bg-teal-950/40 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-800/60',
+                                'rinsing' => 'bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-800/60',
+                                'drying' => 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60',
+                                'idle' => 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60',
+                                default => 'bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800/60',
                             };
-                            $statusTextClass = match($machine->status) {
-                                'washing' => 'text-teal-600 dark:text-teal-400',
-                                'rinsing' => 'text-sky-600 dark:text-sky-400',
-                                'drying' => 'text-indigo-600 dark:text-indigo-400',
-                                'idle' => 'text-emerald-600 dark:text-emerald-400',
-                                default => 'text-amber-600 dark:text-amber-400',
+                            $dotClass = match($machine->status) {
+                                'washing' => 'bg-teal-500 animate-pulse',
+                                'rinsing' => 'bg-sky-500 animate-pulse',
+                                'drying' => 'bg-amber-500 animate-pulse',
+                                'idle' => 'bg-emerald-500',
+                                default => 'bg-rose-500',
                             };
-                        @endphp
-
-                        @php
                             $ord = $machine->displayOrder;
                         @endphp
 
                         @if($ord)
                             <a href="{{ route('laundry.track', $ord->order_number) }}"
-                               class="block p-3.5 rounded-lg bg-blue-600/5 dark:bg-blue-600/10 border border-blue-600/40 space-y-2 hover:border-blue-600 shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all cursor-pointer group"
+                               class="block p-3.5 rounded-lg bg-white dark:bg-[#18181B] border-2 border-blue-600 space-y-2.5 shadow-xs hover:shadow-sm transition-all cursor-pointer group"
                                title="Click to view order #{{ $ord->order_number }}">
                                 <div class="flex items-center justify-between">
-                                    <span class="text-xs font-bold text-slate-900 dark:text-slate-100 truncate group-hover:text-blue-600 transition">
+                                    <span class="text-xs font-bold text-slate-900 dark:text-white truncate group-hover:text-blue-600 transition">
                                         {{ $machine->machine_name }}
                                     </span>
-                                    <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono flex-shrink-0">
+                                    <span class="text-[10px] text-slate-400 dark:text-zinc-500 font-mono font-semibold shrink-0">
                                         {{ $machine->machine_code }}
                                     </span>
                                 </div>
 
-                                <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold {{ $statusClass }}">
-                                    <img src="{{ asset('favicon.svg') }}" alt="HourWash" class="w-5 h-5 object-contain" />
+                                <div class="flex items-center gap-2.5">
+                                    <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs shrink-0 {{ $statusBadgeClass }}">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                    </div>
+                                    <div class="truncate">
+                                        <span class="inline-flex items-center gap-1 text-[10px] font-extrabold uppercase tracking-wider text-slate-800 dark:text-zinc-200">
+                                            <span class="w-1.5 h-1.5 rounded-full {{ $dotClass }}"></span>
+                                            {{ strtoupper($machine->status === 'idle' ? str_replace('_', ' ', $ord->order_status) : $machine->status) }}
+                                        </span>
+                                        @if(in_array($machine->status, ['washing', 'rinsing', 'drying']) && $machine->remaining_minutes)
+                                            <span class="block text-[10px] text-slate-500 dark:text-slate-400 font-medium truncate">{{ $machine->remaining_minutes }}m remaining</span>
+                                        @else
+                                            <span class="block text-[10px] text-amber-600 dark:text-amber-400 font-bold truncate">Order {{ ucfirst(str_replace('_', ' ', $ord->order_status)) }}</span>
+                                        @endif
+                                    </div>
                                 </div>
 
-                                <div>
-                                    <span class="text-[10px] font-bold uppercase tracking-wider block {{ $statusTextClass }}">
-                                        {{ strtoupper($machine->status === 'idle' ? str_replace('_', ' ', $ord->order_status) : $machine->status) }}
+                                <div class="pt-2 border-t border-slate-100 dark:border-zinc-800/80 text-[10px] space-y-0.5">
+                                    <span class="block font-bold text-blue-600 dark:text-blue-400 group-hover:underline truncate">
+                                        #{{ $ord->order_number }}
                                     </span>
-                                    <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 space-y-0.5">
-                                        @if(in_array($machine->status, ['washing', 'rinsing', 'drying']) && $machine->remaining_minutes)
-                                            <span>{{ $machine->remaining_minutes }} mins remaining</span>
-                                        @elseif($ord->order_status === 'finish')
-                                            <span class="text-emerald-600 dark:text-emerald-400 font-bold">✓ Finish & Shelved</span>
-                                        @else
-                                            <span class="text-amber-600 dark:text-amber-400 font-bold">Order {{ ucfirst(str_replace('_', ' ', $ord->order_status)) }}</span>
-                                        @endif
-                                        <span class="block text-[9.5px] font-bold text-blue-600 dark:text-blue-400 mt-1 group-hover:underline truncate">
-                                            Order: #{{ $ord->order_number }}
-                                        </span>
-                                        <span class="block text-[9px] font-semibold text-slate-700 dark:text-slate-300 truncate">
-                                            Customer: {{ $ord->customer->name ?? 'Customer' }}
-                                        </span>
-                                    </div>
+                                    <span class="block text-slate-600 dark:text-slate-400 font-medium truncate">
+                                        {{ $ord->customer->name ?? 'Customer' }}
+                                    </span>
                                 </div>
                             </a>
                         @else
-                            <div class="p-3.5 rounded-lg bg-black/5 dark:bg-[#18181B] border border-black/5 dark:dark:border-zinc-700 space-y-2 opacity-85 select-none"
-                                 title="No active order for {{ $machine->machine_name }}">
+                            <div class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 space-y-2.5 transition-all">
                                 <div class="flex items-center justify-between">
-                                    <span class="text-xs font-bold text-slate-900 dark:text-slate-100 truncate">
+                                    <span class="text-xs font-bold text-slate-900 dark:text-white truncate">
                                         {{ $machine->machine_name }}
                                     </span>
-                                    <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono flex-shrink-0">
+                                    <span class="text-[10px] text-slate-400 dark:text-zinc-500 font-mono font-semibold shrink-0">
                                         {{ $machine->machine_code }}
                                     </span>
                                 </div>
 
-                                <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-bold {{ $statusClass }}">
-                                    <img src="{{ asset('favicon.svg') }}" alt="HourWash" class="w-5 h-5 object-contain" />
-                                </div>
-
-                                <div>
-                                    <span class="text-[10px] font-bold uppercase tracking-wider block {{ $statusTextClass }}">
-                                        {{ strtoupper($machine->status) }}
-                                    </span>
-                                    <div class="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
-                                        @if(in_array($machine->status, ['washing', 'rinsing', 'drying']))
-                                            <span>{{ $machine->remaining_minutes ?? 30 }} mins remaining</span>
-                                            <span class="block text-[9px] text-blue-600 dark:text-blue-400 font-bold mt-0.5">
-                                                Est. Finish: {{ now()->addMinutes($machine->remaining_minutes ?? 30)->format('h:i A') }}
-                                            </span>
-                                        @elseif($machine->status === 'maintenance')
-                                            <span class="text-amber-600 dark:text-amber-400 font-semibold">⚠ Maintenance</span>
-                                        @elseif($machine->status === 'offline')
-                                            <span class="text-rose-600 dark:text-rose-400 font-semibold">🚫 Offline</span>
-                                        @else
-                                            Available
-                                        @endif
+                                <div class="flex items-center gap-2.5">
+                                    <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs shrink-0 {{ $statusBadgeClass }}">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                    </div>
+                                    <div class="truncate">
+                                        <span class="inline-flex items-center gap-1 text-[10px] font-extrabold uppercase tracking-wider text-slate-700 dark:text-zinc-300">
+                                            <span class="w-1.5 h-1.5 rounded-full {{ $dotClass }}"></span>
+                                            {{ strtoupper($machine->status) }}
+                                        </span>
+                                        <span class="block text-[10px] text-slate-400 dark:text-zinc-500 font-medium truncate">
+                                            {{ $machine->status === 'idle' ? 'Available' : ($machine->remaining_minutes ? $machine->remaining_minutes.'m remaining' : 'In Service') }}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -604,12 +592,12 @@
                     @endforelse
                 </div>
 
-                <div class="flex flex-wrap items-center gap-3 sm:gap-4 text-[11px] text-slate-500 dark:text-slate-400 border-t border-black/5 dark:dark:border-zinc-700 pt-4">
-                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-teal-500"></span>Washing</span>
-                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-sky-500"></span>Rinsing</span>
-                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-indigo-500"></span>Drying</span>
-                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>Idle</span>
-                    <span class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>Maintenance</span>
+                <div class="flex flex-wrap items-center gap-4 text-[11px] font-medium text-slate-600 dark:text-slate-400 border-t border-slate-200/80 dark:border-zinc-800 pt-3.5">
+                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-teal-500"></span> Washing</span>
+                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-sky-500"></span> Rinsing</span>
+                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-amber-500"></span> Drying</span>
+                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Idle / Available</span>
+                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-rose-500"></span> Maintenance</span>
                 </div>
             </div>
         </div>
