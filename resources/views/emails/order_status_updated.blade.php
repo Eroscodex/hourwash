@@ -7,6 +7,30 @@
 </head>
 <body style="margin: 0; padding: 0; background-color: #FFFFFF; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1D1D1F; -webkit-font-smoothing: antialiased;">
 
+    @php
+        $logoSrc = config('app.url', 'https://hourwashlaundryshop.up.railway.app') . '/favicon.png';
+        $pngPath = public_path('favicon.png');
+        if (file_exists($pngPath)) {
+            $logoSrc = 'data:image/png;base64,' . base64_encode(file_get_contents($pngPath));
+        }
+
+        $st = strtolower($order->order_status);
+        $statusLabel = match($st) {
+            'pending' => 'Order Placed (Pending)',
+            'out_for_pickup' => 'Out for Pickup',
+            'received' => 'Store Received',
+            'washing' => 'Washing Cycle Active',
+            'rinsing' => 'Rinsing Cycle Active',
+            'drying' => 'Drying Cycle Active',
+            'finish', 'folding' => 'FOLDING & READY FOR PICKUP',
+            'out_for_delivery' => 'Out for Delivery',
+            'completed' => 'Order Completed',
+            'cancelled' => 'Order Cancelled',
+            default => strtoupper(str_replace('_', ' ', $order->order_status))
+        };
+        $custFirstName = explode(' ', trim($order->customer->name ?? 'Customer'))[0];
+    @endphp
+
     <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #FFFFFF; padding: 40px 20px;">
         <tr>
             <td align="center">
@@ -19,7 +43,9 @@
                             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                 <tr>
                                     <td align="left" valign="middle" style="width: 44px;">
-                                        <img src="{{ url('favicon.png') }}" alt="Hour Wash Logo" width="36" height="36" style="display: block; border-radius: 8px;">
+                                        <div style="width: 36px; height: 36px; background-color: #2563EB; border-radius: 9px; text-align: center; line-height: 36px; color: #FFFFFF; font-weight: 800; font-size: 14px; overflow: hidden;">
+                                            <img src="{{ $logoSrc }}" alt="Hour Wash Logo" width="36" height="36" style="display: block; border-radius: 9px; border: 0; width: 36px; height: 36px; object-fit: cover;">
+                                        </div>
                                     </td>
                                     <td align="right" valign="middle" style="font-size: 22px; font-weight: 400; color: #86868B; letter-spacing: -0.5px;">
                                         Order Status Update
@@ -29,32 +55,14 @@
                         </td>
                     </tr>
 
-                    @php
-                        $st = strtolower($order->order_status);
-                        $statusLabel = match($st) {
-                            'pending' => 'Order Placed (Pending)',
-                            'out_for_pickup' => 'Out for Pickup',
-                            'received' => 'Store Received',
-                            'washing' => 'Washing Cycle Active',
-                            'rinsing' => 'Rinsing Cycle Active',
-                            'drying' => 'Drying Cycle Active',
-                            'finish', 'folding' => 'FOLDING & READY FOR PICKUP',
-                            'out_for_delivery' => 'Out for Delivery',
-                            'completed' => 'Order Completed',
-                            'cancelled' => 'Order Cancelled',
-                            default => strtoupper(str_replace('_', ' ', $order->order_status))
-                        };
-                        $custFirstName = explode(' ', trim($order->customer->name ?? 'Customer'))[0];
-                    @endphp
-
                     <!-- Apple-style Light Grey Hero Banner Card -->
                     <tr>
                         <td style="padding-bottom: 32px;">
                             <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #F5F5F7; border-radius: 16px; padding: 24px;">
                                 <tr>
                                     <td valign="top" style="width: 80px; padding-right: 20px;">
-                                        <div style="width: 72px; height: 72px; background-color: #FFFFFF; border-radius: 18px; border: 1px solid rgba(0,0,0,0.06); text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.04); overflow: hidden;">
-                                            <img src="{{ url('favicon.png') }}" alt="Hour Wash Laundry" width="48" height="48" style="display: block; margin: 12px auto; border-radius: 10px;">
+                                        <div style="width: 72px; height: 72px; background-color: #2563EB; border-radius: 18px; text-align: center; line-height: 72px; color: #FFFFFF; font-weight: 800; font-size: 20px; box-shadow: 0 4px 12px rgba(37,99,235,0.2); overflow: hidden;">
+                                            <img src="{{ $logoSrc }}" alt="Hour Wash Laundry" width="72" height="72" style="display: block; border-radius: 18px; border: 0; width: 72px; height: 72px; object-fit: cover;">
                                         </div>
                                     </td>
                                     <td valign="middle">
@@ -110,7 +118,9 @@
                     <!-- Minimalist Footer Divider & Links -->
                     <tr>
                         <td align="center" style="border-top: 1px solid #E5E5EA; padding-top: 32px; padding-bottom: 20px;">
-                            <img src="{{ url('favicon.png') }}" alt="Hour Wash Logo" width="24" height="24" style="display: block; margin: 0 auto 16px auto; border-radius: 6px;">
+                            <div style="width: 28px; height: 28px; background-color: #2563EB; border-radius: 7px; text-align: center; line-height: 28px; color: #FFFFFF; font-weight: 800; font-size: 11px; margin: 0 auto 16px auto; overflow: hidden;">
+                                <img src="{{ $logoSrc }}" alt="Hour Wash Logo" width="28" height="28" style="display: block; border-radius: 7px; border: 0; width: 28px; height: 28px; object-fit: cover;">
+                            </div>
 
                             <p style="margin: 0 0 12px 0; font-size: 12px; color: #0066CC;">
                                 <a href="{{ url('/laundry/track/' . ($order->qrCode->qr_token ?? $order->order_number)) }}" style="color: #0066CC; text-decoration: none; font-weight: 500;">Track Order</a>
