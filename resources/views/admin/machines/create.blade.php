@@ -2,12 +2,8 @@
 
     <div class="max-w-2xl mx-auto space-y-6">
 
-        <!-- Header Navigation & Title -->
+        <!-- Header Title -->
         <div>
-            <a href="{{ route('admin.machines.index') }}" class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 dark:text-zinc-400 hover:text-blue-600 dark:hover:text-blue-400 transition mb-3">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
-                Back to Machine Fleet Monitor
-            </a>
             <h1 class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">Add New Machine</h1>
             <p class="text-xs sm:text-sm text-slate-500 dark:text-zinc-400 mt-1">Register a new commercial washer or dryer unit into the store monitor system.</p>
         </div>
