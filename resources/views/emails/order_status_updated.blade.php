@@ -13,15 +13,13 @@
                 
                 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width: 580px; text-align: left;">
                     
-                    <!-- Header Top Bar (Apple-style Icon + Title) -->
+                    <!-- Header Top Bar (Favicon Picture Logo + Title) -->
                     <tr>
                         <td style="padding-bottom: 24px;">
                             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                 <tr>
-                                    <td align="left" valign="middle" style="width: 40px;">
-                                        <div style="width: 36px; height: 36px; background-color: #2563EB; border-radius: 9px; text-align: center; line-height: 36px; color: #FFFFFF; font-weight: 800; font-size: 16px;">
-                                            HW
-                                        </div>
+                                    <td align="left" valign="middle" style="width: 44px;">
+                                        <img src="{{ url('favicon.png') }}" alt="Hour Wash Logo" width="36" height="36" style="display: block; border-radius: 8px;">
                                     </td>
                                     <td align="right" valign="middle" style="font-size: 22px; font-weight: 400; color: #86868B; letter-spacing: -0.5px;">
                                         Order Status Update
@@ -55,8 +53,8 @@
                             <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #F5F5F7; border-radius: 16px; padding: 24px;">
                                 <tr>
                                     <td valign="top" style="width: 80px; padding-right: 20px;">
-                                        <div style="width: 72px; height: 72px; background-color: #FFFFFF; border-radius: 18px; border: 1px solid rgba(0,0,0,0.06); text-align: center; line-height: 72px; font-size: 32px; box-shadow: 0 4px 12px rgba(0,0,0,0.04);">
-                                            🧺
+                                        <div style="width: 72px; height: 72px; background-color: #FFFFFF; border-radius: 18px; border: 1px solid rgba(0,0,0,0.06); text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.04); overflow: hidden;">
+                                            <img src="{{ url('favicon.png') }}" alt="Hour Wash Laundry" width="48" height="48" style="display: block; margin: 12px auto; border-radius: 10px;">
                                         </div>
                                     </td>
                                     <td valign="middle">
@@ -93,7 +91,7 @@
 
                             @if(in_array($st, ['finish', 'folding', 'ready', 'ready_for_pickup', 'shelved_and_tagged']))
                                 <p style="margin: 0 0 16px 0; background-color: #FEF3C7; border-left: 4px solid #F59E0B; padding: 12px 16px; border-radius: 8px; color: #78350F; font-weight: 600;">
-                                    🧺 <strong>YOUR LAUNDRY IS FINISHED & FOLDED!</strong><br>
+                                    <strong>YOUR LAUNDRY IS FINISHED & FOLDED!</strong><br>
                                     PLEASE CLAIM YOUR LAUNDRY ORDER AT OUR STORE COUNTER (Magallanes St., Orosite, Legazpi City).
                                 </p>
                             @endif
@@ -111,10 +109,8 @@
 
                     <!-- Minimalist Footer Divider & Links -->
                     <tr>
-                        <td align="center" style="border-t: 1px solid #E5E5EA; padding-top: 32px; padding-bottom: 20px;">
-                            <div style="width: 24px; height: 24px; background-color: #2563EB; border-radius: 6px; text-align: center; line-height: 24px; color: #FFFFFF; font-weight: 800; font-size: 11px; margin-bottom: 16px; display: inline-block;">
-                                HW
-                            </div>
+                        <td align="center" style="border-top: 1px solid #E5E5EA; padding-top: 32px; padding-bottom: 20px;">
+                            <img src="{{ url('favicon.png') }}" alt="Hour Wash Logo" width="24" height="24" style="display: block; margin: 0 auto 16px auto; border-radius: 6px;">
 
                             <p style="margin: 0 0 12px 0; font-size: 12px; color: #0066CC;">
                                 <a href="{{ url('/laundry/track/' . ($order->qrCode->qr_token ?? $order->order_number)) }}" style="color: #0066CC; text-decoration: none; font-weight: 500;">Track Order</a>
