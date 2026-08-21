@@ -28,6 +28,7 @@
 </head>
 
 <body class="bg-slate-50 dark:bg-[#09090B] text-slate-900 dark:text-zinc-100 font-sans antialiased min-h-screen flex items-center justify-center p-4 sm:p-6 selection:bg-blue-600 selection:text-white">
+    <div id="top-loading-bar" class="fixed top-0 left-0 h-1 bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-400 z-[9999] transition-all duration-500 ease-out w-0 opacity-0 pointer-events-none shadow-sm"></div>
 
     <div class="w-full max-w-md space-y-6">
 
@@ -79,7 +80,44 @@
                 localStorage.setItem('theme', 'dark');
             }
         }
-    </script>
 
+        document.addEventListener('DOMContentLoaded', function () {
+            const topBar = document.getElementById('top-loading-bar');
+            
+            document.querySelectorAll('form').forEach(function (form) {
+                form.addEventListener('submit', function () {
+                    if (form.checkValidity && !form.checkValidity()) return;
+                    
+                    const submitBtn = form.querySelector('button[type="submit"], input[type="submit"]');
+                    if (submitBtn && !submitBtn.dataset.noLoading) {
+                        setTimeout(function() {
+                            submitBtn.disabled = true;
+                        }, 20);
+                        
+                        submitBtn.classList.add('opacity-80', 'cursor-not-allowed', 'pointer-events-none');
+                        
+                        if (!submitBtn.querySelector('.global-btn-spinner')) {
+                            const spinner = document.createElement('span');
+                            spinner.className = 'global-btn-spinner inline-flex items-center shrink-0 mr-2';
+                            spinner.innerHTML = `<svg class="animate-spin h-3.5 w-3.5 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
+                            submitBtn.insertBefore(spinner, submitBtn.firstChild);
+                        }
+                    }
+                    
+                    if (topBar) {
+                        topBar.style.width = '75%';
+                        topBar.style.opacity = '1';
+                    }
+                });
+            });
+
+            window.addEventListener('beforeunload', function () {
+                if (topBar) {
+                    topBar.style.width = '95%';
+                    topBar.style.opacity = '1';
+                }
+            });
+        });
+    </script>
 </body>
 </html>
