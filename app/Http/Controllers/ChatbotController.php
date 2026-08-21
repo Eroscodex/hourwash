@@ -148,7 +148,7 @@ CRITICAL RULES:
 - ONLY answer questions about laundry services, order tracking, machine status, store hours, rider dispatch, and shop info.
 - NEVER reveal user passwords, tokens, secret keys, or any sensitive authentication data.
 - NEVER reveal personal details of staff or admin users (phone numbers, addresses, roles).
-- If a customer requests to talk to a rider, contact a rider, or check delivery status, provide our assigned rider dispatch contact details: {$riderList} or Shop Hotline: (052) 800-WASH.
+- If a customer requests to talk to a rider, contact a rider, or check delivery status, provide our assigned rider dispatch contact details: {$riderList} or Shop Hotline: (052) 800-HOURWASH.
 - You MAY help customers look up their OWN order status by name, email, or order number.
 - Politely decline any non-laundry questions (cooking, coding, politics, etc.).
 - Always reply in a friendly, helpful, professional tone.
@@ -244,7 +244,7 @@ PROMPT;
                 $riderStr = "- Assigned Rider: Rider Anthony (Phone: 09100317744)\n";
             }
 
-            return "HourWash Assigned Rider & Doorstep Dispatch Support:\n{$riderStr}- Shop Counter Hotline: (052) 800-WASH\n\nOur riders are on duty for all active 'Out for Pickup' and 'Out for Delivery' orders! You can call or text them directly or track your order live at:\nhttps://hourwashlaundryshop.up.railway.app/laundry/track";
+            return "HourWash Assigned Rider & Doorstep Dispatch Support:\n{$riderStr}- Shop Counter Hotline: (052) 800-HOURWASH\n\nOur riders are on duty for all active 'Out for Pickup' and 'Out for Delivery' orders! You can call or text them directly or track your order live at:\nhttps://hourwashlaundryshop.up.railway.app/laundry/track";
         }
 
         // --- Machine Availability ---
