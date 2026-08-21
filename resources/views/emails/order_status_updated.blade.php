@@ -8,12 +8,7 @@
 <body style="margin: 0; padding: 0; background-color: #FFFFFF; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1D1D1F; -webkit-font-smoothing: antialiased;">
 
     @php
-        $logoSrc = config('app.url', 'https://hourwashlaundryshop.up.railway.app') . '/favicon.png';
-        $pngPath = public_path('favicon.png');
-        if (file_exists($pngPath)) {
-            $logoSrc = 'data:image/png;base64,' . base64_encode(file_get_contents($pngPath));
-        }
-
+        $logoSrc = 'https://hourwashlaundryshop.up.railway.app/favicon.png';
         $st = strtolower($order->order_status);
         $statusLabel = match($st) {
             'pending' => 'Order Placed (Pending)',
@@ -37,14 +32,14 @@
                 
                 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="max-width: 580px; text-align: left;">
                     
-                    <!-- Header Top Bar (Favicon Picture Logo + Title) -->
+                    <!-- Header Top Bar (Favicon Logo + Title) -->
                     <tr>
                         <td style="padding-bottom: 24px;">
                             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                 <tr>
                                     <td align="left" valign="middle" style="width: 44px;">
                                         <div style="width: 36px; height: 36px; background-color: #2563EB; border-radius: 9px; text-align: center; line-height: 36px; color: #FFFFFF; font-weight: 800; font-size: 14px; overflow: hidden;">
-                                            <img src="{{ $logoSrc }}" alt="Hour Wash Logo" width="36" height="36" style="display: block; border-radius: 9px; border: 0; width: 36px; height: 36px; object-fit: cover;">
+                                            <img src="{{ $logoSrc }}" alt="HW" width="36" height="36" style="display: block; border-radius: 9px; border: 0; outline: none; width: 36px; height: 36px; object-fit: cover;">
                                         </div>
                                     </td>
                                     <td align="right" valign="middle" style="font-size: 22px; font-weight: 400; color: #86868B; letter-spacing: -0.5px;">
@@ -62,7 +57,7 @@
                                 <tr>
                                     <td valign="top" style="width: 80px; padding-right: 20px;">
                                         <div style="width: 72px; height: 72px; background-color: #2563EB; border-radius: 18px; text-align: center; line-height: 72px; color: #FFFFFF; font-weight: 800; font-size: 20px; box-shadow: 0 4px 12px rgba(37,99,235,0.2); overflow: hidden;">
-                                            <img src="{{ $logoSrc }}" alt="Hour Wash Laundry" width="72" height="72" style="display: block; border-radius: 18px; border: 0; width: 72px; height: 72px; object-fit: cover;">
+                                            <img src="{{ $logoSrc }}" alt="HW" width="72" height="72" style="display: block; border-radius: 18px; border: 0; outline: none; width: 72px; height: 72px; object-fit: cover;">
                                         </div>
                                     </td>
                                     <td valign="middle">
@@ -100,7 +95,7 @@
                             @if(in_array($st, ['finish', 'folding', 'ready', 'ready_for_pickup', 'shelved_and_tagged']))
                                 <p style="margin: 0 0 16px 0; background-color: #FEF3C7; border-left: 4px solid #F59E0B; padding: 12px 16px; border-radius: 8px; color: #78350F; font-weight: 600;">
                                     <strong>YOUR LAUNDRY IS FINISHED & FOLDED!</strong><br>
-                                    PLEASE CLAIM YOUR LAUNDRY ORDER AT OUR STORE COUNTER (Magallanes St., Orosite, Legazpi City).
+                                    PLEASE CLAIM YOUR LAUNDRY ORDER AT OUR STORE COUNTER.
                                 </p>
                             @endif
 
@@ -110,7 +105,7 @@
 
                             <p style="margin: 0; color: #1D1D1F;">
                                 Sincerely,<br>
-                                <strong>Hour Wash Team</strong>
+                                <strong>Hour Wash</strong>
                             </p>
                         </td>
                     </tr>
@@ -119,19 +114,16 @@
                     <tr>
                         <td align="center" style="border-top: 1px solid #E5E5EA; padding-top: 32px; padding-bottom: 20px;">
                             <div style="width: 28px; height: 28px; background-color: #2563EB; border-radius: 7px; text-align: center; line-height: 28px; color: #FFFFFF; font-weight: 800; font-size: 11px; margin: 0 auto 16px auto; overflow: hidden;">
-                                <img src="{{ $logoSrc }}" alt="Hour Wash Logo" width="28" height="28" style="display: block; border-radius: 7px; border: 0; width: 28px; height: 28px; object-fit: cover;">
+                                <img src="{{ $logoSrc }}" alt="HW" width="28" height="28" style="display: block; border-radius: 7px; border: 0; outline: none; width: 28px; height: 28px; object-fit: cover;">
                             </div>
 
                             <p style="margin: 0 0 12px 0; font-size: 12px; color: #0066CC;">
                                 <a href="{{ url('/laundry/track/' . ($order->qrCode->qr_token ?? $order->order_number)) }}" style="color: #0066CC; text-decoration: none; font-weight: 500;">Track Order</a>
                                 <span style="color: #86868B; margin: 0 6px;">•</span>
-                                <a href="https://maps.google.com/?q=Magallanes+St+Orosite+Legazpi+City" style="color: #0066CC; text-decoration: none; font-weight: 500;">Store Location</a>
-                                <span style="color: #86868B; margin: 0 6px;">•</span>
                                 <a href="{{ url('/privacy') }}" style="color: #0066CC; text-decoration: none; font-weight: 500;">Privacy Policy</a>
                             </p>
 
                             <p style="margin: 0; font-size: 11px; color: #86868B; line-height: 1.4;">
-                                Magallanes St., Orosite, Legazpi City, Albay • (052) 800-WASH<br>
                                 Copyright © {{ date('Y') }} Hour Wash Laundry Management System. All rights reserved.
                             </p>
                         </td>
