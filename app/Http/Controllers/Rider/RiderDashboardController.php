@@ -78,6 +78,17 @@ class RiderDashboardController extends Controller
 
         $order->save();
 
+        $rider = auth()->user();
+        if ($rider && $rider->isRider()) {
+            $order->pickupDelivery()->updateOrCreate(
+                ['order_id' => $order->id],
+                [
+                    'rider_name' => $rider->name,
+                    'rider_phone' => $rider->phone ?? '09100317744',
+                ]
+            );
+        }
+
         // Trigger automated SMS to customer
         try {
             SmsNotificationService::sendOrderStatusSms(

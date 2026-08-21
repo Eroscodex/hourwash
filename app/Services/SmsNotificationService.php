@@ -122,12 +122,37 @@ class SmsNotificationService
             ? Carbon::parse($order->estimated_completion)->format('M d h:i A')
             : 'TBD';
 
+        // Dynamic Rider resolution per order
+        $riderName = $order->pickupDelivery?->rider_name;
+        $riderPhone = $order->pickupDelivery?->rider_phone;
+
+        if (empty($riderName) || empty($riderPhone)) {
+            $currentUser = auth()->user();
+            if ($currentUser && $currentUser->isRider()) {
+                $riderName = $currentUser->name;
+                $riderPhone = $currentUser->phone;
+            } else {
+                $assignedRider = User::where('role', 'rider')->whereNotNull('phone')->first();
+                $riderName = $assignedRider?->name;
+                $riderPhone = $assignedRider?->phone;
+            }
+        }
+
         if ($order->order_status === 'out_for_pickup') {
-            $message = "Hour Wash Alert: Hi {$custName}, Rider Anthony is EN ROUTE to pick up your laundry Order #{$code}! Rider Hotline: 09100317744.";
+            if (! empty($riderName) && ! empty($riderPhone)) {
+                $message = "Hour Wash Alert: Hi {$custName}, Rider {$riderName} is EN ROUTE to pick up your laundry Order #{$code}! Rider Hotline: {$riderPhone}.";
+            } else {
+                $message = "Hour Wash Alert: Hi {$custName}, your laundry Order #{$code} is QUEUED for pickup! A rider will be assigned shortly.";
+            }
         } elseif ($order->order_status === 'out_for_delivery') {
-            $message = "Hour Wash Alert: Hi {$custName}, your laundry Order #{$code} is OUT FOR DELIVERY with Rider Anthony! Rider Hotline: 09100317744.";
+            if (! empty($riderName) && ! empty($riderPhone)) {
+                $message = "Hour Wash Alert: Hi {$custName}, your laundry Order #{$code} is OUT FOR DELIVERY with Rider {$riderName}! Rider Hotline: {$riderPhone}.";
+            } else {
+                $message = "Hour Wash Alert: Hi {$custName}, your laundry Order #{$code} is QUEUED for delivery! A rider will be dispatched shortly.";
+            }
         } elseif (in_array(strtolower($order->order_status), ['finish', 'folding', 'ready', 'ready_for_pickup', 'shelved_and_tagged'])) {
-            $message = "Hour Wash Alert: Hi {$custName}, Order #{$code} is FINISHED & FOLDED! PLEASE CLAIM YOUR LAUNDRY ORDER AT HOUR WASH STORE. Hotline: 09100317744.";
+            $hotlineStr = ! empty($riderPhone) ? " Hotline: {$riderPhone}." : '';
+            $message = "Hour Wash Alert: Hi {$custName}, Order #{$code} is FINISHED & FOLDED! PLEASE CLAIM YOUR LAUNDRY ORDER AT HOUR WASH STORE.{$hotlineStr}";
         } else {
             $machStr = $machineName ? " Machine: {$machineName}." : '';
             $message = "Hour Wash: Hi {$custName}, Order #{$code} status is {$statusStr}.{$machStr} Est: {$compTime}.";
