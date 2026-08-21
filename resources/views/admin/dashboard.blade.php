@@ -77,123 +77,153 @@
             <div class="grid grid-cols-2 sm:grid-cols-5 lg:grid-cols-5 gap-3.5">
 
                 <a href="{{ route('admin.laundry.index') }}"
-                   class="app-card p-3 flex flex-col justify-between hover:border-blue-600 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group">
+                   class="card-accent-blue p-3.5 flex items-center justify-between transition-all group hover:border-blue-600">
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
                             Laundry Orders
                         </span>
-                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
-                            {{ $totalLaundry ?? 0 }} total
+                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-0.5">
+                            Order Queue
                         </span>
                     </div>
+                    <span class="text-lg font-black text-blue-600 dark:text-blue-400 font-mono shrink-0">
+                        {{ $totalLaundry ?? 0 }}
+                    </span>
                 </a>
 
                 <a href="{{ route('admin.machines.index') }}"
-                   class="app-card p-3 flex flex-col justify-between hover:border-blue-600 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group">
+                   class="card-accent-blue p-3.5 flex items-center justify-between transition-all group hover:border-blue-600">
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
-                            Machine Monitor
+                            All Machines
                         </span>
-                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
-                            {{ $totalMachines ?? 20 }} units
+                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-0.5">
+                            Active Machines
                         </span>
                     </div>
+                    <span class="text-lg font-black text-blue-600 dark:text-blue-400 font-mono shrink-0">
+                        {{ $totalMachines ?? 20 }}
+                    </span>
                 </a>
 
                 <a href="{{ route('admin.services.index') }}"
-                   class="app-card p-3 flex flex-col justify-between hover:border-blue-600 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group">
+                   class="card-accent-blue p-3.5 flex items-center justify-between transition-all group hover:border-blue-600">
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
                             Services & Rates
                         </span>
-                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
-                            Pricing
+                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-0.5">
+                            Pricing Catalog
                         </span>
                     </div>
+                    <span class="text-xs font-extrabold text-blue-600 dark:text-blue-400 uppercase shrink-0">
+                        RATE
+                    </span>
                 </a>
 
                 <a href="{{ route('admin.users.index') }}"
-                   class="app-card p-3 flex flex-col justify-between hover:border-blue-600 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group">
+                   class="card-accent-blue p-3.5 flex items-center justify-between transition-all group hover:border-blue-600">
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
                             All Users
                         </span>
-                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
-                            {{ $totalUsers ?? 0 }} accounts
+                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-0.5">
+                            Accounts
                         </span>
                     </div>
+                    <span class="text-lg font-black text-blue-600 dark:text-blue-400 font-mono shrink-0">
+                        {{ $totalUsers ?? 0 }}
+                    </span>
                 </a>
 
                 <a href="{{ route('admin.qr_scan_logs.index') }}"
-                   class="app-card p-3 flex flex-col justify-between hover:border-blue-600 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group">
+                   class="card-accent-blue p-3.5 flex items-center justify-between transition-all group hover:border-blue-600">
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
-                            QR Scan Outbox
+                            QR Scan Logs
                         </span>
-                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
-                            {{ $qrScanCount ?? 0 }} scans
+                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-0.5">
+                            Audit Trail
                         </span>
                     </div>
+                    <span class="text-lg font-black text-blue-600 dark:text-blue-400 font-mono shrink-0">
+                        {{ $qrScanCount ?? 0 }}
+                    </span>
                 </a>
 
                 <a href="{{ route('admin.reviews.index') }}"
-                   class="app-card p-3 flex flex-col justify-between hover:border-blue-600 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group">
+                   class="card-accent-blue p-3.5 flex items-center justify-between transition-all group hover:border-blue-600">
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
-                            Reviews Outbox
+                            Customer Reviews
                         </span>
-                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
-                            {{ $reviewCount ?? 0 }} reviews
+                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-0.5">
+                            Feedback Logs
                         </span>
                     </div>
+                    <span class="text-lg font-black text-blue-600 dark:text-blue-400 font-mono shrink-0">
+                        {{ $reviewCount ?? 0 }}
+                    </span>
                 </a>
 
                 <a href="{{ route('admin.sms.index') }}"
-                   class="app-card p-3 flex flex-col justify-between hover:border-blue-600 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group">
+                   class="card-accent-blue p-3.5 flex items-center justify-between transition-all group hover:border-blue-600">
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
                             Live SMS Outbox
                         </span>
-                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
-                            {{ $smsCount ?? 0 }} sent
+                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-0.5">
+                            Phone Alerts
                         </span>
                     </div>
+                    <span class="text-lg font-black text-blue-600 dark:text-blue-400 font-mono shrink-0">
+                        {{ $smsCount ?? 0 }}
+                    </span>
                 </a>
 
                 <a href="{{ route('admin.emails.index') }}"
-                   class="app-card p-3 flex flex-col justify-between hover:border-blue-600 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group">
+                   class="card-accent-blue p-3.5 flex items-center justify-between transition-all group hover:border-blue-600">
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
                             Live Email Outbox
                         </span>
-                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
-                            {{ $emailCount ?? 0 }} sent
+                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-0.5">
+                            Receipt Emails
                         </span>
                     </div>
+                    <span class="text-lg font-black text-blue-600 dark:text-blue-400 font-mono shrink-0">
+                        {{ $emailCount ?? 0 }}
+                    </span>
                 </a>
 
                 <a href="{{ route('laundry.create') }}"
-                   class="app-card p-3 flex flex-col justify-between hover:border-blue-600 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group">
+                   class="card-accent-blue p-3.5 flex items-center justify-between transition-all group hover:border-blue-600">
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
                             New Drop-Off
                         </span>
-                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
-                            Book order
+                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-0.5">
+                            Book Order
                         </span>
                     </div>
+                    <span class="text-xs font-extrabold text-blue-600 dark:text-blue-400 uppercase shrink-0">
+                        +BOOK
+                    </span>
                 </a>
 
                 <a href="{{ route('profile.edit') }}"
-                   class="app-card p-3 flex flex-col justify-between hover:border-blue-600 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group">
+                   class="card-accent-blue p-3.5 flex items-center justify-between transition-all group hover:border-blue-600">
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
                             Account Settings
                         </span>
-                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
-                            Profile & Security
+                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-0.5">
+                            Profile
                         </span>
                     </div>
+                    <span class="text-xs font-extrabold text-blue-600 dark:text-blue-400 uppercase shrink-0">
+                        EDIT
+                    </span>
                 </a>
 
             </div>

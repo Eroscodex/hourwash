@@ -155,37 +155,41 @@
             </h2>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="app-card p-4 flex items-center justify-between border-l-4 border-rose-500 shadow-sm">
-                    <div>
-                        <span class="text-[10px] font-extrabold text-rose-600 dark:text-rose-400 uppercase tracking-wider block">
-                            UNPAID ORDERS (NEED PAYMENT COLLECTION)
-                        </span>
-                        <span class="text-2xl font-extrabold text-slate-900 dark:text-white font-mono">
-                            ₱{{ number_format($unpaidTotal, 2) }}
-                        </span>
-                        <p class="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
-                            <span class="font-bold text-rose-600 dark:text-rose-400">{{ $unpaidCount }} order(s)</span> pending cashier payment
-                        </p>
+                <div class="metric-pill-card-rose">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-11 h-11 rounded-xl bg-rose-500/15 text-rose-600 dark:text-rose-400 flex items-center justify-center font-extrabold text-base shrink-0 border border-rose-500/30">
+                            ₱
+                        </div>
+                        <div>
+                            <span class="text-xs font-bold text-slate-800 dark:text-slate-200 block">
+                                Unpaid Orders Collection
+                            </span>
+                            <span class="text-[11px] text-slate-500 dark:text-slate-400">
+                                {{ $unpaidCount }} order(s) pending cashier payment
+                            </span>
+                        </div>
                     </div>
-                    <span class="px-3 py-1 rounded-md bg-rose-500/15 text-rose-700 dark:text-rose-300 font-extrabold text-xs uppercase border border-rose-500/30">
-                        UNPAID
+                    <span class="text-2xl sm:text-3xl font-extrabold text-rose-600 dark:text-rose-400 font-mono shrink-0">
+                        ₱{{ number_format($unpaidTotal, 2) }}
                     </span>
                 </div>
 
-                <div class="app-card p-4 flex items-center justify-between border-l-4 border-emerald-500 shadow-sm">
-                    <div>
-                        <span class="text-[10px] font-extrabold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block">
-                            PAID ORDERS (COLLECTED REVENUE)
-                        </span>
-                        <span class="text-2xl font-extrabold text-slate-900 dark:text-white font-mono">
-                            ₱{{ number_format($paidTotal, 2) }}
-                        </span>
-                        <p class="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
-                            <span class="font-bold text-emerald-600 dark:text-emerald-400">{{ $paidCount }} order(s)</span> paid & cleared
-                        </p>
+                <div class="metric-pill-card-emerald">
+                    <div class="flex items-center gap-3.5">
+                        <div class="w-11 h-11 rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-extrabold text-base shrink-0 border border-emerald-500/30">
+                            ✓
+                        </div>
+                        <div>
+                            <span class="text-xs font-bold text-slate-800 dark:text-slate-200 block">
+                                Total Collected Revenue
+                            </span>
+                            <span class="text-[11px] text-slate-500 dark:text-slate-400">
+                                {{ $paidCount }} order(s) cleared & paid
+                            </span>
+                        </div>
                     </div>
-                    <span class="px-3 py-1 rounded-md bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 font-extrabold text-xs uppercase border border-emerald-500/30">
-                        PAID
+                    <span class="text-2xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 font-mono shrink-0">
+                        ₱{{ number_format($paidTotal, 2) }}
                     </span>
                 </div>
             </div>
