@@ -68,6 +68,23 @@
     @apply bg-white dark:bg-[#18181B] border border-slate-200 dark:border-zinc-800 border-l-4 border-l-rose-500 rounded-lg shadow-sm transition-all duration-150 text-slate-900 dark:text-zinc-100;
 }
 
+/* Metric Pill Cards with Thick Left Bar Accent (Matches Reference Image UI) */
+.metric-pill-card {
+    @apply bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-[7px] border-l-blue-600 rounded-2xl p-4 sm:p-5 flex items-center justify-between gap-4 shadow-sm transition-all duration-200 hover:shadow-md;
+}
+.metric-pill-card-blue {
+    @apply bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-[7px] border-l-blue-600 rounded-2xl p-4 sm:p-5 flex items-center justify-between gap-4 shadow-sm transition-all duration-200 hover:shadow-md;
+}
+.metric-pill-card-emerald {
+    @apply bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-[7px] border-l-emerald-500 rounded-2xl p-4 sm:p-5 flex items-center justify-between gap-4 shadow-sm transition-all duration-200 hover:shadow-md;
+}
+.metric-pill-card-rose {
+    @apply bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-[7px] border-l-rose-500 rounded-2xl p-4 sm:p-5 flex items-center justify-between gap-4 shadow-sm transition-all duration-200 hover:shadow-md;
+}
+.metric-pill-card-amber {
+    @apply bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-[7px] border-l-amber-500 rounded-2xl p-4 sm:p-5 flex items-center justify-between gap-4 shadow-sm transition-all duration-200 hover:shadow-md;
+}
+
 /* Commercial Enterprise Buttons */
 .btn-primary {
     @apply bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-500 text-white font-semibold rounded-md px-4 py-2 text-xs sm:text-sm shadow-sm transition-all duration-150 active:scale-[0.98] inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:pointer-events-none focus:outline-none focus:ring-2 focus:ring-blue-600/30;
