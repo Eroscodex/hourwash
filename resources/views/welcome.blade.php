@@ -34,10 +34,10 @@
             <a href="{{ route('welcome') }}" class="flex items-center gap-2.5 shrink-0">
                 <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-9 h-9 sm:w-10 sm:h-10 rounded-md object-cover bg-white p-0.5 border border-slate-200 dark:border-zinc-700 shadow-sm shrink-0">
                 <div>
-                    <span class="text-base sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white block leading-tight">
-                        HOUR WASH
+                    <span class="text-base sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white inline-flex items-center gap-0.5 leading-tight">
+                        H<span class="inline-flex items-center justify-center text-slate-900 dark:text-slate-100"><svg class="w-4 h-4 inline-block -mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 3"/></svg></span>UR WASH
                     </span>
-                    <span class="text-[8.5px] sm:text-[10px] text-blue-600 dark:text-blue-400 tracking-wider uppercase font-semibold block whitespace-nowrap">LAUNDRY MANAGEMENT SYSTEM</span>
+                    <span class="text-[8.5px] sm:text-[10px] text-slate-900 dark:text-slate-100 tracking-wider uppercase font-semibold block whitespace-nowrap">LAUNDRY MANAGEMENT SYSTEM</span>
                 </div>
             </a>
 

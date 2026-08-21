@@ -87,7 +87,7 @@
                             <h1 class="text-lg font-bold tracking-wide text-slate-900 dark:text-white">
                                 HOUR WASH
                             </h1>
-                            <p class="text-[8.5px] text-blue-600 dark:text-blue-400 tracking-wider uppercase font-bold whitespace-nowrap leading-none mt-0.5">LAUNDRY MANAGEMENT SYSTEM</p>
+                            <p class="text-[8.5px] text-slate-800 dark:text-white tracking-wider uppercase font-bold whitespace-nowrap leading-none mt-0.5">LAUNDRY MANAGEMENT SYSTEM</p>
                         </div>
                     </a>
                     <button id="close-sidebar" class="md:hidden text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white p-1">
@@ -258,7 +258,7 @@
                         @endif
 
                         <div class="pt-4 border-t border-slate-200 dark:dark:border-zinc-700 my-2"></div>
-                        <a href="{{ route('welcome') }}" title="Home Dashboard" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800 font-medium transition-all">
+                        <a href="{{ route('welcome') }}" title="Home Dashboard" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-800 dark:text-slate-200 hover:bg-rose-100 dark:hover:bg-zinc-800 font-medium transition-all">
                             <svg class="w-5 h-5 text-slate-600 dark:text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
                             <div class="sidebar-text">
                                 <span class="block leading-snug">Home Dashboard</span>
@@ -340,7 +340,7 @@
 
                     <div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100 dark:dark:bg-zinc-800 border border-slate-200 dark:dark:border-zinc-700 text-xs text-slate-800 dark:text-slate-200 font-semibold">
                         <svg class="w-4 h-4 text-rose-600 dark:text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0
                         </svg>
                         <span>{{ now()->format('M d, Y') }}</span>
                     </div>
