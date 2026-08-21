@@ -250,15 +250,31 @@
                         <span>Delivery & Pickup Address</span>
                     </div>
 
+                    @php
+                        $isAuthorizedViewer = Auth::check() && (Auth::id() === $order->customer_id || Auth::user()->isStaff() || Auth::user()->isAdmin() || Auth::user()->isOwner() || Auth::user()->isRider());
+                        
+                        $rawPhone = $order->customer->phone ?? '09171234567';
+                        $maskedPhone = (strlen($rawPhone) >= 10) ? substr($rawPhone, 0, 4) . ' *** ' . substr($rawPhone, -4) : '09** *** ****';
+                        $displayPhone = $isAuthorizedViewer ? $rawPhone : $maskedPhone;
+
+                        $rawName = trim($order->customer->name ?? 'Store Walk-in Customer');
+                        $nameParts = explode(' ', $rawName);
+                        $maskedName = $nameParts[0] . (isset($nameParts[1]) && strlen($nameParts[1]) > 0 ? ' ' . substr($nameParts[1], 0, 1) . '.' : '');
+                        $displayName = $isAuthorizedViewer ? $rawName : $maskedName;
+
+                        $rawAddress = $order->customer->customerProfile->address ?? 'Magallanes St., Orosite, Legazpi City, Albay';
+                        $displayAddress = $isAuthorizedViewer ? $rawAddress : 'Orosite, Legazpi City (Privacy Protected)';
+                    @endphp
+
                     <div class="space-y-1 text-xs">
                         <div class="font-extrabold text-slate-900 dark:text-white text-sm">
-                            {{ $order->customer->name ?? 'Store Walk-in Customer' }}
+                            {{ $displayName }}
                         </div>
                         <div class="text-slate-600 dark:text-slate-300 font-mono">
-                            {{ $order->customer->phone ?? '+63 917 123 4567' }}
+                            {{ $displayPhone }}
                         </div>
                         <div class="text-slate-500 dark:text-slate-400 pt-1 leading-relaxed">
-                            {{ $order->customer->customerProfile->address ?? 'Magallanes St., Orosite, Legazpi City, Albay' }}
+                            {{ $displayAddress }}
                         </div>
                     </div>
                 </div>

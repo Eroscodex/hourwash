@@ -144,8 +144,8 @@ Route::get('/dashboard', function () {
     return view('dashboard', compact('user', 'activeOrder', 'recentOrders', 'notifications', 'machines', 'idleWashers', 'idleDryers', 'availableMachinesCount', 'storeStatus'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-// Public QR Order Tracking (Accessible by anyone without login)
-Route::get('/laundry/track/{qr}', [LaundryController::class, 'track'])->name('laundry.track');
+// Public QR Order Tracking (Rate limited: max 15 requests/min per IP to prevent enumeration)
+Route::get('/laundry/track/{qr}', [LaundryController::class, 'track'])->middleware('throttle:15,1')->name('laundry.track');
 
 // Printable Store Receipt Route
 Route::get('/laundry/receipt/{order}', function (Order $order) {
@@ -560,11 +560,22 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 Route::get('/chatbot', function () {
     return view('chatbot');
 });
-Route::post('/chatbot', [ChatbotController::class, 'chat']);
+Route::post('/chatbot', [ChatbotController::class, 'chat'])->middleware('throttle:10,1');
 
 Route::view('/privacy-policy', 'privacy')->name('privacy');
 Route::view('/terms-and-conditions', 'terms')->name('terms');
 Route::view('/about-us', 'about')->name('about');
 Route::view('/developers', 'developers')->name('developers');
+
+/*
+|--------------------------------------------------------------------------
+| Security: Block Direct Exposure of Sensitive Environment & Internal Files
+|--------------------------------------------------------------------------
+*/
+Route::get('/.env{any?}', fn () => abort(404));
+Route::get('/.git{any?}', fn () => abort(404));
+Route::get('/storage/logs{any?}', fn () => abort(404));
+Route::get('/composer.json', fn () => abort(404));
+Route::get('/package.json', fn () => abort(404));
 
 require __DIR__.'/auth.php';

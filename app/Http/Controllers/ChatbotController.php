@@ -16,7 +16,7 @@ class ChatbotController extends Controller
     public function chat(Request $request)
     {
         $request->validate([
-            'message' => 'required|string',
+            'message' => 'required|string|max:300',
         ]);
 
         $msg = strtolower(trim($request->message));
