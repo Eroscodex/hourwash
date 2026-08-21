@@ -239,12 +239,14 @@
                             <span>Subtotal</span>
                             <span>₱{{ number_format($order->subtotal ?? $order->total_amount, 2) }}</span>
                         </div>
-                        <div class="flex justify-between">
-                            <span>Store Delivery Fee</span>
-                            <span class="text-emerald-600 dark:text-emerald-400 font-semibold">
-                                {{ $order->delivery_fee > 0 ? '₱'.number_format($order->delivery_fee, 2) : 'FREE' }}
-                            </span>
-                        </div>
+                        @if(!$isWalkIn && $order->delivery_fee > 0)
+                            <div class="flex justify-between">
+                                <span>Store Delivery Fee</span>
+                                <span class="text-emerald-600 dark:text-emerald-400 font-semibold">
+                                    ₱{{ number_format($order->delivery_fee, 2) }}
+                                </span>
+                            </div>
+                        @endif
                         @if(($order->discount ?? 0) > 0)
                             <div class="flex justify-between text-rose-500 font-semibold">
                                 <span>Discounts Applied</span>
