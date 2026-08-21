@@ -198,49 +198,49 @@
             </h2>
 
             <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
-                <div class="app-card p-3 flex flex-col justify-between shadow-sm">
+                <div class="card-accent-blue p-3 flex flex-col justify-between shadow-sm">
                     <span class="text-[9.5px] font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider block truncate">1. PENDING</span>
                     <span class="text-xl font-bold text-slate-900 dark:text-white mt-1">{{ $pendingCount }}</span>
                     <p class="text-[9px] text-slate-500 dark:text-slate-400 truncate mt-0.5">Order Placed</p>
                 </div>
 
-                <div class="app-card p-3 flex flex-col justify-between shadow-sm">
+                <div class="card-accent-blue p-3 flex flex-col justify-between shadow-sm">
                     <span class="text-[9.5px] font-extrabold text-sky-600 dark:text-sky-400 uppercase tracking-wider block truncate">2. PICKUP</span>
                     <span class="text-xl font-bold text-sky-600 dark:text-sky-400 mt-1">{{ $pickupCount }}</span>
                     <p class="text-[9px] text-slate-500 dark:text-slate-400 truncate mt-0.5">Out for Pickup</p>
                 </div>
 
-                <div class="app-card p-3 flex flex-col justify-between shadow-sm">
+                <div class="card-accent-blue p-3 flex flex-col justify-between shadow-sm">
                     <span class="text-[9.5px] font-extrabold text-blue-600 dark:text-blue-400 uppercase tracking-wider block truncate">3. RECEIVED</span>
                     <span class="text-xl font-bold text-blue-600 dark:text-blue-400 mt-1">{{ $receivedCount }}</span>
                     <p class="text-[9px] text-slate-500 dark:text-slate-400 truncate mt-0.5">Store Received</p>
                 </div>
 
-                <div class="app-card p-3 flex flex-col justify-between shadow-sm">
+                <div class="card-accent-blue p-3 flex flex-col justify-between shadow-sm">
                     <span class="text-[9.5px] font-extrabold text-teal-600 dark:text-teal-400 uppercase tracking-wider block truncate">4. WASHING</span>
                     <span class="text-xl font-bold text-teal-600 dark:text-teal-400 mt-1">{{ $washRinseCount }}</span>
                     <p class="text-[9px] text-slate-500 dark:text-slate-400 truncate mt-0.5">Wash & Rinse</p>
                 </div>
 
-                <div class="app-card p-3 flex flex-col justify-between shadow-sm">
+                <div class="card-accent-purple p-3 flex flex-col justify-between shadow-sm">
                     <span class="text-[9.5px] font-extrabold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider block truncate">5. DRYING</span>
                     <span class="text-xl font-bold text-indigo-600 dark:text-indigo-400 mt-1">{{ $dryingCount }}</span>
                     <p class="text-[9px] text-slate-500 dark:text-slate-400 truncate mt-0.5">Dryer Units</p>
                 </div>
 
-                <div class="app-card p-3 flex flex-col justify-between shadow-sm">
+                <div class="card-accent-amber p-3 flex flex-col justify-between shadow-sm">
                     <span class="text-[9.5px] font-extrabold text-amber-600 dark:text-amber-400 uppercase tracking-wider block truncate">6. FINISH</span>
                     <span class="text-xl font-bold text-amber-600 dark:text-amber-400 mt-1">{{ $finishCount }}</span>
                     <p class="text-[9px] text-slate-500 dark:text-slate-400 truncate mt-0.5">Folding & Ready</p>
                 </div>
 
-                <div class="app-card p-3 flex flex-col justify-between shadow-sm">
+                <div class="card-accent-purple p-3 flex flex-col justify-between shadow-sm">
                     <span class="text-[9.5px] font-extrabold text-purple-600 dark:text-purple-400 uppercase tracking-wider block truncate">7. DELIVERY</span>
                     <span class="text-xl font-bold text-purple-600 dark:text-purple-400 mt-1">{{ $deliveryCount }}</span>
                     <p class="text-[9px] text-slate-500 dark:text-slate-400 truncate mt-0.5">Out for Delivery</p>
                 </div>
 
-                <div class="app-card p-3 flex flex-col justify-between shadow-sm">
+                <div class="card-accent-emerald p-3 flex flex-col justify-between shadow-sm">
                     <span class="text-[9.5px] font-extrabold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block truncate">8. COMPLETED</span>
                     <span class="text-xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">{{ $completedCount }}</span>
                     <p class="text-[9px] text-slate-500 dark:text-slate-400 truncate mt-0.5">Fulfilled & Done</p>
