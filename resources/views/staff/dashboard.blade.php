@@ -69,69 +69,100 @@
 
         <!-- Quick Terminal Shortcuts -->
         <div>
-            <h2 class="text-[11px] font-bold text-slate-400 dark:text-zinc-500 uppercase tracking-widest mb-3">
+            <h2 class="text-[11px] font-bold text-slate-400 dark:text-zinc-500 uppercase tracking-widest mb-3 flex items-center gap-1.5">
+                <svg class="w-3.5 h-3.5 text-slate-400 dark:text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                 Quick Terminal Shortcuts
             </h2>
 
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
                 <a href="{{ route('staff.laundry.index') }}"
-                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group">
-                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
-                        Manage Laundry Orders
-                    </span>
-                    <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
-                        {{ $totalOrders ?? 0 }} total orders
-                    </span>
+                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-md bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800/60 flex items-center justify-center shrink-0 mt-0.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
+                            Manage Orders
+                        </span>
+                        <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-0.5 truncate">
+                            {{ $totalOrders ?? 0 }} total orders
+                        </span>
+                    </div>
                 </a>
 
                 <a href="{{ route('staff.machines.index') }}"
-                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group">
-                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
-                        Machine Monitor
-                    </span>
-                    <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
-                        {{ count($machines ?? []) }} commercial units
-                    </span>
+                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-md bg-teal-50 dark:bg-teal-950/40 text-teal-600 dark:text-teal-400 border border-teal-200 dark:border-teal-800/60 flex items-center justify-center shrink-0 mt-0.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
+                            Machine Monitor
+                        </span>
+                        <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-0.5 truncate">
+                            {{ count($machines ?? []) }} commercial units
+                        </span>
+                    </div>
                 </a>
 
                 <a href="{{ route('laundry.create') }}"
-                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group">
-                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
-                        New Walk-in Order
-                    </span>
-                    <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
-                        Book customer wash
-                    </span>
+                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-md bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 flex items-center justify-center shrink-0 mt-0.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
+                            Walk-in Order
+                        </span>
+                        <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-0.5 truncate">
+                            Book customer wash
+                        </span>
+                    </div>
                 </a>
 
                 <a href="{{ route('admin.qr_scan_logs.index') }}"
-                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group">
-                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
-                        QR Scan Logs Outbox
-                    </span>
-                    <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
-                        Scan audit history
-                    </span>
+                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-md bg-amber-50 dark:bg-amber-950/40 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-800/60 flex items-center justify-center shrink-0 mt-0.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
+                            QR Scan Logs
+                        </span>
+                        <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-0.5 truncate">
+                            Scan audit history
+                        </span>
+                    </div>
                 </a>
 
                 <a href="{{ route('welcome') }}"
-                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group">
-                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
-                        Home Dashboard
-                    </span>
-                    <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
-                        Public storefront
-                    </span>
+                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-md bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-400 border border-slate-200 dark:border-zinc-700 flex items-center justify-center shrink-0 mt-0.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
+                            Home Storefront
+                        </span>
+                        <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-0.5 truncate">
+                            Public storefront
+                        </span>
+                    </div>
                 </a>
 
                 <a href="{{ route('profile.edit') }}"
-                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group">
-                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
-                        Account Settings
-                    </span>
-                    <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
-                        Staff Profile & Security
-                    </span>
+                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-md bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 border border-purple-200 dark:border-purple-800/60 flex items-center justify-center shrink-0 mt-0.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                    </div>
+                    <div class="min-w-0 flex-1">
+                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
+                            Account Settings
+                        </span>
+                        <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-0.5 truncate">
+                            Staff Profile & Security
+                        </span>
+                    </div>
                 </a>
             </div>
         </div>
