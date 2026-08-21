@@ -286,17 +286,27 @@
 
             @auth
             <div id="sidebar-user-box" class="p-4 border-t border-slate-200 dark:dark:border-zinc-700 bg-slate-50 dark:bg-white/5 transition-all">
-                <div class="flex items-center justify-start gap-3 w-full transition-all">
-                    <div class="w-10 h-10 rounded-lg bg-blue-600 dark:bg-blue-600 text-white flex items-center justify-center font-bold shadow-sm shrink-0">
-                        {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                <div class="flex items-center justify-between gap-3 w-full transition-all">
+                    <div class="flex items-center gap-3 min-w-0 flex-1">
+                        <div class="w-10 h-10 rounded-lg bg-blue-600 dark:bg-blue-600 text-white flex items-center justify-center font-bold shadow-sm shrink-0">
+                            {{ strtoupper(substr(auth()->user()->name, 0, 1)) }}
+                        </div>
+                        <div class="sidebar-text flex-1 overflow-hidden">
+                            <h4 class="text-sm font-bold truncate text-slate-900 dark:text-white">{{ auth()->user()->name }}</h4>
+                            <p class="text-[11px] text-blue-600 dark:text-blue-400 capitalize flex items-center gap-1 font-extrabold">
+                                <span class="w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-blue-500 inline-block animate-pulse"></span>
+                                {{ auth()->user()->role }}
+                            </p>
+                        </div>
                     </div>
-                    <div class="sidebar-text flex-1 overflow-hidden">
-                        <h4 class="text-sm font-bold truncate text-slate-900 dark:text-white">{{ auth()->user()->name }}</h4>
-                        <p class="text-[11px] text-blue-600 dark:text-blue-400 capitalize flex items-center gap-1 font-extrabold">
-                            <span class="w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-blue-500 inline-block animate-pulse"></span>
-                            {{ auth()->user()->role }}
-                        </p>
-                    </div>
+                    <form method="POST" action="{{ route('logout') }}" class="sidebar-text shrink-0">
+                        @csrf
+                        <button type="submit" class="p-2 rounded-lg text-slate-500 hover:text-rose-600 hover:bg-rose-50 dark:text-zinc-400 dark:hover:text-rose-400 dark:hover:bg-rose-950/40 transition-colors" title="Logout Account">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
+                            </svg>
+                        </button>
+                    </form>
                 </div>
             </div>
             @endauth
@@ -339,19 +349,20 @@
                     </button>
 
                     <div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-100 dark:dark:bg-zinc-800 border border-slate-200 dark:dark:border-zinc-700 text-xs text-slate-800 dark:text-slate-200 font-semibold">
-                        <svg class="w-4 h-4 text-rose-600 dark:text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0
+                        <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                         </svg>
                         <span>{{ now()->format('M d, Y') }}</span>
                     </div>
 
                     @auth
-                    <form method="POST" action="{{ route('logout') }}">
+                    <form method="POST" action="{{ route('logout') }}" class="inline-block">
                         @csrf
-                        <button type="submit" class="p-2 rounded-lg text-slate-700 dark:text-white hover:bg-slate-100 dark:hover:bg-zinc-800 transition" title="Logout">
-                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <button type="submit" class="px-3 py-1.5 rounded-lg bg-rose-50 text-rose-700 hover:bg-rose-100 dark:bg-rose-950/40 dark:text-rose-400 dark:hover:bg-rose-900/60 border border-rose-200 dark:border-rose-800/60 text-xs font-bold flex items-center gap-1.5 transition-all shadow-xs" title="Logout Account">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                             </svg>
+                            <span>Logout</span>
                         </button>
                     </form>
                     @endauth
