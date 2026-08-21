@@ -198,16 +198,11 @@ class LaundryController extends Controller
             // Eager load customer and service for emails
             $order->load(['customer', 'service']);
 
-            // 1. Send email notification to Customer & Admin
+            // 1. Send email notification to Customer
             try {
                 $customerEmail = $order->customer?->email;
                 if (! empty($customerEmail)) {
                     EmailNotificationService::sendStatusEmail($order, $customerEmail);
-                }
-
-                $adminEmail = config('mail.from.address', 'karlnicko2019@gmail.com');
-                if (! empty($adminEmail) && strtolower($adminEmail) !== strtolower((string) $customerEmail)) {
-                    EmailNotificationService::sendStatusEmail($order, $adminEmail);
                 }
             } catch (\Throwable $e) {
                 Log::error('New order email notification failed: '.$e->getMessage());

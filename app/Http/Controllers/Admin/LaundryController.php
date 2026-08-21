@@ -149,11 +149,6 @@ class LaundryController extends Controller
                 if (! empty($customerEmail)) {
                     EmailNotificationService::sendStatusEmail($order, $customerEmail);
                 }
-
-                $adminEmail = config('mail.from.address', 'karlnicko2019@gmail.com');
-                if (! empty($adminEmail) && strtolower($adminEmail) !== strtolower((string) $customerEmail)) {
-                    EmailNotificationService::sendStatusEmail($order, $adminEmail);
-                }
             } catch (\Throwable $e) {
                 Log::error('Status update email notification failed: '.$e->getMessage());
             }
