@@ -52,8 +52,8 @@
             <a href="{{ route('welcome') }}" class="flex items-center gap-3 group">
                 <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-14 h-14 rounded-lg object-cover shadow-sm bg-white p-1 border border-slate-200 dark:border-zinc-700">
             </a>
-            <h1 class="mt-3 text-2xl font-bold tracking-tight text-slate-900 dark:text-white inline-flex items-center gap-0.5">
-                H<span class="inline-flex items-center justify-center text-slate-800 dark:text-slate-100 mx-[0.5px]"><svg class="w-[0.85em] h-[0.85em] inline-block -mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 3"/></svg></span>UR WASH
+            <h1 class="mt-3 text-2xl font-black tracking-tight text-slate-900 dark:text-white uppercase">
+                HOUR WASH
             </h1>
             <p class="text-xs text-blue-600 dark:text-blue-400 tracking-widest uppercase mt-1 font-semibold">LAUNDRY MANAGEMENT SYSTEM</p>
         </div>

@@ -34,12 +34,14 @@
     <header class="sticky top-0 z-50 bg-white/95 dark:bg-[#141417]/95 border-b border-slate-200 dark:border-zinc-700 px-4 md:px-8 py-3 backdrop-blur-sm">
         <div class="max-w-3xl mx-auto flex items-center justify-between">
             <a href="{{ route('welcome') }}" class="flex items-center gap-3 group">
-                <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-10 h-10 rounded-full object-cover shadow-md group- transition-transform bg-white p-0.5 border border-slate-200 dark:border-zinc-700">
+                <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-10 h-10 rounded-full object-cover shadow-md transition-transform bg-white p-0.5 border border-slate-200 dark:border-zinc-700">
                 <div>
-                    <span class="text-lg font-bold text-slate-900 dark:text-white inline-flex items-center gap-0.5 leading-tight">
-                        H<span class="inline-flex items-center justify-center text-slate-800 dark:text-slate-100 mx-[0.5px]"><svg class="w-[0.85em] h-[0.85em] inline-block -mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 3"/></svg></span>ur Wash
+                    <span class="text-lg font-extrabold text-slate-900 dark:text-white leading-tight block">
+                        Hour Wash AI Assistant
                     </span>
-                    <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold uppercase tracking-wider">Online</span>
+                    <span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold uppercase tracking-wider flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Online 24/7
+                    </span>
                 </div>
             </a>
 

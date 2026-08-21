@@ -413,12 +413,15 @@
     </button>
 
     <div id="chat-window" class="fixed bottom-24 right-6 w-80 sm:w-96 bg-white dark:bg-[#141417] border border-slate-200 dark:dark:border-zinc-600 rounded-2xl shadow-xl z-50 hidden flex-col overflow-hidden backdrop-blur-sm">
-        <div class="p-4 bg-blue-600 dark:bg-blue-600 text-white flex items-center justify-between">
-            <div class="flex items-center gap-2 font-bold text-sm">
-                <span class="w-2.5 h-2.5 rounded-full bg-white animate-pulse"></span>
-                H<span class="inline-flex items-center justify-center text-white mx-[0.5px]"><svg class="w-[0.85em] h-[0.85em] inline-block -mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 3"/></svg></span>ur Wash
+        <div class="p-3.5 bg-blue-600 dark:bg-blue-600 text-white flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
+                <div>
+                    <h4 class="font-extrabold text-sm text-white leading-tight">Hour Wash AI Assistant</h4>
+                    <span class="text-[10px] text-blue-100 font-medium block">Live 24/7 Store Support</span>
+                </div>
             </div>
-            <button id="chat-close" class="text-white/80 hover:text-white text-lg">✕</button>
+            <button id="chat-close" class="text-white/80 hover:text-white text-base font-bold px-1.5 py-0.5 rounded hover:bg-white/10 transition">✕</button>
         </div>
 
         <div id="chat-box" class="p-4 h-80 overflow-y-auto space-y-3 text-xs bg-slate-50 dark:bg-[#09090B]">
@@ -451,6 +454,7 @@
             </div>
             <p class="text-[9.5px] text-center text-slate-400 dark:text-slate-500 font-medium">
                 This is an AI generated response for Hour Wash Laundry.
+                If you have any concerns, please contact us directly at <a href="mailto:karlnicko2019@gmail.com" class="text-blue-600 dark:text-blue-400 hover:underline">karlnicko2019@gmail.com</a>
             </p>
         </div>
     </div>
@@ -606,19 +610,19 @@
     // Global Form Submission Loading Spinner & Top Bar Progress
     document.addEventListener('DOMContentLoaded', function () {
         const topBar = document.getElementById('top-loading-bar');
-        
+
         document.querySelectorAll('form').forEach(function (form) {
             form.addEventListener('submit', function () {
                 if (form.checkValidity && !form.checkValidity()) return;
-                
+
                 const submitBtn = form.querySelector('button[type="submit"], input[type="submit"]');
                 if (submitBtn && !submitBtn.dataset.noLoading) {
                     setTimeout(function() {
                         submitBtn.disabled = true;
                     }, 20);
-                    
+
                     submitBtn.classList.add('opacity-80', 'cursor-not-allowed', 'pointer-events-none');
-                    
+
                     if (!submitBtn.querySelector('.global-btn-spinner')) {
                         const spinner = document.createElement('span');
                         spinner.className = 'global-btn-spinner inline-flex items-center shrink-0 mr-2';
@@ -626,7 +630,7 @@
                         submitBtn.insertBefore(spinner, submitBtn.firstChild);
                     }
                 }
-                
+
                 if (topBar) {
                     topBar.style.width = '75%';
                     topBar.style.opacity = '1';

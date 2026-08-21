@@ -30,8 +30,8 @@
                 </a>
 
                 <a href="{{ route('my.orders') }}"
-                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-4 border-l-indigo-500 hover:border-indigo-500 dark:hover:border-indigo-500 transition-colors group shadow-sm">
-                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition block truncate">
+                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-4 border-l-blue-500 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group shadow-sm">
+                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
                         My Laundry Orders
                     </span>
                     <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
@@ -55,8 +55,8 @@
                 </a>
 
                 <a href="{{ route('welcome') }}"
-                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-4 border-l-cyan-500 hover:border-cyan-500 dark:hover:border-cyan-500 transition-colors group shadow-sm">
-                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition block truncate">
+                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-4 border-l-blue-500 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group shadow-sm">
+                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
                         Home Dashboard
                     </span>
                     <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
@@ -65,8 +65,8 @@
                 </a>
 
                 <a href="{{ route('profile.edit') }}"
-                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-4 border-l-purple-500 hover:border-purple-500 dark:hover:border-purple-500 transition-colors group shadow-sm">
-                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition block truncate">
+                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-4 border-l-blue-500 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group shadow-sm">
+                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
                         Account Settings
                     </span>
                     <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
@@ -130,7 +130,7 @@
         </div>
 
         <div class="grid grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3">
-            <div class="p-3.5 sm:p-4 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-4 border-l-teal-500 shadow-sm">
+            <div class="p-3.5 sm:p-4 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-4 border-l-emerald-500 shadow-sm">
                 <div>
                     <h5 class="text-[10px] uppercase tracking-widest text-slate-400 dark:text-zinc-500 font-bold truncate">Washers</h5>
                     <p class="text-sm sm:text-base font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">{{ $idleWashers ?? 0 }} Idle</p>

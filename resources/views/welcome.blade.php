@@ -35,7 +35,7 @@
                 <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-9 h-9 sm:w-10 sm:h-10 rounded-md object-cover bg-white p-0.5 border border-slate-200 dark:border-zinc-700 shadow-sm shrink-0">
                 <div>
                     <span class="text-base sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white inline-flex items-center gap-0.5 leading-tight">
-                        H<span class="inline-flex items-center justify-center text-slate-800 dark:text-slate-100 mx-[0.5px]"><svg class="w-[0.85em] h-[0.85em] inline-block -mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 3"/></svg></span>UR WASH
+                        HOUR WASH
                     </span>
                     <span class="text-[8.5px] sm:text-[10px] text-slate-900 dark:text-slate-100 tracking-wider uppercase font-semibold block whitespace-nowrap">LAUNDRY MANAGEMENT SYSTEM</span>
                 </div>
@@ -207,7 +207,7 @@
                         <div class="space-y-3">
                             <div>
                                 <h3 class="text-base font-bold text-slate-900 dark:text-white inline-flex items-center gap-0.5">
-                                    H<span class="inline-flex items-center justify-center text-slate-800 dark:text-slate-100 mx-[0.5px]"><svg class="w-[0.85em] h-[0.85em] inline-block -mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 3"/></svg></span>UR WASH LAUNDRY
+                                    HOUR WASH LAUNDRY
                                 </h3>
                                 <p class="text-xs text-slate-500 dark:text-zinc-400 mt-0.5">Operating Hours: 7:30 AM – 6:00 PM (Mon – Sun) • Same-Day Cut-Off: 4:30 PM</p>
                             </div>
@@ -475,11 +475,14 @@
 
     <div id="welcome-chat-window" class="fixed bottom-20 right-6 w-80 sm:w-96 bg-white dark:bg-[#141417] border border-slate-200 dark:border-zinc-800 rounded-lg shadow-xl z-50 hidden flex-col overflow-hidden">
         <div class="p-3.5 bg-blue-600 text-white flex items-center justify-between">
-            <div class="flex items-center gap-2 font-semibold text-xs sm:text-sm">
-                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                HourWash Assistant
+            <div class="flex items-center gap-2.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
+                <div>
+                    <h4 class="font-extrabold text-sm text-white leading-tight">Hour Wash AI Assistant</h4>
+                    <span class="text-[10px] text-blue-100 font-medium block">Live 24/7 Store Support</span>
+                </div>
             </div>
-            <button id="welcome-chat-close" class="text-white/80 hover:text-white text-base">✕</button>
+            <button id="welcome-chat-close" class="text-white/80 hover:text-white text-base font-bold px-1.5 py-0.5 rounded hover:bg-white/10 transition">✕</button>
         </div>
 
         <div id="welcome-chat-box" class="p-4 h-72 overflow-y-auto space-y-3 text-xs bg-slate-50 dark:bg-[#09090B]">
