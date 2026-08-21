@@ -35,7 +35,7 @@
                 <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-9 h-9 sm:w-10 sm:h-10 rounded-md object-cover bg-white p-0.5 border border-slate-200 dark:border-zinc-700 shadow-sm shrink-0">
                 <div>
                     <span class="text-base sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white inline-flex items-center gap-0.5 leading-tight">
-                        H<span class="inline-flex items-center justify-center text-blue-600 dark:text-blue-400 mx-[0.5px]"><svg class="w-[0.85em] h-[0.85em] inline-block -mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 3"/></svg></span>UR WASH
+                        H<span class="inline-flex items-center justify-center text-slate-800 dark:text-slate-100 mx-[0.5px]"><svg class="w-[0.85em] h-[0.85em] inline-block -mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 3"/></svg></span>UR WASH
                     </span>
                     <span class="text-[8.5px] sm:text-[10px] text-slate-900 dark:text-slate-100 tracking-wider uppercase font-semibold block whitespace-nowrap">LAUNDRY MANAGEMENT SYSTEM</span>
                 </div>
@@ -103,7 +103,7 @@
             </div>
 
             <nav class="flex flex-col space-y-2 font-medium text-xs">
-                <a href="#home" class="mobile-nav-link text-blue-600 dark:text-blue-400 font-bold py-2 border-b border-slate-100 dark:border-zinc-800">Home</a>
+                <a href="#home" class="mobile-nav-link text-slate-800 dark:text-slate-100 font-bold py-2 border-b border-slate-100 dark:border-zinc-800">Home</a>
                 <a href="#services" class="mobile-nav-link text-slate-700 dark:text-zinc-200 hover:text-blue-600 py-2 border-b border-slate-100 dark:border-zinc-800">Services & Rates</a>
                 <a href="#how-it-works" class="mobile-nav-link text-slate-700 dark:text-zinc-200 hover:text-blue-600 py-2 border-b border-slate-100 dark:border-zinc-800">How It Works</a>
                 <a href="#track-section" class="mobile-nav-link text-slate-700 dark:text-zinc-200 hover:text-blue-600 py-2 border-b border-slate-100 dark:border-zinc-800">Track Order</a>
@@ -197,7 +197,7 @@
                 <div class="lg:col-span-5 relative flex justify-center">
                     <div class="w-full max-w-sm rounded-lg bg-slate-50 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-800 p-5 flex flex-col justify-between shadow-sm space-y-5">
                         <div class="flex items-center justify-between border-b border-slate-200 dark:border-zinc-700/60 pb-3">
-                            <span class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">Live Store Status</span>
+                            <span class="text-xs font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wider">Live Store Status</span>
                             @if(($storeStatus ?? 'open') === 'open')
                                 <span class="badge-status badge-green">Open Today</span>
                             @else
@@ -207,7 +207,7 @@
                         <div class="space-y-3">
                             <div>
                                 <h3 class="text-base font-bold text-slate-900 dark:text-white inline-flex items-center gap-0.5">
-                                    H<span class="inline-flex items-center justify-center text-blue-600 dark:text-blue-400 mx-[0.5px]"><svg class="w-[0.85em] h-[0.85em] inline-block -mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 3"/></svg></span>UR WASH LAUNDRY
+                                    H<span class="inline-flex items-center justify-center text-slate-800 dark:text-slate-100 mx-[0.5px]"><svg class="w-[0.85em] h-[0.85em] inline-block -mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 3"/></svg></span>UR WASH LAUNDRY
                                 </h3>
                                 <p class="text-xs text-slate-500 dark:text-zinc-400 mt-0.5">Operating Hours: 7:30 AM – 6:00 PM (Mon – Sun) • Same-Day Cut-Off: 4:30 PM</p>
                             </div>

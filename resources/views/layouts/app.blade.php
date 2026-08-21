@@ -85,7 +85,7 @@
                         <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-11 h-11 rounded-full object-cover shadow-sm group-transition-transform bg-white p-0.5 border border-slate-200 dark:dark:border-zinc-700 shrink-0">
                         <div id="sidebar-logo-text" class="sidebar-text">
                             <h1 class="text-lg font-bold tracking-wide text-slate-900 dark:text-white inline-flex items-center gap-0.5">
-                                H<span class="inline-flex items-center justify-center text-blue-600 dark:text-blue-400 mx-[0.5px]"><svg class="w-[0.85em] h-[0.85em] inline-block -mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 3"/></svg></span>UR WASH
+                                H<span class="inline-flex items-center justify-center text-slate-800 dark:text-slate-100 mx-[0.5px]"><svg class="w-[0.85em] h-[0.85em] inline-block -mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 3"/></svg></span>UR WASH
                             </h1>
                             <p class="text-[8.5px] text-slate-800 dark:text-white tracking-wider uppercase font-bold whitespace-nowrap leading-none mt-0.5">LAUNDRY MANAGEMENT SYSTEM</p>
                         </div>
