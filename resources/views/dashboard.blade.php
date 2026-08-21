@@ -14,74 +14,64 @@
 
         <!-- Quick Navbar Selection Shortcuts -->
         <div>
-            <h2 class="text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">
+            <h2 class="text-[11px] font-bold text-slate-400 dark:text-zinc-500 uppercase tracking-widest mb-3">
                 Quick Navbar Selection Shortcuts
             </h2>
 
-            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-3">
+            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-2.5">
                 <a href="{{ route('laundry.create') }}"
-                   class="app-card p-3.5 flex flex-col justify-between hover:border-blue-600 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group">
-                    <div>
-                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
-                            Book New Order
-                        </span>
-                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
-                            Schedule laundry wash
-                        </span>
-                    </div>
+                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group">
+                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
+                        Book New Order
+                    </span>
+                    <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
+                        Schedule laundry wash
+                    </span>
                 </a>
 
                 <a href="{{ route('my.orders') }}"
-                   class="app-card p-3.5 flex flex-col justify-between hover:border-blue-600 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group">
-                    <div>
-                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
-                            My Laundry Orders
-                        </span>
-                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
-                            {{ $recentOrders->count() }} total bookings
-                        </span>
-                    </div>
+                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group">
+                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
+                        My Laundry Orders
+                    </span>
+                    <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
+                        {{ $recentOrders->count() }} total bookings
+                    </span>
                 </a>
 
                 <a href="{{ route('frequent_card.index') }}"
-                   class="app-card p-3.5 flex flex-col justify-between hover:border-pink-500 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group border-l-4 border-l-pink-500">
-                    <div>
-                        <div class="flex items-center justify-between">
-                            <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-pink-600 transition block truncate">
-                                Frequent User Card
-                            </span>
-                        </div>
-                        <span class="text-[10px] text-pink-600 dark:text-pink-400 font-mono font-bold block mt-1">
-                            {{ auth()->user()->stamps_count ?? 0 }}/12 Stamps
-                            @if((auth()->user()->discount_rewards_available ?? 0) > 0)
-                                <span class="text-[9px] bg-emerald-600 text-white px-1 rounded ml-1 font-bold">REWARD</span>
-                            @endif
+                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-pink-500/50 dark:border-pink-500/40 hover:border-pink-500 dark:hover:border-pink-500 transition-colors group">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-pink-600 dark:group-hover:text-pink-400 transition block truncate">
+                            Frequent User Card
                         </span>
                     </div>
+                    <span class="text-[10px] text-pink-600 dark:text-pink-400 font-bold block mt-1">
+                        {{ auth()->user()->stamps_count ?? 0 }}/12 Stamps
+                        @if((auth()->user()->discount_rewards_available ?? 0) > 0)
+                            <span class="text-[9px] bg-emerald-600 text-white px-1 rounded ml-1 font-bold">REWARD</span>
+                        @endif
+                    </span>
                 </a>
 
                 <a href="{{ route('welcome') }}"
-                   class="app-card p-3.5 flex flex-col justify-between hover:border-blue-600 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group">
-                    <div>
-                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
-                            Home Dashboard
-                        </span>
-                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
-                            View store info & services
-                        </span>
-                    </div>
+                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group">
+                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
+                        Home Dashboard
+                    </span>
+                    <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
+                        View store info & services
+                    </span>
                 </a>
 
                 <a href="{{ route('profile.edit') }}"
-                   class="app-card p-3.5 flex flex-col justify-between hover:border-blue-600 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group">
-                    <div>
-                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
-                            Account Settings
-                        </span>
-                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
-                            Profile & Security
-                        </span>
-                    </div>
+                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group">
+                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
+                        Account Settings
+                    </span>
+                    <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
+                        Profile & Security
+                    </span>
                 </a>
             </div>
         </div>
@@ -98,12 +88,12 @@
 
         <!-- Customer Payment Summary (Unpaid vs Paid) -->
         <div>
-            <h2 class="text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">
+            <h2 class="text-[11px] font-bold text-slate-400 dark:text-zinc-500 uppercase tracking-widest mb-3">
                 My Payment Summary & Invoices
             </h2>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div class="app-card p-4 sm:p-5 border-l-4 border-l-rose-500 flex items-center justify-between shadow-sm">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                <div class="p-4 sm:p-5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-2 border-l-rose-500 flex items-center justify-between shadow-sm">
                     <div>
                         <span class="text-[10px] font-extrabold text-rose-600 dark:text-rose-400 uppercase tracking-wider block">
                             UNPAID ORDERS (NEED PAYMENT COLLECTION)
@@ -115,12 +105,12 @@
                             <span class="font-bold text-rose-600 dark:text-rose-400">{{ $customerUnpaidCount }}</span> order(s) pending cashier payment
                         </p>
                     </div>
-                    <span class="px-2.5 py-1 rounded-md text-[10px] font-extrabold uppercase tracking-wider bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-800/60">
                         UNPAID
                     </span>
                 </div>
 
-                <div class="app-card p-4 sm:p-5 border-l-4 border-l-emerald-500 flex items-center justify-between shadow-sm">
+                <div class="p-4 sm:p-5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-2 border-l-emerald-500 flex items-center justify-between shadow-sm">
                     <div>
                         <span class="text-[10px] font-extrabold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block">
                             PAID ORDERS (CLEARED INVOICES)
@@ -132,7 +122,7 @@
                             <span class="font-bold text-emerald-600 dark:text-emerald-400">{{ $customerPaidCount }}</span> order(s) paid & cleared
                         </p>
                     </div>
-                    <span class="px-2.5 py-1 rounded-md text-[10px] font-extrabold uppercase tracking-wider bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
+                    <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60">
                         PAID
                     </span>
                 </div>
@@ -140,46 +130,46 @@
         </div>
 
         <div class="grid grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3">
-            <div class="app-card p-3 sm:p-4">
+            <div class="p-3.5 sm:p-4 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800">
                 <div>
-                    <h5 class="text-[10px] sm:text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold truncate">Washers</h5>
+                    <h5 class="text-[10px] uppercase tracking-widest text-slate-400 dark:text-zinc-500 font-bold truncate">Washers</h5>
                     <p class="text-sm sm:text-base font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">{{ $idleWashers ?? 0 }} Idle</p>
                 </div>
             </div>
 
-            <div class="app-card p-3 sm:p-4">
+            <div class="p-3.5 sm:p-4 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800">
                 <div>
-                    <h5 class="text-[10px] sm:text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold truncate">Dryers</h5>
+                    <h5 class="text-[10px] uppercase tracking-widest text-slate-400 dark:text-zinc-500 font-bold truncate">Dryers</h5>
                     <p class="text-sm sm:text-base font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">{{ $idleDryers ?? 0 }} Ready</p>
                 </div>
             </div>
 
-            <div class="app-card p-3 sm:p-4">
+            <div class="p-3.5 sm:p-4 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800">
                 <div>
-                    <h5 class="text-[10px] sm:text-xs uppercase tracking-wider text-slate-500 dark:text-slate-400 font-semibold truncate">My Orders</h5>
+                    <h5 class="text-[10px] uppercase tracking-widest text-slate-400 dark:text-zinc-500 font-bold truncate">My Orders</h5>
                     <p class="text-sm sm:text-base font-bold text-blue-600 dark:text-blue-400 mt-0.5">{{ $recentOrders->count() }} Orders</p>
                 </div>
             </div>
 
-            <div class="col-span-3 lg:col-span-1 app-card p-3.5 sm:p-4 flex flex-col justify-center">
+            <div class="col-span-3 lg:col-span-1 p-3.5 sm:p-4 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 flex flex-col justify-center">
                 <div>
                     @if(($storeStatus ?? 'open') === 'open')
-                        <span class="inline-flex items-center gap-2 text-xs sm:text-sm font-extrabold text-emerald-600 dark:text-emerald-400 tracking-wide">
+                        <span class="inline-flex items-center gap-1.5 text-xs font-extrabold text-emerald-600 dark:text-emerald-400 tracking-wide">
                             <span class="relative flex h-2 w-2 shrink-0">
                                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                                 <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                             </span>
                             STORE OPEN TODAY
                         </span>
-                        <p class="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100 mt-1">7:30 AM – 6:00 PM (Mon – Sun)</p>
-                        <p class="text-[11px] font-semibold text-amber-600 dark:text-amber-400 mt-0.5">⏱️ Same-Day Cut-Off: 4:30 PM</p>
+                        <p class="text-xs font-bold text-slate-900 dark:text-slate-100 mt-1">7:30 AM – 6:00 PM (Mon – Sun)</p>
+                        <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-0.5">Same-Day Cut-Off: 4:30 PM</p>
                     @else
-                        <span class="inline-flex items-center gap-2 text-xs sm:text-sm font-extrabold text-rose-600 dark:text-rose-400 tracking-wide">
+                        <span class="inline-flex items-center gap-1.5 text-xs font-extrabold text-rose-600 dark:text-rose-400 tracking-wide">
                             <span class="w-2 h-2 rounded-full bg-rose-500 shrink-0"></span>
                             STORE CLOSED TODAY
                         </span>
-                        <p class="text-xs sm:text-sm font-bold text-slate-500 dark:text-slate-400 mt-1">7:30 AM – 6:00 PM (Mon – Sun)</p>
-                        <p class="text-[11px] font-semibold text-rose-500 dark:text-rose-400 mt-0.5">Closed All Day</p>
+                        <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mt-1">7:30 AM – 6:00 PM (Mon – Sun)</p>
+                        <p class="text-[11px] font-medium text-rose-500 dark:text-rose-400 mt-0.5">Closed All Day</p>
                     @endif
                 </div>
             </div>
@@ -239,9 +229,9 @@
 
                         @if($isMyOrder && $targetOrder)
                             <a href="{{ route('laundry.track', $targetOrder->order_number) }}"
-                               class="block p-3.5 rounded-lg bg-white dark:bg-[#18181B] border-2 border-blue-600 space-y-2.5 shadow-xs hover:shadow-sm transition-all cursor-pointer relative group"
+                               class="block p-3.5 rounded-lg bg-white dark:bg-[#18181B] border-2 border-blue-600 space-y-2.5 shadow-sm hover:shadow-sm transition-all cursor-pointer relative group"
                                title="Click to view your order #{{ $targetOrder->order_number }}">
-                                <span class="absolute -top-2.5 -right-1 bg-blue-600 text-white text-[8.5px] font-extrabold px-2 py-0.5 rounded-full shadow-xs uppercase tracking-wider">
+                                <span class="absolute -top-2.5 -right-1 bg-blue-600 text-white text-[8.5px] font-extrabold px-2 py-0.5 rounded-full shadow-sm uppercase tracking-wider">
                                     YOUR ORDER
                                 </span>
                                 <div class="flex items-center justify-between">

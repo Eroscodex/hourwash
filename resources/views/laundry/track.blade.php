@@ -216,7 +216,7 @@
                 $riderName = $order->pickupDelivery->rider_name ?? ($riderObj->name ?? 'Hour Wash Logistics Rider');
                 $riderPhone = $order->pickupDelivery->rider_phone ?? ($riderObj->phone ?? '09100317744');
             @endphp
-            <div class="p-4 sm:p-5 rounded-lg bg-blue-600/10 dark:bg-blue-600/15 border border-blue-600/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs">
+            <div class="p-4 sm:p-5 rounded-lg bg-blue-600/10 dark:bg-blue-600/15 border border-blue-600/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
                 <div class="space-y-1">
                     <div class="flex items-center gap-2">
                         <span class="px-2.5 py-0.5 rounded-md bg-blue-600/15 text-blue-600 dark:text-blue-400 text-[10px] font-extrabold uppercase tracking-wider border border-blue-600/30">

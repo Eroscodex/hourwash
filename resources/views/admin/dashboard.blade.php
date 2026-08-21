@@ -521,7 +521,7 @@
 
                         @if($ord)
                             <a href="{{ route('laundry.track', $ord->order_number) }}"
-                               class="block p-3.5 rounded-lg bg-white dark:bg-[#18181B] border-2 border-blue-600 space-y-2.5 shadow-xs hover:shadow-sm transition-all cursor-pointer group"
+                               class="block p-3.5 rounded-lg bg-white dark:bg-[#18181B] border-2 border-blue-600 space-y-2.5 shadow-sm hover:shadow-sm transition-all cursor-pointer group"
                                title="Click to view order #{{ $ord->order_number }}">
                                 <div class="flex items-center justify-between">
                                     <span class="text-xs font-bold text-slate-900 dark:text-white truncate group-hover:text-blue-600 transition">

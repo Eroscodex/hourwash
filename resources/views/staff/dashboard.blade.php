@@ -69,81 +69,69 @@
 
         <!-- Quick Terminal Shortcuts -->
         <div>
-            <h2 class="text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">
+            <h2 class="text-[11px] font-bold text-slate-400 dark:text-zinc-500 uppercase tracking-widest mb-3">
                 Quick Terminal Shortcuts
             </h2>
 
-            <div class="grid grid-cols-2 sm:grid-cols-6 lg:grid-cols-6 gap-3">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
                 <a href="{{ route('staff.laundry.index') }}"
-                   class="app-card p-3.5 flex flex-col justify-between hover:border-blue-600 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group">
-                    <div>
-                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
-                            Manage Laundry Orders
-                        </span>
-                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
-                            {{ $totalOrders ?? 0 }} total orders
-                        </span>
-                    </div>
+                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group">
+                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
+                        Manage Laundry Orders
+                    </span>
+                    <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
+                        {{ $totalOrders ?? 0 }} total orders
+                    </span>
                 </a>
 
                 <a href="{{ route('staff.machines.index') }}"
-                   class="app-card p-3.5 flex flex-col justify-between hover:border-blue-600 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group">
-                    <div>
-                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
-                            Machine Monitor
-                        </span>
-                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
-                            {{ count($machines ?? []) }} commercial units
-                        </span>
-                    </div>
+                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group">
+                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
+                        Machine Monitor
+                    </span>
+                    <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
+                        {{ count($machines ?? []) }} commercial units
+                    </span>
                 </a>
 
                 <a href="{{ route('laundry.create') }}"
-                   class="app-card p-3.5 flex flex-col justify-between hover:border-blue-600 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group">
-                    <div>
-                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
-                            New Walk-in Order
-                        </span>
-                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
-                            Book customer wash
-                        </span>
-                    </div>
+                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group">
+                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
+                        New Walk-in Order
+                    </span>
+                    <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
+                        Book customer wash
+                    </span>
                 </a>
 
                 <a href="{{ route('admin.qr_scan_logs.index') }}"
-                   class="app-card p-3.5 flex flex-col justify-between hover:border-blue-600 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group">
-                    <div>
-                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
-                            QR Scan Logs Outbox
-                        </span>
-                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
-                            Scan audit history
-                        </span>
-                    </div>
+                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group">
+                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
+                        QR Scan Logs Outbox
+                    </span>
+                    <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
+                        Scan audit history
+                    </span>
                 </a>
 
                 <a href="{{ route('welcome') }}"
-                   class="app-card p-3.5 flex flex-col justify-between hover:border-blue-600 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group">
-                    <div>
-                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
-                            Home Dashboard
-                        </span>
-                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
-                            Public storefront
-                        </span>
-                    </div>
+                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group">
+                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
+                        Home Dashboard
+                    </span>
+                    <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
+                        Public storefront
+                    </span>
                 </a>
 
                 <a href="{{ route('profile.edit') }}"
-                   class="app-card p-3.5 flex flex-col justify-between hover:border-blue-600 hover:shadow-sm hover:scale-[1.02] active:scale-[0.98] transition-all group">
-                    <div>
-                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
-                            Account Settings
-                        </span>
-                        <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono block mt-1">
-                            Staff Profile & Security
-                        </span>
-                    </div>
+                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group">
+                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
+                        Account Settings
+                    </span>
+                    <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
+                        Staff Profile & Security
+                    </span>
                 </a>
             </div>
         </div>
@@ -295,7 +283,7 @@
 
                     @if($ord)
                         <a href="{{ route('laundry.track', $ord->order_number) }}"
-                           class="block p-3.5 rounded-lg bg-white dark:bg-[#18181B] border-2 border-blue-600 space-y-2.5 shadow-xs hover:shadow-sm transition-all cursor-pointer group"
+                           class="block p-3.5 rounded-lg bg-white dark:bg-[#18181B] border-2 border-blue-600 space-y-2.5 shadow-sm hover:shadow-sm transition-all cursor-pointer group"
                            title="Click to view order #{{ $ord->order_number }}">
                             <div class="flex items-center justify-between">
                                 <span class="text-xs font-bold text-slate-900 dark:text-white truncate group-hover:text-blue-600 transition">

@@ -423,20 +423,20 @@
 
         <div id="chat-box" class="p-4 h-80 overflow-y-auto space-y-3 text-xs bg-slate-50 dark:bg-[#09090B]">
             <div class="flex justify-start">
-                <div class="bg-white dark:bg-[#18181B] text-slate-900 dark:text-zinc-100 px-4 py-3 rounded-2xl rounded-tl-sm max-w-[85%] border border-slate-200 dark:dark:border-zinc-700 shadow-xs">
+                <div class="bg-white dark:bg-[#18181B] text-slate-900 dark:text-zinc-100 px-4 py-3 rounded-2xl rounded-tl-sm max-w-[85%] border border-slate-200 dark:dark:border-zinc-700 shadow-sm">
                     Hi! How can I help you today, po? 😊
                 </div>
             </div>
 
             <!-- Quick Suggestion Pills (CATC Style) -->
             <div id="quick-suggestions-container" class="flex flex-col items-end space-y-2 pt-2">
-                <button onclick="sendQuickMessage('What requirements are needed?')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-4 py-2 rounded-full transition shadow-xs">
+                <button onclick="sendQuickMessage('What requirements are needed?')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-4 py-2 rounded-full transition shadow-sm">
                     What requirements are needed?
                 </button>
-                <button onclick="sendQuickMessage('Services & rates offered?')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-4 py-2 rounded-full transition shadow-xs">
+                <button onclick="sendQuickMessage('Services & rates offered?')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-4 py-2 rounded-full transition shadow-sm">
                     Services & rates offered?
                 </button>
-                <button onclick="sendQuickMessage('Store location & hours?')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-4 py-2 rounded-full transition shadow-xs">
+                <button onclick="sendQuickMessage('Store location & hours?')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-4 py-2 rounded-full transition shadow-sm">
                     Store location & hours?
                 </button>
             </div>
@@ -445,7 +445,7 @@
         <div class="p-3 border-t border-slate-200 dark:dark:border-zinc-700 bg-white dark:bg-[#141417] flex flex-col gap-1.5">
             <div class="flex items-center gap-2">
                 <input id="message" type="text" placeholder="Hello! I have a question :)" class="flex-1 bg-slate-100 dark:bg-[#18181B] border border-slate-300 dark:dark:border-zinc-700 rounded-full px-4 py-2.5 text-xs focus:outline-none focus:border-blue-600" onkeydown="if(event.key==='Enter')sendMessage()">
-                <button onclick="sendMessage()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold w-9 h-9 rounded-full text-sm flex items-center justify-center transition shadow-xs shrink-0">
+                <button onclick="sendMessage()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold w-9 h-9 rounded-full text-sm flex items-center justify-center transition shadow-sm shrink-0">
                     ↑
                 </button>
             </div>
@@ -543,7 +543,7 @@
 
         chatBox.innerHTML += `
             <div class="flex justify-end">
-                <div class="bg-white dark:bg-[#18181B] text-slate-900 dark:text-zinc-100 font-medium px-4 py-2.5 rounded-2xl rounded-tr-sm max-w-[85%] border border-slate-300 dark:border-zinc-700 shadow-xs">
+                <div class="bg-white dark:bg-[#18181B] text-slate-900 dark:text-zinc-100 font-medium px-4 py-2.5 rounded-2xl rounded-tr-sm max-w-[85%] border border-slate-300 dark:border-zinc-700 shadow-sm">
                     ${message}
                 </div>
             </div>
@@ -554,7 +554,7 @@
         const typingId = 'typing-' + Date.now();
         chatBox.innerHTML += `
             <div class="flex justify-start" id="${typingId}">
-                <div class="bg-white dark:bg-[#18181B] text-slate-500 px-3.5 py-2.5 rounded-2xl rounded-tl-sm border border-slate-200 dark:dark:border-zinc-700 shadow-xs">
+                <div class="bg-white dark:bg-[#18181B] text-slate-500 px-3.5 py-2.5 rounded-2xl rounded-tl-sm border border-slate-200 dark:dark:border-zinc-700 shadow-sm">
                     <span class="animate-pulse">Typing...</span>
                 </div>
             </div>
@@ -581,7 +581,7 @@
 
             chatBox.innerHTML += `
                 <div class="flex justify-start">
-                    <div class="bg-white dark:bg-[#18181B] text-slate-900 dark:text-zinc-100 px-3.5 py-2.5 rounded-2xl rounded-tl-sm max-w-[85%] border border-slate-200 dark:dark:border-zinc-700 shadow-xs break-all [word-break:break-word] overflow-hidden">
+                    <div class="bg-white dark:bg-[#18181B] text-slate-900 dark:text-zinc-100 px-3.5 py-2.5 rounded-2xl rounded-tl-sm max-w-[85%] border border-slate-200 dark:dark:border-zinc-700 shadow-sm break-all [word-break:break-word] overflow-hidden">
                         <strong class="text-blue-600 dark:text-blue-400 block mb-0.5">Hour Wash Assistant</strong>
                         ${formattedReply}
                     </div>

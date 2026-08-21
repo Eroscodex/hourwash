@@ -32,19 +32,19 @@
 
                 <!-- Loyalty Rewards Summary Cards -->
                 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                    <div class="app-card p-4 flex flex-col justify-between border-l-4 border-pink-500 shadow-sm">
+                    <div class="p-4 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-2 border-l-pink-500 flex flex-col justify-between shadow-sm">
                         <span class="text-[10px] font-extrabold text-pink-600 dark:text-pink-400 uppercase tracking-wider block">
                             ACTIVE STAMPS
                         </span>
                         <span class="text-2xl font-extrabold text-slate-900 dark:text-white font-mono mt-1">
-                            {{ auth()->user()->stamps_count ?? 0 }} <span class="text-xs text-slate-500 font-sans font-normal">/ 12</span>
+                            {{ auth()->user()->stamps_count ?? 0 }} <span class="text-xs text-slate-400 dark:text-zinc-500 font-sans font-normal">/ 12</span>
                         </span>
                         <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-1">
                             {{ 12 - (auth()->user()->stamps_count ?? 0) }} more stamp(s) for next reward
                         </p>
                     </div>
 
-                    <div class="app-card p-4 flex flex-col justify-between border-l-4 border-emerald-500 shadow-sm">
+                    <div class="p-4 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-2 border-l-emerald-500 flex flex-col justify-between shadow-sm">
                         <span class="text-[10px] font-extrabold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block">
                             DISCOUNTS AVAILABLE
                         </span>
@@ -56,7 +56,7 @@
                         </p>
                     </div>
 
-                    <div class="app-card p-4 flex flex-col justify-between border-l-4 border-blue-500 shadow-sm">
+                    <div class="p-4 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-2 border-l-blue-500 flex flex-col justify-between shadow-sm">
                         <span class="text-[10px] font-extrabold text-blue-600 dark:text-blue-400 uppercase tracking-wider block">
                             CARDS COMPLETED
                         </span>

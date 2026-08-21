@@ -7,7 +7,7 @@
         <p class="text-xs text-slate-600 dark:text-slate-400 mt-1">Select your service package, laundry supplies option, input weight, and choose an available machine.</p>
     </div>
 
-    <div class="p-3.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700 text-slate-700 dark:text-slate-300 text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-xs">
+    <div class="p-3.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700 text-slate-700 dark:text-slate-300 text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-2 shadow-sm">
         <div class="flex items-center gap-2">
             <svg class="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             <span><strong>Store Hours:</strong> 7:30 AM – 6:00 PM (Monday – Sunday)</span>

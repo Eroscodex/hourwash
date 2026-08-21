@@ -10,7 +10,7 @@
     <!-- Card Header -->
     <div class="flex items-center justify-between border-b-2 border-pink-300 dark:border-pink-900/60 pb-3 mb-3">
         <div class="flex items-center gap-2.5">
-            <div class="w-10 h-10 rounded-full bg-white dark:bg-pink-900/50 p-1 border-2 border-pink-400 dark:border-pink-700 flex items-center justify-center shrink-0 shadow-xs">
+            <div class="w-10 h-10 rounded-full bg-white dark:bg-pink-900/50 p-1 border-2 border-pink-400 dark:border-pink-700 flex items-center justify-center shrink-0 shadow-sm">
                 <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-7 h-7 object-contain">
             </div>
             <div>
@@ -38,7 +38,7 @@
     <div class="grid grid-cols-4 gap-2 mb-3.5">
         @for ($i = 1; $i <= 12; $i++)
             @php $isStamped = $i <= $stamps; @endphp
-            <div class="h-12 rounded-lg border-2 flex flex-col items-center justify-center relative transition-all {{ $isStamped ? 'bg-pink-500/20 border-pink-600 dark:bg-pink-600/30 dark:border-pink-500 shadow-xs' : 'bg-white/60 dark:bg-pink-950/20 border-pink-300/70 dark:border-pink-900/60' }}">
+            <div class="h-12 rounded-lg border-2 flex flex-col items-center justify-center relative transition-all {{ $isStamped ? 'bg-pink-500/20 border-pink-600 dark:bg-pink-600/30 dark:border-pink-500 shadow-sm' : 'bg-white/60 dark:bg-pink-950/20 border-pink-300/70 dark:border-pink-900/60' }}">
                 @if ($isStamped)
                     <span class="text-pink-700 dark:text-pink-300 text-xs font-black rotate-[-12deg] tracking-wider uppercase font-mono">
                         ✓ STAMP
