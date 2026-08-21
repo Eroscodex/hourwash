@@ -311,28 +311,28 @@
 
             <!-- 2. Active Order Tracker -->
             @if(isset($activeOrder) && $activeOrder)
-                <div class="app-card p-5 sm:p-6 space-y-5 shadow-lg border-l-4 border-l-[#2563EB]">
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-black/5 dark:dark:border-zinc-700 pb-4">
+                <div class="p-5 sm:p-6 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-2 border-l-blue-600 space-y-4 shadow-sm">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-zinc-800/80 pb-3.5">
                         <div class="flex items-center gap-3">
                             @if($activeOrder->qrCode)
                                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data={{ $activeOrder->qrCode->qr_token }}"
                                      alt="QR Code Tag"
-                                     class="w-12 h-12 bg-white p-1 rounded-lg border border-slate-200 shadow-sm flex-shrink-0">
+                                     class="w-11 h-11 bg-white p-1 rounded-lg border border-slate-200 dark:border-zinc-700 shadow-sm shrink-0">
                             @else
-                                <div class="w-12 h-12 rounded-lg bg-blue-600/10 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold text-sm">
+                                <div class="w-11 h-11 rounded-lg bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800/60 flex items-center justify-center font-extrabold text-xs shrink-0">
                                     QR
                                 </div>
                             @endif
                             <div>
                                 <div class="flex items-center gap-2">
-                                    <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+                                    <h3 class="text-base font-extrabold text-slate-900 dark:text-white">
                                         Active Order Tracker
                                     </h3>
-                                    <span class="px-2.5 py-0.5 rounded-md text-[10px] font-extrabold uppercase tracking-wider bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase tracking-wider bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60">
                                         {{ $activeOrder->order_status === 'finish' ? 'Finish & Ready' : str_replace('_', ' ', $activeOrder->order_status) }}
                                     </span>
                                 </div>
-                                <p class="text-xs text-slate-500 dark:text-slate-400">Live cleaning progress monitoring</p>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Live cleaning progress monitoring</p>
                             </div>
                         </div>
 
@@ -341,17 +341,17 @@
                                 Track Live Status
                             </a>
                             @if(in_array($activeOrder->order_status, ['pending', 'received']))
-                                <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'cancel-active-order-{{ $activeOrder->id }}')" class="bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 hover:bg-rose-500/25 px-2.5 py-1 rounded-lg text-xs font-bold transition">
+                                <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'cancel-active-order-{{ $activeOrder->id }}')" class="bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-800/60 hover:bg-rose-100 dark:hover:bg-rose-900/60 px-2.5 py-1 rounded-md text-xs font-bold transition">
                                     Cancel
                                 </button>
 
                                 <x-modal name="cancel-active-order-{{ $activeOrder->id }}" maxWidth="sm">
-                                    <div class="p-6 bg-white dark:bg-[#141417] text-slate-900 dark:text-zinc-100 space-y-4 rounded-lg text-left">
+                                    <div class="p-6 bg-white dark:bg-[#18181B] text-slate-900 dark:text-zinc-100 space-y-4 rounded-lg text-left">
                                         <h2 class="text-base font-bold text-rose-600 dark:text-rose-400">Cancel Order?</h2>
                                         <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                                             Are you sure you want to cancel pending order <strong>#{{ $activeOrder->order_number }}</strong>?
                                         </p>
-                                        <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-200 dark:border-zinc-800">
+                                        <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-100 dark:border-zinc-800">
                                             <button type="button" x-on:click="$dispatch('close')" class="btn-secondary text-xs py-1.5 px-3">
                                                 Keep Order
                                             </button>
@@ -368,46 +368,46 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 text-xs bg-slate-50 dark:bg-[#18181B] p-4 rounded-lg border border-slate-200 dark:border-zinc-700">
+                    <div class="grid grid-cols-1 sm:grid-cols-5 gap-3 text-xs bg-slate-50 dark:bg-zinc-900/60 p-3.5 rounded-lg border border-slate-200/60 dark:border-zinc-800">
                         <div>
-                            <span class="text-slate-500 dark:text-slate-400 text-[11px] block">Order Code</span>
-                            <span class="font-bold text-blue-600 dark:text-blue-400 font-mono">#{{ $activeOrder->order_number }}</span>
+                            <span class="text-slate-400 dark:text-zinc-500 text-[10px] uppercase tracking-wider font-bold block">Order Code</span>
+                            <span class="font-bold text-blue-600 dark:text-blue-400 font-mono mt-0.5 block">#{{ $activeOrder->order_number }}</span>
                         </div>
                         <div>
-                            <span class="text-slate-500 dark:text-slate-400 text-[11px] block">Payment Status</span>
-                            <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase {{ $activeOrder->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
+                            <span class="text-slate-400 dark:text-zinc-500 text-[10px] uppercase tracking-wider font-bold block">Payment Status</span>
+                            <span class="inline-block mt-0.5 px-2 py-0.5 rounded text-[10px] font-extrabold uppercase {{ $activeOrder->payment_status === 'paid' ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60' : 'bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-800/60' }}">
                                 {{ strtoupper($activeOrder->payment_status ?? 'UNPAID') }} (₱{{ number_format($activeOrder->total_amount, 2) }})
                             </span>
                         </div>
                         <div>
-                            <span class="text-slate-500 dark:text-slate-400 text-[11px] block">Assigned Machine</span>
-                            <span class="font-bold text-emerald-600 dark:text-emerald-400 font-mono">
+                            <span class="text-slate-400 dark:text-zinc-500 text-[10px] uppercase tracking-wider font-bold block">Assigned Machine</span>
+                            <span class="font-bold text-slate-900 dark:text-zinc-200 font-mono mt-0.5 block">
                                 {{ $activeOrder->machine ? $activeOrder->machine->machine_name . ' (' . $activeOrder->machine->machine_code . ')' : 'Auto-Assign on Wash' }}
                             </span>
                         </div>
                         <div>
-                            <span class="text-slate-500 dark:text-slate-400 text-[11px] block">Selected Service</span>
-                            <span class="font-semibold text-slate-900 dark:text-slate-100">{{ $activeOrder->service->name ?? 'Standard Laundry Wash' }} ({{ $activeOrder->weight_kg }} kg)</span>
+                            <span class="text-slate-400 dark:text-zinc-500 text-[10px] uppercase tracking-wider font-bold block">Selected Service</span>
+                            <span class="font-semibold text-slate-900 dark:text-slate-100 mt-0.5 block">{{ $activeOrder->service->name ?? 'Standard Laundry Wash' }} ({{ $activeOrder->weight_kg }} kg)</span>
                         </div>
                         <div>
-                            <span class="text-slate-500 dark:text-slate-400 text-[11px] block">Est. Completion</span>
-                            <span class="font-semibold text-slate-900 dark:text-slate-100">{{ $activeOrder->estimated_completion ? $activeOrder->estimated_completion->format('M d, Y • h:i A') : 'Processing' }}</span>
+                            <span class="text-slate-400 dark:text-zinc-500 text-[10px] uppercase tracking-wider font-bold block">Est. Completion</span>
+                            <span class="font-semibold text-slate-900 dark:text-slate-100 mt-0.5 block">{{ $activeOrder->estimated_completion ? $activeOrder->estimated_completion->format('M d, Y • h:i A') : 'Processing' }}</span>
                         </div>
                     </div>
                 </div>
             @else
-                <div class="app-card p-4 sm:p-6 text-center space-y-3 border-dashed border border-slate-300 dark:border-zinc-700 w-full">
-                    <h3 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">No Active Laundry Order</h3>
-                    <p class="text-xs sm:text-sm text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
+                <div class="p-5 sm:p-6 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 text-center space-y-3 w-full shadow-sm">
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white">No Active Laundry Order</h3>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
                         You currently have no laundry orders in progress. Place a new drop-off or pickup order to track live cleaning progress!
                     </p>
                     <div class="pt-1">
                         @if(($storeStatus ?? 'open') === 'open' || (auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isOwner() || auth()->user()->isStaff())))
-                            <a href="{{ route('laundry.create') }}" class="btn-primary text-xs sm:text-sm py-2 px-6 inline-flex items-center justify-center shadow-sm">
+                            <a href="{{ route('laundry.create') }}" class="btn-primary text-xs py-2 px-5 inline-flex items-center justify-center">
                                 Book New Laundry Order
                             </a>
                         @else
-                            <button disabled class="opacity-65 bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30 px-4 py-2 rounded-lg text-xs font-bold cursor-not-allowed inline-flex items-center justify-center gap-1.5">
+                            <button disabled class="opacity-65 bg-rose-50 dark:bg-rose-950/40 text-rose-600 dark:text-rose-400 border border-rose-200 dark:border-rose-800/60 px-4 py-2 rounded-md text-xs font-bold cursor-not-allowed inline-flex items-center justify-center gap-1.5">
                                 Store Closed Today (Bookings Disabled)
                             </button>
                         @endif
@@ -416,18 +416,18 @@
             @endif
 
             <!-- 3. My Order History -->
-            <div class="app-card p-4 sm:p-6 space-y-4 overflow-hidden shadow-sm">
-                <div class="flex items-center justify-between border-b border-slate-200 dark:border-zinc-700 pb-3">
+            <div class="p-4 sm:p-6 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 space-y-4 overflow-hidden shadow-sm">
+                <div class="flex items-center justify-between border-b border-slate-100 dark:border-zinc-800/80 pb-3">
                     <div>
-                        <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">My Order History</h2>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">Your recent laundry bookings, payment status, and invoices</p>
+                        <h2 class="text-base font-bold text-slate-900 dark:text-white">My Order History</h2>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Your recent laundry bookings, payment status, and invoices</p>
                     </div>
                     <a href="{{ route('my.orders') }}" class="btn-secondary py-1.5 px-3 text-xs">View All History</a>
                 </div>
 
                 <div class="overflow-x-auto max-w-full">
                     <table class="w-full text-left text-xs whitespace-nowrap min-w-[650px]">
-                        <thead class="bg-slate-100 dark:bg-[#18181B] text-slate-700 dark:text-slate-300 uppercase text-[10px] tracking-wider border-b border-slate-200 dark:border-zinc-700">
+                        <thead class="bg-slate-50 dark:bg-zinc-900/60 text-slate-400 dark:text-zinc-500 uppercase text-[10px] font-bold tracking-widest border-b border-slate-200/80 dark:border-zinc-800">
                             <tr>
                                 <th class="px-4 py-3">Order #</th>
                                 <th class="px-4 py-3">Service</th>
@@ -436,26 +436,26 @@
                                 <th class="px-4 py-3">Stage Status</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-200 dark:divide-zinc-700 text-slate-900 dark:text-slate-200">
+                        <tbody class="divide-y divide-slate-100 dark:divide-zinc-800/80 text-slate-900 dark:text-slate-200">
                             @forelse($recentOrders as $order)
-                                <tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition">
+                                <tr class="hover:bg-slate-50/80 dark:hover:bg-zinc-800/40 transition">
                                     <td class="px-4 py-3 font-mono font-bold text-blue-600 dark:text-blue-400">
                                         <a href="{{ route('laundry.track', $order->order_number) }}" class="hover:underline">#{{ $order->order_number }}</a>
                                     </td>
                                     <td class="px-4 py-3 font-medium">{{ $order->service->name ?? 'Wash & Dry' }}</td>
-                                    <td class="px-4 py-3 text-slate-500 dark:text-slate-400 font-mono">{{ $order->created_at->format('M d, Y') }}</td>
+                                    <td class="px-4 py-3 text-slate-400 dark:text-zinc-500 font-mono text-[11px]">{{ $order->created_at->format('M d, Y') }}</td>
                                     <td class="px-4 py-3 font-mono">
-                                        <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
+                                        <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60' : 'bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-800/60' }}">
                                             {{ strtoupper($order->payment_status) }} (₱{{ number_format($order->total_amount, 2) }})
                                         </span>
                                     </td>
                                     <td class="px-4 py-3">
                                          @if($order->order_status === 'completed')
-                                             <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">Completed</span>
+                                             <span class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60">Completed</span>
                                          @elseif($order->order_status === 'finish')
-                                             <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30">Finish</span>
+                                             <span class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800/60">Finish</span>
                                          @else
-                                             <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30">{{ str_replace('_', ' ', $order->order_status) }}</span>
+                                             <span class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800/60">{{ str_replace('_', ' ', $order->order_status) }}</span>
                                          @endif
                                      </td>
                                 </tr>
