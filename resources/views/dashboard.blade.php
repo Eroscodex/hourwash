@@ -14,88 +14,64 @@
 
         <!-- Quick Navbar Selection Shortcuts -->
         <div>
-            <h2 class="text-[11px] font-bold text-slate-400 dark:text-zinc-500 uppercase tracking-widest mb-3 flex items-center gap-1.5">
-                <svg class="w-3.5 h-3.5 text-slate-400 dark:text-zinc-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                Quick Navigation Shortcuts
+            <h2 class="text-[11px] font-bold text-slate-400 dark:text-zinc-500 uppercase tracking-widest mb-3">
+                Quick Navbar Selection Shortcuts
             </h2>
 
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2.5">
+            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-2.5">
                 <a href="{{ route('laundry.create') }}"
-                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group flex items-start gap-3">
-                    <div class="w-8 h-8 rounded-md bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800/60 flex items-center justify-center shrink-0 mt-0.5">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                    </div>
-                    <div class="min-w-0 flex-1">
-                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
-                            Book New Order
-                        </span>
-                        <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-0.5 truncate">
-                            Schedule laundry wash
-                        </span>
-                    </div>
+                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-2 border-l-blue-600 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group shadow-sm">
+                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
+                        Book New Order
+                    </span>
+                    <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
+                        Schedule laundry wash
+                    </span>
                 </a>
 
                 <a href="{{ route('my.orders') }}"
-                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group flex items-start gap-3">
-                    <div class="w-8 h-8 rounded-md bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 border border-sky-200 dark:border-sky-800/60 flex items-center justify-center shrink-0 mt-0.5">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-                    </div>
-                    <div class="min-w-0 flex-1">
-                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
-                            My Laundry Orders
-                        </span>
-                        <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-0.5 truncate">
-                            {{ $recentOrders->count() }} total bookings
-                        </span>
-                    </div>
+                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-2 border-l-indigo-500 hover:border-indigo-500 dark:hover:border-indigo-500 transition-colors group shadow-sm">
+                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition block truncate">
+                        My Laundry Orders
+                    </span>
+                    <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
+                        {{ $recentOrders->count() }} total bookings
+                    </span>
                 </a>
 
                 <a href="{{ route('frequent_card.index') }}"
-                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-pink-200 dark:border-pink-900/60 hover:border-pink-500 dark:hover:border-pink-500 transition-colors group flex items-start gap-3">
-                    <div class="w-8 h-8 rounded-md bg-pink-50 dark:bg-pink-950/40 text-pink-600 dark:text-pink-400 border border-pink-200 dark:border-pink-800/60 flex items-center justify-center shrink-0 mt-0.5">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V6a2 2 0 10-2 2h2zm0 13C10.832 21 2 20 2 12V8a2 2 0 012-2h16a2 2 0 012 2v4c0 8-8.832 9-10 9z"/></svg>
-                    </div>
-                    <div class="min-w-0 flex-1">
+                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-2 border-l-pink-500 hover:border-pink-500 dark:hover:border-pink-500 transition-colors group shadow-sm">
+                    <div class="flex items-center justify-between">
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-pink-600 dark:group-hover:text-pink-400 transition block truncate">
                             Frequent User Card
                         </span>
-                        <span class="text-[10px] text-pink-600 dark:text-pink-400 font-extrabold block mt-0.5 truncate">
-                            {{ auth()->user()->stamps_count ?? 0 }}/12 Stamps
-                            @if((auth()->user()->discount_rewards_available ?? 0) > 0)
-                                <span class="text-[8.5px] bg-emerald-600 text-white px-1 rounded ml-0.5 font-bold">REWARD</span>
-                            @endif
-                        </span>
                     </div>
+                    <span class="text-[10px] text-pink-600 dark:text-pink-400 font-bold block mt-1">
+                        {{ auth()->user()->stamps_count ?? 0 }}/12 Stamps
+                        @if((auth()->user()->discount_rewards_available ?? 0) > 0)
+                            <span class="text-[9px] bg-emerald-600 text-white px-1 rounded ml-1 font-bold">REWARD</span>
+                        @endif
+                    </span>
                 </a>
 
                 <a href="{{ route('welcome') }}"
-                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group flex items-start gap-3">
-                    <div class="w-8 h-8 rounded-md bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-400 border border-slate-200 dark:border-zinc-700 flex items-center justify-center shrink-0 mt-0.5">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-                    </div>
-                    <div class="min-w-0 flex-1">
-                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
-                            Home Dashboard
-                        </span>
-                        <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-0.5 truncate">
-                            View store info & services
-                        </span>
-                    </div>
+                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-2 border-l-cyan-500 hover:border-cyan-500 dark:hover:border-cyan-500 transition-colors group shadow-sm">
+                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-cyan-600 dark:group-hover:text-cyan-400 transition block truncate">
+                        Home Dashboard
+                    </span>
+                    <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
+                        View store info & services
+                    </span>
                 </a>
 
                 <a href="{{ route('profile.edit') }}"
-                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group flex items-start gap-3">
-                    <div class="w-8 h-8 rounded-md bg-purple-50 dark:bg-purple-950/40 text-purple-600 dark:text-purple-400 border border-purple-200 dark:border-purple-800/60 flex items-center justify-center shrink-0 mt-0.5">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                    </div>
-                    <div class="min-w-0 flex-1">
-                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
-                            Account Settings
-                        </span>
-                        <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-0.5 truncate">
-                            Profile & Security
-                        </span>
-                    </div>
+                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-2 border-l-purple-500 hover:border-purple-500 dark:hover:border-purple-500 transition-colors group shadow-sm">
+                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition block truncate">
+                        Account Settings
+                    </span>
+                    <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
+                        Profile & Security
+                    </span>
                 </a>
             </div>
         </div>
@@ -153,58 +129,47 @@
             </div>
         </div>
 
-        <!-- Sleek Summary Metric Tiles -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3">
-            <div class="p-3.5 sm:p-4 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 flex items-center gap-3">
-                <div class="w-9 h-9 rounded-md bg-teal-50 dark:bg-teal-950/40 text-teal-600 dark:text-teal-400 border border-teal-200 dark:border-teal-800/60 flex items-center justify-center shrink-0">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                </div>
-                <div class="min-w-0">
+        <div class="grid grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3">
+            <div class="p-3.5 sm:p-4 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-2 border-l-teal-500 shadow-sm">
+                <div>
                     <h5 class="text-[10px] uppercase tracking-widest text-slate-400 dark:text-zinc-500 font-bold truncate">Washers</h5>
-                    <p class="text-sm font-extrabold text-emerald-600 dark:text-emerald-400 mt-0.5">{{ $idleWashers ?? 0 }} Idle</p>
+                    <p class="text-sm sm:text-base font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">{{ $idleWashers ?? 0 }} Idle</p>
                 </div>
             </div>
 
-            <div class="p-3.5 sm:p-4 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 flex items-center gap-3">
-                <div class="w-9 h-9 rounded-md bg-sky-50 dark:bg-sky-950/40 text-sky-600 dark:text-sky-400 border border-sky-200 dark:border-sky-800/60 flex items-center justify-center shrink-0">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                </div>
-                <div class="min-w-0">
+            <div class="p-3.5 sm:p-4 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-2 border-l-amber-500 shadow-sm">
+                <div>
                     <h5 class="text-[10px] uppercase tracking-widest text-slate-400 dark:text-zinc-500 font-bold truncate">Dryers</h5>
-                    <p class="text-sm font-extrabold text-emerald-600 dark:text-emerald-400 mt-0.5">{{ $idleDryers ?? 0 }} Ready</p>
+                    <p class="text-sm sm:text-base font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">{{ $idleDryers ?? 0 }} Ready</p>
                 </div>
             </div>
 
-            <div class="p-3.5 sm:p-4 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 flex items-center gap-3">
-                <div class="w-9 h-9 rounded-md bg-blue-50 dark:bg-blue-950/40 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-blue-800/60 flex items-center justify-center shrink-0">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-                </div>
-                <div class="min-w-0">
+            <div class="p-3.5 sm:p-4 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-2 border-l-blue-600 shadow-sm">
+                <div>
                     <h5 class="text-[10px] uppercase tracking-widest text-slate-400 dark:text-zinc-500 font-bold truncate">My Orders</h5>
-                    <p class="text-sm font-extrabold text-blue-600 dark:text-blue-400 mt-0.5">{{ $recentOrders->count() }} Bookings</p>
+                    <p class="text-sm sm:text-base font-bold text-blue-600 dark:text-blue-400 mt-0.5">{{ $recentOrders->count() }} Orders</p>
                 </div>
             </div>
 
-            <div class="col-span-2 lg:col-span-1 p-3.5 sm:p-4 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 flex items-center gap-3">
-                <div class="w-9 h-9 rounded-md bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 flex items-center justify-center shrink-0">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                </div>
-                <div class="min-w-0">
+            <div class="col-span-3 lg:col-span-1 p-3.5 sm:p-4 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-2 {{ ($storeStatus ?? 'open') === 'open' ? 'border-l-emerald-500' : 'border-l-rose-500' }} flex flex-col justify-center shadow-sm">
+                <div>
                     @if(($storeStatus ?? 'open') === 'open')
-                        <span class="inline-flex items-center gap-1.5 text-[10px] font-extrabold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
+                        <span class="inline-flex items-center gap-1.5 text-xs font-extrabold text-emerald-600 dark:text-emerald-400 tracking-wide">
                             <span class="relative flex h-2 w-2 shrink-0">
                                 <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                                 <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                             </span>
-                            Store Open Today
+                            STORE OPEN TODAY
                         </span>
-                        <p class="text-xs font-bold text-slate-900 dark:text-slate-100 truncate mt-0.5">7:30 AM – 6:00 PM</p>
+                        <p class="text-xs font-bold text-slate-900 dark:text-slate-100 mt-1">7:30 AM – 6:00 PM (Mon – Sun)</p>
+                        <p class="text-[11px] font-medium text-slate-500 dark:text-slate-400 mt-0.5">Same-Day Cut-Off: 4:30 PM</p>
                     @else
-                        <span class="inline-flex items-center gap-1.5 text-[10px] font-extrabold text-rose-600 dark:text-rose-400 uppercase tracking-wider">
+                        <span class="inline-flex items-center gap-1.5 text-xs font-extrabold text-rose-600 dark:text-rose-400 tracking-wide">
                             <span class="w-2 h-2 rounded-full bg-rose-500 shrink-0"></span>
-                            Store Closed
+                            STORE CLOSED TODAY
                         </span>
-                        <p class="text-xs font-bold text-slate-500 dark:text-slate-400 truncate mt-0.5">Closed All Day</p>
+                        <p class="text-xs font-bold text-slate-500 dark:text-slate-400 mt-1">7:30 AM – 6:00 PM (Mon – Sun)</p>
+                        <p class="text-[11px] font-medium text-rose-500 dark:text-rose-400 mt-0.5">Closed All Day</p>
                     @endif
                 </div>
             </div>
