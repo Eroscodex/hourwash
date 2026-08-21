@@ -14,8 +14,8 @@
                 <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-7 h-7 object-contain">
             </div>
             <div>
-                <h3 class="text-base font-extrabold tracking-tight text-pink-950 dark:text-pink-100 uppercase leading-none font-sans">
-                    HOUR WASH
+                <h3 class="text-base font-extrabold tracking-tight text-pink-950 dark:text-pink-100 uppercase leading-none font-sans inline-flex items-center gap-0.5">
+                    H<span class="inline-flex items-center justify-center text-pink-700 dark:text-pink-300 mx-[0.5px]"><svg class="w-[0.85em] h-[0.85em] inline-block -mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 3"/></svg></span>UR WASH
                 </h3>
                 <p class="text-[10px] font-black tracking-widest text-pink-800 dark:text-pink-300 uppercase mt-0.5">
                     FREQUENT USER CARD

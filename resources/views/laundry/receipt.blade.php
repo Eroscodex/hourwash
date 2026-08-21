@@ -33,7 +33,9 @@
         
         <div class="text-center space-y-1 border-b border-dashed border-slate-300 pb-4">
             <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-14 h-14 mx-auto mb-1 rounded-full object-cover">
-            <h1 class="text-xl font-bold  tracking-tight">HOUR WASH LAUNDRY</h1>
+            <h1 class="text-xl font-bold tracking-tight inline-flex items-center gap-0.5">
+                H<span class="inline-flex items-center justify-center text-slate-800 mx-[0.5px]"><svg class="w-[0.85em] h-[0.85em] inline-block -mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 3"/></svg></span>UR WASH LAUNDRY
+            </h1>
             <p class="text-[11px] font-sans text-slate-600">Laundry Management System</p>
             <p class="text-[10px] text-slate-500">Magallanes St., Orosite, Legazpi City, Albay</p>
             <p class="text-[10px] text-slate-500">Email: karlnicko2019@gmail.com | Mobile: 09123456789</p>

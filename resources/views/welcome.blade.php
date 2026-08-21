@@ -35,7 +35,7 @@
                 <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-9 h-9 sm:w-10 sm:h-10 rounded-md object-cover bg-white p-0.5 border border-slate-200 dark:border-zinc-700 shadow-sm shrink-0">
                 <div>
                     <span class="text-base sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white inline-flex items-center gap-0.5 leading-tight">
-                        H<span class="inline-flex items-center justify-center text-slate-900 dark:text-slate-100"><svg class="w-4 h-4 inline-block -mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 3"/></svg></span>UR WASH
+                        H<span class="inline-flex items-center justify-center text-blue-600 dark:text-blue-400 mx-[0.5px]"><svg class="w-[0.85em] h-[0.85em] inline-block -mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 3"/></svg></span>UR WASH
                     </span>
                     <span class="text-[8.5px] sm:text-[10px] text-slate-900 dark:text-slate-100 tracking-wider uppercase font-semibold block whitespace-nowrap">LAUNDRY MANAGEMENT SYSTEM</span>
                 </div>
@@ -206,7 +206,9 @@
                         </div>
                         <div class="space-y-3">
                             <div>
-                                <h3 class="text-base font-bold text-slate-900 dark:text-white">HOUR WASH LAUNDRY</h3>
+                                <h3 class="text-base font-bold text-slate-900 dark:text-white inline-flex items-center gap-0.5">
+                                    H<span class="inline-flex items-center justify-center text-blue-600 dark:text-blue-400 mx-[0.5px]"><svg class="w-[0.85em] h-[0.85em] inline-block -mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 3"/></svg></span>UR WASH LAUNDRY
+                                </h3>
                                 <p class="text-xs text-slate-500 dark:text-zinc-400 mt-0.5">Operating Hours: 7:30 AM – 6:00 PM (Mon – Sun) • Same-Day Cut-Off: 4:30 PM</p>
                             </div>
                             @php

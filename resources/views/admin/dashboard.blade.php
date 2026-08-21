@@ -732,7 +732,7 @@
                 <div class="card-accent-purple p-4 flex items-center justify-between shadow-sm">
                     <div>
                         <span class="text-[10.5px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider block">3. Delivery</span>
-                        <span class="text-xs text-slate-500 dark:text-slate-400">Out en-route</span>
+                        <span class="text-xs text-slate-500 dark:text-slate-400">Out For Delivery</span>
                     </div>
                     <span class="text-2xl font-black text-purple-600 dark:text-purple-400 font-mono">{{ $riderDeliveryCount ?? 0 }}</span>
                 </div>
