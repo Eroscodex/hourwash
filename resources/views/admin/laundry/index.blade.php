@@ -149,7 +149,7 @@
                                         'washing': '4. Washing',
                                         'rinsing': '5. Rinsing',
                                         'drying': '6. Drying',
-                                        'finish': '7. Finish & Shelved',
+                                        'finish': '6. FINISH (Folding - Please Claim Order)',
                                         'out_for_delivery': '8. Out for Delivery',
                                         'completed': '9. Completed',
                                         'cancelled': 'Cancelled'
@@ -165,7 +165,7 @@
                                         'washing' => '4. Washing',
                                         'rinsing' => '5. Rinsing',
                                         'drying' => '6. Drying',
-                                        'finish' => '7. Finish & Shelved',
+                                        'finish' => '6. FINISH (Folding - Please Claim Order)',
                                         'out_for_delivery' => '8. Out for Delivery',
                                         'completed' => '9. Completed',
                                         'cancelled' => 'Cancelled'

@@ -231,7 +231,7 @@
                 <div class="app-card p-3 flex flex-col justify-between shadow-sm">
                     <span class="text-[9.5px] font-extrabold text-amber-600 dark:text-amber-400 uppercase tracking-wider block truncate">6. FINISH</span>
                     <span class="text-xl font-bold text-amber-600 dark:text-amber-400 mt-1">{{ $finishCount }}</span>
-                    <p class="text-[9px] text-slate-500 dark:text-slate-400 truncate mt-0.5">Shelved & Tagged</p>
+                    <p class="text-[9px] text-slate-500 dark:text-slate-400 truncate mt-0.5">Folding & Ready</p>
                 </div>
 
                 <div class="app-card p-3 flex flex-col justify-between shadow-sm">

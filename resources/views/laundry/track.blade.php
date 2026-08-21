@@ -86,7 +86,7 @@
                     'washing'          => ['step' => 3, 'label' => 'WASHING',           'pct' => 38],
                     'rinsing'          => ['step' => 4, 'label' => 'RINSING',           'pct' => 50],
                     'drying'           => ['step' => 5, 'label' => 'DRYING',            'pct' => 63],
-                    'finish'           => ['step' => 6, 'label' => 'FINISH & SHELVED',  'pct' => 75],
+                    'finish'           => ['step' => 6, 'label' => 'FOLDING & READY',   'pct' => 75],
                     'out_for_delivery' => ['step' => 7, 'label' => 'OUT FOR DELIVERY',  'pct' => 88],
                     'completed'        => ['step' => 8, 'label' => 'COMPLETED',         'pct' => 100],
                 ];
@@ -98,7 +98,7 @@
                     'washing'          => ['step' => 4, 'label' => 'WASHING',           'pct' => 48],
                     'rinsing'          => ['step' => 5, 'label' => 'RINSING',           'pct' => 60],
                     'drying'           => ['step' => 6, 'label' => 'DRYING',            'pct' => 72],
-                    'finish'           => ['step' => 7, 'label' => 'FINISH & SHELVED',  'pct' => 84],
+                    'finish'           => ['step' => 7, 'label' => 'FOLDING & READY',   'pct' => 84],
                     'out_for_delivery' => ['step' => 8, 'label' => 'OUT FOR DELIVERY',  'pct' => 92],
                     'completed'        => ['step' => 9, 'label' => 'COMPLETED',         'pct' => 100],
                 ];
@@ -326,7 +326,7 @@
                             'washing' => 'Washing Cycle Started',
                             'rinsing' => 'Rinsing Cycle Started',
                             'drying' => 'Drying Cycle Started',
-                            'finish' => 'Finish & Shelved',
+                            'finish' => 'Folding & Ready (Please Claim Order)',
                             'out_for_delivery' => 'Out for Delivery',
                             'completed' => 'Order Completed',
                             'cancelled' => 'Order Cancelled',
@@ -360,14 +360,14 @@
                             <span class="absolute -left-[25px] sm:-left-[31px] top-0 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full bg-blue-600 border-2 border-white dark:border-[#1C1C1E]"></span>
                             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                                 <span class="font-bold text-slate-900 dark:text-white capitalize">
-                                    Status Updated to {{ $order->order_status === 'finish' ? 'Finish & Shelved' : str_replace('_', ' ', $order->order_status) }}
+                                    Status Updated to {{ $order->order_status === 'finish' ? 'Folding & Ready (Please Claim Order)' : str_replace('_', ' ', $order->order_status) }}
                                 </span>
                                 <span class="text-[10px] text-slate-500 dark:text-slate-400 font-mono">
                                     {{ $order->updated_at->format('M d, Y • h:i A') }}
                                 </span>
                             </div>
                             <p class="text-slate-600 dark:text-slate-400 text-[11px] mt-0.5">
-                                Order #{{ $order->order_number }} is currently {{ $order->order_status === 'finish' ? 'finished and shelved' : str_replace('_', ' ', $order->order_status) }} at Hour Wash Legazpi branch.
+                                Order #{{ $order->order_number }} is currently {{ $order->order_status === 'finish' ? 'finished and neatly folded. PLEASE CLAIM YOUR LAUNDRY ORDER AT OUR STORE COUNTER.' : str_replace('_', ' ', $order->order_status) }}
                             </p>
                         </div>
                     @endif

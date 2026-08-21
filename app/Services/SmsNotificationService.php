@@ -126,6 +126,8 @@ class SmsNotificationService
             $message = "Hour Wash Alert: Hi {$custName}, Rider Anthony is EN ROUTE to pick up your laundry Order #{$code}! Rider Hotline: 09100317744.";
         } elseif ($order->order_status === 'out_for_delivery') {
             $message = "Hour Wash Alert: Hi {$custName}, your laundry Order #{$code} is OUT FOR DELIVERY with Rider Anthony! Rider Hotline: 09100317744.";
+        } elseif (in_array(strtolower($order->order_status), ['finish', 'folding', 'ready', 'ready_for_pickup', 'shelved_and_tagged'])) {
+            $message = "Hour Wash Alert: Hi {$custName}, Order #{$code} is FINISHED & FOLDED! PLEASE CLAIM YOUR LAUNDRY ORDER AT HOUR WASH STORE. Hotline: 09100317744.";
         } else {
             $machStr = $machineName ? " Machine: {$machineName}." : '';
             $message = "Hour Wash: Hi {$custName}, Order #{$code} status is {$statusStr}.{$machStr} Est: {$compTime}.";

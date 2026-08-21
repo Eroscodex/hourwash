@@ -43,13 +43,24 @@
                                     $st = strtolower($order->order_status);
                                     $bg = '#0284C7';
                                     if ($st === 'completed' || $st === 'delivered') $bg = '#16A34A';
-                                    elseif ($st === 'ready') $bg = '#D97706';
+                                    elseif ($st === 'ready' || $st === 'finish' || $st === 'folding') $bg = '#D97706';
                                     elseif ($st === 'cancelled') $bg = '#DC2626';
                                 @endphp
                                 <span style="display: inline-block; background-color: {{ $bg }}; color: #FFFFFF; font-weight: 800; font-size: 12px; padding: 8px 20px; border-radius: 9999px; text-transform: uppercase; letter-spacing: 1.5px;">
-                                    {{ str_replace('_', ' ', $order->order_status) }}
+                                    {{ $st === 'finish' ? 'FOLDING & READY' : str_replace('_', ' ', $order->order_status) }}
                                 </span>
                             </div>
+
+                            @if(in_array(strtolower($order->order_status), ['finish', 'folding', 'ready', 'ready_for_pickup', 'shelved_and_tagged']))
+                            <div style="margin-top: 18px; background-color: #FEF3C7; border: 2px dashed #F59E0B; border-radius: 14px; padding: 16px; text-align: center;">
+                                <h3 style="margin: 0; color: #92400E; font-size: 15px; font-weight: 800; letter-spacing: 0.5px;">
+                                    🧺 YOUR LAUNDRY IS FINISHED & FOLDED!
+                                </h3>
+                                <p style="margin: 6px 0 0 0; color: #78350F; font-size: 13px; font-weight: 700;">
+                                    PLEASE CLAIM YOUR LAUNDRY ORDER AT HOUR WASH LAUNDRY SHOP STORE COUNTER.
+                                </p>
+                            </div>
+                            @endif
                         </td>
                     </tr>
 
