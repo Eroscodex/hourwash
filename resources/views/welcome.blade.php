@@ -442,10 +442,12 @@
         </script>
     </main>
 
-    <footer class="bg-white dark:bg-[#141417] border-t border-slate-200 dark:border-zinc-800 py-3.5 px-4 md:px-8 text-[10.5px] sm:text-[11px] text-slate-500 dark:text-zinc-400">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-3">
-            <div>© {{ date('Y') }} Hour Wash Laundry Management System</div>
-            <div class="flex flex-wrap items-center justify-center gap-x-3 gap-y-1">
+    <footer class="bg-white dark:bg-[#141417] border-t border-slate-200 dark:border-zinc-800 py-3.5 px-4 sm:px-6 md:px-8 pr-20 sm:pr-24 text-[11px] text-slate-500 dark:text-zinc-400">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+            <div class="text-center md:text-left shrink-0">
+                © {{ date('Y') }} Hour Wash Laundry Management System
+            </div>
+            <div class="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1">
                 <a href="{{ route('about') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">About Us</a>
                 <span class="text-slate-300 dark:text-zinc-700">•</span>
                 <a href="{{ route('developers') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Developers</a>
@@ -453,7 +455,8 @@
                 <a href="{{ route('privacy') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Privacy Policy</a>
                 <span class="text-slate-300 dark:text-zinc-700">•</span>
                 <a href="{{ route('terms') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Terms & Conditions</a>
-                <span class="text-slate-300 dark:text-zinc-700">•</span>
+            </div>
+            <div class="text-center md:text-right shrink-0">
                 <a href="https://maps.app.goo.gl/3yJAPrj4HQTZJPRb9" target="_blank" rel="noopener noreferrer" class="font-medium text-slate-600 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Magallanes St., Orosite, Legazpi City</a>
             </div>
         </div>

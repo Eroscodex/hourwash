@@ -16,8 +16,8 @@
 </head>
 <body class="bg-slate-50 dark:bg-[#09090B] text-slate-900 dark:text-zinc-100 font-['Inter'] antialiased min-h-screen py-10 px-4 sm:px-6">
     <div class="w-full max-w-3xl mx-auto space-y-6">
-        
-        
+
+
         <div class="flex items-center justify-between">
             <a href="{{ route('welcome') }}" class="btn-secondary text-xs">Back</a>
             <button id="theme-toggle" class="p-2 px-3 rounded-lg bg-white dark:dark:bg-zinc-800 text-slate-900 dark:text-zinc-100 border border-slate-200 dark:border-zinc-700  transition-all text-xs font-semibold flex items-center gap-1.5 shadow-sm cursor-pointer" title="Toggle Light/Dark Theme">
@@ -32,7 +32,7 @@
             </button>
         </div>
 
-        
+
         <div class="bg-white dark:bg-[#141417] border border-slate-200 dark:border-zinc-600 rounded-lg p-6 sm:p-8 space-y-6 shadow-sm">
             <div class="text-center space-y-2 border-b border-slate-200 dark:border-zinc-700 pb-5">
                 <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-16 h-16 rounded-full mx-auto bg-white p-1 border border-slate-200">
@@ -81,7 +81,7 @@
                             </div>
                             <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
                                 <span>Per load (max 7kg)</span>
-                                <span class="font-semibold text-blue-600 dark:text-blue-400">~40 mins</span>
+                                <span class="font-semibold text-blue-600 dark:text-blue-400">~40mins</span>
                             </div>
                         </div>
                         <div class="p-3 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700">
@@ -91,7 +91,7 @@
                             </div>
                             <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
                                 <span>Per load (max 7kg)</span>
-                                <span class="font-semibold text-blue-600 dark:text-blue-400">~15 mins</span>
+                                <span class="font-semibold text-blue-600 dark:text-blue-400">~15mins</span>
                             </div>
                         </div>
                         <div class="p-3 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700">
@@ -101,7 +101,7 @@
                             </div>
                             <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
                                 <span>Per load (max 7kg)</span>
-                                <span class="font-semibold text-blue-600 dark:text-blue-400">~1 hr 15 mins (75m)</span>
+                                <span class="font-semibold text-blue-600 dark:text-blue-400">~1hrs 15m</span>
                             </div>
                         </div>
                         <div class="p-3 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700 sm:col-span-2">
@@ -111,7 +111,7 @@
                             </div>
                             <div class="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
                                 <span>Per load (max 7kg) — Complete drop-off care</span>
-                                <span class="font-semibold text-blue-600 dark:text-blue-400">~1 hr 30 mins (90m)</span>
+                                <span class="font-semibold text-blue-600 dark:text-blue-400">~1hrs 30m</span>
                             </div>
                         </div>
                     </div>
@@ -129,16 +129,15 @@
             </div>
         </div>
 
-        <!-- Footer -->
-        <footer class="pt-4 border-t border-slate-200 dark:border-zinc-800 text-center text-xs text-slate-500 dark:text-zinc-500 space-y-2">
-            <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
-                <a href="{{ route('about') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition">About Us</a>
-                <span>•</span>
-                <a href="{{ route('developers') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Developers</a>
-                <span>•</span>
-                <a href="{{ route('privacy') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Privacy Policy</a>
-                <span>•</span>
-                <a href="{{ route('terms') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Terms & Conditions</a>
+        <footer class="pt-4 border-t border-slate-200 dark:border-zinc-800 text-center text-[11px] text-slate-500 dark:text-zinc-400 space-y-1.5">
+            <div class="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1">
+                <a href="{{ route('about') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">About Us</a>
+                <span class="text-slate-300 dark:text-zinc-700">•</span>
+                <a href="{{ route('developers') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Developers</a>
+                <span class="text-slate-300 dark:text-zinc-700">•</span>
+                <a href="{{ route('privacy') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Privacy Policy</a>
+                <span class="text-slate-300 dark:text-zinc-700">•</span>
+                <a href="{{ route('terms') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Terms & Conditions</a>
             </div>
             <div>© {{ date('Y') }} Hour Wash Laundry Management System</div>
         </footer>

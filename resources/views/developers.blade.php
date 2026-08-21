@@ -103,16 +103,15 @@
             </div>
         </div>
 
-        <!-- Footer -->
-        <footer class="pt-4 border-t border-slate-200 dark:border-zinc-800 text-center text-xs text-slate-500 dark:text-zinc-500 space-y-2">
-            <div class="flex flex-wrap items-center justify-center gap-x-4 gap-y-1">
-                <a href="{{ route('about') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition">About Us</a>
-                <span>•</span>
-                <a href="{{ route('developers') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Developers</a>
-                <span>•</span>
-                <a href="{{ route('privacy') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Privacy Policy</a>
-                <span>•</span>
-                <a href="{{ route('terms') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition">Terms & Conditions</a>
+        <footer class="pt-4 border-t border-slate-200 dark:border-zinc-800 text-center text-[11px] text-slate-500 dark:text-zinc-400 space-y-1.5">
+            <div class="flex flex-wrap items-center justify-center gap-x-2.5 gap-y-1">
+                <a href="{{ route('about') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">About Us</a>
+                <span class="text-slate-300 dark:text-zinc-700">•</span>
+                <a href="{{ route('developers') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Developers</a>
+                <span class="text-slate-300 dark:text-zinc-700">•</span>
+                <a href="{{ route('privacy') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Privacy Policy</a>
+                <span class="text-slate-300 dark:text-zinc-700">•</span>
+                <a href="{{ route('terms') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Terms & Conditions</a>
             </div>
             <div>© {{ date('Y') }} Hour Wash Laundry Management System</div>
         </footer>
