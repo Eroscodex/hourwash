@@ -41,6 +41,19 @@
     @apply bg-white dark:bg-[#141417] border border-slate-200 dark:border-zinc-800/80 rounded-lg shadow-sm transition-all duration-200 text-slate-900 dark:text-zinc-100;
 }
 
+/* Active Sidebar Navigation Item Text Color Overrides (100% Crisp White Text) */
+.sidebar-nav-item[class*="bg-blue-600"] {
+    color: #ffffff !important;
+}
+.sidebar-nav-item[class*="bg-blue-600"] span,
+.sidebar-nav-item[class*="bg-blue-600"] svg,
+.sidebar-nav-item[class*="bg-blue-600"] div {
+    color: #ffffff !important;
+}
+.sidebar-nav-item[class*="bg-blue-600"] p {
+    color: rgba(239, 246, 255, 0.9) !important;
+}
+
 .app-card-interactive {
     @apply bg-white dark:bg-[#141417] border border-slate-200 dark:border-zinc-800/80 rounded-lg shadow-sm transition-all duration-200 text-slate-900 dark:text-zinc-100;
 }
