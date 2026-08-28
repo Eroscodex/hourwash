@@ -6,7 +6,7 @@
             <div>
                 <div class="flex items-center gap-2">
                     <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white">
-                        Rider Logistics & Dispatch Portal
+                        Rider of Hour Wash Portal
                     </h1>
                     <span class="px-2.5 py-0.5 rounded-md bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 text-[10px] font-extrabold uppercase tracking-wider border border-emerald-500/30">
                         ACTIVE RIDER

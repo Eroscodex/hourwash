@@ -181,10 +181,10 @@
                         @elseif(auth()->user()->isRider())
                             <div class="sidebar-section-header px-3 py-2 text-[11px] font-extrabold text-slate-900 dark:text-slate-200 uppercase tracking-wider">NAVIGATION</div>
 
-                            <a href="{{ route('rider.dashboard') }}" title="Rider Logistics Dashboard" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all {{ request()->routeIs('rider.dashboard') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
+                            <a href="{{ route('rider.dashboard') }}" title="Rider of Hour Wash Dashboard" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all {{ request()->routeIs('rider.dashboard') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
                                 <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                                 <div class="sidebar-text">
-                                    <span class="block leading-snug">Rider Logistics Dashboard</span>
+                                    <span class="block leading-snug">Rider of Hour Wash</span>
                                     <p class="text-[10.5px] opacity-75 font-normal block leading-tight mt-0.5">Pickup & delivery dispatches</p>
                                 </div>
                             </a>

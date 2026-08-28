@@ -341,7 +341,7 @@ PROMPT;
         $pickupCount = Order::whereIn('order_status', ['pending', 'out_for_pickup'])->count();
         $deliveryCount = Order::where('order_status', 'out_for_delivery')->count();
 
-        $reply = "Rider Dispatch Portal Summary:\n\n";
+        $reply = "Rider of Hour Wash Portal Summary:\n\n";
 
         $reply .= "1. Customer Pickup Requests ({$pickupCount} Total):\n";
         if ($pickupOrders->isNotEmpty()) {
@@ -369,7 +369,7 @@ PROMPT;
             $reply .= "- No active clean delivery dispatches right now.\n";
         }
 
-        $reply .= "\nShop Dispatch Hotline: (052) 800-HOURWASH / 09100317744\nRider Logistics Portal: https://hourwashlaundryshop.up.railway.app/rider/dashboard";
+        $reply .= "\nShop Dispatch Hotline: (052) 800-HOURWASH / 09100317744\nRider of Hour Wash Portal: https://hourwashlaundryshop.up.railway.app/rider/dashboard";
 
         return $reply;
     }

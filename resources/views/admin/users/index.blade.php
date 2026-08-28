@@ -50,7 +50,7 @@
             <a href="{{ route('admin.users.index', ['role' => 'rider']) }}" class="card-accent-purple p-4 flex items-center justify-between shadow-sm hover:border-purple-600 transition">
                 <div>
                     <span class="text-[10px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider block">Riders</span>
-                    <span class="text-xs text-slate-500 dark:text-slate-400">Logistics</span>
+                    <span class="text-xs text-slate-500 dark:text-slate-400">Dispatch</span>
                 </div>
                 <span class="text-2xl font-black text-purple-600 dark:text-purple-400 font-mono">{{ $riderCount }}</span>
             </a>

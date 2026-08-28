@@ -682,12 +682,12 @@
             </div>
         </div>
 
-        <!-- RIDER LOGISTICS REAL-TIME ANALYTICS -->
+        <!-- RIDER OF HOUR WASH REAL-TIME ANALYTICS -->
         <div id="rider-dispatch-section" class="app-card p-4 sm:p-6 space-y-4 w-full">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-zinc-800 pb-3">
                 <div>
                     <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
-                        Rider Logistics Real-Time Analytics
+                        Rider of Hour Wash Analytics
                     </h2>
                     <p class="text-xs text-slate-500 dark:text-slate-400">
                         Live 5-stage pickup and delivery dispatch metrics for store dispatches.

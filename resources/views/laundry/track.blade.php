@@ -50,7 +50,7 @@
             </div>
 
             <div class="text-left sm:text-right space-y-1">
-                <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">LOGISTICS & PAYMENT STATUS</span>
+                <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">DISPATCH & PAYMENT STATUS</span>
                 @php
                     $statusBadge = match($order->order_status) {
                         'completed' => 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border-emerald-500/30',
@@ -213,14 +213,14 @@
         @if($isPickupDeliveryService || $isPickupType || in_array($order->order_status, ['out_for_pickup', 'out_for_delivery']))
             @php
                 $riderObj = \App\Models\User::where('role', 'rider')->first();
-                $riderName = $order->pickupDelivery->rider_name ?? ($riderObj->name ?? 'Hour Wash Logistics Rider');
+                $riderName = $order->pickupDelivery->rider_name ?? ($riderObj->name ?? 'Hour Wash Rider');
                 $riderPhone = $order->pickupDelivery->rider_phone ?? ($riderObj->phone ?? '09100317744');
             @endphp
             <div class="p-4 sm:p-5 rounded-lg bg-blue-600/10 dark:bg-blue-600/15 border border-blue-600/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
                 <div class="space-y-1">
                     <div class="flex items-center gap-2">
                         <span class="px-2.5 py-0.5 rounded-md bg-blue-600/15 text-blue-600 dark:text-blue-400 text-[10px] font-extrabold uppercase tracking-wider border border-blue-600/30">
-                            ASSIGNED LOGISTICS RIDER
+                            ASSIGNED RIDER
                         </span>
                     </div>
                     <p class="text-sm font-extrabold text-slate-900 dark:text-white">
@@ -342,7 +342,7 @@
                 <!-- Single Combined Live Machine & Completion Card -->
                 <div class="p-4 rounded-lg bg-slate-900 text-white space-y-3 shadow-lg border border-slate-800">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-2">
-                        <span class="text-[10px] font-extrabold uppercase tracking-wider text-blue-400">MACHINE & LOGISTICS STATUS</span>
+                        <span class="text-[10px] font-extrabold uppercase tracking-wider text-blue-400">MACHINE & DISPATCH STATUS</span>
                         <span class="text-[10px] font-mono text-emerald-400 font-bold">● LIVE</span>
                     </div>
 
@@ -388,7 +388,7 @@
 
         <div class="space-y-3 border-t border-slate-200 dark:dark:border-zinc-700 pt-4 sm:pt-5">
             <h3 class="text-xs font-extrabold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
-                Detailed Logistics History & Status Updates
+                Detailed History & Status Updates
             </h3>
 
             <div class="relative pl-5 sm:pl-6 space-y-4 border-l-2 border-slate-200 dark:border-slate-800 text-xs">
