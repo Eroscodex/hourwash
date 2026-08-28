@@ -248,9 +248,9 @@
                 <p class="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 mt-1">Select from our wide range of professional washing, drying, and folding packages per load (max 7kg).</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3.5">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                 @forelse($services as $service)
-                    <div class="app-card p-4 sm:p-5 flex flex-col justify-between space-y-3 hover:border-blue-500/40 transition">
+                    <div class="app-card p-4 sm:p-3 flex flex-col justify-between space-y-3 hover:border-blue-500/40 transition">
                         <div class="space-y-2">
                             <div class="flex items-start justify-between gap-2">
                                 <h3 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white leading-tight flex-1">{{ $service->name }}</h3>
@@ -345,10 +345,10 @@
                     </div>
                     <div>
                         <h3 class="text-lg font-bold text-slate-900 dark:text-white">Hangout & Track</h3>
-                        <p class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mt-0.5">watch | snack | wifi | live system monitoring</p>
+                        <p class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 mt-0.5">watch | snack | wifi | live monitoring</p>
                     </div>
                     <p class="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed">
-                        Relax with free Wi-Fi & snacks while our automated system monitors your load in real-time and sends instant SMS updates!
+                        Relax with free Wi-Fi & snacks while our automated monitors your load in real-time and sends instant notifications!
                     </p>
                 </div>
             </div>
