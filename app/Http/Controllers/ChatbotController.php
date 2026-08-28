@@ -231,6 +231,11 @@ PROMPT;
             return "To check your laundry order status, you can:\n- Enter your Order Code (e.g. HW-XXXXXXXX)\n- Tell me your registered email\n- Tell me the name on your account\n\nHow would you like to look up your order?";
         }
 
+        // --- Rider Dispatch & Task Queries (Specifically for Riders or Dispatch Tasks) ---
+        if ((auth()->check() && auth()->user()->isRider()) || Str::contains($msg, ['customer pickup requests', 'clean delivery dispatches', 'rider hotline', 'dispatch list', 'pickup requests', 'delivery dispatches', 'my tasks', 'my dispatches', 'active pickup', 'active delivery'])) {
+            return $this->getRiderDispatchSummary();
+        }
+
         // --- Talk to Rider / Rider Contact / Delivery Assistance ---
         if (Str::contains($msg, ['rider', 'driver', 'talk to rider', 'contact rider', 'speak to rider', 'speak to driver', 'call rider', 'text rider', 'deliverer', 'out for pickup', 'out for delivery', 'pickup', 'delivery'])) {
             $riders = User::where('role', 'rider')->get();
@@ -309,5 +314,63 @@ PROMPT;
         }
 
         return $summary.'Need more details on a specific order? Just tell me the order number!';
+    }
+
+    /**
+     * Get real-time rider pickup and delivery dispatches summary.
+     */
+    private function getRiderDispatchSummary(): string
+    {
+        $pickupOrders = Order::with(['customer.customerProfile', 'service'])
+            ->whereIn('order_status', ['pending', 'out_for_pickup'])
+            ->where(function ($q) {
+                $q->whereIn('pickup_type', ['pickup_delivery', 'pickup'])
+                    ->orWhereNull('pickup_type')
+                    ->orWhere('order_status', 'out_for_pickup');
+            })
+            ->latest()
+            ->take(5)
+            ->get();
+
+        $deliveryOrders = Order::with(['customer.customerProfile', 'service'])
+            ->where('order_status', 'out_for_delivery')
+            ->latest()
+            ->take(5)
+            ->get();
+
+        $pickupCount = Order::whereIn('order_status', ['pending', 'out_for_pickup'])->count();
+        $deliveryCount = Order::where('order_status', 'out_for_delivery')->count();
+
+        $reply = "Rider Dispatch Portal Summary:\n\n";
+
+        $reply .= "1. Customer Pickup Requests ({$pickupCount} Total):\n";
+        if ($pickupOrders->isNotEmpty()) {
+            foreach ($pickupOrders as $p) {
+                $cName = $p->customer->name ?? 'Customer';
+                $phone = $p->customer->phone ?? ($p->customer->customerProfile->phone ?? 'N/A');
+                $addr = $p->customer->customerProfile->address ?? 'Magallanes St., Legazpi';
+                $serv = $p->service->name ?? 'Laundry';
+                $reply .= "- Order #{$p->order_number} ({$serv})\n  Customer: {$cName} | Phone: {$phone}\n  Address: {$addr}\n";
+            }
+        } else {
+            $reply .= "- No active customer pickup requests right now.\n";
+        }
+
+        $reply .= "\n2. Clean Laundry Delivery Dispatches ({$deliveryCount} Total):\n";
+        if ($deliveryOrders->isNotEmpty()) {
+            foreach ($deliveryOrders as $d) {
+                $cName = $d->customer->name ?? 'Customer';
+                $phone = $d->customer->phone ?? ($d->customer->customerProfile->phone ?? 'N/A');
+                $addr = $d->customer->customerProfile->address ?? 'Magallanes St., Legazpi';
+                $serv = $d->service->name ?? 'Laundry';
+                $reply .= "- Order #{$d->order_number} ({$serv})\n  Customer: {$cName} | Phone: {$phone}\n  Address: {$addr}\n";
+            }
+        } else {
+            $reply .= "- No active clean delivery dispatches right now.\n";
+        }
+
+        $reply .= "\nShop Dispatch Hotline: (052) 800-HOURWASH / 09100317744\nRider Logistics Portal: https://hourwashlaundryshop.up.railway.app/rider/dashboard";
+
+        return $reply;
     }
 }

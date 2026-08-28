@@ -431,21 +431,37 @@
         <div id="chat-box" class="p-4 h-80 overflow-y-auto space-y-3 text-xs bg-slate-50 dark:bg-[#09090B]">
             <div class="flex justify-start">
                 <div class="bg-white dark:bg-[#18181B] text-slate-900 dark:text-zinc-100 px-4 py-3 rounded-2xl rounded-tl-sm max-w-[85%] border border-slate-200 dark:dark:border-zinc-700 shadow-sm">
-                    Hi! How can I help you today, po? 😊
+                    @if(auth()->check() && auth()->user()->isRider())
+                        Hi Rider {{ auth()->user()->name }}! How can I assist with your pickup & delivery dispatches today, po? 🛵
+                    @else
+                        Hi! How can I help you today, po? 😊
+                    @endif
                 </div>
             </div>
 
             <!-- Quick Suggestion Pills (CATC Style) -->
             <div id="quick-suggestions-container" class="flex flex-col items-end space-y-2 pt-2">
-                <button onclick="sendQuickMessage('What requirements are needed?')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-4 py-2 rounded-full transition shadow-sm">
-                    What requirements are needed?
-                </button>
-                <button onclick="sendQuickMessage('Services & rates offered?')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-4 py-2 rounded-full transition shadow-sm">
-                    Services & rates offered?
-                </button>
-                <button onclick="sendQuickMessage('Store location & hours?')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-4 py-2 rounded-full transition shadow-sm">
-                    Store location & hours?
-                </button>
+                @if(auth()->check() && auth()->user()->isRider())
+                    <button onclick="sendQuickMessage('Customer pickup requests?')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-4 py-2 rounded-full transition shadow-sm">
+                        Customer pickup requests?
+                    </button>
+                    <button onclick="sendQuickMessage('Clean delivery dispatches?')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-4 py-2 rounded-full transition shadow-sm">
+                        Clean delivery dispatches?
+                    </button>
+                    <button onclick="sendQuickMessage('Rider hotline & support?')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-4 py-2 rounded-full transition shadow-sm">
+                        Rider hotline & support?
+                    </button>
+                @else
+                    <button onclick="sendQuickMessage('What requirements are needed?')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-4 py-2 rounded-full transition shadow-sm">
+                        What requirements are needed?
+                    </button>
+                    <button onclick="sendQuickMessage('Services & rates offered?')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-4 py-2 rounded-full transition shadow-sm">
+                        Services & rates offered?
+                    </button>
+                    <button onclick="sendQuickMessage('Store location & hours?')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-4 py-2 rounded-full transition shadow-sm">
+                        Store location & hours?
+                    </button>
+                @endif
             </div>
         </div>
 
