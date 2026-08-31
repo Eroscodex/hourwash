@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Services\SmsNotificationService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class RiderDashboardController extends Controller
 {
@@ -31,7 +32,7 @@ class RiderDashboardController extends Controller
         $riderCompletedCount = Order::where('order_status', 'completed')->count();
         $riderCancelledCount = Order::where('order_status', 'cancelled')->count();
 
-        $pickupOrders = Order::with(['customer.customerProfile', 'service'])
+        $pickupOrders = Order::with(['customer.customerProfile', 'service', 'pickupDelivery', 'machine', 'statusHistory'])
             ->whereIn('order_status', ['pending', 'out_for_pickup'])
             ->where(function ($q) {
                 $q->whereIn('pickup_type', ['pickup_delivery', 'pickup'])
@@ -41,7 +42,7 @@ class RiderDashboardController extends Controller
             ->latest()
             ->get();
 
-        $deliveryOrders = Order::with(['customer.customerProfile', 'service'])
+        $deliveryOrders = Order::with(['customer.customerProfile', 'service', 'pickupDelivery', 'machine', 'statusHistory'])
             ->where('order_status', 'out_for_delivery')
             ->latest()
             ->get();
@@ -67,6 +68,7 @@ class RiderDashboardController extends Controller
     {
         $validated = $request->validate([
             'status' => 'required|string|in:received,completed',
+            'proof_image' => 'nullable|image|mimes:jpeg,png,jpg,webp,heic|max:10240',
         ]);
 
         $newStatus = $validated['status'];
@@ -78,22 +80,56 @@ class RiderDashboardController extends Controller
 
         $order->save();
 
-        $rider = auth()->user();
-        if ($rider && $rider->isRider()) {
-            $order->pickupDelivery()->updateOrCreate(
-                ['order_id' => $order->id],
-                [
-                    'rider_name' => $rider->name,
-                    'rider_phone' => $rider->phone ?? '09100317744',
-                ]
-            );
+        // Record status history entry
+        $order->statusHistory()->create([
+            'status' => $newStatus,
+            'changed_by' => auth()->id(),
+            'notes' => $newStatus === 'received' ? 'Laundry picked up by rider and received at store.' : 'Clean laundry delivered to customer by rider.',
+        ]);
+
+        // Handle proof photo upload if provided
+        $proofPath = null;
+        if ($request->hasFile('proof_image')) {
+            $file = $request->file('proof_image');
+            $uploadDir = public_path('uploads/proofs');
+            if (! file_exists($uploadDir)) {
+                mkdir($uploadDir, 0777, true);
+            }
+            $filename = 'proof_'.$order->id.'_'.time().'_'.Str::random(6).'.'.$file->getClientOriginalExtension();
+            $file->move($uploadDir, $filename);
+            $proofPath = 'uploads/proofs/'.$filename;
         }
+
+        $rider = auth()->user();
+        $pickupDeliveryData = [
+            'rider_name' => $rider?->name ?? 'Hour Wash Rider',
+            'rider_phone' => $rider?->phone ?? '09100317744',
+        ];
+
+        if ($newStatus === 'received') {
+            $pickupDeliveryData['status'] = 'picked_up';
+            $pickupDeliveryData['picked_up_at'] = now();
+            if ($proofPath) {
+                $pickupDeliveryData['pickup_proof_image'] = $proofPath;
+            }
+        } elseif ($newStatus === 'completed') {
+            $pickupDeliveryData['status'] = 'delivered';
+            $pickupDeliveryData['delivered_at'] = now();
+            if ($proofPath) {
+                $pickupDeliveryData['delivery_proof_image'] = $proofPath;
+            }
+        }
+
+        $order->pickupDelivery()->updateOrCreate(
+            ['order_id' => $order->id],
+            $pickupDeliveryData
+        );
 
         // Trigger automated SMS to customer
         try {
             SmsNotificationService::sendOrderStatusSms(
                 $order,
-                $newStatus === 'received' ? 'Laundry collected by rider.' : 'Laundry safely delivered.'
+                $newStatus === 'received' ? 'Laundry collected by rider & received at store.' : 'Laundry safely delivered to your doorstep.'
             );
         } catch (\Throwable $e) {
             // Logged inside SmsNotificationService

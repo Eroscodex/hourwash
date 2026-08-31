@@ -20,6 +20,8 @@ class PickupDelivery extends Model
         'status',
         'picked_up_at',
         'delivered_at',
+        'pickup_proof_image',
+        'delivery_proof_image',
         'notes',
     ];
 

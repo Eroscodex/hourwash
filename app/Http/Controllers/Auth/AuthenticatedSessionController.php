@@ -32,7 +32,7 @@ class AuthenticatedSessionController extends Controller
         /** @var User|null $user */
         $user = Auth::user();
 
-        if ($user && ($user->isAdmin() || $user->isAdmin())) {
+        if ($user && ($user->isAdmin() || $user->isOwner())) {
             return redirect()->intended(route('admin.dashboard', absolute: false));
         }
 

@@ -90,7 +90,7 @@
                         <div class="flex items-center gap-2">
                             <span class="font-mono font-bold text-base text-blue-600 dark:text-blue-400">#{{ $order->order_number }}</span>
                             <span class="px-2.5 py-0.5 rounded text-[10px] font-extrabold uppercase bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30">
-                                OUT FOR PICKUP
+                                {{ strtoupper(str_replace('_', ' ', $order->order_status)) }}
                             </span>
                         </div>
                         <span class="text-xs text-slate-500 dark:text-slate-400 font-mono">
@@ -117,16 +117,52 @@
                         </div>
                     </div>
 
-                    <div class="flex items-center justify-between pt-2">
+                    <!-- Laundry Progress Stepper -->
+                    <div class="p-3 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-800 space-y-2">
+                        <div class="flex items-center justify-between text-[10.5px] font-bold text-slate-600 dark:text-zinc-400">
+                            <span>LAUNDRY PROGRESS TIMELINE</span>
+                            <span class="text-blue-600 dark:text-blue-400 font-extrabold uppercase">{{ str_replace('_', ' ', $order->order_status) }}</span>
+                        </div>
+                        @php
+                            $statusMap = ['pending' => 1, 'out_for_pickup' => 2, 'received' => 3, 'washing' => 4, 'rinsing' => 4, 'drying' => 4, 'finish' => 4, 'out_for_delivery' => 5, 'completed' => 6];
+                            $currLvl = $statusMap[$order->order_status] ?? 1;
+                        @endphp
+                        <div class="grid grid-cols-5 gap-1.5 text-[9.5px] font-bold text-center">
+                            <div class="py-1 px-0.5 rounded {{ $currLvl >= 1 ? 'bg-amber-500 text-white' : 'bg-slate-200 dark:bg-zinc-800 text-slate-400' }}">1. Requested</div>
+                            <div class="py-1 px-0.5 rounded {{ $currLvl >= 2 ? 'bg-amber-600 text-white' : 'bg-slate-200 dark:bg-zinc-800 text-slate-400' }}">2. Out Pickup</div>
+                            <div class="py-1 px-0.5 rounded {{ $currLvl >= 3 ? 'bg-blue-600 text-white' : 'bg-slate-200 dark:bg-zinc-800 text-slate-400' }}">3. In Shop</div>
+                            <div class="py-1 px-0.5 rounded {{ $currLvl >= 4 ? 'bg-purple-600 text-white' : 'bg-slate-200 dark:bg-zinc-800 text-slate-400' }}">4. Processing</div>
+                            <div class="py-1 px-0.5 rounded {{ $currLvl >= 6 ? 'bg-emerald-600 text-white' : 'bg-slate-200 dark:bg-zinc-800 text-slate-400' }}">5. Done</div>
+                        </div>
+                    </div>
+
+                    @if($order->pickupDelivery?->pickup_proof_image)
+                        <div class="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center gap-3">
+                            <img src="{{ asset($order->pickupDelivery->pickup_proof_image) }}" alt="Pickup Proof" class="w-12 h-12 rounded object-cover border border-emerald-500/40">
+                            <div>
+                                <p class="text-xs font-bold text-emerald-700 dark:text-emerald-400">📷 Proof of Pickup Photo Uploaded</p>
+                                <a href="{{ asset($order->pickupDelivery->pickup_proof_image) }}" target="_blank" class="text-[11px] text-blue-600 dark:text-blue-400 underline font-bold">View Full Photo Evidence</a>
+                            </div>
+                        </div>
+                    @endif
+
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
                         <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 font-mono">
                             Total: ₱{{ number_format($order->total_amount, 2) }} ({{ strtoupper($order->payment_status) }})
                         </span>
 
-                        <form method="POST" action="{{ route('rider.updateStatus', $order->id) }}">
+                        <form method="POST" action="{{ route('rider.updateStatus', $order->id) }}" enctype="multipart/form-data" class="flex flex-col sm:flex-row items-center gap-2.5 w-full sm:w-auto">
                             @csrf
                             @method('PATCH')
                             <input type="hidden" name="status" value="received">
-                            <button type="submit" class="px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow transition flex items-center gap-1.5">
+
+                            <label class="cursor-pointer px-3 py-2 rounded-lg bg-slate-100 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-zinc-200 text-xs font-semibold hover:bg-slate-200 transition flex items-center gap-1.5 shrink-0 w-full sm:w-auto justify-center">
+                                <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                <span>📷 Camera / Upload Proof</span>
+                                <input type="file" name="proof_image" accept="image/*" capture="environment" class="hidden" onchange="if(this.files[0]) this.previousElementSibling.textContent = '✓ ' + this.files[0].name.substring(0,10) + '...';">
+                            </label>
+
+                            <button type="submit" class="px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow transition flex items-center justify-center gap-1.5 shrink-0 w-full sm:w-auto">
                                 <span>✓</span> Mark Laundry Received & In Shop
                             </button>
                         </form>
@@ -186,16 +222,48 @@
                         </div>
                     </div>
 
-                    <div class="flex items-center justify-between pt-2">
+                    <!-- Laundry Progress Stepper -->
+                    <div class="p-3 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-800 space-y-2">
+                        <div class="flex items-center justify-between text-[10.5px] font-bold text-slate-600 dark:text-zinc-400">
+                            <span>LAUNDRY PROGRESS TIMELINE</span>
+                            <span class="text-cyan-600 dark:text-cyan-400 font-extrabold uppercase">OUT FOR DELIVERY</span>
+                        </div>
+                        <div class="grid grid-cols-5 gap-1.5 text-[9.5px] font-bold text-center">
+                            <div class="py-1 px-0.5 rounded bg-amber-500 text-white">1. Requested</div>
+                            <div class="py-1 px-0.5 rounded bg-amber-600 text-white">2. Out Pickup</div>
+                            <div class="py-1 px-0.5 rounded bg-blue-600 text-white">3. In Shop</div>
+                            <div class="py-1 px-0.5 rounded bg-purple-600 text-white">4. Processed</div>
+                            <div class="py-1 px-0.5 rounded bg-cyan-600 text-white font-black">5. Out Delivery</div>
+                        </div>
+                    </div>
+
+                    @if($order->pickupDelivery?->delivery_proof_image)
+                        <div class="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center gap-3">
+                            <img src="{{ asset($order->pickupDelivery->delivery_proof_image) }}" alt="Delivery Proof" class="w-12 h-12 rounded object-cover border border-emerald-500/40">
+                            <div>
+                                <p class="text-xs font-bold text-emerald-700 dark:text-emerald-400">📷 Proof of Delivery Photo Uploaded</p>
+                                <a href="{{ asset($order->pickupDelivery->delivery_proof_image) }}" target="_blank" class="text-[11px] text-blue-600 dark:text-blue-400 underline font-bold">View Full Photo Evidence</a>
+                            </div>
+                        </div>
+                    @endif
+
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
                         <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 font-mono">
                             Total: ₱{{ number_format($order->total_amount, 2) }} ({{ strtoupper($order->payment_status) }})
                         </span>
 
-                        <form method="POST" action="{{ route('rider.updateStatus', $order->id) }}">
+                        <form method="POST" action="{{ route('rider.updateStatus', $order->id) }}" enctype="multipart/form-data" class="flex flex-col sm:flex-row items-center gap-2.5 w-full sm:w-auto">
                             @csrf
                             @method('PATCH')
                             <input type="hidden" name="status" value="completed">
-                            <button type="submit" class="px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow transition flex items-center gap-1.5">
+
+                            <label class="cursor-pointer px-3 py-2 rounded-lg bg-slate-100 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-zinc-200 text-xs font-semibold hover:bg-slate-200 transition flex items-center gap-1.5 shrink-0 w-full sm:w-auto justify-center">
+                                <svg class="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                <span>📷 Camera / Upload Proof</span>
+                                <input type="file" name="proof_image" accept="image/*" capture="environment" class="hidden" onchange="if(this.files[0]) this.previousElementSibling.textContent = '✓ ' + this.files[0].name.substring(0,10) + '...';">
+                            </label>
+
+                            <button type="submit" class="px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow transition flex items-center justify-center gap-1.5 shrink-0 w-full sm:w-auto">
                                 <span>✓</span> Mark Delivered & Completed
                             </button>
                         </form>
