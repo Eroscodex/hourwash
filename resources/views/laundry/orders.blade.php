@@ -149,15 +149,16 @@
                             
                             <div class="space-y-3">
                                 <div>
-                                    <label class="text-[11px] font-bold text-slate-700 dark:text-zinc-300 block mb-1 uppercase">Select Star Rating</label>
-                                    <div class="flex items-center gap-2">
-                                        <select name="rating" class="w-44 py-1.5 px-3 rounded-md bg-white dark:bg-[#141417] border border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100 text-xs font-semibold focus:border-blue-600 focus:ring-1 focus:ring-blue-600" required>
+                                    <label class="text-[11px] font-bold text-slate-700 dark:text-zinc-300 block mb-1.5 uppercase">Select Star Rating</label>
+                                    <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+                                        <select name="rating" class="w-full sm:w-64 py-2 px-3 rounded-lg bg-white dark:bg-[#141417] border border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100 text-xs font-bold focus:border-blue-600 focus:ring-1 focus:ring-blue-600 cursor-pointer shadow-sm" required>
                                             <option value="5">⭐⭐⭐⭐⭐ (5 - Excellent)</option>
-                                            <option value="4">⭐⭐⭐⭐ (4 - Very Good)</option>
+                                            <option value="4" selected>⭐⭐⭐⭐ (4 - Very Good)</option>
                                             <option value="3">⭐⭐⭐ (3 - Good)</option>
                                             <option value="2">⭐⭐ (2 - Fair)</option>
                                             <option value="1">⭐ (1 - Poor)</option>
                                         </select>
+                                        <span class="text-[11px] text-slate-500 dark:text-zinc-400 font-medium hidden sm:inline">Rate your wash & delivery experience</span>
                                     </div>
                                 </div>
 
