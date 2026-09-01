@@ -19,71 +19,62 @@ class RiderDashboardController extends Controller
             return redirect()->route('dashboard');
         }
 
+        // Scoping closure: Only include orders requiring Rider Pickup & Delivery
+        $riderOrderScope = function ($q) {
+            $q->whereIn('pickup_type', ['pickup_delivery', 'pickup', 'delivery'])
+                ->orWhereHas('service', function ($sq) {
+                    $sq->where('name', 'like', '%Pickup%')
+                        ->orWhere('name', 'like', '%Delivery%');
+                });
+        };
+
         // Rider Analytics & Dispatch Metrics
         $riderPickupRequests = Order::whereIn('order_status', ['pending', 'out_for_pickup'])
-            ->where(function ($q) {
-                $q->whereIn('pickup_type', ['pickup_delivery', 'pickup'])
-                    ->orWhereNull('pickup_type')
-                    ->orWhere('order_status', 'out_for_pickup')
-                    ->orWhereHas('service', function ($sq) {
-                        $sq->where('name', 'like', '%Pickup%')
-                            ->orWhere('name', 'like', '%Delivery%');
-                    });
-            })
+            ->where($riderOrderScope)
             ->count();
 
-        $riderReceivedCount = Order::where('order_status', 'received')->count();
-        $riderDeliveryCount = Order::where('order_status', 'out_for_delivery')->count();
-        $riderCompletedCount = Order::where('order_status', 'completed')->count();
-        $riderCancelledCount = Order::where('order_status', 'cancelled')->count();
+        $riderReceivedCount = Order::where('order_status', 'received')
+            ->where($riderOrderScope)
+            ->count();
+
+        $riderDeliveryCount = Order::where('order_status', 'out_for_delivery')
+            ->where($riderOrderScope)
+            ->count();
+
+        $riderCompletedCount = Order::where('order_status', 'completed')
+            ->where($riderOrderScope)
+            ->count();
+
+        $riderCancelledCount = Order::where('order_status', 'cancelled')
+            ->where($riderOrderScope)
+            ->count();
 
         $pickupOrders = Order::with(['customer.customerProfile', 'service', 'pickupDelivery', 'machine', 'statusHistory', 'qrCode'])
             ->whereIn('order_status', ['pending', 'out_for_pickup'])
-            ->where(function ($q) {
-                $q->whereIn('pickup_type', ['pickup_delivery', 'pickup'])
-                    ->orWhereNull('pickup_type')
-                    ->orWhere('order_status', 'out_for_pickup')
-                    ->orWhereHas('service', function ($sq) {
-                        $sq->where('name', 'like', '%Pickup%')
-                            ->orWhere('name', 'like', '%Delivery%');
-                    });
-            })
+            ->where($riderOrderScope)
             ->latest()
             ->get();
 
         $inShopOrders = Order::with(['customer.customerProfile', 'service', 'pickupDelivery', 'machine', 'statusHistory', 'qrCode'])
             ->whereIn('order_status', ['received', 'washing', 'rinsing', 'drying', 'finish'])
-            ->where(function ($q) {
-                $q->whereIn('pickup_type', ['pickup_delivery', 'pickup', 'delivery'])
-                    ->orWhereNull('pickup_type')
-                    ->orWhereHas('service', function ($sq) {
-                        $sq->where('name', 'like', '%Pickup%')
-                            ->orWhere('name', 'like', '%Delivery%');
-                    });
-            })
+            ->where($riderOrderScope)
             ->latest()
             ->get();
 
         $deliveryOrders = Order::with(['customer.customerProfile', 'service', 'pickupDelivery', 'machine', 'statusHistory', 'qrCode'])
             ->whereIn('order_status', ['finish', 'out_for_delivery'])
-            ->where(function ($q) {
-                $q->whereIn('pickup_type', ['pickup_delivery', 'delivery'])
-                    ->orWhereNull('pickup_type')
-                    ->orWhereHas('service', function ($sq) {
-                        $sq->where('name', 'like', '%Pickup%')
-                            ->orWhere('name', 'like', '%Delivery%');
-                    });
-            })
+            ->where($riderOrderScope)
             ->latest()
             ->get();
 
         $completedTodayOrders = Order::where('order_status', 'completed')
             ->whereDate('completed_at', now()->today())
+            ->where($riderOrderScope)
             ->get();
 
         $completedTodayCount = $completedTodayOrders->count();
 
-        // Active Orders across Pickup, In-Shop, and Delivery queues
+        // Active Orders across Pickup, In-Shop, and Delivery queues for Rider
         $allActiveOrders = $pickupOrders->concat($inShopOrders)->concat($deliveryOrders)->unique('id');
 
         // Delivery fee earnings: ₱50 per completed or active dispatch
@@ -94,13 +85,11 @@ class RiderDashboardController extends Controller
         $activeFees = $allActiveOrders->count() * 50.00;
         $todayDeliveryFees = ($completedFees + $activeFees) > 0 ? ($completedFees + $activeFees) : 0.00;
 
-        // COD Cash Collected today for completed paid orders
+        // COD Cash Collected today for completed paid rider orders
         $todayCodCollected = $completedTodayOrders->where('payment_status', 'paid')->sum('total_amount');
 
-        // Pending COD to Collect for all active unpaid orders
-        $pendingCodToCollect = Order::whereNotIn('order_status', ['completed', 'cancelled'])
-            ->where('payment_status', 'unpaid')
-            ->sum('total_amount');
+        // Pending COD to Collect ONLY for active unpaid Pickup & Delivery rider orders
+        $pendingCodToCollect = $allActiveOrders->where('payment_status', 'unpaid')->sum('total_amount');
 
         $totalActiveTasks = $allActiveOrders->count();
 
