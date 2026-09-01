@@ -176,9 +176,27 @@
                         </div>
 
                         <div class="flex flex-wrap items-center gap-2">
-                            <span class="px-2.5 py-1 rounded text-xs font-extrabold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
-                                {{ strtoupper($order->payment_status ?? 'UNPAID') }}
-                            </span>
+                            @if($order->payment_status === 'paid')
+                                <form method="POST" action="{{ route('rider.updatePaymentStatus', $order->id) }}" class="inline-block">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="payment_status" value="unpaid">
+                                    <button type="submit" title="Click to mark UNPAID" class="px-2.5 py-1 rounded text-xs font-extrabold uppercase bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 hover:bg-rose-500 hover:text-white transition flex items-center gap-1 cursor-pointer shadow-sm">
+                                        <span>✓ PAID IN FULL</span>
+                                        <span class="text-[9px] font-mono opacity-80">(Mark Unpaid)</span>
+                                    </button>
+                                </form>
+                            @else
+                                <form method="POST" action="{{ route('rider.updatePaymentStatus', $order->id) }}" class="inline-block">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="payment_status" value="paid">
+                                    <button type="submit" title="Click to mark PAID (Cash Collected)" class="px-2.5 py-1 rounded text-xs font-extrabold uppercase bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 hover:bg-emerald-600 hover:text-white transition flex items-center gap-1 cursor-pointer shadow-sm">
+                                        <span>UNPAID</span>
+                                        <span class="text-[9px] font-mono underline">(Mark Paid)</span>
+                                    </button>
+                                </form>
+                            @endif
                             <span class="text-base font-black text-emerald-600 dark:text-emerald-400 font-mono pl-1">
                                 ₱{{ number_format($order->total_amount, 2) }}
                             </span>
@@ -290,6 +308,11 @@
                                 @method('PATCH')
                                 <input type="hidden" name="status" value="received">
 
+                                <select name="payment_status" class="px-2.5 py-2 rounded-lg bg-slate-100 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-zinc-200 text-xs font-semibold hover:bg-slate-200 transition shrink-0 w-full sm:w-auto">
+                                    <option value="unpaid" {{ $order->payment_status === 'unpaid' ? 'selected' : '' }}>COD: UNPAID</option>
+                                    <option value="paid" {{ $order->payment_status === 'paid' ? 'selected' : '' }}>COD: PAID (Cash Collected)</option>
+                                </select>
+
                                 <label class="cursor-pointer px-2.5 py-2 rounded-lg bg-slate-100 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-zinc-200 text-xs font-semibold hover:bg-slate-200 transition flex items-center shrink-0 w-full sm:w-auto justify-center">
                                     <span>Camera Photo Proof</span>
                                     <input type="file" name="proof_image" accept="image/*" capture="environment" class="hidden" onchange="if(this.files[0]) this.previousElementSibling.textContent = '✓ ' + this.files[0].name.substring(0,10) + '...';">
@@ -358,9 +381,27 @@
                         </div>
 
                         <div class="flex flex-wrap items-center gap-2">
-                            <span class="px-2.5 py-1 rounded text-xs font-extrabold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
-                                {{ strtoupper($order->payment_status ?? 'UNPAID') }}
-                            </span>
+                            @if($order->payment_status === 'paid')
+                                <form method="POST" action="{{ route('rider.updatePaymentStatus', $order->id) }}" class="inline-block">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="payment_status" value="unpaid">
+                                    <button type="submit" title="Click to mark UNPAID" class="px-2.5 py-1 rounded text-xs font-extrabold uppercase bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 hover:bg-rose-500 hover:text-white transition flex items-center gap-1 cursor-pointer shadow-sm">
+                                        <span>✓ PAID IN FULL</span>
+                                        <span class="text-[9px] font-mono opacity-80">(Mark Unpaid)</span>
+                                    </button>
+                                </form>
+                            @else
+                                <form method="POST" action="{{ route('rider.updatePaymentStatus', $order->id) }}" class="inline-block">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="payment_status" value="paid">
+                                    <button type="submit" title="Click to mark PAID (Cash Collected)" class="px-2.5 py-1 rounded text-xs font-extrabold uppercase bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 hover:bg-emerald-600 hover:text-white transition flex items-center gap-1 cursor-pointer shadow-sm">
+                                        <span>UNPAID</span>
+                                        <span class="text-[9px] font-mono underline">(Mark Paid)</span>
+                                    </button>
+                                </form>
+                            @endif
                             <span class="text-base font-black text-emerald-600 dark:text-emerald-400 font-mono pl-1">
                                 ₱{{ number_format($order->total_amount, 2) }}
                             </span>
@@ -528,9 +569,27 @@
                         </div>
 
                         <div class="flex flex-wrap items-center gap-2">
-                            <span class="px-2.5 py-1 rounded text-xs font-extrabold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
-                                {{ strtoupper($order->payment_status ?? 'UNPAID') }}
-                            </span>
+                            @if($order->payment_status === 'paid')
+                                <form method="POST" action="{{ route('rider.updatePaymentStatus', $order->id) }}" class="inline-block">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="payment_status" value="unpaid">
+                                    <button type="submit" title="Click to mark UNPAID" class="px-2.5 py-1 rounded text-xs font-extrabold uppercase bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 hover:bg-rose-500 hover:text-white transition flex items-center gap-1 cursor-pointer shadow-sm">
+                                        <span>✓ PAID IN FULL</span>
+                                        <span class="text-[9px] font-mono opacity-80">(Mark Unpaid)</span>
+                                    </button>
+                                </form>
+                            @else
+                                <form method="POST" action="{{ route('rider.updatePaymentStatus', $order->id) }}" class="inline-block">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="payment_status" value="paid">
+                                    <button type="submit" title="Click to mark PAID (Cash Collected)" class="px-2.5 py-1 rounded text-xs font-extrabold uppercase bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 hover:bg-emerald-600 hover:text-white transition flex items-center gap-1 cursor-pointer shadow-sm">
+                                        <span>UNPAID</span>
+                                        <span class="text-[9px] font-mono underline">(Mark Paid)</span>
+                                    </button>
+                                </form>
+                            @endif
                             <span class="text-base font-black text-emerald-600 dark:text-emerald-400 font-mono pl-1">
                                 ₱{{ number_format($order->total_amount, 2) }}
                             </span>
@@ -637,6 +696,11 @@
                                 @csrf
                                 @method('PATCH')
                                 <input type="hidden" name="status" value="completed">
+
+                                <select name="payment_status" class="px-2.5 py-2 rounded-lg bg-slate-100 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-zinc-200 text-xs font-semibold hover:bg-slate-200 transition shrink-0 w-full sm:w-auto">
+                                    <option value="unpaid" {{ $order->payment_status === 'unpaid' ? 'selected' : '' }}>COD: UNPAID</option>
+                                    <option value="paid" {{ $order->payment_status === 'paid' ? 'selected' : '' }}>COD: PAID (Cash Collected)</option>
+                                </select>
 
                                 <label class="cursor-pointer px-2.5 py-2 rounded-lg bg-slate-100 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-zinc-200 text-xs font-semibold hover:bg-slate-200 transition flex items-center shrink-0 w-full sm:w-auto justify-center">
                                     <span>Camera Photo Proof</span>

@@ -123,6 +123,13 @@ class RiderDashboardController extends Controller
         try {
             $order->order_status = $newStatus;
 
+            if ($request->filled('payment_status') && in_array($request->payment_status, ['paid', 'unpaid'])) {
+                $order->payment_status = $request->payment_status;
+                if ($request->payment_status === 'paid' && ! $order->paid_at) {
+                    $order->paid_at = now();
+                }
+            }
+
             if ($newStatus === 'completed') {
                 $order->completed_at = now();
             }
@@ -236,5 +243,22 @@ class RiderDashboardController extends Controller
 
             return redirect()->route('rider.dashboard')->with('success', "Order #{$order->order_number} status updated!");
         }
+    }
+
+    public function updatePaymentStatus(Request $request, Order $order)
+    {
+        $validated = $request->validate([
+            'payment_status' => 'required|in:paid,unpaid',
+        ]);
+
+        $order->payment_status = $validated['payment_status'];
+        $order->paid_at = $validated['payment_status'] === 'paid' ? now() : null;
+        $order->save();
+
+        $msg = $validated['payment_status'] === 'paid'
+            ? "Order #{$order->order_number} marked as PAID! COD cash collection recorded."
+            : "Order #{$order->order_number} payment status updated to UNPAID.";
+
+        return redirect()->route('rider.dashboard')->with('success', $msg);
     }
 }
