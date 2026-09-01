@@ -75,6 +75,45 @@
             </div>
         </div>
 
+        <!-- Rider Financial & Earnings Summary Section -->
+        <div class="app-card p-5 border-l-4 border-l-emerald-500 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-200 dark:border-zinc-800 pb-3">
+                <div class="flex items-center gap-2">
+                    <h2 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">
+                        💵 Rider Earnings & COD Remittance Summary
+                    </h2>
+                    <span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 uppercase">
+                        TODAY'S FINANCIALS
+                    </span>
+                </div>
+                <span class="text-xs font-mono text-slate-500 dark:text-slate-400 font-semibold">
+                    {{ now()->format('F d, Y') }}
+                </span>
+            </div>
+
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+                <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-800">
+                    <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Today's Completed</span>
+                    <span class="text-xl font-black text-slate-900 dark:text-white font-mono block mt-1">{{ $completedTodayCount ?? 0 }} Dispatches</span>
+                </div>
+
+                <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-800">
+                    <span class="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block">Delivery Fee Earnings</span>
+                    <span class="text-xl font-black text-emerald-600 dark:text-emerald-400 font-mono block mt-1">₱{{ number_format($todayDeliveryFees ?? 0, 2) }}</span>
+                </div>
+
+                <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-800">
+                    <span class="text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider block">COD Cash Collected</span>
+                    <span class="text-xl font-black text-blue-600 dark:text-blue-400 font-mono block mt-1">₱{{ number_format($todayCodCollected ?? 0, 2) }}</span>
+                </div>
+
+                <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-800">
+                    <span class="text-[10px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider block">Pending COD to Collect</span>
+                    <span class="text-xl font-black text-amber-600 dark:text-amber-400 font-mono block mt-1">₱{{ number_format($pendingCodToCollect ?? 0, 2) }}</span>
+                </div>
+            </div>
+        </div>
+
         <!-- SECTION 1: PICKUP REQUESTS -->
         <div class="space-y-4">
             <div class="flex items-center justify-between border-b border-slate-200 dark:dark:border-zinc-700 pb-3">

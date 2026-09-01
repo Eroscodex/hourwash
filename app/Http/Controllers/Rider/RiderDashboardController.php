@@ -47,7 +47,17 @@ class RiderDashboardController extends Controller
             ->latest()
             ->get();
 
-        $completedTodayCount = $riderCompletedCount;
+        $completedTodayOrders = Order::where('order_status', 'completed')
+            ->whereDate('completed_at', now()->today())
+            ->get();
+
+        $completedTodayCount = $completedTodayOrders->count();
+        $todayDeliveryFees = $completedTodayOrders->sum(function ($ord) {
+            return $ord->delivery_fee > 0 ? (float) $ord->delivery_fee : 50.00;
+        });
+        $todayCodCollected = $completedTodayOrders->where('payment_status', 'paid')->sum('total_amount');
+        $pendingCodToCollect = $deliveryOrders->where('payment_status', 'unpaid')->sum('total_amount');
+
         $totalActiveTasks = $pickupOrders->count() + $deliveryOrders->count();
 
         return view('rider.dashboard', compact(
@@ -60,7 +70,10 @@ class RiderDashboardController extends Controller
             'riderReceivedCount',
             'riderDeliveryCount',
             'riderCompletedCount',
-            'riderCancelledCount'
+            'riderCancelledCount',
+            'todayDeliveryFees',
+            'todayCodCollected',
+            'pendingCodToCollect'
         ));
     }
 
