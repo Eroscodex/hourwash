@@ -93,11 +93,18 @@ class RiderDashboardController extends Controller
 
         $totalActiveTasks = $allActiveOrders->count();
 
+        $completedHistoryOrders = Order::with(['customer.customerProfile', 'service', 'pickupDelivery', 'machine', 'statusHistory', 'qrCode'])
+            ->where('order_status', 'completed')
+            ->where($riderOrderScope)
+            ->latest()
+            ->get();
+
         return view('rider.dashboard', compact(
             'user',
             'pickupOrders',
             'inShopOrders',
             'deliveryOrders',
+            'completedHistoryOrders',
             'completedTodayCount',
             'totalActiveTasks',
             'riderPickupRequests',

@@ -12,12 +12,23 @@
         @else
             <button disabled class="opacity-65 bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30 px-4 py-2 rounded-lg text-xs font-bold cursor-not-allowed inline-flex items-center justify-center gap-1.5 w-full sm:w-auto shrink-0">
                 🚫 Store Closed Today (Bookings Disabled)
-            </button>
-        @endif
+    </div>
+
+    <!-- Filter Tabs for Customer History Management -->
+    <div class="flex flex-wrap items-center gap-2 border-b border-slate-200 dark:border-zinc-800 pb-3" x-data="{ activeTab: 'all' }">
+        <button type="button" @click="activeTab = 'all'; filterOrders('all')" :class="activeTab === 'all' ? 'bg-blue-600 text-white font-bold' : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-200'" class="px-3.5 py-1.5 rounded-lg text-xs transition border border-slate-200 dark:border-zinc-700 cursor-pointer">
+            All Orders ({{ $orders->count() }})
+        </button>
+        <button type="button" @click="activeTab = 'active'; filterOrders('active')" :class="activeTab === 'active' ? 'bg-blue-600 text-white font-bold' : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-200'" class="px-3.5 py-1.5 rounded-lg text-xs transition border border-slate-200 dark:border-zinc-700 cursor-pointer">
+            Active Orders ({{ $orders->where('order_status', '!=', 'completed')->count() }})
+        </button>
+        <button type="button" @click="activeTab = 'completed'; filterOrders('completed')" :class="activeTab === 'completed' ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-200'" class="px-3.5 py-1.5 rounded-lg text-xs transition border border-slate-200 dark:border-zinc-700 cursor-pointer">
+            Completed History ({{ $orders->where('order_status', 'completed')->count() }})
+        </button>
     </div>
 
     @forelse($orders as $order)
-        <div class="app-card p-5 space-y-4 shadow-sm hover:border-blue-600/40 transition">
+        <div data-status="{{ $order->order_status }}" class="app-card p-5 space-y-4 shadow-sm hover:border-blue-600/40 transition customer-order-card">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-zinc-800 pb-3">
                 <div>
                     <div class="flex flex-wrap items-center gap-2">
@@ -170,5 +181,21 @@
     @endforelse
 
 </div>
+
+<script>
+    function filterOrders(type) {
+        const cards = document.querySelectorAll('.customer-order-card');
+        cards.forEach(card => {
+            const status = card.getAttribute('data-status');
+            if (type === 'all') {
+                card.style.display = '';
+            } else if (type === 'active') {
+                card.style.display = status !== 'completed' ? '' : 'none';
+            } else if (type === 'completed') {
+                card.style.display = status === 'completed' ? '' : 'none';
+            }
+        });
+    }
+</script>
 
 </x-app-layout>

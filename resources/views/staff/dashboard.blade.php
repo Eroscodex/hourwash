@@ -646,6 +646,70 @@
                 </table>
             </div>
         </div>
+
+        <!-- Completed Orders & Processing History Log -->
+        @php
+            $completedOrdersList = $orders->where('order_status', 'completed');
+        @endphp
+        <div class="app-card p-4 sm:p-6 space-y-4 overflow-hidden shadow-sm border-t-4 border-t-emerald-500">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 dark:border-zinc-700 pb-3">
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                        <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Completed Orders History Log</h2>
+                        <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
+                            {{ $completedOrdersList->count() }} Finished Orders
+                        </span>
+                    </div>
+                    <p class="text-xs text-slate-600 dark:text-slate-400">Archived list of all completed wash, dry, and fold orders in shop</p>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto max-w-full border border-slate-200 dark:border-zinc-800 rounded-lg">
+                <table class="w-full text-left text-xs whitespace-nowrap min-w-[650px]">
+                    <thead class="bg-slate-100 dark:bg-[#18181B] text-slate-700 dark:text-slate-300 uppercase text-[10px] tracking-wider border-b border-slate-200 dark:border-zinc-700">
+                        <tr>
+                            <th class="px-4 py-3">Order Tag</th>
+                            <th class="px-4 py-3">Customer</th>
+                            <th class="px-4 py-3">Service</th>
+                            <th class="px-4 py-3">Weight</th>
+                            <th class="px-4 py-3">Payment</th>
+                            <th class="px-4 py-3">Date Completed</th>
+                            <th class="px-4 py-3 text-center">Receipt</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-200 dark:divide-zinc-700 text-slate-900 dark:text-slate-200">
+                        @forelse($completedOrdersList as $compOrder)
+                            <tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition">
+                                <td class="px-4 py-3 font-mono font-bold text-emerald-600 dark:text-emerald-400">#{{ $compOrder->order_number }}</td>
+                                <td class="px-4 py-3">
+                                    <div class="font-medium text-slate-900 dark:text-slate-100">{{ $compOrder->customer->name ?? 'Walk-in' }}</div>
+                                </td>
+                                <td class="px-4 py-3 text-slate-700 dark:text-slate-300">{{ $compOrder->service->name ?? 'Standard Wash' }}</td>
+                                <td class="px-4 py-3 text-slate-700 dark:text-slate-300 font-mono">{{ $compOrder->weight_kg }} kg</td>
+                                <td class="px-4 py-3 font-mono">
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase {{ $compOrder->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
+                                        {{ strtoupper($compOrder->payment_status) }} (₱{{ number_format($compOrder->total_amount, 2) }})
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3 text-slate-500 dark:text-zinc-400 text-[11px]">
+                                    {{ $compOrder->updated_at->format('M d, Y h:i A') }}
+                                </td>
+                                <td class="px-4 py-3 text-center">
+                                    <a href="{{ route('laundry.receipt', $compOrder->id) }}" target="_blank" class="px-2.5 py-1 rounded bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-[11px] font-bold hover:opacity-90 transition">
+                                        View Receipt
+                                    </a>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" class="text-center py-6 text-slate-500">No completed orders history records yet.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
     <x-camera-qr-scanner />

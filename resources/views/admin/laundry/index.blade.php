@@ -52,10 +52,22 @@
             </div>
         @endif
 
+        <!-- Filter Tabs for Admin History Management -->
+        <div class="flex flex-wrap items-center gap-2 border-b border-slate-200 dark:border-zinc-800 pb-3" x-data="{ adminTab: 'all' }">
+            <button type="button" @click="adminTab = 'all'; filterAdminOrders('all')" :class="adminTab === 'all' ? 'bg-blue-600 text-white font-bold' : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-200'" class="px-3.5 py-1.5 rounded-lg text-xs transition border border-slate-200 dark:border-zinc-700 cursor-pointer">
+                All Orders ({{ $orders->count() }})
+            </button>
+            <button type="button" @click="adminTab = 'active'; filterAdminOrders('active')" :class="adminTab === 'active' ? 'bg-blue-600 text-white font-bold' : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-200'" class="px-3.5 py-1.5 rounded-lg text-xs transition border border-slate-200 dark:border-zinc-700 cursor-pointer">
+                Active Queue ({{ $orders->where('order_status', '!=', 'completed')->count() }})
+            </button>
+            <button type="button" @click="adminTab = 'completed'; filterAdminOrders('completed')" :class="adminTab === 'completed' ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-200'" class="px-3.5 py-1.5 rounded-lg text-xs transition border border-slate-200 dark:border-zinc-700 cursor-pointer">
+                Completed History Log ({{ $orders->where('order_status', 'completed')->count() }})
+            </button>
+        </div>
 
         <div class="space-y-4 pb-64">
             @forelse($orders as $order)
-                <div class="app-card p-5 space-y-4 shadow-sm hover:border-blue-600/30 transition">
+                <div data-status="{{ $order->order_status }}" class="app-card p-5 space-y-4 shadow-sm hover:border-blue-600/30 transition admin-order-card">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:dark:border-zinc-700 pb-3">
                         <div class="flex items-center gap-4">
                             <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data={{ $order->qrCode->qr_token ?? $order->order_number }}"
@@ -326,5 +338,21 @@
     </div>
 
     <x-camera-qr-scanner />
+
+<script>
+    function filterAdminOrders(type) {
+        const cards = document.querySelectorAll('.admin-order-card');
+        cards.forEach(card => {
+            const status = card.getAttribute('data-status');
+            if (type === 'all') {
+                card.style.display = '';
+            } else if (type === 'active') {
+                card.style.display = status !== 'completed' ? '' : 'none';
+            } else if (type === 'completed') {
+                card.style.display = status === 'completed' ? '' : 'none';
+            }
+        });
+    }
+</script>
 
 </x-app-layout>

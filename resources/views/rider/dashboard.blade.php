@@ -703,6 +703,87 @@
             @endforelse
         </div>
 
+        <!-- SECTION 4: COMPLETED DELIVERIES & HISTORY LOG -->
+        <div class="space-y-4 pt-6 border-t border-slate-200 dark:border-zinc-800">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
+                    <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+                        4. Completed Deliveries & History Log
+                    </h2>
+                    <span class="px-2.5 py-0.5 rounded-full text-xs font-black bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
+                        {{ $completedHistoryOrders->count() }} Orders
+                    </span>
+                </div>
+                <p class="text-xs text-slate-500 dark:text-zinc-400 font-medium">Archived past completed rider tasks & proof evidence</p>
+            </div>
+
+            <div class="space-y-4">
+                @forelse($completedHistoryOrders as $order)
+                    <div class="app-card p-4 sm:p-5 space-y-3 border-l-4 border-l-emerald-500 opacity-95 hover:opacity-100 transition rider-order-card shadow-sm">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 dark:border-zinc-800 pb-2.5">
+                            <div class="flex items-center gap-2.5">
+                                <span class="text-xs font-black font-mono text-emerald-600 dark:text-emerald-400">#{{ $order->order_number }}</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
+                                    COMPLETED & DELIVERED
+                                </span>
+                            </div>
+                            <div class="text-right text-xs">
+                                <span class="text-slate-400 dark:text-zinc-500 text-[10.5px]">Completed: {{ $order->updated_at->format('M d, Y h:i A') }}</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                            <div>
+                                <span class="text-slate-400 dark:text-zinc-500 text-[10.5px] block font-medium">Customer & Address</span>
+                                <strong class="text-slate-900 dark:text-white block truncate">{{ $order->customer->name ?? 'Customer' }}</strong>
+                                <span class="text-slate-600 dark:text-zinc-400 block text-[11px] truncate">{{ $order->customer->customerProfile->address ?? 'Magallanes St., Legazpi' }}</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 dark:text-zinc-500 text-[10.5px] block font-medium">Service & Payment</span>
+                                <strong class="text-slate-900 dark:text-white block">{{ $order->service->name ?? 'Pickup & Delivery' }}</strong>
+                                <span class="text-emerald-600 dark:text-emerald-400 font-extrabold block text-[11px]">₱{{ number_format($order->total_amount, 2) }} ({{ strtoupper($order->payment_status) }})</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 dark:text-zinc-500 text-[10.5px] block font-medium">Rider Earnings</span>
+                                <strong class="text-emerald-600 dark:text-emerald-400 font-bold block">+₱50.00 Delivery Fee</strong>
+                                <span class="text-slate-400 dark:text-zinc-500 text-[10.5px]">Task Fulfilled</span>
+                            </div>
+                        </div>
+
+                        <!-- Proof Photos Grid -->
+                        <div class="flex flex-wrap items-center gap-3 pt-2 border-t border-slate-200 dark:border-zinc-800">
+                            @if($order->pickupDelivery?->pickup_proof_image)
+                                <button type="button" onclick="openImageModal('{{ asset($order->pickupDelivery->pickup_proof_image) }}', 'Proof of Pickup - Order #{{ $order->order_number }}')" class="flex items-center gap-2 p-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 hover:bg-emerald-500/20 transition cursor-pointer text-left">
+                                    <img src="{{ asset($order->pickupDelivery->pickup_proof_image) }}" alt="Pickup Proof" class="w-9 h-9 rounded object-cover border border-emerald-500/40">
+                                    <div>
+                                        <span class="text-[10px] font-bold text-emerald-700 dark:text-emerald-400 block">Pickup Proof</span>
+                                        <span class="text-[9px] text-blue-600 dark:text-blue-400 underline font-semibold">View Photo</span>
+                                    </div>
+                                </button>
+                            @endif
+                            @if($order->pickupDelivery?->delivery_proof_image)
+                                <button type="button" onclick="openImageModal('{{ asset($order->pickupDelivery->delivery_proof_image) }}', 'Proof of Delivery - Order #{{ $order->order_number }}')" class="flex items-center gap-2 p-1.5 rounded-lg bg-cyan-500/10 border border-cyan-500/30 hover:bg-cyan-500/20 transition cursor-pointer text-left">
+                                    <img src="{{ asset($order->pickupDelivery->delivery_proof_image) }}" alt="Delivery Proof" class="w-9 h-9 rounded object-cover border border-cyan-500/40">
+                                    <div>
+                                        <span class="text-[10px] font-bold text-cyan-700 dark:text-cyan-400 block">Delivery Proof</span>
+                                        <span class="text-[9px] text-blue-600 dark:text-blue-400 underline font-semibold">View Photo</span>
+                                    </div>
+                                </button>
+                            @endif
+                            <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="ml-auto px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-zinc-800 hover:bg-slate-200 dark:hover:bg-zinc-700 text-slate-800 dark:text-zinc-200 text-xs font-bold transition border border-slate-200 dark:border-zinc-700">
+                                View Receipt
+                            </a>
+                        </div>
+                    </div>
+                @empty
+                    <div class="app-card p-6 text-center text-slate-500 dark:text-slate-400">
+                        <p class="text-xs">No completed delivery history records yet.</p>
+                    </div>
+                @endforelse
+            </div>
+        </div>
+
     </div>
 
     <script>
