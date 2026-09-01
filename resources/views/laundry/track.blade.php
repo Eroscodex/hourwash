@@ -604,19 +604,19 @@
     }, 4000);
 </script>
 
-<!-- Universal Image Lightbox Modal with Auto-Adjusting Frame -->
-<div id="image-lightbox-modal" onclick="if(event.target === this) closeImageModal()" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/85 backdrop-blur-md p-4 transition-all duration-200">
-    <div class="relative max-w-[92vw] max-h-[92vh] w-fit h-fit bg-slate-900 rounded-2xl border border-slate-700 shadow-2xl p-3 sm:p-4 flex flex-col items-center justify-center space-y-3">
+<!-- Universal Image Lightbox Modal with Theme-Aware Auto-Adjusting Frame -->
+<div id="image-lightbox-modal" onclick="if(event.target === this) closeImageModal()" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-slate-900/60 dark:bg-black/85 backdrop-blur-md p-4 transition-all duration-200">
+    <div class="relative max-w-[92vw] max-h-[92vh] w-fit h-fit bg-white dark:bg-zinc-900 rounded-2xl border border-slate-200 dark:border-zinc-800 shadow-2xl p-3 sm:p-4 flex flex-col items-center justify-center space-y-3 transition-colors">
         <!-- Prominent ✕ Exit Button in top right -->
-        <button type="button" onclick="closeImageModal()" class="absolute -top-3 -right-3 sm:-top-3 sm:-right-3 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-rose-600 hover:bg-rose-500 text-white font-black text-lg sm:text-xl flex items-center justify-center transition shadow-2xl border-2 border-white cursor-pointer z-50">
+        <button type="button" onclick="closeImageModal()" class="absolute -top-3 -right-3 sm:-top-3 sm:-right-3 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-rose-600 hover:bg-rose-500 text-white font-black text-lg sm:text-xl flex items-center justify-center transition shadow-2xl border-2 border-white dark:border-zinc-900 cursor-pointer z-50">
             ✕
         </button>
 
-        <div class="text-center w-full px-2">
-            <h3 id="image-modal-title" class="text-xs sm:text-sm font-extrabold text-white uppercase tracking-wider">Photo Evidence View</h3>
+        <div class="text-center w-full px-2 border-b border-slate-100 dark:border-zinc-800/80 pb-2">
+            <h3 id="image-modal-title" class="text-xs sm:text-sm font-extrabold text-slate-900 dark:text-white uppercase tracking-wider">Photo Evidence View</h3>
         </div>
 
-        <div class="flex items-center justify-center overflow-hidden rounded-xl bg-black/60 border border-slate-800 p-1.5">
+        <div class="flex items-center justify-center overflow-hidden rounded-xl bg-slate-100 dark:bg-zinc-950/80 border border-slate-200 dark:border-zinc-800 p-1.5">
             <img id="image-modal-img" src="" alt="Proof Evidence" class="max-h-[78vh] max-w-[85vw] w-auto h-auto rounded-lg object-contain block shadow-lg">
         </div>
     </div>
