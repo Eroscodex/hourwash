@@ -283,22 +283,22 @@
                             <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Rider Photo Proof Evidence</span>
                             <div class="flex flex-wrap items-center gap-3">
                                 @if($order->pickupDelivery?->pickup_proof_image)
-                                    <a href="{{ asset($order->pickupDelivery->pickup_proof_image) }}" target="_blank" class="flex items-center gap-2 p-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 hover:bg-emerald-500/20 transition">
+                                    <button type="button" onclick="openImageModal('{{ asset($order->pickupDelivery->pickup_proof_image) }}', 'Proof of Pickup Photo Evidence')" class="flex items-center gap-2 p-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 hover:bg-emerald-500/20 transition cursor-pointer text-left">
                                         <img src="{{ asset($order->pickupDelivery->pickup_proof_image) }}" alt="Pickup Proof" class="w-10 h-10 rounded object-cover border border-emerald-500/40">
                                         <div class="text-left">
                                             <span class="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 block">Pickup Proof</span>
                                             <span class="text-[9.5px] text-blue-600 dark:text-blue-400 underline font-semibold">View Full</span>
                                         </div>
-                                    </a>
+                                    </button>
                                 @endif
                                 @if($order->pickupDelivery?->delivery_proof_image)
-                                    <a href="{{ asset($order->pickupDelivery->delivery_proof_image) }}" target="_blank" class="flex items-center gap-2 p-1.5 rounded-lg bg-cyan-500/10 border border-cyan-500/30 hover:bg-cyan-500/20 transition">
+                                    <button type="button" onclick="openImageModal('{{ asset($order->pickupDelivery->delivery_proof_image) }}', 'Proof of Delivery Photo Evidence')" class="flex items-center gap-2 p-1.5 rounded-lg bg-cyan-500/10 border border-cyan-500/30 hover:bg-cyan-500/20 transition cursor-pointer text-left">
                                         <img src="{{ asset($order->pickupDelivery->delivery_proof_image) }}" alt="Delivery Proof" class="w-10 h-10 rounded object-cover border border-cyan-500/40">
                                         <div class="text-left">
                                             <span class="text-[11px] font-bold text-cyan-700 dark:text-cyan-400 block">Delivery Proof</span>
                                             <span class="text-[9.5px] text-blue-600 dark:text-blue-400 underline font-semibold">View Full</span>
                                         </div>
-                                    </a>
+                                    </button>
                                 @endif
                             </div>
                         </div>
@@ -602,6 +602,58 @@
         })
         .catch(function(e) { /* Silent tracking sync check */ });
     }, 4000);
+</script>
+
+<!-- Universal Image Lightbox Modal with prominent ✕ Exit Button -->
+<div id="image-lightbox-modal" onclick="if(event.target === this) closeImageModal()" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/85 backdrop-blur-md p-4 transition-all duration-200">
+    <div class="relative max-w-4xl w-full bg-slate-900 rounded-2xl border border-slate-700 shadow-2xl p-4 sm:p-6 flex flex-col items-center justify-center space-y-4">
+        <!-- Prominent ✕ Exit Button in top right -->
+        <button type="button" onclick="closeImageModal()" class="absolute -top-3 -right-3 sm:top-3 sm:right-3 w-10 h-10 rounded-full bg-rose-600 hover:bg-rose-500 text-white font-black text-xl flex items-center justify-center transition shadow-xl border-2 border-white cursor-pointer z-50">
+            ✕
+        </button>
+
+        <div class="text-center space-y-1 w-full border-b border-slate-800 pb-3">
+            <h3 id="image-modal-title" class="text-sm sm:text-base font-bold text-white uppercase tracking-wider">Photo Evidence View</h3>
+            <p class="text-[11px] text-slate-400">Click ✕ button or press ESC to exit preview</p>
+        </div>
+
+        <div class="max-h-[75vh] w-full overflow-auto rounded-lg border border-slate-800 bg-black/50 flex items-center justify-center p-2">
+            <img id="image-modal-img" src="" alt="Proof Evidence" class="max-h-[70vh] w-auto max-w-full rounded object-contain shadow-lg">
+        </div>
+
+        <button type="button" onclick="closeImageModal()" class="px-6 py-2 rounded-xl bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/40 font-bold text-xs shadow transition flex items-center gap-2 cursor-pointer">
+            <span class="font-black text-sm">✕</span>
+            <span>Exit / Close Preview</span>
+        </button>
+    </div>
+</div>
+
+<script>
+    function openImageModal(imgUrl, title) {
+        const modal = document.getElementById('image-lightbox-modal');
+        const img = document.getElementById('image-modal-img');
+        const titleEl = document.getElementById('image-modal-title');
+        if (modal && img) {
+            img.src = imgUrl;
+            if (titleEl && title) titleEl.textContent = title;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+    }
+
+    function closeImageModal() {
+        const modal = document.getElementById('image-lightbox-modal');
+        if (modal) {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+            document.body.style.overflow = '';
+        }
+    }
+
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeImageModal();
+    });
 </script>
 
 </x-app-layout>
