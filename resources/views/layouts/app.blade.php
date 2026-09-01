@@ -550,14 +550,31 @@
             });
         }
 
-        // Seamless Real-Time Live Background AJAX Sync (NO Hard Page Reloads!)
-        let isUserTyping = false;
-        document.addEventListener('input', function(e) {
-            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') {
-                isUserTyping = true;
-                clearTimeout(window.typingTimeout);
-                window.typingTimeout = setTimeout(function() { isUserTyping = false; }, 8000);
+        // Smart Real-Time Live Background AJAX Sync (Zero Dropdown Interruption & Data-Change Only!)
+        let isUserInteracting = false;
+
+        function markUserInteracting() {
+            isUserInteracting = true;
+            clearTimeout(window.interactionTimeout);
+            window.interactionTimeout = setTimeout(function() {
+                isUserInteracting = false;
+            }, 12000);
+        }
+
+        document.addEventListener('focusin', function(e) {
+            if (e.target && (e.target.tagName === 'SELECT' || e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'OPTION')) {
+                markUserInteracting();
             }
+        });
+
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.closest('select, option, form, button, .dropdown, [data-dropdown], [role="menu"]')) {
+                markUserInteracting();
+            }
+        });
+
+        document.addEventListener('change', function(e) {
+            markUserInteracting();
         });
 
         const syncPaths = [
@@ -574,10 +591,19 @@
 
         if (isOperationalPage) {
             setInterval(function() {
+                const activeEl = document.activeElement;
+                const isFocusedOnInputOrSelect = activeEl && (
+                    activeEl.tagName === 'SELECT' ||
+                    activeEl.tagName === 'OPTION' ||
+                    activeEl.tagName === 'INPUT' ||
+                    activeEl.tagName === 'TEXTAREA' ||
+                    activeEl.closest('form, select, .dropdown, [role="menu"]')
+                );
+
                 const isChatOpen = document.getElementById('chat-window') && !document.getElementById('chat-window').classList.contains('hidden');
                 const isModalOpen = document.querySelector('.modal:not(.hidden), [id$="modal"]:not(.hidden), [class*="modal"]:not(.hidden)');
                 
-                if (isUserTyping || isChatOpen || isModalOpen || document.hidden) {
+                if (isUserInteracting || isFocusedOnInputOrSelect || isChatOpen || isModalOpen || document.hidden) {
                     return;
                 }
 
@@ -593,15 +619,27 @@
 
                     if (newMain && currentMain) {
                         const newHtml = newMain.innerHTML;
+                        // ONLY update DOM if server content has ACTUALLY CHANGED!
                         if (currentMain.innerHTML !== newHtml) {
-                            const scrollY = window.scrollY;
-                            currentMain.innerHTML = newHtml;
-                            window.scrollTo(0, scrollY);
+                            const latestActive = document.activeElement;
+                            const nowInteracting = latestActive && (
+                                latestActive.tagName === 'SELECT' ||
+                                latestActive.tagName === 'OPTION' ||
+                                latestActive.tagName === 'INPUT' ||
+                                latestActive.tagName === 'TEXTAREA' ||
+                                latestActive.closest('form, select, .dropdown')
+                            );
+
+                            if (!nowInteracting && !isUserInteracting) {
+                                const scrollY = window.scrollY;
+                                currentMain.innerHTML = newHtml;
+                                window.scrollTo(0, scrollY);
+                            }
                         }
                     }
                 })
                 .catch(function(err) { /* Silent background sync check */ });
-            }, 4000); // Fast 4-second seamless background AJAX poll
+            }, 6000); // Quiet 6-second background sync
         }
     });
 
