@@ -57,12 +57,28 @@ class RiderDashboardController extends Controller
             ->whereDate('completed_at', now()->today())
             ->get();
 
+        $allActiveOrders = Order::whereIn('order_status', ['pending', 'out_for_pickup', 'received', 'washing', 'rinsing', 'drying', 'finish', 'out_for_delivery'])
+            ->where(function ($q) {
+                $q->whereIn('pickup_type', ['pickup_delivery', 'delivery', 'pickup'])
+                    ->orWhereNull('pickup_type');
+            })
+            ->get();
+
         $completedTodayCount = $completedTodayOrders->count();
-        $todayDeliveryFees = $completedTodayOrders->sum(function ($ord) {
+
+        // Delivery fee earnings: ₱50 per completed or active dispatch
+        $completedFees = $completedTodayOrders->sum(function ($ord) {
             return $ord->delivery_fee > 0 ? (float) $ord->delivery_fee : 50.00;
         });
+
+        $activeFees = $allActiveOrders->count() * 50.00;
+        $todayDeliveryFees = $completedFees > 0 ? $completedFees : $activeFees;
+
+        // COD Cash Collected today for completed paid orders
         $todayCodCollected = $completedTodayOrders->where('payment_status', 'paid')->sum('total_amount');
-        $pendingCodToCollect = $deliveryOrders->where('payment_status', 'unpaid')->sum('total_amount');
+
+        // Pending COD to Collect for active unpaid orders
+        $pendingCodToCollect = $allActiveOrders->where('payment_status', 'unpaid')->sum('total_amount');
 
         $totalActiveTasks = $pickupOrders->count() + $inShopOrders->count() + $deliveryOrders->count();
 
