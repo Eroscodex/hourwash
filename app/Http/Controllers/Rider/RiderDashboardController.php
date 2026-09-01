@@ -33,7 +33,7 @@ class RiderDashboardController extends Controller
         $riderCompletedCount = Order::where('order_status', 'completed')->count();
         $riderCancelledCount = Order::where('order_status', 'cancelled')->count();
 
-        $pickupOrders = Order::with(['customer.customerProfile', 'service', 'pickupDelivery', 'machine', 'statusHistory'])
+        $pickupOrders = Order::with(['customer.customerProfile', 'service', 'pickupDelivery', 'machine', 'statusHistory', 'qrCode'])
             ->whereIn('order_status', ['pending', 'out_for_pickup'])
             ->where(function ($q) {
                 $q->whereIn('pickup_type', ['pickup_delivery', 'pickup'])
@@ -43,12 +43,12 @@ class RiderDashboardController extends Controller
             ->latest()
             ->get();
 
-        $inShopOrders = Order::with(['customer.customerProfile', 'service', 'pickupDelivery', 'machine', 'statusHistory'])
+        $inShopOrders = Order::with(['customer.customerProfile', 'service', 'pickupDelivery', 'machine', 'statusHistory', 'qrCode'])
             ->whereIn('order_status', ['received', 'washing', 'rinsing', 'drying', 'finish'])
             ->latest()
             ->get();
 
-        $deliveryOrders = Order::with(['customer.customerProfile', 'service', 'pickupDelivery', 'machine', 'statusHistory'])
+        $deliveryOrders = Order::with(['customer.customerProfile', 'service', 'pickupDelivery', 'machine', 'statusHistory', 'qrCode'])
             ->whereIn('order_status', ['finish', 'out_for_delivery'])
             ->latest()
             ->get();

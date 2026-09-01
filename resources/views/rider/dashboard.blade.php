@@ -141,42 +141,101 @@
 
             @forelse($pickupOrders as $order)
                 <div class="app-card p-5 border-l-4 border-l-amber-500 space-y-4 rider-order-card">
-                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 dark:dark:border-zinc-700 pb-3">
-                        <div class="flex items-center gap-2">
-                            <a href="{{ route('laundry.track', $order->qrCode?->qr_token ?? $order->order_number) }}" target="_blank" class="font-mono font-bold text-base text-blue-600 dark:text-blue-400 hover:underline">
-                                #{{ $order->order_number }}
-                            </a>
-                            <span class="px-2.5 py-0.5 rounded text-[10px] font-extrabold uppercase bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30">
-                                {{ strtoupper(str_replace('_', ' ', $order->order_status)) }}
-                            </span>
-                        </div>
-                        <span class="text-xs text-slate-500 dark:text-slate-400 font-mono">
-                            Requested: {{ $order->created_at->format('M d, Y • h:i A') }}
-                        </span>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                        <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-black/5 dark:border-white/5 space-y-1.5">
-                            <p class="text-slate-500 dark:text-slate-400 font-semibold uppercase text-[10px] tracking-wider">Customer Who Placed Order</p>
-                            <p class="font-extrabold text-slate-900 dark:text-white text-sm">{{ $order->customer->name ?? 'Store Walk-in Customer' }}</p>
-                            <div class="flex items-center gap-2 font-mono pt-1">
-                                <a href="tel:{{ $order->customer->phone ?? '' }}" class="px-2.5 py-1 rounded bg-blue-600 text-white font-bold text-[11px] hover:bg-blue-700 transition flex items-center gap-1">
-                                    Call {{ $order->customer->phone ?? 'Call' }}
-                                </a>
-                                @if($order->customer?->phone)
-                                    <a href="sms:{{ $order->customer->phone }}?body=Hi%20{{ urlencode($order->customer->name) }},%20I%20am%20your%20Hour%20Wash%20Rider%20regarding%20Order%20%23{{ $order->order_number }}" class="px-2.5 py-1 rounded bg-emerald-600 text-white font-bold text-[11px] hover:bg-emerald-700 transition flex items-center gap-1">
-                                        Text SMS
+                    <!-- Top Order Card Header (QR Thumbnail + Order # + Machine Badge + Actions + Price) -->
+                    <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 dark:border-zinc-700 pb-3">
+                        <div class="flex items-center gap-3">
+                            @if($order->qrCode?->qr_image_url)
+                                <img src="{{ asset($order->qrCode->qr_image_url) }}" alt="QR Code" class="w-12 h-12 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white p-0.5 shrink-0 shadow-sm">
+                            @else
+                                <div class="w-12 h-12 rounded-lg bg-slate-100 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 flex items-center justify-center font-mono text-[10px] font-bold text-slate-500 shrink-0">
+                                    QR
+                                </div>
+                            @endif
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <a href="{{ route('laundry.track', $order->qrCode?->qr_token ?? $order->order_number) }}" target="_blank" class="font-mono font-bold text-base text-blue-600 dark:text-blue-400 hover:underline">
+                                        #{{ $order->order_number }}
                                     </a>
-                                @endif
+                                    @if($order->machine)
+                                        <span class="px-2.5 py-0.5 rounded text-[10px] font-bold bg-purple-500/15 text-purple-700 dark:text-purple-300 border border-purple-500/30">
+                                            Machine: {{ $order->machine->machine_name }}
+                                        </span>
+                                    @else
+                                        <span class="px-2.5 py-0.5 rounded text-[10px] font-bold bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30">
+                                            No Machine Assigned
+                                        </span>
+                                    @endif
+                                </div>
+                                <p class="text-xs text-slate-600 dark:text-slate-400 font-semibold mt-0.5">
+                                    Customer: <span class="font-bold text-slate-900 dark:text-white">{{ $order->customer->name ?? 'Store Walk-in Customer' }}</span>
+                                    @if($order->customer?->phone)
+                                        <span class="font-mono text-slate-500 dark:text-slate-400">({{ $order->customer->phone }})</span>
+                                    @endif
+                                </p>
                             </div>
                         </div>
 
-                        <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-black/5 dark:border-white/5 space-y-1.5">
-                            <p class="text-slate-500 dark:text-slate-400 font-semibold uppercase text-[10px] tracking-wider">Pickup Address & Service Package</p>
-                            <p class="text-slate-900 dark:text-white font-semibold leading-snug">{{ $order->customer->customerProfile->address ?? 'Magallanes St., Orosite, Legazpi City' }}</p>
-                            <p class="text-slate-600 dark:text-slate-400">Package: <span class="text-slate-900 dark:text-white font-bold">{{ $order->service->name ?? 'Laundry Service' }}</span></p>
-                            @if($order->notes)
-                                <p class="text-[11px] text-amber-700 dark:text-amber-300 italic">"{{ $order->notes }}"</p>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <a href="{{ route('laundry.track', $order->qrCode?->qr_token ?? $order->order_number) }}" target="_blank" class="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 text-xs font-bold hover:bg-slate-100 dark:hover:bg-zinc-700 transition shadow-sm">
+                                Status Update
+                            </a>
+                            <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-900 dark:bg-zinc-100 text-white dark:text-slate-900 text-xs font-bold hover:bg-slate-800 transition shadow-sm">
+                                Receipt
+                            </a>
+                            <span class="px-2.5 py-1 rounded text-xs font-extrabold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
+                                {{ strtoupper($order->payment_status ?? 'UNPAID') }}
+                            </span>
+                            <span class="text-base font-black text-emerald-600 dark:text-emerald-400 font-mono pl-1">
+                                ₱{{ number_format($order->total_amount, 2) }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- 4-Column Grid: Service Package, Weight, Payment Status, Current Stage -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs bg-slate-50 dark:bg-[#18181B] p-3 rounded-lg border border-slate-200 dark:border-zinc-800">
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Service Package</span>
+                            <span class="font-bold text-slate-900 dark:text-white block mt-0.5">{{ $order->service->name ?? 'Laundry Service' }}</span>
+                            <span class="text-[10.5px] text-slate-500 dark:text-slate-400 font-mono">(₱{{ number_format($order->service->price ?? 250, 2) }}/load)</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Weight</span>
+                            <span class="font-extrabold text-slate-900 dark:text-white font-mono block mt-0.5">{{ $order->weight_kg ? $order->weight_kg . ' kg' : '7 kg' }}</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Payment Status</span>
+                            <span class="font-extrabold uppercase block mt-0.5 {{ $order->payment_status === 'paid' ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400' }}">
+                                {{ strtoupper($order->payment_status ?? 'UNPAID') }}
+                            </span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Current Stage</span>
+                            <span class="font-extrabold text-blue-600 dark:text-blue-400 uppercase block mt-0.5">{{ strtoupper(str_replace('_', ' ', $order->order_status)) }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Prominent CUSTOMER REMARKS / SPECIAL INSTRUCTIONS Box -->
+                    <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-800 space-y-1">
+                        <p class="text-[10px] font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider">CUSTOMER REMARKS / SPECIAL INSTRUCTIONS</p>
+                        <p class="text-xs font-semibold text-slate-900 dark:text-white italic">
+                            "{{ $order->notes ?: '[Store Detergent & Softener]' }}"
+                        </p>
+                    </div>
+
+                    <!-- Customer Address & Quick Call/SMS Actions -->
+                    <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Pickup Address</span>
+                            <p class="text-slate-900 dark:text-white font-semibold leading-snug mt-0.5">{{ $order->customer->customerProfile->address ?? 'Magallanes St., Orosite, Legazpi City' }}</p>
+                        </div>
+                        <div class="flex items-center gap-2 font-mono shrink-0">
+                            <a href="tel:{{ $order->customer->phone ?? '' }}" class="px-2.5 py-1.5 rounded bg-blue-600 text-white font-bold text-[11px] hover:bg-blue-700 transition flex items-center gap-1">
+                                Call {{ $order->customer->phone ?? 'Call' }}
+                            </a>
+                            @if($order->customer?->phone)
+                                <a href="sms:{{ $order->customer->phone }}?body=Hi%20{{ urlencode($order->customer->name) }},%20I%20am%20your%20Hour%20Wash%20Rider%20regarding%20Order%20%23{{ $order->order_number }}" class="px-2.5 py-1.5 rounded bg-emerald-600 text-white font-bold text-[11px] hover:bg-emerald-700 transition flex items-center gap-1">
+                                    Text SMS
+                                </a>
                             @endif
                         </div>
                     </div>
@@ -270,57 +329,102 @@
 
             @forelse($inShopOrders as $order)
                 <div class="app-card p-5 border-l-4 border-l-blue-500 space-y-4 rider-order-card">
-                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 dark:border-zinc-700 pb-3">
-                        <div class="flex items-center gap-2">
-                            <a href="{{ route('laundry.track', $order->qrCode?->qr_token ?? $order->order_number) }}" target="_blank" class="font-mono font-bold text-base text-blue-600 dark:text-blue-400 hover:underline">
-                                #{{ $order->order_number }}
-                            </a>
-                            <span class="px-2.5 py-0.5 rounded text-[10px] font-extrabold uppercase bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30">
-                                {{ strtoupper(str_replace('_', ' ', $order->order_status)) }}
-                            </span>
-                            @if($order->machine)
-                                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-purple-500/15 text-purple-700 dark:text-purple-300 border border-purple-500/30">
-                                    Machine: {{ $order->machine->machine_name }}
-                                </span>
+                    <!-- Top Order Card Header (QR Thumbnail + Order # + Machine Badge + Actions + Price) -->
+                    <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 dark:border-zinc-700 pb-3">
+                        <div class="flex items-center gap-3">
+                            @if($order->qrCode?->qr_image_url)
+                                <img src="{{ asset($order->qrCode->qr_image_url) }}" alt="QR Code" class="w-12 h-12 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white p-0.5 shrink-0 shadow-sm">
+                            @else
+                                <div class="w-12 h-12 rounded-lg bg-slate-100 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 flex items-center justify-center font-mono text-[10px] font-bold text-slate-500 shrink-0">
+                                    QR
+                                </div>
                             @endif
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <a href="{{ route('laundry.track', $order->qrCode?->qr_token ?? $order->order_number) }}" target="_blank" class="font-mono font-bold text-base text-blue-600 dark:text-blue-400 hover:underline">
+                                        #{{ $order->order_number }}
+                                    </a>
+                                    @if($order->machine)
+                                        <span class="px-2.5 py-0.5 rounded text-[10px] font-bold bg-purple-500/15 text-purple-700 dark:text-purple-300 border border-purple-500/30">
+                                            Machine: {{ $order->machine->machine_name }}
+                                        </span>
+                                    @else
+                                        <span class="px-2.5 py-0.5 rounded text-[10px] font-bold bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30">
+                                            No Machine Assigned
+                                        </span>
+                                    @endif
+                                </div>
+                                <p class="text-xs text-slate-600 dark:text-slate-400 font-semibold mt-0.5">
+                                    Customer: <span class="font-bold text-slate-900 dark:text-white">{{ $order->customer->name ?? 'Customer' }}</span>
+                                    @if($order->customer?->phone)
+                                        <span class="font-mono text-slate-500 dark:text-slate-400">({{ $order->customer->phone }})</span>
+                                    @endif
+                                </p>
+                            </div>
                         </div>
-                        <div class="text-right">
-                            <span class="text-xs text-slate-500 dark:text-slate-400 font-mono block">
-                                Received in Shop: {{ $order->updated_at->format('M d, Y • h:i A') }}
+
+                        <div class="flex flex-wrap items-center gap-2">
+                            <a href="{{ route('laundry.track', $order->qrCode?->qr_token ?? $order->order_number) }}" target="_blank" class="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 text-xs font-bold hover:bg-slate-100 dark:hover:bg-zinc-700 transition shadow-sm">
+                                Status Update
+                            </a>
+                            <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-900 dark:bg-zinc-100 text-white dark:text-slate-900 text-xs font-bold hover:bg-slate-800 transition shadow-sm">
+                                Receipt
+                            </a>
+                            <span class="px-2.5 py-1 rounded text-xs font-extrabold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
+                                {{ strtoupper($order->payment_status ?? 'UNPAID') }}
+                            </span>
+                            <span class="text-base font-black text-emerald-600 dark:text-emerald-400 font-mono pl-1">
+                                ₱{{ number_format($order->total_amount, 2) }}
                             </span>
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-                        <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-black/5 dark:border-white/5 space-y-1.5">
-                            <p class="text-slate-500 dark:text-slate-400 font-semibold uppercase text-[10px] tracking-wider">Customer Details</p>
-                            <p class="font-extrabold text-slate-900 dark:text-white text-sm">{{ $order->customer->name ?? 'Customer' }}</p>
-                            <div class="flex items-center gap-2 font-mono pt-1">
-                                <a href="tel:{{ $order->customer->phone ?? '' }}" class="px-2.5 py-1 rounded bg-blue-600 text-white font-bold text-[11px] hover:bg-blue-700 transition flex items-center gap-1">
-                                    Call {{ $order->customer->phone ?? 'Call' }}
+                    <!-- 4-Column Grid: Service Package, Weight, Payment Status, Current Stage -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs bg-slate-50 dark:bg-[#18181B] p-3 rounded-lg border border-slate-200 dark:border-zinc-800">
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Service Package</span>
+                            <span class="font-bold text-slate-900 dark:text-white block mt-0.5">{{ $order->service->name ?? 'Full Service with Pickup & Delivery' }}</span>
+                            <span class="text-[10.5px] text-slate-500 dark:text-slate-400 font-mono">(₱{{ number_format($order->service->price ?? 250, 2) }}/load)</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Weight</span>
+                            <span class="font-extrabold text-slate-900 dark:text-white font-mono block mt-0.5">{{ $order->weight_kg ? $order->weight_kg . ' kg' : '7 kg' }}</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Payment Status</span>
+                            <span class="font-extrabold uppercase block mt-0.5 {{ $order->payment_status === 'paid' ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400' }}">
+                                {{ strtoupper($order->payment_status ?? 'UNPAID') }}
+                            </span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Current Stage</span>
+                            <span class="font-extrabold text-blue-600 dark:text-blue-400 uppercase block mt-0.5">{{ strtoupper(str_replace('_', ' ', $order->order_status)) }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Prominent CUSTOMER REMARKS / SPECIAL INSTRUCTIONS Box -->
+                    <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-800 space-y-1">
+                        <p class="text-[10px] font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider">CUSTOMER REMARKS / SPECIAL INSTRUCTIONS</p>
+                        <p class="text-xs font-semibold text-slate-900 dark:text-white italic">
+                            "{{ $order->notes ?: '[Store Detergent & Softener]' }}"
+                        </p>
+                    </div>
+
+                    <!-- Customer Address & Quick Call/SMS Actions -->
+                    <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Delivery Destination</span>
+                            <p class="text-slate-900 dark:text-white font-semibold leading-snug mt-0.5">{{ $order->customer->customerProfile->address ?? 'Magallanes St., Orosite, Legazpi City' }}</p>
+                        </div>
+                        <div class="flex items-center gap-2 font-mono shrink-0">
+                            <a href="tel:{{ $order->customer->phone ?? '' }}" class="px-2.5 py-1.5 rounded bg-blue-600 text-white font-bold text-[11px] hover:bg-blue-700 transition flex items-center gap-1">
+                                Call {{ $order->customer->phone ?? 'Call' }}
+                            </a>
+                            @if($order->customer?->phone)
+                                <a href="sms:{{ $order->customer->phone }}?body=Hi%20{{ urlencode($order->customer->name) }},%20inquiring%20about%20Hour%20Wash%20Order%20%23{{ $order->order_number }}" class="px-2.5 py-1.5 rounded bg-emerald-600 text-white font-bold text-[11px] hover:bg-emerald-700 transition flex items-center gap-1">
+                                    Text SMS
                                 </a>
-                                @if($order->customer?->phone)
-                                    <a href="sms:{{ $order->customer->phone }}?body=Hi%20{{ urlencode($order->customer->name) }},%20inquiring%20about%20Hour%20Wash%20Order%20%23{{ $order->order_number }}" class="px-2.5 py-1 rounded bg-emerald-600 text-white font-bold text-[11px] hover:bg-emerald-700 transition flex items-center gap-1">
-                                        Text SMS
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-black/5 dark:border-white/5 space-y-1.5">
-                            <p class="text-slate-500 dark:text-slate-400 font-semibold uppercase text-[10px] tracking-wider">Delivery Destination</p>
-                            <p class="text-slate-900 dark:text-white font-semibold leading-snug">{{ $order->customer->customerProfile->address ?? 'Magallanes St., Orosite, Legazpi City' }}</p>
-                            <p class="text-slate-600 dark:text-slate-400">Package: <span class="text-slate-900 dark:text-white font-bold">{{ $order->service->name ?? 'Full Service with Pickup & Delivery' }}</span></p>
-                        </div>
-
-                        <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-black/5 dark:border-white/5 space-y-1.5">
-                            <p class="text-slate-500 dark:text-slate-400 font-semibold uppercase text-[10px] tracking-wider">Estimated Delivery Schedule</p>
-                            <p class="text-blue-600 dark:text-blue-400 font-extrabold text-xs font-mono">
-                                {{ $order->estimated_completion ? $order->estimated_completion->format('M d, Y • h:i A') : $order->created_at->addHours(2)->format('M d, Y • h:i A') }}
-                            </p>
-                            <p class="text-[10.5px] text-slate-500 dark:text-slate-400">
-                                Status: <span class="font-bold text-slate-900 dark:text-white capitalize">{{ str_replace('_', ' ', $order->order_status) }} in Store</span>
-                            </p>
+                            @endif
                         </div>
                     </div>
 
@@ -401,45 +505,102 @@
 
             @forelse($deliveryOrders as $order)
                 <div class="app-card p-5 border-l-4 border-l-cyan-500 space-y-4 rider-order-card">
-                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-200 dark:dark:border-zinc-700 pb-3">
-                        <div class="flex items-center gap-2">
-                            <a href="{{ route('laundry.track', $order->qrCode?->qr_token ?? $order->order_number) }}" target="_blank" class="font-mono font-bold text-base text-blue-600 dark:text-blue-400 hover:underline">
-                                #{{ $order->order_number }}
-                            </a>
-                            <span class="px-2.5 py-0.5 rounded text-[10px] font-extrabold uppercase bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border border-cyan-500/30">
-                                {{ strtoupper(str_replace('_', ' ', $order->order_status)) }}
-                            </span>
-                            @if($order->machine)
-                                <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30">
-                                    Machine: {{ $order->machine->machine_name }}
-                                </span>
+                    <!-- Top Order Card Header (QR Thumbnail + Order # + Machine Badge + Actions + Price) -->
+                    <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 dark:border-zinc-700 pb-3">
+                        <div class="flex items-center gap-3">
+                            @if($order->qrCode?->qr_image_url)
+                                <img src="{{ asset($order->qrCode->qr_image_url) }}" alt="QR Code" class="w-12 h-12 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white p-0.5 shrink-0 shadow-sm">
+                            @else
+                                <div class="w-12 h-12 rounded-lg bg-slate-100 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 flex items-center justify-center font-mono text-[10px] font-bold text-slate-500 shrink-0">
+                                    QR
+                                </div>
                             @endif
-                        </div>
-                        <span class="text-xs text-slate-500 dark:text-slate-400 font-mono">
-                            Dispatched: {{ $order->updated_at->format('M d, Y • h:i A') }}
-                        </span>
-                    </div>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                        <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-black/5 dark:border-white/5 space-y-1.5">
-                            <p class="text-slate-500 dark:text-slate-400 font-semibold uppercase text-[10px] tracking-wider">Customer Who Placed Order</p>
-                            <p class="font-extrabold text-slate-900 dark:text-white text-sm">{{ $order->customer->name ?? 'Customer' }}</p>
-                            <div class="flex items-center gap-2 font-mono pt-1">
-                                <a href="tel:{{ $order->customer->phone ?? '' }}" class="px-2.5 py-1 rounded bg-blue-600 text-white font-bold text-[11px] hover:bg-blue-700 transition flex items-center gap-1">
-                                    Call {{ $order->customer->phone ?? 'Call' }}
-                                </a>
-                                @if($order->customer?->phone)
-                                    <a href="sms:{{ $order->customer->phone }}?body=Hi%20{{ urlencode($order->customer->name) }},%20I%20am%20delivering%20your%20Hour%20Wash%20Order%20%23{{ $order->order_number }}" class="px-2.5 py-1 rounded bg-emerald-600 text-white font-bold text-[11px] hover:bg-emerald-700 transition flex items-center gap-1">
-                                        Text SMS
+                            <div>
+                                <div class="flex items-center gap-2">
+                                    <a href="{{ route('laundry.track', $order->qrCode?->qr_token ?? $order->order_number) }}" target="_blank" class="font-mono font-bold text-base text-blue-600 dark:text-blue-400 hover:underline">
+                                        #{{ $order->order_number }}
                                     </a>
-                                @endif
+                                    @if($order->machine)
+                                        <span class="px-2.5 py-0.5 rounded text-[10px] font-bold bg-purple-500/15 text-purple-700 dark:text-purple-300 border border-purple-500/30">
+                                            Machine: {{ $order->machine->machine_name }}
+                                        </span>
+                                    @else
+                                        <span class="px-2.5 py-0.5 rounded text-[10px] font-bold bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30">
+                                            No Machine Assigned
+                                        </span>
+                                    @endif
+                                </div>
+                                <p class="text-xs text-slate-600 dark:text-slate-400 font-semibold mt-0.5">
+                                    Customer: <span class="font-bold text-slate-900 dark:text-white">{{ $order->customer->name ?? 'Customer' }}</span>
+                                    @if($order->customer?->phone)
+                                        <span class="font-mono text-slate-500 dark:text-slate-400">({{ $order->customer->phone }})</span>
+                                    @endif
+                                </p>
                             </div>
                         </div>
 
-                        <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-black/5 dark:border-white/5 space-y-1.5">
-                            <p class="text-slate-500 dark:text-slate-400 font-semibold uppercase text-[10px] tracking-wider">Delivery Destination</p>
-                            <p class="text-slate-900 dark:text-white font-semibold leading-snug">{{ $order->customer->customerProfile->address ?? 'Magallanes St., Orosite, Legazpi City' }}</p>
-                            <p class="text-slate-600 dark:text-slate-400">Package: <span class="text-slate-900 dark:text-white font-bold">{{ $order->service->name ?? 'Laundry Service' }}</span></p>
+                        <div class="flex flex-wrap items-center gap-2">
+                            <a href="{{ route('laundry.track', $order->qrCode?->qr_token ?? $order->order_number) }}" target="_blank" class="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 text-xs font-bold hover:bg-slate-100 dark:hover:bg-zinc-700 transition shadow-sm">
+                                Status Update
+                            </a>
+                            <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-900 dark:bg-zinc-100 text-white dark:text-slate-900 text-xs font-bold hover:bg-slate-800 transition shadow-sm">
+                                Receipt
+                            </a>
+                            <span class="px-2.5 py-1 rounded text-xs font-extrabold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
+                                {{ strtoupper($order->payment_status ?? 'UNPAID') }}
+                            </span>
+                            <span class="text-base font-black text-emerald-600 dark:text-emerald-400 font-mono pl-1">
+                                ₱{{ number_format($order->total_amount, 2) }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- 4-Column Grid: Service Package, Weight, Payment Status, Current Stage -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs bg-slate-50 dark:bg-[#18181B] p-3 rounded-lg border border-slate-200 dark:border-zinc-800">
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Service Package</span>
+                            <span class="font-bold text-slate-900 dark:text-white block mt-0.5">{{ $order->service->name ?? 'Laundry Service' }}</span>
+                            <span class="text-[10.5px] text-slate-500 dark:text-slate-400 font-mono">(₱{{ number_format($order->service->price ?? 250, 2) }}/load)</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Weight</span>
+                            <span class="font-extrabold text-slate-900 dark:text-white font-mono block mt-0.5">{{ $order->weight_kg ? $order->weight_kg . ' kg' : '7 kg' }}</span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Payment Status</span>
+                            <span class="font-extrabold uppercase block mt-0.5 {{ $order->payment_status === 'paid' ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400' }}">
+                                {{ strtoupper($order->payment_status ?? 'UNPAID') }}
+                            </span>
+                        </div>
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Current Stage</span>
+                            <span class="font-extrabold text-blue-600 dark:text-blue-400 uppercase block mt-0.5">{{ strtoupper(str_replace('_', ' ', $order->order_status)) }}</span>
+                        </div>
+                    </div>
+
+                    <!-- Prominent CUSTOMER REMARKS / SPECIAL INSTRUCTIONS Box -->
+                    <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-800 space-y-1">
+                        <p class="text-[10px] font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider">CUSTOMER REMARKS / SPECIAL INSTRUCTIONS</p>
+                        <p class="text-xs font-semibold text-slate-900 dark:text-white italic">
+                            "{{ $order->notes ?: '[Store Detergent & Softener]' }}"
+                        </p>
+                    </div>
+
+                    <!-- Customer Address & Quick Call/SMS Actions -->
+                    <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
+                        <div>
+                            <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Delivery Destination</span>
+                            <p class="text-slate-900 dark:text-white font-semibold leading-snug mt-0.5">{{ $order->customer->customerProfile->address ?? 'Magallanes St., Orosite, Legazpi City' }}</p>
+                        </div>
+                        <div class="flex items-center gap-2 font-mono shrink-0">
+                            <a href="tel:{{ $order->customer->phone ?? '' }}" class="px-2.5 py-1.5 rounded bg-blue-600 text-white font-bold text-[11px] hover:bg-blue-700 transition flex items-center gap-1">
+                                Call {{ $order->customer->phone ?? 'Call' }}
+                            </a>
+                            @if($order->customer?->phone)
+                                <a href="sms:{{ $order->customer->phone }}?body=Hi%20{{ urlencode($order->customer->name) }},%20I%20am%20delivering%20your%20Hour%20Wash%20Order%20%23{{ $order->order_number }}" class="px-2.5 py-1.5 rounded bg-emerald-600 text-white font-bold text-[11px] hover:bg-emerald-700 transition flex items-center gap-1">
+                                    Text SMS
+                                </a>
+                            @endif
                         </div>
                     </div>
 
