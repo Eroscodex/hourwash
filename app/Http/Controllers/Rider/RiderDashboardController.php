@@ -49,7 +49,7 @@ class RiderDashboardController extends Controller
             ->get();
 
         $deliveryOrders = Order::with(['customer.customerProfile', 'service', 'pickupDelivery', 'machine', 'statusHistory'])
-            ->where('order_status', 'out_for_delivery')
+            ->whereIn('order_status', ['finish', 'out_for_delivery'])
             ->latest()
             ->get();
 
@@ -103,7 +103,7 @@ class RiderDashboardController extends Controller
     public function updateStatus(Request $request, Order $order)
     {
         $validated = $request->validate([
-            'status' => 'required|string|in:received,completed',
+            'status' => 'required|string|in:out_for_pickup,received,out_for_delivery,completed',
             'proof_image' => 'nullable|image|mimes:jpeg,png,jpg,webp,heic|max:10240',
         ]);
 
@@ -118,12 +118,28 @@ class RiderDashboardController extends Controller
 
             $order->save();
 
+            // Status Note & SMS Message mapping
+            $statusNotes = [
+                'out_for_pickup' => 'Rider is out for pickup. Heading to customer location.',
+                'received' => 'Laundry picked up by rider and received at store.',
+                'out_for_delivery' => 'Clean laundry is out for delivery with rider.',
+                'completed' => 'Clean laundry delivered to customer by rider.',
+            ];
+
+            $customerName = $order->customer?->name ?? 'Customer';
+            $smsMessages = [
+                'out_for_pickup' => "Hi {$customerName}! Our rider is now OUT FOR PICKUP and heading to your location for Order #{$order->order_number}.",
+                'received' => "Order #{$order->order_number} has been collected by our rider and received at Hour Wash store.",
+                'out_for_delivery' => "Good news! Order #{$order->order_number} is OUT FOR DELIVERY and heading to your doorstep.",
+                'completed' => "Order #{$order->order_number} has been safely DELIVERED! Thank you for choosing Hour Wash Laundry.",
+            ];
+
             // Record status history entry safely
             try {
                 $order->statusHistory()->create([
                     'status' => $newStatus,
                     'changed_by' => auth()->id(),
-                    'notes' => $newStatus === 'received' ? 'Laundry picked up by rider and received at store.' : 'Clean laundry delivered to customer by rider.',
+                    'notes' => $statusNotes[$newStatus] ?? 'Status updated by rider.',
                 ]);
             } catch (\Throwable $e) {
                 Log::warning('Rider status history log notice: '.$e->getMessage());
@@ -161,12 +177,16 @@ class RiderDashboardController extends Controller
                 'rider_phone' => $rider?->phone ?? '09100317744',
             ];
 
-            if ($newStatus === 'received') {
+            if ($newStatus === 'out_for_pickup') {
+                $pickupDeliveryData['status'] = 'heading_to_pickup';
+            } elseif ($newStatus === 'received') {
                 $pickupDeliveryData['status'] = 'picked_up';
                 $pickupDeliveryData['picked_up_at'] = now();
                 if ($proofPath) {
                     $pickupDeliveryData['pickup_proof_image'] = $proofPath;
                 }
+            } elseif ($newStatus === 'out_for_delivery') {
+                $pickupDeliveryData['status'] = 'out_for_delivery';
             } elseif ($newStatus === 'completed') {
                 $pickupDeliveryData['status'] = 'delivered';
                 $pickupDeliveryData['delivered_at'] = now();
@@ -184,21 +204,26 @@ class RiderDashboardController extends Controller
             try {
                 SmsNotificationService::sendOrderStatusSms(
                     $order,
-                    $newStatus === 'received' ? 'Laundry collected by rider & received at store.' : 'Laundry safely delivered to your doorstep.'
+                    $smsMessages[$newStatus] ?? 'Order status updated by rider.'
                 );
             } catch (\Throwable $e) {
                 Log::warning('Rider SMS notice: '.$e->getMessage());
             }
 
-            $message = $newStatus === 'received'
-                ? "Order #{$order->order_number} marked as RECEIVED! Customer notified via SMS."
-                : "Order #{$order->order_number} marked as DELIVERED & COMPLETED! Customer notified via SMS.";
+            $statusLabels = [
+                'out_for_pickup' => 'OUT FOR PICKUP',
+                'received' => 'RECEIVED & IN SHOP',
+                'out_for_delivery' => 'OUT FOR DELIVERY',
+                'completed' => 'DELIVERED & COMPLETED',
+            ];
+
+            $message = "Order #{$order->order_number} updated to ".($statusLabels[$newStatus] ?? strtoupper($newStatus)).'! Customer notified via SMS.';
 
             return redirect()->route('rider.dashboard')->with('success', $message);
         } catch (\Throwable $e) {
             Log::error('Rider updateStatus error: '.$e->getMessage(), ['trace' => $e->getTraceAsString()]);
 
-            return redirect()->route('rider.dashboard')->with('success', "Order #{$order->order_number} marked as ".strtoupper($newStatus).'!');
+            return redirect()->route('rider.dashboard')->with('success', "Order #{$order->order_number} status updated!");
         }
     }
 }

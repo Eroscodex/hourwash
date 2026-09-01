@@ -464,7 +464,7 @@
                             </span>
                         </div>
                         <p class="text-slate-600 dark:text-slate-400 text-[11px] mt-0.5">
-                            Order #{{ $order->order_number }} received at Hour Wash Legazpi branch.
+                            Order #{{ $order->order_number }} received at Hour Wash Laundry Shop System.
                         </p>
                     </div>
                 @endforelse
