@@ -38,22 +38,28 @@ class Machine extends Model
     public function getRemainingMinutesAttribute($value)
     {
         if (in_array($this->status, ['washing', 'rinsing', 'drying'])) {
-            $ord = $this->displayOrder;
-            $baseMins = ($value !== null && $value > 0) ? (int) $value : match ($this->status) {
-                'washing' => $ord?->service?->estimated_minutes ?? 30,
+            $maxCycleDuration = match ($this->status) {
+                'washing' => 30,
                 'rinsing' => 15,
                 'drying' => 35,
                 default => 30,
             };
+
+            // Cap base minutes to standard single machine cycle duration (max 40 mins)
+            $baseMins = ($value !== null && $value > 0 && $value <= 40)
+                ? (int) $value
+                : $maxCycleDuration;
 
             $lastUpdate = $this->last_status_update ?? $this->updated_at;
             if ($lastUpdate) {
                 $lastUpdateCarbon = Carbon::parse($lastUpdate);
                 if ($lastUpdateCarbon->isPast()) {
                     $elapsed = (int) $lastUpdateCarbon->diffInMinutes(now());
-                    if ($elapsed > ($baseMins + 120)) {
-                        return min($baseMins, 25);
+
+                    if ($elapsed >= $baseMins) {
+                        return 2;
                     }
+
                     $remaining = $baseMins - $elapsed;
 
                     return max(1, min($baseMins, $remaining));

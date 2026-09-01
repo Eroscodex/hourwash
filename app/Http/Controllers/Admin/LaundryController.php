@@ -85,7 +85,7 @@ class LaundryController extends Controller
                         Machine::where('id', $order->machine_id)->update([
                             'current_order_id' => $order->id,
                             'status' => 'washing',
-                            'remaining_minutes' => $order->service?->estimatedDurationMinutes() ?? 30,
+                            'remaining_minutes' => 30,
                             'last_status_update' => now(),
                         ]);
                     } elseif ($statusInput === 'rinsing') {
