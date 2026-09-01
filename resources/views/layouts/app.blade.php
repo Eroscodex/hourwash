@@ -383,7 +383,7 @@
                 </div>
             </header>
 
-            <main class="flex-1 p-4 md:p-8 max-w-7xl w-full mx-auto">
+            <main id="main-content-area" class="flex-1 p-4 md:p-8 max-w-7xl w-full mx-auto">
                 <x-popup-alert />
                 {{ $slot }}
             </main>
@@ -550,7 +550,7 @@
             });
         }
 
-        // Automatic Real-Time Live Auto-Reload Feature
+        // Seamless Real-Time Live Background AJAX Sync (NO Hard Page Reloads!)
         let isUserTyping = false;
         document.addEventListener('input', function(e) {
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') {
@@ -560,7 +560,7 @@
             }
         });
 
-        const autoReloadPaths = [
+        const syncPaths = [
             '/dashboard',
             '/admin',
             '/staff',
@@ -570,17 +570,38 @@
         ];
 
         const currentPath = window.location.pathname;
-        const isOperationalPage = autoReloadPaths.some(function(p) { return currentPath.includes(p) || currentPath === '/'; });
+        const isOperationalPage = syncPaths.some(function(p) { return currentPath.includes(p) || currentPath === '/'; });
 
         if (isOperationalPage) {
             setInterval(function() {
                 const isChatOpen = document.getElementById('chat-window') && !document.getElementById('chat-window').classList.contains('hidden');
                 const isModalOpen = document.querySelector('.modal:not(.hidden), [id$="modal"]:not(.hidden), [class*="modal"]:not(.hidden)');
                 
-                if (!isUserTyping && !isChatOpen && !isModalOpen && !document.hidden) {
-                    window.location.reload();
+                if (isUserTyping || isChatOpen || isModalOpen || document.hidden) {
+                    return;
                 }
-            }, 7000);
+
+                fetch(window.location.href, {
+                    headers: { 'X-Requested-With': 'XMLHttpRequest' }
+                })
+                .then(function(response) { return response.text(); })
+                .then(function(html) {
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const newMain = doc.getElementById('main-content-area');
+                    const currentMain = document.getElementById('main-content-area');
+
+                    if (newMain && currentMain) {
+                        const newHtml = newMain.innerHTML;
+                        if (currentMain.innerHTML !== newHtml) {
+                            const scrollY = window.scrollY;
+                            currentMain.innerHTML = newHtml;
+                            window.scrollTo(0, scrollY);
+                        }
+                    }
+                })
+                .catch(function(err) { /* Silent background sync check */ });
+            }, 4000); // Fast 4-second seamless background AJAX poll
         }
     });
 

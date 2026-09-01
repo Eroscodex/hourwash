@@ -508,12 +508,28 @@
         }
     });
 
-    // Automatic Live Real-Time Order Tracking Reload
+    // Seamless Real-Time Live Order Tracking AJAX Sync (NO Hard Page Reload!)
     setInterval(function() {
-        if (!document.hidden) {
-            window.location.reload();
-        }
-    }, 6000);
+        if (document.hidden) return;
+        fetch(window.location.href, {
+            headers: { 'X-Requested-With': 'XMLHttpRequest' }
+        })
+        .then(function(res) { return res.text(); })
+        .then(function(html) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const newMain = doc.getElementById('main-content-area');
+            const currentMain = document.getElementById('main-content-area');
+            if (newMain && currentMain) {
+                if (currentMain.innerHTML !== newMain.innerHTML) {
+                    const scrollY = window.scrollY;
+                    currentMain.innerHTML = newMain.innerHTML;
+                    window.scrollTo(0, scrollY);
+                }
+            }
+        })
+        .catch(function(e) { /* Silent tracking sync check */ });
+    }, 4000);
 </script>
 @endif
 
