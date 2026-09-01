@@ -281,75 +281,75 @@
 
                 <!-- Service Package Filter Pill Tabs -->
                 <div class="flex flex-wrap items-center gap-1.5 bg-slate-200/60 dark:bg-zinc-800/60 p-1 rounded-lg text-xs">
-                    <button type="button" onclick="switchStaffPipelineService('all', this)" class="staff-pipeline-tab-btn px-2.5 py-1 rounded-md font-bold transition bg-blue-600 text-white shadow-sm">
+                    <button type="button" id="staff-tab-btn-all" onclick="switchStaffPipelineService('all', this)" class="staff-pipeline-tab-btn px-2.5 py-1 rounded-md font-bold transition bg-blue-600 text-white shadow-sm">
                         All Services
                     </button>
-                    <button type="button" onclick="switchStaffPipelineService('wash', this)" class="staff-pipeline-tab-btn px-2.5 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition">
+                    <button type="button" id="staff-tab-btn-wash" onclick="switchStaffPipelineService('wash', this)" class="staff-pipeline-tab-btn px-2.5 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition">
                         Wash Only
                     </button>
-                    <button type="button" onclick="switchStaffPipelineService('dry', this)" class="staff-pipeline-tab-btn px-2.5 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition">
+                    <button type="button" id="staff-tab-btn-dry" onclick="switchStaffPipelineService('dry', this)" class="staff-pipeline-tab-btn px-2.5 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition">
                         Dry Only
                     </button>
-                    <button type="button" onclick="switchStaffPipelineService('fold', this)" class="staff-pipeline-tab-btn px-2.5 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition">
+                    <button type="button" id="staff-tab-btn-fold" onclick="switchStaffPipelineService('fold', this)" class="staff-pipeline-tab-btn px-2.5 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition">
                         Fold Only
                     </button>
-                    <button type="button" onclick="switchStaffPipelineService('self_service', this)" class="staff-pipeline-tab-btn px-2.5 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition">
+                    <button type="button" id="staff-tab-btn-self_service" onclick="switchStaffPipelineService('self_service', this)" class="staff-pipeline-tab-btn px-2.5 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition">
                         Self-Service
                     </button>
-                    <button type="button" onclick="switchStaffPipelineService('full_service', this)" class="staff-pipeline-tab-btn px-2.5 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition">
+                    <button type="button" id="staff-tab-btn-full_service" onclick="switchStaffPipelineService('full_service', this)" class="staff-pipeline-tab-btn px-2.5 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition">
                         Full-Service
                     </button>
-                    <button type="button" onclick="switchStaffPipelineService('pickup_delivery', this)" class="staff-pipeline-tab-btn px-2.5 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition">
+                    <button type="button" id="staff-tab-btn-pickup_delivery" onclick="switchStaffPipelineService('pickup_delivery', this)" class="staff-pipeline-tab-btn px-2.5 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition">
                         Pickup & Delivery
                     </button>
                 </div>
             </div>
 
             <!-- 8-Stage Pipeline Cards -->
-            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3">
-                <div class="card-accent-blue p-3 flex flex-col justify-between shadow-sm">
+            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-3" id="staff-stage-cards-container">
+                <div class="card-accent-blue p-3 flex flex-col justify-between shadow-sm transition-all" id="staff-stage-card-pending">
                     <span class="text-[9.5px] font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider block truncate">1. PENDING</span>
                     <span id="staff-stage-count-pending" class="text-xl font-bold text-slate-900 dark:text-white mt-1">{{ $pipelineDataStaff['all']['pending'] }}</span>
                     <p class="text-[9px] text-slate-500 dark:text-slate-400 truncate mt-0.5">Order Placed</p>
                 </div>
 
-                <div class="card-accent-blue p-3 flex flex-col justify-between shadow-sm">
+                <div class="card-accent-blue p-3 flex flex-col justify-between shadow-sm transition-all" id="staff-stage-card-pickup">
                     <span class="text-[9.5px] font-extrabold text-sky-600 dark:text-sky-400 uppercase tracking-wider block truncate">2. PICKUP</span>
                     <span id="staff-stage-count-pickup" class="text-xl font-bold text-sky-600 dark:text-sky-400 mt-1">{{ $pipelineDataStaff['all']['pickup'] }}</span>
                     <p class="text-[9px] text-slate-500 dark:text-slate-400 truncate mt-0.5">Out for Pickup</p>
                 </div>
 
-                <div class="card-accent-blue p-3 flex flex-col justify-between shadow-sm">
+                <div class="card-accent-blue p-3 flex flex-col justify-between shadow-sm transition-all" id="staff-stage-card-received">
                     <span class="text-[9.5px] font-extrabold text-blue-600 dark:text-blue-400 uppercase tracking-wider block truncate">3. RECEIVED</span>
                     <span id="staff-stage-count-received" class="text-xl font-bold text-blue-600 dark:text-blue-400 mt-1">{{ $pipelineDataStaff['all']['received'] }}</span>
                     <p class="text-[9px] text-slate-500 dark:text-slate-400 truncate mt-0.5">Store Received</p>
                 </div>
 
-                <div class="card-accent-blue p-3 flex flex-col justify-between shadow-sm">
+                <div class="card-accent-blue p-3 flex flex-col justify-between shadow-sm transition-all" id="staff-stage-card-washing">
                     <span class="text-[9.5px] font-extrabold text-teal-600 dark:text-teal-400 uppercase tracking-wider block truncate">4. WASHING</span>
                     <span id="staff-stage-count-washing" class="text-xl font-bold text-teal-600 dark:text-teal-400 mt-1">{{ $pipelineDataStaff['all']['washing'] }}</span>
                     <p class="text-[9px] text-slate-500 dark:text-slate-400 truncate mt-0.5">Wash & Rinse</p>
                 </div>
 
-                <div class="card-accent-purple p-3 flex flex-col justify-between shadow-sm">
+                <div class="card-accent-purple p-3 flex flex-col justify-between shadow-sm transition-all" id="staff-stage-card-drying">
                     <span class="text-[9.5px] font-extrabold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider block truncate">5. DRYING</span>
                     <span id="staff-stage-count-drying" class="text-xl font-bold text-indigo-600 dark:text-indigo-400 mt-1">{{ $pipelineDataStaff['all']['drying'] }}</span>
                     <p class="text-[9px] text-slate-500 dark:text-slate-400 truncate mt-0.5">Dryer Units</p>
                 </div>
 
-                <div class="card-accent-amber p-3 flex flex-col justify-between shadow-sm">
+                <div class="card-accent-amber p-3 flex flex-col justify-between shadow-sm transition-all" id="staff-stage-card-finish">
                     <span class="text-[9.5px] font-extrabold text-amber-600 dark:text-amber-400 uppercase tracking-wider block truncate">6. FINISH</span>
                     <span id="staff-stage-count-finish" class="text-xl font-bold text-amber-600 dark:text-amber-400 mt-1">{{ $pipelineDataStaff['all']['finish'] }}</span>
                     <p class="text-[9px] text-slate-500 dark:text-slate-400 truncate mt-0.5">Folding & Ready</p>
                 </div>
 
-                <div class="card-accent-purple p-3 flex flex-col justify-between shadow-sm">
+                <div class="card-accent-purple p-3 flex flex-col justify-between shadow-sm transition-all" id="staff-stage-card-delivery">
                     <span class="text-[9.5px] font-extrabold text-purple-600 dark:text-purple-400 uppercase tracking-wider block truncate">7. DELIVERY</span>
                     <span id="staff-stage-count-delivery" class="text-xl font-bold text-purple-600 dark:text-purple-400 mt-1">{{ $pipelineDataStaff['all']['delivery'] }}</span>
                     <p class="text-[9px] text-slate-500 dark:text-slate-400 truncate mt-0.5">Out for Delivery</p>
                 </div>
 
-                <div class="card-accent-emerald p-3 flex flex-col justify-between shadow-sm">
+                <div class="card-accent-emerald p-3 flex flex-col justify-between shadow-sm transition-all" id="staff-stage-card-completed">
                     <span class="text-[9.5px] font-extrabold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block truncate">8. COMPLETED</span>
                     <span id="staff-stage-count-completed" class="text-xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">{{ $pipelineDataStaff['all']['completed'] }}</span>
                     <p class="text-[9px] text-slate-500 dark:text-slate-400 truncate mt-0.5">Fulfilled & Done</p>
@@ -358,7 +358,7 @@
 
             <!-- Active Service Packages Breakdown Cards Grid -->
             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 pt-1">
-                <div class="p-3 rounded-lg bg-blue-500/10 border border-blue-500/30 flex items-center justify-between">
+                <div onclick="switchStaffPipelineService('wash', document.getElementById('staff-tab-btn-wash'))" class="p-3 rounded-lg bg-blue-500/10 border border-blue-500/30 flex items-center justify-between cursor-pointer hover:bg-blue-500/20 transition">
                     <div>
                         <span class="text-[10px] font-extrabold text-blue-700 dark:text-blue-300 uppercase block">Wash Only</span>
                         <span class="text-xs text-slate-500 dark:text-slate-400">35m Wash Cycle</span>
@@ -366,7 +366,7 @@
                     <span class="text-lg font-black text-blue-600 dark:text-blue-400 font-mono">{{ $washOnlyOrders->whereNotIn('order_status', ['completed', 'cancelled'])->count() }}</span>
                 </div>
 
-                <div class="p-3 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-between">
+                <div onclick="switchStaffPipelineService('dry', document.getElementById('staff-tab-btn-dry'))" class="p-3 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-between cursor-pointer hover:bg-indigo-500/20 transition">
                     <div>
                         <span class="text-[10px] font-extrabold text-indigo-700 dark:text-indigo-300 uppercase block">Dry Only</span>
                         <span class="text-xs text-slate-500 dark:text-slate-400">40m Dryer Cycle</span>
@@ -374,7 +374,7 @@
                     <span class="text-lg font-black text-indigo-600 dark:text-indigo-400 font-mono">{{ $dryOnlyOrders->whereNotIn('order_status', ['completed', 'cancelled'])->count() }}</span>
                 </div>
 
-                <div class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-between">
+                <div onclick="switchStaffPipelineService('fold', document.getElementById('staff-tab-btn-fold'))" class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-between cursor-pointer hover:bg-amber-500/20 transition">
                     <div>
                         <span class="text-[10px] font-extrabold text-amber-700 dark:text-amber-300 uppercase block">Fold Only</span>
                         <span class="text-xs text-slate-500 dark:text-slate-400">15m Folding</span>
@@ -382,7 +382,7 @@
                     <span class="text-lg font-black text-amber-600 dark:text-amber-400 font-mono">{{ $foldOnlyOrders->whereNotIn('order_status', ['completed', 'cancelled'])->count() }}</span>
                 </div>
 
-                <div class="p-3 rounded-lg bg-teal-500/10 border border-teal-500/30 flex items-center justify-between">
+                <div onclick="switchStaffPipelineService('self_service', document.getElementById('staff-tab-btn-self_service'))" class="p-3 rounded-lg bg-teal-500/10 border border-teal-500/30 flex items-center justify-between cursor-pointer hover:bg-teal-500/20 transition">
                     <div>
                         <span class="text-[10px] font-extrabold text-teal-700 dark:text-teal-300 uppercase block">Self-Service</span>
                         <span class="text-xs text-slate-500 dark:text-slate-400">75m Wash + Dry</span>
@@ -390,7 +390,7 @@
                     <span class="text-lg font-black text-teal-600 dark:text-teal-400 font-mono">{{ $washDryOrders->whereNotIn('order_status', ['completed', 'cancelled'])->count() }}</span>
                 </div>
 
-                <div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30 flex items-center justify-between">
+                <div onclick="switchStaffPipelineService('full_service', document.getElementById('staff-tab-btn-full_service'))" class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30 flex items-center justify-between cursor-pointer hover:bg-purple-500/20 transition">
                     <div>
                         <span class="text-[10px] font-extrabold text-purple-700 dark:text-purple-300 uppercase block">Full-Service</span>
                         <span class="text-xs text-slate-500 dark:text-slate-400">90m Wash Dry Fold</span>
@@ -398,7 +398,7 @@
                     <span class="text-lg font-black text-purple-600 dark:text-purple-400 font-mono">{{ $fullServiceOrders->whereNotIn('order_status', ['completed', 'cancelled'])->count() }}</span>
                 </div>
 
-                <div class="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between">
+                <div onclick="switchStaffPipelineService('pickup_delivery', document.getElementById('staff-tab-btn-pickup_delivery'))" class="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between cursor-pointer hover:bg-emerald-500/20 transition">
                     <div>
                         <span class="text-[10px] font-extrabold text-emerald-700 dark:text-emerald-300 uppercase block">Pickup & Delivery</span>
                         <span class="text-xs text-slate-500 dark:text-slate-400">120m Doorstep</span>
@@ -410,6 +410,15 @@
 
         <script>
             const pipelineServiceDataStaff = @json($pipelineDataStaff);
+            const staffServiceStageMap = {
+                'all':             ['pending', 'pickup', 'received', 'washing', 'drying', 'finish', 'delivery', 'completed'],
+                'wash':            ['pending', 'washing', 'finish', 'completed'],
+                'dry':             ['pending', 'drying', 'finish', 'completed'],
+                'fold':            ['pending', 'finish', 'completed'],
+                'self_service':    ['pending', 'washing', 'drying', 'finish', 'completed'],
+                'full_service':    ['pending', 'washing', 'drying', 'finish', 'completed'],
+                'pickup_delivery': ['pending', 'pickup', 'received', 'washing', 'drying', 'finish', 'delivery', 'completed']
+            };
 
             function switchStaffPipelineService(serviceKey, btnElement) {
                 document.querySelectorAll('.staff-pipeline-tab-btn').forEach(btn => {
@@ -422,13 +431,24 @@
                 }
 
                 const data = pipelineServiceDataStaff[serviceKey] || pipelineServiceDataStaff['all'];
+                const activeStages = staffServiceStageMap[serviceKey] || staffServiceStageMap['all'];
+                const allStageKeys = ['pending', 'pickup', 'received', 'washing', 'drying', 'finish', 'delivery', 'completed'];
 
-                for (const [stage, count] of Object.entries(data)) {
-                    const el = document.getElementById('staff-stage-count-' + stage);
-                    if (el) {
-                        el.textContent = count;
+                allStageKeys.forEach(stage => {
+                    const countEl = document.getElementById('staff-stage-count-' + stage);
+                    if (countEl) {
+                        countEl.textContent = data[stage] !== undefined ? data[stage] : 0;
                     }
-                }
+
+                    const cardEl = document.getElementById('staff-stage-card-' + stage);
+                    if (cardEl) {
+                        if (activeStages.includes(stage)) {
+                            cardEl.style.display = '';
+                        } else {
+                            cardEl.style.display = 'none';
+                        }
+                    }
+                });
             }
         </script>
 
