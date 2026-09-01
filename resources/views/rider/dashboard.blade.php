@@ -176,12 +176,6 @@
                         </div>
 
                         <div class="flex flex-wrap items-center gap-2">
-                            <a href="{{ route('laundry.track', $order->qrCode?->qr_token ?? $order->order_number) }}" target="_blank" class="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 text-xs font-bold hover:bg-slate-100 dark:hover:bg-zinc-700 transition shadow-sm">
-                                Status Update
-                            </a>
-                            <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-900 dark:bg-zinc-100 text-white dark:text-slate-900 text-xs font-bold hover:bg-slate-800 transition shadow-sm">
-                                Receipt
-                            </a>
                             <span class="px-2.5 py-1 rounded text-xs font-extrabold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
                                 {{ strtoupper($order->payment_status ?? 'UNPAID') }}
                             </span>
@@ -364,12 +358,6 @@
                         </div>
 
                         <div class="flex flex-wrap items-center gap-2">
-                            <a href="{{ route('laundry.track', $order->qrCode?->qr_token ?? $order->order_number) }}" target="_blank" class="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 text-xs font-bold hover:bg-slate-100 dark:hover:bg-zinc-700 transition shadow-sm">
-                                Status Update
-                            </a>
-                            <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-900 dark:bg-zinc-100 text-white dark:text-slate-900 text-xs font-bold hover:bg-slate-800 transition shadow-sm">
-                                Receipt
-                            </a>
                             <span class="px-2.5 py-1 rounded text-xs font-extrabold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
                                 {{ strtoupper($order->payment_status ?? 'UNPAID') }}
                             </span>
@@ -540,12 +528,6 @@
                         </div>
 
                         <div class="flex flex-wrap items-center gap-2">
-                            <a href="{{ route('laundry.track', $order->qrCode?->qr_token ?? $order->order_number) }}" target="_blank" class="px-3 py-1.5 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 text-xs font-bold hover:bg-slate-100 dark:hover:bg-zinc-700 transition shadow-sm">
-                                Status Update
-                            </a>
-                            <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-900 dark:bg-zinc-100 text-white dark:text-slate-900 text-xs font-bold hover:bg-slate-800 transition shadow-sm">
-                                Receipt
-                            </a>
                             <span class="px-2.5 py-1 rounded text-xs font-extrabold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
                                 {{ strtoupper($order->payment_status ?? 'UNPAID') }}
                             </span>
