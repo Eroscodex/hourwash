@@ -80,7 +80,7 @@
             <div class="flex items-center justify-between border-b border-slate-200 dark:border-zinc-800 pb-3">
                 <div class="flex items-center gap-2">
                     <h2 class="text-sm font-bold text-slate-900 dark:text-white uppercase tracking-wider">
-                        💵 Rider Earnings & COD Remittance Summary
+                        Rider Earnings & COD Remittance Summary
                     </h2>
                     <span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 uppercase">
                         TODAY'S FINANCIALS
