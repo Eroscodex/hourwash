@@ -562,14 +562,11 @@
 
         const autoReloadPaths = [
             '/dashboard',
-            '/admin/dashboard',
-            '/staff/dashboard',
-            '/rider/dashboard',
-            '/admin/laundry',
-            '/staff/laundry',
-            '/admin/machines',
-            '/staff/machines',
-            '/my-orders'
+            '/admin',
+            '/staff',
+            '/rider',
+            '/my-orders',
+            '/frequent-user-card'
         ];
 
         const currentPath = window.location.pathname;
