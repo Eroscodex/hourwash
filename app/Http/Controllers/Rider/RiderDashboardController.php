@@ -57,14 +57,10 @@ class RiderDashboardController extends Controller
             ->whereDate('completed_at', now()->today())
             ->get();
 
-        $allActiveOrders = Order::whereIn('order_status', ['pending', 'out_for_pickup', 'received', 'washing', 'rinsing', 'drying', 'finish', 'out_for_delivery'])
-            ->where(function ($q) {
-                $q->whereIn('pickup_type', ['pickup_delivery', 'delivery', 'pickup'])
-                    ->orWhereNull('pickup_type');
-            })
-            ->get();
-
         $completedTodayCount = $completedTodayOrders->count();
+
+        // Active Orders across Pickup, In-Shop, and Delivery queues
+        $allActiveOrders = $pickupOrders->concat($inShopOrders)->concat($deliveryOrders)->unique('id');
 
         // Delivery fee earnings: ₱50 per completed or active dispatch
         $completedFees = $completedTodayOrders->sum(function ($ord) {
@@ -72,15 +68,17 @@ class RiderDashboardController extends Controller
         });
 
         $activeFees = $allActiveOrders->count() * 50.00;
-        $todayDeliveryFees = $completedFees > 0 ? $completedFees : $activeFees;
+        $todayDeliveryFees = ($completedFees + $activeFees) > 0 ? ($completedFees + $activeFees) : 0.00;
 
         // COD Cash Collected today for completed paid orders
         $todayCodCollected = $completedTodayOrders->where('payment_status', 'paid')->sum('total_amount');
 
-        // Pending COD to Collect for active unpaid orders
-        $pendingCodToCollect = $allActiveOrders->where('payment_status', 'unpaid')->sum('total_amount');
+        // Pending COD to Collect for all active unpaid orders
+        $pendingCodToCollect = Order::whereNotIn('order_status', ['completed', 'cancelled'])
+            ->where('payment_status', 'unpaid')
+            ->sum('total_amount');
 
-        $totalActiveTasks = $pickupOrders->count() + $inShopOrders->count() + $deliveryOrders->count();
+        $totalActiveTasks = $allActiveOrders->count();
 
         return view('rider.dashboard', compact(
             'user',
