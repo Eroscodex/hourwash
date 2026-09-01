@@ -12,6 +12,8 @@
         @else
             <button disabled class="opacity-65 bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30 px-4 py-2 rounded-lg text-xs font-bold cursor-not-allowed inline-flex items-center justify-center gap-1.5 w-full sm:w-auto shrink-0">
                 🚫 Store Closed Today (Bookings Disabled)
+            </button>
+        @endif
     </div>
 
     <!-- Filter Tabs for Customer History Management -->
