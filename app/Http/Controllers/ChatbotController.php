@@ -99,7 +99,7 @@ class ChatbotController extends Controller
     }
 
     /**
-     * Build a role-tailored system prompt with live context.
+     * Build a role-tailored system prompt with live context and Philippine language support.
      */
     private function buildSystemPrompt(?User $user): string
     {
@@ -116,10 +116,23 @@ class ChatbotController extends Controller
             return "• {$s->name}: P{$s->price}/{$s->price_unit} (~{$dur})";
         })->implode("\n");
 
+        $langInstructions = <<<'LANG'
+PHILIPPINE LANGUAGES & DIALECTS SUPPORT:
+- You must fluently understand and respond in ANY Philippine language or dialect, including:
+  1. English & Taglish (e.g. "How much is wash and fold?", "Magkano pa wash?")
+  2. Tagalog / Filipino (e.g. "Magkano po magpalaba?", "Saan po ang store nyo?", "Kailan matatapos ang labada ko?")
+  3. Bicolano / Bikol (Legazpi/Albay/Naga - e.g. "Gurano ang palaba?", "Hain ang tindahan nindo?", "Saino tabi ang pwesto nindo?", "Nuarin matatapos ang labada ko?", "Marhay na aldaw", "Dios marhay na hapon")
+  4. Bisaya / Cebuano / Hiligaynon (e.g. "Pila ang palaba?", "Asa man inyong shop?", "Kanus-a mahuman ang labada ko?")
+  5. Other PH Dialects (Waray, Ilocano, Kapampangan, Pangasinan, Chavacano).
+- CRITICAL: ALWAYS reply in the SAME language or dialect used by the user! If asked in Bicolano, respond in friendly Bicolano! If asked in Tagalog, respond in Tagalog! If asked in Bisaya, respond in Bisaya!
+LANG;
+
         if ($role === 'guest') {
             return <<<PROMPT
 You are the Public Storefront AI Assistant for Hour Wash Laundry Shop located in Magallanes St., Orosite, Legazpi City, Albay.
 Your goal is to assist visitors on our Public Welcome Page.
+
+{$langInstructions}
 
 STOREFRONT INFORMATION & PAGES AVAILABLE:
 - Home: Store Overview, Address (Magallanes St., Orosite, Legazpi City), Store Hours (7:30 AM – 6:00 PM Daily, Cut-Off 4:30 PM), Contact Details.
@@ -145,6 +158,9 @@ PROMPT;
             return <<<PROMPT
 You are the Customer Portal AI Assistant for Hour Wash Laundry Shop, assisting logged-in customer {$userName}.
 
+{$langInstructions}
+
+CUSTOMER ORDERS:
 {$myOrders}
 
 SERVICES AVAILABLE:
@@ -152,7 +168,7 @@ SERVICES AVAILABLE:
 
 SCOPE:
 - Assist customer {$userName} with their active orders, tracking status, package pricing, online booking, profile updates, and submitting reviews.
-- Keep responses text-only, friendly, and helpful.
+- Keep responses text-only, friendly, and helpful in the user's preferred Philippine language.
 PROMPT;
         }
 
@@ -164,6 +180,8 @@ PROMPT;
 
             return <<<PROMPT
 You are the Staff Operations AI Assistant for Hour Wash Laundry Shop, assisting staff member {$userName}.
+
+{$langInstructions}
 
 IN-SHOP STATUS:
 - Washers Idle: {$washersIdle} / 5
@@ -183,6 +201,8 @@ PROMPT;
             return <<<PROMPT
 You are the Admin Management AI Assistant for Hour Wash Laundry Shop, assisting {$userName} (Role: {$user->role}).
 
+{$langInstructions}
+
 ADMIN STATS:
 - Lifetime Orders: {$totalOrders}
 - Today's Paid Revenue: P{$todayPaidRevenue}
@@ -197,7 +217,7 @@ PROMPT;
     }
 
     /**
-     * Fallback smart domain engine with role-based scoping.
+     * Fallback smart domain engine with multi-lingual Philippine dialect support.
      */
     private function getDomainReply(string $msg, ?User $user): string
     {
@@ -222,44 +242,44 @@ PROMPT;
 
         // 2. WELCOME PAGE / PUBLIC STOREFRONT SCOPING (For Visitors & Guest Chatbot)
         if ($role === 'guest') {
-            // How It Works / Process
-            if (Str::contains($msg, ['how it works', 'how to order', 'process', 'steps', 'workflow', 'how does it work'])) {
-                return "How Hour Wash Laundry Shop Works:\n1. Select Service Package (Wash Only, Dry Only, Fold Only, Self-Service, or Full Service with Pickup & Delivery)\n2. Drop Off or Request Pickup: Drop off at shop or our rider collects from your address\n3. Cleaning Cycle: Professional Wash, Rinse, Dry & Fold\n4. Live Tracking: Track status on your phone via Order # (e.g. #HW-XXXXXX) or QR Tag\n5. Receipt & Delivery: Claim at shop or get clean laundry delivered to your doorstep!";
+            // How It Works / Process (EN / Tagalog / Bicolano / Bisaya)
+            if (Str::contains($msg, ['how it works', 'how to order', 'process', 'steps', 'workflow', 'how does it work', 'paano', 'paoano', 'hakbang', 'proseso', 'giunsa', 'unsaon'])) {
+                return "How Hour Wash Laundry Shop Works / Paano Magpalaba:\n1. Select Service Package (Wash Only P75, Dry Only P75, Fold Only P50, Self-Service P150, or Full Service with Pickup & Delivery P250)\n2. Drop Off or Pickup: Drop off at shop or our rider collects from your doorstep\n3. Cleaning Cycle: Professional Wash, Rinse, Dry & Fold\n4. Live QR Tracking: Track status on your phone via Order # (e.g. #HW-XXXXXX) or QR Tag\n5. Receipt & Delivery: Claim at shop or doorstep delivery!";
             }
 
             // Customer Reviews & Ratings
-            if (Str::contains($msg, ['review', 'reviews', 'rating', 'ratings', 'feedback', 'testimonial'])) {
+            if (Str::contains($msg, ['review', 'reviews', 'rating', 'ratings', 'feedback', 'testimonial', 'repaso', 'komento', 'nindot'])) {
                 return "Customer Reviews & Quality Assurance:\nHour Wash Laundry Shop prides itself on fast, clean, and reliable service in Legazpi City! Logged-in customers can submit star ratings and feedback directly on their dashboard after completing an order.";
             }
 
             // About Us
-            if (Str::contains($msg, ['about us', 'about', 'background', 'shop info', 'system info'])) {
+            if (Str::contains($msg, ['about us', 'about', 'background', 'shop info', 'system info', 'tungkol', 'manungod'])) {
                 return "About Hour Wash Laundry Shop:\nWe are Legazpi City's premier laundry management system located in Magallanes St., Orosite. We offer fast, hygienic, and affordable wash, dry, fold, and doorstep pickup & delivery services.";
             }
 
             // Developers
-            if (Str::contains($msg, ['developer', 'developers', 'creator', 'built', 'team', 'who made'])) {
+            if (Str::contains($msg, ['developer', 'developers', 'creator', 'built', 'team', 'who made', 'gumawa', 'kagsadiri'])) {
                 return "Hour Wash System Developers:\nDeveloped by Eroscodex Team using Laravel 11, Tailwind CSS, PHP 8.5, and Vite asset bundling.";
             }
 
             // Privacy Policy
-            if (Str::contains($msg, ['privacy', 'privacy policy', 'security', 'data protection'])) {
+            if (Str::contains($msg, ['privacy', 'privacy policy', 'security', 'data protection', 'patakaran'])) {
                 return "Privacy Policy Summary:\nHour Wash respects your privacy. All customer addresses, phone numbers, and order histories are kept strictly confidential and protected.";
             }
 
             // Terms & Conditions
-            if (Str::contains($msg, ['terms', 'condition', 'terms and conditions', 'policy', 'payment method', 'cod'])) {
+            if (Str::contains($msg, ['terms', 'condition', 'terms and conditions', 'policy', 'payment method', 'cod', 'singil'])) {
                 return "Terms & Conditions Summary:\n- Payment: Cash on Delivery (COD) or Cash at Shop Counter.\n- Turnaround: Same-day turnaround for orders submitted before 4:30 PM cut-off.\n- Laundry Policy: Please inspect items and check pockets prior to handover.";
             }
 
             // Intercept internal staff/rider/admin questions when on public storefront
             if (Str::contains($msg, ['rider task', 'rider list', 'dispatch list', 'admin revenue', 'staff override', 'inventory stock', 'sms log'])) {
-                return "I am the HourWash Public Storefront Assistant! I focus on helping our store visitors with:\n- Home & Store Info (Magallanes St., Orosite, Legazpi City • 7:30 AM – 6:00 PM)\n- Services & Rates (Wash Only ₱75, Dry ₱75, Fold ₱50, Self-Service ₱150, Full Service ₱200/₱250)\n- How It Works (Ordering & Pickup/Delivery)\n- Track Order (#HW-XXXXXX)\n- Customer Reviews, About Us, Developers, Privacy Policy & Terms\n\nHow can I help you today?";
+                return "I am the HourWash Public Storefront Assistant! I focus on helping our store visitors with:\n- Home & Store Info (Magallanes St., Orosite, Legazpi City • 7:30 AM – 6:00 PM)\n- Services & Rates (Wash Only P75, Dry P75, Fold P50, Self-Service P150, Full Service P200/P250)\n- How It Works (Ordering & Pickup/Delivery)\n- Track Order (#HW-XXXXXX)\n- Customer Reviews, About Us, Developers, Privacy Policy & Terms\n\nHow can I help you today?";
             }
         }
 
-        // 3. Customer Order Lookup by Name/Email
-        if (Str::contains($msg, ['my order', 'my laundry', 'check order', 'track order', 'status'])) {
+        // 3. Customer Order Lookup / Timing (EN / Tagalog / Bicolano / Bisaya)
+        if (Str::contains($msg, ['my order', 'my laundry', 'check order', 'track order', 'status', 'kailan matatapos', 'nuarin matatapos', 'kanus-a mahuman', 'hain na', 'nasaan na', 'asa na'])) {
             if (preg_match('/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/', $msg, $emailMatch)) {
                 $foundUser = User::where('email', $emailMatch[0])->first();
                 if ($foundUser) {
@@ -273,11 +293,11 @@ PROMPT;
                 return $this->getCustomerOrderSummary($user);
             }
 
-            return 'To track your laundry order, please tell me your Order Code (e.g. #HW-XXXXXX) or your registered email address!';
+            return 'To track your laundry order / para malaman ang status, please tell me your Order Code (e.g. #HW-XXXXXX) or your registered email address!';
         }
 
-        // 4. Services & Rates (For all users)
-        if (Str::contains($msg, ['price', 'rate', 'cost', 'fee', 'package', 'service', 'wash', 'dry', 'fold'])) {
+        // 4. Services & Rates / Pricing (EN / Tagalog / Bicolano: Gurano / Bisaya: Pila)
+        if (Str::contains($msg, ['price', 'rate', 'cost', 'fee', 'package', 'service', 'wash', 'dry', 'fold', 'magkano', 'gurano', 'pila', 'bayad', 'presyo', 'singil', 'palaba', 'laba'])) {
             $services = Service::where('status', 'active')->get(['name', 'price', 'price_unit', 'estimated_minutes']);
             $servList = $services->map(function ($s) {
                 $mins = $s->estimated_minutes;
@@ -288,18 +308,18 @@ PROMPT;
                 return "• {$s->name}: P{$s->price}/{$s->price_unit} ({$dur})";
             })->implode("\n");
 
-            return "Our Active Laundry Service Packages & Rates:\n{$servList}\n\nLocation: Magallanes St., Orosite, Legazpi City! Book online or visit our store.";
+            return "Our Active Laundry Service Packages & Rates / Mga Presyo sa Palaba:\n{$servList}\n\nLocation: Magallanes St., Orosite, Legazpi City! Book online or visit our store.";
         }
 
-        // 5. Store Hours & Location (For all users)
-        if (Str::contains($msg, ['hour', 'time', 'open', 'close', 'schedule', 'cutoff', 'cut-off', 'location', 'where', 'address', 'legazpi', 'orosite'])) {
-            return "Hour Wash Laundry Shop Details:\n- Address: Magallanes St., Orosite, Legazpi City, Albay, Philippines.\n- Operating Hours: 7:30 AM – 6:00 PM Daily (Monday – Sunday)\n- Same-Day Cut-Off: 4:30 PM\n- Hotline: (052) 800-HOURWASH";
+        // 5. Store Hours & Location (EN / Tagalog / Bicolano: Hain / Bisaya: Asa)
+        if (Str::contains($msg, ['hour', 'time', 'open', 'close', 'schedule', 'cutoff', 'cut-off', 'location', 'where', 'address', 'legazpi', 'orosite', 'oras', 'bukas', 'sara', 'saan', 'hain', 'saino', 'saen', 'pwesto', 'lugar', 'asa', 'dapit', 'abli', 'sirado'])) {
+            return "Hour Wash Laundry Shop Details / Pwesto at Oras:\n- Address: Magallanes St., Orosite, Legazpi City, Albay, Philippines.\n- Operating Hours: 7:30 AM – 6:00 PM Daily (Monday – Sunday)\n- Same-Day Cut-Off: 4:30 PM\n- Hotline: (052) 800-HOURWASH";
         }
 
-        // 6. Greetings
-        if (Str::contains($msg, ['hi', 'hello', 'hey', 'good', 'kumusta', 'musta'])) {
+        // 6. Greetings (EN / Tagalog: Kumusta / Bicolano: Marhay / Bisaya: Maayong)
+        if (Str::contains($msg, ['hi', 'hello', 'hey', 'good', 'kumusta', 'musta', 'marhay', 'dios marhay', 'maayong'])) {
             if ($role === 'guest') {
-                return "Hello! Welcome to Hour Wash Laundry Shop! I can assist you with:\n- Services & Rates (Wash, Dry, Fold, Self-Service, Pickup & Delivery)\n- How It Works (Ordering & Processing)\n- Track Order (by Order # or Email)\n- Customer Reviews, About Us, Developers, Privacy Policy & Terms\n\nHow can I help you today?";
+                return "Marhay na aldaw / Hello! Welcome to Hour Wash Laundry Shop! I can assist you with:\n- Services & Rates / Presyo (Wash, Dry, Fold, Self-Service, Pickup & Delivery)\n- How It Works / Paano magpalaba\n- Track Order (by Order # or Email)\n- Customer Reviews, About Us, Developers, Privacy Policy & Terms\n\nHow can I help you today, po?";
             }
 
             return "Hello {$user->name}! Welcome back to Hour Wash Laundry Portal! How can I assist you with your dashboard today?";
