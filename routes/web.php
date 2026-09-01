@@ -349,18 +349,11 @@ Route::middleware('auth')->group(function () {
 | Staff Panel
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth'])->prefix('staff')->name('staff.')->group(function () {
+Route::middleware(['auth', 'staff'])->prefix('staff')->name('staff.')->group(function () {
     Route::get('/dashboard', function () {
         /** @var User $user */
         $user = Auth::user();
 
-        if ($user->isRider()) {
-            return redirect()->route('rider.dashboard');
-        }
-
-        if (! $user->isStaff() && ! $user->isAdmin() && ! $user->isOwner()) {
-            return redirect()->route('dashboard');
-        }
         $machines = Machine::with(['currentOrder', 'currentOrder.customer', 'activeOrder', 'activeOrder.customer'])->orderBy('id', 'asc')->get();
         $orders = Order::with(['customer', 'service', 'qrCode'])->latest()->get();
         $recentOrders = $orders->take(6);
@@ -390,7 +383,7 @@ Route::middleware(['auth'])->prefix('staff')->name('staff.')->group(function () 
 | Rider Logistics Panel
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'rider'])->group(function () {
     Route::get('/rider/dashboard', [RiderDashboardController::class, 'index'])->name('rider.dashboard');
     Route::match(['post', 'patch'], '/rider/order/{order}/status', [RiderDashboardController::class, 'updateStatus'])->name('rider.updateStatus');
 });
