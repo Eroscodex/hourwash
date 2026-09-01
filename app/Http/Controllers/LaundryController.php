@@ -173,7 +173,7 @@ class LaundryController extends Controller
             }
 
             $isPickupDeliveryService = str_contains(strtolower($service->name), 'pickup') || str_contains(strtolower($service->name), 'delivery');
-            $pickupType = $isPickupDeliveryService ? 'pickup_delivery' : ($request->input('pickup_type') ?: null);
+            $pickupType = $isPickupDeliveryService ? 'pickup_delivery' : ($request->input('pickup_type') ?: 'drop_off');
 
             $order = Order::create([
                 'order_number' => 'HW-'.strtoupper(Str::random(8)),
