@@ -507,6 +507,13 @@
             const timerInterval = setInterval(updateCountdown, 1000);
         }
     });
+
+    // Automatic Live Real-Time Order Tracking Reload
+    setInterval(function() {
+        if (!document.hidden) {
+            window.location.reload();
+        }
+    }, 6000);
 </script>
 @endif
 
