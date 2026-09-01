@@ -43,6 +43,11 @@ class RiderDashboardController extends Controller
             ->latest()
             ->get();
 
+        $inShopOrders = Order::with(['customer.customerProfile', 'service', 'pickupDelivery', 'machine', 'statusHistory'])
+            ->whereIn('order_status', ['received', 'washing', 'rinsing', 'drying', 'finish'])
+            ->latest()
+            ->get();
+
         $deliveryOrders = Order::with(['customer.customerProfile', 'service', 'pickupDelivery', 'machine', 'statusHistory'])
             ->where('order_status', 'out_for_delivery')
             ->latest()
@@ -59,11 +64,12 @@ class RiderDashboardController extends Controller
         $todayCodCollected = $completedTodayOrders->where('payment_status', 'paid')->sum('total_amount');
         $pendingCodToCollect = $deliveryOrders->where('payment_status', 'unpaid')->sum('total_amount');
 
-        $totalActiveTasks = $pickupOrders->count() + $deliveryOrders->count();
+        $totalActiveTasks = $pickupOrders->count() + $inShopOrders->count() + $deliveryOrders->count();
 
         return view('rider.dashboard', compact(
             'user',
             'pickupOrders',
+            'inShopOrders',
             'deliveryOrders',
             'completedTodayCount',
             'totalActiveTasks',
