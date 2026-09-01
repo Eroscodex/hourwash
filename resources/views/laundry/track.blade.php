@@ -253,16 +253,16 @@
                     @php
                         $isAuthorizedViewer = Auth::check() && (Auth::id() === $order->customer_id || Auth::user()->isStaff() || Auth::user()->isAdmin() || Auth::user()->isOwner() || Auth::user()->isRider());
 
-                        $rawPhone = $order->customer->phone ?? '09171234567';
+                        $rawPhone = $order->customer?->phone ?? '09171234567';
                         $maskedPhone = (strlen($rawPhone) >= 10) ? substr($rawPhone, 0, 4) . ' *** ' . substr($rawPhone, -4) : '09** *** ****';
                         $displayPhone = $isAuthorizedViewer ? $rawPhone : $maskedPhone;
 
-                        $rawName = trim($order->customer->name ?? 'Store Walk-in Customer');
+                        $rawName = trim($order->customer?->name ?? 'Store Walk-in Customer');
                         $nameParts = explode(' ', $rawName);
                         $maskedName = $nameParts[0] . (isset($nameParts[1]) && strlen($nameParts[1]) > 0 ? ' ' . substr($nameParts[1], 0, 1) . '.' : '');
                         $displayName = $isAuthorizedViewer ? $rawName : $maskedName;
 
-                        $rawAddress = $order->customer->customerProfile->address ?? 'Magallanes St., Orosite, Legazpi City, Albay';
+                        $rawAddress = $order->customer?->customerProfile?->address ?? 'Magallanes St., Orosite, Legazpi City, Albay';
                         $displayAddress = $isAuthorizedViewer ? $rawAddress : 'Orosite, Legazpi City (Privacy Protected)';
                     @endphp
 
@@ -382,7 +382,7 @@
                 <!-- Scannable QR Laundry Tag Card -->
                 <div class="p-4 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-black/5 dark:dark:border-zinc-700 flex items-center justify-center">
                     <div class="w-44 h-44 sm:w-48 sm:h-48 mx-auto bg-white p-2.5 rounded-xl shadow-sm border border-slate-200 flex items-center justify-center">
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data={{ $order->qrCode->qr_token ?? $order->order_number }}"
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data={{ $order->qrCode?->qr_token ?? $order->order_number }}"
                              alt="QR Code Tag #{{ $order->order_number }}"
                              class="w-full h-full rounded-lg">
                     </div>
@@ -398,7 +398,7 @@
             </h3>
 
             <div class="relative pl-5 sm:pl-6 space-y-4 border-l-2 border-slate-200 dark:border-slate-800 text-xs">
-                @forelse($order->statusHistory->sortByDesc('created_at') as $history)
+                @forelse(($order->statusHistory ?? collect())->sortByDesc('created_at') as $history)
                     @php
                         $formattedTitle = match($history->status) {
                             'pending' => 'Order Placed',
