@@ -24,7 +24,11 @@ class RiderDashboardController extends Controller
             ->where(function ($q) {
                 $q->whereIn('pickup_type', ['pickup_delivery', 'pickup'])
                     ->orWhereNull('pickup_type')
-                    ->orWhere('order_status', 'out_for_pickup');
+                    ->orWhere('order_status', 'out_for_pickup')
+                    ->orWhereHas('service', function ($sq) {
+                        $sq->where('name', 'like', '%Pickup%')
+                            ->orWhere('name', 'like', '%Delivery%');
+                    });
             })
             ->count();
 
@@ -38,18 +42,38 @@ class RiderDashboardController extends Controller
             ->where(function ($q) {
                 $q->whereIn('pickup_type', ['pickup_delivery', 'pickup'])
                     ->orWhereNull('pickup_type')
-                    ->orWhere('order_status', 'out_for_pickup');
+                    ->orWhere('order_status', 'out_for_pickup')
+                    ->orWhereHas('service', function ($sq) {
+                        $sq->where('name', 'like', '%Pickup%')
+                            ->orWhere('name', 'like', '%Delivery%');
+                    });
             })
             ->latest()
             ->get();
 
         $inShopOrders = Order::with(['customer.customerProfile', 'service', 'pickupDelivery', 'machine', 'statusHistory', 'qrCode'])
             ->whereIn('order_status', ['received', 'washing', 'rinsing', 'drying', 'finish'])
+            ->where(function ($q) {
+                $q->whereIn('pickup_type', ['pickup_delivery', 'pickup', 'delivery'])
+                    ->orWhereNull('pickup_type')
+                    ->orWhereHas('service', function ($sq) {
+                        $sq->where('name', 'like', '%Pickup%')
+                            ->orWhere('name', 'like', '%Delivery%');
+                    });
+            })
             ->latest()
             ->get();
 
         $deliveryOrders = Order::with(['customer.customerProfile', 'service', 'pickupDelivery', 'machine', 'statusHistory', 'qrCode'])
             ->whereIn('order_status', ['finish', 'out_for_delivery'])
+            ->where(function ($q) {
+                $q->whereIn('pickup_type', ['pickup_delivery', 'delivery'])
+                    ->orWhereNull('pickup_type')
+                    ->orWhereHas('service', function ($sq) {
+                        $sq->where('name', 'like', '%Pickup%')
+                            ->orWhere('name', 'like', '%Delivery%');
+                    });
+            })
             ->latest()
             ->get();
 

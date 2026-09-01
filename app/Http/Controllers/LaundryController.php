@@ -172,6 +172,9 @@ class LaundryController extends Controller
                     ->with('success', 'Order already submitted! Duplicate order attempt prevented.');
             }
 
+            $isPickupDeliveryService = str_contains(strtolower($service->name), 'pickup') || str_contains(strtolower($service->name), 'delivery');
+            $pickupType = $isPickupDeliveryService ? 'pickup_delivery' : ($request->input('pickup_type') ?: null);
+
             $order = Order::create([
                 'order_number' => 'HW-'.strtoupper(Str::random(8)),
                 'customer_id' => $customerId,
@@ -184,6 +187,7 @@ class LaundryController extends Controller
                 'order_status' => 'pending',
                 'payment_status' => 'unpaid',
                 'payment_method' => 'cash',
+                'pickup_type' => $pickupType,
                 'estimated_completion' => now()->addMinutes($service->estimated_minutes),
                 'notes' => $notes,
             ]);
