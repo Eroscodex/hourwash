@@ -213,8 +213,8 @@
         @if($isPickupDeliveryService || $isPickupType || in_array($order->order_status, ['out_for_pickup', 'out_for_delivery']))
             @php
                 $riderObj = \App\Models\User::where('role', 'rider')->first();
-                $riderName = $order->pickupDelivery->rider_name ?? ($riderObj->name ?? 'Hour Wash Rider');
-                $riderPhone = $order->pickupDelivery->rider_phone ?? ($riderObj->phone ?? '09100317744');
+                $riderName = $order->pickupDelivery?->rider_name ?? ($riderObj?->name ?? 'Hour Wash Rider');
+                $riderPhone = $order->pickupDelivery?->rider_phone ?? ($riderObj?->phone ?? '09100317744');
             @endphp
             <div class="p-4 sm:p-5 rounded-lg bg-blue-600/10 dark:bg-blue-600/15 border border-blue-600/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
                 <div class="space-y-1">
