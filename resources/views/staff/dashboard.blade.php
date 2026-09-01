@@ -279,27 +279,27 @@
                     </p>
                 </div>
 
-                <!-- Service Package Filter Pill Tabs -->
-                <div class="flex flex-wrap items-center gap-1.5 bg-slate-200/60 dark:bg-zinc-800/60 p-1 rounded-lg text-xs">
-                    <button type="button" id="staff-tab-btn-all" onclick="switchStaffPipelineService('all', this)" class="staff-pipeline-tab-btn px-2.5 py-1 rounded-md font-bold transition bg-blue-600 text-white shadow-sm">
+                <!-- Service Package Filter Pill Tabs (7 Buttons in 1 Row) -->
+                <div class="flex items-center justify-between gap-1 bg-slate-200/60 dark:bg-zinc-800/60 p-1 rounded-lg text-[11px] overflow-x-auto w-full md:w-auto">
+                    <button type="button" id="staff-tab-btn-all" onclick="switchStaffPipelineService('all', this)" class="staff-pipeline-tab-btn px-2 py-1 rounded-md font-bold transition bg-blue-600 text-white shadow-sm whitespace-nowrap flex-1 text-center">
                         All Services
                     </button>
-                    <button type="button" id="staff-tab-btn-wash" onclick="switchStaffPipelineService('wash', this)" class="staff-pipeline-tab-btn px-2.5 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition">
+                    <button type="button" id="staff-tab-btn-wash" onclick="switchStaffPipelineService('wash', this)" class="staff-pipeline-tab-btn px-2 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition whitespace-nowrap flex-1 text-center">
                         Wash Only
                     </button>
-                    <button type="button" id="staff-tab-btn-dry" onclick="switchStaffPipelineService('dry', this)" class="staff-pipeline-tab-btn px-2.5 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition">
+                    <button type="button" id="staff-tab-btn-dry" onclick="switchStaffPipelineService('dry', this)" class="staff-pipeline-tab-btn px-2 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition whitespace-nowrap flex-1 text-center">
                         Dry Only
                     </button>
-                    <button type="button" id="staff-tab-btn-fold" onclick="switchStaffPipelineService('fold', this)" class="staff-pipeline-tab-btn px-2.5 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition">
+                    <button type="button" id="staff-tab-btn-fold" onclick="switchStaffPipelineService('fold', this)" class="staff-pipeline-tab-btn px-2 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition whitespace-nowrap flex-1 text-center">
                         Fold Only
                     </button>
-                    <button type="button" id="staff-tab-btn-self_service" onclick="switchStaffPipelineService('self_service', this)" class="staff-pipeline-tab-btn px-2.5 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition">
+                    <button type="button" id="staff-tab-btn-self_service" onclick="switchStaffPipelineService('self_service', this)" class="staff-pipeline-tab-btn px-2 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition whitespace-nowrap flex-1 text-center">
                         Self-Service
                     </button>
-                    <button type="button" id="staff-tab-btn-full_service" onclick="switchStaffPipelineService('full_service', this)" class="staff-pipeline-tab-btn px-2.5 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition">
+                    <button type="button" id="staff-tab-btn-full_service" onclick="switchStaffPipelineService('full_service', this)" class="staff-pipeline-tab-btn px-2 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition whitespace-nowrap flex-1 text-center">
                         Full-Service
                     </button>
-                    <button type="button" id="staff-tab-btn-pickup_delivery" onclick="switchStaffPipelineService('pickup_delivery', this)" class="staff-pipeline-tab-btn px-2.5 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition">
+                    <button type="button" id="staff-tab-btn-pickup_delivery" onclick="switchStaffPipelineService('pickup_delivery', this)" class="staff-pipeline-tab-btn px-2 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition whitespace-nowrap flex-1 text-center">
                         Pickup & Delivery
                     </button>
                 </div>
