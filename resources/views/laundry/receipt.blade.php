@@ -19,10 +19,12 @@
 
     
     <div class="no-print mb-4 flex gap-3">
-        <button onclick="window.print()" class="bg-blue-600 text-white px-5 py-2.5 rounded-lg text-xs font-bold shadow-md hover:bg-blue-600 transition flex items-center gap-2">
-            🖨 Print Official Thermal Receipt
-        </button>
-        <button onclick="window.close()" class="bg-slate-200 text-slate-700 px-4 py-2.5 rounded-lg text-xs font-bold hover:bg-slate-300 transition">
+        @if(auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isOwner() || auth()->user()->isStaff()))
+            <button onclick="window.print()" class="bg-blue-600 text-white px-5 py-2.5 rounded-lg text-xs font-bold shadow-md hover:bg-blue-700 transition flex items-center gap-2 cursor-pointer">
+                🖨 Print Official Thermal Receipt
+            </button>
+        @endif
+        <button onclick="window.close()" class="bg-slate-200 text-slate-700 px-4 py-2.5 rounded-lg text-xs font-bold hover:bg-slate-300 transition cursor-pointer">
             Close Window
         </button>
     </div>

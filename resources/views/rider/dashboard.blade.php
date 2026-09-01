@@ -709,7 +709,7 @@
                 <div class="flex items-center gap-2">
                     <span class="w-3 h-3 rounded-full bg-emerald-500"></span>
                     <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
-                        4. Completed Deliveries & History Log
+                        Completed Deliveries & History Log
                     </h2>
                     <span class="px-2.5 py-0.5 rounded-full text-xs font-black bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
                         {{ $completedHistoryOrders->count() }} Orders

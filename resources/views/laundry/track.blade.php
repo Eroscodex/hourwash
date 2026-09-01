@@ -16,9 +16,15 @@
         </div>
 
         <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
-            <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="flex-1 sm:flex-none text-center px-3 py-2 rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-bold hover:opacity-90 transition shadow-sm">
-                Print Receipt
-            </a>
+            @if(auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isOwner() || auth()->user()->isStaff()))
+                <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="flex-1 sm:flex-none text-center px-3 py-2 rounded-lg bg-blue-600 text-white text-xs font-bold hover:bg-blue-700 transition shadow-sm">
+                    Print Thermal Receipt
+                </a>
+            @else
+                <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="flex-1 sm:flex-none text-center px-3 py-2 rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-bold hover:opacity-90 transition shadow-sm">
+                    View Digital Receipt
+                </a>
+            @endif
 
             @auth
                 @if(auth()->user()->isOwner() || auth()->user()->isStaff())
