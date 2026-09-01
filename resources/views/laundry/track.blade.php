@@ -359,16 +359,22 @@
                                 @if(in_array($order->order_status, ['pending', 'out_for_pickup', 'received']))
                                     {{ $isDryOnly ? 'Pending Dry Start' : ($isFoldOnly ? 'Pending Fold Start' : 'Pending Wash Start') }}
                                 @else
-                                    {{ $order->estimated_completion?->format('M d • h:i A') ?? 'In Processing' }}
+                                    {{ ($order->estimated_completion ?? $order->updated_at->addMinutes(30))->format('M d • h:i A') }}
                                 @endif
                             </div>
                         </div>
                     </div>
 
-                    @if((in_array($order->order_status, ['washing', 'rinsing', 'drying']) || ($isFoldOnly && $order->order_status === 'finish')) && $order->estimated_completion && $order->estimated_completion->isFuture())
+                    @php
+                        $effectiveExpiry = $order->estimated_completion
+                            ? $order->estimated_completion->timestamp
+                            : $order->updated_at->addMinutes(30)->timestamp;
+                    @endphp
+
+                    @if(in_array($order->order_status, ['washing', 'rinsing', 'drying']) || ($isFoldOnly && $order->order_status === 'finish'))
                         <div class="p-2.5 rounded-lg bg-slate-800/90 border border-amber-400/40 flex items-center justify-between text-xs font-mono font-bold text-amber-300">
                             <span class="text-amber-300 dark:text-amber-300 font-bold opacity-100 !text-amber-300">Time Remaining:</span>
-                            <span id="order-countdown" data-expiry="{{ $order->estimated_completion->timestamp }}" class="text-amber-300 dark:text-amber-300 font-extrabold !text-amber-300">Calculating...</span>
+                            <span id="order-countdown" data-expiry="{{ $effectiveExpiry }}" class="text-amber-300 dark:text-amber-300 font-extrabold !text-amber-300">Calculating...</span>
                         </div>
                     @endif
                 </div>
@@ -473,41 +479,53 @@
 
 </div>
 
-@if((in_array($order->order_status, ['washing', 'rinsing', 'drying']) || ($isFoldOnly && $order->order_status === 'finish')) && $order->estimated_completion && $order->estimated_completion->isFuture())
+@if(in_array($order->order_status, ['washing', 'rinsing', 'drying']) || ($isFoldOnly && $order->order_status === 'finish'))
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    function runOrderCountdown() {
         const countdownEl = document.getElementById('order-countdown');
-        if (countdownEl) {
-            const expiryTimestamp = parseInt(countdownEl.getAttribute('data-expiry')) * 1000;
+        if (!countdownEl) return;
 
-            function updateCountdown() {
-                const now = new Date().getTime();
-                const distance = expiryTimestamp - now;
+        const expiryAttr = countdownEl.getAttribute('data-expiry');
+        if (!expiryAttr) return;
 
-                if (distance < 0) {
-                    countdownEl.innerText = "Processing Completion...";
-                    clearInterval(timerInterval);
-                    return;
-                }
+        const expiryTimestamp = parseInt(expiryAttr) * 1000;
 
-                const hours = Math.floor(distance / (1000 * 60 * 60));
-                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = expiryTimestamp - now;
 
-                let timeString = "";
-                if (hours > 0) {
-                    timeString += hours + "h ";
-                }
-                timeString += minutes + "m " + seconds + "s";
-
-                countdownEl.innerText = timeString;
+            if (distance <= 0) {
+                countdownEl.innerText = "Cycle Finishing (Final Rinse/Spin)";
+                return;
             }
 
-            updateCountdown();
-            const timerInterval = setInterval(updateCountdown, 1000);
-        }
-    });
+            const hours = Math.floor(distance / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
+            let timeString = "";
+            if (hours > 0) {
+                timeString += hours + "h ";
+            }
+            timeString += minutes + "m " + (seconds < 10 ? "0" : "") + seconds + "s";
+
+            countdownEl.innerText = timeString;
+        }
+
+        updateCountdown();
+        if (window.orderTimerInterval) clearInterval(window.orderTimerInterval);
+        window.orderTimerInterval = setInterval(updateCountdown, 1000);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', runOrderCountdown);
+    } else {
+        runOrderCountdown();
+    }
+</script>
+@endif
+
+<script>
     // Seamless Real-Time Live Order Tracking AJAX Sync (NO Hard Page Reload!)
     setInterval(function() {
         if (document.hidden) return;
@@ -525,6 +543,9 @@
                     const scrollY = window.scrollY;
                     currentMain.innerHTML = newMain.innerHTML;
                     window.scrollTo(0, scrollY);
+                    if (typeof runOrderCountdown === 'function') {
+                        runOrderCountdown();
+                    }
                 }
             }
         })
