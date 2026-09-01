@@ -250,76 +250,86 @@ class LaundryController extends Controller
 
     public function track(string $qr)
     {
-        $qrStr = trim($qr);
+        try {
+            $qrStr = trim($qr);
 
-        // If input contains full URL or path (e.g. http://localhost:8000/laundry/track/HW884210), extract token
-        if (filter_var($qrStr, FILTER_VALIDATE_URL) || Str::contains($qrStr, ['/laundry/track/', 'http'])) {
-            $parsedPath = parse_url($qrStr, PHP_URL_PATH);
-            if ($parsedPath) {
-                $qrStr = basename($parsedPath);
-            }
-        }
-
-        $cleanQr = ltrim($qrStr, '#');
-
-        // 1. Check if QR belongs to Order QR Token
-        $qrCode = QrCode::where('qr_token', $cleanQr)->first();
-
-        if ($qrCode) {
-            $order = Order::with(['service', 'customer', 'machine', 'qrCode', 'pickupDelivery', 'statusHistory'])->find($qrCode->order_id);
-        } else {
-            // 2. Check if code is Order Code or numeric Order ID
-            $query = Order::with(['service', 'customer', 'machine', 'qrCode', 'pickupDelivery', 'statusHistory'])
-                ->where('order_number', $cleanQr);
-
-            if (is_numeric($cleanQr)) {
-                $query->orWhere('id', (int) $cleanQr);
-            }
-
-            $order = $query->first();
-
-            // 3. Check if code belongs to Machine Tag (e.g. WM-001)
-            if (! $order) {
-                $machine = Machine::where('machine_code', $cleanQr)->first();
-                if ($machine && $machine->current_order_id) {
-                    $order = Order::with(['service', 'customer', 'machine', 'qrCode', 'pickupDelivery', 'statusHistory'])->find($machine->current_order_id);
+            // If input contains full URL or path (e.g. http://localhost:8000/laundry/track/HW884210), extract token
+            if (filter_var($qrStr, FILTER_VALIDATE_URL) || Str::contains($qrStr, ['/laundry/track/', 'http'])) {
+                $parsedPath = parse_url($qrStr, PHP_URL_PATH);
+                if ($parsedPath) {
+                    $qrStr = basename($parsedPath);
                 }
             }
-        }
 
-        if (! $order) {
-            return redirect()->route('welcome')->with('error', 'No active order tracking found for QR token / order code: '.$qr);
-        }
+            $cleanQr = ltrim($qrStr, '#');
 
-        /** @var User|null $authUser */
-        $authUser = Auth::user();
-        $isStaffOrAdmin = $authUser && ($authUser->isStaff() || $authUser->isAdmin() || $authUser->isOwner());
+            // 1. Check if QR belongs to Order QR Token
+            $qrCode = QrCode::where('qr_token', $cleanQr)->first();
 
-        if ($order->qrCode) {
-            try {
-                QrScanLog::create([
-                    'qr_code_id' => $order->qrCode->id,
-                    'order_id' => $order->id,
-                    'scanned_by' => $authUser?->id,
-                    'scan_type' => $isStaffOrAdmin ? 'staff_scan' : 'customer_scan',
-                    'device' => request()->header('User-Agent'),
-                    'ip_address' => request()->ip(),
-                ]);
-            } catch (\Exception $e) {
-                Log::warning('Failed to log QR scan: '.$e->getMessage());
+            if ($qrCode) {
+                $order = Order::with(['service', 'customer.customerProfile', 'machine', 'qrCode', 'pickupDelivery', 'statusHistory'])->find($qrCode->order_id);
+            } else {
+                // 2. Check if code is Order Code or numeric Order ID
+                $query = Order::with(['service', 'customer.customerProfile', 'machine', 'qrCode', 'pickupDelivery', 'statusHistory'])
+                    ->where('order_number', $cleanQr);
+
+                if (is_numeric($cleanQr)) {
+                    $query->orWhere('id', (int) $cleanQr);
+                }
+
+                $order = $query->first();
+
+                // 3. Check if code belongs to Machine Tag (e.g. WM-001)
+                if (! $order) {
+                    $machine = Machine::where('machine_code', $cleanQr)->first();
+                    if ($machine && $machine->current_order_id) {
+                        $order = Order::with(['service', 'customer.customerProfile', 'machine', 'qrCode', 'pickupDelivery', 'statusHistory'])->find($machine->current_order_id);
+                    }
+                }
             }
-        }
 
-        // Customers can only view their own orders; Admin & Staff can view any customer order
-        if ($authUser && $authUser->isCustomer()) {
-            if ($order->customer_id !== $authUser->id) {
-                return redirect()->route('dashboard')->with('error', 'Unauthorized: You are only allowed to view your own order tracking details.');
+            if (! $order) {
+                $redirectUrl = Auth::check() ? route('dashboard') : route('welcome');
+
+                return redirect($redirectUrl)->with('error', 'No active order tracking found for code: '.$qr);
             }
-        }
 
-        return view(
-            'laundry.track',
-            compact('order')
-        );
+            /** @var User|null $authUser */
+            $authUser = Auth::user();
+            $isStaffOrAdmin = $authUser && ($authUser->isStaff() || $authUser->isAdmin() || $authUser->isOwner());
+
+            if ($order->qrCode) {
+                try {
+                    QrScanLog::create([
+                        'qr_code_id' => $order->qrCode->id,
+                        'order_id' => $order->id,
+                        'scanned_by' => $authUser?->id,
+                        'scan_type' => $isStaffOrAdmin ? 'staff_scan' : 'customer_scan',
+                        'device' => request()->header('User-Agent'),
+                        'ip_address' => request()->ip(),
+                    ]);
+                } catch (\Throwable $e) {
+                    Log::warning('Failed to log QR scan: '.$e->getMessage());
+                }
+            }
+
+            // Customers can only view their own orders; Admin & Staff can view any customer order
+            if ($authUser && $authUser->isCustomer()) {
+                if ($order->customer_id !== $authUser->id) {
+                    return redirect()->route('dashboard')->with('error', 'Unauthorized: You are only allowed to view your own order tracking details.');
+                }
+            }
+
+            return view(
+                'laundry.track',
+                compact('order')
+            );
+        } catch (\Throwable $e) {
+            Log::error('Order tracking view error: '.$e->getMessage(), ['trace' => $e->getTraceAsString()]);
+
+            $fallbackUrl = Auth::check() ? route('dashboard') : route('welcome');
+
+            return redirect($fallbackUrl)->with('error', 'Tracking information temporarily unavailable. Please try again.');
+        }
     }
 }
