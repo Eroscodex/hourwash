@@ -400,22 +400,7 @@ Route::middleware(['auth'])->group(function () {
 | Admin / Owner Panel
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth', function ($request, $next) {
-    /** @var User|null $user */
-    $user = Auth::user();
-    if (! $user || (! $user->isAdmin() && ! $user->isOwner())) {
-        if ($user && $user->isStaff()) {
-            return redirect()->route('staff.dashboard');
-        }
-        if ($user && $user->isRider()) {
-            return redirect()->route('rider.dashboard');
-        }
-
-        return redirect()->route('dashboard');
-    }
-
-    return $next($request);
-}])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', function () {
         /** @var User $user */
         $user = Auth::user();

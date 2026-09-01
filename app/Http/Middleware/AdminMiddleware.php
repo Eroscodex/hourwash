@@ -2,19 +2,35 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class AdminMiddleware
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()?->role === 'admin') {
+        /** @var User|null $user */
+        $user = Auth::user();
+
+        if ($user && ($user->isAdmin() || $user->isOwner())) {
             return $next($request);
         }
 
-        abort(403);
+        if ($user && $user->isStaff()) {
+            return redirect()->route('staff.dashboard');
+        }
+
+        if ($user && $user->isRider()) {
+            return redirect()->route('rider.dashboard');
+        }
+
+        if ($user) {
+            return redirect()->route('dashboard');
+        }
+
+        return redirect()->route('login');
     }
 }
