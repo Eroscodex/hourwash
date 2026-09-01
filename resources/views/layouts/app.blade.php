@@ -423,6 +423,7 @@
         </div>
     </div>
 
+    @if(!auth()->check() || (auth()->check() && auth()->user()->isCustomer()))
     <button id="chat-toggle" class="fixed bottom-6 right-6 w-14 h-14 rounded-lg bg-blue-600 dark:bg-blue-600 text-white chat-bubble-glow flex items-center justify-center active:scale-[0.98] transition-transform z-50 group" aria-label="Toggle AI Assistant Chat">
         <span class="absolute -top-1 -right-1 flex h-3.5 w-3.5">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-md bg-emerald-400 opacity-75"></span>
@@ -437,7 +438,7 @@
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
                 <div>
                     <h4 class="font-extrabold text-sm text-white leading-tight">Hour Wash AI Assistant</h4>
-                    <span class="text-[10px] text-blue-100 font-medium block">Live 24/7 Store Support</span>
+                    <span class="text-[10px] text-blue-100 font-medium block">Live Store Support</span>
                 </div>
             </div>
             <button id="chat-close" class="text-white/80 hover:text-white text-base font-bold px-1.5 py-0.5 rounded hover:bg-white/10 transition">✕</button>
@@ -446,37 +447,21 @@
         <div id="chat-box" class="p-4 h-80 overflow-y-auto space-y-3 text-xs bg-slate-50 dark:bg-[#09090B]">
             <div class="flex justify-start">
                 <div class="bg-white dark:bg-[#18181B] text-slate-900 dark:text-zinc-100 px-4 py-3 rounded-2xl rounded-tl-sm max-w-[85%] border border-slate-200 dark:dark:border-zinc-700 shadow-sm">
-                    @if(auth()->check() && auth()->user()->isRider())
-                        Hi Rider {{ auth()->user()->name }}! How can I assist with your pickup & delivery dispatches today, po? 🛵
-                    @else
-                        Hi! How can I help you today, po? 😊
-                    @endif
+                    Hi! How can I help you today, po? 😊
                 </div>
             </div>
 
-            <!-- Quick Suggestion Pills (CATC Style) -->
+            <!-- Quick Suggestion Pills -->
             <div id="quick-suggestions-container" class="flex flex-col items-end space-y-2 pt-2">
-                @if(auth()->check() && auth()->user()->isRider())
-                    <button onclick="sendQuickMessage('Customer pickup requests?')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-4 py-2 rounded-full transition shadow-sm">
-                        Customer pickup requests?
-                    </button>
-                    <button onclick="sendQuickMessage('Clean delivery dispatches?')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-4 py-2 rounded-full transition shadow-sm">
-                        Clean delivery dispatches?
-                    </button>
-                    <button onclick="sendQuickMessage('Rider hotline & support?')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-4 py-2 rounded-full transition shadow-sm">
-                        Rider hotline & support?
-                    </button>
-                @else
-                    <button onclick="sendQuickMessage('What requirements are needed?')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-4 py-2 rounded-full transition shadow-sm">
-                        What requirements are needed?
-                    </button>
-                    <button onclick="sendQuickMessage('Services & rates offered?')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-4 py-2 rounded-full transition shadow-sm">
-                        Services & rates offered?
-                    </button>
-                    <button onclick="sendQuickMessage('Store location & hours?')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-4 py-2 rounded-full transition shadow-sm">
-                        Store location & hours?
-                    </button>
-                @endif
+                <button onclick="sendQuickMessage('Services & rates offered?')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-4 py-2 rounded-full transition shadow-sm">
+                    Services & rates offered?
+                </button>
+                <button onclick="sendQuickMessage('How to track my laundry order?')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-4 py-2 rounded-full transition shadow-sm">
+                    How to track my laundry order?
+                </button>
+                <button onclick="sendQuickMessage('Store location & hours?')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-4 py-2 rounded-full transition shadow-sm">
+                    Store location & hours?
+                </button>
             </div>
         </div>
 
@@ -493,6 +478,7 @@
             </p>
         </div>
     </div>
+    @endif
 
     <script>
     document.addEventListener('DOMContentLoaded', function () {
