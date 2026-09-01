@@ -366,15 +366,40 @@
                     </div>
 
                     @php
-                        $effectiveExpiry = $order->estimated_completion
-                            ? $order->estimated_completion->timestamp
-                            : $order->updated_at->addMinutes(30)->timestamp;
+                        $stageCycleMinutes = match($order->order_status) {
+                            'out_for_pickup'   => 20,
+                            'received'         => 10,
+                            'washing'          => 35,
+                            'rinsing'          => 15,
+                            'drying'           => 40,
+                            'finish'           => 15,
+                            'out_for_delivery' => 20,
+                            default            => 30,
+                        };
+
+                        $stageTimerLabel = match($order->order_status) {
+                            'out_for_pickup'   => 'Pickup Dispatch Time:',
+                            'received'         => 'Store Preparation Time:',
+                            'washing'          => 'Washing Cycle Remaining:',
+                            'rinsing'          => 'Rinse Cycle Remaining:',
+                            'drying'           => 'Dryer Cycle Remaining:',
+                            'finish'           => 'Folding & Ready Time:',
+                            'out_for_delivery' => 'Delivery Dispatch Time:',
+                            default            => 'Stage Time Remaining:',
+                        };
+
+                        $stageHistory = $order->statusHistory?->where('status', $order->order_status)->last();
+                        $stageStartTime = ($stageHistory && $stageHistory->created_at)
+                            ? \Carbon\Carbon::parse($stageHistory->created_at)
+                            : $order->updated_at;
+
+                        $stageExpiryTimestamp = $stageStartTime->copy()->addMinutes($stageCycleMinutes)->timestamp;
                     @endphp
 
-                    @if(in_array($order->order_status, ['washing', 'rinsing', 'drying']) || ($isFoldOnly && $order->order_status === 'finish'))
+                    @if(in_array($order->order_status, ['out_for_pickup', 'received', 'washing', 'rinsing', 'drying', 'finish', 'out_for_delivery']))
                         <div class="p-2.5 rounded-lg bg-slate-800/90 border border-amber-400/40 flex items-center justify-between text-xs font-mono font-bold text-amber-300">
-                            <span class="text-amber-300 dark:text-amber-300 font-bold opacity-100 !text-amber-300">Time Remaining:</span>
-                            <span id="order-countdown" data-expiry="{{ $effectiveExpiry }}" class="text-amber-300 dark:text-amber-300 font-extrabold !text-amber-300">Calculating...</span>
+                            <span class="text-amber-300 font-bold opacity-100">{{ $stageTimerLabel }}</span>
+                            <span id="order-countdown" data-expiry="{{ $stageExpiryTimestamp }}" class="text-amber-300 font-extrabold">Calculating...</span>
                         </div>
                     @endif
                 </div>
@@ -479,7 +504,7 @@
 
 </div>
 
-@if(in_array($order->order_status, ['washing', 'rinsing', 'drying']) || ($isFoldOnly && $order->order_status === 'finish'))
+@if(in_array($order->order_status, ['out_for_pickup', 'received', 'washing', 'rinsing', 'drying', 'finish', 'out_for_delivery']))
 <script>
     function runOrderCountdown() {
         const countdownEl = document.getElementById('order-countdown');
@@ -495,7 +520,7 @@
             const distance = expiryTimestamp - now;
 
             if (distance <= 0) {
-                countdownEl.innerText = "Cycle Finishing (Final Rinse/Spin)";
+                countdownEl.innerText = "0m 00s (Stage Finishing...)";
                 return;
             }
 
