@@ -144,13 +144,7 @@
                     <!-- Top Order Card Header (QR Thumbnail + Order # + Machine Badge + Actions + Price) -->
                     <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 dark:border-zinc-700 pb-3">
                         <div class="flex items-center gap-3">
-                            @if($order->qrCode?->qr_image_url)
-                                <img src="{{ asset($order->qrCode->qr_image_url) }}" alt="QR Code" class="w-12 h-12 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white p-0.5 shrink-0 shadow-sm">
-                            @else
-                                <div class="w-12 h-12 rounded-lg bg-slate-100 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 flex items-center justify-center font-mono text-[10px] font-bold text-slate-500 shrink-0">
-                                    QR
-                                </div>
-                            @endif
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ $order->qrCode?->qr_token ?? $order->order_number }}" alt="QR Code Tag #{{ $order->order_number }}" class="w-12 h-12 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white p-0.5 shrink-0 shadow-sm">
                             <div>
                                 <div class="flex items-center gap-2">
                                     <a href="{{ route('laundry.track', $order->qrCode?->qr_token ?? $order->order_number) }}" target="_blank" class="font-mono font-bold text-base text-blue-600 dark:text-blue-400 hover:underline">
@@ -349,13 +343,7 @@
                     <!-- Top Order Card Header (QR Thumbnail + Order # + Machine Badge + Actions + Price) -->
                     <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 dark:border-zinc-700 pb-3">
                         <div class="flex items-center gap-3">
-                            @if($order->qrCode?->qr_image_url)
-                                <img src="{{ asset($order->qrCode->qr_image_url) }}" alt="QR Code" class="w-12 h-12 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white p-0.5 shrink-0 shadow-sm">
-                            @else
-                                <div class="w-12 h-12 rounded-lg bg-slate-100 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 flex items-center justify-center font-mono text-[10px] font-bold text-slate-500 shrink-0">
-                                    QR
-                                </div>
-                            @endif
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ $order->qrCode?->qr_token ?? $order->order_number }}" alt="QR Code Tag #{{ $order->order_number }}" class="w-12 h-12 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white p-0.5 shrink-0 shadow-sm">
                             <div>
                                 <div class="flex items-center gap-2">
                                     <a href="{{ route('laundry.track', $order->qrCode?->qr_token ?? $order->order_number) }}" target="_blank" class="font-mono font-bold text-base text-blue-600 dark:text-blue-400 hover:underline">
@@ -537,13 +525,7 @@
                     <!-- Top Order Card Header (QR Thumbnail + Order # + Machine Badge + Actions + Price) -->
                     <div class="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 dark:border-zinc-700 pb-3">
                         <div class="flex items-center gap-3">
-                            @if($order->qrCode?->qr_image_url)
-                                <img src="{{ asset($order->qrCode->qr_image_url) }}" alt="QR Code" class="w-12 h-12 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white p-0.5 shrink-0 shadow-sm">
-                            @else
-                                <div class="w-12 h-12 rounded-lg bg-slate-100 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 flex items-center justify-center font-mono text-[10px] font-bold text-slate-500 shrink-0">
-                                    QR
-                                </div>
-                            @endif
+                            <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ $order->qrCode?->qr_token ?? $order->order_number }}" alt="QR Code Tag #{{ $order->order_number }}" class="w-12 h-12 rounded-lg border border-slate-300 dark:border-zinc-700 bg-white p-0.5 shrink-0 shadow-sm">
                             <div>
                                 <div class="flex items-center gap-2">
                                     <a href="{{ route('laundry.track', $order->qrCode?->qr_token ?? $order->order_number) }}" target="_blank" class="font-mono font-bold text-base text-blue-600 dark:text-blue-400 hover:underline">
