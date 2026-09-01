@@ -277,6 +277,32 @@
                             {{ $displayAddress }}
                         </div>
                     </div>
+
+                    @if($order->pickupDelivery?->pickup_proof_image || $order->pickupDelivery?->delivery_proof_image)
+                        <div class="pt-2 border-t border-black/5 dark:border-zinc-700 space-y-2">
+                            <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Rider Photo Proof Evidence</span>
+                            <div class="flex flex-wrap items-center gap-3">
+                                @if($order->pickupDelivery?->pickup_proof_image)
+                                    <a href="{{ asset($order->pickupDelivery->pickup_proof_image) }}" target="_blank" class="flex items-center gap-2 p-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/30 hover:bg-emerald-500/20 transition">
+                                        <img src="{{ asset($order->pickupDelivery->pickup_proof_image) }}" alt="Pickup Proof" class="w-10 h-10 rounded object-cover border border-emerald-500/40">
+                                        <div class="text-left">
+                                            <span class="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 block">Pickup Proof</span>
+                                            <span class="text-[9.5px] text-blue-600 dark:text-blue-400 underline font-semibold">View Full</span>
+                                        </div>
+                                    </a>
+                                @endif
+                                @if($order->pickupDelivery?->delivery_proof_image)
+                                    <a href="{{ asset($order->pickupDelivery->delivery_proof_image) }}" target="_blank" class="flex items-center gap-2 p-1.5 rounded-lg bg-cyan-500/10 border border-cyan-500/30 hover:bg-cyan-500/20 transition">
+                                        <img src="{{ asset($order->pickupDelivery->delivery_proof_image) }}" alt="Delivery Proof" class="w-10 h-10 rounded object-cover border border-cyan-500/40">
+                                        <div class="text-left">
+                                            <span class="text-[11px] font-bold text-cyan-700 dark:text-cyan-400 block">Delivery Proof</span>
+                                            <span class="text-[9.5px] text-blue-600 dark:text-blue-400 underline font-semibold">View Full</span>
+                                        </div>
+                                    </a>
+                                @endif
+                            </div>
+                        </div>
+                    @endif
                 </div>
 
                 <div class="p-3.5 sm:p-4 rounded-lg sm:rounded-lg bg-slate-50 dark:bg-[#18181B] border border-black/5 dark:dark:border-zinc-700 space-y-3">
