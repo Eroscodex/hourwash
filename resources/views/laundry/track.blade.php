@@ -552,6 +552,5 @@
         .catch(function(e) { /* Silent tracking sync check */ });
     }, 4000);
 </script>
-@endif
 
 </x-app-layout>
