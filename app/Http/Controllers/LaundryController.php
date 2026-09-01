@@ -268,11 +268,15 @@ class LaundryController extends Controller
         if ($qrCode) {
             $order = Order::with(['service', 'customer', 'machine', 'qrCode', 'statusHistory'])->find($qrCode->order_id);
         } else {
-            // 2. Check if code is Order Code or Order ID
-            $order = Order::with(['service', 'customer', 'machine', 'qrCode', 'statusHistory'])
-                ->where('order_number', $cleanQr)
-                ->orWhere('id', $cleanQr)
-                ->first();
+            // 2. Check if code is Order Code or numeric Order ID
+            $query = Order::with(['service', 'customer', 'machine', 'qrCode', 'statusHistory'])
+                ->where('order_number', $cleanQr);
+
+            if (is_numeric($cleanQr)) {
+                $query->orWhere('id', (int) $cleanQr);
+            }
+
+            $order = $query->first();
 
             // 3. Check if code belongs to Machine Tag (e.g. WM-001)
             if (! $order) {
@@ -284,7 +288,7 @@ class LaundryController extends Controller
         }
 
         if (! $order) {
-            return redirect()->route('welcome')->with('error', 'No active order tracking found for QR token / machine tag: '.$qr);
+            return redirect()->route('welcome')->with('error', 'No active order tracking found for QR token / order code: '.$qr);
         }
 
         /** @var User|null $authUser */
