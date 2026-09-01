@@ -335,14 +335,24 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/>
                         </svg>
                     </button>
-                    <form action="{{ route('global.search') }}" method="GET" class="hidden sm:flex items-center relative w-64 md:w-80">
-                        <button type="submit" aria-label="Submit search" class="absolute left-3 text-slate-400 dark:text-zinc-400 hover:text-blue-600 focus:outline-none z-10 flex items-center justify-center">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                            </svg>
-                        </button>
-                        <input type="text" name="q" value="{{ request('q') }}" placeholder="Search orders, machines, users..." class="w-full !pl-9 pr-4 py-2 bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700 rounded-lg text-xs text-slate-900 dark:text-zinc-100 placeholder-slate-400 dark:placeholder-zinc-500 focus:outline-none focus:border-blue-600 transition" style="padding-left: 2.25rem !important;" required>
-                    </form>
+                    @auth
+                        @php
+                            $searchPlaceholder = match(auth()->user()?->role) {
+                                'admin', 'owner' => 'Search orders, machines, users...',
+                                'staff' => 'Search laundry orders, machines...',
+                                'rider' => 'Search dispatches, customer orders...',
+                                default => 'Search my orders & receipts...',
+                            };
+                        @endphp
+                        <form action="{{ route('global.search') }}" method="GET" class="hidden sm:flex items-center relative w-64 md:w-80">
+                            <button type="submit" aria-label="Submit search" class="absolute left-3 text-slate-400 dark:text-zinc-400 hover:text-blue-600 focus:outline-none z-10 flex items-center justify-center">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                </svg>
+                            </button>
+                            <input type="text" name="q" value="{{ request('q') }}" placeholder="{{ $searchPlaceholder }}" class="w-full !pl-9 pr-4 py-2 bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700 rounded-lg text-xs text-slate-900 dark:text-zinc-100 placeholder-slate-400 dark:placeholder-zinc-500 focus:outline-none focus:border-blue-600 transition" style="padding-left: 2.25rem !important;" required>
+                        </form>
+                    @endauth
                 </div>
 
                 <div class="flex items-center gap-2 sm:gap-4">

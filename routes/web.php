@@ -223,7 +223,7 @@ Route::post('/laundry/{order}/extend-brownout', function (Request $request, Orde
     return back()->with('success', "⚡ Power Outage / Brownout extension applied! Order #{$order->order_number} estimated completion extended by +{$minutes} minutes. Customer notified via Email & SMS ({$order->customer->phone}).");
 })->middleware('auth')->name('admin.laundry.extend');
 
-// Global Navbar Search Route
+// Global Navbar Search Route with Strict Role Scoping
 Route::get('/search', function (Request $request) {
     $q = trim($request->get('q', ''));
 
@@ -232,38 +232,96 @@ Route::get('/search', function (Request $request) {
     }
 
     $cleanQ = ltrim($q, '#');
+    /** @var User|null $authUser */
+    $authUser = Auth::user();
 
-    // 1. Match Order Code / QR Token / Order ID
-    $qr = QrCode::where('qr_token', $cleanQ)->first();
-    $order = $qr ? Order::find($qr->order_id) : Order::where('order_number', $cleanQ)->orWhere('id', $cleanQ)->first();
+    if (! $authUser) {
+        return redirect()->route('login');
+    }
+
+    // 1. CUSTOMER ROLE SEARCH SCOPING (Strictly isolated to their own orders)
+    if ($authUser->isCustomer()) {
+        $order = Order::where('customer_id', $authUser->id)
+            ->where(function ($query) use ($cleanQ, $q) {
+                $query->where('order_number', $cleanQ)
+                    ->orWhere('id', is_numeric($cleanQ) ? (int) $cleanQ : 0)
+                    ->orWhereHas('service', function ($s) use ($q) {
+                        $s->where('name', 'like', "%{$q}%");
+                    });
+            })
+            ->first();
+
+        if ($order) {
+            return redirect()->route('laundry.track', $order->order_number);
+        }
+
+        return redirect()->route('my.orders')->with('error', "No matching orders found in your order history for '{$q}'.");
+    }
+
+    // 2. RIDER ROLE SEARCH SCOPING (Dispatches & assigned customer orders)
+    if ($authUser->isRider()) {
+        $order = Order::where(function ($query) use ($cleanQ, $q) {
+            $query->where('order_number', $cleanQ)
+                ->orWhere('id', is_numeric($cleanQ) ? (int) $cleanQ : 0)
+                ->orWhereHas('customer', function ($u) use ($q) {
+                    $u->where('name', 'like', "%{$q}%")->orWhere('phone', 'like', "%{$q}%");
+                });
+        })->first();
+
+        if ($order) {
+            return redirect()->route('rider.dashboard')->with('success', "Found dispatch for Order #{$order->order_number}");
+        }
+
+        return redirect()->route('rider.dashboard')->with('error', "No matching dispatches found for '{$q}'.");
+    }
+
+    // 3. STAFF ROLE SEARCH SCOPING (Laundry Orders & Machines)
+    if ($authUser->isStaff()) {
+        $order = Order::where(function ($query) use ($cleanQ, $q) {
+            $query->where('order_number', $cleanQ)
+                ->orWhere('id', is_numeric($cleanQ) ? (int) $cleanQ : 0)
+                ->orWhereHas('customer', function ($u) use ($q) {
+                    $u->where('name', 'like', "%{$q}%");
+                });
+        })->first();
+
+        if ($order) {
+            return redirect()->route('laundry.track', $order->order_number);
+        }
+
+        $machine = Machine::where('machine_code', $cleanQ)->orWhere('machine_name', 'like', "%{$q}%")->first();
+        if ($machine) {
+            return redirect()->route('staff.machines.index')->with('info', "Machine {$machine->machine_name} Status: ".ucfirst($machine->status));
+        }
+
+        return redirect()->route('staff.laundry.index')->with('error', "No matching orders or machines found for '{$q}'.");
+    }
+
+    // 4. ADMIN / OWNER ROLE SEARCH SCOPING (Full system search: Orders, Machines, Users)
+    $order = Order::where(function ($query) use ($cleanQ, $q) {
+        $query->where('order_number', $cleanQ)
+            ->orWhere('id', is_numeric($cleanQ) ? (int) $cleanQ : 0)
+            ->orWhereHas('customer', function ($u) use ($q) {
+                $u->where('name', 'like', "%{$q}%");
+            });
+    })->first();
 
     if ($order) {
         return redirect()->route('laundry.track', $order->order_number);
     }
 
-    /** @var User|null $authUser */
-    $authUser = Auth::user();
-
-    // 2. Match Machine Code
     $machine = Machine::where('machine_code', $cleanQ)->orWhere('machine_name', 'like', "%{$q}%")->first();
     if ($machine) {
-        if ($authUser && ($authUser->isOwner() || $authUser->isStaff())) {
-            return redirect()->route('admin.machines.index');
-        }
-
-        return redirect()->route('welcome')->with('info', "Machine {$machine->machine_name} Status: ".ucfirst($machine->status));
+        return redirect()->route('admin.machines.index');
     }
 
-    // 3. Match User Name / Email (Owner & Staff only)
-    if ($authUser && ($authUser->isOwner() || $authUser->isStaff())) {
-        $foundUser = User::where('name', 'like', "%{$q}%")->orWhere('email', 'like', "%{$q}%")->first();
-        if ($foundUser) {
-            return redirect()->route('admin.users.index');
-        }
+    $foundUser = User::where('name', 'like', "%{$q}%")->orWhere('email', 'like', "%{$q}%")->first();
+    if ($foundUser) {
+        return redirect()->route('admin.users.index');
     }
 
-    return redirect()->route('welcome')->with('error', "No results found for '{$q}'. Try searching by Order Code e.g. HW884210");
-})->name('global.search');
+    return redirect()->route('admin.dashboard')->with('error', "No matching results found for '{$q}'.");
+})->middleware('auth')->name('global.search');
 
 /*
 |--------------------------------------------------------------------------
