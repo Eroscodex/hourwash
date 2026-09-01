@@ -738,19 +738,13 @@
                 ✕
             </button>
 
-            <div class="text-center space-y-1 w-full border-b border-slate-800 pb-3">
+            <div class="text-center w-full border-b border-slate-800 pb-3">
                 <h3 id="image-modal-title" class="text-sm sm:text-base font-bold text-white uppercase tracking-wider">Photo Evidence View</h3>
-                <p class="text-[11px] text-slate-400">Click ✕ button or press ESC to exit preview</p>
             </div>
 
             <div class="max-h-[75vh] w-full overflow-auto rounded-lg border border-slate-800 bg-black/50 flex items-center justify-center p-2">
                 <img id="image-modal-img" src="" alt="Proof Evidence" class="max-h-[70vh] w-auto max-w-full rounded object-contain shadow-lg">
             </div>
-
-            <button type="button" onclick="closeImageModal()" class="px-6 py-2 rounded-xl bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white border border-rose-500/40 font-bold text-xs shadow transition flex items-center gap-2 cursor-pointer">
-                <span class="font-black text-sm">✕</span>
-                <span>Exit / Close Preview</span>
-            </button>
         </div>
     </div>
 
