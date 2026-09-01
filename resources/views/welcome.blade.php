@@ -493,11 +493,17 @@
             </div>
         </div>
 
-        <div class="p-3 border-t border-slate-200 dark:border-zinc-800 bg-white dark:bg-[#141417] flex gap-2">
-            <input id="welcome-message" type="text" placeholder="Ask about order status, services..." class="flex-1 bg-slate-50 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 rounded-md px-3 py-1.5 text-xs focus:outline-none focus:border-blue-600 text-slate-900 dark:text-zinc-100" onkeydown="if(event.key==='Enter')welcomeSendMessage()">
-            <button onclick="welcomeSendMessage()" class="btn-primary py-1.5 px-3 text-xs">
-                Send
-            </button>
+        <div class="p-3 border-t border-slate-200 dark:border-zinc-800 bg-white dark:bg-[#141417] flex flex-col gap-1.5">
+            <div class="flex gap-2">
+                <input id="welcome-message" type="text" placeholder="Ask about order status, services..." class="flex-1 bg-slate-50 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 rounded-md px-3 py-1.5 text-xs focus:outline-none focus:border-blue-600 text-slate-900 dark:text-zinc-100" onkeydown="if(event.key==='Enter')welcomeSendMessage()">
+                <button onclick="welcomeSendMessage()" class="btn-primary py-1.5 px-3 text-xs shrink-0">
+                    Send
+                </button>
+            </div>
+            <p class="text-[9.5px] text-center text-slate-500 dark:text-slate-400 font-medium pt-1">
+                💬 Need help or want to report an issue? Email Developer Support at 
+                <a href="mailto:karlnicko2019@gmail.com" class="text-blue-600 dark:text-blue-400 font-bold hover:underline">karlnicko2019@gmail.com</a>
+            </p>
         </div>
     </div>
 

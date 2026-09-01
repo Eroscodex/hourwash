@@ -473,8 +473,7 @@
                 </button>
             </div>
             <p class="text-[9.5px] text-center text-slate-400 dark:text-slate-500 font-medium">
-                This is an AI generated response for Hour Wash Laundry.
-                If you have any concerns, please contact us directly at <a href="mailto:karlnicko2019@gmail.com" class="text-blue-600 dark:text-blue-400 hover:underline">karlnicko2019@gmail.com</a>
+                💬 Need help or want to report an issue? Contact Customer Support & Developers at <a href="mailto:karlnicko2019@gmail.com" class="text-blue-600 dark:text-blue-400 font-bold hover:underline">karlnicko2019@gmail.com</a>
             </p>
         </div>
     </div>

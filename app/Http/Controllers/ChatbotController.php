@@ -8,6 +8,7 @@ use App\Models\QrCode;
 use App\Models\Service;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
@@ -21,7 +22,7 @@ class ChatbotController extends Controller
 
         $msg = strtolower(trim($request->message));
         /** @var User|null $authUser */
-        $authUser = auth()->user();
+        $authUser = Auth::user();
 
         // 1. Guardrail Check: Intercept non-laundry queries
         if (Str::contains($msg, ['pancit', 'cook', 'recipe', 'food', 'noodle', 'dish', 'ingredient', 'python', 'code', 'math', 'politic'])) {
@@ -310,17 +311,22 @@ PROMPT;
             return "Hour Wash Laundry Shop Details (Lokasyon at Oras):\n- Address: Magallanes St., Orosite, Legazpi City, Albay, Philippines.\n- Operating Hours: 7:30 AM – 6:00 PM Daily (Monday – Sunday)\n- Same-Day Cut-Off: 4:30 PM\n- Hotline: (052) 800-HOURWASH";
         }
 
-        // 6. Greetings (English, Tagalog, Bikolano)
+        // 6. Contact, Customer Support & Developer Email Report
+        if (Str::contains($msg, ['contact', 'support', 'report', 'email', 'help', 'hotline', 'developer', 'bug', 'issue', 'how to contact', 'tumawag'])) {
+            return "Hour Wash Customer Support & Technical Team:\n- Shop Counter Hotline: (052) 800-HOURWASH / 09100317744\n- Store Address: Magallanes St., Orosite, Legazpi City, Albay\n- Email Developer Support: karlnicko2019@gmail.com\n- Developer Team Page: https://hourwashlaundryshop.up.railway.app/developers\n\nFor any questions, customer support, or technical bug reports, feel free to email our developer team at karlnicko2019@gmail.com anytime!";
+        }
+
+        // 7. Greetings (English, Tagalog, Bikolano)
         if (Str::contains($msg, ['hi', 'hello', 'hey', 'good', 'kumusta', 'musta', 'marhay', 'dios marhay'])) {
             if ($role === 'guest') {
-                return "Hello / Marhay na aldaw! Welcome to Hour Wash Laundry Shop! I can assist you with:\n- Services & Rates (Wash, Dry, Fold, Self-Service, Pickup & Delivery)\n- How It Works (Ordering & Processing)\n- Track Order (by Order # or Email)\n- Customer Reviews, About Us, Developers, Privacy Policy & Terms\n\nHow can I help you today?";
+                return "Hello / Marhay na aldaw! Welcome to Hour Wash Laundry Shop! I can assist you with:\n- Services & Rates (Wash, Dry, Fold, Self-Service, Pickup & Delivery)\n- How It Works (Ordering & Processing)\n- Track Order (by Order # or Email)\n- Customer Support & Developer Email (karlnicko2019@gmail.com)\n- Customer Reviews, About Us, Developers, Privacy Policy & Terms\n\nHow can I help you today?";
             }
 
             return "Hello {$user->name}! Welcome back to Hour Wash Laundry Portal! How can I assist you with your dashboard today?";
         }
 
-        // 7. General Multilingual Storefront Fallback
-        return "Hour Wash Laundry Shop AI Assistant:\n- Location: Magallanes St., Orosite, Legazpi City\n- Store Hours: 7:30 AM – 6:00 PM Daily (Cut-Off: 4:30 PM)\n- Services & Rates: Wash Only (P75), Dry Only (P75), Fold Only (P50), Self-Service (P150), Full-Service (P200/P250)\n- Track Order: Provide your Order Code (e.g. #HW-XXXXXX) to view live status!";
+        // 8. General Multilingual Storefront Fallback
+        return "Hour Wash Laundry Shop AI Assistant:\n- Location: Magallanes St., Orosite, Legazpi City\n- Store Hours: 7:30 AM – 6:00 PM Daily (Cut-Off: 4:30 PM)\n- Customer Support & Developer Email: karlnicko2019@gmail.com\n- Services & Rates: Wash Only (P75), Dry Only (P75), Fold Only (P50), Self-Service (P150), Full-Service (P200/P250)\n- Track Order: Provide your Order Code (e.g. #HW-XXXXXX) to view live status!";
     }
 
     /**
