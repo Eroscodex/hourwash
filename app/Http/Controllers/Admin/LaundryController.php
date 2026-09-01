@@ -66,9 +66,9 @@ class LaundryController extends Controller
 
                 // Start the service timer when the active processing stage begins.
                 if ($statusInput === 'washing') {
-                    $order->estimated_completion = now()->addMinutes($order->service?->estimatedDurationMinutes() ?? 30);
+                    $order->estimated_completion = now()->addMinutes($order->service?->estimatedDurationMinutes() ?? 35);
                 } elseif ($statusInput === 'finish' && $order->service?->service_type === 'fold') {
-                    $order->estimated_completion = now()->addMinutes($order->service->estimatedDurationMinutes());
+                    $order->estimated_completion = now()->addMinutes($order->service?->estimatedDurationMinutes() ?? 15);
                 }
 
                 // If order has no machine assigned yet, assign an available idle machine
@@ -85,7 +85,7 @@ class LaundryController extends Controller
                         Machine::where('id', $order->machine_id)->update([
                             'current_order_id' => $order->id,
                             'status' => 'washing',
-                            'remaining_minutes' => 30,
+                            'remaining_minutes' => 35,
                             'last_status_update' => now(),
                         ]);
                     } elseif ($statusInput === 'rinsing') {
@@ -99,7 +99,7 @@ class LaundryController extends Controller
                         Machine::where('id', $order->machine_id)->update([
                             'current_order_id' => $order->id,
                             'status' => 'drying',
-                            'remaining_minutes' => 35,
+                            'remaining_minutes' => 40,
                             'last_status_update' => now(),
                         ]);
                     } elseif ($statusInput === 'received') {

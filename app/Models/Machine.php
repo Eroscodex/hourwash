@@ -39,14 +39,14 @@ class Machine extends Model
     {
         if (in_array($this->status, ['washing', 'rinsing', 'drying'])) {
             $maxCycleDuration = match ($this->status) {
-                'washing' => 30,
+                'washing' => 35,
                 'rinsing' => 15,
-                'drying' => 35,
-                default => 30,
+                'drying' => 40,
+                default => 35,
             };
 
-            // Cap base minutes to standard single machine cycle duration (max 40 mins)
-            $baseMins = ($value !== null && $value > 0 && $value <= 40)
+            // Cap base minutes to standard single machine cycle duration (max 45 mins)
+            $baseMins = ($value !== null && $value > 0 && $value <= 45)
                 ? (int) $value
                 : $maxCycleDuration;
 
