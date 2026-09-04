@@ -10,11 +10,12 @@ RUN apk add --no-cache \
     freetype-dev \
     libzip-dev \
     oniguruma-dev \
+    sqlite-dev \
     git \
     unzip \
     curl \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo pdo_mysql mbstring gd zip bcmath opcache
+    && docker-php-ext-install pdo pdo_mysql pdo_sqlite mbstring gd zip bcmath opcache
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -31,8 +32,8 @@ RUN composer install --no-dev --optimize-autoloader --ignore-platform-reqs
 RUN npm ci || npm install
 RUN npm run build
 
-# Set permissions for storage
-RUN chmod -R 777 storage bootstrap/cache
+# Prepare database & permissions
+RUN touch database/database.sqlite && chmod -R 777 storage bootstrap/cache database
 
 EXPOSE 10000
 
