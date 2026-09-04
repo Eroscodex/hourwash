@@ -304,7 +304,7 @@
                         <form method="POST" action="{{ route('laundry.auto-assign-rider', $order->id) }}" class="inline">
                             @csrf
                             <button type="submit" class="bg-indigo-600/15 text-indigo-700 dark:text-indigo-300 border border-indigo-500/30 hover:bg-indigo-600 hover:text-white px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 cursor-pointer" title="Auto-assign on-duty rider">
-                                ⚡ Auto-Assign Rider
+                                Auto-Assign Rider
                             </button>
                         </form>
 
@@ -316,7 +316,7 @@
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="bg-rose-500/15 text-rose-700 dark:text-rose-400 border border-rose-500/30 hover:bg-rose-600 hover:text-white px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer" title="Delete Order One-by-One">
-                                🗑️ Delete
+                                Delete
                             </button>
                         </form>
 
