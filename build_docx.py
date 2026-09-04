@@ -55,7 +55,7 @@ def create_system_design_docx():
     p_disc1 = doc.add_paragraph()
     p_disc1.add_run("System Design & All System Features Breakdown (Isa-Isahin):\n").bold = True
     p_disc1.add_run(
-        "The HourWash Laundry Shop Management System adopts a multi-tiered, decoupled architecture engineered to deliver real-time operational efficiency, seamless database authentication, and scalable laundry shop management. Built on Laravel 11/12 (PHP 8.5) with Tailwind CSS and Vite, the system structures its capabilities across 13 comprehensive feature modules and 6 architectural layers:\n\n"
+        "A Web-Based Laundry Service Management System for HourWash Laundry Shop in Orosite Legazpi City adopts a multi-tiered, decoupled architecture engineered to deliver real-time operational efficiency, seamless database authentication, and scalable laundry shop management. Built on Laravel 11/12 (PHP 8.5) with Tailwind CSS and Vite, the system structures its capabilities across 13 comprehensive feature modules and 6 architectural layers:\n\n"
         "1. Comprehensive System Feature Breakdown (Isa-Isahin):\n"
         "   • Feature 1: User Authentication & Role-Based Access Control (RBAC): Handles user registration, database login authentication, password hashing (Bcrypt), and session token management for four distinct roles (Customer, Staff, Rider, Admin).\n"
         "   • Feature 2: Customer Profile & Contact Management: Stores customer delivery addresses, barangay, city, province, phone numbers, and specialized laundry instructions in the customer_profiles database table.\n"

@@ -58,10 +58,13 @@
                 All Orders ({{ $orders->count() }})
             </button>
             <button type="button" @click="adminTab = 'active'; filterAdminOrders('active')" :class="adminTab === 'active' ? 'bg-blue-600 text-white font-bold' : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-200'" class="px-3.5 py-1.5 rounded-lg text-xs transition border border-slate-200 dark:border-zinc-700 cursor-pointer">
-                Active Queue ({{ $orders->where('order_status', '!=', 'completed')->count() }})
+                Active Queue ({{ $orders->whereNotIn('order_status', ['completed', 'cancelled'])->count() }})
             </button>
             <button type="button" @click="adminTab = 'completed'; filterAdminOrders('completed')" :class="adminTab === 'completed' ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-200'" class="px-3.5 py-1.5 rounded-lg text-xs transition border border-slate-200 dark:border-zinc-700 cursor-pointer">
                 Completed History Log ({{ $orders->where('order_status', 'completed')->count() }})
+            </button>
+            <button type="button" @click="adminTab = 'cancelled'; filterAdminOrders('cancelled')" :class="adminTab === 'cancelled' ? 'bg-rose-600 text-white font-bold' : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-200'" class="px-3.5 py-1.5 rounded-lg text-xs transition border border-slate-200 dark:border-zinc-700 cursor-pointer">
+                Cancelled History Log ({{ $orders->where('order_status', 'cancelled')->count() }})
             </button>
         </div>
 
@@ -347,9 +350,11 @@
             if (type === 'all') {
                 card.style.display = '';
             } else if (type === 'active') {
-                card.style.display = status !== 'completed' ? '' : 'none';
+                card.style.display = (status !== 'completed' && status !== 'cancelled') ? '' : 'none';
             } else if (type === 'completed') {
                 card.style.display = status === 'completed' ? '' : 'none';
+            } else if (type === 'cancelled') {
+                card.style.display = status === 'cancelled' ? '' : 'none';
             }
         });
     }

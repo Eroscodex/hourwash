@@ -784,6 +784,62 @@
             </div>
         </div>
 
+        <!-- SECTION 5: CANCELLED ORDERS HISTORY LOG -->
+        <div class="space-y-4 pt-6 border-t border-slate-200 dark:border-zinc-800">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full bg-rose-500"></span>
+                    <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+                        5. Cancelled Orders History Log
+                    </h2>
+                    <span class="px-2.5 py-0.5 rounded-full text-xs font-black bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30">
+                        {{ $cancelledHistoryOrders->count() }} Orders
+                    </span>
+                </div>
+                <p class="text-xs text-slate-500 dark:text-zinc-400 font-medium">Archived cancelled delivery dispatches</p>
+            </div>
+
+            <div class="space-y-4">
+                @forelse($cancelledHistoryOrders as $order)
+                    <div class="app-card p-4 sm:p-5 space-y-3 border-l-4 border-l-rose-500 opacity-90 hover:opacity-100 transition rider-order-card shadow-sm">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 dark:border-zinc-800 pb-2.5">
+                            <div class="flex items-center gap-2.5">
+                                <span class="text-xs font-black font-mono text-rose-600 dark:text-rose-400">#{{ $order->order_number }}</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30">
+                                    CANCELLED
+                                </span>
+                            </div>
+                            <div class="text-right text-xs">
+                                <span class="text-slate-400 dark:text-zinc-500 text-[10.5px]">Updated: {{ $order->updated_at->format('M d, Y h:i A') }}</span>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                            <div>
+                                <span class="text-slate-400 dark:text-zinc-500 text-[10.5px] block font-medium">Customer & Address</span>
+                                <strong class="text-slate-900 dark:text-white block truncate">{{ $order->customer->name ?? 'Customer' }}</strong>
+                                <span class="text-slate-600 dark:text-zinc-400 block text-[11px] truncate">{{ $order->customer->customerProfile->address ?? 'N/A' }}</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 dark:text-zinc-500 text-[10.5px] block font-medium">Service & Payment</span>
+                                <strong class="text-slate-900 dark:text-white block">{{ $order->service->name ?? 'Pickup & Delivery' }}</strong>
+                                <span class="text-rose-600 dark:text-rose-400 font-extrabold block text-[11px]">₱{{ number_format($order->total_amount, 2) }} ({{ strtoupper($order->payment_status) }})</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 dark:text-zinc-500 text-[10.5px] block font-medium">Task Status</span>
+                                <strong class="text-rose-600 dark:text-rose-400 font-bold block">Order Terminated</strong>
+                                <span class="text-slate-400 dark:text-zinc-500 text-[10.5px]">Cancelled by Staff / Customer</span>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="app-card p-6 text-center text-slate-500 dark:text-slate-400">
+                        <p class="text-xs">No cancelled order records.</p>
+                    </div>
+                @endforelse
+            </div>
+        </div>
+
     </div>
 
     <script>

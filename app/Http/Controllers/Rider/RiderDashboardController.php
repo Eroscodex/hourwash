@@ -99,12 +99,19 @@ class RiderDashboardController extends Controller
             ->latest()
             ->get();
 
+        $cancelledHistoryOrders = Order::with(['customer.customerProfile', 'service', 'pickupDelivery', 'machine', 'statusHistory', 'qrCode'])
+            ->where('order_status', 'cancelled')
+            ->where($riderOrderScope)
+            ->latest()
+            ->get();
+
         return view('rider.dashboard', compact(
             'user',
             'pickupOrders',
             'inShopOrders',
             'deliveryOrders',
             'completedHistoryOrders',
+            'cancelledHistoryOrders',
             'completedTodayCount',
             'totalActiveTasks',
             'riderPickupRequests',
