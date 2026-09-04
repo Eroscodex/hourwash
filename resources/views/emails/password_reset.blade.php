@@ -10,7 +10,7 @@
 
     @php
         $logoPath = public_path('images/logo-email.png');
-        $logoSrc = file_exists($logoPath) ? 'data:image/png;base64,'.base64_encode(file_get_contents($logoPath)) : (file_exists(public_path('favicon.svg')) ? 'data:image/svg+xml;base64,'.base64_encode(file_get_contents(public_path('favicon.svg'))) : 'https://hourwashlaundryshop.up.railway.app/images/logo-email.png');
+        $logoSrc = file_exists($logoPath) ? 'data:image/png;base64,'.base64_encode(file_get_contents($logoPath)) : (file_exists(public_path('favicon.svg')) ? 'data:image/svg+xml;base64,'.base64_encode(file_get_contents(public_path('favicon.svg'))) : 'https://hourwash.onrender.com/images/logo-email.png');
     @endphp
 
     <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #F1F5F9; padding: 30px 15px;">

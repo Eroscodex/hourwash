@@ -18,7 +18,7 @@
 
     @php
         $logoPath = public_path('images/logo-email.png');
-        $logoSrc = file_exists($logoPath) ? 'data:image/png;base64,'.base64_encode(file_get_contents($logoPath)) : (file_exists(public_path('favicon.svg')) ? 'data:image/svg+xml;base64,'.base64_encode(file_get_contents(public_path('favicon.svg'))) : 'https://hourwashlaundryshop.up.railway.app/images/logo-email.png');
+        $logoSrc = file_exists($logoPath) ? 'data:image/png;base64,'.base64_encode(file_get_contents($logoPath)) : (file_exists(public_path('favicon.svg')) ? 'data:image/svg+xml;base64,'.base64_encode(file_get_contents(public_path('favicon.svg'))) : 'https://hourwash.onrender.com/images/logo-email.png');
         $st = strtolower($order->order_status);
         $statusLabel = match($st) {
             'pending' => 'Order Placed (Pending)',

@@ -184,7 +184,7 @@ class SmsNotificationService
             $message .= " {$customNote}";
         }
 
-        $appUrl = config('app.url', 'https://hourwashlaundryshop.up.railway.app');
+        $appUrl = config('app.url', 'https://hourwash.onrender.com');
         $cleanUrl = preg_replace('/^https?:\/\//', '', rtrim($appUrl, '/'));
         $message .= " Track: {$cleanUrl}/laundry/track/{$code}";
         $smsStatus = 'failed';

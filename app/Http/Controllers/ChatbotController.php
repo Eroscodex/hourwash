@@ -313,7 +313,7 @@ PROMPT;
 
         // 6. Contact, Customer Support & Developer Email Report
         if (Str::contains($msg, ['contact', 'support', 'report', 'email', 'help', 'hotline', 'developer', 'bug', 'issue', 'how to contact', 'tumawag'])) {
-            return "Hour Wash Customer Support & Technical Team:\n- Shop Counter Hotline: (052) 800-HOURWASH / 09100317744\n- Store Address: Magallanes St., Orosite, Legazpi City, Albay\n- Email Developer Support: karlnicko2019@gmail.com\n- Developer Team Page: https://hourwashlaundryshop.up.railway.app/developers\n\nFor any questions, customer support, or technical bug reports, feel free to email our developer team at karlnicko2019@gmail.com anytime!";
+            return "Hour Wash Customer Support & Technical Team:\n- Shop Counter Hotline: (052) 800-HOURWASH / 09100317744\n- Store Address: Magallanes St., Orosite, Legazpi City, Albay\n- Email Developer Support: karlnicko2019@gmail.com\n- Developer Team Page: https://hourwash.onrender.com/developers\n\nFor any questions, customer support, or technical bug reports, feel free to email our developer team at karlnicko2019@gmail.com anytime!";
         }
 
         // 7. Greetings (English, Tagalog, Bikolano)
