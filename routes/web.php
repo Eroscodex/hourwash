@@ -220,7 +220,7 @@ Route::post('/laundry/{order}/extend-brownout', function (Request $request, Orde
         Log::error('Brownout SMS notification error: '.$e->getMessage());
     }
 
-    return back()->with('success', "⚡ Power Outage / Brownout extension applied! Order #{$order->order_number} estimated completion extended by +{$minutes} minutes. Customer notified via Email & SMS ({$order->customer->phone}).");
+    return back()->with('success', "Power Outage / Brownout extension applied! Order #{$order->order_number} estimated completion extended by +{$minutes} minutes. Customer notified via Email & SMS ({$order->customer->phone}).");
 })->middleware('auth')->name('admin.laundry.extend');
 
 Route::delete('/laundry/{order}', [LaundryController::class, 'destroy'])->middleware('auth')->name('laundry.destroy');

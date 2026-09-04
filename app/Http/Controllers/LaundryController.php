@@ -415,7 +415,7 @@ class LaundryController extends Controller
                 $order->update(['order_status' => 'out_for_delivery']);
             }
 
-            return redirect()->back()->with('success', "⚡ Auto-Assigned Rider [{$riderName}] ({$riderPhone}) to Order #{$order->order_number}!");
+            return redirect()->back()->with('success', "Auto-Assigned Rider [{$riderName}] ({$riderPhone}) to Order #{$order->order_number}!");
         } catch (\Throwable $e) {
             Log::error("Auto-assign rider error for #{$order->order_number}: ".$e->getMessage());
 
