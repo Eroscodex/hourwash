@@ -9,8 +9,7 @@
 <body style="margin: 0; padding: 0; background-color: #F1F5F9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;">
 
     @php
-        $logoPath = public_path('images/logo-email.png');
-        $logoSrc = file_exists($logoPath) ? 'data:image/png;base64,'.base64_encode(file_get_contents($logoPath)) : (file_exists(public_path('favicon.svg')) ? 'data:image/svg+xml;base64,'.base64_encode(file_get_contents(public_path('favicon.svg'))) : 'https://hourwash.onrender.com/images/logo-email.png');
+        $logoSrc = 'https://raw.githubusercontent.com/Eroscodex/hourwash/main/public/images/logo-email.png';
     @endphp
 
     <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #F1F5F9; padding: 30px 15px;">
@@ -23,13 +22,15 @@
                 
                 <tr>
                     <td align="center" style="background-color: #0F172A; padding: 28px 20px;">
-                        <img
-                            src="{{ $logoSrc }}"
-                            alt="Hour Wash Logo"
-                            width="56"
-                            height="56"
-                            style="display: block; margin: 0 auto 10px auto; border-radius: 50%; border: 2px solid #38BDF8;"
-                        >
+                        <div style="width: 56px; height: 56px; background-color: #2563EB; border-radius: 50%; text-align: center; line-height: 56px; color: #FFFFFF; font-weight: 900; font-size: 18px; margin: 0 auto 10px auto; overflow: hidden; border: 2px solid #38BDF8; box-shadow: 0 2px 8px rgba(56,189,248,0.3);">
+                            <img
+                                src="{{ $logoSrc }}"
+                                alt="HW"
+                                width="56"
+                                height="56"
+                                style="display: block; margin: 0 auto; border-radius: 50%; border: 0; outline: none; width: 56px; height: 56px; object-fit: cover;"
+                            >
+                        </div>
 
                         <h1 style="margin: 0; font-size: 22px; font-weight: 800; color: #38BDF8; letter-spacing: 1px;">
                             HOUR WASH LAUNDRY

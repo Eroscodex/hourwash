@@ -17,8 +17,7 @@
 <body style="margin: 0; padding: 0; background-color: #FFFFFF; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1D1D1F; -webkit-font-smoothing: antialiased;">
 
     @php
-        $logoPath = public_path('images/logo-email.png');
-        $logoSrc = file_exists($logoPath) ? 'data:image/png;base64,'.base64_encode(file_get_contents($logoPath)) : (file_exists(public_path('favicon.svg')) ? 'data:image/svg+xml;base64,'.base64_encode(file_get_contents(public_path('favicon.svg'))) : 'https://hourwash.onrender.com/images/logo-email.png');
+        $logoSrc = 'https://raw.githubusercontent.com/Eroscodex/hourwash/main/public/images/logo-email.png';
         $st = strtolower($order->order_status);
         $statusLabel = match($st) {
             'pending' => 'Order Placed (Pending)',
@@ -48,7 +47,7 @@
                             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                 <tr>
                                     <td align="left" valign="middle" style="width: 44px;">
-                                        <div style="width: 36px; height: 36px; background-color: #f5f6f8; border-radius: 9px; text-align: center; line-height: 36px; color: #FFFFFF; font-weight: 800; font-size: 14px; overflow: hidden;">
+                                        <div style="width: 36px; height: 36px; background-color: #2563EB; border-radius: 9px; text-align: center; line-height: 36px; color: #FFFFFF; font-weight: 900; font-size: 13px; overflow: hidden; box-shadow: 0 2px 6px rgba(37,99,235,0.25);">
                                             <img src="{{ $logoSrc }}" alt="HW" width="36" height="36" style="display: block; border-radius: 9px; border: 0; outline: none; width: 36px; height: 36px; object-fit: cover;">
                                         </div>
                                     </td>
@@ -69,7 +68,7 @@
                                         <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                             <tr>
                                                 <td valign="top" style="width: 72px; padding-right: 16px;">
-                                                    <div style="width: 64px; height: 64px; background-color: #f7f7f9; border-radius: 16px; text-align: center; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04);">
+                                                    <div style="width: 64px; height: 64px; background-color: #2563EB; border-radius: 16px; text-align: center; line-height: 64px; color: #FFFFFF; font-weight: 900; font-size: 20px; overflow: hidden; box-shadow: 0 2px 8px rgba(37,99,235,0.25);">
                                                         <img src="{{ $logoSrc }}" alt="HW" width="64" height="64" style="display: block; border-radius: 16px; border: 0; outline: none; width: 64px; height: 64px; object-fit: cover;">
                                                     </div>
                                                 </td>
@@ -156,7 +155,7 @@
                     <!-- Minimalist Mobile-Responsive Footer -->
                     <tr>
                         <td align="center" style="border-top: 1px solid #E5E5EA; padding-top: 28px; padding-bottom: 20px;">
-                            <div style="width: 28px; height: 28px; background-color: #fbfbfb; border-radius: 7px; text-align: center; line-height: 28px; color: #FFFFFF; font-weight: 800; font-size: 11px; margin: 0 auto 14px auto; overflow: hidden;">
+                            <div style="width: 28px; height: 28px; background-color: #2563EB; border-radius: 7px; text-align: center; line-height: 28px; color: #FFFFFF; font-weight: 900; font-size: 10px; margin: 0 auto 14px auto; overflow: hidden; box-shadow: 0 2px 4px rgba(37,99,235,0.25);">
                                 <img src="{{ $logoSrc }}" alt="HW" width="28" height="28" style="display: block; border-radius: 7px; border: 0; outline: none; width: 28px; height: 28px; object-fit: cover;">
                             </div>
 
