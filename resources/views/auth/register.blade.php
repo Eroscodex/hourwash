@@ -6,7 +6,7 @@
         <!-- Full Name -->
         <div>
             <x-input-label for="name" :value="__('Full Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" placeholder="e.g. Holyfather" minlength="3" />
+            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" placeholder="e.g. Your Name" minlength="3" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
@@ -19,7 +19,7 @@
             </div>
             <div>
                 <x-input-label for="phone" :value="__('Phone Number')" />
-                <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')" required placeholder="09212325569" />
+                <x-text-input id="phone" class="block mt-1 w-full" type="text" name="phone" :value="old('phone')" required placeholder="e.g. 09XXXXXXXXX" />
                 <x-input-error :messages="$errors->get('phone')" class="mt-2" />
             </div>
         </div>
