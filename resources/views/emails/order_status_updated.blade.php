@@ -162,7 +162,7 @@
                             <p style="margin: 0 0 12px 0; font-size: 12px; color: #0066CC;">
                                 <a href="{{ url('/laundry/track/' . ($order->qrCode->qr_token ?? $order->order_number)) }}" style="color: #0066CC; text-decoration: none; font-weight: 500;">Track Order</a>
                                 <span style="color: #86868B; margin: 0 6px;">•</span>
-                                <a href="{{ url('/privacy') }}" style="color: #0066CC; text-decoration: none; font-weight: 500;">Privacy Policy</a>
+                                <a href="{{ route('privacy') }}" style="color: #0066CC; text-decoration: none; font-weight: 500;">Privacy Policy</a>
                             </p>
 
                             <p class="footer-copyright" style="margin: 0; font-size: 11px; color: #86868B; line-height: 1.5; text-align: center; word-break: break-word; max-width: 100%;">
