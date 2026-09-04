@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Hour Wash Laundry Management System</title>
+    <title>Hour Wash Laundry Shop Management System</title>
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     <link rel="shortcut icon" href="{{ asset('favicon.svg') }}">
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
@@ -37,7 +37,7 @@
                     <span class="text-base sm:text-lg font-bold tracking-tight text-slate-900 dark:text-white inline-flex items-center gap-0.5 leading-tight">
                         HOUR WASH
                     </span>
-                    <span class="text-[8.5px] sm:text-[10px] text-slate-900 dark:text-slate-100 tracking-wider uppercase font-semibold block whitespace-nowrap">LAUNDRY MANAGEMENT SYSTEM</span>
+                    <span class="text-[8.5px] sm:text-[10px] text-slate-900 dark:text-slate-100 tracking-wider uppercase font-semibold block whitespace-nowrap">LAUNDRY SHOP MANAGEMENT SYSTEM</span>
                 </div>
             </a>
 

@@ -134,7 +134,7 @@ STOREFRONT INFORMATION & PAGES AVAILABLE:
 - How It Works: 5-step process (Place Order -> Drop-off or Pickup & Delivery -> Wash/Dry/Fold -> Live QR Tracking -> Doorstep Delivery or Shop Pickup).
 - Track Order: Look up active orders by Order Code (e.g. #HW-XXXXXX) or registered email.
 - Customer Reviews: Customer ratings, satisfaction, and feedback policies.
-- About Us: Hour Wash Laundry Management System background and technology.
+- About Us: Hour Wash Laundry Shop Management System background and technology.
 - Developers: Built by Eroscodex Team.
 - Privacy Policy & Terms: Cash on Delivery (COD) payments, privacy protections, standard turnaround times.
 

@@ -55,7 +55,7 @@
             <h1 class="mt-3 text-2xl font-black tracking-tight text-slate-900 dark:text-white uppercase">
                 HOUR WASH
             </h1>
-            <p class="text-xs text-blue-600 dark:text-blue-400 tracking-widest uppercase mt-1 font-semibold">LAUNDRY MANAGEMENT SYSTEM</p>
+            <p class="text-xs text-blue-600 dark:text-blue-400 tracking-widest uppercase mt-1 font-semibold">LAUNDRY SHOP MANAGEMENT SYSTEM</p>
         </div>
 
         
