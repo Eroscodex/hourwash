@@ -455,7 +455,7 @@
             </nav>
             <div class="flex flex-col sm:flex-row items-center justify-between gap-1.5 text-[11px] text-slate-500 dark:text-zinc-400 border-t border-slate-100 dark:border-zinc-800/80 pt-2.5">
                 <div class="text-center sm:text-left">
-                    © {{ date('Y') }} Hour Wash Laundry Management System
+                    © {{ date('Y') }} A Web-Based Laundry Service Management System for Hour Wash Laundry Shop in Orosite, Legazpi City
                 </div>
                 <a href="https://maps.app.goo.gl/3yJAPrj4HQTZJPRb9" target="_blank" rel="noopener noreferrer" class="text-center sm:text-right font-medium text-slate-600 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
                     Magallanes St., Orosite, Legazpi City

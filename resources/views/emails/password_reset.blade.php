@@ -95,7 +95,7 @@
                 <tr>
                     <td align="center" style="background-color: #F8FAFC; padding: 20px; border-top: 1px solid #E2E8F0;">
                         <p style="margin: 0; font-size: 11px; color: #94A3B8;">
-                            © {{ date('Y') }} Hour Wash Laundry Shop. All rights reserved.
+                            © {{ date('Y') }} A Web-Based Laundry Service Management System for Hour Wash Laundry Shop in Orosite, Legazpi City. All rights reserved.
                         </p>
                     </td>
                 </tr>

@@ -254,22 +254,22 @@ def draw_class_box_bw(ax, x, y, name, attrs, methods, w=29, h=30):
     rect = patches.Rectangle((x, y), w, h, fc='#FFFFFF', ec='#000000', lw=1.4)
     ax.add_patch(rect)
     
-    h_rect = patches.Rectangle((x, y + h - 3.5), w, 3.5, fc='#FFFFFF', ec='#000000', lw=1.4)
+    h_rect = patches.Rectangle((x, y + h - 3.2), w, 3.2, fc='#FFFFFF', ec='#000000', lw=1.4)
     ax.add_patch(h_rect)
-    ax.text(x + w/2, y + h - 1.75, name, fontsize=9.5, fontweight='bold', ha='center', va='center', color='#000000')
+    ax.text(x + w/2.0, y + h - 1.6, name, fontsize=8.8, fontweight='bold', ha='center', va='center', color='#000000')
     
-    ax.plot([x, x + w], [y + h - 3.5, y + h - 3.5], color='#000000', lw=1.2)
+    ax.plot([x, x + w], [y + h - 3.2, y + h - 3.2], color='#000000', lw=1.2)
 
-    attr_start_y = y + h - 4.3
+    attr_start_y = y + h - 3.8
     for i, attr in enumerate(attrs):
-        ax.text(x + 0.8, attr_start_y - (i * 1.25), attr, fontsize=6.5, va='top', ha='left', color='#000000', fontfamily='sans-serif')
+        ax.text(x + 0.6, attr_start_y - (i * 1.05), attr, fontsize=6.2, va='top', ha='left', color='#000000', fontfamily='sans-serif')
 
-    div_y = attr_start_y - (len(attrs) * 1.25) - 0.4
+    div_y = attr_start_y - (len(attrs) * 1.05) - 0.2
     ax.plot([x, x + w], [div_y, div_y], color='#000000', lw=1.2)
 
-    method_start_y = div_y - 0.5
+    method_start_y = div_y - 0.4
     for j, meth in enumerate(methods):
-        ax.text(x + 0.8, method_start_y - (j * 1.25), meth, fontsize=6.5, va='top', ha='left', color='#000000', fontfamily='sans-serif')
+        ax.text(x + 0.6, method_start_y - (j * 1.05), meth, fontsize=6.2, va='top', ha='left', color='#000000', fontfamily='sans-serif')
 
 def draw_composition_diamond_bw(ax, x, y, direction='down'):
     if direction == 'down':
@@ -283,9 +283,16 @@ def draw_composition_diamond_bw(ax, x, y, direction='down'):
     diamond = patches.Polygon(pts, fc='#000000', ec='#000000', lw=1.2)
     ax.add_patch(diamond)
 
+def draw_aggregation_diamond_bw(ax, x, y, direction='down'):
+    if direction == 'down':
+        pts = [[x, y], [x - 0.8, y - 1.2], [x, y - 2.4], [x + 0.8, y - 1.2]]
+    elif direction == 'up':
+        pts = [[x, y], [x - 0.8, y + 1.2], [x, y + 2.4], [x + 0.8, y + 1.2]]
+    diamond = patches.Polygon(pts, fc='#FFFFFF', ec='#000000', lw=1.3)
+    ax.add_patch(diamond)
+
 def draw_generalization_triangle_bw(ax, x, y, direction='up'):
     if direction == 'up':
-        # Top vertex at y-0.8, base from y-2.6, so it NEVER touches the bottom line at y!
         pts = [[x, y - 0.8], [x - 1.0, y - 2.6], [x + 1.0, y - 2.6]]
     elif direction == 'down':
         pts = [[x, y + 0.8], [x - 1.0, y + 2.6], [x + 1.0, y + 2.6]]
@@ -293,7 +300,7 @@ def draw_generalization_triangle_bw(ax, x, y, direction='up'):
     ax.add_patch(tri)
 
 def generate_class_diagram():
-    fig, ax = plt.subplots(figsize=(16, 12.5), dpi=300)
+    fig, ax = plt.subplots(figsize=(16, 13.0), dpi=300)
     fig.patch.set_facecolor(PRIMARY_BG)
     ax.set_facecolor(PRIMARY_BG)
     ax.set_xlim(0, 100)
@@ -312,6 +319,43 @@ def generate_class_diagram():
                       ["- Name: varchar", "- Email: varchar", "- Phone Number: varchar", "- Address: varchar", "- Password: varchar", "- Role: varchar", "- Frequent Stamps: int"], 
                       ["+login()", "+changePassword()", "+updateProfile()"], w=24, h=18.0)
 
+    # UML Relationship Notation Legend Key Box (Top Right)
+    leg_box = patches.Rectangle((74.5, 78.5), 23.5, 18.0, fc='#FFFFFF', ec='#000000', lw=1.2)
+    ax.add_patch(leg_box)
+    leg_tab = patches.Rectangle((74.5, 94.5), 23.5, 2.0, fc='#FFFFFF', ec='#000000', lw=1.2)
+    ax.add_patch(leg_tab)
+    ax.text(86.25, 95.5, "UML Relationship Key", fontsize=7.5, fontweight='bold', ha='center', va='center', color='#000000')
+
+    # Legend Items
+    # 1. Composition
+    c_pts = [[76.5, 92.5], [75.7, 91.8], [76.5, 91.1], [77.3, 91.8]]
+    ax.add_patch(patches.Polygon(c_pts, fc='#000000', ec='#000000', lw=1.0))
+    ax.plot([77.3, 81.0], [91.8, 91.8], color='#000000', lw=1.2)
+    ax.text(82.2, 91.8, "Composition", fontsize=6.8, fontweight='bold', va='center', color='#000000')
+
+    # 2. Aggregation
+    a_pts = [[76.5, 89.2], [75.7, 88.5], [76.5, 87.8], [77.3, 88.5]]
+    ax.add_patch(patches.Polygon(a_pts, fc='#FFFFFF', ec='#000000', lw=1.0))
+    ax.plot([77.3, 81.0], [88.5, 88.5], color='#000000', lw=1.2)
+    ax.text(82.2, 88.5, "Aggregation", fontsize=6.8, fontweight='bold', va='center', color='#000000')
+
+    # 3. Generalization
+    g_pts = [[81.0, 85.2], [79.5, 84.4], [79.5, 86.0]]
+    ax.add_patch(patches.Polygon(g_pts, fc='#FFFFFF', ec='#000000', lw=1.0))
+    ax.plot([75.5, 79.5], [85.2, 85.2], color='#000000', lw=1.2)
+    ax.text(82.2, 85.2, "Generalization", fontsize=6.8, fontweight='bold', va='center', color='#000000')
+
+    # 4. Usage / Dependency
+    ax.plot([75.5, 81.0], [81.9, 81.9], color='#000000', linestyle='--', lw=1.2)
+    ax.annotate("", xy=(81.0, 81.9), xytext=(80.0, 81.9), arrowprops=dict(arrowstyle="->", lw=1.2, color='#000000', linestyle='--'))
+    ax.text(82.2, 81.9, "Usage (Dependency)", fontsize=6.8, fontweight='bold', va='center', color='#000000')
+
+    # 5. Directed Association
+    ax.plot([75.5, 81.0], [79.5, 79.5], color='#000000', lw=1.2)
+    ax.annotate("", xy=(81.0, 79.5), xytext=(80.0, 79.5), arrowprops=dict(arrowstyle="->", lw=1.2, color='#000000'))
+    ax.text(82.2, 79.5, "Directed Association", fontsize=6.8, fontweight='bold', va='center', color='#000000')
+
+
     # 2. MIDDLE TIER: Subclasses Inheriting from Users (y=54 to y=71)
     draw_class_box_bw(ax, 4, 54, "Customer", 
                       ["- user_id: int", "- address: varchar", "- barangay: varchar", "- city: varchar"], 
@@ -321,7 +365,7 @@ def generate_class_diagram():
                       ["- user_id: int", "- employee_id: varchar", "- position: varchar", "- status: varchar"], 
                       ["+manageLaundryOrders()", "+weighScaleOrder()", "+manageMachines()", "+triggerExtension()", "+createWalkInOrder()"], w=20, h=17)
 
-    draw_class_box_bw(ax, 51, 54, "Rider", 
+    draw_class_box_bw(ax, 51, 54, "Rider of HourWash", 
                       ["- user_id: int", "- rider_name: varchar", "- contact_number: varchar", "- status: varchar"], 
                       ["+viewRiderDispatches()", "+updatePickupStatus()", "+updateDeliveryStatus()", "+uploadProofPhoto()"], w=20, h=17)
 
@@ -330,7 +374,6 @@ def generate_class_diagram():
                       ["+viewOverallReports()", "+manageServicesAndPricing()", "+manageUsersAndStamps()", "+viewLiveSmsOutbox()", "+viewLiveEmailOutbox()"], w=20, h=17)
 
     # Generalization Lines (Subclasses -> Users Parent)
-    # Line from Users bottom border (50, 78.5) down to generalization triangle
     ax.plot([50, 50], [78.5, 75], color='#000000', lw=1.4)
     draw_generalization_triangle_bw(ax, 50, 78.5, direction='up')
 
@@ -340,63 +383,125 @@ def generate_class_diagram():
     ax.plot([61, 61], [75, 71], color='#000000', lw=1.4)
     ax.plot([84.5, 84.5], [75, 71], color='#000000', lw=1.4)
 
-    # 3. BOTTOM TIER: 6 Domain Entities (y=2 to y=40)
-    draw_class_box_bw(ax, 1.5, 2, "Order Records", 
+    # 3. BOTTOM TIER: 10 Use Case Feature Classes (Direct 1-to-1 match with Use Case Diagram)
+    # Row 1 (y=24 to 44, h=20.0)
+    draw_class_box_bw(ax, 1.5, 24, "Manage Laundry Orders", 
                       ["- Order ID: int", "- Order Number: varchar", "- Customer ID: int", "- Service ID: int", "- Total Amount: float", "- Order Status: varchar", "- Weight: float"], 
-                      ["+calculateSubtotal()", "+updateStatus()", "+assignMachine()", "+generateReceiptQR()"], w=14.5, h=38)
+                      ["+createBookOrder()", "+createWalkInOrder()", "+updateOrderStatus()", "+calculateTotalAmount()"], w=18.0, h=20.0)
 
-    draw_class_box_bw(ax, 18, 2, "SMS Remind", 
-                      ["- Log ID: int", "- Recipient Phone: varchar", "- Message Body: text", "- Delivery Status: varchar", "- Sent Timestamp: datetime"], 
-                      ["+sendTextBeeSms()", "+logSmsDispatch()", "+SkippedIfCanceled()"], w=14.5, h=38)
-
-    draw_class_box_bw(ax, 34.5, 2, "Services & Pricing", 
+    draw_class_box_bw(ax, 21.0, 24, "Services & Pricing", 
                       ["- Service ID: int", "- Service Name: varchar", "- Service Type: varchar", "- Rate Per Kg: float", "- Est Duration: int"], 
-                      ["+getPublicServices()", "+calculateRate()", "+updateTariff()"], w=14.5, h=38)
+                      ["+getPublicServices()", "+calculateServiceRate()", "+updateTariffRates()"], w=18.0, h=20.0)
 
-    draw_class_box_bw(ax, 51, 2, "Manage Machines", 
+    draw_class_box_bw(ax, 40.5, 24, "Manage Machines", 
                       ["- Machine ID: int", "- Machine Code: varchar", "- Machine Type: varchar", "- Status: varchar", "- Remaining Min: int"], 
-                      ["+assignOrder()", "+triggerExtension()", "+toggleStatus()"], w=14.5, h=38)
+                      ["+assignOrderToMachine()", "+trigger60mExtension()", "+toggleMachineStatus()"], w=18.0, h=20.0)
 
-    draw_class_box_bw(ax, 67.5, 2, "Pickup & Delivery", 
-                      ["- Task ID: int", "- Order ID: int", "- Rider Name: varchar", "- Logistics Status: varchar", "- Proof Image: varchar"], 
-                      ["+updatePickupStatus()", "+uploadProofPhoto()", "+completeDelivery()"], w=14.5, h=38)
+    draw_class_box_bw(ax, 60.0, 24, "Pickup & Delivery", 
+                      ["- Task ID: int", "- Order ID: int", "- Rider Name: varchar", "- Logistics Status: varchar", "- Proof Photo: varchar"], 
+                      ["+updatePickupStatus()", "+updateDeliveryStatus()", "+uploadProofPhoto()"], w=18.0, h=20.0)
 
-    draw_class_box_bw(ax, 84, 2, "QR Scan Logs", 
-                      ["- Audit Log ID: int", "- Order ID: int", "- Scanned By: int", "- QR Token: varchar", "- Scan Time: datetime"], 
-                      ["+logQrScan()", "+verifyQrToken()", "+fetchAuditHistory()"], w=14.5, h=38)
+    draw_class_box_bw(ax, 79.5, 24, "Overall Reports", 
+                      ["- Report ID: int", "- Total Revenue: float", "- Total Orders: int", "- Active Machines: int", "- Report Date: date"], 
+                      ["+generateDailyReport()", "+fetchRevenueAnalytics()", "+exportSummaryPDF()"], w=18.0, h=20.0)
 
-    # 4. RELATIONSHIP CONNECTIONS (Middle Tier -> Bottom Tier Entities)
-    # Customer (14, 54) -> Order Records (8.75, 40)
-    ax.plot([14, 14, 8.75, 8.75], [54, 46, 46, 40], color='#000000', lw=1.3)
-    draw_composition_diamond_bw(ax, 14, 54, direction='down')
-    ax.text(15.2, 52.0, "1", fontsize=8.0, color='#000000', fontweight='bold')
-    ax.text(10.0, 42.0, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
+    # Row 2 (y=1.5 to 20.5, h=19.0)
+    draw_class_box_bw(ax, 1.5, 1.5, "Live SMS Outbox", 
+                      ["- Log ID: int", "- Recipient Phone: varchar", "- Message Body: text", "- Delivery Status: varchar", "- Sent Timestamp: datetime"], 
+                      ["+sendTextBeeSms()", "+logSmsDispatch()", "+skipIfCanceled()"], w=18.0, h=19.0)
 
-    # Customer (14, 54) -> Services & Pricing (41.75, 40)
-    ax.plot([14, 14, 41.75, 41.75], [54, 46, 46, 40], color='#000000', lw=1.3)
-    ax.text(43.0, 42.0, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
+    draw_class_box_bw(ax, 21.0, 1.5, "Live Email Outbox", 
+                      ["- Email ID: int", "- Recipient Email: varchar", "- Subject: varchar", "- Email Body: text", "- Send Status: varchar"], 
+                      ["+sendBrevoEmail()", "+logEmailDispatch()", "+retryFailedEmail()"], w=18.0, h=19.0)
 
-    # Staff (37.5, 54) -> SMS Remind (25.25, 40)
-    ax.plot([37.5, 37.5, 25.25, 25.25], [54, 47, 47, 40], color='#000000', lw=1.3)
-    draw_composition_diamond_bw(ax, 37.5, 54, direction='down')
-    ax.text(38.7, 52.0, "1", fontsize=8.0, color='#000000', fontweight='bold')
-    ax.text(26.5, 42.0, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
+    draw_class_box_bw(ax, 40.5, 1.5, "QR Scan Logs", 
+                      ["- Audit Log ID: int", "- Order ID: int", "- Scanned By: int", "- QR Token: varchar", "- Scan Timestamp: datetime"], 
+                      ["+logQrScan()", "+verifyQrToken()", "+fetchScanAuditHistory()"], w=18.0, h=19.0)
 
-    # Staff (37.5, 54) -> Machine Fleet (58.25, 40)
-    ax.plot([37.5, 37.5, 58.25, 58.25], [54, 47, 47, 40], color='#000000', lw=1.3)
-    ax.text(59.5, 42.0, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
+    draw_class_box_bw(ax, 60.0, 1.5, "12-Stamp User Card", 
+                      ["- Card ID: int", "- Customer ID: int", "- Total Stamps: int", "- Reward Claimed: boolean", "- Expiry Date: date"], 
+                      ["+addOrderStamp()", "+redeemFreeWash()", "+getStampingStatus()"], w=18.0, h=19.0)
 
-    # Rider (61, 54) -> Pickup & Delivery (74.75, 40)
-    ax.plot([61, 61, 74.75, 74.75], [54, 48, 48, 40], color='#000000', lw=1.3)
-    draw_composition_diamond_bw(ax, 61, 54, direction='down')
-    ax.text(62.2, 52.0, "1", fontsize=8.0, color='#000000', fontweight='bold')
-    ax.text(76.0, 42.0, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
+    draw_class_box_bw(ax, 79.5, 1.5, "Customer Reviews", 
+                      ["- Review ID: int", "- Order ID: int", "- Customer ID: int", "- Rating Stars: int", "- Comments: text"], 
+                      ["+submitCustomerReview()", "+getPublicReviews()", "+deleteReview()"], w=18.0, h=19.0)
 
-    # Admin (84.5, 54) -> QR Scan Logs (91.25, 40)
-    ax.plot([84.5, 84.5, 91.25, 91.25], [54, 49, 49, 40], color='#000000', lw=1.3)
-    draw_composition_diamond_bw(ax, 84.5, 54, direction='down')
-    ax.text(85.7, 52.0, "1", fontsize=8.0, color='#000000', fontweight='bold')
-    ax.text(92.5, 42.0, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
+    # 4. RELATIONSHIP CONNECTIONS (Composition, Aggregation, Usage Dependency, Directed Association)
+    # A) Customer (x=14, y=54) Connections
+    # Composition: Customer ◆-- Manage Laundry Orders
+    ax.plot([14.0, 14.0, 10.5, 10.5], [54, 49, 49, 44], color='#000000', lw=1.3)
+    draw_composition_diamond_bw(ax, 14.0, 54.0, direction='down')
+    ax.text(15.0, 51.5, "1", fontsize=8.0, color='#000000', fontweight='bold')
+    ax.text(11.5, 45.0, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
+
+    # Directed Association: Customer -> Services & Pricing
+    ax.plot([14.0, 14.0, 27.0, 27.0], [54, 49, 49, 44], color='#000000', lw=1.3)
+    ax.annotate("", xy=(27.0, 44.0), xytext=(27.0, 45.2), arrowprops=dict(arrowstyle="->", lw=1.3, color='#000000'))
+    ax.text(28.0, 45.0, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
+
+    # Aggregation: Customer ◇-- 12-Stamp User Card
+    ax.plot([14.0, 14.0, 59.25, 59.25, 69.0, 69.0], [54, 46, 46, 22, 22, 20.5], color='#000000', lw=1.3)
+    draw_aggregation_diamond_bw(ax, 14.0, 54.0, direction='down')
+    ax.annotate("", xy=(69.0, 20.5), xytext=(69.0, 21.7), arrowprops=dict(arrowstyle="->", lw=1.3, color='#000000'))
+    ax.text(70.0, 21.5, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
+
+    # Aggregation: Customer ◇-- Customer Reviews
+    ax.plot([14.0, 14.0, 78.75, 78.75, 88.5, 88.5], [54, 46, 46, 22, 22, 20.5], color='#000000', lw=1.3)
+    draw_aggregation_diamond_bw(ax, 14.0, 54.0, direction='down')
+    ax.annotate("", xy=(88.5, 20.5), xytext=(88.5, 21.7), arrowprops=dict(arrowstyle="->", lw=1.3, color='#000000'))
+    ax.text(89.5, 21.5, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
+
+
+    # B) Staff (x=37.5, y=54) Connections
+    # Composition: Staff ◆-- Manage Laundry Orders
+    ax.plot([37.5, 37.5, 14.0, 14.0], [54, 50, 50, 44], color='#000000', lw=1.3)
+    draw_composition_diamond_bw(ax, 37.5, 54.0, direction='down')
+    ax.text(38.5, 51.5, "1", fontsize=8.0, color='#000000', fontweight='bold')
+    ax.text(15.0, 45.0, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
+
+    # Composition: Staff ◆-- Manage Machines
+    ax.plot([37.5, 37.5, 49.5, 49.5], [54, 50, 50, 44], color='#000000', lw=1.3)
+    draw_composition_diamond_bw(ax, 37.5, 54.0, direction='down')
+    ax.text(50.5, 45.0, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
+
+    # Usage Dependency: Staff -- Use --> QR Scan Logs
+    ax.plot([37.5, 37.5, 39.75, 39.75, 49.5, 49.5], [54, 47, 47, 22, 22, 20.5], color='#000000', linestyle='--', lw=1.3)
+    ax.annotate("", xy=(49.5, 20.5), xytext=(49.5, 21.7), arrowprops=dict(arrowstyle="->", lw=1.3, color='#000000', linestyle='--'))
+    ax.text(44.5, 22.8, "«Use»", fontsize=6.2, fontweight='bold', color='#000000', ha='center', va='center')
+    ax.text(50.5, 21.5, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
+
+
+    # C) Rider of HourWash (x=61.0, y=54) Connections
+    # Composition: Rider ◆-- Pickup & Delivery
+    ax.plot([61.0, 61.0, 69.0, 69.0], [54, 49, 49, 44], color='#000000', lw=1.3)
+    draw_composition_diamond_bw(ax, 61.0, 54.0, direction='down')
+    ax.text(62.0, 51.5, "1", fontsize=8.0, color='#000000', fontweight='bold')
+    ax.text(70.0, 45.0, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
+
+
+    # D) Admin (x=84.5, y=54) Connections
+    # Aggregation: Admin ◇-- Overall Reports
+    ax.plot([84.5, 84.5, 88.5, 88.5], [54, 49, 49, 44], color='#000000', lw=1.3)
+    draw_aggregation_diamond_bw(ax, 84.5, 54.0, direction='down')
+    ax.text(85.5, 51.5, "1", fontsize=8.0, color='#000000', fontweight='bold')
+    ax.text(89.5, 45.0, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
+
+    # Directed Association: Admin -> Services & Pricing
+    ax.plot([84.5, 84.5, 33.0, 33.0], [54, 51, 51, 44], color='#000000', lw=1.3)
+    ax.annotate("", xy=(33.0, 44.0), xytext=(33.0, 45.2), arrowprops=dict(arrowstyle="->", lw=1.3, color='#000000'))
+    ax.text(34.0, 45.0, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
+
+    # Usage Dependency: Admin -- Use --> Live SMS Outbox
+    ax.plot([84.5, 84.5, 19.5, 19.5, 10.5, 10.5], [54, 46, 46, 22, 22, 20.5], color='#000000', linestyle='--', lw=1.3)
+    ax.annotate("", xy=(10.5, 20.5), xytext=(10.5, 21.7), arrowprops=dict(arrowstyle="->", lw=1.3, color='#000000', linestyle='--'))
+    ax.text(15.0, 22.8, "«Use»", fontsize=6.2, fontweight='bold', color='#000000', ha='center', va='center')
+    ax.text(11.5, 21.5, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
+
+    # Usage Dependency: Admin -- Use --> Live Email Outbox
+    ax.plot([84.5, 84.5, 39.75, 39.75, 30.0, 30.0], [54, 47, 47, 22, 22, 20.5], color='#000000', linestyle='--', lw=1.3)
+    ax.annotate("", xy=(30.0, 20.5), xytext=(30.0, 21.7), arrowprops=dict(arrowstyle="->", lw=1.3, color='#000000', linestyle='--'))
+    ax.text(35.0, 22.8, "«Use»", fontsize=6.2, fontweight='bold', color='#000000', ha='center', va='center')
+    ax.text(31.0, 21.5, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
 
     plt.tight_layout()
     plt.savefig('diagrams/class_diagram.png', dpi=300, bbox_inches='tight', facecolor='white')
@@ -864,65 +969,67 @@ def draw_role_package_container_reference(ax, x, y, role_name, left_folders, rig
     rect = patches.Rectangle((x, y), w, h, fc='#FFFFFF', ec='#000000', lw=1.4)
     ax.add_patch(rect)
     
-    # Outer Role Top Tab (Placed cleanly INSIDE outer system frame)
-    tab_w = max(12.0, len(role_name) * 1.05)
-    tab_h = min(2.4, h * 0.055)
+    scale_w = w / 45.5
+    scale_h = h / 44.0
+
+    # Outer Role Top Tab
+    tab_w = max(12.0 * scale_w, len(role_name) * 1.05 * scale_w)
+    tab_h = min(2.4, h * 0.06)
     tab = patches.Rectangle((x, y + h), tab_w, tab_h, fc='#FFFFFF', ec='#000000', lw=1.4)
     ax.add_patch(tab)
-    ax.text(x + 1.2, y + h + tab_h/2.0, role_name, fontsize=8.5, fontweight='bold', color='#000000', va='center')
+    tab_fs = max(5.2, 8.5 * min(scale_w, scale_h))
+    ax.text(x + 1.2 * scale_w, y + h + tab_h/2.0, role_name, fontsize=tab_fs, fontweight='bold', color='#000000', va='center')
 
     num_f = len(left_folders)
-    scale = h / 44.0
-    folder_w = 17.0
-    folder_h = 4.6 * scale
-    ptab_h = 1.2 * scale
+    folder_w = 17.0 * scale_w
+    folder_h = 4.6 * scale_h
+    ptab_h = 1.2 * scale_h
+    ptab_w = 7.0 * scale_w
 
-    left_x = x + 3.0
-    right_x = x + 25.5
+    left_x = x + (3.0 * scale_w)
+    right_x = x + (25.5 * scale_w)
 
     if num_f == 4:
-        # 4-row layout (Admin with Trashbin)
-        y_starts = [y + (35.0 * scale) - i * (9.5 * scale) for i in range(4)]
+        y_starts = [y + (35.0 * scale_h) - i * (9.5 * scale_h) for i in range(4)]
     else:
-        # 3-row layout (Customer, Staff, Rider of HourWash with Profile at bottom)
-        y_starts = [y + (35.0 * scale) - i * (10.5 * scale) for i in range(3)]
+        y_starts = [y + (35.0 * scale_h) - i * (10.5 * scale_h) for i in range(3)]
 
     left_boxes = []
     right_boxes = []
 
+    lbl_fs = max(4.8, 7.2 * min(scale_w, scale_h))
+
     # Draw Left Column Folders
     for i, fname in enumerate(left_folders):
         fy = y_starts[i]
-        ptab = patches.Rectangle((left_x, fy + folder_h), 7.0, ptab_h, fc='#FFFFFF', ec='#000000', lw=1.0)
+        ptab = patches.Rectangle((left_x, fy + folder_h), ptab_w, ptab_h, fc='#FFFFFF', ec='#000000', lw=1.0)
         ax.add_patch(ptab)
         pbox = patches.Rectangle((left_x, fy), folder_w, folder_h, fc='#FFFFFF', ec='#000000', lw=1.0)
         ax.add_patch(pbox)
-        lbl_fs = 7.2 * min(1.0, scale)
         ax.text(left_x + folder_w/2.0, fy + folder_h/2.0, fname, fontsize=lbl_fs, fontweight='bold', ha='center', va='center', color='#000000')
-        left_boxes.append((fy, fy + folder_h + ptab_h)) # (bottom_y, top_tab_y)
+        left_boxes.append((fy, fy + folder_h + ptab_h))
 
     # Draw Right Column Folders
     for j, gname in enumerate(right_folders):
         fy = y_starts[j]
-        ptab = patches.Rectangle((right_x, fy + folder_h), 7.0, ptab_h, fc='#FFFFFF', ec='#000000', lw=1.0)
+        ptab = patches.Rectangle((right_x, fy + folder_h), ptab_w, ptab_h, fc='#FFFFFF', ec='#000000', lw=1.0)
         ax.add_patch(ptab)
         pbox = patches.Rectangle((right_x, fy), folder_w, folder_h, fc='#FFFFFF', ec='#000000', lw=1.0)
         ax.add_patch(pbox)
-        lbl_fs = 7.2 * min(1.0, scale)
         ax.text(right_x + folder_w/2.0, fy + folder_h/2.0, gname, fontsize=lbl_fs, fontweight='bold', ha='center', va='center', color='#000000')
         right_boxes.append((fy, fy + folder_h + ptab_h))
 
     # 1. Horizontal dashed ACCESS arrow from Top Left (Login) to Top Right (Dashboard)
     ax.annotate("", xy=(right_x, y_starts[0] + folder_h/2.0), xytext=(left_x + folder_w, y_starts[0] + folder_h/2.0),
                 arrowprops=dict(arrowstyle="->", lw=1.1, color='#000000', linestyle='--'))
-    ax.text((left_x + folder_w + right_x)/2.0, y_starts[0] + folder_h/2.0 + (1.1 * scale), "ACCESS", fontsize=6.2 * min(1.0, scale), fontweight='bold', ha='center', color='#000000')
+    ax.text((left_x + folder_w + right_x)/2.0, y_starts[0] + folder_h/2.0 + (1.0 * scale_h), "ACCESS", fontsize=max(4.2, 6.2 * min(scale_w, scale_h)), fontweight='bold', ha='center', color='#000000')
 
     # 2. Vertical dashed ACCESS arrow: Row 0 -> Row 1 (Left Column)
     top_y0 = left_boxes[0][0]
     bot_y1 = left_boxes[1][1]
     ax.annotate("", xy=(left_x + folder_w/2.0, bot_y1), xytext=(left_x + folder_w/2.0, top_y0),
                 arrowprops=dict(arrowstyle="->", lw=1.1, color='#000000', linestyle='--'))
-    ax.text(left_x + folder_w/2.0 - 2.8, (top_y0 + bot_y1)/2.0, "ACCESS", fontsize=5.8 * min(1.0, scale), fontweight='bold', ha='right', va='center', color='#000000')
+    ax.text(left_x + folder_w/2.0 - (2.5 * scale_w), (top_y0 + bot_y1)/2.0, "ACCESS", fontsize=max(4.0, 5.8 * min(scale_w, scale_h)), fontweight='bold', ha='right', va='center', color='#000000')
 
     # 3. Remaining Vertical Dashed Arrows Down Left Column
     for i in range(1, num_f - 1):
@@ -939,58 +1046,36 @@ def draw_role_package_container_reference(ax, x, y, role_name, left_folders, rig
                     arrowprops=dict(arrowstyle="->", lw=1.1, color='#000000', linestyle='--'))
 
     # 5. Draw Bottom Folder (Trashbin or Profile)
-    b_w = 14.5
-    b_h = 4.0 * scale
-    if bottom_folder_name == 'Trashbin':
-        b_x = x + 15.5
-        b_y = y + (0.8 * scale)
-        t_tab = patches.Rectangle((b_x, b_y + b_h), 6.0, 0.9 * scale, fc='#FFFFFF', ec='#000000', lw=1.0)
-        ax.add_patch(t_tab)
-        t_box = patches.Rectangle((b_x, b_y), b_w, b_h, fc='#FFFFFF', ec='#000000', lw=1.0)
-        ax.add_patch(t_box)
-        ax.text(b_x + b_w/2.0, b_y + b_h/2.0, bottom_folder_name, fontsize=7.2 * min(1.0, scale), fontweight='bold', ha='center', va='center', color='#000000')
+    b_w = 14.5 * scale_w
+    b_h = 4.0 * scale_h
+    b_x = x + (15.5 * scale_w)
+    b_y = y + (1.0 * scale_h)
+    t_tab = patches.Rectangle((b_x, b_y + b_h), 6.0 * scale_w, 0.9 * scale_h, fc='#FFFFFF', ec='#000000', lw=1.0)
+    ax.add_patch(t_tab)
+    t_box = patches.Rectangle((b_x, b_y), b_w, b_h, fc='#FFFFFF', ec='#000000', lw=1.0)
+    ax.add_patch(t_box)
+    ax.text(b_x + b_w/2.0, b_y + b_h/2.0, bottom_folder_name, fontsize=lbl_fs, fontweight='bold', ha='center', va='center', color='#000000')
 
-        # Stepped arrow from last right column folder down to Trashbin
-        last_right_bot_x = right_x + folder_w/2.0
-        last_right_bot_y = right_boxes[num_f - 1][0]
-        trash_top_x = b_x + b_w/2.0
-        trash_top_y = b_y + b_h + (0.9 * scale)
+    # Arrows from left bottom and right bottom folders down to Profile
+    left_bot_x = left_x + folder_w/2.0
+    left_bot_y = left_boxes[num_f - 1][0]
+    right_bot_x = right_x + folder_w/2.0
+    right_bot_y = right_boxes[num_f - 1][0]
+    prof_top_y = b_y + b_h + (0.9 * scale_h)
 
-        ax.plot([last_right_bot_x, last_right_bot_x, trash_top_x, trash_top_x],
-                [last_right_bot_y, trash_top_y + (0.6 * scale), trash_top_y + (0.6 * scale), trash_top_y],
-                color='#000000', linestyle='--', lw=1.1)
-        ax.annotate("", xy=(trash_top_x, trash_top_y), xytext=(trash_top_x, trash_top_y + 0.2),
-                    arrowprops=dict(arrowstyle="->", lw=1.1, color='#000000', linestyle='--'))
-    else:
-        # Profile / Account Settings at bottom center
-        b_x = x + 15.5
-        b_y = y + (1.0 * scale)
-        t_tab = patches.Rectangle((b_x, b_y + b_h), 6.0, 0.9 * scale, fc='#FFFFFF', ec='#000000', lw=1.0)
-        ax.add_patch(t_tab)
-        t_box = patches.Rectangle((b_x, b_y), b_w, b_h, fc='#FFFFFF', ec='#000000', lw=1.0)
-        ax.add_patch(t_box)
-        ax.text(b_x + b_w/2.0, b_y + b_h/2.0, bottom_folder_name, fontsize=7.2 * min(1.0, scale), fontweight='bold', ha='center', va='center', color='#000000')
+    # Arrow from left column down to Profile
+    ax.plot([left_bot_x, left_bot_x, b_x + (3.0 * scale_w), b_x + (3.0 * scale_w)],
+            [left_bot_y, prof_top_y + (0.6 * scale_h), prof_top_y + (0.6 * scale_h), prof_top_y],
+            color='#000000', linestyle='--', lw=1.1)
+    ax.annotate("", xy=(b_x + (3.0 * scale_w), prof_top_y), xytext=(b_x + (3.0 * scale_w), prof_top_y + 0.2),
+                arrowprops=dict(arrowstyle="->", lw=1.1, color='#000000', linestyle='--'))
 
-        # Arrows from left bottom and right bottom folders down to Profile
-        left_bot_x = left_x + folder_w/2.0
-        left_bot_y = left_boxes[num_f - 1][0]
-        right_bot_x = right_x + folder_w/2.0
-        right_bot_y = right_boxes[num_f - 1][0]
-        prof_top_y = b_y + b_h + (0.9 * scale)
-
-        # Arrow from left column down to Profile
-        ax.plot([left_bot_x, left_bot_x, b_x + 3.0, b_x + 3.0],
-                [left_bot_y, prof_top_y + (0.6 * scale), prof_top_y + (0.6 * scale), prof_top_y],
-                color='#000000', linestyle='--', lw=1.1)
-        ax.annotate("", xy=(b_x + 3.0, prof_top_y), xytext=(b_x + 3.0, prof_top_y + 0.2),
-                    arrowprops=dict(arrowstyle="->", lw=1.1, color='#000000', linestyle='--'))
-
-        # Arrow from right column down to Profile
-        ax.plot([right_bot_x, right_bot_x, b_x + b_w - 3.0, b_x + b_w - 3.0],
-                [right_bot_y, prof_top_y + (0.6 * scale), prof_top_y + (0.6 * scale), prof_top_y],
-                color='#000000', linestyle='--', lw=1.1)
-        ax.annotate("", xy=(b_x + b_w - 3.0, prof_top_y), xytext=(b_x + b_w - 3.0, prof_top_y + 0.2),
-                    arrowprops=dict(arrowstyle="->", lw=1.1, color='#000000', linestyle='--'))
+    # Arrow from right column down to Profile
+    ax.plot([right_bot_x, right_bot_x, b_x + b_w - (3.0 * scale_w), b_x + b_w - (3.0 * scale_w)],
+            [right_bot_y, prof_top_y + (0.6 * scale_h), prof_top_y + (0.6 * scale_h), prof_top_y],
+            color='#000000', linestyle='--', lw=1.1)
+    ax.annotate("", xy=(b_x + b_w - (3.0 * scale_w), prof_top_y), xytext=(b_x + b_w - (3.0 * scale_w), prof_top_y + 0.2),
+                arrowprops=dict(arrowstyle="->", lw=1.1, color='#000000', linestyle='--'))
 
 
 def generate_package_diagram():
@@ -1046,8 +1131,8 @@ def generate_deployment_diagram():
     ax.set_ylim(0, 100)
     ax.axis('off')
 
-    # 1. TOP 3D NODE CUBE: WEB SERVER (y=40.0 to 96.0)
-    ws_x, ws_y, ws_w, ws_h, ws_d = 8.0, 40.0, 84.0, 56.0, 3.0
+    # 1. TOP 3D NODE CUBE: WEB SERVER (y=38.0 to 97.0)
+    ws_x, ws_y, ws_w, ws_h, ws_d = 5.0, 38.0, 90.0, 59.0, 3.0
     # Front Face
     front = patches.Rectangle((ws_x, ws_y), ws_w, ws_h, fc='#FFFFFF', ec='#000000', lw=1.6)
     ax.add_patch(front)
@@ -1059,44 +1144,44 @@ def generate_deployment_diagram():
     ax.add_patch(side)
 
     # Label on Top Left inside WEB SERVER face
-    ax.text(ws_x + 2.5, ws_y + ws_h - 3.2, "WEB SERVER", fontsize=13, fontweight='bold', color='#000000')
+    ax.text(ws_x + 2.5, ws_y + ws_h - 3.2, "WEB SERVER", fontsize=14, fontweight='bold', color='#000000')
 
 
     # INSIDE WEB SERVER:
-    # A) Upper Block: Package Diagram Container (y=53.0 to 91.5)
-    pkg_x, pkg_y, pkg_w, pkg_h = ws_x + 3.5, ws_y + 13.0, ws_w - 7.0, 38.5
+    # A) Upper Block: Package Diagram Container (y=50.0 to 92.5)
+    pkg_x, pkg_y, pkg_w, pkg_h = ws_x + 3.0, ws_y + 12.0, ws_w - 6.0, 42.5
     rect_sys = patches.Rectangle((pkg_x, pkg_y), pkg_w, pkg_h, fc='#FFFFFF', ec='#000000', lw=1.2)
     ax.add_patch(rect_sys)
 
     # Title tab at top left of Package Diagram container
-    sys_tab = patches.Rectangle((pkg_x, pkg_y + pkg_h), 68.0, 1.8, fc='#FFFFFF', ec='#000000', lw=1.0)
+    sys_tab = patches.Rectangle((pkg_x, pkg_y + pkg_h), 78.0, 2.0, fc='#FFFFFF', ec='#000000', lw=1.0)
     ax.add_patch(sys_tab)
-    ax.text(pkg_x + 1.2, pkg_y + pkg_h + 0.9, "A Web-Based Laundry Service Management System for HourWash Laundry Shop in Orosite Legazpi City", fontsize=5.2, fontweight='bold', color='#000000', va='center')
+    ax.text(pkg_x + 1.2, pkg_y + pkg_h + 1.0, "A Web-Based Laundry Service Management System for HourWash Laundry Shop in Orosite Legazpi City", fontsize=6.2, fontweight='bold', color='#000000', va='center')
 
     # Render 4 Role Packages inside Package Diagram Container
     # Admin (Top Left)
     admin_left = ["Login", "Manage Orders", "Services & Pricing"]
     admin_right = ["Dashboard", "User Accounts", "Manage Machines"]
-    draw_role_package_container_reference(ax, pkg_x + 1.5, pkg_y + 19.5, "Admin", admin_left, admin_right, bottom_folder_name="Profile", w=36.0, h=17.5)
+    draw_role_package_container_reference(ax, pkg_x + 1.5, pkg_y + 21.5, "Admin", admin_left, admin_right, bottom_folder_name="Profile", w=39.5, h=19.5)
 
     # Customer (Top Right)
     customer_left = ["Login", "Book New Order", "My Order History"]
     customer_right = ["Dashboard", "12-Stamp Card", "Active Services"]
-    draw_role_package_container_reference(ax, pkg_x + 39.5, pkg_y + 19.5, "Customer", customer_left, customer_right, bottom_folder_name="Profile", w=36.0, h=17.5)
+    draw_role_package_container_reference(ax, pkg_x + 43.0, pkg_y + 21.5, "Customer", customer_left, customer_right, bottom_folder_name="Profile", w=39.5, h=19.5)
 
     # Staff (Bottom Left)
     staff_left = ["Login", "Workstation Queue", "Manage Laundry"]
     staff_right = ["Dashboard", "New Walk-in Order", "Manage Machines"]
-    draw_role_package_container_reference(ax, pkg_x + 1.5, pkg_y + 1.0, "Staff", staff_left, staff_right, bottom_folder_name="Profile", w=36.0, h=17.5)
+    draw_role_package_container_reference(ax, pkg_x + 1.5, pkg_y + 1.0, "Staff", staff_left, staff_right, bottom_folder_name="Profile", w=39.5, h=19.5)
 
     # Rider of HourWash (Bottom Right)
     rider_left = ["Login", "Rider Dashboard", "Pickup Logistics"]
     rider_right = ["Dashboard", "Delivery Tasks", "Proof Photo Upload"]
-    draw_role_package_container_reference(ax, pkg_x + 39.5, pkg_y + 1.0, "Rider of HourWash", rider_left, rider_right, bottom_folder_name="Profile", w=36.0, h=17.5)
+    draw_role_package_container_reference(ax, pkg_x + 43.0, pkg_y + 1.0, "Rider of HourWash", rider_left, rider_right, bottom_folder_name="Profile", w=39.5, h=19.5)
 
 
-    # B) Lower Block: DATABASE Container (y=42.0 to 51.5)
-    db_x, db_y, db_w, db_h = ws_x + 3.5, ws_y + 2.0, ws_w - 7.0, 9.5
+    # B) Lower Block: DATABASE Container (y=40.0 to 48.5)
+    db_x, db_y, db_w, db_h = ws_x + 3.0, ws_y + 2.0, ws_w - 6.0, 8.5
     rect_db = patches.Rectangle((db_x, db_y), db_w, db_h, fc='#FFFFFF', ec='#000000', lw=1.4)
     ax.add_patch(rect_db)
 
@@ -1104,7 +1189,7 @@ def generate_deployment_diagram():
     ax.text(db_x + 3.0, db_y + db_h/2.0, "DATABASE", fontsize=18, fontweight='bold', color='#000000', va='center', ha='left')
 
     # Folder Icon on top right inside DATABASE box
-    icon_w, icon_h = 6.5, 5.5
+    icon_w, icon_h = 6.5, 5.2
     icon_x = db_x + db_w - icon_w - 3.0
     icon_y = db_y + (db_h - icon_h)/2.0 - 0.3
     f_tab = patches.Rectangle((icon_x, icon_y + icon_h), 3.2, 1.2, fc='#FFFFFF', ec='#000000', lw=1.0)
@@ -1116,7 +1201,7 @@ def generate_deployment_diagram():
     # C) Connecting Elbow Arrow inside Web Server (DATABASE -> Package Diagram)
     st_x = db_x + db_w
     st_y = db_y + db_h/2.0
-    elb_x = pkg_x + pkg_w + 1.5
+    elb_x = pkg_x + pkg_w + 1.2
     tg_x = pkg_x + pkg_w
     tg_y = pkg_y + pkg_h/2.0
 
@@ -1129,16 +1214,16 @@ def generate_deployment_diagram():
 
     # 2. BOTTOM 3D NODE CUBES: CLIENT NODES (ADMIN, CUSTOMER, STAFF, RIDER OF HOURWASH)
     client_nodes = [
-        ("ADMIN", 2.5, 5.0, 20.0),
-        ("CUSTOMER", 26.5, 5.0, 20.0),
-        ("STAFF", 50.5, 5.0, 20.0),
-        ("RIDER OF HOURWASH", 74.5, 5.0, 22.5)
+        ("ADMIN", 2.0, 4.0, 20.5),
+        ("CUSTOMER", 25.5, 4.0, 20.5),
+        ("STAFF", 49.0, 4.0, 20.5),
+        ("RIDER OF HOURWASH", 72.5, 4.0, 24.0)
     ]
 
     client_top_anchors = []
 
     for node_name, cx, cy, cw in client_nodes:
-        ch, cd = 23.0, 2.5
+        ch, cd = 22.0, 2.5
         # Front Face
         c_front = patches.Rectangle((cx, cy), cw, ch, fc='#FFFFFF', ec='#000000', lw=1.4)
         ax.add_patch(c_front)
@@ -1149,25 +1234,25 @@ def generate_deployment_diagram():
         c_side = patches.Polygon([[cx + cw, cy], [cx + cw + cd, cy + cd], [cx + cw + cd, cy + ch + cd], [cx + cw, cy + ch]], fc='#F1F5F9', ec='#000000', lw=1.4)
         ax.add_patch(c_side)
 
-        lbl_fs = 7.0 if "HOURWASH" in node_name else 8.5
+        lbl_fs = 7.2 if "HOURWASH" in node_name else 8.5
         ax.text(cx + 1.2, cy + ch - 3.2, node_name, fontsize=lbl_fs, fontweight='bold', color='#000000')
 
         # Inside client node cube: Inner box centered labeled "BROWSER"
-        b_box = patches.Rectangle((cx + 3.0, cy + 4.5), cw - 6.0, 10.5, fc='#FFFFFF', ec='#000000', lw=1.0)
+        b_box = patches.Rectangle((cx + 3.0, cy + 4.5), cw - 6.0, 10.0, fc='#FFFFFF', ec='#000000', lw=1.0)
         ax.add_patch(b_box)
-        ax.text(cx + cw/2.0, cy + 9.75, "BROWSER", fontsize=8.0, fontweight='bold', ha='center', va='center', color='#000000')
+        ax.text(cx + cw/2.0, cy + 9.5, "BROWSER", fontsize=8.0, fontweight='bold', ha='center', va='center', color='#000000')
 
         # Store top anchor point for connecting arrows
         client_top_anchors.append((cx + cw/2.0, cy + ch + cd))
 
 
     # 3. CONNECTING ARROWS FROM WEB SERVER DOWN TO CLIENT NODES WITH "http" LABELS
-    ws_bottom_y = ws_y # y = 40.0
+    ws_bottom_y = ws_y # y = 38.0
     ws_bottom_anchors = [
-        ws_x + 10.0,
-        ws_x + 30.0,
-        ws_x + 54.0,
-        ws_x + 74.0
+        ws_x + 8.0,
+        ws_x + 28.0,
+        ws_x + 52.0,
+        ws_x + 76.0
     ]
 
     for i in range(4):

@@ -166,7 +166,7 @@
                             </p>
 
                             <p class="footer-copyright" style="margin: 0; font-size: 11px; color: #86868B; line-height: 1.5; text-align: center; word-break: break-word; max-width: 100%;">
-                                Copyright © {{ date('Y') }} Hour Wash Laundry Management System.<br style="display: block;">All rights reserved.
+                                Copyright © {{ date('Y') }} A Web-Based Laundry Service Management System for Hour Wash Laundry Shop in Orosite, Legazpi City.<br style="display: block;">All rights reserved.
                             </p>
                         </td>
                     </tr>

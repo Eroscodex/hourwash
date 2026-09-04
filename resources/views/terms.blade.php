@@ -78,7 +78,7 @@
                 <span class="text-slate-300 dark:text-zinc-700">•</span>
                 <a href="{{ route('terms') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Terms & Conditions</a>
             </div>
-            <div>© {{ date('Y') }} Hour Wash Laundry Management System</div>
+            <div>© {{ date('Y') }} A Web-Based Laundry Service Management System for Hour Wash Laundry Shop in Orosite, Legazpi City</div>
         </footer>
     </div>
 
