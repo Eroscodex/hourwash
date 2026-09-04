@@ -101,31 +101,31 @@
                                 <input type="text" name="new_customer_name" value="{{ old('new_customer_name') }}" placeholder="e.g. Your Name" class="w-full">
                             </div>
                             <div>
-                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Email Address (Optional)</label>
+                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Email Address</label>
                                 <input type="email" name="new_customer_email" value="{{ old('new_customer_email') }}" placeholder="e.g. name@example.com (Auto-generated if blank)" class="w-full">
                             </div>
                             <div>
-                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Phone Number (Optional)</label>
+                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Phone Number</label>
                                 <input type="text" name="new_customer_phone" value="{{ old('new_customer_phone') }}" placeholder="e.g. 09XXXXXXXXX" class="w-full">
                             </div>
                             <div>
-                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">House No. / Street Address (Optional)</label>
+                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">House No. / Street Address</label>
                                 <input type="text" name="new_customer_address" value="{{ old('new_customer_address') }}" placeholder="e.g. #123 Magallanes St." class="w-full">
                             </div>
                             <div>
-                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Barangay (Optional)</label>
+                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Barangay</label>
                                 <input type="text" name="new_customer_barangay" value="{{ old('new_customer_barangay') }}" placeholder="e.g. Brgy. Orosite" class="w-full">
                             </div>
                             <div>
-                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">City / Municipality (Optional)</label>
+                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">City / Municipality</label>
                                 <input type="text" name="new_customer_city" value="{{ old('new_customer_city') }}" placeholder="e.g. Legazpi City" class="w-full">
                             </div>
                             <div>
-                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Province (Optional)</label>
+                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Province</label>
                                 <input type="text" name="new_customer_province" value="{{ old('new_customer_province') }}" placeholder="e.g. Albay" class="w-full">
                             </div>
                             <div>
-                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Account Password (Optional)</label>
+                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Account Password</label>
                                 <input type="password" name="new_customer_password" placeholder="Default: password (if left blank)" class="w-full">
                             </div>
                         </div>
