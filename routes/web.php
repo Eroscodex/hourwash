@@ -223,6 +223,9 @@ Route::post('/laundry/{order}/extend-brownout', function (Request $request, Orde
     return back()->with('success', "⚡ Power Outage / Brownout extension applied! Order #{$order->order_number} estimated completion extended by +{$minutes} minutes. Customer notified via Email & SMS ({$order->customer->phone}).");
 })->middleware('auth')->name('admin.laundry.extend');
 
+Route::delete('/laundry/{order}', [LaundryController::class, 'destroy'])->middleware('auth')->name('laundry.destroy');
+Route::post('/laundry/{order}/auto-assign-rider', [LaundryController::class, 'autoAssignRider'])->middleware('auth')->name('laundry.auto-assign-rider');
+
 // Global Navbar Search Route with Strict Role Scoping
 Route::get('/search', function (Request $request) {
     $q = trim($request->get('q', ''));
