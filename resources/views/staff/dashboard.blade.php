@@ -192,7 +192,7 @@
             $foldOnlyOrders = $allOrders->filter(fn($o) => str_contains(strtolower($o->service?->service_type ?? ''), 'fold') && !str_contains(strtolower($o->service?->service_type ?? ''), 'wash') && !str_contains(strtolower($o->service?->service_type ?? ''), 'dry'));
             $washDryOrders = $allOrders->filter(fn($o) => $o->service?->service_type === 'wash_dry' || (str_contains(strtolower($o->service?->name ?? ''), 'wash') && str_contains(strtolower($o->service?->name ?? ''), 'dry') && !str_contains(strtolower($o->service?->name ?? ''), 'fold') && !str_contains(strtolower($o->service?->name ?? ''), 'pickup')));
             $fullServiceOrders = $allOrders->filter(fn($o) => $o->service?->service_type === 'wash_dry_fold' || (str_contains(strtolower($o->service?->name ?? ''), 'fold') && str_contains(strtolower($o->service?->name ?? ''), 'wash') && !str_contains(strtolower($o->service?->name ?? ''), 'pickup')));
-            $pickupDeliveryOrders = $allOrders->filter(fn($o) => $o->service?->service_type === 'pickup_delivery' || str_contains(strtolower($o->service?->name ?? ''), 'pickup') || $o->pickup_type !== null);
+            $pickupDeliveryOrders = $allOrders->filter(fn($o) => $o->service?->service_type === 'pickup_delivery' || str_contains(strtolower($o->service?->name ?? ''), 'pickup') || str_contains(strtolower($o->service?->name ?? ''), 'delivery') || (in_array($o->pickup_type, ['pickup_delivery', 'pickup', 'delivery']) && !in_array($o->pickup_type, ['drop_off', 'walk_in'])));
 
             $pipelineDataStaff = [
                 'all' => [
