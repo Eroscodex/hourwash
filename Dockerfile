@@ -11,11 +11,12 @@ RUN apk add --no-cache \
     libzip-dev \
     oniguruma-dev \
     sqlite-dev \
+    postgresql-dev \
     git \
     unzip \
     curl \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo pdo_mysql pdo_sqlite mbstring gd zip bcmath opcache
+    && docker-php-ext-install pdo pdo_mysql pdo_pgsql pgsql pdo_sqlite mbstring gd zip bcmath opcache
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
