@@ -350,67 +350,78 @@
     </div>
 
     <!-- Add User Modal -->
-    <div id="add-user-modal" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden overflow-y-auto p-4 sm:p-6 text-left flex items-center justify-center">
-        <div class="app-card max-w-lg w-full p-5 sm:p-6 space-y-3.5 shadow-sm max-h-[85vh] overflow-y-auto my-auto">
+    <div id="add-user-modal" onclick="if(event.target === this) this.classList.add('hidden')" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 {{ $errors->any() ? '' : 'hidden' }} overflow-y-auto p-4 sm:p-6 text-left flex items-center justify-center">
+        <div class="app-card max-w-lg w-full p-5 sm:p-6 space-y-3.5 shadow-sm max-h-[85vh] overflow-y-auto my-auto relative">
             <div class="flex items-center justify-between border-b border-slate-200 dark:dark:border-zinc-700 pb-3">
                 <h3 class="text-sm font-bold text-slate-900 dark:text-white">Register New User Account</h3>
-                <button type="button" onclick="document.getElementById('add-user-modal').classList.add('hidden')" class="text-slate-400 hover:text-slate-600 font-bold">✕</button>
+                <button type="button" onclick="document.getElementById('add-user-modal').classList.add('hidden')" class="text-slate-400 hover:text-slate-600 font-bold p-1 rounded">✕</button>
             </div>
+
+            @if($errors->any())
+                <div class="p-3 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-600 dark:text-rose-400 text-xs font-semibold space-y-1">
+                    <p class="font-bold">Please fix the following validation errors:</p>
+                    <ul class="list-disc list-inside space-y-0.5 text-[11px]">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
             <form method="POST" action="{{ route('admin.users.store') }}" class="space-y-4 text-xs">
                 @csrf
 
                 <div>
-                    <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Full Name</label>
-                    <input type="text" name="name" placeholder="e.g. Your Name" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required>
+                    <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Full Name <span class="text-rose-500">*</span></label>
+                    <input type="text" name="name" value="{{ old('name') }}" placeholder="e.g. Your Name" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required minlength="3">
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Email Address</label>
-                        <input type="email" name="email" placeholder="e.g. name@example.com" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required>
+                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Email Address <span class="text-rose-500">*</span></label>
+                        <input type="email" name="email" value="{{ old('email') }}" placeholder="e.g. name@example.com" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required>
                     </div>
                     <div>
                         <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Phone Number</label>
-                        <input type="text" name="phone" placeholder="e.g. 09XXXXXXXXX" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
+                        <input type="text" name="phone" value="{{ old('phone') }}" placeholder="e.g. 09XXXXXXXXX" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                         <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">House No. / Street Name</label>
-                        <input type="text" name="address" placeholder="e.g. #123 Magallanes St." class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
+                        <input type="text" name="address" value="{{ old('address') }}" placeholder="e.g. #123 Magallanes St." class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
                     </div>
                     <div>
                         <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Barangay</label>
-                        <input type="text" name="barangay" placeholder="e.g. Brgy. Orosite" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
+                        <input type="text" name="barangay" value="{{ old('barangay') }}" placeholder="e.g. Brgy. Orosite" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                         <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">City / Municipality</label>
-                        <input type="text" name="city" placeholder="e.g. Legazpi City" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
+                        <input type="text" name="city" value="{{ old('city') }}" placeholder="e.g. Legazpi City" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
                     </div>
                     <div>
                         <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Province</label>
-                        <input type="text" name="province" placeholder="e.g. Albay" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
+                        <input type="text" name="province" value="{{ old('province') }}" placeholder="e.g. Albay" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
                     </div>
                 </div>
 
                 <div>
-                    <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Password</label>
-                    <input type="password" name="password" placeholder="Minimum 8 characters" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required>
+                    <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Password <span class="text-rose-500">*</span></label>
+                    <input type="password" name="password" placeholder="Minimum 8 characters" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required minlength="8">
                 </div>
 
                 <div>
-                    <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Account Role</label>
+                    <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Account Role <span class="text-rose-500">*</span></label>
                     <select name="role" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required>
-                        <option value="rider">Rider</option>
-                        <option value="customer" selected>Customer</option>
-                        <option value="staff">Staff Specialist</option>
-                        <option value="admin">Admin</option>
-                        <option value="owner">Store Owner</option>
+                        <option value="rider" {{ old('role') == 'rider' ? 'selected' : '' }}>Rider</option>
+                        <option value="customer" {{ old('role', 'customer') == 'customer' ? 'selected' : '' }}>Customer</option>
+                        <option value="staff" {{ old('role') == 'staff' ? 'selected' : '' }}>Staff Specialist</option>
+                        <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                        <option value="owner" {{ old('role') == 'owner' ? 'selected' : '' }}>Store Owner</option>
                     </select>
                 </div>
 
@@ -421,5 +432,16 @@
             </form>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                const addModal = document.getElementById('add-user-modal');
+                if (addModal && !addModal.classList.contains('hidden')) {
+                    addModal.classList.add('hidden');
+                }
+            }
+        });
+    </script>
 
 </x-app-layout>
