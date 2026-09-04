@@ -98,15 +98,15 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                             <div>
                                 <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Full Name <span class="text-rose-500">*</span></label>
-                                <input type="text" name="new_customer_name" value="{{ old('new_customer_name') }}" placeholder="e.g. Juan Dela Cruz" class="w-full">
+                                <input type="text" name="new_customer_name" value="{{ old('new_customer_name') }}" placeholder="e.g. Your Name" class="w-full">
                             </div>
                             <div>
                                 <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Email Address (Optional)</label>
-                                <input type="email" name="new_customer_email" value="{{ old('new_customer_email') }}" placeholder="e.g. juan@gmail.com (Auto-generated if blank)" class="w-full">
+                                <input type="email" name="new_customer_email" value="{{ old('new_customer_email') }}" placeholder="e.g. name@example.com (Auto-generated if blank)" class="w-full">
                             </div>
                             <div>
                                 <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Phone Number (Optional)</label>
-                                <input type="text" name="new_customer_phone" value="{{ old('new_customer_phone') }}" placeholder="e.g. 09171234567" class="w-full">
+                                <input type="text" name="new_customer_phone" value="{{ old('new_customer_phone') }}" placeholder="e.g. 09XXXXXXXXX" class="w-full">
                             </div>
                             <div>
                                 <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">House No. / Street Address (Optional)</label>

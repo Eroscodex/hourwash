@@ -269,7 +269,7 @@
                                                 </div>
                                                 <div>
                                                     <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Phone Number</label>
-                                                    <input type="text" name="phone" value="{{ $user->phone }}" placeholder="e.g. 09100317744" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
+                                                    <input type="text" name="phone" value="{{ $user->phone }}" placeholder="e.g. 09XXXXXXXXX" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
                                                 </div>
                                             </div>
 
@@ -362,17 +362,17 @@
 
                 <div>
                     <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Full Name</label>
-                    <input type="text" name="name" placeholder="e.g. Anthony Cayme" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required>
+                    <input type="text" name="name" placeholder="e.g. Your Name" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
                         <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Email Address</label>
-                        <input type="email" name="email" placeholder="e.g. caymeanthony1@gmail.com" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required>
+                        <input type="email" name="email" placeholder="e.g. name@example.com" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required>
                     </div>
                     <div>
                         <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Phone Number</label>
-                        <input type="text" name="phone" placeholder="e.g. 09100317744" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
+                        <input type="text" name="phone" placeholder="e.g. 09XXXXXXXXX" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
                     </div>
                 </div>
 

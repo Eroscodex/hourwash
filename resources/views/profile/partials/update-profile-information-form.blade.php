@@ -67,7 +67,7 @@
                    id="phone" 
                    name="phone" 
                    value="{{ old('phone', $user->phone) }}" 
-                   placeholder="e.g. 09100317744" 
+                   placeholder="e.g. 09XXXXXXXXX" 
                    class="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-300 dark:border-zinc-700 rounded-md px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-zinc-100 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition shadow-sm">
             <x-input-error class="mt-1.5 text-xs text-rose-500" :messages="$errors->get('phone')" />
         </div>
