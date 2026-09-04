@@ -17,7 +17,7 @@
 <body style="margin: 0; padding: 0; background-color: #FFFFFF; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1D1D1F; -webkit-font-smoothing: antialiased;">
 
     @php
-        $logoSrc = 'https://raw.githubusercontent.com/Eroscodex/hourwash/main/public/images/logo-email.png';
+        $logoSrc = 'https://raw.githubusercontent.com/Eroscodex/hourwash/main/public/favicon.svg';
         $st = strtolower($order->order_status);
         $statusLabel = match($st) {
             'pending' => 'Order Placed (Pending)',
@@ -47,8 +47,8 @@
                             <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                 <tr>
                                     <td align="left" valign="middle" style="width: 44px;">
-                                        <div style="width: 36px; height: 36px; background-color: #2563EB; border-radius: 9px; text-align: center; line-height: 36px; color: #FFFFFF; font-weight: 900; font-size: 13px; overflow: hidden; box-shadow: 0 2px 6px rgba(37,99,235,0.25);">
-                                            <img src="{{ $logoSrc }}" alt="HW" width="36" height="36" style="display: block; border-radius: 9px; border: 0; outline: none; width: 36px; height: 36px; object-fit: cover;">
+                                        <div style="width: 36px; height: 36px; background-color: #FFFFFF; border-radius: 9px; text-align: center; line-height: 36px; overflow: hidden; border: 1px solid #E2E8F0; box-shadow: 0 1px 3px rgba(0,0,0,0.06);">
+                                            <img src="{{ $logoSrc }}" alt="Hour Wash Logo" width="36" height="36" style="display: block; border-radius: 9px; border: 0; outline: none; width: 36px; height: 36px; object-fit: contain; background-color: #FFFFFF;">
                                         </div>
                                     </td>
                                     <td align="right" valign="middle" style="font-size: 20px; sm:font-size: 22px; font-weight: 400; color: #86868B; letter-spacing: -0.5px;">
@@ -68,8 +68,8 @@
                                         <table width="100%" border="0" cellspacing="0" cellpadding="0">
                                             <tr>
                                                 <td valign="top" style="width: 72px; padding-right: 16px;">
-                                                    <div style="width: 64px; height: 64px; background-color: #2563EB; border-radius: 16px; text-align: center; line-height: 64px; color: #FFFFFF; font-weight: 900; font-size: 20px; overflow: hidden; box-shadow: 0 2px 8px rgba(37,99,235,0.25);">
-                                                        <img src="{{ $logoSrc }}" alt="HW" width="64" height="64" style="display: block; border-radius: 16px; border: 0; outline: none; width: 64px; height: 64px; object-fit: cover;">
+                                                    <div style="width: 64px; height: 64px; background-color: #FFFFFF; border-radius: 14px; text-align: center; overflow: hidden; border: 1px solid #E2E8F0; box-shadow: 0 2px 8px rgba(0,0,0,0.06);">
+                                                        <img src="{{ $logoSrc }}" alt="Hour Wash Logo" width="64" height="64" style="display: block; border-radius: 14px; border: 0; outline: none; width: 64px; height: 64px; object-fit: contain; background-color: #FFFFFF;">
                                                     </div>
                                                 </td>
                                                 <td valign="middle">

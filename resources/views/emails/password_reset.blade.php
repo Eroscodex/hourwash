@@ -9,7 +9,7 @@
 <body style="margin: 0; padding: 0; background-color: #F1F5F9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;">
 
     @php
-        $logoSrc = 'https://raw.githubusercontent.com/Eroscodex/hourwash/main/public/images/logo-email.png';
+        $logoSrc = 'https://raw.githubusercontent.com/Eroscodex/hourwash/main/public/favicon.svg';
     @endphp
 
     <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #F1F5F9; padding: 30px 15px;">
