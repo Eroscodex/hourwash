@@ -85,19 +85,19 @@
         <aside id="sidebar" class="fixed top-0 bottom-0 left-0 h-screen w-64 bg-white dark:bg-[#141417] border-r border-slate-200 dark:dark:border-zinc-700 z-50 transform -translate-x-full md:translate-x-0 transition-[width,transform] duration-300 flex flex-col justify-between shadow-sm">
 
             <div class="flex flex-col flex-1 min-h-0 overflow-y-auto">
-                <div id="sidebar-header-box" class="p-5 border-b border-slate-200 dark:dark:border-zinc-700 flex items-center justify-between flex-shrink-0 transition-all">
-                    <a href="{{ route('welcome') }}" class="flex items-center gap-3 group w-full justify-start transition-all">
-                        <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-11 h-11 rounded-full object-cover shadow-sm group-transition-transform bg-white p-0.5 border border-slate-200 dark:dark:border-zinc-700 shrink-0">
-                        <div id="sidebar-logo-text" class="sidebar-text">
-                            <h1 class="text-lg font-bold tracking-wide text-slate-900 dark:text-white inline-flex items-center gap-0.5">
+                <div id="sidebar-header-box" class="p-4 sm:p-5 border-b border-slate-200 dark:dark:border-zinc-700 flex items-center justify-between flex-shrink-0 transition-all gap-2">
+                    <a href="{{ route('welcome') }}" class="flex items-center gap-2.5 group min-w-0 transition-all">
+                        <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-10 h-10 sm:w-11 sm:h-11 rounded-full object-cover shadow-sm group-transition-transform bg-white p-0.5 border border-slate-200 dark:dark:border-zinc-700 shrink-0">
+                        <div id="sidebar-logo-text" class="sidebar-text min-w-0">
+                            <h1 class="text-base sm:text-lg font-bold tracking-wide text-slate-900 dark:text-white inline-flex items-center gap-0.5 leading-none">
                                 H<span class="inline-flex items-center justify-center text-slate-800 dark:text-slate-100 mx-[0.5px]"><svg class="w-[0.85em] h-[0.85em] inline-block -mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 3"/></svg></span>UR WASH
                             </h1>
-                            <p class="text-[8.5px] text-slate-800 dark:text-white tracking-wider uppercase font-bold whitespace-nowrap leading-none mt-0.5">LAUNDRY SHOP MANAGEMENT SYSTEM</p>
+                            <p class="text-[8px] sm:text-[8.5px] text-slate-800 dark:text-white tracking-wider uppercase font-bold whitespace-nowrap leading-none mt-1">LAUNDRY SHOP SYSTEM</p>
                         </div>
                     </a>
-                    <button id="close-sidebar" class="md:hidden text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white p-1">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    <button id="close-sidebar" class="md:hidden text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-zinc-800 shrink-0 flex items-center justify-center transition-all my-auto" title="Close Sidebar">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/>
                         </svg>
                     </button>
                 </div>
