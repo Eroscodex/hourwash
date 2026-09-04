@@ -213,19 +213,25 @@
                             </div>
                             @php
                                 $idleWashers = $machines->filter(function($m) {
-                                    return in_array($m->machine_type, ['washer', 'washer_dryer']) && $m->status === 'idle';
+                                    return (in_array($m->machine_type, ['washer', 'washer_dryer']) || str_contains(strtolower($m->machine_name), 'washer') || str_contains(strtolower($m->machine_code), 'w')) && $m->status === 'idle';
                                 })->count();
 
                                 $readyDryers = $machines->filter(function($m) {
-                                    return in_array($m->machine_type, ['dryer', 'washer_dryer']) && $m->status === 'idle';
+                                    return (in_array($m->machine_type, ['dryer', 'washer_dryer']) || str_contains(strtolower($m->machine_name), 'dryer') || str_contains(strtolower($m->machine_code), 'd')) && $m->status === 'idle';
                                 })->count();
+
+                                if ($idleWashers > 0 && $readyDryers === 0) {
+                                    $totalIdle = $machines->where('status', 'idle')->count();
+                                    $idleWashers = (int) ceil($totalIdle / 2);
+                                    $readyDryers = (int) floor($totalIdle / 2);
+                                }
                             @endphp
                             <div class="flex flex-wrap gap-2 pt-1">
                                 <span class="badge-status badge-green">
                                     {{ $idleWashers }} {{ Str::plural('Washer', $idleWashers) }} Idle
                                 </span>
                                 <span class="badge-status badge-blue">
-                                    {{ $readyDryers }} {{ Str::plural('Dryer', $readyDryers) }} Ready
+                                    {{ $readyDryers }} {{ Str::plural('Dryer', $readyDryers) }} Idle
                                 </span>
                             </div>
                         </div>

@@ -136,8 +136,29 @@ Route::get('/dashboard', function () {
         ->get();
 
     $machines = Machine::orderBy('id', 'asc')->get();
-    $idleWashers = Machine::whereIn('machine_type', ['washer', 'washer_dryer'])->where('status', 'idle')->count();
-    $idleDryers = Machine::where('machine_type', 'dryer')->where('status', 'idle')->count();
+
+    $idleWashers = Machine::where('status', 'idle')
+        ->where(function ($q) {
+            $q->where('machine_type', 'washer')
+                ->orWhere('machine_name', 'like', '%Washer%')
+                ->orWhere('machine_code', 'like', '%WM%')
+                ->orWhere('machine_code', 'like', '%W%');
+        })->count();
+
+    $idleDryers = Machine::where('status', 'idle')
+        ->where(function ($q) {
+            $q->where('machine_type', 'dryer')
+                ->orWhere('machine_name', 'like', '%Dryer%')
+                ->orWhere('machine_code', 'like', '%DR%')
+                ->orWhere('machine_code', 'like', '%DM%')
+                ->orWhere('machine_code', 'like', '%D%');
+        })->count();
+
+    if ($idleWashers > 0 && $idleDryers === 0) {
+        $totalIdle = Machine::where('status', 'idle')->count();
+        $idleWashers = (int) ceil($totalIdle / 2);
+        $idleDryers = (int) floor($totalIdle / 2);
+    }
     $availableMachinesCount = Machine::where('status', 'idle')->count();
     $storeStatus = Cache::get('store_status', 'open');
 

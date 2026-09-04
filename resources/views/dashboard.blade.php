@@ -140,7 +140,7 @@
             <div class="p-3.5 sm:p-4 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-4 border-l-amber-500 shadow-sm">
                 <div>
                     <h5 class="text-[10px] uppercase tracking-widest text-slate-400 dark:text-zinc-500 font-bold truncate">Dryers</h5>
-                    <p class="text-sm sm:text-base font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">{{ $idleDryers ?? 0 }} Ready</p>
+                    <p class="text-sm sm:text-base font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">{{ $idleDryers ?? 0 }} Idle</p>
                 </div>
             </div>
 
