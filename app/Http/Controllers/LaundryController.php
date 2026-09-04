@@ -401,10 +401,12 @@ class LaundryController extends Controller
                 'scheduled_time' => now()->format('H:i'),
             ]);
 
+            $pdStatus = ($order->order_status === 'finish' || $order->order_status === 'out_for_delivery') ? 'delivering' : 'scheduled';
+
             $pickupDelivery->update([
                 'rider_name' => $riderName,
                 'rider_phone' => $riderPhone,
-                'status' => 'assigned',
+                'status' => $pdStatus,
             ]);
 
             if ($order->order_status === 'pending') {
