@@ -39,7 +39,7 @@
         <tr>
             <td align="center">
 
-                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="email-inner-table" style="max-width: 580px; text-align: left;">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="email-inner-table" align="center" style="max-width: 580px; margin: 0 auto; text-align: left;">
 
                     <!-- Header Top Bar (Favicon Logo + Title) -->
                     <tr>
