@@ -8,7 +8,12 @@
 </head>
 <body style="margin: 0; padding: 0; background-color: #F1F5F9; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;">
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #F1F5F9; padding: 30px 15px;">
+    @php
+        $logoPath = public_path('images/logo-email.png');
+        $logoSrc = file_exists($logoPath) ? 'data:image/png;base64,'.base64_encode(file_get_contents($logoPath)) : (file_exists(public_path('favicon.svg')) ? 'data:image/svg+xml;base64,'.base64_encode(file_get_contents(public_path('favicon.svg'))) : 'https://hourwashlaundryshop.up.railway.app/images/logo-email.png');
+    @endphp
+
+    <table width="100%" border="0" cellspacing="0" cellpadding="0" style="background-color: #F1F5F9; padding: 30px 15px;">
     <tr>
         <td align="center">
 
@@ -19,7 +24,7 @@
                 <tr>
                     <td align="center" style="background-color: #0F172A; padding: 28px 20px;">
                         <img
-                            src="{{ url('favicon.svg') }}"
+                            src="{{ $logoSrc }}"
                             alt="Hour Wash Logo"
                             width="56"
                             height="56"

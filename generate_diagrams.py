@@ -44,13 +44,6 @@ def generate_system_design_diagram():
     ax.set_ylim(0, 100)
     ax.axis('off')
 
-    # Outer System Frame Box
-    rect_sys = patches.Rectangle((1.5, 1.5), 97.0, 95.0, fc='none', ec='#000000', lw=1.6)
-    ax.add_patch(rect_sys)
-    sys_tab = patches.Rectangle((1.5, 96.5), 84.0, 2.4, fc='#FFFFFF', ec='#000000', lw=1.4)
-    ax.add_patch(sys_tab)
-    ax.text(3.0, 97.7, "A Web-Based Laundry Service Management System for HourWash Laundry Shop in Orosite Legazpi City", fontsize=7.0, fontweight='bold', color='#000000', va='center')
-
     # Layer 1: Client / Presentation
     rect1 = patches.FancyBboxPatch((3, 78), 94, 17, linewidth=1.4, edgecolor='#000000', facecolor='#FFFFFF', boxstyle="round,pad=0.3")
     ax.add_patch(rect1)
@@ -280,7 +273,7 @@ def draw_composition_diamond_bw(ax, x, y, direction='down'):
         pts = [[x, y], [x - 1.2, y + 0.8], [x - 2.4, y], [x - 1.2, y - 0.8]]
     elif direction == 'right':
         pts = [[x, y], [x + 1.2, y + 0.8], [x + 2.4, y], [x + 1.2, y - 0.8]]
-    diamond = patches.Polygon(pts, fc='#000000', ec='#000000', lw=1.2)
+    diamond = patches.Polygon(pts, fc='#000000', ec='#000000', lw=1.2, zorder=5)
     ax.add_patch(diamond)
 
 def draw_aggregation_diamond_bw(ax, x, y, direction='down'):
@@ -288,15 +281,15 @@ def draw_aggregation_diamond_bw(ax, x, y, direction='down'):
         pts = [[x, y], [x - 0.8, y - 1.2], [x, y - 2.4], [x + 0.8, y - 1.2]]
     elif direction == 'up':
         pts = [[x, y], [x - 0.8, y + 1.2], [x, y + 2.4], [x + 0.8, y + 1.2]]
-    diamond = patches.Polygon(pts, fc='#FFFFFF', ec='#000000', lw=1.3)
+    diamond = patches.Polygon(pts, fc='#FFFFFF', ec='#000000', lw=1.3, zorder=5)
     ax.add_patch(diamond)
 
 def draw_generalization_triangle_bw(ax, x, y, direction='up'):
     if direction == 'up':
-        pts = [[x, y - 0.8], [x - 1.0, y - 2.6], [x + 1.0, y - 2.6]]
+        pts = [[x, y], [x - 1.2, y - 2.6], [x + 1.2, y - 2.6]]
     elif direction == 'down':
-        pts = [[x, y + 0.8], [x - 1.0, y + 2.6], [x + 1.0, y + 2.6]]
-    tri = patches.Polygon(pts, fc='#FFFFFF', ec='#000000', lw=1.4)
+        pts = [[x, y], [x - 1.2, y + 2.6], [x + 1.2, y + 2.6]]
+    tri = patches.Polygon(pts, fc='#FFFFFF', ec='#000000', lw=1.4, zorder=5)
     ax.add_patch(tri)
 
 def generate_class_diagram():
@@ -307,206 +300,163 @@ def generate_class_diagram():
     ax.set_ylim(0, 100)
     ax.axis('off')
 
-    # Outer System Frame Box
-    rect_sys = patches.Rectangle((0.8, 0.8), 98.4, 96.5, fc='none', ec='#000000', lw=1.4)
-    ax.add_patch(rect_sys)
-    sys_tab = patches.Rectangle((0.8, 97.3), 84.0, 2.1, fc='#FFFFFF', ec='#000000', lw=1.2)
-    ax.add_patch(sys_tab)
-    ax.text(2.0, 98.35, "A Web-Based Laundry Service Management System for HourWash Laundry Shop in Orosite Legazpi City", fontsize=6.8, fontweight='bold', color='#000000', va='center')
-
-    # 1. TOP TIER: Users Parent Base Class (Top Center, y=78.5 to y=96.5)
-    draw_class_box_bw(ax, 38, 78.5, "Users", 
+    # 1. TOP TIER: Users Parent Base Class (Top Center, y=80.0 to y=96.5)
+    draw_class_box_bw(ax, 38, 80.0, "Users", 
                       ["- Name: varchar", "- Email: varchar", "- Phone Number: varchar", "- Address: varchar", "- Password: varchar", "- Role: varchar", "- Frequent Stamps: int"], 
-                      ["+login()", "+changePassword()", "+updateProfile()"], w=24, h=18.0)
+                      ["+login()", "+changePassword()", "+updateProfile()"], w=24, h=16.5)
 
-    # UML Relationship Notation Legend Key Box (Top Right)
-    leg_box = patches.Rectangle((74.5, 78.5), 23.5, 18.0, fc='#FFFFFF', ec='#000000', lw=1.2)
-    ax.add_patch(leg_box)
-    leg_tab = patches.Rectangle((74.5, 94.5), 23.5, 2.0, fc='#FFFFFF', ec='#000000', lw=1.2)
-    ax.add_patch(leg_tab)
-    ax.text(86.25, 95.5, "UML Relationship Key", fontsize=7.5, fontweight='bold', ha='center', va='center', color='#000000')
-
-    # Legend Items
-    # 1. Composition
-    c_pts = [[76.5, 92.5], [75.7, 91.8], [76.5, 91.1], [77.3, 91.8]]
-    ax.add_patch(patches.Polygon(c_pts, fc='#000000', ec='#000000', lw=1.0))
-    ax.plot([77.3, 81.0], [91.8, 91.8], color='#000000', lw=1.2)
-    ax.text(82.2, 91.8, "Composition", fontsize=6.8, fontweight='bold', va='center', color='#000000')
-
-    # 2. Aggregation
-    a_pts = [[76.5, 89.2], [75.7, 88.5], [76.5, 87.8], [77.3, 88.5]]
-    ax.add_patch(patches.Polygon(a_pts, fc='#FFFFFF', ec='#000000', lw=1.0))
-    ax.plot([77.3, 81.0], [88.5, 88.5], color='#000000', lw=1.2)
-    ax.text(82.2, 88.5, "Aggregation", fontsize=6.8, fontweight='bold', va='center', color='#000000')
-
-    # 3. Generalization
-    g_pts = [[81.0, 85.2], [79.5, 84.4], [79.5, 86.0]]
-    ax.add_patch(patches.Polygon(g_pts, fc='#FFFFFF', ec='#000000', lw=1.0))
-    ax.plot([75.5, 79.5], [85.2, 85.2], color='#000000', lw=1.2)
-    ax.text(82.2, 85.2, "Generalization", fontsize=6.8, fontweight='bold', va='center', color='#000000')
-
-    # 4. Usage / Dependency
-    ax.plot([75.5, 81.0], [81.9, 81.9], color='#000000', linestyle='--', lw=1.2)
-    ax.annotate("", xy=(81.0, 81.9), xytext=(80.0, 81.9), arrowprops=dict(arrowstyle="->", lw=1.2, color='#000000', linestyle='--'))
-    ax.text(82.2, 81.9, "Usage (Dependency)", fontsize=6.8, fontweight='bold', va='center', color='#000000')
-
-    # 5. Directed Association
-    ax.plot([75.5, 81.0], [79.5, 79.5], color='#000000', lw=1.2)
-    ax.annotate("", xy=(81.0, 79.5), xytext=(80.0, 79.5), arrowprops=dict(arrowstyle="->", lw=1.2, color='#000000'))
-    ax.text(82.2, 79.5, "Directed Association", fontsize=6.8, fontweight='bold', va='center', color='#000000')
-
-
-    # 2. MIDDLE TIER: Subclasses Inheriting from Users (y=54 to y=71)
-    draw_class_box_bw(ax, 4, 54, "Customer", 
+    # 2. MIDDLE TIER: Subclasses Inheriting from Users (y=57.0 to y=73.0)
+    draw_class_box_bw(ax, 4, 57.0, "Customer", 
                       ["- user_id: int", "- address: varchar", "- barangay: varchar", "- city: varchar"], 
-                      ["+registerCustomer()", "+bookNewOrder()", "+viewMyOrderHistory()", "+viewFrequentUserCard()", "+editProfile()"], w=20, h=17)
+                      ["+registerCustomer()", "+bookNewOrder()", "+viewMyOrderHistory()", "+viewFrequentUserCard()", "+editProfile()"], w=20, h=16.0)
 
-    draw_class_box_bw(ax, 27.5, 54, "Staff", 
+    draw_class_box_bw(ax, 27.5, 57.0, "Staff", 
                       ["- user_id: int", "- employee_id: varchar", "- position: varchar", "- status: varchar"], 
-                      ["+manageLaundryOrders()", "+weighScaleOrder()", "+manageMachines()", "+triggerExtension()", "+createWalkInOrder()"], w=20, h=17)
+                      ["+manageLaundryOrders()", "+weighScaleOrder()", "+manageMachines()", "+triggerExtension()", "+createWalkInOrder()"], w=20, h=16.0)
 
-    draw_class_box_bw(ax, 51, 54, "Rider of HourWash", 
+    draw_class_box_bw(ax, 51, 57.0, "Rider of HourWash", 
                       ["- user_id: int", "- rider_name: varchar", "- contact_number: varchar", "- status: varchar"], 
-                      ["+viewRiderDispatches()", "+updatePickupStatus()", "+updateDeliveryStatus()", "+uploadProofPhoto()"], w=20, h=17)
+                      ["+viewRiderDispatches()", "+updatePickupStatus()", "+updateDeliveryStatus()", "+uploadProofPhoto()"], w=20, h=16.0)
 
-    draw_class_box_bw(ax, 74.5, 54, "Admin", 
+    draw_class_box_bw(ax, 74.5, 57.0, "Admin", 
                       ["- user_id: int", "- admin_level: varchar", "- status: varchar"], 
-                      ["+viewOverallReports()", "+manageServicesAndPricing()", "+manageUsersAndStamps()", "+viewLiveSmsOutbox()", "+viewLiveEmailOutbox()"], w=20, h=17)
+                      ["+viewOverallReports()", "+manageServicesAndPricing()", "+manageUsersAndStamps()", "+viewLiveSmsOutbox()", "+viewLiveEmailOutbox()"], w=20, h=16.0)
 
     # Generalization Lines (Subclasses -> Users Parent)
-    ax.plot([50, 50], [78.5, 75], color='#000000', lw=1.4)
-    draw_generalization_triangle_bw(ax, 50, 78.5, direction='up')
+    draw_generalization_triangle_bw(ax, 50, 80.0, direction='up')
+    ax.plot([50, 50], [77.4, 76.5], color='#000000', lw=1.4)
+    ax.plot([14.0, 84.5], [76.5, 76.5], color='#000000', lw=1.4)
+    ax.plot([14.0, 14.0], [76.5, 73.0], color='#000000', lw=1.4)
+    ax.plot([37.5, 37.5], [76.5, 73.0], color='#000000', lw=1.4)
+    ax.plot([61.0, 61.0], [76.5, 73.0], color='#000000', lw=1.4)
+    ax.plot([84.5, 84.5], [76.5, 73.0], color='#000000', lw=1.4)
 
-    ax.plot([14, 84.5], [75, 75], color='#000000', lw=1.4)
-    ax.plot([14, 14], [75, 71], color='#000000', lw=1.4)
-    ax.plot([37.5, 37.5], [75, 71], color='#000000', lw=1.4)
-    ax.plot([61, 61], [75, 71], color='#000000', lw=1.4)
-    ax.plot([84.5, 84.5], [75, 71], color='#000000', lw=1.4)
-
-    # 3. BOTTOM TIER: 10 Use Case Feature Classes (Direct 1-to-1 match with Use Case Diagram)
-    # Row 1 (y=24 to 44, h=20.0)
-    draw_class_box_bw(ax, 1.5, 24, "Manage Laundry Orders", 
+    # 3. BOTTOM TIER: 10 Use Case Feature Classes (w=17.5, gap=2.125)
+    # Row 1 (y=30.0 to 46.0, h=16.0)
+    draw_class_box_bw(ax, 2.0, 30.0, "Manage Laundry Orders", 
                       ["- Order ID: int", "- Order Number: varchar", "- Customer ID: int", "- Service ID: int", "- Total Amount: float", "- Order Status: varchar", "- Weight: float"], 
-                      ["+createBookOrder()", "+createWalkInOrder()", "+updateOrderStatus()", "+calculateTotalAmount()"], w=18.0, h=20.0)
+                      ["+createBookOrder()", "+createWalkInOrder()", "+updateOrderStatus()", "+calculateTotalAmount()"], w=17.5, h=16.0)
 
-    draw_class_box_bw(ax, 21.0, 24, "Services & Pricing", 
+    draw_class_box_bw(ax, 21.625, 30.0, "Services & Pricing", 
                       ["- Service ID: int", "- Service Name: varchar", "- Service Type: varchar", "- Rate Per Kg: float", "- Est Duration: int"], 
-                      ["+getPublicServices()", "+calculateServiceRate()", "+updateTariffRates()"], w=18.0, h=20.0)
+                      ["+getPublicServices()", "+calculateServiceRate()", "+updateTariffRates()"], w=17.5, h=16.0)
 
-    draw_class_box_bw(ax, 40.5, 24, "Manage Machines", 
+    draw_class_box_bw(ax, 41.25, 30.0, "Manage Machines", 
                       ["- Machine ID: int", "- Machine Code: varchar", "- Machine Type: varchar", "- Status: varchar", "- Remaining Min: int"], 
-                      ["+assignOrderToMachine()", "+trigger60mExtension()", "+toggleMachineStatus()"], w=18.0, h=20.0)
+                      ["+assignOrderToMachine()", "+trigger60mExtension()", "+toggleMachineStatus()"], w=17.5, h=16.0)
 
-    draw_class_box_bw(ax, 60.0, 24, "Pickup & Delivery", 
+    draw_class_box_bw(ax, 60.875, 30.0, "Pickup & Delivery", 
                       ["- Task ID: int", "- Order ID: int", "- Rider Name: varchar", "- Logistics Status: varchar", "- Proof Photo: varchar"], 
-                      ["+updatePickupStatus()", "+updateDeliveryStatus()", "+uploadProofPhoto()"], w=18.0, h=20.0)
+                      ["+updatePickupStatus()", "+updateDeliveryStatus()", "+uploadProofPhoto()"], w=17.5, h=16.0)
 
-    draw_class_box_bw(ax, 79.5, 24, "Overall Reports", 
+    draw_class_box_bw(ax, 80.5, 30.0, "Overall Reports", 
                       ["- Report ID: int", "- Total Revenue: float", "- Total Orders: int", "- Active Machines: int", "- Report Date: date"], 
-                      ["+generateDailyReport()", "+fetchRevenueAnalytics()", "+exportSummaryPDF()"], w=18.0, h=20.0)
+                      ["+generateDailyReport()", "+fetchRevenueAnalytics()", "+exportSummaryPDF()"], w=17.5, h=16.0)
 
-    # Row 2 (y=1.5 to 20.5, h=19.0)
-    draw_class_box_bw(ax, 1.5, 1.5, "Live SMS Outbox", 
+    # Row 2 (y=3.5 to 18.5, h=15.0)
+    draw_class_box_bw(ax, 2.0, 3.5, "Live SMS Outbox", 
                       ["- Log ID: int", "- Recipient Phone: varchar", "- Message Body: text", "- Delivery Status: varchar", "- Sent Timestamp: datetime"], 
-                      ["+sendTextBeeSms()", "+logSmsDispatch()", "+skipIfCanceled()"], w=18.0, h=19.0)
+                      ["+sendTextBeeSms()", "+logSmsDispatch()", "+skipIfCanceled()"], w=17.5, h=15.0)
 
-    draw_class_box_bw(ax, 21.0, 1.5, "Live Email Outbox", 
+    draw_class_box_bw(ax, 21.625, 3.5, "Live Email Outbox", 
                       ["- Email ID: int", "- Recipient Email: varchar", "- Subject: varchar", "- Email Body: text", "- Send Status: varchar"], 
-                      ["+sendBrevoEmail()", "+logEmailDispatch()", "+retryFailedEmail()"], w=18.0, h=19.0)
+                      ["+sendBrevoEmail()", "+logEmailDispatch()", "+retryFailedEmail()"], w=17.5, h=15.0)
 
-    draw_class_box_bw(ax, 40.5, 1.5, "QR Scan Logs", 
+    draw_class_box_bw(ax, 41.25, 3.5, "QR Scan Logs", 
                       ["- Audit Log ID: int", "- Order ID: int", "- Scanned By: int", "- QR Token: varchar", "- Scan Timestamp: datetime"], 
-                      ["+logQrScan()", "+verifyQrToken()", "+fetchScanAuditHistory()"], w=18.0, h=19.0)
+                      ["+logQrScan()", "+verifyQrToken()", "+fetchScanAuditHistory()"], w=17.5, h=15.0)
 
-    draw_class_box_bw(ax, 60.0, 1.5, "12-Stamp User Card", 
+    draw_class_box_bw(ax, 60.875, 3.5, "12-Stamp User Card", 
                       ["- Card ID: int", "- Customer ID: int", "- Total Stamps: int", "- Reward Claimed: boolean", "- Expiry Date: date"], 
-                      ["+addOrderStamp()", "+redeemFreeWash()", "+getStampingStatus()"], w=18.0, h=19.0)
+                      ["+addOrderStamp()", "+redeemFreeWash()", "+getStampingStatus()"], w=17.5, h=15.0)
 
-    draw_class_box_bw(ax, 79.5, 1.5, "Customer Reviews", 
+    draw_class_box_bw(ax, 80.5, 3.5, "Customer Reviews", 
                       ["- Review ID: int", "- Order ID: int", "- Customer ID: int", "- Rating Stars: int", "- Comments: text"], 
-                      ["+submitCustomerReview()", "+getPublicReviews()", "+deleteReview()"], w=18.0, h=19.0)
+                      ["+submitCustomerReview()", "+getPublicReviews()", "+deleteReview()"], w=17.5, h=15.0)
 
-    # 4. RELATIONSHIP CONNECTIONS (Composition, Aggregation, Usage Dependency, Directed Association)
-    # A) Customer (x=14, y=54) Connections
-    # Composition: Customer ◆-- Manage Laundry Orders
-    ax.plot([14.0, 14.0, 10.5, 10.5], [54, 49, 49, 44], color='#000000', lw=1.3)
-    draw_composition_diamond_bw(ax, 14.0, 54.0, direction='down')
-    ax.text(15.0, 51.5, "1", fontsize=8.0, color='#000000', fontweight='bold')
-    ax.text(11.5, 45.0, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
+    # 4. RELATIONSHIP CONNECTIONS (Exact Guide Style with Generous Channel Spacing)
 
-    # Directed Association: Customer -> Services & Pricing
-    ax.plot([14.0, 14.0, 27.0, 27.0], [54, 49, 49, 44], color='#000000', lw=1.3)
-    ax.annotate("", xy=(27.0, 44.0), xytext=(27.0, 45.2), arrowprops=dict(arrowstyle="->", lw=1.3, color='#000000'))
-    ax.text(28.0, 45.0, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
+    # Helper function to draw relationship from subclass bottom to lower class top
+    def draw_guide_conn(x_start, target_x, target_y, is_comp=True, y_track1=50.0, x_channel=None, y_track2=None):
+        # 1. Diamond at subclass bottom (y=57.0)
+        if is_comp:
+            draw_composition_diamond_bw(ax, x_start, 57.0, direction='down')
+        else:
+            draw_aggregation_diamond_bw(ax, x_start, 57.0, direction='down')
+        
+        # Multiplicity '1' next to diamond
+        ax.text(x_start + 1.1, 54.8, "1", fontsize=7.2, fontweight='bold', color='#000000', va='center')
 
-    # Aggregation: Customer ◇-- 12-Stamp User Card
-    ax.plot([14.0, 14.0, 59.25, 59.25, 69.0, 69.0], [54, 46, 46, 22, 22, 20.5], color='#000000', lw=1.3)
-    draw_aggregation_diamond_bw(ax, 14.0, 54.0, direction='down')
-    ax.annotate("", xy=(69.0, 20.5), xytext=(69.0, 21.7), arrowprops=dict(arrowstyle="->", lw=1.3, color='#000000'))
-    ax.text(70.0, 21.5, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
+        # Line points
+        d_bottom = 54.6
+        if x_channel is None:
+            # Direct path in upper gap to Row 1 box top
+            ax.plot([x_start, x_start, target_x, target_x], [d_bottom, y_track1, y_track1, target_y], color='#000000', lw=1.3)
+        else:
+            # Multi-turn path passing through channel to Row 2 box top
+            ax.plot([x_start, x_start, x_channel, x_channel, target_x, target_x], 
+                    [d_bottom, y_track1, y_track1, y_track2, y_track2, target_y], color='#000000', lw=1.3)
 
-    # Aggregation: Customer ◇-- Customer Reviews
-    ax.plot([14.0, 14.0, 78.75, 78.75, 88.5, 88.5], [54, 46, 46, 22, 22, 20.5], color='#000000', lw=1.3)
-    draw_aggregation_diamond_bw(ax, 14.0, 54.0, direction='down')
-    ax.annotate("", xy=(88.5, 20.5), xytext=(88.5, 21.7), arrowprops=dict(arrowstyle="->", lw=1.3, color='#000000'))
-    ax.text(89.5, 21.5, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
+        # Arrowhead entering target box top
+        ax.annotate("", xy=(target_x, target_y), xytext=(target_x, target_y + 1.2), 
+                    arrowprops=dict(arrowstyle="->", lw=1.3, color='#000000'))
+        
+        # Multiplicity '1..*' near arrowhead
+        ax.text(target_x, target_y + 0.8, "1..*", fontsize=6.8, fontweight='bold', color='#000000', ha='center', 
+                bbox=dict(boxstyle="square,pad=0.1", fc="#FFFFFF", ec="none"))
 
+    # Channel Midpoints:
+    # Ch1 (between 19.5 and 21.625): 20.56
+    # Ch2 (between 39.125 and 41.25): 40.188 (use 39.8 and 40.5)
+    # Ch3 (between 58.75 and 60.875): 59.81
+    # Ch4 (between 78.375 and 80.5): 79.44
 
-    # B) Staff (x=37.5, y=54) Connections
-    # Composition: Staff ◆-- Manage Laundry Orders
-    ax.plot([37.5, 37.5, 14.0, 14.0], [54, 50, 50, 44], color='#000000', lw=1.3)
-    draw_composition_diamond_bw(ax, 37.5, 54.0, direction='down')
-    ax.text(38.5, 51.5, "1", fontsize=8.0, color='#000000', fontweight='bold')
-    ax.text(15.0, 45.0, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
+    # --- A) CUSTOMER CONNECTIONS (Subclass x=4..24) ---
+    # 1. Customer ◆-- Manage Laundry Orders
+    draw_guide_conn(x_start=6.5, target_x=6.5, target_y=46.0, is_comp=True, y_track1=50.8)
 
-    # Composition: Staff ◆-- Manage Machines
-    ax.plot([37.5, 37.5, 49.5, 49.5], [54, 50, 50, 44], color='#000000', lw=1.3)
-    draw_composition_diamond_bw(ax, 37.5, 54.0, direction='down')
-    ax.text(50.5, 45.0, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
+    # 2. Customer ◇-- Services & Pricing
+    draw_guide_conn(x_start=11.5, target_x=26.0, target_y=46.0, is_comp=False, y_track1=52.8)
 
-    # Usage Dependency: Staff -- Use --> QR Scan Logs
-    ax.plot([37.5, 37.5, 39.75, 39.75, 49.5, 49.5], [54, 47, 47, 22, 22, 20.5], color='#000000', linestyle='--', lw=1.3)
-    ax.annotate("", xy=(49.5, 20.5), xytext=(49.5, 21.7), arrowprops=dict(arrowstyle="->", lw=1.3, color='#000000', linestyle='--'))
-    ax.text(44.5, 22.8, "«Use»", fontsize=6.2, fontweight='bold', color='#000000', ha='center', va='center')
-    ax.text(50.5, 21.5, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
+    # 3. Customer ◇-- 12-Stamp User Card
+    draw_guide_conn(x_start=16.5, target_x=69.625, target_y=18.5, is_comp=False, y_track1=51.8, x_channel=59.81, y_track2=23.0)
 
+    # 4. Customer ◇-- Customer Reviews
+    draw_guide_conn(x_start=21.5, target_x=89.25, target_y=18.5, is_comp=False, y_track1=50.0, x_channel=79.44, y_track2=21.8)
 
-    # C) Rider of HourWash (x=61.0, y=54) Connections
-    # Composition: Rider ◆-- Pickup & Delivery
-    ax.plot([61.0, 61.0, 69.0, 69.0], [54, 49, 49, 44], color='#000000', lw=1.3)
-    draw_composition_diamond_bw(ax, 61.0, 54.0, direction='down')
-    ax.text(62.0, 51.5, "1", fontsize=8.0, color='#000000', fontweight='bold')
-    ax.text(70.0, 45.0, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
+    # --- B) STAFF CONNECTIONS (Subclass x=27.5..47.5) ---
+    # 1. Staff ◆-- Manage Laundry Orders
+    draw_guide_conn(x_start=30.0, target_x=15.0, target_y=46.0, is_comp=True, y_track1=49.6)
 
+    # 2. Staff ◆-- Manage Machines
+    draw_guide_conn(x_start=37.5, target_x=45.5, target_y=46.0, is_comp=True, y_track1=48.4)
 
-    # D) Admin (x=84.5, y=54) Connections
-    # Aggregation: Admin ◇-- Overall Reports
-    ax.plot([84.5, 84.5, 88.5, 88.5], [54, 49, 49, 44], color='#000000', lw=1.3)
-    draw_aggregation_diamond_bw(ax, 84.5, 54.0, direction='down')
-    ax.text(85.5, 51.5, "1", fontsize=8.0, color='#000000', fontweight='bold')
-    ax.text(89.5, 45.0, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
+    # 3. Staff ◇-- QR Scan Logs
+    draw_guide_conn(x_start=44.0, target_x=50.0, target_y=18.5, is_comp=False, y_track1=49.0, x_channel=39.8, y_track2=24.2)
 
-    # Directed Association: Admin -> Services & Pricing
-    ax.plot([84.5, 84.5, 33.0, 33.0], [54, 51, 51, 44], color='#000000', lw=1.3)
-    ax.annotate("", xy=(33.0, 44.0), xytext=(33.0, 45.2), arrowprops=dict(arrowstyle="->", lw=1.3, color='#000000'))
-    ax.text(34.0, 45.0, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
+    # --- C) RIDER CONNECTIONS (Subclass x=51..71) ---
+    # 1. Rider ◆-- Pickup & Delivery
+    draw_guide_conn(x_start=61.0, target_x=69.625, target_y=46.0, is_comp=True, y_track1=47.5)
 
-    # Usage Dependency: Admin -- Use --> Live SMS Outbox
-    ax.plot([84.5, 84.5, 19.5, 19.5, 10.5, 10.5], [54, 46, 46, 22, 22, 20.5], color='#000000', linestyle='--', lw=1.3)
-    ax.annotate("", xy=(10.5, 20.5), xytext=(10.5, 21.7), arrowprops=dict(arrowstyle="->", lw=1.3, color='#000000', linestyle='--'))
-    ax.text(15.0, 22.8, "«Use»", fontsize=6.2, fontweight='bold', color='#000000', ha='center', va='center')
-    ax.text(11.5, 21.5, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
+    # --- D) ADMIN CONNECTIONS (Subclass x=74.5..94.5) ---
+    # 1. Admin ◇-- Services & Pricing
+    draw_guide_conn(x_start=77.5, target_x=34.0, target_y=46.0, is_comp=False, y_track1=53.4)
 
-    # Usage Dependency: Admin -- Use --> Live Email Outbox
-    ax.plot([84.5, 84.5, 39.75, 39.75, 30.0, 30.0], [54, 47, 47, 22, 22, 20.5], color='#000000', linestyle='--', lw=1.3)
-    ax.annotate("", xy=(30.0, 20.5), xytext=(30.0, 21.7), arrowprops=dict(arrowstyle="->", lw=1.3, color='#000000', linestyle='--'))
-    ax.text(35.0, 22.8, "«Use»", fontsize=6.2, fontweight='bold', color='#000000', ha='center', va='center')
-    ax.text(31.0, 21.5, "1..*", fontsize=8.0, color='#000000', fontweight='bold')
+    # 2. Admin ◇-- Overall Reports
+    draw_guide_conn(x_start=82.0, target_x=89.25, target_y=46.0, is_comp=False, y_track1=48.2)
+
+    # 3. Admin ◇-- Live Email Outbox
+    draw_guide_conn(x_start=87.0, target_x=30.375, target_y=18.5, is_comp=False, y_track1=52.4, x_channel=40.5, y_track2=25.4)
+
+    # 4. Admin ◇-- Live SMS Outbox
+    draw_guide_conn(x_start=91.5, target_x=10.75, target_y=18.5, is_comp=False, y_track1=53.8, x_channel=20.56, y_track2=26.6)
 
     plt.tight_layout()
     plt.savefig('diagrams/class_diagram.png', dpi=300, bbox_inches='tight', facecolor='white')
     plt.close()
     print("Saved diagrams/class_diagram.png")
+
+
 
 # -------------------------------------------------------------
 # SEQUENCE DIAGRAM ENGINE (BLACK & WHITE - NO TITLE WORDS)
@@ -515,13 +465,6 @@ def draw_sequence_template(ax, title, lifelines, steps, alt_fragment=None):
     ax.set_xlim(0, 100)
     ax.set_ylim(0, 100)
     ax.axis('off')
-
-    # Outer System Frame Box
-    rect_sys = patches.Rectangle((1.5, 1.5), 97.0, 96.5, fc='none', ec='#000000', lw=1.2)
-    ax.add_patch(rect_sys)
-    sys_tab = patches.Rectangle((1.5, 96.5), 84.0, 2.4, fc='#FFFFFF', ec='#000000', lw=1.1)
-    ax.add_patch(sys_tab)
-    ax.text(3.0, 97.7, "A Web-Based Laundry Service Management System for HourWash Laundry Shop in Orosite Legazpi City", fontsize=6.8, fontweight='bold', color='#000000', va='center')
 
     num_l = len(lifelines)
     xs = [10 + i * (80 / (num_l - 1)) for i in range(num_l)]
@@ -1144,40 +1087,35 @@ def generate_deployment_diagram():
     ax.add_patch(side)
 
     # Label on Top Left inside WEB SERVER face
-    ax.text(ws_x + 2.5, ws_y + ws_h - 3.2, "WEB SERVER", fontsize=14, fontweight='bold', color='#000000')
+    ax.text(ws_x + 3.0, ws_y + ws_h - 2.5, "WEB SERVER", fontsize=13, fontweight='bold', color='#000000')
 
 
     # INSIDE WEB SERVER:
-    # A) Upper Block: Package Diagram Container (y=50.0 to 92.5)
-    pkg_x, pkg_y, pkg_w, pkg_h = ws_x + 3.0, ws_y + 12.0, ws_w - 6.0, 42.5
+    # A) Upper Block: Package Diagram Container (y=48.0 to 91.0)
+    pkg_x, pkg_y, pkg_w, pkg_h = ws_x + 3.0, ws_y + 10.0, ws_w - 6.0, 43.0
     rect_sys = patches.Rectangle((pkg_x, pkg_y), pkg_w, pkg_h, fc='#FFFFFF', ec='#000000', lw=1.2)
     ax.add_patch(rect_sys)
 
-    # Title tab at top left of Package Diagram container
-    sys_tab = patches.Rectangle((pkg_x, pkg_y + pkg_h), 78.0, 2.0, fc='#FFFFFF', ec='#000000', lw=1.0)
-    ax.add_patch(sys_tab)
-    ax.text(pkg_x + 1.2, pkg_y + pkg_h + 1.0, "A Web-Based Laundry Service Management System for HourWash Laundry Shop in Orosite Legazpi City", fontsize=6.2, fontweight='bold', color='#000000', va='center')
-
-    # Render 4 Role Packages inside Package Diagram Container
+    # Render 4 Role Packages inside Package Diagram Container (Admin & Customer tabs end at y=84.7, 6.3 units BELOW pkg_y + pkg_h = 91.0)
     # Admin (Top Left)
     admin_left = ["Login", "Manage Orders", "Services & Pricing"]
     admin_right = ["Dashboard", "User Accounts", "Manage Machines"]
-    draw_role_package_container_reference(ax, pkg_x + 1.5, pkg_y + 21.5, "Admin", admin_left, admin_right, bottom_folder_name="Profile", w=39.5, h=19.5)
+    draw_role_package_container_reference(ax, pkg_x + 1.5, pkg_y + 19.5, "Admin", admin_left, admin_right, bottom_folder_name="Profile", w=39.5, h=16.0)
 
     # Customer (Top Right)
     customer_left = ["Login", "Book New Order", "My Order History"]
     customer_right = ["Dashboard", "12-Stamp Card", "Active Services"]
-    draw_role_package_container_reference(ax, pkg_x + 43.0, pkg_y + 21.5, "Customer", customer_left, customer_right, bottom_folder_name="Profile", w=39.5, h=19.5)
+    draw_role_package_container_reference(ax, pkg_x + 43.0, pkg_y + 19.5, "Customer", customer_left, customer_right, bottom_folder_name="Profile", w=39.5, h=16.0)
 
     # Staff (Bottom Left)
     staff_left = ["Login", "Workstation Queue", "Manage Laundry"]
     staff_right = ["Dashboard", "New Walk-in Order", "Manage Machines"]
-    draw_role_package_container_reference(ax, pkg_x + 1.5, pkg_y + 1.0, "Staff", staff_left, staff_right, bottom_folder_name="Profile", w=39.5, h=19.5)
+    draw_role_package_container_reference(ax, pkg_x + 1.5, pkg_y + 1.0, "Staff", staff_left, staff_right, bottom_folder_name="Profile", w=39.5, h=16.0)
 
     # Rider of HourWash (Bottom Right)
     rider_left = ["Login", "Rider Dashboard", "Pickup Logistics"]
     rider_right = ["Dashboard", "Delivery Tasks", "Proof Photo Upload"]
-    draw_role_package_container_reference(ax, pkg_x + 43.0, pkg_y + 1.0, "Rider of HourWash", rider_left, rider_right, bottom_folder_name="Profile", w=39.5, h=19.5)
+    draw_role_package_container_reference(ax, pkg_x + 43.0, pkg_y + 1.0, "Rider of HourWash", rider_left, rider_right, bottom_folder_name="Profile", w=39.5, h=16.0)
 
 
     # B) Lower Block: DATABASE Container (y=40.0 to 48.5)

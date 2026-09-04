@@ -17,7 +17,8 @@
 <body style="margin: 0; padding: 0; background-color: #FFFFFF; font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #1D1D1F; -webkit-font-smoothing: antialiased;">
 
     @php
-        $logoSrc = 'https://hourwashlaundryshop.up.railway.app/favicon.png';
+        $logoPath = public_path('images/logo-email.png');
+        $logoSrc = file_exists($logoPath) ? 'data:image/png;base64,'.base64_encode(file_get_contents($logoPath)) : (file_exists(public_path('favicon.svg')) ? 'data:image/svg+xml;base64,'.base64_encode(file_get_contents(public_path('favicon.svg'))) : 'https://hourwashlaundryshop.up.railway.app/images/logo-email.png');
         $st = strtolower($order->order_status);
         $statusLabel = match($st) {
             'pending' => 'Order Placed (Pending)',
