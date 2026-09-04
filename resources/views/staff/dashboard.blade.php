@@ -634,12 +634,17 @@
                                      @endif
                                  </td>
                                 <td class="px-4 py-3 text-center flex items-center justify-center gap-1.5">
-                                    <form method="POST" action="{{ route('laundry.auto-assign-rider', $order->id) }}" class="inline">
-                                        @csrf
-                                        <button type="submit" class="px-2 py-1 rounded bg-indigo-500/15 text-indigo-700 dark:text-indigo-300 border border-indigo-500/30 hover:bg-indigo-600 hover:text-white text-[10px] font-bold transition cursor-pointer" title="Auto-assign on-duty rider">
-                                            Auto-Rider
-                                        </button>
-                                    </form>
+                                    @php
+                                        $isPickupDeliveryOrder = in_array($order->pickup_type, ['pickup_delivery', 'pickup', 'delivery']) || str_contains(strtolower($order->service?->service_type ?? ''), 'pickup') || str_contains(strtolower($order->service?->name ?? ''), 'pickup') || str_contains(strtolower($order->service?->name ?? ''), 'delivery');
+                                    @endphp
+                                    @if($isPickupDeliveryOrder)
+                                        <form method="POST" action="{{ route('laundry.auto-assign-rider', $order->id) }}" class="inline">
+                                            @csrf
+                                            <button type="submit" class="px-2 py-1 rounded bg-indigo-500/15 text-indigo-700 dark:text-indigo-300 border border-indigo-500/30 hover:bg-indigo-600 hover:text-white text-[10px] font-bold transition cursor-pointer" title="Auto-assign on-duty rider">
+                                                Auto-Rider
+                                            </button>
+                                        </form>
+                                    @endif
                                     <a href="{{ route('staff.laundry.index') }}" class="btn-secondary py-1 px-2.5 text-[11px]">Manage</a>
                                     <form method="POST" action="{{ route('laundry.destroy', $order->id) }}" class="inline" onsubmit="return confirm('Are you sure you want to delete Order #{{ $order->order_number }} permanently? This action cannot be undone.');">
                                         @csrf

@@ -301,12 +301,17 @@
                             </button>
                         </form>
 
-                        <form method="POST" action="{{ route('laundry.auto-assign-rider', $order->id) }}" class="inline">
-                            @csrf
-                            <button type="submit" class="bg-indigo-600/15 text-indigo-700 dark:text-indigo-300 border border-indigo-500/30 hover:bg-indigo-600 hover:text-white px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 cursor-pointer" title="Auto-assign on-duty rider">
-                                Auto-Assign Rider
-                            </button>
-                        </form>
+                        @php
+                            $isPickupDeliveryOrder = in_array($order->pickup_type, ['pickup_delivery', 'pickup', 'delivery']) || str_contains(strtolower($order->service?->service_type ?? ''), 'pickup') || str_contains(strtolower($order->service?->name ?? ''), 'pickup') || str_contains(strtolower($order->service?->name ?? ''), 'delivery');
+                        @endphp
+                        @if($isPickupDeliveryOrder)
+                            <form method="POST" action="{{ route('laundry.auto-assign-rider', $order->id) }}" class="inline">
+                                @csrf
+                                <button type="submit" class="bg-indigo-600/15 text-indigo-700 dark:text-indigo-300 border border-indigo-500/30 hover:bg-indigo-600 hover:text-white px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 cursor-pointer" title="Auto-assign on-duty rider">
+                                    Auto-Assign Rider
+                                </button>
+                            </form>
+                        @endif
 
                         <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'power-outage-{{ $order->id }}')" class="bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30 hover:bg-amber-500/25 px-3 py-1.5 rounded-lg text-xs font-bold transition">
                             Power Outage Extension
