@@ -42,7 +42,7 @@
             </a>
             <a href="{{ route('admin.users.index', ['role' => 'staff']) }}" class="card-accent-amber p-4 flex items-center justify-between shadow-sm hover:border-amber-600 transition">
                 <div>
-                    <span class="text-[10px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider block">Staff Specialists</span>
+                    <span class="text-[10px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider block">Staff Accounts</span>
                     <span class="text-xs text-slate-500 dark:text-slate-400">Operators</span>
                 </div>
                 <span class="text-2xl font-black text-amber-600 dark:text-amber-400 font-mono">{{ $staffCount }}</span>
@@ -299,11 +299,10 @@
                                                 <div>
                                                     <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Account Role</label>
                                                     <select name="role" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required>
-                                                        <option value="rider" {{ $user->role === 'rider' ? 'selected' : '' }}>Rider</option>
+                                                         <option value="rider" {{ $user->role === 'rider' ? 'selected' : '' }}>Rider</option>
                                                         <option value="customer" {{ in_array($user->role, ['customer', 'user']) ? 'selected' : '' }}>Customer</option>
-                                                        <option value="staff" {{ $user->role === 'staff' ? 'selected' : '' }}>Staff Specialist</option>
+                                                        <option value="staff" {{ $user->role === 'staff' ? 'selected' : '' }}>Staff</option>
                                                         <option value="admin" {{ $user->role === 'admin' ? 'selected' : '' }}>Admin</option>
-                                                        <option value="owner" {{ $user->role === 'owner' ? 'selected' : '' }}>Store Owner</option>
                                                     </select>
                                                 </div>
 
@@ -372,56 +371,55 @@
                 @csrf
 
                 <div>
-                    <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Full Name <span class="text-rose-500">*</span></label>
+                    <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Full Name:</label>
                     <input type="text" name="name" value="{{ old('name') }}" placeholder="e.g. Your Name" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required minlength="3">
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Email Address <span class="text-rose-500">*</span></label>
+                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Email Address:</label>
                         <input type="email" name="email" value="{{ old('email') }}" placeholder="e.g. name@example.com" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required>
                     </div>
                     <div>
-                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Phone Number</label>
+                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Phone Number:</label>
                         <input type="text" name="phone" value="{{ old('phone') }}" placeholder="e.g. 09XXXXXXXXX" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">House No. / Street Name</label>
+                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">House No. / Street Name:</label>
                         <input type="text" name="address" value="{{ old('address') }}" placeholder="e.g. #123 Magallanes St." class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
                     </div>
                     <div>
-                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Barangay</label>
+                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Barangay:</label>
                         <input type="text" name="barangay" value="{{ old('barangay') }}" placeholder="e.g. Brgy. Orosite" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
                     </div>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">City / Municipality</label>
+                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">City / Municipality:</label>
                         <input type="text" name="city" value="{{ old('city') }}" placeholder="e.g. Legazpi City" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
                     </div>
                     <div>
-                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Province</label>
+                        <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Province:</label>
                         <input type="text" name="province" value="{{ old('province') }}" placeholder="e.g. Albay" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white">
                     </div>
                 </div>
 
                 <div>
-                    <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Password <span class="text-rose-500">*</span></label>
+                    <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Password:</label>
                     <input type="password" name="password" placeholder="Minimum 8 characters" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required minlength="8">
                 </div>
 
                 <div>
-                    <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Account Role <span class="text-rose-500">*</span></label>
+                    <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Account Role:</label>
                     <select name="role" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required>
                         <option value="rider" {{ old('role') == 'rider' ? 'selected' : '' }}>Rider</option>
                         <option value="customer" {{ old('role', 'customer') == 'customer' ? 'selected' : '' }}>Customer</option>
-                        <option value="staff" {{ old('role') == 'staff' ? 'selected' : '' }}>Staff Specialist</option>
+                        <option value="staff" {{ old('role') == 'staff' ? 'selected' : '' }}>Staff</option>
                         <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
-                        <option value="owner" {{ old('role') == 'owner' ? 'selected' : '' }}>Store Owner</option>
                     </select>
                 </div>
 

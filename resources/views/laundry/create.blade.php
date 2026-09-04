@@ -97,7 +97,7 @@
                         </p>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                             <div>
-                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Full Name <span class="text-rose-500">*</span></label>
+                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Full Name:</label>
                                 <input type="text" name="new_customer_name" value="{{ old('new_customer_name') }}" placeholder="e.g. Your Name" class="w-full">
                             </div>
                             <div>
