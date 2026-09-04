@@ -633,8 +633,21 @@
                                          <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30">{{ str_replace('_', ' ', $order->order_status) }}</span>
                                      @endif
                                  </td>
-                                <td class="px-4 py-3 text-center">
-                                    <a href="{{ route('staff.laundry.index') }}" class="btn-secondary py-1 px-3 text-[11px]">Manage</a>
+                                <td class="px-4 py-3 text-center flex items-center justify-center gap-1.5">
+                                    <form method="POST" action="{{ route('laundry.auto-assign-rider', $order->id) }}" class="inline">
+                                        @csrf
+                                        <button type="submit" class="px-2 py-1 rounded bg-indigo-500/15 text-indigo-700 dark:text-indigo-300 border border-indigo-500/30 hover:bg-indigo-600 hover:text-white text-[10px] font-bold transition cursor-pointer" title="Auto-assign on-duty rider">
+                                            ⚡ Auto-Rider
+                                        </button>
+                                    </form>
+                                    <a href="{{ route('staff.laundry.index') }}" class="btn-secondary py-1 px-2.5 text-[11px]">Manage</a>
+                                    <form method="POST" action="{{ route('laundry.destroy', $order->id) }}" class="inline" onsubmit="return confirm('Are you sure you want to delete Order #{{ $order->order_number }} permanently? This action cannot be undone.');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="px-2 py-1 rounded bg-rose-500/15 text-rose-700 dark:text-rose-400 border border-rose-500/30 hover:bg-rose-600 hover:text-white text-[10px] font-bold transition cursor-pointer" title="Delete Order">
+                                            🗑️ Delete
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @empty

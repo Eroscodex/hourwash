@@ -89,6 +89,15 @@
                         <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="btn-secondary px-3 py-1.5 text-[11px] font-bold inline-flex items-center gap-1 shadow-sm">
                             Receipt
                         </a>
+                        @if(in_array($order->order_status, ['pending', 'cancelled']))
+                            <form method="POST" action="{{ route('laundry.destroy', $order->id) }}" class="inline" onsubmit="return confirm('Are you sure you want to delete Order #{{ $order->order_number }}?');">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn-danger px-2.5 py-1.5 text-[11px] font-bold shadow-sm" title="Delete Order">
+                                    Delete
+                                </button>
+                            </form>
+                        @endif
                     </div>
                 </div>
             </div>

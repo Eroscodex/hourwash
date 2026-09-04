@@ -336,4 +336,88 @@ class LaundryController extends Controller
             return redirect($fallbackUrl)->with('error', 'Tracking information temporarily unavailable. Please try again.');
         }
     }
+
+    public function destroy(Order $order)
+    {
+        /** @var User|null $user */
+        $user = Auth::user();
+        if (! $user || ($user->isCustomer() && $order->customer_id !== $user->id)) {
+            return back()->with('error', 'Unauthorized action.');
+        }
+
+        try {
+            $orderNumber = $order->order_number;
+
+            if ($order->machine_id) {
+                Machine::where('id', $order->machine_id)->update([
+                    'current_order_id' => null,
+                    'status' => 'idle',
+                    'remaining_minutes' => null,
+                ]);
+            }
+
+            if ($order->qrCode) {
+                $order->qrCode->delete();
+            }
+            if ($order->pickupDelivery) {
+                $order->pickupDelivery->delete();
+            }
+            if ($order->statusHistory()) {
+                $order->statusHistory()->delete();
+            }
+            if ($order->feedback) {
+                $order->feedback->delete();
+            }
+
+            $order->delete();
+
+            return redirect()->back()->with('success', "Order #{$orderNumber} has been deleted successfully.");
+        } catch (\Throwable $e) {
+            Log::error("Order delete error for #{$order->order_number}: ".$e->getMessage());
+
+            return redirect()->back()->with('error', "Failed to delete Order #{$order->order_number}: ".$e->getMessage());
+        }
+    }
+
+    public function autoAssignRider(Order $order)
+    {
+        /** @var User|null $user */
+        $user = Auth::user();
+        if (! $user || $user->isCustomer()) {
+            return back()->with('error', 'Unauthorized action.');
+        }
+
+        try {
+            $rider = User::where('role', 'rider')->first() ?? User::where('role', 'staff')->first() ?? $user;
+
+            $riderName = $rider ? $rider->name : 'HourWash On-Duty Rider';
+            $riderPhone = $rider ? ($rider->phone ?? '09100317744') : '09100317744';
+
+            $pickupDelivery = $order->pickupDelivery ?? $order->pickupDelivery()->create([
+                'type' => $order->pickup_type ?? 'pickup_delivery',
+                'address' => $order->customer->customerProfile->address ?? 'Magallanes St., Orosite, Legazpi City',
+                'contact_number' => $order->customer->customerProfile->phone_number ?? '09100317744',
+                'scheduled_date' => now()->toDateString(),
+                'scheduled_time' => now()->format('H:i'),
+            ]);
+
+            $pickupDelivery->update([
+                'rider_name' => $riderName,
+                'rider_phone' => $riderPhone,
+                'status' => 'assigned',
+            ]);
+
+            if ($order->order_status === 'pending') {
+                $order->update(['order_status' => 'out_for_pickup']);
+            } elseif ($order->order_status === 'finish') {
+                $order->update(['order_status' => 'out_for_delivery']);
+            }
+
+            return redirect()->back()->with('success', "⚡ Auto-Assigned Rider [{$riderName}] ({$riderPhone}) to Order #{$order->order_number}!");
+        } catch (\Throwable $e) {
+            Log::error("Auto-assign rider error for #{$order->order_number}: ".$e->getMessage());
+
+            return redirect()->back()->with('error', 'Failed to auto-assign rider: '.$e->getMessage());
+        }
+    }
 }

@@ -575,6 +575,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::patch('/users/{user}/stamps', [UserController::class, 'updateStamps'])->name('users.stamps.update');
     Route::get('/laundry', [AdminLaundryController::class, 'index'])->name('laundry.index');
     Route::match(['post', 'patch'], '/laundry/{order}', [AdminLaundryController::class, 'update'])->name('laundry.update');
+    Route::delete('/laundry/{order}', [LaundryController::class, 'destroy'])->name('laundry.destroy');
+    Route::post('/laundry/{order}/auto-assign-rider', [LaundryController::class, 'autoAssignRider'])->name('laundry.auto-assign-rider');
     Route::get('/analytics', function () {
         return redirect()->route('admin.dashboard');
     })->name('analytics');

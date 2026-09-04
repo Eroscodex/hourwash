@@ -301,9 +301,24 @@
                             </button>
                         </form>
 
+                        <form method="POST" action="{{ route('laundry.auto-assign-rider', $order->id) }}" class="inline">
+                            @csrf
+                            <button type="submit" class="bg-indigo-600/15 text-indigo-700 dark:text-indigo-300 border border-indigo-500/30 hover:bg-indigo-600 hover:text-white px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1 cursor-pointer" title="Auto-assign on-duty rider">
+                                ⚡ Auto-Assign Rider
+                            </button>
+                        </form>
+
                         <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'power-outage-{{ $order->id }}')" class="bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30 hover:bg-amber-500/25 px-3 py-1.5 rounded-lg text-xs font-bold transition">
                             Power Outage Extension
                         </button>
+
+                        <form method="POST" action="{{ route('laundry.destroy', $order->id) }}" class="inline" onsubmit="return confirm('Are you sure you want to delete Order #{{ $order->order_number }} permanently? This action cannot be undone.');">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="bg-rose-500/15 text-rose-700 dark:text-rose-400 border border-rose-500/30 hover:bg-rose-600 hover:text-white px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer" title="Delete Order One-by-One">
+                                🗑️ Delete
+                            </button>
+                        </form>
 
                         <x-modal name="power-outage-{{ $order->id }}" maxWidth="sm">
                             <form method="POST" action="{{ route('admin.laundry.extend', $order->id) }}" class="p-6 bg-white dark:bg-[#141417] text-slate-900 dark:text-zinc-100 space-y-4 rounded-lg text-left">
