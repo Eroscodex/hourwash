@@ -32,12 +32,12 @@
             </button>
         </div>
 
-        
+        <!-- Content Card -->
         <div class="bg-white dark:bg-[#141417] border border-slate-200 dark:border-zinc-600 rounded-lg p-6 sm:p-8 space-y-6 shadow-sm">
             <div class="text-center space-y-2 border-b border-slate-200 dark:border-zinc-700 pb-5">
-                <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-16 h-16 rounded-full mx-auto bg-white p-1 border border-slate-200">
-                <h1 class="text-2xl font-bold  text-slate-900 dark:text-white">Terms & Conditions</h1>
-                <p class="text-xs text-slate-500">Last updated: {{ date('F d, Y') }}</p>
+                <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-16 h-16 rounded-full mx-auto bg-white p-1 border border-slate-200 shadow-sm">
+                <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Terms & Conditions</h1>
+                <p class="text-xs text-slate-500 font-medium">Last updated: September 05, 2026</p>
             </div>
 
             <div class="space-y-4 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
@@ -45,30 +45,35 @@
                     Welcome to <strong>Hour Wash Laundry</strong>. By using our web application, ordering laundry services, or using our self-service/drop-off facilities, you agree to comply with and be bound by the following terms and conditions.
                 </p>
 
-                <h3 class="text-base font-bold  text-slate-900 dark:text-white pt-2">1. Laundry Services</h3>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white pt-2">1. Laundry Services</h3>
                 <p>
                     We provide self-service washing and drying machines, as well as drop-off/full-service laundry handling. It is the customer's responsibility to check pockets and verify garment care labels before loading machines.
                 </p>
 
-                <h3 class="text-base font-bold  text-slate-900 dark:text-white pt-2">2. Liability</h3>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white pt-2">2. Liability</h3>
                 <ul class="list-disc pl-5 space-y-1">
                     <li>We are not responsible for damage caused by bleeding colors, shrinkage, or weakening of fabrics during standard cycles.</li>
                     <li>We are not liable for any items (coins, jewelry, electronics, etc.) left inside garments or laundry bags.</li>
                 </ul>
 
-                <h3 class="text-base font-bold  text-slate-900 dark:text-white pt-2">3. Unclaimed Clothes</h3>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white pt-2">3. Unclaimed Clothes</h3>
                 <p>
                     Drop-off laundry orders that remain unclaimed for more than <strong>30 days</strong> after the ready-for-pickup notification is sent will be subject to storage fees or disposal/donation.
                 </p>
 
-                <h3 class="text-base font-bold  text-slate-900 dark:text-white pt-2">4. User Accounts</h3>
+                <h3 class="text-base font-bold text-slate-900 dark:text-white pt-2">4. User Accounts</h3>
                 <p>
                     You are responsible for maintaining the confidentiality of your login credentials. You agree to notify us immediately of any unauthorized use of your account.
                 </p>
             </div>
         </div>
 
-        <footer class="pt-4 border-t border-slate-200 dark:border-zinc-800 text-center text-[11px] text-slate-500 dark:text-zinc-400 space-y-1.5">
+        <footer class="pt-4 border-t border-slate-200 dark:border-zinc-800 text-center text-[11px] text-slate-500 dark:text-zinc-400 space-y-2.5">
+            <div class="flex justify-center mb-1">
+                <div class="w-7 h-7 bg-blue-600 rounded-full flex items-center justify-center shadow-xs overflow-hidden p-0.5 border border-blue-500/30">
+                    <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-full h-full object-cover rounded-full">
+                </div>
+            </div>
             <div class="flex items-center justify-center gap-x-1.5 sm:gap-x-3 text-[10px] sm:text-xs">
                 <a href="{{ route('about') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">About Us</a>
                 <span class="text-slate-300 dark:text-zinc-700">•</span>
@@ -76,10 +81,11 @@
                 <span class="text-slate-300 dark:text-zinc-700">•</span>
                 <a href="{{ route('privacy') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Privacy Policy</a>
                 <span class="text-slate-300 dark:text-zinc-700">•</span>
-                <a href="{{ route('terms') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Terms & Conditions</a>
+                <a href="{{ route('terms') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Terms &amp; Conditions</a>
             </div>
             <div>© {{ date('Y') }} A Web-Based Laundry Service Management System for Hour Wash Laundry Shop in Orosite, Legazpi City</div>
         </footer>
+
     </div>
 
     <script>
