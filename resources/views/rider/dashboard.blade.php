@@ -285,37 +285,56 @@
                             </span>
                         </div>
 
-                        <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                        <div class="flex flex-col w-full gap-2">
                             @if($order->order_status === 'pending')
-                                <form method="POST" action="{{ route('rider.updateStatus', $order->id) }}" class="inline-block flex-1 sm:flex-none">
+                                <form method="POST" action="{{ route('rider.updateStatus', $order->id) }}" class="w-full">
                                     @csrf
                                     @method('PATCH')
                                     <input type="hidden" name="status" value="out_for_pickup">
-                                    <button type="submit" class="w-full px-3 py-2 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs shadow transition flex items-center justify-center gap-1">
-                                        Out for Pickup
+                                    <button type="submit" class="w-full px-4 py-2.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-extrabold text-xs shadow transition flex items-center justify-center gap-2 uppercase tracking-wider cursor-pointer">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                                        🚗 Start Pickup Dispatch (Out for Pickup)
                                     </button>
                                 </form>
+                            @else
+                                <form method="POST" action="{{ route('rider.updateStatus', $order->id) }}" enctype="multipart/form-data" class="w-full space-y-2">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="status" value="received">
+
+                                    <div class="p-3 rounded-lg bg-blue-50/50 dark:bg-[#141417] border border-blue-200 dark:border-zinc-800 space-y-2.5">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-[11px] font-extrabold uppercase tracking-wider text-blue-600 dark:text-blue-400 flex items-center gap-1.5">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                                Pickup Verification & Photo Upload
+                                            </span>
+                                            <span class="text-[10px] text-slate-400 dark:text-zinc-500 font-mono">Step 1: Photo • Step 2: Confirm</span>
+                                        </div>
+
+                                        <div class="flex flex-col sm:flex-row items-center gap-2">
+                                            <select name="payment_status" class="px-3 py-2 rounded-lg bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100 text-xs font-bold hover:border-blue-500 transition w-full sm:w-auto shrink-0 shadow-sm">
+                                                <option value="unpaid" {{ $order->payment_status === 'unpaid' ? 'selected' : '' }}>COD: UNPAID</option>
+                                                <option value="paid" {{ $order->payment_status === 'paid' ? 'selected' : '' }}>COD: PAID (Cash Collected)</option>
+                                            </select>
+
+                                            <div class="w-full flex items-center gap-2">
+                                                <label id="pickup_lbl_{{ $order->id }}" class="flex-1 cursor-pointer px-3 py-2 rounded-lg bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-zinc-200 text-xs font-bold hover:bg-slate-50 dark:hover:bg-zinc-700 transition flex items-center justify-center gap-1.5 shadow-sm text-center">
+                                                    <svg class="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/></svg>
+                                                    <span>📷 Snap / Upload Pickup Photo</span>
+                                                    <input type="file" name="proof_image" accept="image/*" capture="environment" class="hidden" onchange="previewProofImage(this, 'pickup_img_prev_{{ $order->id }}', 'pickup_lbl_{{ $order->id }}')">
+                                                </label>
+
+                                                <img id="pickup_img_prev_{{ $order->id }}" class="hidden w-9 h-9 rounded object-cover border-2 border-emerald-500 shadow-sm shrink-0" alt="Pickup Photo Preview">
+                                            </div>
+                                        </div>
+
+                                        <button type="submit" class="w-full px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-extrabold text-xs shadow-md transition flex items-center justify-center gap-2 uppercase tracking-wider cursor-pointer">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                            Upload Photo & Complete Pickup (Pickup Successful)
+                                        </button>
+                                    </div>
+                                </form>
                             @endif
-
-                            <form method="POST" action="{{ route('rider.updateStatus', $order->id) }}" enctype="multipart/form-data" class="flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto flex-1 sm:flex-none">
-                                @csrf
-                                @method('PATCH')
-                                <input type="hidden" name="status" value="received">
-
-                                <select name="payment_status" class="px-2.5 py-2 rounded-lg bg-slate-100 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-zinc-200 text-xs font-semibold hover:bg-slate-200 transition shrink-0 w-full sm:w-auto">
-                                    <option value="unpaid" {{ $order->payment_status === 'unpaid' ? 'selected' : '' }}>COD: UNPAID</option>
-                                    <option value="paid" {{ $order->payment_status === 'paid' ? 'selected' : '' }}>COD: PAID (Cash Collected)</option>
-                                </select>
-
-                                <label class="cursor-pointer px-2.5 py-2 rounded-lg bg-slate-100 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-zinc-200 text-xs font-semibold hover:bg-slate-200 transition flex items-center shrink-0 w-full sm:w-auto justify-center">
-                                    <span>Camera Photo Proof</span>
-                                    <input type="file" name="proof_image" accept="image/*" capture="environment" class="hidden" onchange="if(this.files[0]) this.previousElementSibling.textContent = '✓ ' + this.files[0].name.substring(0,10) + '...';">
-                                </label>
-
-                                <button type="submit" class="w-full sm:w-auto px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow transition flex items-center justify-center gap-1">
-                                    Mark Received & In Shop
-                                </button>
-                            </form>
                         </div>
                     </div>
                 </div>
@@ -662,37 +681,56 @@
                             </span>
                         </div>
 
-                        <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+                        <div class="flex flex-col w-full gap-2">
                             @if($order->order_status === 'finish')
-                                <form method="POST" action="{{ route('rider.updateStatus', $order->id) }}" class="inline-block flex-1 sm:flex-none">
+                                <form method="POST" action="{{ route('rider.updateStatus', $order->id) }}" class="w-full">
                                     @csrf
                                     @method('PATCH')
                                     <input type="hidden" name="status" value="out_for_delivery">
-                                    <button type="submit" class="w-full px-3 py-2 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs shadow transition flex items-center justify-center gap-1">
-                                        Out for Delivery
+                                    <button type="submit" class="w-full px-4 py-2.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-extrabold text-xs shadow transition flex items-center justify-center gap-2 uppercase tracking-wider cursor-pointer">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                                        🚚 Start Delivery Dispatch (Out for Delivery)
                                     </button>
                                 </form>
+                            @else
+                                <form method="POST" action="{{ route('rider.updateStatus', $order->id) }}" enctype="multipart/form-data" class="w-full space-y-2">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="status" value="completed">
+
+                                    <div class="p-3 rounded-lg bg-cyan-50/50 dark:bg-[#141417] border border-cyan-200 dark:border-zinc-800 space-y-2.5">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-[11px] font-extrabold uppercase tracking-wider text-cyan-600 dark:text-cyan-400 flex items-center gap-1.5">
+                                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                                                Delivery Verification & Photo Upload
+                                            </span>
+                                            <span class="text-[10px] text-slate-400 dark:text-zinc-500 font-mono">Step 1: Photo • Step 2: Confirm</span>
+                                        </div>
+
+                                        <div class="flex flex-col sm:flex-row items-center gap-2">
+                                            <select name="payment_status" class="px-3 py-2 rounded-lg bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100 text-xs font-bold hover:border-cyan-500 transition w-full sm:w-auto shrink-0 shadow-sm">
+                                                <option value="unpaid" {{ $order->payment_status === 'unpaid' ? 'selected' : '' }}>COD: UNPAID</option>
+                                                <option value="paid" {{ $order->payment_status === 'paid' ? 'selected' : '' }}>COD: PAID (Cash Collected)</option>
+                                            </select>
+
+                                            <div class="w-full flex items-center gap-2">
+                                                <label id="deliv_lbl_{{ $order->id }}" class="flex-1 cursor-pointer px-3 py-2 rounded-lg bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-zinc-200 text-xs font-bold hover:bg-slate-50 dark:hover:bg-zinc-700 transition flex items-center justify-center gap-1.5 shadow-sm text-center">
+                                                    <svg class="w-4 h-4 text-cyan-600 dark:text-cyan-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/></svg>
+                                                    <span>📷 Snap / Upload Delivery Photo</span>
+                                                    <input type="file" name="proof_image" accept="image/*" capture="environment" class="hidden" onchange="previewProofImage(this, 'deliv_img_prev_{{ $order->id }}', 'deliv_lbl_{{ $order->id }}')">
+                                                </label>
+
+                                                <img id="deliv_img_prev_{{ $order->id }}" class="hidden w-9 h-9 rounded object-cover border-2 border-emerald-500 shadow-sm shrink-0" alt="Delivery Photo Preview">
+                                            </div>
+                                        </div>
+
+                                        <button type="submit" class="w-full px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-extrabold text-xs shadow-md transition flex items-center justify-center gap-2 uppercase tracking-wider cursor-pointer">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
+                                            Upload Photo & Complete Delivery (Delivery Successful)
+                                        </button>
+                                    </div>
+                                </form>
                             @endif
-
-                            <form method="POST" action="{{ route('rider.updateStatus', $order->id) }}" enctype="multipart/form-data" class="flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto flex-1 sm:flex-none">
-                                @csrf
-                                @method('PATCH')
-                                <input type="hidden" name="status" value="completed">
-
-                                <select name="payment_status" class="px-2.5 py-2 rounded-lg bg-slate-100 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-zinc-200 text-xs font-semibold hover:bg-slate-200 transition shrink-0 w-full sm:w-auto">
-                                    <option value="unpaid" {{ $order->payment_status === 'unpaid' ? 'selected' : '' }}>COD: UNPAID</option>
-                                    <option value="paid" {{ $order->payment_status === 'paid' ? 'selected' : '' }}>COD: PAID (Cash Collected)</option>
-                                </select>
-
-                                <label class="cursor-pointer px-2.5 py-2 rounded-lg bg-slate-100 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-zinc-200 text-xs font-semibold hover:bg-slate-200 transition flex items-center shrink-0 w-full sm:w-auto justify-center">
-                                    <span>Camera Photo Proof</span>
-                                    <input type="file" name="proof_image" accept="image/*" capture="environment" class="hidden" onchange="if(this.files[0]) this.previousElementSibling.textContent = '✓ ' + this.files[0].name.substring(0,10) + '...';">
-                                </label>
-
-                                <button type="submit" class="w-full sm:w-auto px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow transition flex items-center justify-center gap-1">
-                                    Mark Delivered & Completed
-                                </button>
-                            </form>
                         </div>
                     </div>
                 </div>
@@ -863,6 +901,30 @@
             const countEl = document.getElementById('visibleOrderCount');
             if (countEl) {
                 countEl.textContent = visibleCount;
+            }
+        }
+
+        function previewProofImage(input, previewId, labelId) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.getElementById(previewId);
+                    if (img) {
+                        img.src = e.target.result;
+                        img.classList.remove('hidden');
+                    }
+                    const lbl = document.getElementById(labelId);
+                    if (lbl) {
+                        const span = lbl.querySelector('span');
+                        if (span) {
+                            span.textContent = '✓ Photo Ready: ' + file.name.substring(0, 14);
+                        }
+                        lbl.classList.remove('bg-white', 'dark:bg-zinc-800', 'text-slate-700', 'dark:text-zinc-200');
+                        lbl.classList.add('bg-emerald-500/20', 'text-emerald-700', 'dark:text-emerald-300', 'border-emerald-500/40');
+                    }
+                };
+                reader.readAsDataURL(file);
             }
         }
     </script>
