@@ -250,18 +250,19 @@
                     <div class="p-3 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-800 space-y-2">
                         <div class="flex items-center justify-between text-[10.5px] font-bold text-slate-600 dark:text-zinc-400">
                             <span>LAUNDRY PROGRESS TIMELINE</span>
-                            <span class="text-amber-600 dark:text-amber-400 font-extrabold uppercase">{{ str_replace('_', ' ', $order->order_status) }}</span>
+                            <span class="text-amber-600 dark:text-amber-400 font-extrabold uppercase">{{ str_replace('_', ' ', $order->order_status === 'picked_up' ? 'Pickup Successful' : $order->order_status) }}</span>
                         </div>
                         @php
-                            $statusMap = ['pending' => 1, 'out_for_pickup' => 2, 'received' => 3, 'washing' => 4, 'rinsing' => 4, 'drying' => 4, 'finish' => 4, 'out_for_delivery' => 5, 'completed' => 6];
+                            $statusMap = ['pending' => 1, 'out_for_pickup' => 2, 'picked_up' => 3, 'received' => 4, 'washing' => 5, 'rinsing' => 5, 'drying' => 5, 'finish' => 5, 'out_for_delivery' => 6, 'completed' => 7];
                             $currLvl = $statusMap[$order->order_status] ?? 1;
                         @endphp
-                        <div class="grid grid-cols-5 gap-1.5 text-[9.5px] font-bold text-center">
+                        <div class="grid grid-cols-6 gap-1 text-[9px] font-bold text-center">
                             <div class="py-1 px-0.5 rounded {{ $currLvl >= 1 ? 'bg-amber-500 text-white' : 'bg-slate-200 dark:bg-zinc-800 text-slate-400' }}">1. Requested</div>
-                            <div class="py-1 px-0.5 rounded {{ $currLvl >= 2 ? 'bg-amber-600 text-white font-black' : 'bg-slate-200 dark:bg-zinc-800 text-slate-400' }}">2. Out Pickup</div>
-                            <div class="py-1 px-0.5 rounded {{ $currLvl >= 3 ? 'bg-blue-600 text-white' : 'bg-slate-200 dark:bg-zinc-800 text-slate-400' }}">3. In Shop</div>
-                            <div class="py-1 px-0.5 rounded {{ $currLvl >= 4 ? 'bg-purple-600 text-white' : 'bg-slate-200 dark:bg-zinc-800 text-slate-400' }}">4. Processing</div>
-                            <div class="py-1 px-0.5 rounded {{ $currLvl >= 6 ? 'bg-emerald-600 text-white' : 'bg-slate-200 dark:bg-zinc-800 text-slate-400' }}">5. Done</div>
+                            <div class="py-1 px-0.5 rounded {{ $currLvl >= 2 ? 'bg-amber-600 text-white' : 'bg-slate-200 dark:bg-zinc-800 text-slate-400' }}">2. Out Pickup</div>
+                            <div class="py-1 px-0.5 rounded {{ $currLvl >= 3 ? 'bg-emerald-600 text-white font-black' : 'bg-slate-200 dark:bg-zinc-800 text-slate-400' }}">3. Pickup Success</div>
+                            <div class="py-1 px-0.5 rounded {{ $currLvl >= 4 ? 'bg-blue-600 text-white' : 'bg-slate-200 dark:bg-zinc-800 text-slate-400' }}">4. In Shop</div>
+                            <div class="py-1 px-0.5 rounded {{ $currLvl >= 5 ? 'bg-purple-600 text-white' : 'bg-slate-200 dark:bg-zinc-800 text-slate-400' }}">5. Processing</div>
+                            <div class="py-1 px-0.5 rounded {{ $currLvl >= 7 ? 'bg-emerald-600 text-white' : 'bg-slate-200 dark:bg-zinc-800 text-slate-400' }}">6. Done</div>
                         </div>
                     </div>
 
@@ -269,7 +270,7 @@
                         <div class="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center gap-3">
                             <img src="{{ asset($order->pickupDelivery->pickup_proof_image) }}" alt="Pickup Proof" onclick="openImageModal('{{ asset($order->pickupDelivery->pickup_proof_image) }}', 'Proof of Pickup Photo Evidence - Order #{{ $order->order_number }}')" class="w-12 h-12 rounded object-cover border border-emerald-500/40 cursor-pointer hover:opacity-80 transition">
                             <div>
-                                <p class="text-xs font-bold text-emerald-700 dark:text-emerald-400">Proof of Pickup Photo Uploaded</p>
+                                <p class="text-xs font-bold text-emerald-700 dark:text-emerald-400">✓ Proof of Pickup Photo Uploaded</p>
                                 <button type="button" onclick="openImageModal('{{ asset($order->pickupDelivery->pickup_proof_image) }}', 'Proof of Pickup Photo Evidence - Order #{{ $order->order_number }}')" class="text-[11px] text-blue-600 dark:text-blue-400 underline font-bold cursor-pointer">View Full Photo Evidence</button>
                             </div>
                         </div>
@@ -296,19 +297,19 @@
                                         🚗 Start Pickup Dispatch (Out for Pickup)
                                     </button>
                                 </form>
-                            @else
+                            @elseif($order->order_status === 'out_for_pickup')
                                 <form method="POST" action="{{ route('rider.updateStatus', $order->id) }}" enctype="multipart/form-data" class="w-full space-y-2">
                                     @csrf
                                     @method('PATCH')
-                                    <input type="hidden" name="status" value="received">
+                                    <input type="hidden" name="status" value="picked_up">
 
                                     <div class="p-3 rounded-lg bg-blue-50/50 dark:bg-[#141417] border border-blue-200 dark:border-zinc-800 space-y-2.5">
                                         <div class="flex items-center justify-between">
                                             <span class="text-[11px] font-extrabold uppercase tracking-wider text-blue-600 dark:text-blue-400 flex items-center gap-1.5">
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                                                Pickup Verification & Photo Upload
+                                                Step 1: Take Camera Photo Proof & Confirm Pickup
                                             </span>
-                                            <span class="text-[10px] text-slate-400 dark:text-zinc-500 font-mono">Step 1: Photo • Step 2: Confirm</span>
+                                            <span class="text-[10px] text-slate-400 dark:text-zinc-500 font-mono">Arrived at Customer</span>
                                         </div>
 
                                         <div class="flex flex-col sm:flex-row items-center gap-2">
@@ -330,7 +331,27 @@
 
                                         <button type="submit" class="w-full px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-extrabold text-xs shadow-md transition flex items-center justify-center gap-2 uppercase tracking-wider cursor-pointer">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-                                            Upload Photo & Complete Pickup (Pickup Successful)
+                                            ✓ Upload Photo & Mark Pickup Successful
+                                        </button>
+                                    </div>
+                                </form>
+                            @elseif($order->order_status === 'picked_up')
+                                <form method="POST" action="{{ route('rider.updateStatus', $order->id) }}" class="w-full space-y-2">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="status" value="received">
+
+                                    <div class="p-3 rounded-lg bg-emerald-50/50 dark:bg-[#141417] border border-emerald-200 dark:border-zinc-800 space-y-2">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-xs font-black text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5 uppercase">
+                                                ✓ Step 1 Completed: Pickup Successful
+                                            </span>
+                                            <span class="text-[10px] text-slate-400 font-mono">Step 2: Transport to Shop</span>
+                                        </div>
+
+                                        <button type="submit" class="w-full px-4 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-extrabold text-xs shadow-md transition flex items-center justify-center gap-2 uppercase tracking-wider cursor-pointer">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                                            🏬 Arrived at Laundry Shop (Mark Received & In Shop)
                                         </button>
                                     </div>
                                 </form>
@@ -652,12 +673,13 @@
                             <span>LAUNDRY PROGRESS TIMELINE</span>
                             <span class="text-cyan-600 dark:text-cyan-400 font-extrabold uppercase">{{ str_replace('_', ' ', $order->order_status) }}</span>
                         </div>
-                        <div class="grid grid-cols-5 gap-1.5 text-[9.5px] font-bold text-center">
+                        <div class="grid grid-cols-6 gap-1 text-[9px] font-bold text-center">
                             <div class="py-1 px-0.5 rounded bg-amber-500 text-white">1. Requested</div>
                             <div class="py-1 px-0.5 rounded bg-amber-600 text-white">2. Out Pickup</div>
-                            <div class="py-1 px-0.5 rounded bg-blue-600 text-white">3. In Shop</div>
-                            <div class="py-1 px-0.5 rounded bg-purple-600 text-white">4. Processed</div>
-                            <div class="py-1 px-0.5 rounded bg-cyan-600 text-white font-black">5. Out Delivery</div>
+                            <div class="py-1 px-0.5 rounded bg-emerald-600 text-white">3. Pickup Success</div>
+                            <div class="py-1 px-0.5 rounded bg-blue-600 text-white">4. In Shop</div>
+                            <div class="py-1 px-0.5 rounded bg-purple-600 text-white">5. Processed</div>
+                            <div class="py-1 px-0.5 rounded bg-cyan-600 text-white font-black">6. Out Delivery</div>
                         </div>
                     </div>
 

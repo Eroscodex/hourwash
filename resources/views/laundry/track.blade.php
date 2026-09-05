@@ -400,6 +400,7 @@
                     @php
                         $stageCycleMinutes = match($order->order_status) {
                             'out_for_pickup'   => 20,
+                            'picked_up'        => 15,
                             'received'         => 10,
                             'washing'          => 35,
                             'rinsing'          => 15,
@@ -411,6 +412,7 @@
 
                         $stageTimerLabel = match($order->order_status) {
                             'out_for_pickup'   => 'Pickup Dispatch Time:',
+                            'picked_up'        => 'Transit to Store Time:',
                             'received'         => 'Store Preparation Time:',
                             'washing'          => 'Washing Cycle Remaining:',
                             'rinsing'          => 'Rinse Cycle Remaining:',
@@ -428,7 +430,7 @@
                         $stageExpiryTimestamp = $stageStartTime->copy()->addMinutes($stageCycleMinutes)->timestamp;
                     @endphp
 
-                    @if(in_array($order->order_status, ['out_for_pickup', 'received', 'washing', 'rinsing', 'drying', 'finish', 'out_for_delivery']))
+                    @if(in_array($order->order_status, ['out_for_pickup', 'picked_up', 'received', 'washing', 'rinsing', 'drying', 'finish', 'out_for_delivery']))
                         <div class="p-2.5 rounded-lg bg-slate-800/90 border border-amber-400/40 flex items-center justify-between text-xs font-mono font-bold text-amber-300">
                             <span class="text-amber-300 font-bold opacity-100">{{ $stageTimerLabel }}</span>
                             <span id="order-countdown" data-expiry="{{ $stageExpiryTimestamp }}" class="text-amber-300 font-extrabold">Calculating...</span>
@@ -460,6 +462,7 @@
                         $formattedTitle = match($history->status) {
                             'pending' => 'Order Placed',
                             'out_for_pickup' => 'Out for Pickup',
+                            'picked_up' => 'Laundry Pickup Successful (En Route to Store)',
                             'received' => 'Store Received Laundry',
                             'washing' => 'Washing Cycle Started',
                             'rinsing' => 'Rinsing Cycle Started',
