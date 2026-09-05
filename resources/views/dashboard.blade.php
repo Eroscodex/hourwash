@@ -210,83 +210,105 @@
                             $ord = $machine->displayOrder;
                             $targetOrder = ($ord && $ord->customer_id === auth()->id()) ? $ord : ((isset($activeOrder) && $activeOrder && $machine->id == $activeOrder->machine_id) ? $activeOrder : null);
                             $isMyOrder = auth()->check() && ($targetOrder !== null);
+                            $isMaintenance = in_array($machine->status, ['maintenance', 'out_of_service', 'broken']);
+                            $isBusy = in_array($machine->status, ['washing', 'rinsing', 'drying', 'in_use', 'busy']);
 
-                            $statusBadgeClass = match($machine->status) {
-                                'washing' => 'bg-teal-50 dark:bg-teal-950/40 text-teal-700 dark:text-teal-300 border border-teal-200 dark:border-teal-800/60',
-                                'rinsing' => 'bg-sky-50 dark:bg-sky-950/40 text-sky-700 dark:text-sky-300 border border-sky-200 dark:border-sky-800/60',
-                                'drying' => 'bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 border border-amber-200 dark:border-amber-800/60',
-                                'idle' => 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800/60',
-                                default => 'bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800/60',
+                            $cardBorderClass = match(true) {
+                                $isMaintenance => 'border-rose-500/40 dark:border-rose-900/50 bg-rose-500/5 dark:bg-rose-950/15',
+                                $isMyOrder => 'border-2 border-blue-600 dark:border-blue-500 bg-blue-50/40 dark:bg-[#18181B] shadow-md shadow-blue-500/10',
+                                $isBusy => 'border border-slate-300 dark:border-zinc-700 bg-slate-50/50 dark:bg-[#18181B]',
+                                default => 'border border-slate-200 dark:border-zinc-800 bg-white dark:bg-[#18181B] hover:border-emerald-500/60 dark:hover:border-emerald-500/50 hover:shadow-md'
                             };
-                            $dotClass = match($machine->status) {
-                                'washing' => 'bg-teal-500 animate-pulse',
-                                'rinsing' => 'bg-sky-500 animate-pulse',
-                                'drying' => 'bg-amber-500 animate-pulse',
-                                'idle' => 'bg-emerald-500',
-                                default => 'bg-rose-500',
+
+                            $statusIconBg = match($machine->status) {
+                                'washing' => 'bg-teal-500/15 text-teal-600 dark:text-teal-400 border border-teal-500/30',
+                                'rinsing' => 'bg-sky-500/15 text-sky-600 dark:text-sky-400 border border-sky-500/30',
+                                'drying' => 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30',
+                                'idle' => 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30',
+                                default => 'bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30',
+                            };
+
+                            $dotLed = match($machine->status) {
+                                'washing' => 'bg-teal-500 shadow-[0_0_8px_rgba(20,184,166,0.8)] animate-pulse',
+                                'rinsing' => 'bg-sky-500 shadow-[0_0_8px_rgba(14,165,233,0.8)] animate-pulse',
+                                'drying' => 'bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.8)] animate-pulse',
+                                'idle' => 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]',
+                                default => 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.8)]',
                             };
                         @endphp
 
                         @if($isMyOrder && $targetOrder)
                             <a href="{{ route('laundry.track', $targetOrder->order_number) }}"
-                               class="block p-3.5 rounded-lg bg-white dark:bg-[#18181B] border-2 border-blue-600 space-y-2.5 shadow-sm hover:shadow-sm transition-all cursor-pointer relative group"
+                               class="block p-4 rounded-xl {{ $cardBorderClass }} space-y-3 transition-all duration-200 cursor-pointer relative group hover:scale-[1.02]"
                                title="Click to view your order #{{ $targetOrder->order_number }}">
                                 <span class="absolute -top-2.5 -right-1 bg-blue-600 text-white text-[8.5px] font-extrabold px-2 py-0.5 rounded-full shadow-sm uppercase tracking-wider">
                                     YOUR ORDER
                                 </span>
-                                <div class="flex items-center justify-between">
+                                <div class="flex items-center justify-between gap-1">
                                     <span class="text-xs font-bold text-slate-900 dark:text-white truncate group-hover:text-blue-600 transition">
                                         {{ $machine->machine_name }}
                                     </span>
-                                    <span class="text-[10px] text-slate-400 dark:text-zinc-500 font-mono font-semibold shrink-0">
+                                    <span class="text-[10px] bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-zinc-400 font-mono font-bold px-1.5 py-0.5 rounded border border-slate-200 dark:border-zinc-700 shrink-0">
                                         {{ $machine->machine_code }}
                                     </span>
                                 </div>
 
                                 <div class="flex items-center gap-2.5">
-                                    <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs shrink-0 {{ $statusBadgeClass }}">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                    <div class="w-9 h-9 rounded-xl flex items-center justify-center text-xs shrink-0 {{ $statusIconBg }}">
+                                        @if($machine->status === 'washing')
+                                            <svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                                        @elseif($machine->status === 'drying')
+                                            <svg class="w-4 h-4 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/></svg>
+                                        @elseif($isMaintenance)
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                                        @else
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        @endif
                                     </div>
                                     <div class="truncate">
-                                        <span class="inline-flex items-center gap-1 text-[10px] font-extrabold uppercase tracking-wider text-slate-800 dark:text-zinc-200">
-                                            <span class="w-1.5 h-1.5 rounded-full {{ $dotClass }}"></span>
+                                        <span class="inline-flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wider text-slate-800 dark:text-zinc-200">
+                                            <span class="w-2 h-2 rounded-full {{ $dotLed }}"></span>
                                             {{ strtoupper($machine->status === 'idle' ? str_replace('_', ' ', $targetOrder->order_status) : $machine->status) }}
                                         </span>
                                         @if(in_array($machine->status, ['washing', 'rinsing', 'drying']) && $machine->remaining_minutes)
-                                            <span class="block text-[10px] text-slate-500 dark:text-slate-400 font-medium truncate">{{ $machine->remaining_minutes }}m remaining</span>
+                                            <span class="block text-[10px] text-blue-600 dark:text-blue-400 font-bold font-mono truncate">{{ $machine->remaining_minutes }}m remaining</span>
                                         @else
                                             <span class="block text-[10px] text-amber-600 dark:text-amber-400 font-bold truncate">Order {{ ucfirst(str_replace('_', ' ', $targetOrder->order_status)) }}</span>
                                         @endif
                                     </div>
                                 </div>
 
-                                <div class="pt-2 border-t border-slate-100 dark:border-zinc-800/80 text-[10px]">
+                                <div class="pt-2 border-t border-slate-100 dark:border-zinc-800 text-[10px]">
                                     <span class="block font-bold text-blue-600 dark:text-blue-400 group-hover:underline truncate">
                                         Order: #{{ $targetOrder->order_number }}
                                     </span>
                                 </div>
                             </a>
                         @else
-                            <div class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 space-y-2.5 transition-all">
-                                <div class="flex items-center justify-between">
+                            <div class="p-4 rounded-xl {{ $cardBorderClass }} space-y-3 transition-all duration-200 hover:scale-[1.01]">
+                                <div class="flex items-center justify-between gap-1">
                                     <span class="text-xs font-bold text-slate-900 dark:text-white truncate">
                                         {{ $machine->machine_name }}
                                     </span>
-                                    <span class="text-[10px] text-slate-400 dark:text-zinc-500 font-mono font-semibold shrink-0">
+                                    <span class="text-[10px] bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-zinc-400 font-mono font-bold px-1.5 py-0.5 rounded border border-slate-200 dark:border-zinc-700 shrink-0">
                                         {{ $machine->machine_code }}
                                     </span>
                                 </div>
 
                                 <div class="flex items-center gap-2.5">
-                                    <div class="w-8 h-8 rounded-lg flex items-center justify-center text-xs shrink-0 {{ $statusBadgeClass }}">
-                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                    <div class="w-9 h-9 rounded-xl flex items-center justify-center text-xs shrink-0 {{ $statusIconBg }}">
+                                        @if($isMaintenance)
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                                        @else
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                        @endif
                                     </div>
                                     <div class="truncate">
-                                        <span class="inline-flex items-center gap-1 text-[10px] font-extrabold uppercase tracking-wider text-slate-700 dark:text-zinc-300">
-                                            <span class="w-1.5 h-1.5 rounded-full {{ $dotClass }}"></span>
+                                        <span class="inline-flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wider text-slate-700 dark:text-zinc-300">
+                                            <span class="w-2 h-2 rounded-full {{ $dotLed }}"></span>
                                             {{ strtoupper($machine->status) }}
                                         </span>
-                                        <span class="block text-[10px] text-slate-400 dark:text-zinc-500 font-medium truncate">
+                                        <span class="block text-[10px] text-slate-500 dark:text-zinc-400 font-medium truncate">
                                             {{ $machine->status === 'idle' ? 'Available' : ($machine->remaining_minutes ? $machine->remaining_minutes.'m remaining' : 'In Service') }}
                                         </span>
                                     </div>
