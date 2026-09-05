@@ -109,7 +109,7 @@ class LaundryController extends Controller
                             'remaining_minutes' => null,
                             'last_status_update' => now(),
                         ]);
-                    } elseif (in_array($statusInput, ['pending', 'out_for_pickup', 'ready', 'finish', 'completed', 'cancelled'])) {
+                    } elseif (in_array($statusInput, ['pending', 'out_for_pickup', 'picked_up', 'ready', 'finish', 'completed', 'cancelled'])) {
                         Machine::where('id', $order->machine_id)->update([
                             'current_order_id' => null,
                             'status' => 'idle',

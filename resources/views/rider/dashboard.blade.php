@@ -671,15 +671,20 @@
                     <div class="p-3 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-800 space-y-2">
                         <div class="flex items-center justify-between text-[10.5px] font-bold text-slate-600 dark:text-zinc-400">
                             <span>LAUNDRY PROGRESS TIMELINE</span>
-                            <span class="text-cyan-600 dark:text-cyan-400 font-extrabold uppercase">{{ str_replace('_', ' ', $order->order_status) }}</span>
+                            <span class="text-cyan-600 dark:text-cyan-400 font-extrabold uppercase">{{ str_replace('_', ' ', $order->order_status === 'delivered' ? 'Delivery Successful' : $order->order_status) }}</span>
                         </div>
-                        <div class="grid grid-cols-6 gap-1 text-[9px] font-bold text-center">
-                            <div class="py-1 px-0.5 rounded bg-amber-500 text-white">1. Requested</div>
-                            <div class="py-1 px-0.5 rounded bg-amber-600 text-white">2. Out Pickup</div>
-                            <div class="py-1 px-0.5 rounded bg-emerald-600 text-white">3. Pickup Success</div>
-                            <div class="py-1 px-0.5 rounded bg-blue-600 text-white">4. In Shop</div>
-                            <div class="py-1 px-0.5 rounded bg-purple-600 text-white">5. Processed</div>
-                            <div class="py-1 px-0.5 rounded bg-cyan-600 text-white font-black">6. Out Delivery</div>
+                        @php
+                            $delivStatusMap = ['pending' => 1, 'out_for_pickup' => 2, 'picked_up' => 3, 'received' => 4, 'washing' => 5, 'rinsing' => 5, 'drying' => 5, 'finish' => 5, 'out_for_delivery' => 6, 'delivered' => 7, 'completed' => 8];
+                            $delivCurrLvl = $delivStatusMap[$order->order_status] ?? 6;
+                        @endphp
+                        <div class="grid grid-cols-7 gap-1 text-[8.5px] font-bold text-center">
+                            <div class="py-1 px-0.5 rounded {{ $delivCurrLvl >= 1 ? 'bg-amber-500 text-white' : 'bg-slate-200 dark:bg-zinc-800 text-slate-400' }}">1. Requested</div>
+                            <div class="py-1 px-0.5 rounded {{ $delivCurrLvl >= 2 ? 'bg-amber-600 text-white' : 'bg-slate-200 dark:bg-zinc-800 text-slate-400' }}">2. Out Pickup</div>
+                            <div class="py-1 px-0.5 rounded {{ $delivCurrLvl >= 3 ? 'bg-emerald-600 text-white' : 'bg-slate-200 dark:bg-zinc-800 text-slate-400' }}">3. Pickup Success</div>
+                            <div class="py-1 px-0.5 rounded {{ $delivCurrLvl >= 4 ? 'bg-blue-600 text-white' : 'bg-slate-200 dark:bg-zinc-800 text-slate-400' }}">4. In Shop</div>
+                            <div class="py-1 px-0.5 rounded {{ $delivCurrLvl >= 5 ? 'bg-purple-600 text-white' : 'bg-slate-200 dark:bg-zinc-800 text-slate-400' }}">5. Processed</div>
+                            <div class="py-1 px-0.5 rounded {{ $delivCurrLvl >= 6 ? 'bg-cyan-600 text-white font-black' : 'bg-slate-200 dark:bg-zinc-800 text-slate-400' }}">6. Out Delivery</div>
+                            <div class="py-1 px-0.5 rounded {{ $delivCurrLvl >= 7 ? 'bg-emerald-600 text-white font-black' : 'bg-slate-200 dark:bg-zinc-800 text-slate-400' }}">7. Delivery Success</div>
                         </div>
                     </div>
 
@@ -687,7 +692,7 @@
                         <div class="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center gap-3">
                             <img src="{{ asset($order->pickupDelivery->delivery_proof_image) }}" alt="Delivery Proof" onclick="openImageModal('{{ asset($order->pickupDelivery->delivery_proof_image) }}', 'Proof of Delivery Photo Evidence - Order #{{ $order->order_number }}')" class="w-12 h-12 rounded object-cover border border-emerald-500/40 cursor-pointer hover:opacity-80 transition">
                             <div>
-                                <p class="text-xs font-bold text-emerald-700 dark:text-emerald-400">Proof of Delivery Photo Uploaded</p>
+                                <p class="text-xs font-bold text-emerald-700 dark:text-emerald-400">✓ Proof of Delivery Photo Uploaded</p>
                                 <button type="button" onclick="openImageModal('{{ asset($order->pickupDelivery->delivery_proof_image) }}', 'Proof of Delivery Photo Evidence - Order #{{ $order->order_number }}')" class="text-[11px] text-blue-600 dark:text-blue-400 underline font-bold cursor-pointer">View Full Photo Evidence</button>
                             </div>
                         </div>
@@ -714,19 +719,19 @@
                                         🚚 Start Delivery Dispatch (Out for Delivery)
                                     </button>
                                 </form>
-                            @else
+                            @elseif($order->order_status === 'out_for_delivery')
                                 <form method="POST" action="{{ route('rider.updateStatus', $order->id) }}" enctype="multipart/form-data" class="w-full space-y-2">
                                     @csrf
                                     @method('PATCH')
-                                    <input type="hidden" name="status" value="completed">
+                                    <input type="hidden" name="status" value="delivered">
 
                                     <div class="p-3 rounded-lg bg-cyan-50/50 dark:bg-[#141417] border border-cyan-200 dark:border-zinc-800 space-y-2.5">
                                         <div class="flex items-center justify-between">
                                             <span class="text-[11px] font-extrabold uppercase tracking-wider text-cyan-600 dark:text-cyan-400 flex items-center gap-1.5">
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                                                Delivery Verification & Photo Upload
+                                                Step 1: Take Delivery Proof Photo & Confirm Handover
                                             </span>
-                                            <span class="text-[10px] text-slate-400 dark:text-zinc-500 font-mono">Step 1: Photo • Step 2: Confirm</span>
+                                            <span class="text-[10px] text-slate-400 dark:text-zinc-500 font-mono">At Customer Doorstep</span>
                                         </div>
 
                                         <div class="flex flex-col sm:flex-row items-center gap-2">
@@ -748,7 +753,27 @@
 
                                         <button type="submit" class="w-full px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-extrabold text-xs shadow-md transition flex items-center justify-center gap-2 uppercase tracking-wider cursor-pointer">
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"/></svg>
-                                            Upload Photo & Complete Delivery (Delivery Successful)
+                                            ✓ Upload Photo & Mark Delivery Successful
+                                        </button>
+                                    </div>
+                                </form>
+                            @elseif($order->order_status === 'delivered')
+                                <form method="POST" action="{{ route('rider.updateStatus', $order->id) }}" class="w-full space-y-2">
+                                    @csrf
+                                    @method('PATCH')
+                                    <input type="hidden" name="status" value="completed">
+
+                                    <div class="p-3 rounded-lg bg-emerald-50/50 dark:bg-[#141417] border border-emerald-200 dark:border-zinc-800 space-y-2">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-xs font-black text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5 uppercase">
+                                                ✓ Step 1 Completed: Delivery Successful
+                                            </span>
+                                            <span class="text-[10px] text-slate-400 font-mono">Step 2: Archive Order</span>
+                                        </div>
+
+                                        <button type="submit" class="w-full px-4 py-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white font-extrabold text-xs shadow-md transition flex items-center justify-center gap-2 uppercase tracking-wider cursor-pointer">
+                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                            🎉 Complete Order & Archive to History
                                         </button>
                                     </div>
                                 </form>

@@ -62,7 +62,7 @@ class RiderDashboardController extends Controller
             ->get();
 
         $deliveryOrders = Order::with(['customer.customerProfile', 'service', 'pickupDelivery', 'machine', 'statusHistory', 'qrCode'])
-            ->whereIn('order_status', ['finish', 'out_for_delivery'])
+            ->whereIn('order_status', ['finish', 'out_for_delivery', 'delivered'])
             ->where($riderOrderScope)
             ->latest()
             ->get();
@@ -145,7 +145,7 @@ class RiderDashboardController extends Controller
     public function updateStatus(Request $request, Order $order)
     {
         $validated = $request->validate([
-            'status' => 'required|string|in:out_for_pickup,picked_up,received,out_for_delivery,completed',
+            'status' => 'required|string|in:out_for_pickup,picked_up,received,out_for_delivery,delivered,completed',
             'proof_image' => 'nullable|image|mimes:jpeg,png,jpg,webp,heic|max:10240',
         ]);
 
@@ -173,7 +173,8 @@ class RiderDashboardController extends Controller
                 'picked_up' => 'Laundry picked up from customer by rider.',
                 'received' => 'Laundry received at store.',
                 'out_for_delivery' => 'Clean laundry is out for delivery with rider.',
-                'completed' => 'Clean laundry delivered to customer by rider.',
+                'delivered' => 'Clean laundry handed over to customer successfully.',
+                'completed' => 'Order completed and archived to history.',
             ];
 
             $customerName = $order->customer?->name ?? 'Customer';
@@ -182,7 +183,8 @@ class RiderDashboardController extends Controller
                 'picked_up' => "Order #{$order->order_number} has been picked up by our rider! Transporting to Hour Wash shop.",
                 'received' => "Order #{$order->order_number} has been received at Hour Wash store and is ready for washing.",
                 'out_for_delivery' => "Good news! Order #{$order->order_number} is OUT FOR DELIVERY and heading to your doorstep.",
-                'completed' => "Order #{$order->order_number} has been safely DELIVERED! Thank you for choosing Hour Wash Laundry.",
+                'delivered' => "Order #{$order->order_number} has been DELIVERED to your doorstep! Thank you for choosing Hour Wash Laundry.",
+                'completed' => "Order #{$order->order_number} has been marked COMPLETED. We appreciate your business!",
             ];
 
             // Record status history entry safely
@@ -243,9 +245,14 @@ class RiderDashboardController extends Controller
                 }
             } elseif ($newStatus === 'out_for_delivery') {
                 $pickupDeliveryData['status'] = 'out_for_delivery';
-            } elseif ($newStatus === 'completed') {
+            } elseif ($newStatus === 'delivered') {
                 $pickupDeliveryData['status'] = 'delivered';
                 $pickupDeliveryData['delivered_at'] = now();
+                if ($proofPath) {
+                    $pickupDeliveryData['delivery_proof_image'] = $proofPath;
+                }
+            } elseif ($newStatus === 'completed') {
+                $pickupDeliveryData['status'] = 'delivered';
                 if ($proofPath) {
                     $pickupDeliveryData['delivery_proof_image'] = $proofPath;
                 }
@@ -277,6 +284,7 @@ class RiderDashboardController extends Controller
                 'drying' => 'DRYING',
                 'finish' => 'DONE',
                 'out_for_delivery' => 'OUT FOR DELIVERY',
+                'delivered' => 'DELIVERY SUCCESSFUL',
                 'completed' => 'COMPLETED',
                 'cancelled' => 'CANCELLED',
             ];

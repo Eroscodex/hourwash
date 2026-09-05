@@ -157,8 +157,9 @@
                         'rinsing'          => ['step' => 5, 'label' => 'RINSING',           'pct' => 60],
                         'drying'           => ['step' => 6, 'label' => 'DRYING',            'pct' => 72],
                         'finish'           => ['step' => 7, 'label' => 'FOLDING & READY',   'pct' => 84],
-                        'out_for_delivery' => ['step' => 8, 'label' => 'OUT FOR DELIVERY',  'pct' => 92],
-                        'completed'        => ['step' => 9, 'label' => 'COMPLETED',         'pct' => 100],
+                        'out_for_delivery' => ['step' => 8, 'label' => 'OUT FOR DELIVERY',  'pct' => 90],
+                        'delivered'        => ['step' => 9, 'label' => 'DELIVERY SUCCESSFUL','pct' => 96],
+                        'completed'        => ['step' => 10, 'label' => 'COMPLETED',        'pct' => 100],
                     ];
                 }
             }
@@ -407,6 +408,7 @@
                             'drying'           => 40,
                             'finish'           => 15,
                             'out_for_delivery' => 20,
+                            'delivered'        => 10,
                             default            => 30,
                         };
 
@@ -419,6 +421,7 @@
                             'drying'           => 'Dryer Cycle Remaining:',
                             'finish'           => 'Folding & Ready Time:',
                             'out_for_delivery' => 'Delivery Dispatch Time:',
+                            'delivered'        => 'Handover Verification:',
                             default            => 'Stage Time Remaining:',
                         };
 
@@ -430,7 +433,7 @@
                         $stageExpiryTimestamp = $stageStartTime->copy()->addMinutes($stageCycleMinutes)->timestamp;
                     @endphp
 
-                    @if(in_array($order->order_status, ['out_for_pickup', 'picked_up', 'received', 'washing', 'rinsing', 'drying', 'finish', 'out_for_delivery']))
+                    @if(in_array($order->order_status, ['out_for_pickup', 'picked_up', 'received', 'washing', 'rinsing', 'drying', 'finish', 'out_for_delivery', 'delivered']))
                         <div class="p-2.5 rounded-lg bg-slate-800/90 border border-amber-400/40 flex items-center justify-between text-xs font-mono font-bold text-amber-300">
                             <span class="text-amber-300 font-bold opacity-100">{{ $stageTimerLabel }}</span>
                             <span id="order-countdown" data-expiry="{{ $stageExpiryTimestamp }}" class="text-amber-300 font-extrabold">Calculating...</span>
@@ -469,6 +472,7 @@
                             'drying' => 'Drying Cycle Started',
                             'finish' => 'Folding & Ready (Please Claim Order)',
                             'out_for_delivery' => 'Out for Delivery',
+                            'delivered' => 'Clean Laundry Delivery Successful (Handed over to Customer)',
                             'completed' => 'Order Completed',
                             'cancelled' => 'Order Cancelled',
                             default => 'Status Updated to ' . str_replace('_', ' ', $history->status),

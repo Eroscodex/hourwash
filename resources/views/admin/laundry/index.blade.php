@@ -174,6 +174,7 @@
 
                                 if ($isDeliveryOrder) {
                                     $orderStatusOptions['out_for_pickup'] = $stepNum++ . '. Out for Pickup';
+                                    $orderStatusOptions['picked_up'] = $stepNum++ . '. Pickup Successful';
                                 }
 
                                 $orderStatusOptions['received'] = $stepNum++ . '. Store Received';
