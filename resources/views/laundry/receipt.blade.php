@@ -113,15 +113,30 @@
             </div>
         </div>
 
-        
-        <div class="text-center pt-2 space-y-2">
-            <div class="w-32 h-32 mx-auto bg-white p-1.5 border border-slate-300 rounded-lg flex items-center justify-center">
+        <!-- Receipt Bottom QR & Footer Info -->
+        <div class="text-center pt-3 space-y-2.5 border-t border-dashed border-slate-300 mt-2">
+            <div class="w-32 h-32 mx-auto bg-white p-1.5 border border-slate-300 rounded-lg flex items-center justify-center shadow-xs">
                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ $order->qrCode->qr_token ?? $order->order_number }}" 
                      alt="Order QR Tag {{ $order->order_number }}" 
                      class="w-full h-full">
             </div>
             <p class="text-[10px] text-slate-500">Scan QR Code tag to view live cleaning progress</p>
-            <p class="text-[11px] font-bold text-slate-700 font-sans mt-2">Thank you for washing with HourWash!</p>
+
+            <div class="pt-2 flex flex-col items-center justify-center space-y-1.5">
+                <div class="w-7 h-7 bg-blue-600 rounded-full flex items-center justify-center shadow-xs overflow-hidden p-0.5 border border-blue-500/30">
+                    <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-full h-full object-cover rounded-full">
+                </div>
+                <p class="text-[11px] font-bold text-slate-800 font-sans">Thank you for washing with HourWash!</p>
+                <div class="flex items-center justify-center gap-x-2 text-[9px] font-sans text-slate-500 pt-0.5">
+                    <a href="{{ route('about') }}" target="_blank" class="hover:text-blue-600 transition-colors">About Us</a>
+                    <span>•</span>
+                    <a href="{{ route('developers') }}" target="_blank" class="hover:text-blue-600 transition-colors">Developers</a>
+                    <span>•</span>
+                    <a href="{{ route('privacy') }}" target="_blank" class="hover:text-blue-600 transition-colors">Privacy Policy</a>
+                    <span>•</span>
+                    <a href="{{ route('terms') }}" target="_blank" class="hover:text-blue-600 transition-colors">Terms &amp; Conditions</a>
+                </div>
+            </div>
         </div>
 
     </div>

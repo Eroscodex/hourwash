@@ -450,6 +450,11 @@
 
     <footer class="bg-white dark:bg-[#141417] border-t border-slate-200 dark:border-zinc-800 py-3.5 px-4 sm:px-6 md:px-8">
         <div class="max-w-7xl mx-auto space-y-2.5">
+            <div class="flex justify-center mb-1">
+                <div class="w-7 h-7 bg-blue-600 rounded-full flex items-center justify-center shadow-xs overflow-hidden p-0.5 border border-blue-500/30">
+                    <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-full h-full object-cover rounded-full">
+                </div>
+            </div>
             <nav class="flex items-center justify-center gap-x-1.5 sm:gap-x-3 text-[10px] sm:text-xs text-slate-500 dark:text-zinc-400">
                 <a href="{{ route('about') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap">About Us</a>
                 <span class="text-slate-300 dark:text-zinc-700">•</span>
