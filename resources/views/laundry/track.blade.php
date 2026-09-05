@@ -150,16 +150,17 @@
                     ];
                 } else {
                     $stages = [
-                        'pending'          => ['step' => 1, 'label' => 'ORDER PLACED',      'pct' => 10],
-                        'out_for_pickup'   => ['step' => 2, 'label' => 'OUT FOR PICKUP',    'pct' => 22],
-                        'received'         => ['step' => 3, 'label' => 'STORE RECEIVED',    'pct' => 35],
-                        'washing'          => ['step' => 4, 'label' => 'WASHING',           'pct' => 48],
-                        'rinsing'          => ['step' => 5, 'label' => 'RINSING',           'pct' => 60],
-                        'drying'           => ['step' => 6, 'label' => 'DRYING',            'pct' => 72],
-                        'finish'           => ['step' => 7, 'label' => 'FOLDING & READY',   'pct' => 84],
-                        'out_for_delivery' => ['step' => 8, 'label' => 'OUT FOR DELIVERY',  'pct' => 90],
-                        'delivered'        => ['step' => 9, 'label' => 'DELIVERY SUCCESSFUL','pct' => 96],
-                        'completed'        => ['step' => 10, 'label' => 'COMPLETED',        'pct' => 100],
+                        'pending'          => ['step' => 1,  'label' => 'ORDER PLACED',      'pct' => 9],
+                        'out_for_pickup'   => ['step' => 2,  'label' => 'OUT FOR PICKUP',    'pct' => 18],
+                        'picked_up'        => ['step' => 3,  'label' => 'PICKUP SUCCESSFUL', 'pct' => 27],
+                        'received'         => ['step' => 4,  'label' => 'STORE RECEIVED',    'pct' => 36],
+                        'washing'          => ['step' => 5,  'label' => 'WASHING',           'pct' => 45],
+                        'rinsing'          => ['step' => 6,  'label' => 'RINSING',           'pct' => 54],
+                        'drying'           => ['step' => 7,  'label' => 'DRYING',            'pct' => 63],
+                        'finish'           => ['step' => 8,  'label' => 'FOLDING & READY',   'pct' => 72],
+                        'out_for_delivery' => ['step' => 9,  'label' => 'OUT FOR DELIVERY',  'pct' => 81],
+                        'delivered'        => ['step' => 10, 'label' => 'DELIVERY SUCCESSFUL','pct' => 91],
+                        'completed'        => ['step' => 11, 'label' => 'COMPLETED',         'pct' => 100],
                     ];
                 }
             }
@@ -197,15 +198,15 @@
             @endif
 
             <!-- Clean Unified Responsive Stepper -->
-            <div class="flex overflow-x-auto sm:grid gap-1.5 pb-2 sm:pb-0 text-center scrollbar-none snap-x snap-mandatory" style="grid-template-columns: repeat({{ $totalSteps }}, minmax(0, 1fr));">
+            <div class="flex overflow-x-auto sm:grid gap-1 pb-2 sm:pb-0 text-center scrollbar-none snap-x snap-mandatory" style="grid-template-columns: repeat({{ $totalSteps }}, minmax(0, 1fr));">
                 @foreach($stages as $key => $info)
                     @php
                         $stageIdx = array_search($key, $statusKeys);
                         $isActive = ($currentIndex >= $stageIdx && $currentStatus !== 'cancelled');
                         $isCurrent = ($currentStatus === $key);
                     @endphp
-                    <div class="min-w-[110px] sm:min-w-0 flex-1 p-2 sm:p-1.5 rounded-lg border flex flex-col items-center justify-center transition-all duration-300 relative min-h-[48px] snap-start shrink-0 {{ $isCurrent ? 'bg-blue-600/15 border-blue-600 text-blue-600 dark:text-blue-400 font-black shadow-sm' : ($isActive ? 'border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 font-bold' : 'border-black/5 dark:border-white/5 text-slate-400 opacity-50 font-medium') }}">
-                        <span class="text-[10px] md:text-[10.5px] uppercase leading-tight whitespace-normal break-words text-center w-full px-0.5">
+                    <div class="min-w-[85px] sm:min-w-0 flex-1 p-1 rounded-lg border flex flex-col items-center justify-center transition-all duration-300 relative min-h-[44px] snap-start shrink-0 {{ $isCurrent ? 'bg-blue-600/15 border-blue-600 text-blue-600 dark:text-blue-400 font-black shadow-sm' : ($isActive ? 'border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 font-bold' : 'border-black/5 dark:border-white/5 text-slate-400 opacity-50 font-medium') }}">
+                        <span class="text-[8.5px] md:text-[9.5px] uppercase leading-tight tracking-tight text-center w-full px-0.5 whitespace-normal break-normal">
                             {{ $info['step'] }}. {{ $info['label'] }}
                         </span>
                         @if($isCurrent)
