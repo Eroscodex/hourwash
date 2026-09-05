@@ -232,7 +232,7 @@
                     <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
                         <div>
                             <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Pickup Address</span>
-                            <p class="text-slate-900 dark:text-white font-semibold leading-snug mt-0.5">{{ $order->customer->customerProfile->address ?? 'Magallanes St., Orosite, Legazpi City' }}</p>
+                            <p class="text-slate-900 dark:text-white font-semibold leading-snug mt-0.5">{{ $order->customer?->customerProfile?->full_address ?? 'Magallanes St., Orosite, Legazpi City, Albay' }}</p>
                         </div>
                         <div class="flex sm:hidden items-center gap-2 font-mono shrink-0">
                             <a href="tel:{{ $order->customer->phone ?? '' }}" class="px-2.5 py-1.5 rounded bg-blue-600 text-white font-bold text-[11px] hover:bg-blue-700 transition flex items-center gap-1">
@@ -431,7 +431,7 @@
                     <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
                         <div>
                             <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Delivery Destination</span>
-                            <p class="text-slate-900 dark:text-white font-semibold leading-snug mt-0.5">{{ $order->customer->customerProfile->address ?? 'Magallanes St., Orosite, Legazpi City' }}</p>
+                            <p class="text-slate-900 dark:text-white font-semibold leading-snug mt-0.5">{{ $order->customer?->customerProfile?->full_address ?? 'Magallanes St., Orosite, Legazpi City, Albay' }}</p>
                         </div>
                         <div class="flex sm:hidden items-center gap-2 font-mono shrink-0">
                             <a href="tel:{{ $order->customer->phone ?? '' }}" class="px-2.5 py-1.5 rounded bg-blue-600 text-white font-bold text-[11px] hover:bg-blue-700 transition flex items-center gap-1">
@@ -613,7 +613,7 @@
                     <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
                         <div>
                             <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Delivery Destination</span>
-                            <p class="text-slate-900 dark:text-white font-semibold leading-snug mt-0.5">{{ $order->customer->customerProfile->address ?? 'Magallanes St., Orosite, Legazpi City' }}</p>
+                            <p class="text-slate-900 dark:text-white font-semibold leading-snug mt-0.5">{{ $order->customer?->customerProfile?->full_address ?? 'Magallanes St., Orosite, Legazpi City, Albay' }}</p>
                         </div>
                         <div class="flex sm:hidden items-center gap-2 font-mono shrink-0">
                             <a href="tel:{{ $order->customer->phone ?? '' }}" class="px-2.5 py-1.5 rounded bg-blue-600 text-white font-bold text-[11px] hover:bg-blue-700 transition flex items-center gap-1">
@@ -737,7 +737,7 @@
                             <div>
                                 <span class="text-slate-400 dark:text-zinc-500 text-[10.5px] block font-medium">Customer & Address</span>
                                 <strong class="text-slate-900 dark:text-white block truncate">{{ $order->customer->name ?? 'Customer' }}</strong>
-                                <span class="text-slate-600 dark:text-zinc-400 block text-[11px] truncate">{{ $order->customer->customerProfile->address ?? 'Magallanes St., Legazpi' }}</span>
+                                <span class="text-slate-600 dark:text-zinc-400 block text-[11px] truncate" title="{{ $order->customer?->customerProfile?->full_address ?? '' }}">{{ $order->customer?->customerProfile?->full_address ?? 'Magallanes St., Orosite, Legazpi City, Albay' }}</span>
                             </div>
                             <div>
                                 <span class="text-slate-400 dark:text-zinc-500 text-[10.5px] block font-medium">Service & Payment</span>
@@ -818,7 +818,7 @@
                             <div>
                                 <span class="text-slate-400 dark:text-zinc-500 text-[10.5px] block font-medium">Customer & Address</span>
                                 <strong class="text-slate-900 dark:text-white block truncate">{{ $order->customer->name ?? 'Customer' }}</strong>
-                                <span class="text-slate-600 dark:text-zinc-400 block text-[11px] truncate">{{ $order->customer->customerProfile->address ?? 'N/A' }}</span>
+                                <span class="text-slate-600 dark:text-zinc-400 block text-[11px] truncate" title="{{ $order->customer?->customerProfile?->full_address ?? '' }}">{{ $order->customer?->customerProfile?->full_address ?? 'N/A' }}</span>
                             </div>
                             <div>
                                 <span class="text-slate-400 dark:text-zinc-500 text-[10.5px] block font-medium">Service & Payment</span>

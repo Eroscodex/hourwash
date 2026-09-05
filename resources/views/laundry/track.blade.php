@@ -268,7 +268,7 @@
                         $maskedName = $nameParts[0] . (isset($nameParts[1]) && strlen($nameParts[1]) > 0 ? ' ' . substr($nameParts[1], 0, 1) . '.' : '');
                         $displayName = $isAuthorizedViewer ? $rawName : $maskedName;
 
-                        $rawAddress = $order->customer?->customerProfile?->address ?? 'Magallanes St., Orosite, Legazpi City, Albay';
+                        $rawAddress = $order->customer?->customerProfile?->full_address ?? 'Magallanes St., Orosite, Legazpi City, Albay';
                         $displayAddress = $isAuthorizedViewer ? $rawAddress : 'Orosite, Legazpi City (Privacy Protected)';
                     @endphp
 
