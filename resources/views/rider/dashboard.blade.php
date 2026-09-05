@@ -17,8 +17,8 @@
                 </p>
             </div>
 
-            <div class="w-full sm:w-auto">
-                <a href="tel:09100317744" class="btn-primary text-xs flex items-center justify-center gap-1.5 shadow-sm w-full sm:w-auto py-2 px-4">
+            <div class="w-full sm:w-auto sm:hidden">
+                <a href="tel:09100317744" class="btn-primary text-xs flex sm:hidden items-center justify-center gap-1.5 shadow-sm w-full sm:w-auto py-2 px-4">
                     Shop Dispatch (09100317744)
                 </a>
             </div>
@@ -234,7 +234,7 @@
                             <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Pickup Address</span>
                             <p class="text-slate-900 dark:text-white font-semibold leading-snug mt-0.5">{{ $order->customer->customerProfile->address ?? 'Magallanes St., Orosite, Legazpi City' }}</p>
                         </div>
-                        <div class="flex items-center gap-2 font-mono shrink-0">
+                        <div class="flex sm:hidden items-center gap-2 font-mono shrink-0">
                             <a href="tel:{{ $order->customer->phone ?? '' }}" class="px-2.5 py-1.5 rounded bg-blue-600 text-white font-bold text-[11px] hover:bg-blue-700 transition flex items-center gap-1">
                                 Call {{ $order->customer->phone ?? 'Call' }}
                             </a>
@@ -433,7 +433,7 @@
                             <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Delivery Destination</span>
                             <p class="text-slate-900 dark:text-white font-semibold leading-snug mt-0.5">{{ $order->customer->customerProfile->address ?? 'Magallanes St., Orosite, Legazpi City' }}</p>
                         </div>
-                        <div class="flex items-center gap-2 font-mono shrink-0">
+                        <div class="flex sm:hidden items-center gap-2 font-mono shrink-0">
                             <a href="tel:{{ $order->customer->phone ?? '' }}" class="px-2.5 py-1.5 rounded bg-blue-600 text-white font-bold text-[11px] hover:bg-blue-700 transition flex items-center gap-1">
                                 Call {{ $order->customer->phone ?? 'Call' }}
                             </a>
@@ -615,7 +615,7 @@
                             <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">Delivery Destination</span>
                             <p class="text-slate-900 dark:text-white font-semibold leading-snug mt-0.5">{{ $order->customer->customerProfile->address ?? 'Magallanes St., Orosite, Legazpi City' }}</p>
                         </div>
-                        <div class="flex items-center gap-2 font-mono shrink-0">
+                        <div class="flex sm:hidden items-center gap-2 font-mono shrink-0">
                             <a href="tel:{{ $order->customer->phone ?? '' }}" class="px-2.5 py-1.5 rounded bg-blue-600 text-white font-bold text-[11px] hover:bg-blue-700 transition flex items-center gap-1">
                                 Call {{ $order->customer->phone ?? 'Call' }}
                             </a>

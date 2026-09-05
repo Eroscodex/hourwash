@@ -237,7 +237,7 @@
                     </p>
                 </div>
 
-                <div class="flex items-center gap-2">
+                <div class="flex sm:hidden items-center gap-2">
                     <a href="tel:{{ $riderPhone }}" class="px-4 py-2.5 rounded-lg bg-blue-600 hover:bg-[#0056b3] text-white font-bold text-xs shadow transition flex items-center gap-1.5">
                         Call Rider ({{ $riderPhone }})
                     </a>
