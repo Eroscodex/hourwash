@@ -170,7 +170,7 @@ Route::get('/laundry/track/{qr}', [LaundryController::class, 'track'])->middlewa
 
 // Printable Store Receipt Route
 Route::get('/laundry/receipt/{order}', function (Order $order) {
-    $order->load(['customer', 'customer.customerProfile', 'service', 'qrCode']);
+    $order->load(['customer', 'customer.customerProfile', 'service', 'machine', 'qrCode', 'statusHistory.changedBy']);
 
     return view('laundry.receipt', compact('order'));
 })->name('laundry.receipt');

@@ -36,7 +36,7 @@
     
     <div class="printable-card max-w-sm w-full bg-white p-6 rounded-lg shadow-sm border border-slate-200 text-slate-900 space-y-4">
         
-        
+        <!-- Receipt Header -->
         <div class="text-center space-y-1 border-b border-dashed border-slate-300 pb-4">
             <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-14 h-14 mx-auto mb-1 rounded-full object-cover">
             <h1 class="text-xl font-black tracking-tight uppercase">
@@ -46,6 +46,27 @@
             <p class="text-[10px] text-slate-500">Magallanes St., Orosite, Legazpi City, Albay</p>
             <p class="text-[10px] text-slate-500">Email: karlnicko2019@gmail.com | Mobile: 09123456789</p>
         </div>
+
+        @php
+            $historyUser = $order->statusHistory?->whereNotNull('changed_by')->last()?->changedBy;
+            if ($historyUser && in_array($historyUser->role, ['admin', 'owner', 'staff'])) {
+                $roleLabel = match($historyUser->role) {
+                    'admin', 'owner' => 'Admin',
+                    'staff' => 'Staff',
+                    default => ucfirst($historyUser->role)
+                };
+                $processorName = $historyUser->name . ' (' . $roleLabel . ')';
+            } elseif (auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isOwner() || auth()->user()->isStaff())) {
+                $roleLabel = match(auth()->user()->role) {
+                    'admin', 'owner' => 'Admin',
+                    'staff' => 'Staff',
+                    default => ucfirst(auth()->user()->role)
+                };
+                $processorName = auth()->user()->name . ' (' . $roleLabel . ')';
+            } else {
+                $processorName = 'HourWash Counter Staff';
+            }
+        @endphp
 
         
         <div class="text-[11px] space-y-1 border-b border-dashed border-slate-300 pb-3">
@@ -64,6 +85,10 @@
             <div class="flex justify-between">
                 <span>CUSTOMER PHONE:</span>
                 <span class="font-bold">{{ $order->customer->phone ?? ($order->customer->customerProfile->phone ?? 'N/A') }}</span>
+            </div>
+            <div class="flex justify-between text-blue-700">
+                <span>PROCESSED BY:</span>
+                <span class="font-bold">{{ $processorName }}</span>
             </div>
             <div class="flex justify-between">
                 <span>ASSIGNED MACHINE:</span>
@@ -126,20 +151,11 @@
             </div>
             <p class="text-[10px] text-slate-500">Scan QR Code tag to view live cleaning progress</p>
 
-            <div class="pt-2 flex flex-col items-center justify-center space-y-1.5">
+            <div class="pt-2 flex flex-col items-center justify-center space-y-1">
                 <div class="w-7 h-7 bg-blue-600 rounded-full flex items-center justify-center shadow-xs overflow-hidden p-0.5 border border-blue-500/30">
                     <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-full h-full object-cover rounded-full">
                 </div>
                 <p class="text-[11px] font-bold text-slate-800 font-sans">Thank you for washing with HourWash!</p>
-                <div class="flex items-center justify-center gap-x-2 text-[9px] font-sans text-slate-500 pt-0.5">
-                    <a href="{{ route('about') }}" target="_blank" class="hover:text-blue-600 transition-colors">About Us</a>
-                    <span>•</span>
-                    <a href="{{ route('developers') }}" target="_blank" class="hover:text-blue-600 transition-colors">Developers</a>
-                    <span>•</span>
-                    <a href="{{ route('privacy') }}" target="_blank" class="hover:text-blue-600 transition-colors">Privacy Policy</a>
-                    <span>•</span>
-                    <a href="{{ route('terms') }}" target="_blank" class="hover:text-blue-600 transition-colors">Terms &amp; Conditions</a>
-                </div>
             </div>
         </div>
 
@@ -147,4 +163,3 @@
 
 </body>
 </html>
-
