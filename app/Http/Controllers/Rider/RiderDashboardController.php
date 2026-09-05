@@ -146,7 +146,7 @@ class RiderDashboardController extends Controller
     {
         $validated = $request->validate([
             'status' => 'required|string|in:out_for_pickup,picked_up,received,out_for_delivery,delivered,completed',
-            'proof_image' => 'nullable|image|mimes:jpeg,png,jpg,webp,heic|max:10240',
+            'proof_image' => 'nullable|file|max:25600',
         ]);
 
         $newStatus = $validated['status'];
@@ -201,14 +201,24 @@ class RiderDashboardController extends Controller
             // Handle proof photo upload if provided
             $proofPath = null;
             if ($request->hasFile('proof_image')) {
-                $file = $request->file('proof_image');
-                $uploadDir = public_path('uploads/proofs');
-                if (! file_exists($uploadDir)) {
-                    mkdir($uploadDir, 0777, true);
+                try {
+                    $file = $request->file('proof_image');
+                    if ($file && $file->isValid()) {
+                        $uploadDir = public_path('uploads/proofs');
+                        if (! file_exists($uploadDir)) {
+                            @mkdir($uploadDir, 0777, true);
+                        }
+                        $ext = strtolower($file->getClientOriginalExtension() ?: 'jpg');
+                        if (! in_array($ext, ['jpg', 'jpeg', 'png', 'webp', 'heic', 'heif', 'jfif'])) {
+                            $ext = 'jpg';
+                        }
+                        $filename = 'proof_'.$order->id.'_'.time().'_'.Str::random(6).'.'.$ext;
+                        $file->move($uploadDir, $filename);
+                        $proofPath = 'uploads/proofs/'.$filename;
+                    }
+                } catch (\Throwable $e) {
+                    Log::error('Rider proof photo upload exception: '.$e->getMessage());
                 }
-                $filename = 'proof_'.$order->id.'_'.time().'_'.Str::random(6).'.'.$file->getClientOriginalExtension();
-                $file->move($uploadDir, $filename);
-                $proofPath = 'uploads/proofs/'.$filename;
             }
 
             // Update or create pickup_delivery record with required type and address fields
@@ -295,7 +305,7 @@ class RiderDashboardController extends Controller
         } catch (\Throwable $e) {
             Log::error('Rider updateStatus error: '.$e->getMessage(), ['trace' => $e->getTraceAsString()]);
 
-            return redirect()->route('rider.dashboard')->with('success', "Order #{$order->order_number} status updated!");
+            return redirect()->route('rider.dashboard')->with('error', "Order #{$order->order_number} update error: ".$e->getMessage());
         }
     }
 

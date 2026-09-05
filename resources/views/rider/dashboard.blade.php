@@ -36,6 +36,17 @@
             </div>
         @endif
 
+        @if($errors->any())
+            <div class="p-4 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-700 dark:text-rose-300 text-xs font-bold space-y-1">
+                <p class="font-extrabold uppercase text-rose-800 dark:text-rose-200">⚠️ Upload Notice / Status Error:</p>
+                <ul class="list-disc pl-5 space-y-0.5">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
         <!-- Rider 5-Stage Logistics Analytics KPI Grid -->
         <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
             <div class="card-accent-amber p-4 flex items-center justify-between shadow-sm">
@@ -322,7 +333,7 @@
                                                 <label id="pickup_lbl_{{ $order->id }}" class="flex-1 cursor-pointer px-3 py-2 rounded-lg bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-zinc-200 text-xs font-bold hover:bg-slate-50 dark:hover:bg-zinc-700 transition flex items-center justify-center gap-1.5 shadow-sm text-center">
                                                     <svg class="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/></svg>
                                                     <span>📷 Snap / Upload Pickup Photo</span>
-                                                    <input type="file" name="proof_image" accept="image/*" capture="environment" class="hidden" onchange="previewProofImage(this, 'pickup_img_prev_{{ $order->id }}', 'pickup_lbl_{{ $order->id }}')">
+                                                    <input type="file" name="proof_image" accept="image/*,image/heic,image/heif" class="hidden" onchange="previewProofImage(this, 'pickup_img_prev_{{ $order->id }}', 'pickup_lbl_{{ $order->id }}')">
                                                 </label>
 
                                                 <img id="pickup_img_prev_{{ $order->id }}" class="hidden w-9 h-9 rounded object-cover border-2 border-emerald-500 shadow-sm shrink-0" alt="Pickup Photo Preview">
@@ -744,7 +755,7 @@
                                                 <label id="deliv_lbl_{{ $order->id }}" class="flex-1 cursor-pointer px-3 py-2 rounded-lg bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-zinc-200 text-xs font-bold hover:bg-slate-50 dark:hover:bg-zinc-700 transition flex items-center justify-center gap-1.5 shadow-sm text-center">
                                                     <svg class="w-4 h-4 text-cyan-600 dark:text-cyan-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/></svg>
                                                     <span>📷 Snap / Upload Delivery Photo</span>
-                                                    <input type="file" name="proof_image" accept="image/*" capture="environment" class="hidden" onchange="previewProofImage(this, 'deliv_img_prev_{{ $order->id }}', 'deliv_lbl_{{ $order->id }}')">
+                                                    <input type="file" name="proof_image" accept="image/*,image/heic,image/heif" class="hidden" onchange="previewProofImage(this, 'deliv_img_prev_{{ $order->id }}', 'deliv_lbl_{{ $order->id }}')">
                                                 </label>
 
                                                 <img id="deliv_img_prev_{{ $order->id }}" class="hidden w-9 h-9 rounded object-cover border-2 border-emerald-500 shadow-sm shrink-0" alt="Delivery Photo Preview">
