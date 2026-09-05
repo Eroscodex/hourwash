@@ -38,13 +38,13 @@
         
         <!-- Receipt Header -->
         <div class="text-center space-y-1 border-b border-dashed border-slate-300 pb-4">
-            <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-14 h-14 mx-auto mb-1 rounded-full object-cover">
-            <h1 class="text-xl font-black tracking-tight uppercase">
+            <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-14 h-14 mx-auto mb-1.5 rounded-full object-cover shadow-xs p-0.5 border border-slate-200 bg-white">
+            <h1 class="text-xl font-black tracking-wide uppercase text-slate-900 font-sans leading-none">
                 HOUR WASH LAUNDRY
             </h1>
-            <p class="text-[11px] font-sans text-slate-600">Laundry Shop Management System</p>
-            <p class="text-[10px] text-slate-500">Magallanes St., Orosite, Legazpi City, Albay</p>
-            <p class="text-[10px] text-slate-500">Email: karlnicko2019@gmail.com | Mobile: 09123456789</p>
+            <p class="text-[11px] font-bold font-sans text-slate-700 leading-tight">Laundry Shop Management System</p>
+            <p class="text-[10.5px] text-slate-600 font-sans leading-tight">Magallanes St., Orosite, Legazpi City, Albay</p>
+            <p class="text-[10px] text-slate-500 font-sans">Email: karlnicko2019@gmail.com | Mobile: 09123456789</p>
         </div>
 
         @php
