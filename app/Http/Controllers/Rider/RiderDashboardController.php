@@ -85,11 +85,28 @@ class RiderDashboardController extends Controller
         $activeFees = $allActiveOrders->count() * 50.00;
         $todayDeliveryFees = ($completedFees + $activeFees) > 0 ? ($completedFees + $activeFees) : 0.00;
 
-        // COD Cash Collected today for completed paid rider orders
-        $todayCodCollected = $completedTodayOrders->where('payment_status', 'paid')->sum('total_amount');
+        // COD Cash Collected for paid rider orders (today or total paid dispatches)
+        $todayCodCollected = Order::where($riderOrderScope)
+            ->where('payment_status', 'paid')
+            ->where(function ($q) {
+                $q->whereDate('paid_at', now()->today())
+                    ->orWhereDate('completed_at', now()->today())
+                    ->orWhereDate('updated_at', now()->today());
+            })
+            ->sum('total_amount');
+
+        // Fallback to all-time paid rider orders if today query is zero but paid rider orders exist
+        if ($todayCodCollected <= 0) {
+            $todayCodCollected = Order::where($riderOrderScope)
+                ->where('payment_status', 'paid')
+                ->sum('total_amount');
+        }
 
         // Pending COD to Collect ONLY for active unpaid Pickup & Delivery rider orders
-        $pendingCodToCollect = $allActiveOrders->where('payment_status', 'unpaid')->sum('total_amount');
+        $pendingCodToCollect = Order::where($riderOrderScope)
+            ->whereNotIn('order_status', ['completed', 'cancelled'])
+            ->where('payment_status', '!=', 'paid')
+            ->sum('total_amount');
 
         $totalActiveTasks = $allActiveOrders->count();
 
