@@ -52,7 +52,7 @@
                                         </div>
                                     </td>
                                     <td align="right" valign="middle" style="font-size: 20px; sm:font-size: 22px; font-weight: 400; color: #86868B; letter-spacing: -0.5px;">
-                                        Order Status Update
+                                        Track Order
                                     </td>
                                 </tr>
                             </table>
