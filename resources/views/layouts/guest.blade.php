@@ -10,8 +10,10 @@
     <link rel="shortcut icon" href="{{ asset('favicon.svg') }}">
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}">
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <meta name="theme-color" content="#2563EB">
 
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -32,7 +34,7 @@
 
     <div class="w-full max-w-md space-y-6">
 
-        
+
         <div class="flex items-center justify-between">
             <a href="{{ route('welcome') }}" class="btn-secondary text-xs">Back</a>
             <button id="theme-toggle-btn" onclick="toggleTheme()" class="p-2 px-3 rounded-md bg-slate-100 dark:bg-zinc-800 text-slate-900 dark:text-zinc-100 border border-slate-200 dark:border-zinc-700 hover:bg-slate-200 dark:hover:bg-zinc-700 transition text-xs font-semibold flex items-center gap-1.5 shadow-sm cursor-pointer" title="Toggle Light/Dark Theme">
@@ -47,7 +49,7 @@
             </button>
         </div>
 
-        
+
         <div class="flex flex-col items-center text-center mb-6">
             <a href="{{ route('welcome') }}" class="flex items-center gap-3 group">
                 <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-14 h-14 rounded-lg object-cover shadow-sm bg-white p-1 border border-slate-200 dark:border-zinc-700">
@@ -58,12 +60,12 @@
             <p class="text-xs text-blue-600 dark:text-blue-400 tracking-widest uppercase mt-1 font-semibold">LAUNDRY SHOP MANAGEMENT SYSTEM</p>
         </div>
 
-        
+
         <div class="app-card px-6 py-7 sm:px-8">
             {{ $slot }}
         </div>
 
-        
+
         <p class="text-center text-slate-500 dark:text-slate-400 text-xs mt-6">
             © {{ date('Y') }} A Web-Based Laundry Service Management System for Hour Wash Laundry Shop in Orosite, Legazpi City
         </p>
@@ -83,19 +85,19 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             const topBar = document.getElementById('top-loading-bar');
-            
+
             document.querySelectorAll('form').forEach(function (form) {
                 form.addEventListener('submit', function () {
                     if (form.checkValidity && !form.checkValidity()) return;
-                    
+
                     const submitBtn = form.querySelector('button[type="submit"], input[type="submit"]');
                     if (submitBtn && !submitBtn.dataset.noLoading) {
                         setTimeout(function() {
                             submitBtn.disabled = true;
                         }, 20);
-                        
+
                         submitBtn.classList.add('opacity-80', 'cursor-not-allowed', 'pointer-events-none');
-                        
+
                         if (!submitBtn.querySelector('.global-btn-spinner')) {
                             const spinner = document.createElement('span');
                             spinner.className = 'global-btn-spinner inline-flex items-center shrink-0 mr-2';
@@ -103,7 +105,7 @@
                             submitBtn.insertBefore(spinner, submitBtn.firstChild);
                         }
                     }
-                    
+
                     if (topBar) {
                         topBar.style.width = '75%';
                         topBar.style.opacity = '1';

@@ -9,6 +9,8 @@
     <link rel="shortcut icon" href="{{ asset('favicon.svg') }}">
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}">
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <meta name="theme-color" content="#2563EB">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -512,7 +514,7 @@
                 </button>
             </div>
             <p class="text-[9.5px] text-center text-slate-500 dark:text-slate-400 font-medium pt-1">
-                💬 Need help or want to report an issue? Email Developer Support at 
+                💬 Need help or want to report an issue? Email Developer Support at
                 <a href="mailto:karlnicko2019@gmail.com" class="text-blue-600 dark:text-blue-400 font-bold hover:underline">karlnicko2019@gmail.com</a>
             </p>
         </div>

@@ -11,6 +11,8 @@
     <link rel="shortcut icon" href="{{ asset('favicon.svg') }}">
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}">
+    <link rel="manifest" href="{{ asset('manifest.json') }}">
+    <meta name="theme-color" content="#2563EB">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -597,7 +599,7 @@
 
                 const isChatOpen = document.getElementById('chat-window') && !document.getElementById('chat-window').classList.contains('hidden');
                 const isModalOpen = document.querySelector('.modal:not(.hidden), [id$="modal"]:not(.hidden), [class*="modal"]:not(.hidden)');
-                
+
                 if (isUserInteracting || isFocusedOnInputOrSelect || isChatOpen || isModalOpen || document.hidden) {
                     return;
                 }
