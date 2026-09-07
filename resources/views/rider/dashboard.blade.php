@@ -305,7 +305,7 @@
                                     <input type="hidden" name="status" value="out_for_pickup">
                                     <button type="submit" class="w-full px-4 py-2.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-extrabold text-xs shadow transition flex items-center justify-center gap-2 uppercase tracking-wider cursor-pointer">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                                        🚗 Start Pickup Dispatch (Out for Pickup)
+                                        Start Pickup Dispatch (Out for Pickup)
                                     </button>
                                 </form>
                             @elseif($order->order_status === 'out_for_pickup')
@@ -361,8 +361,7 @@
                                         </div>
 
                                         <button type="submit" class="w-full px-4 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-500 active:bg-blue-700 text-white font-extrabold text-xs shadow-md transition flex items-center justify-center gap-2 uppercase tracking-wider cursor-pointer">
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
-                                            🏬 Arrived at Laundry Shop (Mark Received & In Shop)
+                                            Arrived at Laundry Shop (Mark Received & In Shop)
                                         </button>
                                     </div>
                                 </form>
@@ -727,7 +726,7 @@
                                     <input type="hidden" name="status" value="out_for_delivery">
                                     <button type="submit" class="w-full px-4 py-2.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-extrabold text-xs shadow transition flex items-center justify-center gap-2 uppercase tracking-wider cursor-pointer">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                                        🚚 Start Delivery Dispatch (Out for Delivery)
+                                        Start Delivery Dispatch (Out for Delivery)
                                     </button>
                                 </form>
                             @elseif($order->order_status === 'out_for_delivery')
