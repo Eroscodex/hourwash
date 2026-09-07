@@ -246,6 +246,78 @@
             </div>
         </section>
 
+        <!-- Automatic Store Photo Showcase Slideshow -->
+        <section id="store-gallery" class="space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-200 dark:border-zinc-800 pb-3">
+                <div>
+                    <h2 class="text-lg font-bold text-slate-900 dark:text-white">Our Laundry Shop &amp; Equipment</h2>
+                    <p class="text-xs text-slate-500 dark:text-zinc-400">Take a tour of our clean store facilities and high-capacity commercial washers in Magallanes St., Orosite</p>
+                </div>
+                <div class="flex items-center gap-1.5">
+                    <button onclick="prevSlide()" class="p-1.5 rounded-md bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 hover:bg-blue-600 hover:text-white transition shadow-sm cursor-pointer" aria-label="Previous Slide">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                    </button>
+                    <button onclick="nextSlide()" class="p-1.5 rounded-md bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 hover:bg-blue-600 hover:text-white transition shadow-sm cursor-pointer" aria-label="Next Slide">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Slideshow Carousel Container -->
+            <div class="relative w-full h-64 sm:h-80 md:h-96 rounded-lg overflow-hidden app-card border border-slate-200 dark:border-zinc-800 group">
+                <!-- Slides List -->
+                <div id="welcome-slideshow" class="relative w-full h-full">
+                    <!-- Slide 1 -->
+                    <div class="slide-item absolute inset-0 transition-opacity duration-700 opacity-100 z-10">
+                        <img src="{{ asset('images/slideshow/slide1.jpg') }}" alt="Hour Wash Commercial Machines" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent flex flex-col justify-end p-5 sm:p-6 text-white">
+                            <span class="px-2.5 py-0.5 rounded text-[10px] font-extrabold uppercase bg-blue-600 w-max mb-1 shadow-sm">Commercial Equipment</span>
+                            <h3 class="text-base sm:text-lg font-black">High-Capacity Heavy Commercial Washers &amp; Dryers</h3>
+                            <p class="text-xs text-slate-200 max-w-xl">Commercial-grade stainless steel machines designed for rapid 1-hour express washing and drying.</p>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="slide-item absolute inset-0 transition-opacity duration-700 opacity-0 z-0">
+                        <img src="{{ asset('images/slideshow/slide2.jpg') }}" alt="Hour Wash Stacked Dryer Line" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent flex flex-col justify-end p-5 sm:p-6 text-white">
+                            <span class="px-2.5 py-0.5 rounded text-[10px] font-extrabold uppercase bg-purple-600 w-max mb-1 shadow-sm">Dryer Fleet</span>
+                            <h3 class="text-base sm:text-lg font-black">Fast Moisture-Controlled Drying Technology</h3>
+                            <p class="text-xs text-slate-200 max-w-xl">Precision temperature controls prevent fabric shrinkage while delivering soft, fragrant, ready-to-fold clothes.</p>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3 -->
+                    <div class="slide-item absolute inset-0 transition-opacity duration-700 opacity-0 z-0">
+                        <img src="{{ asset('images/slideshow/slide3.jpg') }}" alt="Hour Wash Premium Detergents" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent flex flex-col justify-end p-5 sm:p-6 text-white">
+                            <span class="px-2.5 py-0.5 rounded text-[10px] font-extrabold uppercase bg-emerald-600 w-max mb-1 shadow-sm">Premium Detergents</span>
+                            <h3 class="text-base sm:text-lg font-black">Free Premium Fabric Softeners &amp; Detergent Brands</h3>
+                            <p class="text-xs text-slate-200 max-w-xl">Ariel, Breeze, Surf, Downy, and Zonrox options included FREE with all Full-Service &amp; Wash packages.</p>
+                        </div>
+                    </div>
+
+                    <!-- Slide 4 -->
+                    <div class="slide-item absolute inset-0 transition-opacity duration-700 opacity-0 z-0">
+                        <img src="{{ asset('images/slideshow/slide4.jpg') }}" alt="Hour Wash Store Counter &amp; Waiting Area" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent flex flex-col justify-end p-5 sm:p-6 text-white">
+                            <span class="px-2.5 py-0.5 rounded text-[10px] font-extrabold uppercase bg-amber-600 w-max mb-1 shadow-sm">Store Comfort</span>
+                            <h3 class="text-base sm:text-lg font-black">Clean Customer Reception &amp; Waiting Lounge</h3>
+                            <p class="text-xs text-slate-200 max-w-xl">Visit our shop at Magallanes St., Orosite, Legazpi City — open daily 7:30 AM to 6:00 PM (Monday to Sunday!).</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Slide Indicators / Dots -->
+                <div class="absolute bottom-3 right-5 z-20 flex items-center gap-1.5">
+                    <button onclick="goToSlide(0)" class="slide-dot w-2.5 h-2.5 rounded-full bg-white opacity-100 transition-all cursor-pointer" aria-label="Slide 1"></button>
+                    <button onclick="goToSlide(1)" class="slide-dot w-2.5 h-2.5 rounded-full bg-white opacity-40 transition-all cursor-pointer" aria-label="Slide 2"></button>
+                    <button onclick="goToSlide(2)" class="slide-dot w-2.5 h-2.5 rounded-full bg-white opacity-40 transition-all cursor-pointer" aria-label="Slide 3"></button>
+                    <button onclick="goToSlide(3)" class="slide-dot w-2.5 h-2.5 rounded-full bg-white opacity-40 transition-all cursor-pointer" aria-label="Slide 4"></button>
+                </div>
+            </div>
+        </section>
+
         <!-- Services & Rates Catalog -->
         <section id="services" class="space-y-5">
             <div>
@@ -586,7 +658,68 @@
                     chatWindow.classList.remove('flex');
                 });
             }
+
+            // Start automatic slideshow timer
+            startSlideTimer();
         });
+
+        // Automatic Store Photo Slideshow
+        let currentSlideIdx = 0;
+        let slideTimer = null;
+
+        function showSlide(index) {
+            const slides = document.querySelectorAll('.slide-item');
+            const dots = document.querySelectorAll('.slide-dot');
+            if (!slides.length) return;
+
+            currentSlideIdx = (index + slides.length) % slides.length;
+
+            slides.forEach((slide, i) => {
+                if (i === currentSlideIdx) {
+                    slide.classList.remove('opacity-0', 'z-0');
+                    slide.classList.add('opacity-100', 'z-10');
+                } else {
+                    slide.classList.remove('opacity-100', 'z-10');
+                    slide.classList.add('opacity-0', 'z-0');
+                }
+            });
+
+            dots.forEach((dot, i) => {
+                if (i === currentSlideIdx) {
+                    dot.classList.remove('opacity-40');
+                    dot.classList.add('opacity-100', 'scale-125');
+                } else {
+                    dot.classList.remove('opacity-100', 'scale-125');
+                    dot.classList.add('opacity-40');
+                }
+            });
+        }
+
+        function nextSlide() {
+            showSlide(currentSlideIdx + 1);
+            resetSlideTimer();
+        }
+
+        function prevSlide() {
+            showSlide(currentSlideIdx - 1);
+            resetSlideTimer();
+        }
+
+        function goToSlide(index) {
+            showSlide(index);
+            resetSlideTimer();
+        }
+
+        function startSlideTimer() {
+            if (slideTimer) clearInterval(slideTimer);
+            slideTimer = setInterval(() => {
+                showSlide(currentSlideIdx + 1);
+            }, 3500);
+        }
+
+        function resetSlideTimer() {
+            startSlideTimer();
+        }
 
         function welcomeSendQuick(query) {
             const input = document.getElementById('welcome-message');
