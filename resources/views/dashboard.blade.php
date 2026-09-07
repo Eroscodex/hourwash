@@ -447,8 +447,20 @@
                     <a href="{{ route('my.orders') }}" class="btn-secondary py-1.5 px-3 text-xs">View All History</a>
                 </div>
 
+                @if(session('success'))
+                    <div class="p-3 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 text-xs font-semibold">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
+                @if(session('error'))
+                    <div class="p-3 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-700 dark:text-rose-400 text-xs font-semibold">
+                        {{ session('error') }}
+                    </div>
+                @endif
+
                 <div class="overflow-x-auto max-w-full">
-                    <table class="w-full text-left text-xs whitespace-nowrap min-w-[650px]">
+                    <table class="w-full text-left text-xs whitespace-nowrap min-w-[700px]">
                         <thead class="bg-slate-50 dark:bg-zinc-900/60 text-slate-400 dark:text-zinc-500 uppercase text-[10px] font-bold tracking-widest border-b border-slate-200/80 dark:border-zinc-800">
                             <tr>
                                 <th class="px-4 py-3">Order #</th>
@@ -456,6 +468,7 @@
                                 <th class="px-4 py-3">Date</th>
                                 <th class="px-4 py-3">Payment</th>
                                 <th class="px-4 py-3">Stage Status</th>
+                                <th class="px-4 py-3">Action</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100 dark:divide-zinc-800/80 text-slate-900 dark:text-slate-200">
@@ -474,16 +487,50 @@
                                     <td class="px-4 py-3">
                                          @if($order->order_status === 'completed')
                                              <span class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60">Completed</span>
+                                         @elseif($order->order_status === 'cancelled')
+                                             <span class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-zinc-400 border border-slate-200 dark:border-zinc-700">Cancelled</span>
                                          @elseif($order->order_status === 'finish')
-                                             <span class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800/60">Finish</span>
+                                             <span class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 border border-amber-200 dark:border-amber-800/60">Finish &amp; Ready</span>
                                          @else
                                              <span class="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-400 border border-blue-200 dark:border-blue-800/60">{{ str_replace('_', ' ', $order->order_status) }}</span>
                                          @endif
                                      </td>
+                                    <td class="px-4 py-3">
+                                        @if($order->order_status === 'pending')
+                                            <button type="button"
+                                                x-data=""
+                                                x-on:click="$dispatch('open-modal', 'cancel-order-{{ $order->id }}')"
+                                                class="px-2.5 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-800/60 hover:bg-rose-100 dark:hover:bg-rose-900/60 transition cursor-pointer">
+                                                Cancel
+                                            </button>
+
+                                            <x-modal name="cancel-order-{{ $order->id }}" maxWidth="sm">
+                                                <div class="p-6 bg-white dark:bg-[#18181B] text-slate-900 dark:text-zinc-100 space-y-4 rounded-lg text-left">
+                                                    <h2 class="text-base font-bold text-rose-600 dark:text-rose-400">Cancel Order?</h2>
+                                                    <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                                                        Are you sure you want to cancel pending order <strong>#{{ $order->order_number }}</strong>? This cannot be undone.
+                                                    </p>
+                                                    <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-100 dark:border-zinc-800">
+                                                        <button type="button" x-on:click="$dispatch('close')" class="btn-secondary text-xs py-1.5 px-3">
+                                                            Keep Order
+                                                        </button>
+                                                        <form method="POST" action="{{ route('laundry.cancel', $order->id) }}" class="inline">
+                                                            @csrf
+                                                            <button type="submit" class="btn-danger text-xs py-1.5 px-3">
+                                                                Yes, Cancel Order
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </x-modal>
+                                        @else
+                                            <span class="text-slate-300 dark:text-zinc-600 text-[10px]">—</span>
+                                        @endif
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-center py-6 text-slate-500">No order history found.</td>
+                                    <td colspan="6" class="text-center py-6 text-slate-500">No order history found.</td>
                                 </tr>
                             @endforelse
                         </tbody>
