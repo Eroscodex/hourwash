@@ -399,7 +399,7 @@ def generate_class_diagram():
 
         # Arrowhead entering target box top
         ax.annotate("", xy=(target_x, target_y), xytext=(target_x, target_y + 1.2), 
-                    arrowprops=dict(arrowstyle="->", lw=1.3, color='#000000'))
+                    arrowprops=dict(arrowstyle="->", lw=1.3, color='#000000', shrinkA=0, shrinkB=0))
         
         # Multiplicity '1..*' near arrowhead
         ax.text(target_x, target_y + 0.8, "1..*", fontsize=6.8, fontweight='bold', color='#000000', ha='center', 
@@ -542,20 +542,28 @@ def draw_sequence_template(ax, title, lifelines, steps, alt_fragment=None):
         from_idx, to_idx, label, is_return = step
         fx_center, tx_center = xs[from_idx], xs[to_idx]
 
+        ls = '--' if is_return else '-'
+        arr_style = "->"
+
         if fx_center < tx_center:
             start_x = fx_center + half_bar
             end_x = tx_center - half_bar
-        else:
+            ax.annotate("", xy=(end_x, cur_y), xytext=(start_x, cur_y),
+                        arrowprops=dict(arrowstyle=arr_style, lw=1.2, color='#000000', linestyle=ls, shrinkA=0, shrinkB=0), zorder=6)
+        elif fx_center > tx_center:
             start_x = fx_center - half_bar
             end_x = tx_center + half_bar
+            ax.annotate("", xy=(end_x, cur_y), xytext=(start_x, cur_y),
+                        arrowprops=dict(arrowstyle=arr_style, lw=1.2, color='#000000', linestyle=ls, shrinkA=0, shrinkB=0), zorder=6)
+        else:
+            start_x = fx_center + half_bar
+            end_x = fx_center + half_bar
+            loop_x = fx_center + half_bar + 3.0
+            ax.plot([start_x, loop_x, loop_x], [cur_y, cur_y, cur_y - 1.2], color='#000000', lw=1.2, linestyle=ls, zorder=6)
+            ax.annotate("", xy=(end_x, cur_y - 1.2), xytext=(loop_x, cur_y - 1.2),
+                        arrowprops=dict(arrowstyle=arr_style, lw=1.2, color='#000000', linestyle=ls, shrinkA=0, shrinkB=0), zorder=6)
         
-        ls = '--' if is_return else '-'
-        arr_style = "->"
-        
-        ax.annotate("", xy=(end_x, cur_y), xytext=(start_x, cur_y),
-                    arrowprops=dict(arrowstyle=arr_style, lw=1.2, color='#000000', linestyle=ls), zorder=6)
-        
-        mid_x = (start_x + end_x) / 2
+        mid_x = (fx_center + tx_center) / 2 if fx_center != tx_center else fx_center + half_bar + 1.5
         ax.text(mid_x, cur_y + 1.1, f"{idx+1}. {label}", fontsize=6.8, ha='center', va='bottom', color='#000000', fontweight='bold',
                 bbox=dict(boxstyle="square,pad=0.1", fc="#FFFFFF", ec="none"), zorder=7)
 
@@ -964,14 +972,14 @@ def draw_role_package_container_reference(ax, x, y, role_name, left_folders, rig
 
     # 1. Horizontal dashed ACCESS arrow from Top Left (Login) to Top Right (Dashboard)
     ax.annotate("", xy=(right_x, y_starts[0] + folder_h/2.0), xytext=(left_x + folder_w, y_starts[0] + folder_h/2.0),
-                arrowprops=dict(arrowstyle="->", lw=1.1, color='#000000', linestyle='--'))
+                arrowprops=dict(arrowstyle="->", lw=1.1, color='#000000', linestyle='--', shrinkA=0, shrinkB=0))
     ax.text((left_x + folder_w + right_x)/2.0, y_starts[0] + folder_h/2.0 + (1.0 * scale_h), "ACCESS", fontsize=max(4.2, 6.2 * min(scale_w, scale_h)), fontweight='bold', ha='center', color='#000000')
 
     # 2. Vertical dashed ACCESS arrow: Row 0 -> Row 1 (Left Column)
     top_y0 = left_boxes[0][0]
     bot_y1 = left_boxes[1][1]
     ax.annotate("", xy=(left_x + folder_w/2.0, bot_y1), xytext=(left_x + folder_w/2.0, top_y0),
-                arrowprops=dict(arrowstyle="->", lw=1.1, color='#000000', linestyle='--'))
+                arrowprops=dict(arrowstyle="->", lw=1.1, color='#000000', linestyle='--', shrinkA=0, shrinkB=0))
     ax.text(left_x + folder_w/2.0 - (2.5 * scale_w), (top_y0 + bot_y1)/2.0, "ACCESS", fontsize=max(4.0, 5.8 * min(scale_w, scale_h)), fontweight='bold', ha='right', va='center', color='#000000')
 
     # 3. Remaining Vertical Dashed Arrows Down Left Column
@@ -979,14 +987,14 @@ def draw_role_package_container_reference(ax, x, y, role_name, left_folders, rig
         top_y = left_boxes[i][0]
         bot_y = left_boxes[i+1][1]
         ax.annotate("", xy=(left_x + folder_w/2.0, bot_y), xytext=(left_x + folder_w/2.0, top_y),
-                    arrowprops=dict(arrowstyle="->", lw=1.1, color='#000000', linestyle='--'))
+                    arrowprops=dict(arrowstyle="->", lw=1.1, color='#000000', linestyle='--', shrinkA=0, shrinkB=0))
 
     # 4. Vertical Dashed Arrows Down Right Column
     for j in range(num_f - 1):
         top_y = right_boxes[j][0]
         bot_y = right_boxes[j+1][1]
         ax.annotate("", xy=(right_x + folder_w/2.0, bot_y), xytext=(right_x + folder_w/2.0, top_y),
-                    arrowprops=dict(arrowstyle="->", lw=1.1, color='#000000', linestyle='--'))
+                    arrowprops=dict(arrowstyle="->", lw=1.1, color='#000000', linestyle='--', shrinkA=0, shrinkB=0))
 
     # 5. Draw Bottom Folder (Trashbin or Profile)
     b_w = 14.5 * scale_w
@@ -1011,14 +1019,14 @@ def draw_role_package_container_reference(ax, x, y, role_name, left_folders, rig
             [left_bot_y, prof_top_y + (0.6 * scale_h), prof_top_y + (0.6 * scale_h), prof_top_y],
             color='#000000', linestyle='--', lw=1.1)
     ax.annotate("", xy=(b_x + (3.0 * scale_w), prof_top_y), xytext=(b_x + (3.0 * scale_w), prof_top_y + 0.2),
-                arrowprops=dict(arrowstyle="->", lw=1.1, color='#000000', linestyle='--'))
+                arrowprops=dict(arrowstyle="->", lw=1.1, color='#000000', linestyle='--', shrinkA=0, shrinkB=0))
 
     # Arrow from right column down to Profile
     ax.plot([right_bot_x, right_bot_x, b_x + b_w - (3.0 * scale_w), b_x + b_w - (3.0 * scale_w)],
             [right_bot_y, prof_top_y + (0.6 * scale_h), prof_top_y + (0.6 * scale_h), prof_top_y],
             color='#000000', linestyle='--', lw=1.1)
     ax.annotate("", xy=(b_x + b_w - (3.0 * scale_w), prof_top_y), xytext=(b_x + b_w - (3.0 * scale_w), prof_top_y + 0.2),
-                arrowprops=dict(arrowstyle="->", lw=1.1, color='#000000', linestyle='--'))
+                arrowprops=dict(arrowstyle="->", lw=1.1, color='#000000', linestyle='--', shrinkA=0, shrinkB=0))
 
 
 def generate_package_diagram():

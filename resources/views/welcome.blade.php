@@ -137,114 +137,6 @@
     <main class="flex-1 space-y-12 py-8 md:py-12 px-4 md:px-8 max-w-7xl mx-auto w-full">
         <x-popup-alert />
 
-        <!-- Storefront Hero Section -->
-        <section id="home" class="relative rounded-lg overflow-hidden app-card p-6 md:p-12">
-            <div class="grid lg:grid-cols-12 gap-8 lg:gap-10 items-center">
-                <div class="lg:col-span-7 space-y-5">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800/60 text-xs font-semibold">
-                        <span class="w-2 h-2 rounded-full bg-blue-600 dark:bg-blue-400 animate-pulse"></span>
-                        Hour Wash Laundry Shop
-                    </div>
-
-                    <h1 class="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-snug">
-                        Professional Clean. <br>
-                        <span class="text-blue-600 dark:text-blue-400">Fast 1-Hour Wash & Live Tracking</span>
-                    </h1>
-
-                    <p class="text-slate-600 dark:text-zinc-400 text-xs sm:text-sm max-w-xl leading-relaxed font-medium">
-                        Magallanes St., Orosite, Legazpi City. Experience 7kg capacity commercial washing & drying, QR code verification, automated real-time monitoring, and doorstep pickup & delivery.
-                    </p>
-
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
-                        <div class="flex items-center gap-3 p-3 rounded-md bg-slate-50 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-800">
-                            <div class="w-9 h-9 rounded-md bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400 flex items-center justify-center font-extrabold text-xs shrink-0 border border-blue-200 dark:border-blue-800/60">
-                                1H
-                            </div>
-                            <div>
-                                <h4 class="text-xs font-bold text-slate-900 dark:text-zinc-100">1-Hour Express</h4>
-                                <p class="text-[11px] text-slate-500 dark:text-zinc-400">Washing & drying</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-3 p-3 rounded-md bg-slate-50 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-800">
-                            <div class="w-9 h-9 rounded-md bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 flex items-center justify-center font-extrabold text-xs shrink-0 border border-emerald-200 dark:border-emerald-800/60">
-                                QR
-                            </div>
-                            <div>
-                                <h4 class="text-xs font-bold text-slate-900 dark:text-zinc-100">QR Tag Track</h4>
-                                <p class="text-[11px] text-slate-500 dark:text-zinc-400">Real-time status</p>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-3 p-3 rounded-md bg-slate-50 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-800">
-                            <div class="w-9 h-9 rounded-md bg-amber-50 text-amber-600 dark:bg-amber-950/40 dark:text-amber-400 flex items-center justify-center font-extrabold text-xs shrink-0 border border-amber-200 dark:border-amber-800/60">
-                                7KG
-                            </div>
-                            <div>
-                                <h4 class="text-xs font-bold text-slate-900 dark:text-zinc-100">7kg Max Load</h4>
-                                <p class="text-[11px] text-slate-500 dark:text-zinc-400">Per machine load</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-wrap items-center gap-3 pt-2">
-                        <a href="{{ route('register') }}" class="w-full sm:w-auto btn-primary text-center">
-                            Book Laundry Order
-                        </a>
-                        <a href="#services" class="w-full sm:w-auto btn-secondary text-center">
-                            View Services & Rates
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Store Operational Status Widget -->
-                <div class="lg:col-span-5 relative flex justify-center">
-                    <div class="w-full max-w-sm rounded-lg bg-slate-50 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-800 p-5 flex flex-col justify-between shadow-sm space-y-5">
-                        <div class="flex items-center justify-between border-b border-slate-200 dark:border-zinc-700/60 pb-3">
-                            <span class="text-xs font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wider">Live Store Status</span>
-                            @if(($storeStatus ?? 'open') === 'open')
-                                <span class="badge-status badge-green">Open Today</span>
-                            @else
-                                <span class="badge-status badge-red">Closed Today</span>
-                            @endif
-                        </div>
-                        <div class="space-y-3">
-                            <div>
-                                <h3 class="text-base font-bold text-slate-900 dark:text-white inline-flex items-center gap-0.5">
-                                    HOUR WASH LAUNDRY
-                                </h3>
-                                <p class="text-xs text-slate-500 dark:text-zinc-400 mt-0.5">Operating Hours: 7:30 AM – 6:00 PM (Mon – Sun) • Same-Day Cut-Off: 4:30 PM</p>
-                            </div>
-                            @php
-                                $idleWashers = $machines->filter(function($m) {
-                                    return (in_array($m->machine_type, ['washer', 'washer_dryer']) || str_contains(strtolower($m->machine_name), 'washer') || str_contains(strtolower($m->machine_code), 'w')) && $m->status === 'idle';
-                                })->count();
-
-                                $readyDryers = $machines->filter(function($m) {
-                                    return (in_array($m->machine_type, ['dryer', 'washer_dryer']) || str_contains(strtolower($m->machine_name), 'dryer') || str_contains(strtolower($m->machine_code), 'd')) && $m->status === 'idle';
-                                })->count();
-
-                                if ($idleWashers > 0 && $readyDryers === 0) {
-                                    $totalIdle = $machines->where('status', 'idle')->count();
-                                    $idleWashers = (int) ceil($totalIdle / 2);
-                                    $readyDryers = (int) floor($totalIdle / 2);
-                                }
-                            @endphp
-                            <div class="flex flex-wrap gap-2 pt-1">
-                                <span class="badge-status badge-green">
-                                    {{ $idleWashers }} {{ Str::plural('Washer', $idleWashers) }} Idle
-                                </span>
-                                <span class="badge-status badge-blue">
-                                    {{ $readyDryers }} {{ Str::plural('Dryer', $readyDryers) }} Idle
-                                </span>
-                            </div>
-                        </div>
-                        <div class="text-[11px] text-slate-500 dark:text-zinc-400 border-t border-slate-200 dark:border-zinc-700/60 pt-3 flex justify-between">
-                            <span>Magallanes St., Orosite</span>
-                            <span class="text-blue-600 dark:text-blue-400 font-semibold">Legazpi City, Albay</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
         <!-- Automatic Store Photo Showcase Slideshow -->
         <section id="store-gallery" class="space-y-4">
@@ -433,6 +325,116 @@
                 </div>
             </div>
         </section>
+
+        <!-- Storefront Hero Section -->
+        <section id="home" class="relative rounded-lg overflow-hidden app-card p-6 md:p-12">
+            <div class="grid lg:grid-cols-12 gap-8 lg:gap-10 items-center">
+                <div class="lg:col-span-7 space-y-5">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800/60 text-xs font-semibold">
+                        <span class="w-2 h-2 rounded-full bg-blue-600 dark:bg-blue-400 animate-pulse"></span>
+                        Hour Wash Laundry Shop
+                    </div>
+
+                    <h1 class="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-snug">
+                        Professional Clean. <br>
+                        <span class="text-blue-600 dark:text-blue-400">Fast 1-Hour Wash & Live Tracking</span>
+                    </h1>
+
+                    <p class="text-slate-600 dark:text-zinc-400 text-xs sm:text-sm max-w-xl leading-relaxed font-medium">
+                        Magallanes St., Orosite, Legazpi City. Experience 7kg capacity commercial washing & drying, QR code verification, automated real-time monitoring, and doorstep pickup & delivery.
+                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
+                        <div class="flex items-center gap-3 p-3 rounded-md bg-slate-50 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-800">
+                            <div class="w-9 h-9 rounded-md bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400 flex items-center justify-center font-extrabold text-xs shrink-0 border border-blue-200 dark:border-blue-800/60">
+                                1H
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-900 dark:text-zinc-100">1-Hour Express</h4>
+                                <p class="text-[11px] text-slate-500 dark:text-zinc-400">Washing & drying</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 rounded-md bg-slate-50 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-800">
+                            <div class="w-9 h-9 rounded-md bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 flex items-center justify-center font-extrabold text-xs shrink-0 border border-emerald-200 dark:border-emerald-800/60">
+                                QR
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-900 dark:text-zinc-100">QR Tag Track</h4>
+                                <p class="text-[11px] text-slate-500 dark:text-zinc-400">Real-time status</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 rounded-md bg-slate-50 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-800">
+                            <div class="w-9 h-9 rounded-md bg-amber-50 text-amber-600 dark:bg-amber-950/40 dark:text-amber-400 flex items-center justify-center font-extrabold text-xs shrink-0 border border-amber-200 dark:border-amber-800/60">
+                                7KG
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-bold text-slate-900 dark:text-zinc-100">7kg Max Load</h4>
+                                <p class="text-[11px] text-slate-500 dark:text-zinc-400">Per machine load</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-3 pt-2">
+                        <a href="{{ route('register') }}" class="w-full sm:w-auto btn-primary text-center">
+                            Book Laundry Order
+                        </a>
+                        <a href="#services" class="w-full sm:w-auto btn-secondary text-center">
+                            View Services & Rates
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Store Operational Status Widget -->
+                <div class="lg:col-span-5 relative flex justify-center">
+                    <div class="w-full max-w-sm rounded-lg bg-slate-50 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-800 p-5 flex flex-col justify-between shadow-sm space-y-5">
+                        <div class="flex items-center justify-between border-b border-slate-200 dark:border-zinc-700/60 pb-3">
+                            <span class="text-xs font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wider">Live Store Status</span>
+                            @if(($storeStatus ?? 'open') === 'open')
+                                <span class="badge-status badge-green">Open Today</span>
+                            @else
+                                <span class="badge-status badge-red">Closed Today</span>
+                            @endif
+                        </div>
+                        <div class="space-y-3">
+                            <div>
+                                <h3 class="text-base font-bold text-slate-900 dark:text-white inline-flex items-center gap-0.5">
+                                    HOUR WASH LAUNDRY
+                                </h3>
+                                <p class="text-xs text-slate-500 dark:text-zinc-400 mt-0.5">Operating Hours: 7:30 AM – 6:00 PM (Mon – Sun) • Same-Day Cut-Off: 4:30 PM</p>
+                            </div>
+                            @php
+                                $idleWashers = $machines->filter(function($m) {
+                                    return (in_array($m->machine_type, ['washer', 'washer_dryer']) || str_contains(strtolower($m->machine_name), 'washer') || str_contains(strtolower($m->machine_code), 'w')) && $m->status === 'idle';
+                                })->count();
+
+                                $readyDryers = $machines->filter(function($m) {
+                                    return (in_array($m->machine_type, ['dryer', 'washer_dryer']) || str_contains(strtolower($m->machine_name), 'dryer') || str_contains(strtolower($m->machine_code), 'd')) && $m->status === 'idle';
+                                })->count();
+
+                                if ($idleWashers > 0 && $readyDryers === 0) {
+                                    $totalIdle = $machines->where('status', 'idle')->count();
+                                    $idleWashers = (int) ceil($totalIdle / 2);
+                                    $readyDryers = (int) floor($totalIdle / 2);
+                                }
+                            @endphp
+                            <div class="flex flex-wrap gap-2 pt-1">
+                                <span class="badge-status badge-green">
+                                    {{ $idleWashers }} {{ Str::plural('Washer', $idleWashers) }} Idle
+                                </span>
+                                <span class="badge-status badge-blue">
+                                    {{ $readyDryers }} {{ Str::plural('Dryer', $readyDryers) }} Idle
+                                </span>
+                            </div>
+                        </div>
+                        <div class="text-[11px] text-slate-500 dark:text-zinc-400 border-t border-slate-200 dark:border-zinc-700/60 pt-3 flex justify-between">
+                            <span>Magallanes St., Orosite</span>
+                            <span class="text-blue-600 dark:text-blue-400 font-semibold">Legazpi City, Albay</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
 
         <!-- Public Order Tracker Section -->
         <section id="track-section" class="app-card p-6 md:p-8 space-y-5">
