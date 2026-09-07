@@ -239,6 +239,39 @@
                         </p>
                     </div>
 
+                    <!-- Pickup Dispatch & Estimated Travel Time Badge -->
+                    @php
+                        $pickupCycleMins = match($order->order_status) {
+                            'out_for_pickup' => 20,
+                            'picked_up' => 15,
+                            default => 25,
+                        };
+                        $pickupStageHist = $order->statusHistory?->where('status', $order->order_status)->last();
+                        $pickupStart = ($pickupStageHist && $pickupStageHist->created_at)
+                            ? \Carbon\Carbon::parse($pickupStageHist->created_at)
+                            : $order->updated_at;
+                        $pickupEta = $pickupStart->copy()->addMinutes($pickupCycleMins);
+                        $pickupMinsRem = max(0, (int) now()->diffInMinutes($pickupEta, false));
+                    @endphp
+
+                    <div class="p-3 rounded-lg bg-blue-500/10 border border-blue-500/30 flex flex-wrap items-center justify-between gap-2 text-xs font-bold text-blue-700 dark:text-blue-300">
+                        <div class="flex items-center gap-2">
+                            <span class="px-2 py-0.5 rounded bg-blue-600 text-white text-[10px] font-extrabold uppercase">PICKUP DISPATCH</span>
+                            <span>
+                                @if($order->order_status === 'out_for_pickup')
+                                    En Route to Customer (~{{ $pickupMinsRem > 0 ? $pickupMinsRem : 5 }} mins travel time remaining)
+                                @elseif($order->order_status === 'picked_up')
+                                    Transporting to Store (~{{ $pickupMinsRem > 0 ? $pickupMinsRem : 5 }} mins transit time remaining)
+                                @else
+                                    Target Dispatch Pickup Duration: ~20-25 mins
+                                @endif
+                            </span>
+                        </div>
+                        <span class="font-mono text-[11px] font-black text-blue-800 dark:text-blue-200">
+                            Target ETA: {{ $pickupEta->format('h:i A') }}
+                        </span>
+                    </div>
+
                     <!-- Customer Address & Quick Call/SMS Actions -->
                     <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-800 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs">
                         <div>
@@ -656,6 +689,39 @@
                         <p class="text-xs font-semibold text-slate-900 dark:text-white italic">
                             "{{ $order->notes ?: '[Store Detergent & Softener]' }}"
                         </p>
+                    </div>
+
+                    <!-- Delivery Dispatch & Estimated Travel Time Badge -->
+                    @php
+                        $delivCycleMins = match($order->order_status) {
+                            'out_for_delivery' => 20,
+                            'delivered' => 10,
+                            default => 25,
+                        };
+                        $delivStageHist = $order->statusHistory?->where('status', $order->order_status)->last();
+                        $delivStart = ($delivStageHist && $delivStageHist->created_at)
+                            ? \Carbon\Carbon::parse($delivStageHist->created_at)
+                            : $order->updated_at;
+                        $delivEta = $delivStart->copy()->addMinutes($delivCycleMins);
+                        $delivMinsRem = max(0, (int) now()->diffInMinutes($delivEta, false));
+                    @endphp
+
+                    <div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex flex-wrap items-center justify-between gap-2 text-xs font-bold text-cyan-700 dark:text-cyan-300">
+                        <div class="flex items-center gap-2">
+                            <span class="px-2 py-0.5 rounded bg-cyan-600 text-white text-[10px] font-extrabold uppercase">DELIVERY DISPATCH</span>
+                            <span>
+                                @if($order->order_status === 'out_for_delivery')
+                                    En Route to Customer Doorstep (~{{ $delivMinsRem > 0 ? $delivMinsRem : 5 }} mins travel time remaining)
+                                @elseif($order->order_status === 'delivered')
+                                    Handover Successful (Verification Complete)
+                                @else
+                                    Target Delivery Dispatch Duration: ~20 mins
+                                @endif
+                            </span>
+                        </div>
+                        <span class="font-mono text-[11px] font-black text-cyan-800 dark:text-cyan-200">
+                            Target ETA: {{ $delivEta->format('h:i A') }}
+                        </span>
                     </div>
 
                     <!-- Customer Address & Quick Call/SMS Actions -->
