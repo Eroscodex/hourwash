@@ -759,7 +759,151 @@
             }
         });
     });
+
+    function appSendQuick(query) {
+        const input = document.getElementById('app-message');
+        if (input) {
+            input.value = query;
+            appSendMessage();
+        }
+    }
+
+    function appSendMessage() {
+        const input = document.getElementById('app-message');
+        const message = input ? input.value.trim() : '';
+        if (!message) return;
+
+        const chatBox = document.getElementById('app-chat-box');
+        if (!chatBox) return;
+
+        chatBox.innerHTML += `
+            <div class="flex justify-end">
+                <div class="bg-blue-600 text-white font-medium px-3.5 py-2.5 rounded-lg max-w-[85%] shadow-sm">
+                    ${message}
+                </div>
+            </div>
+        `;
+        input.value = "";
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        const typingId = 'app-typing-' + Date.now();
+        chatBox.innerHTML += `
+            <div class="flex justify-start" id="${typingId}">
+                <div class="bg-white dark:bg-zinc-800 text-slate-500 px-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-zinc-700 shadow-sm">
+                    <span class="animate-pulse">Typing...</span>
+                </div>
+            </div>
+        `;
+        chatBox.scrollTop = chatBox.scrollHeight;
+
+        fetch('/chatbot', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+            },
+            body: JSON.stringify({ message: message })
+        })
+        .then(res => res.json())
+        .then(data => {
+            const typingEl = document.getElementById(typingId);
+            if (typingEl) typingEl.remove();
+
+            const formattedReply = (data.reply || '').replace(/\n/g, '<br>');
+
+            chatBox.innerHTML += `
+                <div class="flex justify-start">
+                    <div class="bg-white dark:bg-zinc-800 text-slate-900 dark:text-zinc-100 px-3.5 py-2.5 rounded-lg max-w-[85%] border border-slate-200 dark:border-zinc-700 shadow-sm break-words">
+                        <strong class="text-blue-600 dark:text-blue-400 block mb-0.5 font-semibold">HourWash Assistant</strong>
+                        ${formattedReply}
+                    </div>
+                </div>
+            `;
+            chatBox.scrollTop = chatBox.scrollHeight;
+        })
+        .catch(err => {
+            const typingEl = document.getElementById(typingId);
+            if (typingEl) typingEl.remove();
+
+            chatBox.innerHTML += `
+                <div class="flex justify-start">
+                    <div class="bg-rose-50 text-rose-600 border border-rose-200 px-3 py-2 rounded-md">
+                        Could not reach assistant. Please try again.
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const chatToggle = document.getElementById('app-chat-toggle');
+        const chatWindow = document.getElementById('app-chat-window');
+        const chatClose = document.getElementById('app-chat-close');
+
+        if (chatToggle && chatWindow) {
+            chatToggle.addEventListener('click', function() {
+                chatWindow.classList.toggle('hidden');
+                chatWindow.classList.toggle('flex');
+            });
+        }
+        if (chatClose && chatWindow) {
+            chatClose.addEventListener('click', function() {
+                chatWindow.classList.add('hidden');
+                chatWindow.classList.remove('flex');
+            });
+        }
+    });
     </script>
+
+    <!-- AI Assistant Floating Widget for App Layout -->
+    <button id="app-chat-toggle" class="fixed bottom-6 right-6 w-13 h-13 rounded-lg bg-blue-600 text-white flex items-center justify-center hover:bg-blue-700 transition-all shadow-lg z-50 p-2 group cursor-pointer" aria-label="Toggle AI Assistant Chat">
+        <span class="absolute -top-1 -right-1 flex h-3.5 w-3.5">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-md bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-md h-3.5 w-3.5 bg-emerald-500 border-2 border-slate-900"></span>
+        </span>
+        <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-8 h-8 rounded-full object-cover group-hover:rotate-12 transition-transform bg-white p-0.5 border border-white/20 shadow-sm">
+    </button>
+
+    <div id="app-chat-window" class="fixed bottom-20 right-6 w-80 sm:w-96 bg-white dark:bg-[#141417] border border-slate-200 dark:border-zinc-800 rounded-lg shadow-xl z-50 hidden flex-col overflow-hidden">
+        <div class="p-3.5 bg-blue-600 text-white flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
+                <div>
+                    <h4 class="font-extrabold text-sm text-white leading-tight">Hour Wash AI Assistant</h4>
+                    <span class="text-[10px] text-blue-100 font-medium block">Live 24/7 Portal Support</span>
+                </div>
+            </div>
+            <button id="app-chat-close" class="text-white/80 hover:text-white text-base font-bold px-1.5 py-0.5 rounded hover:bg-white/10 transition cursor-pointer">✕</button>
+        </div>
+
+        <div id="app-chat-box" class="p-4 h-72 overflow-y-auto space-y-3 text-xs bg-slate-50 dark:bg-[#09090B]">
+            <div class="flex justify-start">
+                <div class="bg-white dark:bg-zinc-800 text-slate-900 dark:text-zinc-100 px-3.5 py-2.5 rounded-lg max-w-[85%] border border-slate-200 dark:border-zinc-700 shadow-sm">
+                    Hello {{ auth()->user()->name ?? 'there' }}! Welcome to Hour Wash AI Assistant. Ask me about your active orders, prices, store hours, or laundry care!
+                </div>
+            </div>
+
+            <div class="flex flex-wrap gap-1.5 pt-1">
+                <button type="button" onclick="appSendQuick('My Order Status')" class="px-2 py-1 rounded bg-blue-50 dark:bg-zinc-800 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-zinc-700 text-[10px] font-bold hover:bg-blue-100 transition cursor-pointer">My Order Status</button>
+                <button type="button" onclick="appSendQuick('What laundry services do you offer?')" class="px-2 py-1 rounded bg-blue-50 dark:bg-zinc-800 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-zinc-700 text-[10px] font-bold hover:bg-blue-100 transition cursor-pointer">Services &amp; Rates</button>
+                <button type="button" onclick="appSendQuick('Can you wash blankets and comforters?')" class="px-2 py-1 rounded bg-blue-50 dark:bg-zinc-800 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-zinc-700 text-[10px] font-bold hover:bg-blue-100 transition cursor-pointer">Blankets &amp; Comforters</button>
+                <button type="button" onclick="appSendQuick('How long does laundry take?')" class="px-2 py-1 rounded bg-blue-50 dark:bg-zinc-800 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-zinc-700 text-[10px] font-bold hover:bg-blue-100 transition cursor-pointer">Same-Day &amp; Hours</button>
+            </div>
+        </div>
+
+        <div class="p-3 border-t border-slate-200 dark:border-zinc-800 bg-white dark:bg-[#141417] flex flex-col gap-1.5">
+            <div class="flex gap-2">
+                <input id="app-message" type="text" placeholder="Ask about orders, services..." class="flex-1 bg-slate-50 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 rounded-md px-3 py-1.5 text-xs focus:outline-none focus:border-blue-600 text-slate-900 dark:text-zinc-100" onkeydown="if(event.key==='Enter')appSendMessage()">
+                <button onclick="appSendMessage()" class="btn-primary py-1.5 px-3 text-xs shrink-0 cursor-pointer">
+                    Send
+                </button>
+            </div>
+            <p class="text-[9.5px] text-center text-slate-500 dark:text-slate-400 font-medium pt-1">
+                💬 Need help or want to report an issue? Email Developer Support at
+                <a href="mailto:karlnicko2019@gmail.com" class="text-blue-600 dark:text-blue-400 font-bold hover:underline">karlnicko2019@gmail.com</a>
+            </p>
+        </div>
+    </div>
 </body>
 
 </html>

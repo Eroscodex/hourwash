@@ -501,14 +501,22 @@
         <div id="welcome-chat-box" class="p-4 h-72 overflow-y-auto space-y-3 text-xs bg-slate-50 dark:bg-[#09090B]">
             <div class="flex justify-start">
                 <div class="bg-white dark:bg-zinc-800 text-slate-900 dark:text-zinc-100 px-3.5 py-2.5 rounded-lg max-w-[85%] border border-slate-200 dark:border-zinc-700 shadow-sm">
-                    Hello! Welcome to Hour Wash Laundry Shop. How can I assist you today with your laundry orders, machine availability, or shop rates?
+                    Hello! Welcome to Hour Wash Laundry Shop in Magallanes St., Orosite, Legazpi City. How can I assist you today with services, pricing, pickup &amp; delivery, or store hours?
                 </div>
+            </div>
+
+            <div class="flex flex-wrap gap-1.5 pt-1">
+                <button type="button" onclick="welcomeSendQuick('What laundry services do you offer?')" class="px-2 py-1 rounded bg-blue-50 dark:bg-zinc-800 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-zinc-700 text-[10px] font-bold hover:bg-blue-100 transition cursor-pointer">Services &amp; Rates</button>
+                <button type="button" onclick="welcomeSendQuick('Can you wash blankets and comforters?')" class="px-2 py-1 rounded bg-blue-50 dark:bg-zinc-800 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-zinc-700 text-[10px] font-bold hover:bg-blue-100 transition cursor-pointer">Blankets &amp; Comforters</button>
+                <button type="button" onclick="welcomeSendQuick('Do you offer laundry pickup and delivery?')" class="px-2 py-1 rounded bg-blue-50 dark:bg-zinc-800 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-zinc-700 text-[10px] font-bold hover:bg-blue-100 transition cursor-pointer">Pickup &amp; Delivery</button>
+                <button type="button" onclick="welcomeSendQuick('How long does laundry take?')" class="px-2 py-1 rounded bg-blue-50 dark:bg-zinc-800 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-zinc-700 text-[10px] font-bold hover:bg-blue-100 transition cursor-pointer">Same-Day &amp; Hours</button>
+                <button type="button" onclick="welcomeSendQuick('Where is your laundry shop located?')" class="px-2 py-1 rounded bg-blue-50 dark:bg-zinc-800 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-zinc-700 text-[10px] font-bold hover:bg-blue-100 transition cursor-pointer">Store Location</button>
             </div>
         </div>
 
         <div class="p-3 border-t border-slate-200 dark:border-zinc-800 bg-white dark:bg-[#141417] flex flex-col gap-1.5">
             <div class="flex gap-2">
-                <input id="welcome-message" type="text" placeholder="Ask about order status, services..." class="flex-1 bg-slate-50 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 rounded-md px-3 py-1.5 text-xs focus:outline-none focus:border-blue-600 text-slate-900 dark:text-zinc-100" onkeydown="if(event.key==='Enter')welcomeSendMessage()">
+                <input id="welcome-message" type="text" placeholder="Ask about services, prices, hours..." class="flex-1 bg-slate-50 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 rounded-md px-3 py-1.5 text-xs focus:outline-none focus:border-blue-600 text-slate-900 dark:text-zinc-100" onkeydown="if(event.key==='Enter')welcomeSendMessage()">
                 <button onclick="welcomeSendMessage()" class="btn-primary py-1.5 px-3 text-xs shrink-0">
                     Send
                 </button>
@@ -579,6 +587,14 @@
                 });
             }
         });
+
+        function welcomeSendQuick(query) {
+            const input = document.getElementById('welcome-message');
+            if (input) {
+                input.value = query;
+                welcomeSendMessage();
+            }
+        }
 
         function welcomeSendMessage() {
             const input = document.getElementById('welcome-message');
