@@ -268,10 +268,17 @@ class RiderDashboardController extends Controller
                 }
             }
 
-            $order->pickupDelivery()->updateOrCreate(
-                ['order_id' => $order->id],
-                $pickupDeliveryData
-            );
+            try {
+                $order->pickupDelivery()->updateOrCreate(
+                    ['order_id' => $order->id],
+                    $pickupDeliveryData
+                );
+            } catch (\Throwable $e) {
+                Log::warning('Rider pickup_delivery record update notice: '.$e->getMessage(), [
+                    'order_id' => $order->id,
+                    'data' => $pickupDeliveryData,
+                ]);
+            }
 
             // Trigger automated SMS to customer
             try {
