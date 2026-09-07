@@ -147,12 +147,20 @@ class RiderDashboardController extends Controller
         $validated = $request->validate([
             'status' => 'required|string|in:out_for_pickup,picked_up,received,out_for_delivery,delivered,completed',
             'proof_image' => 'nullable|file|max:25600',
+            'estimated_minutes' => 'nullable|integer|min:1|max:240',
         ]);
 
         $newStatus = $validated['status'];
 
         try {
             $order->order_status = $newStatus;
+
+            if ($request->filled('estimated_minutes')) {
+                $mins = (int) $request->estimated_minutes;
+                if ($mins > 0) {
+                    $order->estimated_completion = now()->addMinutes($mins);
+                }
+            }
 
             if ($request->filled('payment_status') && in_array($request->payment_status, ['paid', 'unpaid'])) {
                 $order->payment_status = $request->payment_status;
@@ -329,6 +337,21 @@ class RiderDashboardController extends Controller
         $msg = $validated['payment_status'] === 'paid'
             ? "Order #{$order->order_number} marked as PAID! COD cash collection recorded."
             : "Order #{$order->order_number} payment status updated to UNPAID.";
+
+        return redirect()->route('rider.dashboard')->with('success', $msg);
+    }
+
+    public function updateEta(Request $request, Order $order)
+    {
+        $validated = $request->validate([
+            'estimated_minutes' => 'required|integer|min:1|max:240',
+        ]);
+
+        $mins = (int) $validated['estimated_minutes'];
+        $order->estimated_completion = now()->addMinutes($mins);
+        $order->save();
+
+        $msg = "Order #{$order->order_number} estimated travel time set to ~{$mins} mins (Target ETA: ".$order->estimated_completion->format('h:i A').')!';
 
         return redirect()->route('rider.dashboard')->with('success', $msg);
     }

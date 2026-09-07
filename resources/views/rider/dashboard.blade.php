@@ -254,7 +254,7 @@
                         $pickupMinsRem = max(0, (int) now()->diffInMinutes($pickupEta, false));
                     @endphp
 
-                    <div class="p-3 rounded-lg bg-blue-500/10 border border-blue-500/30 flex flex-wrap items-center justify-between gap-2 text-xs font-bold text-blue-700 dark:text-blue-300">
+                    <div class="p-3 rounded-lg bg-blue-500/10 border border-blue-500/30 flex flex-wrap items-center justify-between gap-3 text-xs font-bold text-blue-700 dark:text-blue-300">
                         <div class="flex items-center gap-2">
                             <span class="px-2 py-0.5 rounded bg-blue-600 text-white text-[10px] font-extrabold uppercase">PICKUP DISPATCH</span>
                             <span>
@@ -267,9 +267,26 @@
                                 @endif
                             </span>
                         </div>
-                        <span class="font-mono text-[11px] font-black text-blue-800 dark:text-blue-200">
-                            Target ETA: {{ $pickupEta->format('h:i A') }}
-                        </span>
+
+                        <div class="flex items-center gap-3">
+                            <form method="POST" action="{{ route('rider.updateEta', $order->id) }}" class="flex items-center gap-1.5 shrink-0">
+                                @csrf
+                                @method('PATCH')
+                                <span class="text-[10px] uppercase font-extrabold text-blue-700 dark:text-blue-300">Set Travel Time:</span>
+                                <select name="estimated_minutes" onchange="this.form.submit()" class="px-2 py-1 rounded text-xs font-bold font-mono bg-white dark:bg-zinc-800 border border-blue-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100 cursor-pointer shadow-sm">
+                                    <option value="" disabled selected>Select Mins...</option>
+                                    <option value="10">10 mins</option>
+                                    <option value="15">15 mins</option>
+                                    <option value="20">20 mins</option>
+                                    <option value="30">30 mins</option>
+                                    <option value="45">45 mins</option>
+                                    <option value="60">60 mins</option>
+                                </select>
+                            </form>
+                            <span class="font-mono text-[11px] font-black text-blue-800 dark:text-blue-200">
+                                Target ETA: {{ $pickupEta->format('h:i A') }}
+                            </span>
+                        </div>
                     </div>
 
                     <!-- Customer Address & Quick Call/SMS Actions -->
@@ -332,11 +349,21 @@
 
                         <div class="flex flex-col w-full gap-2">
                             @if($order->order_status === 'pending')
-                                <form method="POST" action="{{ route('rider.updateStatus', $order->id) }}" class="w-full">
+                                <form method="POST" action="{{ route('rider.updateStatus', $order->id) }}" class="w-full flex flex-col sm:flex-row items-center gap-2">
                                     @csrf
                                     @method('PATCH')
                                     <input type="hidden" name="status" value="out_for_pickup">
-                                    <button type="submit" class="w-full px-4 py-2.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-extrabold text-xs shadow transition flex items-center justify-center gap-2 uppercase tracking-wider cursor-pointer">
+
+                                    <select name="estimated_minutes" class="w-full sm:w-auto px-3 py-2.5 rounded-lg bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100 text-xs font-bold shrink-0 shadow-sm cursor-pointer" title="Choose ETA Minutes">
+                                        <option value="10">~10 mins</option>
+                                        <option value="15">~15 mins</option>
+                                        <option value="20" selected>~20 mins</option>
+                                        <option value="30">~30 mins</option>
+                                        <option value="45">~45 mins</option>
+                                        <option value="60">~60 mins</option>
+                                    </select>
+
+                                    <button type="submit" class="w-full flex-1 px-4 py-2.5 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-extrabold text-xs shadow transition flex items-center justify-center gap-2 uppercase tracking-wider cursor-pointer">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                                         Start Pickup Dispatch (Out for Pickup)
                                     </button>
@@ -753,7 +780,7 @@
                         $delivMinsRem = max(0, (int) now()->diffInMinutes($delivEta, false));
                     @endphp
 
-                    <div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex flex-wrap items-center justify-between gap-2 text-xs font-bold text-cyan-700 dark:text-cyan-300">
+                    <div class="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex flex-wrap items-center justify-between gap-3 text-xs font-bold text-cyan-700 dark:text-cyan-300">
                         <div class="flex items-center gap-2">
                             <span class="px-2 py-0.5 rounded bg-cyan-600 text-white text-[10px] font-extrabold uppercase">DELIVERY DISPATCH</span>
                             <span>
@@ -766,9 +793,26 @@
                                 @endif
                             </span>
                         </div>
-                        <span class="font-mono text-[11px] font-black text-cyan-800 dark:text-cyan-200">
-                            Target ETA: {{ $delivEta->format('h:i A') }}
-                        </span>
+
+                        <div class="flex items-center gap-3">
+                            <form method="POST" action="{{ route('rider.updateEta', $order->id) }}" class="flex items-center gap-1.5 shrink-0">
+                                @csrf
+                                @method('PATCH')
+                                <span class="text-[10px] uppercase font-extrabold text-cyan-700 dark:text-cyan-300">Set Travel Time:</span>
+                                <select name="estimated_minutes" onchange="this.form.submit()" class="px-2 py-1 rounded text-xs font-bold font-mono bg-white dark:bg-zinc-800 border border-cyan-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100 cursor-pointer shadow-sm">
+                                    <option value="" disabled selected>Select Mins...</option>
+                                    <option value="10">10 mins</option>
+                                    <option value="15">15 mins</option>
+                                    <option value="20">20 mins</option>
+                                    <option value="30">30 mins</option>
+                                    <option value="45">45 mins</option>
+                                    <option value="60">60 mins</option>
+                                </select>
+                            </form>
+                            <span class="font-mono text-[11px] font-black text-cyan-800 dark:text-cyan-200">
+                                Target ETA: {{ $delivEta->format('h:i A') }}
+                            </span>
+                        </div>
                     </div>
 
                     <!-- Customer Address & Quick Call/SMS Actions -->
@@ -832,11 +876,21 @@
 
                         <div class="flex flex-col w-full gap-2">
                             @if($order->order_status === 'finish')
-                                <form method="POST" action="{{ route('rider.updateStatus', $order->id) }}" class="w-full">
+                                <form method="POST" action="{{ route('rider.updateStatus', $order->id) }}" class="w-full flex flex-col sm:flex-row items-center gap-2">
                                     @csrf
                                     @method('PATCH')
                                     <input type="hidden" name="status" value="out_for_delivery">
-                                    <button type="submit" class="w-full px-4 py-2.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-extrabold text-xs shadow transition flex items-center justify-center gap-2 uppercase tracking-wider cursor-pointer">
+
+                                    <select name="estimated_minutes" class="w-full sm:w-auto px-3 py-2.5 rounded-lg bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100 text-xs font-bold shrink-0 shadow-sm cursor-pointer" title="Choose Delivery ETA Minutes">
+                                        <option value="10">~10 mins</option>
+                                        <option value="15">~15 mins</option>
+                                        <option value="20" selected>~20 mins</option>
+                                        <option value="30">~30 mins</option>
+                                        <option value="45">~45 mins</option>
+                                        <option value="60">~60 mins</option>
+                                    </select>
+
+                                    <button type="submit" class="w-full flex-1 px-4 py-2.5 rounded-lg bg-cyan-600 hover:bg-cyan-500 text-white font-extrabold text-xs shadow transition flex items-center justify-center gap-2 uppercase tracking-wider cursor-pointer">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                                         Start Delivery Dispatch (Out for Delivery)
                                     </button>

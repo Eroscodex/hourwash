@@ -469,6 +469,7 @@ Route::middleware(['auth', 'rider'])->group(function () {
     Route::get('/rider/dashboard', [RiderDashboardController::class, 'index'])->name('rider.dashboard');
     Route::match(['post', 'patch'], '/rider/order/{order}/status', [RiderDashboardController::class, 'updateStatus'])->name('rider.updateStatus');
     Route::match(['post', 'patch'], '/rider/order/{order}/payment', [RiderDashboardController::class, 'updatePaymentStatus'])->name('rider.updatePaymentStatus');
+    Route::match(['post', 'patch'], '/rider/order/{order}/eta', [RiderDashboardController::class, 'updateEta'])->name('rider.updateEta');
 });
 
 /*
