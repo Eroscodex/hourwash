@@ -27,7 +27,7 @@ class ChatbotController extends Controller
         // 1. Guardrail Check: Intercept non-laundry queries
         if (Str::contains($msg, ['pancit', 'cook', 'recipe', 'food', 'noodle', 'dish', 'ingredient', 'python', 'code', 'math', 'politic'])) {
             return response()->json([
-                'reply' => 'I am the HourWash AI Assistant, specialized exclusively for Hour Wash Laundry Shop in Magallanes St., Orosite, Legazpi City! I can help you track laundry orders, check operating hours (7:30 AM – 6:00 PM daily • cut-off: 4:30 PM), or inspect service packages & rates. How can I assist with your laundry today?',
+                'reply' => 'I am the HourWash AI Assistant, specialized exclusively for Hour Wash Laundry Shop in Magallanes St., Orosite, Legazpi City! I can help you with services, prices, pickup & delivery, store hours (7:30 AM – 6:00 PM daily • cut-off: 4:30 PM), or tracking orders. How can I assist with your laundry today?',
             ]);
         }
 
@@ -52,7 +52,7 @@ class ChatbotController extends Controller
                                 'content' => $request->message,
                             ],
                         ],
-                        'max_tokens' => 300,
+                        'max_tokens' => 350,
                     ]);
 
                 if ($response->successful()) {
@@ -117,31 +117,63 @@ class ChatbotController extends Controller
             return "• {$s->name}: P{$s->price}/{$s->price_unit} (~{$dur})";
         })->implode("\n");
 
+        $faqContext = <<<'FAQ'
+HOUR WASH LAUNDRY SHOP FULL FAQ & KNOWLEDGE BASE:
+1. SERVICES OFFERED:
+   - Full Wash-Dry-Fold Service: P200 (Drop-off) / P250 (Pickup & Delivery included).
+   - Wash Only: P75 / load (up to 7kg).
+   - Dry Only: P75 / load (up to 7kg).
+   - Fold Only: P50 / load.
+   - Self-Service Laundry: P150 / load (Operate commercial washers & dryers yourself).
+   - Heavy Blankets & Comforters: P200 / load (Commercial machines up to 15kg capacity).
+   - Delicate Clothes & Steam Care: Gentle wash cycle available upon request.
+   - Curtains & Fabric Covers: Yes, we wash heavy curtains and cushion covers.
+   - Shoes & Bags: We provide gentle fabric washing; specialty leather deep clean inquiries available at shop counter.
+   - Ironing / Pressing: Standard folding is included; steam pressing available upon request for nominal fee.
+   - Dry Cleaning: Wet-wash & steam care for suits/jackets available (2-3 days turnaround).
+
+2. PRICING & DISCOUNTS:
+   - Price per load (up to 7kg standard): Wash Only P75, Dry Only P75, Fold Only P50, Self-Service P150, Full Service P200/P250.
+   - Detergent & Fabric Softener: INCLUDED FREE in all Full Service & Wash packages! You can also request specific brands or bring your own.
+   - Discounts & Rewards: Frequent User Card available! Earn 1 stamp per order — 12 stamps get you a FREE wash reward or discount. Bulk order discounts available.
+   - Heavily Soiled Clothes: Standard loads have no extra charge. Extremely muddy or heavily stained items requiring pre-soak treatment have a nominal P20-P50 add-on fee.
+   - Payment Methods: Cash on Delivery (COD) for pickup & delivery orders, and Cash at Shop Counter.
+
+3. TURNAROUND TIME & PICKUP/DELIVERY:
+   - Standard Turnaround: 2 to 4 hours.
+   - Same-Day Service: YES! Orders submitted before 4:30 PM cut-off are completed on the same day.
+   - Express Service: Fast-track 2-hour turnaround available upon request.
+   - Pickup & Delivery: YES! Doorstep pickup and delivery is available for P50 fee (or included in P250 Full Service Delivery package).
+   - Service Areas: Legazpi City, Orosite, Magallanes St., Daraga, and surrounding Albay areas.
+   - Pickup Scheduling: You can schedule pickup online through our website or call/SMS our rider hotline at 09100317744 / (052) 800-HOURWASH.
+   - Order Tracking: Track live cleaning status on our website via Order Code (e.g. #HW-XXXXXX) or scanning the receipt QR tag.
+
+4. LOCATION & STORE HOURS:
+   - Address: Magallanes St., Orosite, Legazpi City, Albay, Philippines.
+   - Store Hours: 7:30 AM – 6:00 PM Daily (OPEN MONDAY TO SUNDAY!).
+   - Walk-ins & Appointments: WALK-INS ARE ALWAYS WELCOME! No appointment necessary.
+
+5. SPECIAL HANDLING & WASHING INSTRUCTIONS:
+   - Color Separation: YES, white and colored clothes are separated upon request.
+   - Shrinkage Protection: Commercial temperature controls are used to protect garments from shrinking.
+   - Special Instructions: You can type custom instructions (detergent preference, water temp, delicate cycle) in your order remarks!
+FAQ;
+
         if ($role === 'guest') {
             return <<<PROMPT
 You are the Public Storefront AI Assistant for Hour Wash Laundry Shop located in Magallanes St., Orosite, Legazpi City, Albay.
-Your goal is to assist visitors on our Public Welcome Page.
 
-MULTILINGUAL & AUTO-TRANSLATION RULE:
-- You MUST understand messages written in ANY language or dialect (English, Tagalog, Taglish, Bikol / Bicolano, Spanish, Japanese, Chinese, etc.).
-- Automatically detect the user's language and respond fluently in the SAME language (or friendly Taglish/English if mixed).
-- Translate the user's intent internally so you always give accurate store information regardless of language or dialect used.
+MULTILINGUAL RULE:
+- Understand ANY language or dialect (English, Tagalog, Bikolano, etc.) and respond fluently in the SAME language.
 
-STOREFRONT INFORMATION & PAGES AVAILABLE:
-- Home: Store Overview, Address (Magallanes St., Orosite, Legazpi City), Store Hours (7:30 AM – 6:00 PM Daily, Cut-Off 4:30 PM), Contact Details.
-- Services & Rates:
+{$faqContext}
+
+SERVICES & RATES SUMMARY:
 {$serviceList}
-- How It Works: 5-step process (Place Order -> Drop-off or Pickup & Delivery -> Wash/Dry/Fold -> Live QR Tracking -> Doorstep Delivery or Shop Pickup).
-- Track Order: Look up active orders by Order Code (e.g. #HW-XXXXXX) or registered email.
-- Customer Reviews: Customer ratings, satisfaction, and feedback policies.
-- About Us: Hour Wash Laundry Shop Management System background and technology.
-- Developers: Built by Eroscodex Team.
-- Privacy Policy & Terms: Cash on Delivery (COD) payments, privacy protections, standard turnaround times.
 
-CRITICAL SCOPING RULES:
-- ONLY answer questions regarding the Welcome Page content: Home, Services & Rates, How It Works, Track Order, Customer Reviews, About Us, Developers, Privacy Policy, and Terms & Conditions.
-- DO NOT reveal internal rider dispatch tasks, admin revenues, or staff machine override logs to public visitors.
-- Keep responses friendly, professional, clear, and text-only (no emojis).
+CRITICAL RULES:
+- Answer storefront questions friendly, clearly, and text-only (no emojis).
+- Provide accurate prices, hours, pickup/delivery info, and laundry care instructions.
 PROMPT;
         }
 
@@ -156,11 +188,13 @@ MULTILINGUAL RULE:
 
 {$myOrders}
 
+{$faqContext}
+
 SERVICES AVAILABLE:
 {$serviceList}
 
-SCOPE:
-- Assist customer {$userName} with their active orders, tracking status, package pricing, online booking, profile updates, and submitting reviews.
+SCOPING:
+- Assist customer {$userName} with their active orders, tracking status, rates, FAQs, online booking, profile updates, and feedback.
 - Keep responses text-only, friendly, and helpful.
 PROMPT;
         }
@@ -174,16 +208,15 @@ PROMPT;
             return <<<PROMPT
 You are the Staff Operations AI Assistant for Hour Wash Laundry Shop, assisting staff member {$userName}.
 
-MULTILINGUAL RULE:
-- Understand ANY language/dialect (English, Tagalog, Bikolano, etc.) and respond fluently in the user's language.
+{$faqContext}
 
 IN-SHOP STATUS:
 - Washers Idle: {$washersIdle} / 5
 - Dryers Idle: {$dryersIdle} / 5
 - Active In-Shop Orders: {$inShopCount}
 
-SCOPE:
-- Assist staff with in-shop machine statuses, order stage updates (received -> washing -> rinsing -> drying -> finish), and brownout extensions.
+SCOPING:
+- Assist staff with machine statuses, stage updates (received -> washing -> rinsing -> drying -> finish), and customer inquiry FAQs.
 PROMPT;
         }
 
@@ -195,16 +228,15 @@ PROMPT;
             return <<<PROMPT
 You are the Admin Management AI Assistant for Hour Wash Laundry Shop, assisting {$userName} (Role: {$user->role}).
 
-MULTILINGUAL RULE:
-- Understand ANY language/dialect (English, Tagalog, Bikolano, etc.) and respond fluently in the user's language.
+{$faqContext}
 
 ADMIN STATS:
 - Lifetime Orders: {$totalOrders}
 - Today's Paid Revenue: P{$todayPaidRevenue}
 - Total Accounts: {$totalUsers}
 
-SCOPE:
-- Assist admin/owner with store analytics, total revenue, inventory stock, user accounts, SMS/Email logs, and machine configuration.
+SCOPING:
+- Assist admin/owner with store analytics, revenue, FAQs, user accounts, SMS/Email logs, and machine settings.
 PROMPT;
         }
 
@@ -212,13 +244,13 @@ PROMPT;
     }
 
     /**
-     * Fallback smart domain engine with role-based scoping and multilingual keyword recognition.
+     * Fallback smart domain engine with role-based scoping and comprehensive FAQ recognition.
      */
     private function getDomainReply(string $msg, ?User $user): string
     {
         $role = $user ? $user->role : 'guest';
 
-        // 1. Order Tracking by Order Number / QR Token (Available to all)
+        // 1. Order Tracking by Order Number / QR Token (e.g. #HW-1ICYHQUM or UUID)
         if (preg_match('/hw-?[a-z0-9]+/i', $msg, $matches) || preg_match('/[0-9a-f]{8}-[0-9a-f]{4}/i', $msg, $matches)) {
             $code = ltrim(trim($matches[0]), '#');
             $qr = QrCode::where('qr_token', $code)->first();
@@ -235,46 +267,106 @@ PROMPT;
             return "I couldn't find an order with code \"{$code}\". Please check your receipt or order history and try again!";
         }
 
-        // 2. WELCOME PAGE / PUBLIC STOREFRONT SCOPING (For Visitors & Guest Chatbot)
+        // 2. Services Offered & Wash-Dry-Fold Inquiry
+        if (Str::contains($msg, ['what laundry services', 'services do you offer', 'wash-dry-fold', 'wash dry fold', 'what services', 'services offered', 'mga serbisyo'])) {
+            return "Hour Wash Laundry Services Offered:\n1. Full Wash-Dry-Fold: P200 (Drop-off) / P250 (Pickup & Delivery included)\n2. Wash Only: P75 / load (up to 7kg)\n3. Dry Only: P75 / load (up to 7kg)\n4. Fold Only: P50 / load\n5. Self-Service Laundry: P150 / load (Operate commercial washers & dryers yourself)\n6. Heavy Blankets & Comforters: P200 / load\n7. Doorstep Pickup & Delivery: P50 fee";
+        }
+
+        // 3. Dry Cleaning Inquiry
+        if (Str::contains($msg, ['dry clean', 'dry-cleaning', 'drycleaning', 'suit', 'tuxedo', 'barong'])) {
+            return "Dry Cleaning & Suit Care Information:\nWe offer wet-washing, gentle fabric care, and steam processing for jackets, suits, and barongs (2 to 3 days turnaround). For specialized chemical dry cleaning inquiries, please ask our store counter at Magallanes St., Orosite or call (052) 800-HOURWASH!";
+        }
+
+        // 4. Blankets, Comforters & Heavy Items Inquiry
+        if (Str::contains($msg, ['blanket', 'blankets', 'comforter', 'comforters', 'bedsheet', 'bedsheets', 'duvet', 'kumot'])) {
+            return "Washing Blankets & Comforters:\nYES! We have heavy-duty commercial washers (7kg to 15kg capacity) specially designed for thick blankets, bedsheets, comforters, and duvet covers at P200 per load!";
+        }
+
+        // 5. Shoes, Bags, Curtains Inquiry
+        if (Str::contains($msg, ['shoe', 'shoes', 'bag', 'bags', 'curtain', 'curtains', 'sapatos', 'bagting', 'kurtina'])) {
+            return "Shoes, Bags & Curtains Cleaning:\n- Curtains & Fabric Covers: YES! We wash heavy curtains, bedspreads, and fabric sofa covers.\n- Shoes & Bags: We offer gentle fabric washing. For specialty leather deep cleaning, please inquire at our shop counter or call (052) 800-HOURWASH.";
+        }
+
+        // 6. Ironing & Pressing Services Inquiry
+        if (Str::contains($msg, ['iron', 'ironing', 'press', 'pressing', 'plancha', 'plantsa'])) {
+            return "Ironing & Pressing Services:\nYES! Standard neat folding is included FREE in our Full Service package. Steam pressing/ironing is available upon request for a nominal add-on fee per garment.";
+        }
+
+        // 7. Self-Service Laundry Inquiry
+        if (Str::contains($msg, ['self-service', 'self service', 'ako maglalaba', 'sarili'])) {
+            return "Self-Service Laundry Information:\nYES! We offer Self-Service Commercial Washer & Dryer usage at P150 per load. You can load and operate our high-efficiency machines yourself at our store in Magallanes St., Orosite, Legazpi City!";
+        }
+
+        // 8. Prices, Per Kilo Cost & Blanket Cost
+        if (Str::contains($msg, ['how much does it cost', 'cost to wash', 'price per kilo', 'per kilo', 'magkano magpalaba', 'magkano per kilo', 'magkano kumot', 'cost to wash a blanket', 'magkano laba'])) {
+            return "Hour Wash Pricing & Rates:\n- Price Per Load (up to 7kg standard): Wash Only P75, Dry Only P75, Fold Only P50\n- Self-Service (Wash + Dry): P150 / load\n- Full Service (Wash + Dry + Fold): P200 (Drop-off) / P250 (Pickup & Delivery included)\n- Heavy Blanket / Comforter: P200 / load\n- Delivery Fee: P50 flat rate";
+        }
+
+        // 9. Package Deals, Discounts & Stamps Inquiry
+        if (Str::contains($msg, ['package deal', 'package deals', 'discount', 'discounts', 'promo', 'stamp', 'stamps', 'frequent user', 'reward', 'rewards', 'mura'])) {
+            return "Package Deals & Discounts:\nYES! We offer the Frequent User Loyalty Card — earn 1 stamp per order, and 12 stamps get you a FREE wash reward or discount! We also offer bulk load discounts and special full-service packages (P250 including free pickup & delivery).";
+        }
+
+        // 10. Detergent & Fabric Softener Inquiry
+        if (Str::contains($msg, ['detergent', 'softener', 'fabric softener', 'included in the price', 'sabon', 'downy', 'surf', 'ariel'])) {
+            return "Detergent & Fabric Softener Policy:\nYES! Premium detergent and fabric softener are INCLUDED FREE in all Full Service & Wash packages! You can also request specific store detergent or bring your own preferred laundry detergent brand.";
+        }
+
+        // 11. Heavily Soiled Clothes Inquiry
+        if (Str::contains($msg, ['heavily soiled', 'soiled', 'mud', 'muddy', 'stained', 'stains', 'madumi', 'dumi'])) {
+            return "Heavily Soiled Clothes Policy:\nStandard soiled loads have NO extra charge! For garments with heavy mud or tough stains requiring extra pre-soak treatment, a nominal P20–P50 pre-treatment fee applies.";
+        }
+
+        // 12. Turnaround Time, Express & Same-Day Inquiry
+        if (Str::contains($msg, ['how long', 'how long does', 'same day', 'same-day', 'express', 'turnaround', 'pick up my clothes', 'kelan makukuha', 'kailan makukuha', 'matatapos'])) {
+            return "Laundry Turnaround Time & Same-Day Service:\n- Standard Processing: 2 to 4 hours\n- Same-Day Service: YES! Orders dropped off or requested before our 4:30 PM cut-off are ready on the same day!\n- Express Service: Fast-track 2-hour processing available upon request.";
+        }
+
+        // 13. Pickup & Delivery, Fees & Areas Covered Inquiry
+        if (Str::contains($msg, ['pickup', 'pick up', 'pick-up', 'delivery', 'deliver', 'delivery fee', 'areas', 'coverage', 'hatid', 'sundo'])) {
+            return "Pickup & Delivery Service Information:\n- Pickup & Delivery Fee: P50 flat rate (or INCLUDED in P250 Full Service Package)\n- Service Areas: Legazpi City, Orosite, Magallanes St., Daraga, and surrounding Albay areas\n- Schedule Pickup: Book online on our website or call/SMS our rider hotline at 09100317744 / (052) 800-HOURWASH\n- Tracking: Live status tracking available on our website via Order # (e.g. #HW-XXXXXX)!";
+        }
+
+        // 14. Location, Hours, Sundays, Walk-ins & Appointments
+        if (Str::contains($msg, ['location', 'located', 'where is', 'address', 'open and close', 'store hours', 'sundays', 'sunday', 'appointment', 'walk-in', 'walk-ins', 'walk in', 'oras', 'saan', 'lugar', 'linggo'])) {
+            return "Hour Wash Shop Location & Operating Hours:\n- Address: Magallanes St., Orosite, Legazpi City, Albay, Philippines\n- Store Hours: 7:30 AM – 6:00 PM Daily (OPEN MONDAY TO SUNDAY!)\n- Same-Day Cut-Off: 4:30 PM\n- Walk-ins & Appointments: WALK-INS ARE ALWAYS WELCOME! No appointment required. Online booking is also available.";
+        }
+
+        // 15. Payment Methods Inquiry
+        if (Str::contains($msg, ['payment method', 'payment methods', 'pay', 'cash', 'cod', 'cash on delivery', 'bayad', 'paano magbayad'])) {
+            return "Payment Methods Accepted:\n- Cash on Delivery (COD) for pickup & delivery orders\n- Cash at Shop Counter upon drop-off or claim";
+        }
+
+        // 16. Delicate Clothes, Whites & Color Separation, Shrinkage & Custom Instructions
+        if (Str::contains($msg, ['delicate', 'sensitive', 'white and color', 'separate', 'color', 'shrink', 'shrinkage', 'special instructions', 'hiwalay', 'puti', 'puting'])) {
+            return "Garment Care & Special Handling:\n- Delicate Clothes: Gentle wash & low-temp drying available upon request.\n- Whites & Colors: YES! We separate white and colored clothes upon request.\n- Shrinkage Protection: Commercial temperature controls prevent fabric shrinkage.\n- Special Instructions: Type your specific washing or detergent preference in your order remarks!";
+        }
+
+        // 17. Welcome Page / Public Storefront Scoping (For Visitors & Guest Chatbot)
         if ($role === 'guest') {
-            // How It Works / Process (English, Tagalog, Bikolano)
-            if (Str::contains($msg, ['how it works', 'how to order', 'process', 'steps', 'workflow', 'how does it work', 'paano', 'papanano', 'hakbang', 'pamamaraan'])) {
-                return "How Hour Wash Laundry Shop Works / Paano Gumagana:\n1. Select Service Package (Wash Only ₱75, Dry ₱75, Fold ₱50, Self-Service ₱150, or Full Service ₱200/₱250)\n2. Drop Off or Request Pickup: Drop off at shop or our rider collects from your address\n3. Cleaning Cycle: Professional Wash, Rinse, Dry & Fold\n4. Live Tracking: Track status on your phone via Order # (e.g. #HW-XXXXXX) or QR Tag\n5. Receipt & Delivery: Claim at shop or get clean laundry delivered to your doorstep!";
+            if (Str::contains($msg, ['how it works', 'how to order', 'process', 'steps', 'workflow', 'paano', 'papanano', 'hakbang'])) {
+                return "How Hour Wash Laundry Shop Works:\n1. Select Service Package (Wash P75, Dry P75, Fold P50, Self-Service P150, Full Service P200/P250)\n2. Drop Off or Request Pickup: Drop off at shop or our rider collects from your address\n3. Cleaning Cycle: Professional Wash, Rinse, Dry & Fold\n4. Live Tracking: Track status on your phone via Order # (e.g. #HW-XXXXXX) or QR Tag\n5. Delivery or Claim: Claim at shop or get clean laundry delivered to your doorstep!";
             }
 
-            // Customer Reviews & Ratings
-            if (Str::contains($msg, ['review', 'reviews', 'rating', 'ratings', 'feedback', 'testimonial', 'komento', 'marhay', 'maganda ba'])) {
-                return "Customer Reviews & Quality Assurance:\nHour Wash Laundry Shop prides itself on fast, clean, and reliable service in Legazpi City! Logged-in customers can submit star ratings and feedback directly on their dashboard after completing an order.";
+            if (Str::contains($msg, ['review', 'reviews', 'rating', 'ratings', 'feedback'])) {
+                return "Customer Reviews & Quality Assurance:\nHour Wash Laundry Shop prides itself on fast, clean, and reliable service in Legazpi City! Logged-in customers can submit ratings and feedback directly on their dashboard after completing an order.";
             }
 
-            // About Us
-            if (Str::contains($msg, ['about us', 'about', 'background', 'shop info', 'system info', 'sino kayo', 'siisay kamo'])) {
+            if (Str::contains($msg, ['about us', 'about', 'background', 'shop info'])) {
                 return "About Hour Wash Laundry Shop:\nWe are Legazpi City's premier laundry management system located in Magallanes St., Orosite. We offer fast, hygienic, and affordable wash, dry, fold, and doorstep pickup & delivery services.";
             }
 
-            // Developers
-            if (Str::contains($msg, ['developer', 'developers', 'creator', 'built', 'team', 'who made', 'gumawa', 'nagsaysay'])) {
+            if (Str::contains($msg, ['developer', 'developers', 'creator', 'built', 'team', 'who made'])) {
                 return "Hour Wash System Developers:\nDeveloped by Eroscodex Team using Laravel 11, Tailwind CSS, PHP 8.5, and Vite asset bundling.";
             }
 
-            // Privacy Policy
-            if (Str::contains($msg, ['privacy', 'privacy policy', 'security', 'data protection'])) {
-                return "Privacy Policy Summary:\nHour Wash respects your privacy. All customer addresses, phone numbers, and order histories are kept strictly confidential and protected.";
-            }
-
-            // Terms & Conditions
-            if (Str::contains($msg, ['terms', 'condition', 'terms and conditions', 'policy', 'payment method', 'cod'])) {
-                return "Terms & Conditions Summary:\n- Payment: Cash on Delivery (COD) or Cash at Shop Counter.\n- Turnaround: Same-day turnaround for orders submitted before 4:30 PM cut-off.\n- Laundry Policy: Please inspect items and check pockets prior to handover.";
-            }
-
-            // Intercept internal staff/rider/admin questions when on public storefront
-            if (Str::contains($msg, ['rider task', 'rider list', 'dispatch list', 'admin revenue', 'staff override', 'inventory stock', 'sms log'])) {
-                return "I am the HourWash Public Storefront Assistant! I focus on helping our store visitors with:\n- Home & Store Info (Magallanes St., Orosite, Legazpi City • 7:30 AM – 6:00 PM)\n- Services & Rates (Wash Only ₱75, Dry ₱75, Fold ₱50, Self-Service ₱150, Full Service ₱200/₱250)\n- How It Works (Ordering & Pickup/Delivery)\n- Track Order (#HW-XXXXXX)\n- Customer Reviews, About Us, Developers, Privacy Policy & Terms\n\nHow can I help you today?";
+            if (Str::contains($msg, ['privacy', 'security', 'terms', 'condition', 'policy'])) {
+                return "Privacy Policy & Terms Summary:\n- Customer addresses, phone numbers, and order histories are kept strictly confidential.\n- Cash on Delivery (COD) and Cash at Counter accepted.\n- Same-day turnaround for orders submitted before 4:30 PM cut-off.";
             }
         }
 
-        // 3. Customer Order Lookup by Name/Email (English, Tagalog, Bikolano)
-        if (Str::contains($msg, ['my order', 'my laundry', 'check order', 'track order', 'status', 'nasaan', 'nasaan na', 'asaan', 'hain', 'sain na', 'kelan', 'kailan', 'nuarin'])) {
+        // 18. Customer Order Lookup by Name/Email
+        if (Str::contains($msg, ['my order', 'my laundry', 'check order', 'track order', 'status', 'nasaan', 'nasaan na', 'asaan', 'hain', 'kelan', 'kailan'])) {
             if (preg_match('/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/', $msg, $emailMatch)) {
                 $foundUser = User::where('email', $emailMatch[0])->first();
                 if ($foundUser) {
@@ -291,42 +383,22 @@ PROMPT;
             return 'To track your laundry order, please tell me your Order Code (e.g. #HW-XXXXXX) or your registered email address!';
         }
 
-        // 4. Services & Rates (English: price/rate/how much, Tagalog: magkano/presyo/bayad, Bikolano: gurano/pribas/pira)
-        if (Str::contains($msg, ['price', 'rate', 'cost', 'fee', 'package', 'service', 'wash', 'dry', 'fold', 'how much', 'magkano', 'presyo', 'bayad', 'singil', 'gurano', 'pribas', 'pira'])) {
-            $services = Service::where('status', 'active')->get(['name', 'price', 'price_unit', 'estimated_minutes']);
-            $servList = $services->map(function ($s) {
-                $mins = $s->estimated_minutes;
-                $hrs = floor($mins / 60);
-                $remMins = $mins % 60;
-                $dur = $hrs > 0 ? ($remMins > 0 ? "~{$hrs}h {$remMins}m" : "~{$hrs} hrs") : "~{$mins} mins";
-
-                return "• {$s->name}: P{$s->price}/{$s->price_unit} ({$dur})";
-            })->implode("\n");
-
-            return "Our Active Laundry Service Packages & Rates (Mga Bayad at Serbisyo):\n{$servList}\n\nLocation: Magallanes St., Orosite, Legazpi City! Book online or visit our store.";
+        // 19. Contact & Support
+        if (Str::contains($msg, ['contact', 'support', 'report', 'email', 'help', 'hotline', 'phone', 'tumawag'])) {
+            return "Hour Wash Customer Support & Technical Team:\n- Shop Hotline: (052) 800-HOURWASH / 09100317744\n- Store Address: Magallanes St., Orosite, Legazpi City, Albay\n- Email Developer Support: karlnicko2019@gmail.com\n- Developer Team Page: https://hourwash.onrender.com/developers";
         }
 
-        // 5. Store Hours & Location (English: location/hours/open/where, Tagalog: bukas/sara/oras/saan, Bikolano: sain/saen/anong oras)
-        if (Str::contains($msg, ['hour', 'time', 'open', 'close', 'schedule', 'cutoff', 'cut-off', 'location', 'where', 'address', 'legazpi', 'orosite', 'bukas', 'sara', 'oras', 'saan', 'lugar', 'anong oras', 'sain', 'saen'])) {
-            return "Hour Wash Laundry Shop Details (Lokasyon at Oras):\n- Address: Magallanes St., Orosite, Legazpi City, Albay, Philippines.\n- Operating Hours: 7:30 AM – 6:00 PM Daily (Monday – Sunday)\n- Same-Day Cut-Off: 4:30 PM\n- Hotline: (052) 800-HOURWASH";
-        }
-
-        // 6. Contact, Customer Support & Developer Email Report
-        if (Str::contains($msg, ['contact', 'support', 'report', 'email', 'help', 'hotline', 'developer', 'bug', 'issue', 'how to contact', 'tumawag'])) {
-            return "Hour Wash Customer Support & Technical Team:\n- Shop Counter Hotline: (052) 800-HOURWASH / 09100317744\n- Store Address: Magallanes St., Orosite, Legazpi City, Albay\n- Email Developer Support: karlnicko2019@gmail.com\n- Developer Team Page: https://hourwash.onrender.com/developers\n\nFor any questions, customer support, or technical bug reports, feel free to email our developer team at karlnicko2019@gmail.com anytime!";
-        }
-
-        // 7. Greetings (English, Tagalog, Bikolano)
-        if (Str::contains($msg, ['hi', 'hello', 'hey', 'good', 'kumusta', 'musta', 'marhay', 'dios marhay'])) {
+        // 20. Greetings
+        if (Str::contains($msg, ['hi', 'hello', 'hey', 'good', 'kumusta', 'musta', 'marhay'])) {
             if ($role === 'guest') {
-                return "Hello / Marhay na aldaw! Welcome to Hour Wash Laundry Shop! I can assist you with:\n- Services & Rates (Wash, Dry, Fold, Self-Service, Pickup & Delivery)\n- How It Works (Ordering & Processing)\n- Track Order (by Order # or Email)\n- Customer Support & Developer Email (karlnicko2019@gmail.com)\n- Customer Reviews, About Us, Developers, Privacy Policy & Terms\n\nHow can I help you today?";
+                return "Hello / Marhay na aldaw! Welcome to Hour Wash Laundry Shop! I can assist you with:\n- Services & Rates (Wash, Dry, Fold, Self-Service, Pickup & Delivery)\n- Special Garments (Blankets, Comforters, Curtains, Delicate Clothes)\n- Store Hours & Location (Magallanes St., Orosite • 7:30 AM – 6:00 PM Daily)\n- Track Order (#HW-XXXXXX)\n- Customer Support & Developer Email (karlnicko2019@gmail.com)\n\nHow can I help you today?";
             }
 
             return "Hello {$user->name}! Welcome back to Hour Wash Laundry Portal! How can I assist you with your dashboard today?";
         }
 
-        // 8. General Multilingual Storefront Fallback
-        return "Hour Wash Laundry Shop AI Assistant:\n- Location: Magallanes St., Orosite, Legazpi City\n- Store Hours: 7:30 AM – 6:00 PM Daily (Cut-Off: 4:30 PM)\n- Customer Support & Developer Email: karlnicko2019@gmail.com\n- Services & Rates: Wash Only (P75), Dry Only (P75), Fold Only (P50), Self-Service (P150), Full-Service (P200/P250)\n- Track Order: Provide your Order Code (e.g. #HW-XXXXXX) to view live status!";
+        // 21. General Multilingual Storefront Fallback
+        return "Hour Wash Laundry Shop AI Assistant:\n- Location: Magallanes St., Orosite, Legazpi City\n- Store Hours: 7:30 AM – 6:00 PM Daily (Cut-Off: 4:30 PM • Open Sundays!)\n- Customer Support & Developer Email: karlnicko2019@gmail.com\n- Services & Rates: Wash Only (P75), Dry Only (P75), Fold Only (P50), Self-Service (P150), Full-Service (P200/P250), Blankets & Comforters (P200)\n- Track Order: Provide your Order Code (e.g. #HW-XXXXXX) to view live status!";
     }
 
     /**
