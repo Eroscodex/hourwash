@@ -142,71 +142,134 @@
         <section id="store-gallery" class="space-y-4">
             <div class="flex items-center justify-between border-b border-slate-200 dark:border-zinc-800 pb-3">
                 <div>
-                    <h2 class="text-lg font-bold text-slate-900 dark:text-white">Our Laundry Shop &amp; Equipment</h2>
-                    <p class="text-xs text-slate-500 dark:text-zinc-400">Take a tour of our clean store facilities and high-capacity commercial washers in Magallanes St., Orosite</p>
+                    <span class="text-xs font-extrabold uppercase tracking-wider text-blue-600 dark:text-blue-400">Store Tour &amp; Facility Gallery</span>
+                    <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mt-0.5">Our Laundry Shop &amp; Commercial Fleet</h2>
+                    <p class="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 mt-0.5">Take a visual tour of our clean store facilities, heavy commercial washers, and waiting lounge in Magallanes St., Orosite</p>
                 </div>
-                <div class="flex items-center gap-1.5">
-                    <button onclick="prevSlide()" class="p-1.5 rounded-md bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 hover:bg-blue-600 hover:text-white transition shadow-sm cursor-pointer" aria-label="Previous Slide">
+                <div class="hidden sm:flex items-center gap-2">
+                    <button onclick="prevSlide()" class="p-2 rounded-lg bg-white dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 border border-slate-200 dark:border-zinc-700 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition shadow-sm cursor-pointer" aria-label="Previous Slide">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                     </button>
-                    <button onclick="nextSlide()" class="p-1.5 rounded-md bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 hover:bg-blue-600 hover:text-white transition shadow-sm cursor-pointer" aria-label="Next Slide">
+                    <button onclick="nextSlide()" class="p-2 rounded-lg bg-white dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 border border-slate-200 dark:border-zinc-700 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition shadow-sm cursor-pointer" aria-label="Next Slide">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </button>
                 </div>
             </div>
 
-            <!-- Slideshow Carousel Container -->
-            <div class="relative w-full h-64 sm:h-80 md:h-96 rounded-lg overflow-hidden app-card border border-slate-200 dark:border-zinc-800 group">
-                <!-- Slides List -->
+            <!-- Expanded High-Definition Slideshow Stage -->
+            <div class="relative w-full h-[380px] sm:h-[480px] md:h-[540px] lg:h-[580px] rounded-2xl overflow-hidden shadow-2xl border border-slate-200 dark:border-zinc-800 group">
+                <!-- Floating Left Arrow Button -->
+                <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-slate-950/60 hover:bg-blue-600 text-white border border-white/20 backdrop-blur-md flex items-center justify-center transition-all shadow-xl hover:scale-110 cursor-pointer" aria-label="Previous Slide">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
+                </button>
+
+                <!-- Floating Right Arrow Button -->
+                <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-slate-950/60 hover:bg-blue-600 text-white border border-white/20 backdrop-blur-md flex items-center justify-center transition-all shadow-xl hover:scale-110 cursor-pointer" aria-label="Next Slide">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+                </button>
+
+                <!-- Slides Container -->
                 <div id="welcome-slideshow" class="relative w-full h-full">
                     <!-- Slide 1 -->
                     <div class="slide-item absolute inset-0 transition-opacity duration-700 opacity-100 z-10">
-                        <img src="{{ asset('images/slideshow/slide1.jpg') }}" alt="Hour Wash Commercial Machines" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent flex flex-col justify-end p-5 sm:p-6 text-white">
-                            <span class="px-2.5 py-0.5 rounded text-[10px] font-extrabold uppercase bg-blue-600 w-max mb-1 shadow-sm">Commercial Equipment</span>
-                            <h3 class="text-base sm:text-lg font-black">High-Capacity Heavy Commercial Washers &amp; Dryers</h3>
-                            <p class="text-xs text-slate-200 max-w-xl">Commercial-grade stainless steel machines designed for rapid 1-hour express washing and drying.</p>
+                        <img src="{{ asset('images/slideshow/slide1.jpg') }}" alt="Hour Wash Commercial Washers" class="w-full h-full object-cover object-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-transparent flex flex-col justify-end p-5 sm:p-8 md:p-10">
+                            <div class="backdrop-blur-md bg-slate-950/70 border border-white/20 p-4 sm:p-6 rounded-xl text-white max-w-2xl shadow-2xl space-y-2">
+                                <span class="px-3 py-1 rounded-md text-[10px] sm:text-xs font-black uppercase tracking-wider bg-blue-600 text-white shadow-md inline-block">
+                                    Commercial Fleet • Load Limit 7kg-15kg
+                                </span>
+                                <h3 class="text-lg sm:text-2xl md:text-3xl font-extrabold text-white leading-tight drop-shadow-md">
+                                    Heavy Commercial Washer &amp; Dryer Lineup
+                                </h3>
+                                <p class="text-xs sm:text-sm text-slate-200 font-medium leading-relaxed drop-shadow-sm">
+                                    Our high-capacity stainless steel washers provide deep fabric cleaning, gentle spinning cycles, and rapid 1-hour express washing for everyday clothes and heavy linens.
+                                </p>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Slide 2 -->
                     <div class="slide-item absolute inset-0 transition-opacity duration-700 opacity-0 z-0">
-                        <img src="{{ asset('images/slideshow/slide2.jpg') }}" alt="Hour Wash Stacked Dryer Line" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent flex flex-col justify-end p-5 sm:p-6 text-white">
-                            <span class="px-2.5 py-0.5 rounded text-[10px] font-extrabold uppercase bg-purple-600 w-max mb-1 shadow-sm">Dryer Fleet</span>
-                            <h3 class="text-base sm:text-lg font-black">Fast Moisture-Controlled Drying Technology</h3>
-                            <p class="text-xs text-slate-200 max-w-xl">Precision temperature controls prevent fabric shrinkage while delivering soft, fragrant, ready-to-fold clothes.</p>
+                        <img src="{{ asset('images/slideshow/slide2.jpg') }}" alt="Hour Wash Stacked Dryers" class="w-full h-full object-cover object-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-transparent flex flex-col justify-end p-5 sm:p-8 md:p-10">
+                            <div class="backdrop-blur-md bg-slate-950/70 border border-white/20 p-4 sm:p-6 rounded-xl text-white max-w-2xl shadow-2xl space-y-2">
+                                <span class="px-3 py-1 rounded-md text-[10px] sm:text-xs font-black uppercase tracking-wider bg-purple-600 text-white shadow-md inline-block">
+                                    Drying Fleet • Moisture Control
+                                </span>
+                                <h3 class="text-lg sm:text-2xl md:text-3xl font-extrabold text-white leading-tight drop-shadow-md">
+                                    Precision Temperature-Controlled Dryer Fleet
+                                </h3>
+                                <p class="text-xs sm:text-sm text-slate-200 font-medium leading-relaxed drop-shadow-sm">
+                                    Equipped with automatic heat adjustments to preserve fabric integrity, eliminate lint &amp; allergens, and produce fresh, static-free, ready-to-fold garments.
+                                </p>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Slide 3 -->
                     <div class="slide-item absolute inset-0 transition-opacity duration-700 opacity-0 z-0">
-                        <img src="{{ asset('images/slideshow/slide3.jpg') }}" alt="Hour Wash Premium Detergents" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent flex flex-col justify-end p-5 sm:p-6 text-white">
-                            <span class="px-2.5 py-0.5 rounded text-[10px] font-extrabold uppercase bg-emerald-600 w-max mb-1 shadow-sm">Premium Detergents</span>
-                            <h3 class="text-base sm:text-lg font-black">Free Premium Fabric Softeners &amp; Detergent Brands</h3>
-                            <p class="text-xs text-slate-200 max-w-xl">Ariel, Breeze, Surf, Downy, and Zonrox options included FREE with all Full-Service &amp; Wash packages.</p>
+                        <img src="{{ asset('images/slideshow/slide3.jpg') }}" alt="Hour Wash Premium Detergent Station" class="w-full h-full object-cover object-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-transparent flex flex-col justify-end p-5 sm:p-8 md:p-10">
+                            <div class="backdrop-blur-md bg-slate-950/70 border border-white/20 p-4 sm:p-6 rounded-xl text-white max-w-2xl shadow-2xl space-y-2">
+                                <span class="px-3 py-1 rounded-md text-[10px] sm:text-xs font-black uppercase tracking-wider bg-emerald-600 text-white shadow-md inline-block">
+                                    Included Free • Top Brands
+                                </span>
+                                <h3 class="text-lg sm:text-2xl md:text-3xl font-extrabold text-white leading-tight drop-shadow-md">
+                                    Premium Detergents &amp; Fabric Softeners Included
+                                </h3>
+                                <p class="text-xs sm:text-sm text-slate-200 font-medium leading-relaxed drop-shadow-sm">
+                                    Enjoy complimentary Ariel, Breeze, Surf, Downy, and Zonrox treatment with every wash package, or request your preferred brand at our store counter.
+                                </p>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Slide 4 -->
                     <div class="slide-item absolute inset-0 transition-opacity duration-700 opacity-0 z-0">
-                        <img src="{{ asset('images/slideshow/slide4.jpg') }}" alt="Hour Wash Store Counter &amp; Waiting Area" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/20 to-transparent flex flex-col justify-end p-5 sm:p-6 text-white">
-                            <span class="px-2.5 py-0.5 rounded text-[10px] font-extrabold uppercase bg-amber-600 w-max mb-1 shadow-sm">Store Comfort</span>
-                            <h3 class="text-base sm:text-lg font-black">Clean Customer Reception &amp; Waiting Lounge</h3>
-                            <p class="text-xs text-slate-200 max-w-xl">Visit our shop at Magallanes St., Orosite, Legazpi City — open daily 7:30 AM to 6:00 PM (Monday to Sunday!).</p>
+                        <img src="{{ asset('images/slideshow/slide4.jpg') }}" alt="Hour Wash Reception & Waiting Lounge" class="w-full h-full object-cover object-center">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-transparent flex flex-col justify-end p-5 sm:p-8 md:p-10">
+                            <div class="backdrop-blur-md bg-slate-950/70 border border-white/20 p-4 sm:p-6 rounded-xl text-white max-w-2xl shadow-2xl space-y-2">
+                                <span class="px-3 py-1 rounded-md text-[10px] sm:text-xs font-black uppercase tracking-wider bg-amber-600 text-white shadow-md inline-block">
+                                    Store Location • Open 7:30 AM – 6:00 PM
+                                </span>
+                                <h3 class="text-lg sm:text-2xl md:text-3xl font-extrabold text-white leading-tight drop-shadow-md">
+                                    Clean Customer Lounge &amp; Order Counter
+                                </h3>
+                                <p class="text-xs sm:text-sm text-slate-200 font-medium leading-relaxed drop-shadow-sm">
+                                    Located in Magallanes St., Orosite, Legazpi City. Walk-ins are always welcome 7 days a week (Monday to Sunday) with free Wi-Fi and water dispenser.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Slide Indicators / Dots -->
-                <div class="absolute bottom-3 right-5 z-20 flex items-center gap-1.5">
-                    <button onclick="goToSlide(0)" class="slide-dot w-2.5 h-2.5 rounded-full bg-white opacity-100 transition-all cursor-pointer" aria-label="Slide 1"></button>
-                    <button onclick="goToSlide(1)" class="slide-dot w-2.5 h-2.5 rounded-full bg-white opacity-40 transition-all cursor-pointer" aria-label="Slide 2"></button>
-                    <button onclick="goToSlide(2)" class="slide-dot w-2.5 h-2.5 rounded-full bg-white opacity-40 transition-all cursor-pointer" aria-label="Slide 3"></button>
-                    <button onclick="goToSlide(3)" class="slide-dot w-2.5 h-2.5 rounded-full bg-white opacity-40 transition-all cursor-pointer" aria-label="Slide 4"></button>
+                <!-- Floating Slide Indicators / Dots Pill -->
+                <div class="absolute bottom-4 right-6 z-30 px-3 py-1.5 rounded-full bg-slate-950/70 backdrop-blur-md border border-white/20 flex items-center gap-2 shadow-xl">
+                    <button onclick="goToSlide(0)" class="slide-dot w-3 h-3 rounded-full bg-white opacity-100 transition-all cursor-pointer" aria-label="Slide 1"></button>
+                    <button onclick="goToSlide(1)" class="slide-dot w-3 h-3 rounded-full bg-white opacity-40 transition-all cursor-pointer" aria-label="Slide 2"></button>
+                    <button onclick="goToSlide(2)" class="slide-dot w-3 h-3 rounded-full bg-white opacity-40 transition-all cursor-pointer" aria-label="Slide 3"></button>
+                    <button onclick="goToSlide(3)" class="slide-dot w-3 h-3 rounded-full bg-white opacity-40 transition-all cursor-pointer" aria-label="Slide 4"></button>
                 </div>
+            </div>
+
+            <!-- Interactive Photo Thumbnails Bar -->
+            <div class="grid grid-cols-4 gap-2 sm:gap-3 pt-1">
+                <button onclick="goToSlide(0)" class="slide-thumb relative h-16 sm:h-20 md:h-24 rounded-lg overflow-hidden border-2 border-blue-600 shadow-sm cursor-pointer transition-all hover:opacity-100 group">
+                    <img src="{{ asset('images/slideshow/slide1.jpg') }}" alt="Thumb 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
+                    <span class="absolute bottom-1 left-1.5 text-[9px] sm:text-[10px] font-black text-white bg-slate-950/70 px-1.5 py-0.5 rounded backdrop-blur-sm">Commercial</span>
+                </button>
+                <button onclick="goToSlide(1)" class="slide-thumb relative h-16 sm:h-20 md:h-24 rounded-lg overflow-hidden border-2 border-transparent hover:border-blue-500 opacity-60 hover:opacity-100 shadow-sm cursor-pointer transition-all group">
+                    <img src="{{ asset('images/slideshow/slide2.jpg') }}" alt="Thumb 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
+                    <span class="absolute bottom-1 left-1.5 text-[9px] sm:text-[10px] font-black text-white bg-slate-950/70 px-1.5 py-0.5 rounded backdrop-blur-sm">Dryers</span>
+                </button>
+                <button onclick="goToSlide(2)" class="slide-thumb relative h-16 sm:h-20 md:h-24 rounded-lg overflow-hidden border-2 border-transparent hover:border-blue-500 opacity-60 hover:opacity-100 shadow-sm cursor-pointer transition-all group">
+                    <img src="{{ asset('images/slideshow/slide3.jpg') }}" alt="Thumb 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
+                    <span class="absolute bottom-1 left-1.5 text-[9px] sm:text-[10px] font-black text-white bg-slate-950/70 px-1.5 py-0.5 rounded backdrop-blur-sm">Detergents</span>
+                </button>
+                <button onclick="goToSlide(3)" class="slide-thumb relative h-16 sm:h-20 md:h-24 rounded-lg overflow-hidden border-2 border-transparent hover:border-blue-500 opacity-60 hover:opacity-100 shadow-sm cursor-pointer transition-all group">
+                    <img src="{{ asset('images/slideshow/slide4.jpg') }}" alt="Thumb 4" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
+                    <span class="absolute bottom-1 left-1.5 text-[9px] sm:text-[10px] font-black text-white bg-slate-950/70 px-1.5 py-0.5 rounded backdrop-blur-sm">Lounge</span>
+                </button>
             </div>
         </section>
 
