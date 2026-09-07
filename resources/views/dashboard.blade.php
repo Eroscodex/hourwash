@@ -404,7 +404,19 @@
                         <div>
                             <span class="text-slate-400 dark:text-zinc-500 text-[10px] uppercase tracking-wider font-bold block">Assigned Machine</span>
                             <span class="font-bold text-slate-900 dark:text-zinc-200 font-mono mt-0.5 block">
-                                {{ $activeOrder->machine ? $activeOrder->machine->machine_name . ' (' . $activeOrder->machine->machine_code . ')' : 'Auto-Assign on Wash' }}
+                                @php
+                                    $dashUnitLabel = match(true) {
+                                        $activeOrder->machine !== null => $activeOrder->machine->machine_name . ' (' . $activeOrder->machine->machine_code . ')',
+                                        $activeOrder->order_status === 'out_for_pickup' => 'Rider Pickup Dispatch',
+                                        $activeOrder->order_status === 'picked_up' => 'In Transit to Shop',
+                                        $activeOrder->order_status === 'received' => 'Store Intake / Queued',
+                                        $activeOrder->order_status === 'out_for_delivery' => 'Rider Delivery Dispatch',
+                                        $activeOrder->order_status === 'delivered' => 'Delivered to Customer',
+                                        $activeOrder->order_status === 'completed' => 'Completed',
+                                        default => 'Auto-Assign on Wash',
+                                    };
+                                @endphp
+                                {{ $dashUnitLabel }}
                             </span>
                         </div>
                         <div>

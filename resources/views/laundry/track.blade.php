@@ -380,27 +380,44 @@
                         <span class="text-[10px] font-mono text-emerald-400 font-bold">● LIVE</span>
                     </div>
 
+                    @php
+                        $assignedUnitLabel = match(true) {
+                            $order->machine !== null => $order->machine->machine_name . ' (' . $order->machine->machine_code . ')',
+                            $order->order_status === 'out_for_pickup' => 'Rider Pickup Dispatch',
+                            $order->order_status === 'picked_up' => 'In Transit to Shop',
+                            $order->order_status === 'received' => 'Store Intake / Queued',
+                            $order->order_status === 'out_for_delivery' => 'Rider Delivery Dispatch',
+                            $order->order_status === 'delivered' => 'Delivered to Customer',
+                            $order->order_status === 'completed' => 'Completed & Archived',
+                            default => 'Auto-Assign on Wash',
+                        };
+
+                        $estCompletionTime = match($order->order_status) {
+                            'completed' => 'Completed (' . ($order->completed_at ? \Carbon\Carbon::parse($order->completed_at)->format('M d • h:i A') : $order->updated_at->format('M d • h:i A')) . ')',
+                            'delivered' => 'Delivered (' . ($order->delivered_at ? \Carbon\Carbon::parse($order->delivered_at)->format('M d • h:i A') : $order->updated_at->format('M d • h:i A')) . ')',
+                            'cancelled' => 'Order Cancelled',
+                            default => ($order->estimated_completion ?? $order->created_at->addMinutes($order->service->estimated_minutes ?? 120))->format('M d • h:i A'),
+                        };
+                    @endphp
+
                     <div class="grid grid-cols-2 gap-3 text-xs items-stretch">
                         <div class="space-y-1 min-w-0 flex flex-col">
                             <span class="text-[10px] text-slate-400 font-semibold block uppercase min-h-[30px]">Assigned Unit</span>
                             <div class="font-bold text-white font-mono text-xs sm:text-sm min-h-[40px] break-words">
-                                {{ $order->machine ? $order->machine->machine_name . ' (' . $order->machine->machine_code . ')' : 'Auto-Assign' }}
+                                {{ $assignedUnitLabel }}
                             </div>
                         </div>
                         <div class="space-y-1 min-w-0 flex flex-col">
                             <span class="text-[10px] text-slate-400 font-semibold block uppercase min-h-[30px]">Est. Completion</span>
                             <div class="font-bold text-amber-400 text-xs sm:text-sm min-h-[40px] break-words">
-                                @if(in_array($order->order_status, ['pending', 'out_for_pickup', 'received']))
-                                    {{ $isDryOnly ? 'Pending Dry Start' : ($isFoldOnly ? 'Pending Fold Start' : 'Pending Wash Start') }}
-                                @else
-                                    {{ ($order->estimated_completion ?? $order->updated_at->addMinutes(30))->format('M d • h:i A') }}
-                                @endif
+                                {{ $estCompletionTime }}
                             </div>
                         </div>
                     </div>
 
                     @php
                         $stageCycleMinutes = match($order->order_status) {
+                            'pending'          => 15,
                             'out_for_pickup'   => 20,
                             'picked_up'        => 15,
                             'received'         => 10,
@@ -414,6 +431,7 @@
                         };
 
                         $stageTimerLabel = match($order->order_status) {
+                            'pending'          => 'Order Confirmation Time:',
                             'out_for_pickup'   => 'Pickup Dispatch Time:',
                             'picked_up'        => 'Transit to Store Time:',
                             'received'         => 'Store Preparation Time:',
@@ -434,12 +452,13 @@
                         $stageExpiryTimestamp = $stageStartTime->copy()->addMinutes($stageCycleMinutes)->timestamp;
                     @endphp
 
-                    @if(in_array($order->order_status, ['out_for_pickup', 'picked_up', 'received', 'washing', 'rinsing', 'drying', 'finish', 'out_for_delivery', 'delivered']))
+                    @if(in_array($order->order_status, ['pending', 'out_for_pickup', 'picked_up', 'received', 'washing', 'rinsing', 'drying', 'finish', 'out_for_delivery', 'delivered']))
                         <div class="p-2.5 rounded-lg bg-slate-800/90 border border-amber-400/40 flex items-center justify-between text-xs font-mono font-bold text-amber-300">
                             <span class="text-amber-300 font-bold opacity-100">{{ $stageTimerLabel }}</span>
                             <span id="order-countdown" data-expiry="{{ $stageExpiryTimestamp }}" class="text-amber-300 font-extrabold">Calculating...</span>
                         </div>
                     @endif
+
                 </div>
 
                 <!-- Scannable QR Laundry Tag Card -->
