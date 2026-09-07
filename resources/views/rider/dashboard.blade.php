@@ -331,8 +331,7 @@
 
                                             <div class="w-full flex items-center gap-2">
                                                 <label id="pickup_lbl_{{ $order->id }}" class="flex-1 cursor-pointer px-3 py-2 rounded-lg bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-zinc-200 text-xs font-bold hover:bg-slate-50 dark:hover:bg-zinc-700 transition flex items-center justify-center gap-1.5 shadow-sm text-center">
-                                                    <svg class="w-4 h-4 text-blue-600 dark:text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/></svg>
-                                                    <span>📷 Snap / Upload Pickup Photo</span>
+                                                    <span>Snap / Upload Pickup Photo</span>
                                                     <input type="file" name="proof_image" accept="image/*,image/heic,image/heif" class="hidden" onchange="previewProofImage(this, 'pickup_img_prev_{{ $order->id }}', 'pickup_lbl_{{ $order->id }}')">
                                                 </label>
 
@@ -752,8 +751,7 @@
 
                                             <div class="w-full flex items-center gap-2">
                                                 <label id="deliv_lbl_{{ $order->id }}" class="flex-1 cursor-pointer px-3 py-2 rounded-lg bg-white dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 text-slate-700 dark:text-zinc-200 text-xs font-bold hover:bg-slate-50 dark:hover:bg-zinc-700 transition flex items-center justify-center gap-1.5 shadow-sm text-center">
-                                                    <svg class="w-4 h-4 text-cyan-600 dark:text-cyan-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/></svg>
-                                                    <span>📷 Snap / Upload Delivery Photo</span>
+                                                    <span>Snap / Upload Delivery Photo</span>
                                                     <input type="file" name="proof_image" accept="image/*,image/heic,image/heif" class="hidden" onchange="previewProofImage(this, 'deliv_img_prev_{{ $order->id }}', 'deliv_lbl_{{ $order->id }}')">
                                                 </label>
 
