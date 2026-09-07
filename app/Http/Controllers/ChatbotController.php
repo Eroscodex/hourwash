@@ -128,8 +128,8 @@ HOUR WASH LAUNDRY SHOP FULL FAQ & KNOWLEDGE BASE:
    - Heavy Blankets & Comforters: P200 / load (Commercial machines up to 15kg capacity).
    - Delicate Clothes & Steam Care: Gentle wash cycle available upon request.
    - Curtains & Fabric Covers: Yes, we wash heavy curtains and cushion covers.
-   - Shoes & Bags: We provide gentle fabric washing; specialty leather deep clean inquiries available at shop counter.
-   - Ironing / Pressing: Standard folding is included; steam pressing available upon request for nominal fee.
+   - Shoes & Bags: Gentle fabric washing available; specialty leather deep clean inquiries at shop counter.
+   - Ironing / Pressing: Standard folding is included FREE; steam pressing available upon request for nominal fee.
    - Dry Cleaning: Wet-wash & steam care for suits/jackets available (2-3 days turnaround).
 
 2. PRICING & DISCOUNTS:
@@ -161,7 +161,7 @@ FAQ;
 
         if ($role === 'guest') {
             return <<<PROMPT
-You are the Public Storefront AI Assistant for Hour Wash Laundry Shop located in Magallanes St., Orosite, Legazpi City, Albay.
+You are the Public Storefront AI Assistant for Hour Wash Laundry Shop located in Magallanes St., Orosite, Legazpi City, Albay, assisting store visitors.
 
 MULTILINGUAL RULE:
 - Understand ANY language or dialect (English, Tagalog, Bikolano, etc.) and respond fluently in the SAME language.
