@@ -527,6 +527,53 @@
                         </div>
                     </div>
 
+                    <!-- In-Shop Processing Time Remaining Badge -->
+                    @php
+                        $inShopStageMins = match($order->order_status) {
+                            'received'  => 10,
+                            'washing'   => 35,
+                            'rinsing'   => 15,
+                            'drying'    => 40,
+                            'finish'    => 15,
+                            default     => 30,
+                        };
+                        $inShopStageHist = $order->statusHistory?->where('status', $order->order_status)->last();
+                        $inShopStart = ($inShopStageHist && $inShopStageHist->created_at)
+                            ? \Carbon\Carbon::parse($inShopStageHist->created_at)
+                            : $order->updated_at;
+                        $inShopStageEta = $inShopStart->copy()->addMinutes($inShopStageMins);
+                        $inShopMinsRem = max(0, (int) now()->diffInMinutes($inShopStageEta, false));
+
+                        $overallEstCompletion = ($order->estimated_completion ?? $order->created_at->addMinutes($order->service->estimated_minutes ?? 120));
+                        $overallMinsRem = max(0, (int) now()->diffInMinutes($overallEstCompletion, false));
+                    @endphp
+
+                    <div class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30 space-y-1.5 text-xs font-bold text-purple-700 dark:text-purple-300">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                            <div class="flex items-center gap-2">
+                                <span class="px-2 py-0.5 rounded bg-purple-600 text-white text-[10px] font-extrabold uppercase">IN-SHOP TIMER</span>
+                                <span>
+                                    @if($order->order_status === 'received')
+                                        Store Prep &amp; Intake (~{{ $inShopMinsRem > 0 ? $inShopMinsRem : 5 }} mins remaining for wash start)
+                                    @elseif($order->order_status === 'washing')
+                                        Washing Cycle (~{{ $inShopMinsRem > 0 ? $inShopMinsRem : 10 }} mins remaining)
+                                    @elseif($order->order_status === 'rinsing')
+                                        Rinse Cycle (~{{ $inShopMinsRem > 0 ? $inShopMinsRem : 5 }} mins remaining)
+                                    @elseif($order->order_status === 'drying')
+                                        Dryer Cycle (~{{ $inShopMinsRem > 0 ? $inShopMinsRem : 15 }} mins remaining)
+                                    @elseif($order->order_status === 'finish')
+                                        Folding &amp; Quality Check (~{{ $inShopMinsRem > 0 ? $inShopMinsRem : 5 }} mins remaining — Prepped for Delivery!)
+                                    @else
+                                        Processing In-Shop (~{{ $inShopMinsRem > 0 ? $inShopMinsRem : 15 }} mins remaining)
+                                    @endif
+                                </span>
+                            </div>
+                            <span class="font-mono text-[11px] font-black text-purple-800 dark:text-purple-200">
+                                Est. Ready for Delivery: {{ $overallEstCompletion->format('h:i A') }} (~{{ $overallMinsRem > 0 ? $overallMinsRem : 15 }} mins)
+                            </span>
+                        </div>
+                    </div>
+
                     <!-- Laundry Progress Stepper -->
                     <div class="p-3 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-800 space-y-2">
                         <div class="flex items-center justify-between text-[10.5px] font-bold text-slate-600 dark:text-zinc-400">
