@@ -44,8 +44,8 @@
             </a>
 
             <nav class="hidden lg:flex items-center gap-5 text-xs font-semibold text-slate-600 dark:text-zinc-300 whitespace-nowrap">
-                <a href="#home" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Home</a>
-                <a href="#services" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Services & Rates</a>
+                <a href="#home" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Home &amp; Store Tour</a>
+                <a href="#services" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Services &amp; Rates</a>
                 <a href="#how-it-works" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">How It Works</a>
                 <a href="#track-section" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Track Order</a>
                 <a href="#reviews-section" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Customer Reviews</a>
@@ -105,7 +105,7 @@
             </div>
 
             <nav class="flex flex-col space-y-2 font-medium text-xs">
-                <a href="#home" class="mobile-nav-link text-slate-800 dark:text-slate-100 font-bold py-2 border-b border-slate-100 dark:border-zinc-800">Home</a>
+                <a href="#home" class="mobile-nav-link text-slate-800 dark:text-slate-100 font-bold py-2 border-b border-slate-100 dark:border-zinc-800">Home &amp; Store Tour</a>
                 <a href="#services" class="mobile-nav-link text-slate-700 dark:text-zinc-200 hover:text-blue-600 py-2 border-b border-slate-100 dark:border-zinc-800">Services & Rates</a>
                 <a href="#how-it-works" class="mobile-nav-link text-slate-700 dark:text-zinc-200 hover:text-blue-600 py-2 border-b border-slate-100 dark:border-zinc-800">How It Works</a>
                 <a href="#track-section" class="mobile-nav-link text-slate-700 dark:text-zinc-200 hover:text-blue-600 py-2 border-b border-slate-100 dark:border-zinc-800">Track Order</a>
@@ -139,7 +139,7 @@
 
 
         <!-- Automatic Store Photo Showcase Slideshow -->
-        <section id="store-gallery" class="space-y-4">
+        <section id="home" class="space-y-4 scroll-mt-24">
             <div class="flex items-center justify-between border-b border-slate-200 dark:border-zinc-800 pb-3">
                 <div>
                     <span class="text-xs font-extrabold uppercase tracking-wider text-blue-600 dark:text-blue-400">Store Tour &amp; Facility Gallery</span>
@@ -147,10 +147,10 @@
                     <p class="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 mt-0.5">Take a visual tour of our clean store facilities, heavy commercial washers, and waiting lounge in Magallanes St., Orosite</p>
                 </div>
                 <div class="hidden sm:flex items-center gap-2">
-                    <button type="button" onclick="prevSlide()" class="p-2 rounded-lg bg-white dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 border border-slate-200 dark:border-zinc-700 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition shadow-sm cursor-pointer" aria-label="Previous Slide">
+                    <button onclick="prevSlide()" class="p-2 rounded-lg bg-white dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 border border-slate-200 dark:border-zinc-700 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition shadow-sm cursor-pointer" aria-label="Previous Slide">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                     </button>
-                    <button type="button" onclick="nextSlide()" class="p-2 rounded-lg bg-white dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 border border-slate-200 dark:border-zinc-700 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition shadow-sm cursor-pointer" aria-label="Next Slide">
+                    <button onclick="nextSlide()" class="p-2 rounded-lg bg-white dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 border border-slate-200 dark:border-zinc-700 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition shadow-sm cursor-pointer" aria-label="Next Slide">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
                     </button>
                 </div>
@@ -159,12 +159,12 @@
             <!-- Expanded High-Definition Slideshow Stage -->
             <div class="relative w-full h-[380px] sm:h-[480px] md:h-[540px] lg:h-[580px] rounded-2xl overflow-hidden shadow-2xl border border-slate-200 dark:border-zinc-800 group">
                 <!-- Floating Left Arrow Button -->
-                <button type="button" onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-slate-950/60 hover:bg-blue-600 text-white border border-white/20 backdrop-blur-md flex items-center justify-center transition-all shadow-xl hover:scale-110 cursor-pointer" aria-label="Previous Slide">
+                <button onclick="prevSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-slate-950/60 hover:bg-blue-600 text-white border border-white/20 backdrop-blur-md flex items-center justify-center transition-all shadow-xl hover:scale-110 cursor-pointer" aria-label="Previous Slide">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
                 </button>
 
                 <!-- Floating Right Arrow Button -->
-                <button type="button" onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-slate-950/60 hover:bg-blue-600 text-white border border-white/20 backdrop-blur-md flex items-center justify-center transition-all shadow-xl hover:scale-110 cursor-pointer" aria-label="Next Slide">
+                <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 z-30 w-11 h-11 rounded-full bg-slate-950/60 hover:bg-blue-600 text-white border border-white/20 backdrop-blur-md flex items-center justify-center transition-all shadow-xl hover:scale-110 cursor-pointer" aria-label="Next Slide">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
                 </button>
 
@@ -189,7 +189,7 @@
                     </div>
 
                     <!-- Slide 2 -->
-                    <div class="slide-item absolute inset-0 transition-opacity duration-700 opacity-0 z-0 pointer-events-none">
+                    <div class="slide-item absolute inset-0 transition-opacity duration-700 opacity-0 z-0">
                         <img src="{{ asset('images/slideshow/slide2.jpg') }}" alt="Hour Wash Stacked Dryers" class="w-full h-full object-cover object-center">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-transparent flex flex-col justify-end p-5 sm:p-8 md:p-10">
                             <div class="backdrop-blur-md bg-slate-950/70 border border-white/20 p-4 sm:p-6 rounded-xl text-white max-w-2xl shadow-2xl space-y-2">
@@ -207,7 +207,7 @@
                     </div>
 
                     <!-- Slide 3 -->
-                    <div class="slide-item absolute inset-0 transition-opacity duration-700 opacity-0 z-0 pointer-events-none">
+                    <div class="slide-item absolute inset-0 transition-opacity duration-700 opacity-0 z-0">
                         <img src="{{ asset('images/slideshow/slide3.jpg') }}" alt="Hour Wash Premium Detergent Station" class="w-full h-full object-cover object-center">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-transparent flex flex-col justify-end p-5 sm:p-8 md:p-10">
                             <div class="backdrop-blur-md bg-slate-950/70 border border-white/20 p-4 sm:p-6 rounded-xl text-white max-w-2xl shadow-2xl space-y-2">
@@ -225,7 +225,7 @@
                     </div>
 
                     <!-- Slide 4 -->
-                    <div class="slide-item absolute inset-0 transition-opacity duration-700 opacity-0 z-0 pointer-events-none">
+                    <div class="slide-item absolute inset-0 transition-opacity duration-700 opacity-0 z-0">
                         <img src="{{ asset('images/slideshow/slide4.jpg') }}" alt="Hour Wash Reception & Waiting Lounge" class="w-full h-full object-cover object-center">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-transparent flex flex-col justify-end p-5 sm:p-8 md:p-10">
                             <div class="backdrop-blur-md bg-slate-950/70 border border-white/20 p-4 sm:p-6 rounded-xl text-white max-w-2xl shadow-2xl space-y-2">
@@ -245,28 +245,28 @@
 
                 <!-- Floating Slide Indicators / Dots Pill -->
                 <div class="absolute bottom-4 right-6 z-30 px-3 py-1.5 rounded-full bg-slate-950/70 backdrop-blur-md border border-white/20 flex items-center gap-2 shadow-xl">
-                    <button type="button" onclick="goToSlide(0)" class="slide-dot w-3 h-3 rounded-full bg-white opacity-100 transition-all cursor-pointer" aria-label="Slide 1"></button>
-                    <button type="button" onclick="goToSlide(1)" class="slide-dot w-3 h-3 rounded-full bg-white opacity-40 transition-all cursor-pointer" aria-label="Slide 2"></button>
-                    <button type="button" onclick="goToSlide(2)" class="slide-dot w-3 h-3 rounded-full bg-white opacity-40 transition-all cursor-pointer" aria-label="Slide 3"></button>
-                    <button type="button" onclick="goToSlide(3)" class="slide-dot w-3 h-3 rounded-full bg-white opacity-40 transition-all cursor-pointer" aria-label="Slide 4"></button>
+                    <button onclick="goToSlide(0)" class="slide-dot w-3 h-3 rounded-full bg-white opacity-100 transition-all cursor-pointer" aria-label="Slide 1"></button>
+                    <button onclick="goToSlide(1)" class="slide-dot w-3 h-3 rounded-full bg-white opacity-40 transition-all cursor-pointer" aria-label="Slide 2"></button>
+                    <button onclick="goToSlide(2)" class="slide-dot w-3 h-3 rounded-full bg-white opacity-40 transition-all cursor-pointer" aria-label="Slide 3"></button>
+                    <button onclick="goToSlide(3)" class="slide-dot w-3 h-3 rounded-full bg-white opacity-40 transition-all cursor-pointer" aria-label="Slide 4"></button>
                 </div>
             </div>
 
             <!-- Interactive Photo Thumbnails Bar -->
             <div class="grid grid-cols-4 gap-2 sm:gap-3 pt-1">
-                <button type="button" onclick="goToSlide(0)" class="slide-thumb relative h-16 sm:h-20 md:h-24 rounded-lg overflow-hidden border-2 border-blue-600 shadow-sm cursor-pointer transition-all opacity-100 group">
+                <button onclick="goToSlide(0)" class="slide-thumb relative h-16 sm:h-20 md:h-24 rounded-lg overflow-hidden border-2 border-blue-600 shadow-sm cursor-pointer transition-all hover:opacity-100 group">
                     <img src="{{ asset('images/slideshow/slide1.jpg') }}" alt="Thumb 1" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
                     <span class="absolute bottom-1 left-1.5 text-[9px] sm:text-[10px] font-black text-white bg-slate-950/70 px-1.5 py-0.5 rounded backdrop-blur-sm">Commercial</span>
                 </button>
-                <button type="button" onclick="goToSlide(1)" class="slide-thumb relative h-16 sm:h-20 md:h-24 rounded-lg overflow-hidden border-2 border-transparent hover:border-blue-500 opacity-60 hover:opacity-100 shadow-sm cursor-pointer transition-all group">
+                <button onclick="goToSlide(1)" class="slide-thumb relative h-16 sm:h-20 md:h-24 rounded-lg overflow-hidden border-2 border-transparent hover:border-blue-500 opacity-60 hover:opacity-100 shadow-sm cursor-pointer transition-all group">
                     <img src="{{ asset('images/slideshow/slide2.jpg') }}" alt="Thumb 2" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
                     <span class="absolute bottom-1 left-1.5 text-[9px] sm:text-[10px] font-black text-white bg-slate-950/70 px-1.5 py-0.5 rounded backdrop-blur-sm">Dryers</span>
                 </button>
-                <button type="button" onclick="goToSlide(2)" class="slide-thumb relative h-16 sm:h-20 md:h-24 rounded-lg overflow-hidden border-2 border-transparent hover:border-blue-500 opacity-60 hover:opacity-100 shadow-sm cursor-pointer transition-all group">
+                <button onclick="goToSlide(2)" class="slide-thumb relative h-16 sm:h-20 md:h-24 rounded-lg overflow-hidden border-2 border-transparent hover:border-blue-500 opacity-60 hover:opacity-100 shadow-sm cursor-pointer transition-all group">
                     <img src="{{ asset('images/slideshow/slide3.jpg') }}" alt="Thumb 3" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
                     <span class="absolute bottom-1 left-1.5 text-[9px] sm:text-[10px] font-black text-white bg-slate-950/70 px-1.5 py-0.5 rounded backdrop-blur-sm">Detergents</span>
                 </button>
-                <button type="button" onclick="goToSlide(3)" class="slide-thumb relative h-16 sm:h-20 md:h-24 rounded-lg overflow-hidden border-2 border-transparent hover:border-blue-500 opacity-60 hover:opacity-100 shadow-sm cursor-pointer transition-all group">
+                <button onclick="goToSlide(3)" class="slide-thumb relative h-16 sm:h-20 md:h-24 rounded-lg overflow-hidden border-2 border-transparent hover:border-blue-500 opacity-60 hover:opacity-100 shadow-sm cursor-pointer transition-all group">
                     <img src="{{ asset('images/slideshow/slide4.jpg') }}" alt="Thumb 4" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
                     <span class="absolute bottom-1 left-1.5 text-[9px] sm:text-[10px] font-black text-white bg-slate-950/70 px-1.5 py-0.5 rounded backdrop-blur-sm">Lounge</span>
                 </button>
@@ -735,18 +735,17 @@
         function showSlide(index) {
             const slides = document.querySelectorAll('.slide-item');
             const dots = document.querySelectorAll('.slide-dot');
-            const thumbs = document.querySelectorAll('.slide-thumb');
             if (!slides.length) return;
 
             currentSlideIdx = (index + slides.length) % slides.length;
 
             slides.forEach((slide, i) => {
                 if (i === currentSlideIdx) {
-                    slide.classList.remove('opacity-0', 'z-0', 'pointer-events-none');
+                    slide.classList.remove('opacity-0', 'z-0');
                     slide.classList.add('opacity-100', 'z-10');
                 } else {
                     slide.classList.remove('opacity-100', 'z-10');
-                    slide.classList.add('opacity-0', 'z-0', 'pointer-events-none');
+                    slide.classList.add('opacity-0', 'z-0');
                 }
             });
 
@@ -757,16 +756,6 @@
                 } else {
                     dot.classList.remove('opacity-100', 'scale-125');
                     dot.classList.add('opacity-40');
-                }
-            });
-
-            thumbs.forEach((thumb, i) => {
-                if (i === currentSlideIdx) {
-                    thumb.classList.remove('border-transparent', 'opacity-60');
-                    thumb.classList.add('border-blue-600', 'opacity-100');
-                } else {
-                    thumb.classList.remove('border-blue-600', 'opacity-100');
-                    thumb.classList.add('border-transparent', 'opacity-60');
                 }
             });
         }
