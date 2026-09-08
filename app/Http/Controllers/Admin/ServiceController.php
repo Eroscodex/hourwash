@@ -26,7 +26,7 @@ class ServiceController extends Controller
         $request->validate([
             'name' => 'required|string|max:150',
             'description' => 'nullable|string|max:1000',
-            'service_type' => ['required', Rule::in(['wash', 'dry', 'wash_dry', 'wash_dry_fold', 'blanket', 'pickup_delivery', 'other'])],
+            'service_type' => ['required', Rule::in(['wash', 'dry', 'wash_dry', 'wash_dry_fold', 'blanket', 'other'])],
             'price' => 'required|numeric|min:0',
             'price_unit' => ['required', Rule::in(['kg', 'load', 'item', 'service'])],
             'estimated_minutes' => 'required|integer|min:1',
@@ -50,7 +50,7 @@ class ServiceController extends Controller
         $request->validate([
             'name' => 'required|string|max:150',
             'description' => 'nullable|string|max:1000',
-            'service_type' => ['required', Rule::in(['wash', 'dry', 'wash_dry', 'wash_dry_fold', 'blanket', 'pickup_delivery', 'other'])],
+            'service_type' => ['required', Rule::in(['wash', 'dry', 'wash_dry', 'wash_dry_fold', 'blanket', 'other'])],
             'price' => 'required|numeric|min:0',
             'price_unit' => ['required', Rule::in(['kg', 'load', 'item', 'service'])],
             'estimated_minutes' => 'required|integer|min:1',

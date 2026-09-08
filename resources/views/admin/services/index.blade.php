@@ -145,7 +145,6 @@
                             <option value="fold">Fold Only</option>
                             <option value="wash_dry_fold">Wash, Dry & Fold</option>
                             <option value="blanket">Comforters & Blankets</option>
-                            <option value="pickup_delivery">Pickup & Delivery</option>
                             <option value="other">Other</option>
                         </select>
                     </div>

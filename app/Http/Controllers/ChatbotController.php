@@ -27,7 +27,7 @@ class ChatbotController extends Controller
         // 1. Guardrail Check: Intercept non-laundry queries
         if (Str::contains($msg, ['pancit', 'cook', 'recipe', 'food', 'noodle', 'dish', 'ingredient', 'python', 'code', 'math', 'politic'])) {
             return response()->json([
-                'reply' => 'I am the HourWash AI Assistant, specialized exclusively for Hour Wash Laundry Shop in Magallanes St., Orosite, Legazpi City! I can help you with services, prices, pickup & delivery, store hours (7:30 AM – 6:00 PM daily • cut-off: 4:30 PM), or tracking orders. How can I assist with your laundry today?',
+                'reply' => 'I am the HourWash AI Assistant, specialized exclusively for Hour Wash Laundry Shop in Magallanes St., Orosite, Legazpi City! I can help you with services, prices, store hours (7:30 AM – 6:00 PM daily • cut-off: 4:30 PM), or tracking orders. How can I assist with your laundry today?',
             ]);
         }
 

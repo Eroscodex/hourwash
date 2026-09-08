@@ -65,7 +65,6 @@
                                 <option value="fold" {{ old('service_type', $service->service_type) === 'fold' ? 'selected' : '' }}>Fold Only</option>
                                 <option value="wash_dry_fold" {{ old('service_type', $service->service_type) === 'wash_dry_fold' ? 'selected' : '' }}>Wash, Dry & Fold</option>
                                 <option value="blanket" {{ old('service_type', $service->service_type) === 'blanket' ? 'selected' : '' }}>Comforters & Blankets</option>
-                                <option value="pickup_delivery" {{ old('service_type', $service->service_type) === 'pickup_delivery' ? 'selected' : '' }}>Pickup & Delivery</option>
                                 <option value="other" {{ old('service_type', $service->service_type) === 'other' ? 'selected' : '' }}>Other</option>
                             </select>
                             <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500">

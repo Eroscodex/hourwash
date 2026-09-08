@@ -24,7 +24,6 @@ class Service extends Model
             'fold' => 15,
             'wash_dry' => 75,
             'wash_dry_fold' => 90,
-            'pickup_delivery' => 120,
             default => (int) ($this->estimated_minutes ?: 30),
         };
     }
