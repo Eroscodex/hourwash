@@ -58,7 +58,7 @@ class LaundryController extends Controller
                 'service_id' => 'required|exists:services,id',
                 'weight_kg' => 'nullable|numeric|min:0|max:100',
                 'machine_id' => 'nullable',
-                'supplies_option' => 'nullable|string|in:store_provided,own_detergent,own_softener,own_both',
+                'supplies' => 'nullable|array',
                 'customer_id' => 'nullable|exists:users,id',
                 'new_customer_name' => 'required_if:customer_mode,new|nullable|string|max:255',
                 'new_customer_email' => 'nullable|email|max:255|unique:users,email',
@@ -120,28 +120,29 @@ class LaundryController extends Controller
                 $subtotal = $service->price * $loadCount;
             }
 
-            // Calculate supplies discount for self-provided detergent or softener
-            $discount = 0.00;
-            $suppliesLabel = '';
+            // Calculate add-on supplies total (Zonrox ₱10, Breeze ₱20, Champion ₱18, Tide ₱13)
+            $suppliesCatalog = [
+                'zonrox' => ['name' => 'Zonrox Bleach', 'price' => 10.00],
+                'breeze' => ['name' => 'Breeze Powder', 'price' => 20.00],
+                'champion' => ['name' => 'Champion Powder', 'price' => 18.00],
+                'tide' => ['name' => 'Tide Powder', 'price' => 13.00],
+            ];
 
-            switch ($request->supplies_option) {
-                case 'own_detergent':
-                    $discount = 15.00;
-                    $suppliesLabel = '[Bring Own Detergent/Powder (-₱15.00)]';
-                    break;
-                case 'own_softener':
-                    $discount = 10.00;
-                    $suppliesLabel = '[Bring Own Fabric Softener (-₱10.00)]';
-                    break;
-                case 'own_both':
-                    $discount = 25.00;
-                    $suppliesLabel = '[Bring Own Powder & Softener (-₱25.00 Combo Discount)]';
-                    break;
-                default:
-                    $discount = 0.00;
-                    $suppliesLabel = '[Store Detergent & Softener]';
-                    break;
+            $suppliesAddonTotal = 0.00;
+            $selectedSuppliesNames = [];
+
+            $selectedSupplies = (array) $request->input('supplies', []);
+            foreach ($selectedSupplies as $supKey) {
+                if (isset($suppliesCatalog[$supKey])) {
+                    $suppliesAddonTotal += $suppliesCatalog[$supKey]['price'];
+                    $selectedSuppliesNames[] = $suppliesCatalog[$supKey]['name'].' (+₱'.number_format($suppliesCatalog[$supKey]['price'], 2).')';
+                }
             }
+
+            $discount = 0.00;
+            $suppliesLabel = ! empty($selectedSuppliesNames)
+                ? '[Add-ons: '.implode(', ', $selectedSuppliesNames).']'
+                : '';
 
             // Apply Frequent User Card Loyalty Reward Discount if customer requested & eligible
             $targetCustomer = User::find($customerId);
@@ -151,7 +152,7 @@ class LaundryController extends Controller
                 $targetCustomer->useDiscountReward();
             }
 
-            $totalAmount = max(0, $subtotal - $discount);
+            $totalAmount = max(0, $subtotal + $suppliesAddonTotal - $discount);
             $cutoffNote = now()->format('H:i') >= '16:30' ? ' [Placed past 4:30 PM cut-off time]' : '';
             $notes = trim($suppliesLabel.$cutoffNote.($request->remarks ? ' — '.$request->remarks : ''));
 

@@ -199,51 +199,55 @@
                 </p>
             </div>
 
-            <!-- Detergent / Powder Supplies Discount Option -->
+            <!-- Add-On Laundry Supplies & Detergent Products (No discount, store products available for purchase) -->
             <div class="mb-5 p-4 rounded-lg bg-blue-600/5 dark:bg-blue-600/10 border border-blue-600/20 space-y-3">
                 <div class="flex items-center justify-between">
                     <label class="block text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
-                        Detergent & Supplies Option (Discount)
+                        Add-On Laundry Supplies & Detergents
                     </label>
-                    <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-600 dark:text-emerald-400">
-                        SAVE MONEY
+                    <span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded bg-blue-600/20 text-blue-600 dark:text-blue-400">
+                        STORE PRODUCTS
                     </span>
                 </div>
                 <p class="text-[11.5px] text-slate-600 dark:text-slate-300">
-                    Bring your own powder/detergent or fabric softener to get an instant discount on your order!
+                    Select optional store detergent, bleach, or fabric softener sachets to add to your booking (or bring your own!):
                 </p>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
-                    <label class="flex items-start gap-2.5 p-3 rounded-lg border border-slate-200 dark:dark:border-zinc-700 bg-white dark:bg-[#18181B] cursor-pointer hover:border-blue-600 transition">
-                        <input type="radio" name="supplies_option" value="store_provided" class="mt-0.5 text-blue-600" {{ old('supplies_option', 'store_provided') === 'store_provided' ? 'checked' : '' }}>
-                        <div class="text-xs">
-                            <span class="font-bold text-slate-900 dark:text-white block">Store Detergent & Softener</span>
-                            <span class="text-[10.5px] text-slate-500 dark:text-slate-400">Standard Service (No discount)</span>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
+                    <label class="flex flex-col p-3 rounded-lg border border-slate-200 dark:border-zinc-700 bg-white dark:bg-[#18181B] cursor-pointer hover:border-blue-600 transition">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="font-bold text-xs text-slate-900 dark:text-white">Breeze</span>
+                            <input type="checkbox" name="supplies[]" value="breeze" data-price="20" class="supply-checkbox text-blue-600 rounded">
                         </div>
+                        <span class="text-[11px] font-bold text-blue-600 dark:text-blue-400">+₱20.00</span>
+                        <span class="text-[9.5px] text-slate-500 dark:text-slate-400">Detergent Powder</span>
                     </label>
 
-                    <label class="flex items-start gap-2.5 p-3 rounded-lg border border-slate-200 dark:dark:border-zinc-700 bg-white dark:bg-[#18181B] cursor-pointer hover:border-emerald-500 transition">
-                        <input type="radio" name="supplies_option" value="own_detergent" class="mt-0.5 text-emerald-500" {{ old('supplies_option') === 'own_detergent' ? 'checked' : '' }}>
-                        <div class="text-xs">
-                            <span class="font-bold text-emerald-600 dark:text-emerald-400 block">Bring Own Powder / Detergent</span>
-                            <span class="text-[10.5px] font-bold text-emerald-500 block">-₱15.00 Discount</span>
+                    <label class="flex flex-col p-3 rounded-lg border border-slate-200 dark:border-zinc-700 bg-white dark:bg-[#18181B] cursor-pointer hover:border-blue-600 transition">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="font-bold text-xs text-slate-900 dark:text-white">Champion</span>
+                            <input type="checkbox" name="supplies[]" value="champion" data-price="18" class="supply-checkbox text-blue-600 rounded">
                         </div>
+                        <span class="text-[11px] font-bold text-blue-600 dark:text-blue-400">+₱18.00</span>
+                        <span class="text-[9.5px] text-slate-500 dark:text-slate-400">Detergent Powder</span>
                     </label>
 
-                    <label class="flex items-start gap-2.5 p-3 rounded-lg border border-slate-200 dark:dark:border-zinc-700 bg-white dark:bg-[#18181B] cursor-pointer hover:border-emerald-500 transition">
-                        <input type="radio" name="supplies_option" value="own_softener" class="mt-0.5 text-emerald-500" {{ old('supplies_option') === 'own_softener' ? 'checked' : '' }}>
-                        <div class="text-xs">
-                            <span class="font-bold text-emerald-600 dark:text-emerald-400 block">Bring Own Fabric Softener</span>
-                            <span class="text-[10.5px] font-bold text-emerald-500 block">-₱10.00 Discount</span>
+                    <label class="flex flex-col p-3 rounded-lg border border-slate-200 dark:border-zinc-700 bg-white dark:bg-[#18181B] cursor-pointer hover:border-blue-600 transition">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="font-bold text-xs text-slate-900 dark:text-white">Tide</span>
+                            <input type="checkbox" name="supplies[]" value="tide" data-price="13" class="supply-checkbox text-blue-600 rounded">
                         </div>
+                        <span class="text-[11px] font-bold text-blue-600 dark:text-blue-400">+₱13.00</span>
+                        <span class="text-[9.5px] text-slate-500 dark:text-slate-400">Powder Detergent</span>
                     </label>
 
-                    <label class="flex items-start gap-2.5 p-3 rounded-lg border border-slate-200 dark:dark:border-zinc-700 bg-white dark:bg-[#18181B] cursor-pointer hover:border-emerald-500 transition">
-                        <input type="radio" name="supplies_option" value="own_both" class="mt-0.5 text-emerald-500" {{ old('supplies_option') === 'own_both' ? 'checked' : '' }}>
-                        <div class="text-xs">
-                            <span class="font-bold text-emerald-600 dark:text-emerald-400 block">Bring Own Powder & Softener</span>
-                            <span class="text-[10.5px] font-bold text-emerald-500 block">-₱25.00 Combo Discount</span>
+                    <label class="flex flex-col p-3 rounded-lg border border-slate-200 dark:border-zinc-700 bg-white dark:bg-[#18181B] cursor-pointer hover:border-blue-600 transition">
+                        <div class="flex items-center justify-between mb-1">
+                            <span class="font-bold text-xs text-slate-900 dark:text-white">Zonrox</span>
+                            <input type="checkbox" name="supplies[]" value="zonrox" data-price="10" class="supply-checkbox text-blue-600 rounded">
                         </div>
+                        <span class="text-[11px] font-bold text-blue-600 dark:text-blue-400">+₱10.00</span>
+                        <span class="text-[9.5px] text-slate-500 dark:text-slate-400">Bleach Sachet</span>
                     </label>
                 </div>
             </div>
@@ -386,7 +390,7 @@
             </div>
 
             <!-- Price Breakdown Summary Box -->
-            <div class="mb-6 p-4 rounded-lg bg-black/5 dark:bg-[#18181B] border border-black/5 dark:dark:border-zinc-700 space-y-2 text-xs">
+            <div class="mb-6 p-4 rounded-lg bg-black/5 dark:bg-[#18181B] border border-black/5 dark:border-zinc-700 space-y-2 text-xs">
                 <div class="flex justify-between text-slate-600 dark:text-slate-300">
                     <span>Est. Commercial Machine Loads:</span>
                     <span id="summary-loads" class="font-bold text-blue-600 dark:text-blue-400">1 Load (7-8kg capacity)</span>
@@ -395,11 +399,11 @@
                     <span>Service Subtotal:</span>
                     <span id="summary-subtotal" class="font-semibold text-slate-900 dark:text-white">₱0.00</span>
                 </div>
-                <div class="flex justify-between text-emerald-600 dark:text-emerald-400 font-semibold">
-                    <span>Supplies Discount Option:</span>
-                    <span id="summary-discount">-₱0.00</span>
+                <div class="flex justify-between text-blue-600 dark:text-blue-400 font-semibold">
+                    <span>Add-on Supplies:</span>
+                    <span id="summary-supplies">+₱0.00</span>
                 </div>
-                <div class="flex justify-between text-sm font-bold text-slate-900 dark:text-white pt-2 border-t border-slate-200 dark:dark:border-zinc-700">
+                <div class="flex justify-between text-sm font-bold text-slate-900 dark:text-white pt-2 border-t border-slate-200 dark:border-zinc-700">
                     <span>Total Amount:</span>
                     <span id="summary-total" class="text-blue-600 dark:text-blue-400">₱0.00</span>
                 </div>
@@ -425,14 +429,14 @@
     document.addEventListener('DOMContentLoaded', function() {
         const serviceSelect = document.getElementById('service_id');
         const weightInput = document.getElementById('weight_kg');
-        const suppliesRadios = document.querySelectorAll('input[name="supplies_option"]');
+        const supplyCheckboxes = document.querySelectorAll('.supply-checkbox');
 
         const loadBadge = document.getElementById('load-count-badge');
         const weightHint = document.getElementById('weight-hint');
         const summaryLoads = document.getElementById('summary-loads');
 
         const summarySubtotal = document.getElementById('summary-subtotal');
-        const summaryDiscount = document.getElementById('summary-discount');
+        const summarySupplies = document.getElementById('summary-supplies');
         const summaryTotal = document.getElementById('summary-total');
 
         function updatePriceCalculation() {
@@ -472,32 +476,23 @@
                 subtotal = price * loadCount;
             }
 
-            let discount = 0;
-            let selectedSupplies = 'store_provided';
-            suppliesRadios.forEach(radio => {
-                if (radio.checked) {
-                    selectedSupplies = radio.value;
+            let suppliesAddons = 0;
+            supplyCheckboxes.forEach(cb => {
+                if (cb.checked) {
+                    suppliesAddons += parseFloat(cb.getAttribute('data-price')) || 0;
                 }
             });
 
-            if (selectedSupplies === 'own_detergent') {
-                discount = 15.00;
-            } else if (selectedSupplies === 'own_softener') {
-                discount = 10.00;
-            } else if (selectedSupplies === 'own_both') {
-                discount = 25.00;
-            }
-
-            const total = Math.max(0, subtotal - discount);
+            const total = Math.max(0, subtotal + suppliesAddons);
 
             summarySubtotal.textContent = '₱' + subtotal.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-            summaryDiscount.textContent = '-₱' + discount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            summarySupplies.textContent = '+₱' + suppliesAddons.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             summaryTotal.textContent = '₱' + total.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
 
         serviceSelect.addEventListener('change', updatePriceCalculation);
         weightInput.addEventListener('input', updatePriceCalculation);
-        suppliesRadios.forEach(radio => radio.addEventListener('change', updatePriceCalculation));
+        supplyCheckboxes.forEach(cb => cb.addEventListener('change', updatePriceCalculation));
 
         updatePriceCalculation();
     });
