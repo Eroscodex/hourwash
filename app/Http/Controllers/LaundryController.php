@@ -302,63 +302,6 @@ class LaundryController extends Controller
             $authUser = Auth::user();
             $isStaffOrAdmin = $authUser && ($authUser->isStaff() || $authUser->isAdmin() || $authUser->isOwner());
 
-            $scannerMode = request('scanner_mode', 'camera');
-            $scannerLabels = [
-                'camera' => 'Built-in Camera Scanner',
-                'wired_usb' => 'Wired USB Scanner',
-                'wireless_2g4' => '2.4GHz Wireless Scanner',
-                'bluetooth' => 'Wireless Bluetooth Scanner',
-            ];
-            $scannerModeLabel = $scannerLabels[$scannerMode] ?? 'Built-in Camera Scanner';
-
-            $autoPaid = false;
-            if ($isStaffOrAdmin && $order->payment_status !== 'paid') {
-                $order->payment_status = 'paid';
-                $order->save();
-                $autoPaid = true;
-
-                try {
-                    $order->statusHistory()->create([
-                        'order_status' => $order->order_status,
-                        'notes' => 'Payment status automatically set to PAID upon QR code scan verification by '.$authUser->name.' ('.$scannerModeLabel.').',
-                    ]);
-                } catch (\Throwable $e) {
-                    Log::warning('Failed to log payment status history: '.$e->getMessage());
-                }
-            }
-
-            // De-duplicate scan logs within 5 seconds for the same order
-            $recentLog = QrScanLog::where('order_id', $order->id)
-                ->where('created_at', '>=', now()->subSeconds(5))
-                ->latest()
-                ->first();
-
-            if (! $recentLog) {
-                try {
-                    $qrRecordId = $order->qrCode?->id;
-                    if (! $qrRecordId) {
-                        $qrRecord = QrCode::firstOrCreate(
-                            ['order_id' => $order->id],
-                            ['qr_token' => $order->order_number]
-                        );
-                        $qrRecordId = $qrRecord->id;
-                    }
-
-                    $scanType = $isStaffOrAdmin ? 'staff_scan' : ($authUser ? 'customer_scan' : 'public_scan');
-
-                    QrScanLog::create([
-                        'qr_code_id' => $qrRecordId,
-                        'order_id' => $order->id,
-                        'scanned_by' => $authUser?->id,
-                        'scan_type' => $scanType,
-                        'device' => $scannerModeLabel.' • '.Str::limit(request()->header('User-Agent'), 80),
-                        'ip_address' => request()->ip(),
-                    ]);
-                } catch (\Throwable $e) {
-                    Log::warning('Failed to log QR scan: '.$e->getMessage());
-                }
-            }
-
             // Customers can only view their own orders; Admin & Staff can view any customer order
             if ($authUser && $authUser->isCustomer()) {
                 if ($order->customer_id !== $authUser->id) {
@@ -366,9 +309,74 @@ class LaundryController extends Controller
                 }
             }
 
-            $successMsg = $autoPaid
-                ? "Order #{$order->order_number} scanned successfully via {$scannerModeLabel}! Payment automatically marked as PAID."
-                : "Order #{$order->order_number} scanned successfully via {$scannerModeLabel}.";
+            // ONLY process active QR scan logging and auto-payment when scanner_mode is explicitly passed in request query
+            if (request()->has('scanner_mode')) {
+                $scannerMode = request('scanner_mode', 'camera');
+                $scannerLabels = [
+                    'camera' => 'Built-in Camera Scanner',
+                    'wired_usb' => 'Wired USB Scanner',
+                    'wireless_2g4' => '2.4GHz Wireless Scanner',
+                    'bluetooth' => 'Wireless Bluetooth Scanner',
+                ];
+                $scannerModeLabel = $scannerLabels[$scannerMode] ?? 'Built-in Camera Scanner';
+
+                $autoPaid = false;
+                if ($isStaffOrAdmin && $order->payment_status !== 'paid') {
+                    $order->payment_status = 'paid';
+                    $order->save();
+                    $autoPaid = true;
+
+                    try {
+                        $order->statusHistory()->create([
+                            'order_status' => $order->order_status,
+                            'notes' => 'Payment status automatically set to PAID upon QR code scan verification by '.$authUser->name.' ('.$scannerModeLabel.').',
+                        ]);
+                    } catch (\Throwable $e) {
+                        Log::warning('Failed to log payment status history: '.$e->getMessage());
+                    }
+                }
+
+                // De-duplicate scan logs within 5 minutes for the same order
+                $recentLog = QrScanLog::where('order_id', $order->id)
+                    ->where('created_at', '>=', now()->subMinutes(5))
+                    ->latest()
+                    ->first();
+
+                if (! $recentLog) {
+                    try {
+                        $qrRecordId = $order->qrCode?->id;
+                        if (! $qrRecordId) {
+                            $qrRecord = QrCode::firstOrCreate(
+                                ['order_id' => $order->id],
+                                ['qr_token' => $order->order_number]
+                            );
+                            $qrRecordId = $qrRecord->id;
+                        }
+
+                        $scanType = $isStaffOrAdmin ? 'staff_scan' : ($authUser ? 'customer_scan' : 'public_scan');
+
+                        QrScanLog::create([
+                            'qr_code_id' => $qrRecordId,
+                            'order_id' => $order->id,
+                            'scanned_by' => $authUser?->id,
+                            'scan_type' => $scanType,
+                            'device' => $scannerModeLabel.' • '.Str::limit(request()->header('User-Agent'), 80),
+                            'ip_address' => request()->ip(),
+                        ]);
+                    } catch (\Throwable $e) {
+                        Log::warning('Failed to log QR scan: '.$e->getMessage());
+                    }
+                }
+
+                $successMsg = $autoPaid
+                    ? "Order #{$order->order_number} scanned successfully via {$scannerModeLabel}! Payment automatically marked as PAID."
+                    : "Order #{$order->order_number} scanned successfully via {$scannerModeLabel}.";
+
+                $cleanTrackingToken = $order->qrCode?->qr_token ?? $order->order_number;
+
+                // Redirect to clean tracking URL (strips ?scanner_mode=... from URL bar so reloads/auto-sync won't duplicate scan logs)
+                return redirect()->route('laundry.track', ['qr' => $cleanTrackingToken])->with('success', $successMsg);
+            }
 
             return view(
                 'laundry.track',
