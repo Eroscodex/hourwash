@@ -62,7 +62,7 @@
         </div>
         @if ($rewards > 0)
             <span class="px-2 py-0.5 rounded bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 font-extrabold text-[10px] uppercase border border-emerald-200 dark:border-emerald-800/60">
-                {{ $rewards }} Reward Ready (₱50 OFF)
+                {{ $rewards }} Reward Ready (1 Free Wash & Dry)
             </span>
         @elseif ($cardsCompleted > 0)
             <span class="text-[10px] font-bold text-slate-500 dark:text-slate-400">
@@ -70,7 +70,7 @@
             </span>
         @else
             <span class="text-[10px] text-slate-400 dark:text-zinc-500 font-medium">
-                12 Stamps = ₱50.00 OFF
+                12 Stamps = 1 FREE Wash & Dry
             </span>
         @endif
     </div>

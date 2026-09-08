@@ -185,10 +185,10 @@
                                                 </div>
 
                                                 <div>
-                                                    <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Discount Rewards Available (₱50.00 OFF Tokens)</label>
+                                                    <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Loyalty Rewards Available (1 FREE Wash & Dry Tokens)</label>
                                                     <input type="number" name="discount_rewards_available" value="{{ $user->discount_rewards_available ?? 0 }}" min="0" max="99" class="w-full">
                                                     <p class="text-[10.5px] text-slate-500 dark:text-slate-400 mt-1">
-                                                        Number of unlocked ₱50.00 OFF loyalty discount rewards available for redemption.
+                                                        Number of unlocked 1 FREE Washing & Drying loyalty rewards available for redemption.
                                                     </p>
                                                 </div>
 

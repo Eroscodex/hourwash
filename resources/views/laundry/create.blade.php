@@ -255,19 +255,18 @@
             @if(auth()->check() && auth()->user()->hasDiscountReward())
                 <div class="mb-5 p-4 rounded-lg bg-pink-500/10 dark:bg-pink-950/40 border border-pink-500/30 flex items-center justify-between gap-3">
                     <div class="flex items-center gap-3">
-
                         <div>
                             <span class="text-xs font-bold text-pink-700 dark:text-pink-300 block">
-                                Frequent User Loyalty Reward Available!
+                                🎁 12-Stamp Loyalty Reward Available!
                             </span>
                             <span class="text-[11px] text-pink-800 dark:text-pink-400">
-                                You completed a 12-stamp Frequent User Card! Apply your ₱50.00 OFF loyalty discount on this order.
+                                You completed a 12-stamp Frequent User Card! Claim your <strong>1 FREE Washing & Drying (1 Load Free)</strong> on this order.
                             </span>
                         </div>
                     </div>
                     <label class="flex items-center gap-2 cursor-pointer font-bold text-xs text-pink-700 dark:text-pink-300 bg-white dark:bg-pink-900/60 px-3 py-1.5 rounded-lg border border-pink-400 shrink-0">
                         <input type="checkbox" name="apply_loyalty_discount" value="1" class="text-pink-600 rounded focus:ring-pink-500">
-                        Apply -₱50.00 OFF
+                        Apply 1 FREE Wash & Dry
                     </label>
                 </div>
             @endif

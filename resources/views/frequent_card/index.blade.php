@@ -8,7 +8,7 @@
                     Frequent User Card & Loyalty Rewards
                 </h1>
                 <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
-                    Collect 12 stamps on your digital loyalty card to unlock an instant ₱50.00 OFF discount on your next laundry booking.
+                    Collect 12 stamps on your digital loyalty card to unlock 1 FREE Washing & Drying (1 Load Free) on your next laundry booking.
                 </p>
             </div>
 
@@ -46,7 +46,7 @@
 
                     <div class="p-4 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-2 border-l-emerald-500 flex flex-col justify-between shadow-sm">
                         <span class="text-[10px] font-extrabold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block">
-                            DISCOUNTS AVAILABLE
+                            FREE WASH & DRY LOADS
                         </span>
                         <span class="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400 font-mono mt-1">
                             {{ auth()->user()->discount_rewards_available ?? 0 }}
@@ -100,10 +100,10 @@
                         <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-zinc-800/50 border border-slate-200 dark:border-zinc-800 space-y-1.5">
                             <div class="flex items-center gap-2">
                                 <span class="w-6 h-6 rounded-full bg-emerald-600 text-white font-extrabold flex items-center justify-center text-xs shrink-0">3</span>
-                                <span class="font-bold text-slate-900 dark:text-white">Unlock ₱50.00 OFF Reward</span>
+                                <span class="font-bold text-slate-900 dark:text-white">Unlock 1 FREE Wash & Dry</span>
                             </div>
                             <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-[11px] pl-8">
-                                Completing 12 stamps instantly unlocks a <strong>₱50.00 OFF Loyalty Reward Discount</strong> for your next booking.
+                                Completing 12 stamps instantly unlocks <strong>1 FREE Washing & Drying (1 Load Free)</strong> for your next booking.
                             </p>
                         </div>
 
@@ -113,7 +113,7 @@
                                 <span class="font-bold text-slate-900 dark:text-white">Redeem & Start Fresh</span>
                             </div>
                             <p class="text-slate-600 dark:text-slate-400 leading-relaxed text-[11px] pl-8">
-                                Check <code>Apply -₱50.00 OFF</code> at checkout to redeem. A new 12-stamp card will automatically open!
+                                Check <code>Apply 1 FREE Wash & Dry</code> at checkout to redeem. A new 12-stamp card will automatically open!
                             </p>
                         </div>
                     </div>
@@ -124,15 +124,15 @@
                                 <span class="text-2xl">🎉</span>
                                 <div>
                                     <span class="text-xs font-extrabold text-emerald-700 dark:text-emerald-300 block">
-                                        Congratulations! You have {{ auth()->user()->discount_rewards_available }} Discount Reward(s) Unlocked!
+                                        Congratulations! You have {{ auth()->user()->discount_rewards_available }} FREE Washing & Drying Reward(s) Unlocked!
                                     </span>
                                     <span class="text-[11px] text-emerald-800 dark:text-emerald-400">
-                                        Book a new laundry order now and apply your ₱50.00 OFF discount at checkout.
+                                        Book a new laundry order now and claim your 1 FREE Wash & Dry reward at checkout.
                                     </span>
                                 </div>
                             </div>
                             <a href="{{ route('laundry.create') }}" class="btn-primary bg-emerald-600 hover:bg-emerald-700 text-xs py-2 px-4 whitespace-nowrap shrink-0">
-                                Redeem ₱50.00 OFF Now →
+                                Redeem 1 FREE Wash & Dry Now →
                             </a>
                         </div>
                     @endif

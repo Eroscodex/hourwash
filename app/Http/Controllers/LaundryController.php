@@ -148,11 +148,12 @@ class LaundryController extends Controller
                 ? '[Add-ons: '.implode(', ', $selectedSuppliesNames).']'
                 : '';
 
-            // Apply Frequent User Card Loyalty Reward Discount if customer requested & eligible
+            // Apply Frequent User Card Loyalty Reward (1 FREE Washing & Drying load - up to ₱150.00 value)
             $targetCustomer = User::find($customerId);
             if ($request->boolean('apply_loyalty_discount') && $targetCustomer && $targetCustomer->hasDiscountReward()) {
-                $discount += 50.00;
-                $suppliesLabel .= ' [Frequent User Loyalty Discount (-₱50.00)]';
+                $freeWashDryDiscount = min($subtotal, 150.00);
+                $discount += $freeWashDryDiscount;
+                $suppliesLabel .= ' [1 FREE Washing & Drying Loyalty Reward (-₱'.number_format($freeWashDryDiscount, 2).')]';
                 $targetCustomer->useDiscountReward();
             }
 

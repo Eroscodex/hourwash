@@ -134,7 +134,7 @@ HOUR WASH LAUNDRY SHOP FULL FAQ & KNOWLEDGE BASE:
 2. PRICING & DISCOUNTS:
    - Price per load (up to 7kg standard): Wash Only P75, Dry Only P75, Fold Only P50, Self-Service P150, Full Service P200.
    - Detergent & Fabric Softener: INCLUDED FREE in all Full Service & Wash packages! You can also request specific brands or bring your own.
-   - Discounts & Rewards: Frequent User Card available! Earn 1 stamp per order — 12 stamps get you a FREE wash reward or discount. Bulk order discounts available.
+   - Discounts & Rewards: Frequent User Card available! Earn 1 stamp per order — 12 stamps get you 1 FREE Washing & Drying (1 Load Free) reward! Bulk order discounts available.
    - Heavily Soiled Clothes: Standard loads have no extra charge. Extremely muddy or heavily stained items requiring pre-soak treatment have a nominal P20-P50 add-on fee.
    - Payment Methods: Cash at Shop Counter.
 
@@ -300,7 +300,7 @@ PROMPT;
 
         // 9. Package Deals, Discounts & Stamps Inquiry
         if (Str::contains($msg, ['package deal', 'package deals', 'discount', 'discounts', 'promo', 'stamp', 'stamps', 'frequent user', 'reward', 'rewards', 'mura'])) {
-            return "Package Deals & Discounts:\nYES! We offer the Frequent User Loyalty Card — earn 1 stamp per order, and 12 stamps get you a FREE wash reward or discount! We also offer bulk load discounts and special full-service packages (P200 drop-off).";
+            return "Package Deals & Discounts:\nYES! We offer the Frequent User Loyalty Card — earn 1 stamp per completed order, and collecting 12 stamps unlocks 1 FREE Washing & Drying (1 Load Free) reward!";
         }
 
         // 10. Detergent & Fabric Softener Inquiry
