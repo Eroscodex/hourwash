@@ -55,15 +55,6 @@ class OfficialServicesSeeder extends Seeder
                 'estimated_minutes' => 90,
                 'status' => 'active',
             ],
-            [
-                'name' => 'Full Service with Pickup & Delivery',
-                'description' => 'Complete door-to-door service (15 mins pickup + 90 mins wash/dry/fold + 15 mins delivery = 2 hrs total per load max 7kg).',
-                'service_type' => 'pickup_delivery',
-                'price' => 250.00,
-                'price_unit' => 'load',
-                'estimated_minutes' => 120,
-                'status' => 'active',
-            ],
         ];
 
         foreach ($services as $srv) {

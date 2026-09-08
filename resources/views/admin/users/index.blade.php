@@ -47,13 +47,6 @@
                 </div>
                 <span class="text-2xl font-black text-amber-600 dark:text-amber-400 font-mono">{{ $staffCount }}</span>
             </a>
-            <a href="{{ route('admin.users.index', ['role' => 'rider']) }}" class="card-accent-purple p-4 flex items-center justify-between shadow-sm hover:border-purple-600 transition">
-                <div>
-                    <span class="text-[10px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider block">Riders</span>
-                    <span class="text-xs text-slate-500 dark:text-slate-400">Dispatch</span>
-                </div>
-                <span class="text-2xl font-black text-purple-600 dark:text-purple-400 font-mono">{{ $riderCount }}</span>
-            </a>
             <a href="{{ route('admin.users.index', ['role' => 'customer']) }}" class="card-accent-emerald p-4 flex items-center justify-between shadow-sm hover:border-emerald-600 transition col-span-2 sm:col-span-1">
                 <div>
                     <span class="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block">Customers</span>
@@ -89,10 +82,6 @@
                 <a href="{{ route('admin.users.index') }}"
                    class="px-3 py-1.5 rounded-lg font-bold transition {{ !request('role') ? 'bg-blue-600 text-white' : 'bg-slate-100 dark:dark:bg-zinc-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200' }}">
                     All
-                </a>
-                <a href="{{ route('admin.users.index', ['role' => 'rider']) }}"
-                   class="px-3 py-1.5 rounded-lg font-bold transition {{ request('role') === 'rider' ? 'bg-cyan-600 text-white' : 'bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border border-cyan-500/30' }}">
-                    Riders ({{ $riderCount }})
                 </a>
                 <a href="{{ route('admin.users.index', ['role' => 'staff']) }}"
                    class="px-3 py-1.5 rounded-lg font-bold transition {{ request('role') === 'staff' ? 'bg-amber-600 text-white' : 'bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30' }}">
@@ -299,7 +288,6 @@
                                                 <div>
                                                     <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Account Role</label>
                                                     <select name="role" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required>
-                                                         <option value="rider" {{ $user->role === 'rider' ? 'selected' : '' }}>Rider</option>
                                                         <option value="customer" {{ in_array($user->role, ['customer', 'user']) ? 'selected' : '' }}>Customer</option>
                                                         <option value="staff" {{ $user->role === 'staff' ? 'selected' : '' }}>Staff</option>
                                                         <option value="admin" {{ $user->role === 'admin' ? 'selected' : '' }}>Admin</option>
@@ -416,7 +404,6 @@
                 <div>
                     <label class="block font-bold text-slate-700 dark:text-slate-300 mb-1">Account Role:</label>
                     <select name="role" class="w-full p-2.5 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 text-slate-900 dark:text-white" required>
-                        <option value="rider" {{ old('role') == 'rider' ? 'selected' : '' }}>Rider</option>
                         <option value="customer" {{ old('role', 'customer') == 'customer' ? 'selected' : '' }}>Customer</option>
                         <option value="staff" {{ old('role') == 'staff' ? 'selected' : '' }}>Staff</option>
                         <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>

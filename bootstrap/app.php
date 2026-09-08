@@ -2,7 +2,6 @@
 
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\CustomerMiddleware;
-use App\Http\Middleware\RiderMiddleware;
 use App\Http\Middleware\SecurityHeaders;
 use App\Http\Middleware\StaffMiddleware;
 use Illuminate\Foundation\Application;
@@ -21,7 +20,6 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'admin' => AdminMiddleware::class,
             'staff' => StaffMiddleware::class,
-            'rider' => RiderMiddleware::class,
             'customer' => CustomerMiddleware::class,
         ]);
     })

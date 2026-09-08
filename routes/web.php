@@ -10,7 +10,6 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ChatbotController;
 use App\Http\Controllers\LaundryController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Rider\RiderDashboardController;
 use App\Mail\OrderStatusUpdated;
 use App\Models\CustomerFeedback;
 use App\Models\EmailNotification;
@@ -111,10 +110,6 @@ Route::get('/dashboard', function () {
 
     if ($user->isStaff()) {
         return redirect()->route('staff.dashboard');
-    }
-
-    if ($user->isRider()) {
-        return redirect()->route('rider.dashboard');
     }
 
     // Customer Dashboard Data
@@ -245,7 +240,6 @@ Route::post('/laundry/{order}/extend-brownout', function (Request $request, Orde
 })->middleware('auth')->name('admin.laundry.extend');
 
 Route::delete('/laundry/{order}', [LaundryController::class, 'destroy'])->middleware('auth')->name('laundry.destroy');
-Route::post('/laundry/{order}/auto-assign-rider', [LaundryController::class, 'autoAssignRider'])->middleware('auth')->name('laundry.auto-assign-rider');
 
 // Global Navbar Search Route with Strict Role Scoping
 Route::get('/search', function (Request $request) {
@@ -259,44 +253,19 @@ Route::get('/search', function (Request $request) {
     /** @var User|null $authUser */
     $authUser = Auth::user();
 
-    if (! $authUser) {
-        return redirect()->route('login');
-    }
-
-    // 1. CUSTOMER ROLE SEARCH SCOPING (Strictly isolated to their own orders)
+    // 1. CUSTOMER ROLE SEARCH SCOPING (Only own order history)
     if ($authUser->isCustomer()) {
         $order = Order::where('customer_id', $authUser->id)
-            ->where(function ($query) use ($cleanQ, $q) {
+            ->where(function ($query) use ($cleanQ) {
                 $query->where('order_number', $cleanQ)
-                    ->orWhere('id', is_numeric($cleanQ) ? (int) $cleanQ : 0)
-                    ->orWhereHas('service', function ($s) use ($q) {
-                        $s->where('name', 'like', "%{$q}%");
-                    });
-            })
-            ->first();
+                    ->orWhere('id', is_numeric($cleanQ) ? (int) $cleanQ : 0);
+            })->first();
 
         if ($order) {
             return redirect()->route('laundry.track', $order->order_number);
         }
 
         return redirect()->route('my.orders')->with('error', "No matching orders found in your order history for '{$q}'.");
-    }
-
-    // 2. RIDER ROLE SEARCH SCOPING (Dispatches & assigned customer orders)
-    if ($authUser->isRider()) {
-        $order = Order::where(function ($query) use ($cleanQ, $q) {
-            $query->where('order_number', $cleanQ)
-                ->orWhere('id', is_numeric($cleanQ) ? (int) $cleanQ : 0)
-                ->orWhereHas('customer', function ($u) use ($q) {
-                    $u->where('name', 'like', "%{$q}%")->orWhere('phone', 'like', "%{$q}%");
-                });
-        })->first();
-
-        if ($order) {
-            return redirect()->route('rider.dashboard')->with('success', "Found dispatch for Order #{$order->order_number}");
-        }
-
-        return redirect()->route('rider.dashboard')->with('error', "No matching dispatches found for '{$q}'.");
     }
 
     // 3. STAFF ROLE SEARCH SCOPING (Laundry Orders & Machines)
@@ -462,18 +431,6 @@ Route::middleware(['auth', 'staff'])->prefix('staff')->name('staff.')->group(fun
 
 /*
 |--------------------------------------------------------------------------
-| Rider Logistics Panel
-|--------------------------------------------------------------------------
-*/
-Route::middleware(['auth', 'rider'])->group(function () {
-    Route::get('/rider/dashboard', [RiderDashboardController::class, 'index'])->name('rider.dashboard');
-    Route::match(['post', 'patch'], '/rider/order/{order}/status', [RiderDashboardController::class, 'updateStatus'])->name('rider.updateStatus');
-    Route::match(['post', 'patch'], '/rider/order/{order}/payment', [RiderDashboardController::class, 'updatePaymentStatus'])->name('rider.updatePaymentStatus');
-    Route::match(['post', 'patch'], '/rider/order/{order}/eta', [RiderDashboardController::class, 'updateEta'])->name('rider.updateEta');
-});
-
-/*
-|--------------------------------------------------------------------------
 | Admin / Owner Panel
 |--------------------------------------------------------------------------
 */
@@ -487,10 +444,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
                 return redirect()->route('staff.dashboard');
             }
 
-            if ($user->isRider()) {
-                return redirect()->route('rider.dashboard');
-            }
-
             return redirect()->route('dashboard');
         }
         $machines = Machine::with(['currentOrder', 'currentOrder.customer', 'activeOrder', 'activeOrder.customer'])->orderBy('id', 'asc')->get();
@@ -502,7 +455,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         $completedToday = Order::whereDate('updated_at', now()->today())->where('order_status', 'completed')->count();
 
         $staffCount = User::where('role', 'staff')->count();
-        $riderCount = User::where('role', 'rider')->count();
+        $riderCount = 0;
         $customerCount = User::where('role', 'customer')->orWhere('role', 'user')->count();
         $profitTotal = Order::where('payment_status', 'paid')->sum('total_amount');
         $feedbacks = CustomerFeedback::with('user:id,name')->latest()->take(6)->get();
@@ -521,27 +474,14 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
         $qrScanCount = Schema::hasTable('qr_scan_logs') ? QrScanLog::count() : 0;
         $reviewCount = Schema::hasTable('customer_feedbacks') ? CustomerFeedback::count() : 0;
 
-        // Rider Analytics & Dispatch Metrics for Admin & Staff
-        $riderPickupRequests = Order::whereIn('order_status', ['pending', 'out_for_pickup'])
-            ->where(function ($q) {
-                $q->whereIn('pickup_type', ['pickup_delivery', 'pickup'])
-                    ->orWhereNull('pickup_type')
-                    ->orWhere('order_status', 'out_for_pickup');
-            })
-            ->count();
-
-        $riderReceivedCount = Order::where('order_status', 'received')->count();
-        $riderDeliveryCount = Order::where('order_status', 'out_for_delivery')->count();
-        $riderCompletedCount = Order::where('order_status', 'completed')->count();
-        $riderCancelledCount = Order::where('order_status', 'cancelled')->count();
-
-        $riderOrders = Order::with(['customer.customerProfile', 'service'])
-            ->whereIn('order_status', ['pending', 'out_for_pickup', 'out_for_delivery'])
-            ->latest()
-            ->get();
-
-        $outForPickup = $riderPickupRequests;
-        $outForDelivery = $riderDeliveryCount;
+        $riderPickupRequests = 0;
+        $riderReceivedCount = 0;
+        $riderDeliveryCount = 0;
+        $riderCompletedCount = 0;
+        $riderCancelledCount = 0;
+        $riderOrders = collect([]);
+        $outForPickup = 0;
+        $outForDelivery = 0;
 
         $storeStatus = Cache::get('store_status', 'open');
 
@@ -601,7 +541,6 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/laundry', [AdminLaundryController::class, 'index'])->name('laundry.index');
     Route::match(['post', 'patch'], '/laundry/{order}', [AdminLaundryController::class, 'update'])->name('laundry.update');
     Route::delete('/laundry/{order}', [LaundryController::class, 'destroy'])->name('laundry.destroy');
-    Route::post('/laundry/{order}/auto-assign-rider', [LaundryController::class, 'autoAssignRider'])->name('laundry.auto-assign-rider');
     Route::get('/analytics', function () {
         return redirect()->route('admin.dashboard');
     })->name('analytics');

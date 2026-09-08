@@ -43,7 +43,7 @@ class UserController extends Controller
         $totalUsers = User::count();
         $adminCount = User::whereIn('role', ['owner', 'admin'])->count();
         $staffCount = User::where('role', 'staff')->count();
-        $riderCount = User::where('role', 'rider')->count();
+        $riderCount = 0;
         $customerCount = User::whereIn('role', ['customer', 'user'])->count();
 
         return view('admin.users.index', compact(
@@ -78,7 +78,7 @@ class UserController extends Controller
             'city' => 'nullable|string|max:255',
             'province' => 'nullable|string|max:255',
             'password' => 'required|min:8',
-            'role' => ['required', 'string', Rule::in(['owner', 'admin', 'staff', 'rider', 'customer', 'user'])],
+            'role' => ['required', 'string', Rule::in(['owner', 'admin', 'staff', 'customer', 'user'])],
         ], [
             'email.unique' => 'This email address is already registered to another user.',
             'phone.unique' => 'This phone number is already registered to another user.',
@@ -135,7 +135,7 @@ class UserController extends Controller
             'barangay' => ['nullable', 'string', 'max:255'],
             'city' => ['nullable', 'string', 'max:255'],
             'province' => ['nullable', 'string', 'max:255'],
-            'role' => ['required', 'string', Rule::in(['owner', 'admin', 'staff', 'rider', 'customer', 'user'])],
+            'role' => ['required', 'string', Rule::in(['owner', 'admin', 'staff', 'customer', 'user'])],
             'password' => ['nullable', 'min:8'],
             'status' => ['nullable', 'string', Rule::in(['active', 'inactive', 'blocked'])],
         ], [

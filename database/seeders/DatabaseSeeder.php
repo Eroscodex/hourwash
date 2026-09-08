@@ -37,19 +37,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // 3. Rider User: Anthony Cayme
-        User::updateOrCreate(
-            ['email' => 'caymeanthony1@gmail.com'],
-            [
-                'name' => 'Anthony Cayme',
-                'password' => Hash::make('Anthony1234!'),
-                'phone' => '09100317744',
-                'role' => 'rider',
-                'status' => 'active',
-            ]
-        );
-
-        // 4. Customer User 1: Lezil Orgasa
+        // 3. Customer User 1: Lezil Orgasa
         $customer1 = User::updateOrCreate(
             ['email' => 'lezorgasa@gmail.com'],
             [

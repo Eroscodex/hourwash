@@ -120,7 +120,7 @@ class ChatbotController extends Controller
         $faqContext = <<<'FAQ'
 HOUR WASH LAUNDRY SHOP FULL FAQ & KNOWLEDGE BASE:
 1. SERVICES OFFERED:
-   - Full Wash-Dry-Fold Service: P200 (Drop-off) / P250 (Pickup & Delivery included).
+   - Full Wash-Dry-Fold Service: P200 (Drop-off).
    - Wash Only: P75 / load (up to 7kg).
    - Dry Only: P75 / load (up to 7kg).
    - Fold Only: P50 / load.
@@ -133,19 +133,16 @@ HOUR WASH LAUNDRY SHOP FULL FAQ & KNOWLEDGE BASE:
    - Dry Cleaning: Wet-wash & steam care for suits/jackets available (2-3 days turnaround).
 
 2. PRICING & DISCOUNTS:
-   - Price per load (up to 7kg standard): Wash Only P75, Dry Only P75, Fold Only P50, Self-Service P150, Full Service P200/P250.
+   - Price per load (up to 7kg standard): Wash Only P75, Dry Only P75, Fold Only P50, Self-Service P150, Full Service P200.
    - Detergent & Fabric Softener: INCLUDED FREE in all Full Service & Wash packages! You can also request specific brands or bring your own.
    - Discounts & Rewards: Frequent User Card available! Earn 1 stamp per order — 12 stamps get you a FREE wash reward or discount. Bulk order discounts available.
    - Heavily Soiled Clothes: Standard loads have no extra charge. Extremely muddy or heavily stained items requiring pre-soak treatment have a nominal P20-P50 add-on fee.
-   - Payment Methods: Cash on Delivery (COD) for pickup & delivery orders, and Cash at Shop Counter.
+   - Payment Methods: Cash at Shop Counter.
 
-3. TURNAROUND TIME & PICKUP/DELIVERY:
+3. TURNAROUND TIME & STORE DROP-OFF:
    - Standard Turnaround: 2 to 4 hours.
    - Same-Day Service: YES! Orders submitted before 4:30 PM cut-off are completed on the same day.
    - Express Service: Fast-track 2-hour turnaround available upon request.
-   - Pickup & Delivery: YES! Doorstep pickup and delivery is available for P50 fee (or included in P250 Full Service Delivery package).
-   - Service Areas: Legazpi City, Orosite, Magallanes St., Daraga, and surrounding Albay areas.
-   - Pickup Scheduling: You can schedule pickup online through our website or call/SMS our rider hotline at 09100317744 / (052) 800-HOURWASH.
    - Order Tracking: Track live cleaning status on our website via Order Code (e.g. #HW-XXXXXX) or scanning the receipt QR tag.
 
 4. LOCATION & STORE HOURS:
@@ -269,7 +266,7 @@ PROMPT;
 
         // 2. Services Offered & Wash-Dry-Fold Inquiry
         if (Str::contains($msg, ['what laundry services', 'services do you offer', 'wash-dry-fold', 'wash dry fold', 'what services', 'services offered', 'mga serbisyo'])) {
-            return "Hour Wash Laundry Services Offered:\n1. Full Wash-Dry-Fold: P200 (Drop-off) / P250 (Pickup & Delivery included)\n2. Wash Only: P75 / load (up to 7kg)\n3. Dry Only: P75 / load (up to 7kg)\n4. Fold Only: P50 / load\n5. Self-Service Laundry: P150 / load (Operate commercial washers & dryers yourself)\n6. Heavy Blankets & Comforters: P200 / load\n7. Doorstep Pickup & Delivery: P50 fee";
+            return "Hour Wash Laundry Services Offered:\n1. Full Wash-Dry-Fold: P200 (Drop-off)\n2. Wash Only: P75 / load (up to 7kg)\n3. Dry Only: P75 / load (up to 7kg)\n4. Fold Only: P50 / load\n5. Self-Service Laundry: P150 / load (Operate commercial washers & dryers yourself)\n6. Heavy Blankets & Comforters: P200 / load";
         }
 
         // 3. Dry Cleaning Inquiry
@@ -299,12 +296,12 @@ PROMPT;
 
         // 8. Prices, Per Kilo Cost & Blanket Cost
         if (Str::contains($msg, ['how much does it cost', 'cost to wash', 'price per kilo', 'per kilo', 'magkano magpalaba', 'magkano per kilo', 'magkano kumot', 'cost to wash a blanket', 'magkano laba'])) {
-            return "Hour Wash Pricing & Rates:\n- Price Per Load (up to 7kg standard): Wash Only P75, Dry Only P75, Fold Only P50\n- Self-Service (Wash + Dry): P150 / load\n- Full Service (Wash + Dry + Fold): P200 (Drop-off) / P250 (Pickup & Delivery included)\n- Heavy Blanket / Comforter: P200 / load\n- Delivery Fee: P50 flat rate";
+            return "Hour Wash Pricing & Rates:\n- Price Per Load (up to 7kg standard): Wash Only P75, Dry Only P75, Fold Only P50\n- Self-Service (Wash + Dry): P150 / load\n- Full Service (Wash + Dry + Fold): P200 (Drop-off)\n- Heavy Blanket / Comforter: P200 / load";
         }
 
         // 9. Package Deals, Discounts & Stamps Inquiry
         if (Str::contains($msg, ['package deal', 'package deals', 'discount', 'discounts', 'promo', 'stamp', 'stamps', 'frequent user', 'reward', 'rewards', 'mura'])) {
-            return "Package Deals & Discounts:\nYES! We offer the Frequent User Loyalty Card — earn 1 stamp per order, and 12 stamps get you a FREE wash reward or discount! We also offer bulk load discounts and special full-service packages (P250 including free pickup & delivery).";
+            return "Package Deals & Discounts:\nYES! We offer the Frequent User Loyalty Card — earn 1 stamp per order, and 12 stamps get you a FREE wash reward or discount! We also offer bulk load discounts and special full-service packages (P200 drop-off).";
         }
 
         // 10. Detergent & Fabric Softener Inquiry
@@ -319,22 +316,17 @@ PROMPT;
 
         // 12. Turnaround Time, Express & Same-Day Inquiry
         if (Str::contains($msg, ['how long', 'how long does', 'same day', 'same-day', 'express', 'turnaround', 'pick up my clothes', 'kelan makukuha', 'kailan makukuha', 'matatapos'])) {
-            return "Laundry Turnaround Time & Same-Day Service:\n- Standard Processing: 2 to 4 hours\n- Same-Day Service: YES! Orders dropped off or requested before our 4:30 PM cut-off are ready on the same day!\n- Express Service: Fast-track 2-hour processing available upon request.";
+            return "Laundry Turnaround Time & Same-Day Service:\n- Standard Processing: 2 to 4 hours\n- Same-Day Service: YES! Orders dropped off before our 4:30 PM cut-off are ready on the same day!\n- Express Service: Fast-track 2-hour processing available upon request.";
         }
 
-        // 13. Pickup & Delivery, Fees & Areas Covered Inquiry
-        if (Str::contains($msg, ['pickup', 'pick up', 'pick-up', 'delivery', 'deliver', 'delivery fee', 'areas', 'coverage', 'hatid', 'sundo'])) {
-            return "Pickup & Delivery Service Information:\n- Pickup & Delivery Fee: P50 flat rate (or INCLUDED in P250 Full Service Package)\n- Service Areas: Legazpi City, Orosite, Magallanes St., Daraga, and surrounding Albay areas\n- Schedule Pickup: Book online on our website or call/SMS our rider hotline at 09100317744 / (052) 800-HOURWASH\n- Tracking: Live status tracking available on our website via Order # (e.g. #HW-XXXXXX)!";
-        }
-
-        // 14. Location, Hours, Sundays, Walk-ins & Appointments
+        // 13. Location, Hours, Sundays, Walk-ins & Appointments
         if (Str::contains($msg, ['location', 'located', 'where is', 'address', 'open and close', 'store hours', 'sundays', 'sunday', 'appointment', 'walk-in', 'walk-ins', 'walk in', 'oras', 'saan', 'lugar', 'linggo'])) {
-            return "Hour Wash Shop Location & Operating Hours:\n- Address: Magallanes St., Orosite, Legazpi City, Albay, Philippines\n- Store Hours: 7:30 AM – 6:00 PM Daily (OPEN MONDAY TO SUNDAY!)\n- Same-Day Cut-Off: 4:30 PM\n- Walk-ins & Appointments: WALK-INS ARE ALWAYS WELCOME! No appointment required. Online booking is also available.";
+            return "Hour Wash Shop Location & Operating Hours:\n- Address: Magallanes St., Orosite, Legazpi City, Albay, Philippines\n- Store Hours: 7:30 AM – 6:00 PM Daily (OPEN MONDAY TO SUNDAY!)\n- Same-Day Cut-Off: 4:30 PM\n- Walk-ins & Appointments: WALK-INS ARE ALWAYS WELCOME! No appointment required.";
         }
 
-        // 15. Payment Methods Inquiry
+        // 14. Payment Methods Inquiry
         if (Str::contains($msg, ['payment method', 'payment methods', 'pay', 'cash', 'cod', 'cash on delivery', 'bayad', 'paano magbayad'])) {
-            return "Payment Methods Accepted:\n- Cash on Delivery (COD) for pickup & delivery orders\n- Cash at Shop Counter upon drop-off or claim";
+            return "Payment Methods Accepted:\n- Cash at Shop Counter upon drop-off or claim";
         }
 
         // 16. Delicate Clothes, Whites & Color Separation, Shrinkage & Custom Instructions

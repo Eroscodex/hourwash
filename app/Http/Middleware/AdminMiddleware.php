@@ -23,10 +23,6 @@ class AdminMiddleware
             return redirect()->route('staff.dashboard');
         }
 
-        if ($user && $user->isRider()) {
-            return redirect()->route('rider.dashboard');
-        }
-
         if ($user) {
             return redirect()->route('dashboard');
         }

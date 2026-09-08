@@ -40,10 +40,6 @@ class AuthenticatedSessionController extends Controller
             return redirect()->intended(route('staff.dashboard', absolute: false));
         }
 
-        if ($user && $user->isRider()) {
-            return redirect()->intended(route('rider.dashboard', absolute: false));
-        }
-
         if ($user && $user->isCustomer()) {
             return redirect()->intended(route('dashboard', absolute: false));
         }

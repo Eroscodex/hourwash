@@ -27,10 +27,6 @@ class CustomerMiddleware
             return redirect()->route('staff.dashboard');
         }
 
-        if ($user && $user->isRider()) {
-            return redirect()->route('rider.dashboard');
-        }
-
         return redirect()->route('login');
     }
 }

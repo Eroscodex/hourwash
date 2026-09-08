@@ -19,10 +19,6 @@ class StaffMiddleware
             return $next($request);
         }
 
-        if ($user && $user->isRider()) {
-            return redirect()->route('rider.dashboard');
-        }
-
         if ($user) {
             return redirect()->route('dashboard');
         }
