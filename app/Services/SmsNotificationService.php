@@ -6,7 +6,6 @@ use App\Models\Order;
 use App\Models\SmsNotification;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -123,35 +122,9 @@ class SmsNotificationService
             ? Carbon::parse($order->estimated_completion)->format('M d h:i A')
             : 'TBD';
 
-        // Dynamic Rider resolution per order
-        $riderName = $order->pickupDelivery?->rider_name;
-        $riderPhone = $order->pickupDelivery?->rider_phone;
+        $message = "HourWash: Hi {$custName}, your laundry Order #{$code} status updated to: ".strtoupper(str_replace('_', ' ', $order->order_status)).'.';
 
-        if (empty($riderName) || empty($riderPhone)) {
-            $currentUser = Auth::user();
-            if ($currentUser && $currentUser->role === 'rider') {
-                $riderName = $currentUser->name;
-                $riderPhone = $currentUser->phone;
-            } else {
-                $assignedRider = User::where('role', 'rider')->whereNotNull('phone')->first();
-                $riderName = $assignedRider?->name;
-                $riderPhone = $assignedRider?->phone;
-            }
-        }
-
-        if ($order->order_status === 'out_for_pickup') {
-            if (! empty($riderName) && ! empty($riderPhone)) {
-                $message = "HourWash: Hi {$custName}, Rider {$riderName} is on the way to pick up your laundry Order #{$code}! Rider Hotline: {$riderPhone}.";
-            } else {
-                $message = "HourWash: Hi {$custName}, your laundry Order #{$code} is QUEUED for pickup! A rider will be assigned shortly.";
-            }
-        } elseif ($order->order_status === 'out_for_delivery') {
-            if (! empty($riderName) && ! empty($riderPhone)) {
-                $message = "HourWash: Hi {$custName}, your laundry Order #{$code} is OUT FOR DELIVERY with Rider {$riderName}! Rider Hotline: {$riderPhone}.";
-            } else {
-                $message = "HourWash: Hi {$custName}, your laundry Order #{$code} is QUEUED for delivery! A rider will be dispatched shortly.";
-            }
-        } elseif (in_array(strtolower($order->order_status), ['finish', 'folding', 'ready', 'ready_for_pickup', 'shelved_and_tagged'])) {
+        if (in_array(strtolower($order->order_status), ['finish', 'folding', 'ready', 'ready_for_pickup', 'shelved_and_tagged'])) {
             $serviceName = strtolower($order->service?->name ?? '');
             $serviceType = strtolower($order->service?->service_type ?? '');
 

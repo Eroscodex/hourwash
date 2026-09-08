@@ -407,11 +407,8 @@
                                 @php
                                     $dashUnitLabel = match(true) {
                                         $activeOrder->machine !== null => $activeOrder->machine->machine_name . ' (' . $activeOrder->machine->machine_code . ')',
-                                        $activeOrder->order_status === 'out_for_pickup' => 'Rider Pickup Dispatch',
-                                        $activeOrder->order_status === 'picked_up' => 'In Transit to Shop',
                                         $activeOrder->order_status === 'received' => 'Store Intake / Queued',
-                                        $activeOrder->order_status === 'out_for_delivery' => 'Rider Delivery Dispatch',
-                                        $activeOrder->order_status === 'delivered' => 'Delivered to Customer',
+                                        $activeOrder->order_status === 'finish' => 'Folding & Ready for Claim',
                                         $activeOrder->order_status === 'completed' => 'Completed',
                                         default => 'Auto-Assign on Wash',
                                     };

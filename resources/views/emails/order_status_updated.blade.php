@@ -21,13 +21,11 @@
         $st = strtolower($order->order_status);
         $statusLabel = match($st) {
             'pending' => 'Order Placed (Pending)',
-            'out_for_pickup' => 'Out for Pickup',
             'received' => 'Store Received',
             'washing' => 'Washing Cycle Active',
             'rinsing' => 'Rinsing Cycle Active',
             'drying' => 'Drying Cycle Active',
-            'finish', 'folding' => 'FOLDING & READY FOR PICKUP',
-            'out_for_delivery' => 'Out for Delivery',
+            'finish', 'folding' => 'FOLDING & READY FOR CLAIM',
             'completed' => 'Order Completed',
             'cancelled' => 'Order Cancelled',
             default => strtoupper(str_replace('_', ' ', $order->order_status))

@@ -171,12 +171,6 @@
                                 $stepNum = 1;
 
                                 $orderStatusOptions['pending'] = $stepNum++ . '. Pending (Order Placed)';
-
-                                if ($isDeliveryOrder) {
-                                    $orderStatusOptions['out_for_pickup'] = $stepNum++ . '. Out for Pickup';
-                                    $orderStatusOptions['picked_up'] = $stepNum++ . '. Pickup Successful';
-                                }
-
                                 $orderStatusOptions['received'] = $stepNum++ . '. Store Received';
 
                                 if ($isWashOnly || $isSelfService || (!$isDryOnly && !$isFoldOnly)) {
@@ -198,10 +192,6 @@
                                     $finishLabel = 'FINISH (Folding & Ready - Ready for Claim)';
                                 }
                                 $orderStatusOptions['finish'] = $stepNum++ . '. ' . $finishLabel;
-
-                                if ($isDeliveryOrder) {
-                                    $orderStatusOptions['out_for_delivery'] = $stepNum++ . '. Out for Delivery';
-                                }
 
                                 $orderStatusOptions['completed'] = $stepNum++ . '. Completed';
                                 $orderStatusOptions['cancelled'] = 'Cancelled';
