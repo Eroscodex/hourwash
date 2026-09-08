@@ -70,7 +70,7 @@
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                        <div class="p-4 rounded-xl bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700/80 shadow-xs hover:border-blue-500/40 transition">
+                        <div class="p-4 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700/80 shadow-sm hover:border-blue-500/40 transition">
                             <div class="flex items-center justify-between font-bold text-sm text-slate-900 dark:text-white mb-1.5">
                                 <span>Wash Only</span>
                                 <span class="text-blue-600 dark:text-blue-400 font-extrabold text-base">₱75.00</span>
@@ -81,7 +81,7 @@
                             </div>
                         </div>
 
-                        <div class="p-4 rounded-xl bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700/80 shadow-xs hover:border-blue-500/40 transition">
+                        <div class="p-4 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700/80 shadow-sm hover:border-blue-500/40 transition">
                             <div class="flex items-center justify-between font-bold text-sm text-slate-900 dark:text-white mb-1.5">
                                 <span>Dry Only</span>
                                 <span class="text-blue-600 dark:text-blue-400 font-extrabold text-base">₱75.00</span>
@@ -92,7 +92,7 @@
                             </div>
                         </div>
 
-                        <div class="p-4 rounded-xl bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700/80 shadow-xs hover:border-blue-500/40 transition">
+                        <div class="p-4 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700/80 shadow-sm hover:border-blue-500/40 transition">
                             <div class="flex items-center justify-between font-bold text-sm text-slate-900 dark:text-white mb-1.5">
                                 <span>Fold Only</span>
                                 <span class="text-blue-600 dark:text-blue-400 font-extrabold text-base">₱50.00</span>
@@ -103,7 +103,7 @@
                             </div>
                         </div>
 
-                        <div class="p-4 rounded-xl bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700/80 shadow-xs hover:border-blue-500/40 transition">
+                        <div class="p-4 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700/80 shadow-sm hover:border-blue-500/40 transition">
                             <div class="flex items-center justify-between font-bold text-sm text-slate-900 dark:text-white mb-1.5">
                                 <span>Self-Service (Wash &amp; Dry)</span>
                                 <span class="text-blue-600 dark:text-blue-400 font-extrabold text-base">₱150.00</span>
@@ -114,7 +114,7 @@
                             </div>
                         </div>
 
-                        <div class="p-4 rounded-xl bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700/80 shadow-xs hover:border-blue-500/40 transition">
+                        <div class="p-4 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700/80 shadow-sm sm:col-span-2 hover:border-blue-500/40 transition">
                             <div class="flex items-center justify-between font-bold text-sm text-slate-900 dark:text-white mb-1.5">
                                 <span>Full-Service (Wash, Dry &amp; Fold)</span>
                                 <span class="text-blue-600 dark:text-blue-400 font-extrabold text-base">₱200.00</span>
@@ -122,17 +122,6 @@
                             <div class="flex items-center justify-between text-xs text-slate-500 dark:text-zinc-400">
                                 <span>Per load (max 7kg) — Complete drop-off care</span>
                                 <span class="font-semibold text-blue-600 dark:text-blue-400 font-mono">~1hrs 30m</span>
-                            </div>
-                        </div>
-
-                        <div class="p-4 rounded-xl bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700/80 shadow-xs sm:col-span-2 hover:border-blue-500/40 transition">
-                            <div class="flex items-center justify-between font-bold text-sm text-slate-900 dark:text-white mb-1.5">
-                                <span>Full Service with Pickup &amp; Delivery</span>
-                                <span class="text-blue-600 dark:text-blue-400 font-extrabold text-base">₱250.00</span>
-                            </div>
-                            <div class="flex items-center justify-between text-xs text-slate-500 dark:text-zinc-400 gap-2">
-                                <span>Per load (max 7kg) — Complete door-to-door service (15m pickup + 90m wash/dry/fold + 15m delivery)</span>
-                                <span class="font-semibold text-blue-600 dark:text-blue-400 font-mono whitespace-nowrap">~2 hrs</span>
                             </div>
                         </div>
                     </div>
