@@ -295,99 +295,61 @@
             $foldOnlyOrders = $allOrders->filter(fn($o) => str_contains(strtolower($o->service?->service_type ?? ''), 'fold') && !str_contains(strtolower($o->service?->service_type ?? ''), 'wash') && !str_contains(strtolower($o->service?->service_type ?? ''), 'dry'));
             $washDryOrders = $allOrders->filter(fn($o) => $o->service?->service_type === 'wash_dry' || (str_contains(strtolower($o->service?->name ?? ''), 'wash') && str_contains(strtolower($o->service?->name ?? ''), 'dry') && !str_contains(strtolower($o->service?->name ?? ''), 'fold') && !str_contains(strtolower($o->service?->name ?? ''), 'pickup')));
             $fullServiceOrders = $allOrders->filter(fn($o) => $o->service?->service_type === 'wash_dry_fold' || (str_contains(strtolower($o->service?->name ?? ''), 'fold') && str_contains(strtolower($o->service?->name ?? ''), 'wash') && !str_contains(strtolower($o->service?->name ?? ''), 'pickup')));
-            $pickupDeliveryOrders = $allOrders->filter(fn($o) => $o->service?->service_type === 'pickup_delivery' || str_contains(strtolower($o->service?->name ?? ''), 'pickup') || str_contains(strtolower($o->service?->name ?? ''), 'delivery') || (in_array($o->pickup_type, ['pickup_delivery', 'pickup', 'delivery']) && !in_array($o->pickup_type, ['drop_off', 'walk_in'])));
 
             $pipelineData = [
                 'all' => [
                     'pending' => $allOrders->where('order_status', 'pending')->count(),
-                    'pickup' => $allOrders->where('order_status', 'out_for_pickup')->count(),
-                    'picked_up' => $allOrders->where('order_status', 'picked_up')->count(),
                     'received' => $allOrders->where('order_status', 'received')->count(),
                     'washing' => $allOrders->where('order_status', 'washing')->count(),
                     'rinsing' => $allOrders->where('order_status', 'rinsing')->count(),
                     'drying' => $allOrders->where('order_status', 'drying')->count(),
                     'finish' => $allOrders->where('order_status', 'finish')->count(),
-                    'delivery' => $allOrders->where('order_status', 'out_for_delivery')->count(),
-                    'delivered' => $allOrders->where('order_status', 'delivered')->count(),
                     'completed' => $allOrders->where('order_status', 'completed')->count(),
                 ],
                 'wash' => [
                     'pending' => $washOnlyOrders->where('order_status', 'pending')->count(),
-                    'pickup' => 0,
-                    'picked_up' => 0,
                     'received' => $washOnlyOrders->where('order_status', 'received')->count(),
                     'washing' => $washOnlyOrders->where('order_status', 'washing')->count(),
                     'rinsing' => $washOnlyOrders->where('order_status', 'rinsing')->count(),
                     'drying' => 0,
                     'finish' => $washOnlyOrders->where('order_status', 'finish')->count(),
-                    'delivery' => 0,
-                    'delivered' => 0,
                     'completed' => $washOnlyOrders->where('order_status', 'completed')->count(),
                 ],
                 'dry' => [
                     'pending' => $dryOnlyOrders->where('order_status', 'pending')->count(),
-                    'pickup' => 0,
-                    'picked_up' => 0,
                     'received' => $dryOnlyOrders->where('order_status', 'received')->count(),
                     'washing' => 0,
                     'rinsing' => 0,
                     'drying' => $dryOnlyOrders->where('order_status', 'drying')->count(),
                     'finish' => $dryOnlyOrders->where('order_status', 'finish')->count(),
-                    'delivery' => 0,
-                    'delivered' => 0,
                     'completed' => $dryOnlyOrders->where('order_status', 'completed')->count(),
                 ],
                 'fold' => [
                     'pending' => $foldOnlyOrders->where('order_status', 'pending')->count(),
-                    'pickup' => 0,
-                    'picked_up' => 0,
                     'received' => $foldOnlyOrders->where('order_status', 'received')->count(),
                     'washing' => 0,
                     'rinsing' => 0,
                     'drying' => 0,
                     'finish' => $foldOnlyOrders->where('order_status', 'finish')->count(),
-                    'delivery' => 0,
-                    'delivered' => 0,
                     'completed' => $foldOnlyOrders->where('order_status', 'completed')->count(),
                 ],
                 'self_service' => [
                     'pending' => $washDryOrders->where('order_status', 'pending')->count(),
-                    'pickup' => 0,
-                    'picked_up' => 0,
                     'received' => $washDryOrders->where('order_status', 'received')->count(),
                     'washing' => $washDryOrders->where('order_status', 'washing')->count(),
                     'rinsing' => $washDryOrders->where('order_status', 'rinsing')->count(),
                     'drying' => $washDryOrders->where('order_status', 'drying')->count(),
                     'finish' => $washDryOrders->where('order_status', 'finish')->count(),
-                    'delivery' => 0,
-                    'delivered' => 0,
                     'completed' => $washDryOrders->where('order_status', 'completed')->count(),
                 ],
                 'full_service' => [
                     'pending' => $fullServiceOrders->where('order_status', 'pending')->count(),
-                    'pickup' => 0,
-                    'picked_up' => 0,
                     'received' => $fullServiceOrders->where('order_status', 'received')->count(),
                     'washing' => $fullServiceOrders->where('order_status', 'washing')->count(),
                     'rinsing' => $fullServiceOrders->where('order_status', 'rinsing')->count(),
                     'drying' => $fullServiceOrders->where('order_status', 'drying')->count(),
                     'finish' => $fullServiceOrders->where('order_status', 'finish')->count(),
-                    'delivery' => 0,
-                    'delivered' => 0,
                     'completed' => $fullServiceOrders->where('order_status', 'completed')->count(),
-                ],
-                'pickup_delivery' => [
-                    'pending' => $pickupDeliveryOrders->where('order_status', 'pending')->count(),
-                    'pickup' => $pickupDeliveryOrders->where('order_status', 'out_for_pickup')->count(),
-                    'picked_up' => $pickupDeliveryOrders->where('order_status', 'picked_up')->count(),
-                    'received' => $pickupDeliveryOrders->where('order_status', 'received')->count(),
-                    'washing' => $pickupDeliveryOrders->where('order_status', 'washing')->count(),
-                    'rinsing' => $pickupDeliveryOrders->where('order_status', 'rinsing')->count(),
-                    'drying' => $pickupDeliveryOrders->where('order_status', 'drying')->count(),
-                    'finish' => $pickupDeliveryOrders->where('order_status', 'finish')->count(),
-                    'delivery' => $pickupDeliveryOrders->where('order_status', 'out_for_delivery')->count(),
-                    'delivered' => $pickupDeliveryOrders->where('order_status', 'delivered')->count(),
-                    'completed' => $pickupDeliveryOrders->where('order_status', 'completed')->count(),
                 ],
             ];
         @endphp
@@ -399,11 +361,11 @@
                         Live Order Stage Pipeline Breakdown
                     </h2>
                     <p class="text-[11px] text-slate-500 dark:text-slate-400">
-                        Filter 11-stage breakdown by service package (Wash Only, Dry Only, Fold Only, Self-Service, Full Service, Pickup & Delivery)
+                        Filter 7-stage breakdown by service package (Wash Only, Dry Only, Fold Only, Self-Service, Full Service)
                     </p>
                 </div>
 
-                <!-- Service Package Filter Pill Tabs (7 Buttons in 1 Row) -->
+                <!-- Service Package Filter Pill Tabs (6 Buttons in 1 Row) -->
                 <div class="flex items-center justify-between gap-1 bg-slate-200/60 dark:bg-zinc-800/60 p-1 rounded-lg text-[11px] overflow-x-auto w-full md:w-auto">
                     <button type="button" id="tab-btn-all" onclick="switchPipelineService('all', this)" class="pipeline-tab-btn px-2 py-1 rounded-md font-bold transition bg-blue-600 text-white shadow-sm whitespace-nowrap flex-1 text-center">
                         All Services
@@ -423,83 +385,56 @@
                     <button type="button" id="tab-btn-full_service" onclick="switchPipelineService('full_service', this)" class="pipeline-tab-btn px-2 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition whitespace-nowrap flex-1 text-center">
                         Full-Service
                     </button>
-                    <button type="button" id="tab-btn-pickup_delivery" onclick="switchPipelineService('pickup_delivery', this)" class="pipeline-tab-btn px-2 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition whitespace-nowrap flex-1 text-center">
-                        Pickup & Delivery
-                    </button>
                 </div>
             </div>
 
-            <!-- 11-Stage Pipeline Cards -->
-            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 lg:grid-cols-11 gap-1.5" id="admin-stage-cards-container">
+            <!-- 7-Stage Pipeline Cards -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-7 lg:grid-cols-7 gap-1.5" id="admin-stage-cards-container">
                 <div class="card-accent-blue p-2 flex flex-col justify-between shadow-sm transition-all" id="stage-card-pending">
                     <span class="text-[8.5px] font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-tight block truncate">1. PENDING</span>
                     <span id="stage-count-pending" class="text-lg font-bold text-slate-900 dark:text-white mt-0.5">{{ $pipelineData['all']['pending'] }}</span>
                     <p class="text-[8px] text-slate-500 dark:text-slate-400 truncate">Order Placed</p>
                 </div>
 
-                <div class="card-accent-blue p-2 flex flex-col justify-between shadow-sm transition-all" id="stage-card-pickup">
-                    <span class="text-[8.5px] font-extrabold text-sky-600 dark:text-sky-400 uppercase tracking-tight block truncate">2. PICKUP</span>
-                    <span id="stage-count-pickup" class="text-lg font-bold text-sky-600 dark:text-sky-400 mt-0.5">{{ $pipelineData['all']['pickup'] }}</span>
-                    <p class="text-[8px] text-slate-500 dark:text-slate-400 truncate">Out Pickup</p>
-                </div>
-
-                <div class="card-accent-blue p-2 flex flex-col justify-between shadow-sm transition-all" id="stage-card-picked_up">
-                    <span class="text-[8.5px] font-extrabold text-emerald-600 dark:text-emerald-400 uppercase tracking-tight block truncate">3. PICKED UP</span>
-                    <span id="stage-count-picked_up" class="text-lg font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">{{ $pipelineData['all']['picked_up'] }}</span>
-                    <p class="text-[8px] text-slate-500 dark:text-slate-400 truncate">Pickup Success</p>
-                </div>
-
                 <div class="card-accent-blue p-2 flex flex-col justify-between shadow-sm transition-all" id="stage-card-received">
-                    <span class="text-[8.5px] font-extrabold text-blue-600 dark:text-blue-400 uppercase tracking-tight block truncate">4. RECEIVED</span>
+                    <span class="text-[8.5px] font-extrabold text-blue-600 dark:text-blue-400 uppercase tracking-tight block truncate">2. RECEIVED</span>
                     <span id="stage-count-received" class="text-lg font-bold text-blue-600 dark:text-blue-400 mt-0.5">{{ $pipelineData['all']['received'] }}</span>
                     <p class="text-[8px] text-slate-500 dark:text-slate-400 truncate">Store Received</p>
                 </div>
 
                 <div class="card-accent-blue p-2 flex flex-col justify-between shadow-sm transition-all" id="stage-card-washing">
-                    <span class="text-[8.5px] font-extrabold text-teal-600 dark:text-teal-400 uppercase tracking-tight block truncate">5. WASHING</span>
+                    <span class="text-[8.5px] font-extrabold text-teal-600 dark:text-teal-400 uppercase tracking-tight block truncate">3. WASHING</span>
                     <span id="stage-count-washing" class="text-lg font-bold text-teal-600 dark:text-teal-400 mt-0.5">{{ $pipelineData['all']['washing'] }}</span>
                     <p class="text-[8px] text-slate-500 dark:text-slate-400 truncate">Wash Cycle</p>
                 </div>
 
                 <div class="card-accent-blue p-2 flex flex-col justify-between shadow-sm transition-all" id="stage-card-rinsing">
-                    <span class="text-[8.5px] font-extrabold text-cyan-600 dark:text-cyan-400 uppercase tracking-tight block truncate">6. RINSING</span>
+                    <span class="text-[8.5px] font-extrabold text-cyan-600 dark:text-cyan-400 uppercase tracking-tight block truncate">4. RINSING</span>
                     <span id="stage-count-rinsing" class="text-lg font-bold text-cyan-600 dark:text-cyan-400 mt-0.5">{{ $pipelineData['all']['rinsing'] }}</span>
                     <p class="text-[8px] text-slate-500 dark:text-slate-400 truncate">Rinse Cycle</p>
                 </div>
 
                 <div class="card-accent-purple p-2 flex flex-col justify-between shadow-sm transition-all" id="stage-card-drying">
-                    <span class="text-[8.5px] font-extrabold text-indigo-600 dark:text-indigo-400 uppercase tracking-tight block truncate">7. DRYING</span>
+                    <span class="text-[8.5px] font-extrabold text-indigo-600 dark:text-indigo-400 uppercase tracking-tight block truncate">5. DRYING</span>
                     <span id="stage-count-drying" class="text-lg font-bold text-indigo-600 dark:text-indigo-400 mt-0.5">{{ $pipelineData['all']['drying'] }}</span>
                     <p class="text-[8px] text-slate-500 dark:text-slate-400 truncate">Dryer Units</p>
                 </div>
 
                 <div class="card-accent-amber p-2 flex flex-col justify-between shadow-sm transition-all" id="stage-card-finish">
-                    <span class="text-[8.5px] font-extrabold text-amber-600 dark:text-amber-400 uppercase tracking-tight block truncate">8. FINISH</span>
+                    <span class="text-[8.5px] font-extrabold text-amber-600 dark:text-amber-400 uppercase tracking-tight block truncate">6. FINISH</span>
                     <span id="stage-count-finish" class="text-lg font-bold text-amber-600 dark:text-amber-400 mt-0.5">{{ $pipelineData['all']['finish'] }}</span>
                     <p class="text-[8px] text-slate-500 dark:text-slate-400 truncate">Folding & Ready</p>
                 </div>
 
-                <div class="card-accent-purple p-2 flex flex-col justify-between shadow-sm transition-all" id="stage-card-delivery">
-                    <span class="text-[8.5px] font-extrabold text-purple-600 dark:text-purple-400 uppercase tracking-tight block truncate">9. DELIVERY</span>
-                    <span id="stage-count-delivery" class="text-lg font-bold text-purple-600 dark:text-purple-400 mt-0.5">{{ $pipelineData['all']['delivery'] }}</span>
-                    <p class="text-[8px] text-slate-500 dark:text-slate-400 truncate">Out Delivery</p>
-                </div>
-
-                <div class="card-accent-emerald p-2 flex flex-col justify-between shadow-sm transition-all" id="stage-card-delivered">
-                    <span class="text-[8.5px] font-extrabold text-emerald-600 dark:text-emerald-400 uppercase tracking-tight block truncate">10. DELIVERED</span>
-                    <span id="stage-count-delivered" class="text-lg font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">{{ $pipelineData['all']['delivered'] }}</span>
-                    <p class="text-[8px] text-slate-500 dark:text-slate-400 truncate">Delivery Success</p>
-                </div>
-
                 <div class="card-accent-emerald p-2 flex flex-col justify-between shadow-sm transition-all" id="stage-card-completed">
-                    <span class="text-[8.5px] font-extrabold text-emerald-600 dark:text-emerald-400 uppercase tracking-tight block truncate">11. COMPLETED</span>
+                    <span class="text-[8.5px] font-extrabold text-emerald-600 dark:text-emerald-400 uppercase tracking-tight block truncate">7. COMPLETED</span>
                     <span id="stage-count-completed" class="text-lg font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">{{ $pipelineData['all']['completed'] }}</span>
                     <p class="text-[8px] text-slate-500 dark:text-slate-400 truncate">Fulfilled & Done</p>
                 </div>
             </div>
 
             <!-- Active Service Packages Breakdown Cards Grid -->
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 pt-1">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 pt-1">
                 <div onclick="switchPipelineService('wash', document.getElementById('tab-btn-wash'))" class="p-3 rounded-lg bg-blue-500/10 border border-blue-500/30 flex items-center justify-between cursor-pointer hover:bg-blue-500/20 transition">
                     <div>
                         <span class="text-[10px] font-extrabold text-blue-700 dark:text-blue-300 uppercase block">Wash Only</span>
@@ -539,27 +474,18 @@
                     </div>
                     <span class="text-lg font-black text-purple-600 dark:text-purple-400 font-mono">{{ $fullServiceOrders->whereNotIn('order_status', ['completed', 'cancelled'])->count() }}</span>
                 </div>
-
-                <div onclick="switchPipelineService('pickup_delivery', document.getElementById('tab-btn-pickup_delivery'))" class="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between cursor-pointer hover:bg-emerald-500/20 transition">
-                    <div>
-                        <span class="text-[10px] font-extrabold text-emerald-700 dark:text-emerald-300 uppercase block">Pickup & Delivery</span>
-                        <span class="text-xs text-slate-500 dark:text-slate-400">120m Doorstep</span>
-                    </div>
-                    <span class="text-lg font-black text-emerald-600 dark:text-emerald-400 font-mono">{{ $pickupDeliveryOrders->whereNotIn('order_status', ['completed', 'cancelled'])->count() }}</span>
-                </div>
             </div>
         </div>
 
         <script>
             const pipelineServiceData = @json($pipelineData);
             const serviceStageMap = {
-                'all':             ['pending', 'pickup', 'picked_up', 'received', 'washing', 'rinsing', 'drying', 'finish', 'delivery', 'delivered', 'completed'],
-                'wash':            ['pending', 'washing', 'rinsing', 'finish', 'completed'],
-                'dry':             ['pending', 'drying', 'finish', 'completed'],
-                'fold':            ['pending', 'finish', 'completed'],
-                'self_service':    ['pending', 'washing', 'rinsing', 'drying', 'finish', 'completed'],
-                'full_service':    ['pending', 'washing', 'rinsing', 'drying', 'finish', 'completed'],
-                'pickup_delivery': ['pending', 'pickup', 'picked_up', 'received', 'washing', 'rinsing', 'drying', 'finish', 'delivery', 'delivered', 'completed']
+                'all':          ['pending', 'received', 'washing', 'rinsing', 'drying', 'finish', 'completed'],
+                'wash':         ['pending', 'received', 'washing', 'rinsing', 'finish', 'completed'],
+                'dry':          ['pending', 'received', 'drying', 'finish', 'completed'],
+                'fold':         ['pending', 'received', 'finish', 'completed'],
+                'self_service': ['pending', 'received', 'washing', 'rinsing', 'drying', 'finish', 'completed'],
+                'full_service': ['pending', 'received', 'washing', 'rinsing', 'drying', 'finish', 'completed']
             };
 
             function switchPipelineService(serviceKey, btnElement) {
@@ -574,7 +500,7 @@
 
                 const data = pipelineServiceData[serviceKey] || pipelineServiceData['all'];
                 const activeStages = serviceStageMap[serviceKey] || serviceStageMap['all'];
-                const allStageKeys = ['pending', 'pickup', 'picked_up', 'received', 'washing', 'rinsing', 'drying', 'finish', 'delivery', 'delivered', 'completed'];
+                const allStageKeys = ['pending', 'received', 'washing', 'rinsing', 'drying', 'finish', 'completed'];
 
                 allStageKeys.forEach(stage => {
                     const countEl = document.getElementById('stage-count-' + stage);
