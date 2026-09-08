@@ -876,7 +876,6 @@
             <div class="flex flex-wrap gap-1.5 pt-1">
                 <button type="button" onclick="appSendQuick('My Order Status')" class="px-2 py-1 rounded bg-blue-50 dark:bg-zinc-800 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-zinc-700 text-[10px] font-bold hover:bg-blue-100 transition cursor-pointer">My Order Status</button>
                 <button type="button" onclick="appSendQuick('What laundry services do you offer?')" class="px-2 py-1 rounded bg-blue-50 dark:bg-zinc-800 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-zinc-700 text-[10px] font-bold hover:bg-blue-100 transition cursor-pointer">Services &amp; Rates</button>
-                <button type="button" onclick="appSendQuick('Can you wash blankets and comforters?')" class="px-2 py-1 rounded bg-blue-50 dark:bg-zinc-800 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-zinc-700 text-[10px] font-bold hover:bg-blue-100 transition cursor-pointer">Blankets &amp; Comforters</button>
                 <button type="button" onclick="appSendQuick('How long does laundry take?')" class="px-2 py-1 rounded bg-blue-50 dark:bg-zinc-800 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-zinc-700 text-[10px] font-bold hover:bg-blue-100 transition cursor-pointer">Same-Day &amp; Hours</button>
             </div>
         </div>

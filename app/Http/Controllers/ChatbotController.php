@@ -125,7 +125,6 @@ HOUR WASH LAUNDRY SHOP FULL FAQ & KNOWLEDGE BASE:
    - Dry Only: P75 / load (up to 7kg).
    - Fold Only: P50 / load.
    - Self-Service Laundry: P150 / load (Operate commercial washers & dryers yourself).
-   - Heavy Blankets & Comforters: P200 / load (Commercial machines up to 15kg capacity).
    - Delicate Clothes & Steam Care: Gentle wash cycle available upon request.
    - Curtains & Fabric Covers: Yes, we wash heavy curtains and cushion covers.
    - Shoes & Bags: Gentle fabric washing available; specialty leather deep clean inquiries at shop counter.
@@ -170,7 +169,7 @@ SERVICES & RATES SUMMARY:
 
 CRITICAL RULES:
 - Answer storefront questions friendly, clearly, and text-only (no emojis).
-- Provide accurate prices, hours, pickup/delivery info, and laundry care instructions.
+- Provide accurate prices, hours, and laundry care instructions.
 PROMPT;
         }
 
@@ -266,7 +265,7 @@ PROMPT;
 
         // 2. Services Offered & Wash-Dry-Fold Inquiry
         if (Str::contains($msg, ['what laundry services', 'services do you offer', 'wash-dry-fold', 'wash dry fold', 'what services', 'services offered', 'mga serbisyo'])) {
-            return "Hour Wash Laundry Services Offered:\n1. Full Wash-Dry-Fold: P200 (Drop-off)\n2. Wash Only: P75 / load (up to 7kg)\n3. Dry Only: P75 / load (up to 7kg)\n4. Fold Only: P50 / load\n5. Self-Service Laundry: P150 / load (Operate commercial washers & dryers yourself)\n6. Heavy Blankets & Comforters: P200 / load";
+            return "Hour Wash Laundry Services Offered:\n1. Full Wash-Dry-Fold: P200 (Drop-off)\n2. Wash Only: P75 / load (up to 7kg)\n3. Dry Only: P75 / load (up to 7kg)\n4. Fold Only: P50 / load\n5. Self-Service Laundry: P150 / load (Operate commercial washers & dryers yourself)";
         }
 
         // 3. Dry Cleaning Inquiry
@@ -276,7 +275,7 @@ PROMPT;
 
         // 4. Blankets, Comforters & Heavy Items Inquiry
         if (Str::contains($msg, ['blanket', 'blankets', 'comforter', 'comforters', 'bedsheet', 'bedsheets', 'duvet', 'kumot'])) {
-            return "Washing Blankets & Comforters:\nYES! We have heavy-duty commercial washers (7kg to 15kg capacity) specially designed for thick blankets, bedsheets, comforters, and duvet covers at P200 per load!";
+            return "Washing Blankets & Comforters:\nYES! We have heavy-duty commercial washers (7kg to 15kg capacity) specially designed for thick blankets, bedsheets, comforters, and duvet covers!";
         }
 
         // 5. Shoes, Bags, Curtains Inquiry
@@ -296,7 +295,7 @@ PROMPT;
 
         // 8. Prices, Per Kilo Cost & Blanket Cost
         if (Str::contains($msg, ['how much does it cost', 'cost to wash', 'price per kilo', 'per kilo', 'magkano magpalaba', 'magkano per kilo', 'magkano kumot', 'cost to wash a blanket', 'magkano laba'])) {
-            return "Hour Wash Pricing & Rates:\n- Price Per Load (up to 7kg standard): Wash Only P75, Dry Only P75, Fold Only P50\n- Self-Service (Wash + Dry): P150 / load\n- Full Service (Wash + Dry + Fold): P200 (Drop-off)\n- Heavy Blanket / Comforter: P200 / load";
+            return "Hour Wash Pricing & Rates:\n- Price Per Load (up to 7kg standard): Wash Only P75, Dry Only P75, Fold Only P50\n- Self-Service (Wash + Dry): P150 / load\n- Full Service (Wash + Dry + Fold): P200 (Drop-off)";
         }
 
         // 9. Package Deals, Discounts & Stamps Inquiry
@@ -337,7 +336,7 @@ PROMPT;
         // 17. Welcome Page / Public Storefront Scoping (For Visitors & Guest Chatbot)
         if ($role === 'guest') {
             if (Str::contains($msg, ['how it works', 'how to order', 'process', 'steps', 'workflow', 'paano', 'papanano', 'hakbang'])) {
-                return "How Hour Wash Laundry Shop Works:\n1. Select Service Package (Wash P75, Dry P75, Fold P50, Self-Service P150, Full Service P200/P250)\n2. Drop Off or Request Pickup: Drop off at shop or our rider collects from your address\n3. Cleaning Cycle: Professional Wash, Rinse, Dry & Fold\n4. Live Tracking: Track status on your phone via Order # (e.g. #HW-XXXXXX) or QR Tag\n5. Delivery or Claim: Claim at shop or get clean laundry delivered to your doorstep!";
+                return "How Hour Wash Laundry Shop Works:\n1. Select Service Package (Wash P75, Dry P75, Fold P50, Self-Service P150, Full Service P200)\n2. Drop Off at Shop: Drop off your laundry at our shop counter\n3. Cleaning Cycle: Professional Wash, Rinse, Dry & Fold\n4. Live Tracking: Track status on your phone via Order # (e.g. #HW-XXXXXX) or QR Tag\n5. Claim at Shop: Claim your fresh, clean laundry at our shop counter!";
             }
 
             if (Str::contains($msg, ['review', 'reviews', 'rating', 'ratings', 'feedback'])) {
@@ -345,7 +344,7 @@ PROMPT;
             }
 
             if (Str::contains($msg, ['about us', 'about', 'background', 'shop info'])) {
-                return "About Hour Wash Laundry Shop:\nWe are Legazpi City's premier laundry management system located in Magallanes St., Orosite. We offer fast, hygienic, and affordable wash, dry, fold, and doorstep pickup & delivery services.";
+                return "About Hour Wash Laundry Shop:\nWe are Legazpi City's premier laundry management system located in Magallanes St., Orosite. We offer fast, hygienic, and affordable wash, dry, and fold services.";
             }
 
             if (Str::contains($msg, ['developer', 'developers', 'creator', 'built', 'team', 'who made'])) {
@@ -353,7 +352,7 @@ PROMPT;
             }
 
             if (Str::contains($msg, ['privacy', 'security', 'terms', 'condition', 'policy'])) {
-                return "Privacy Policy & Terms Summary:\n- Customer addresses, phone numbers, and order histories are kept strictly confidential.\n- Cash on Delivery (COD) and Cash at Counter accepted.\n- Same-day turnaround for orders submitted before 4:30 PM cut-off.";
+                return "Privacy Policy & Terms Summary:\n- Customer phone numbers and order histories are kept strictly confidential.\n- Cash at Counter accepted.\n- Same-day turnaround for orders submitted before 4:30 PM cut-off.";
             }
         }
 
@@ -383,14 +382,14 @@ PROMPT;
         // 20. Greetings
         if (Str::contains($msg, ['hi', 'hello', 'hey', 'good', 'kumusta', 'musta', 'marhay'])) {
             if ($role === 'guest') {
-                return "Hello / Marhay na aldaw! Welcome to Hour Wash Laundry Shop! I can assist you with:\n- Services & Rates (Wash, Dry, Fold, Self-Service, Pickup & Delivery)\n- Special Garments (Blankets, Comforters, Curtains, Delicate Clothes)\n- Store Hours & Location (Magallanes St., Orosite • 7:30 AM – 6:00 PM Daily)\n- Track Order (#HW-XXXXXX)\n- Customer Support & Developer Email (karlnicko2019@gmail.com)\n\nHow can I help you today?";
+                return "Hello / Marhay na aldaw! Welcome to Hour Wash Laundry Shop! I can assist you with:\n- Services & Rates (Wash, Dry, Fold, Self-Service)\n- Special Garments (Blankets, Comforters, Curtains, Delicate Clothes)\n- Store Hours & Location (Magallanes St., Orosite • 7:30 AM – 6:00 PM Daily)\n- Track Order (#HW-XXXXXX)\n- Customer Support & Developer Email (karlnicko2019@gmail.com)\n\nHow can I help you today?";
             }
 
             return "Hello {$user->name}! Welcome back to Hour Wash Laundry Portal! How can I assist you with your dashboard today?";
         }
 
         // 21. General Multilingual Storefront Fallback
-        return "Hour Wash Laundry Shop AI Assistant:\n- Location: Magallanes St., Orosite, Legazpi City\n- Store Hours: 7:30 AM – 6:00 PM Daily (Cut-Off: 4:30 PM • Open Sundays!)\n- Customer Support & Developer Email: karlnicko2019@gmail.com\n- Services & Rates: Wash Only (P75), Dry Only (P75), Fold Only (P50), Self-Service (P150), Full-Service (P200/P250), Blankets & Comforters (P200)\n- Track Order: Provide your Order Code (e.g. #HW-XXXXXX) to view live status!";
+        return "Hour Wash Laundry Shop AI Assistant:\n- Location: Magallanes St., Orosite, Legazpi City\n- Store Hours: 7:30 AM – 6:00 PM Daily (Cut-Off: 4:30 PM • Open Sundays!)\n- Customer Support & Developer Email: karlnicko2019@gmail.com\n- Services & Rates: Wash Only (P75), Dry Only (P75), Fold Only (P50), Self-Service (P150), Full-Service (P200)\n- Track Order: Provide your Order Code (e.g. #HW-XXXXXX) to view live status!";
     }
 
     /**
