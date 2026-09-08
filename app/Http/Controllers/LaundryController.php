@@ -31,7 +31,11 @@ class LaundryController extends Controller
             return redirect()->route('dashboard')->with('error', '⚠️ Store is currently CLOSED TODAY. New order bookings are disabled until the store re-opens.');
         }
 
-        $services = Service::where('status', 'active')->get();
+        $services = Service::where('status', 'active')
+            ->whereNotIn('service_type', ['pickup_delivery'])
+            ->where('name', 'NOT LIKE', '%Pickup%')
+            ->where('name', 'NOT LIKE', '%Delivery%')
+            ->get();
         $availableMachines = Machine::where('status', 'idle')
             ->whereNull('current_order_id')
             ->whereDoesntHave('activeOrder')

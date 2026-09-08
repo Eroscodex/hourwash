@@ -162,7 +162,7 @@
             }" @click.outside="open = false">
                 <label class="block text-xs font-semibold text-slate-700 dark:text-slate-200 uppercase tracking-wider mb-2">Service Package</label>
                 <select id="service_id" name="service_id" class="hidden">
-                    @foreach($services as $service)
+                    @foreach($services->reject(fn($s) => \Illuminate\Support\Str::contains(strtolower($s->name), ['pickup', 'delivery']) || $s->service_type === 'pickup_delivery') as $service)
                         <option value="{{ $service->id }}" data-price="{{ $service->price }}" data-unit="{{ $service->price_unit }}" {{ (old('service_id', $services->first()?->id) == $service->id) ? 'selected' : '' }}>
                             {{ $service->name }} — ₱{{ number_format($service->price, 2) }}/{{ $service->price_unit }}
                         </option>

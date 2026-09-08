@@ -57,6 +57,12 @@ class OfficialServicesSeeder extends Seeder
             ],
         ];
 
+        // Remove any legacy "Full Service with Pickup & Delivery" packages
+        Service::where('name', 'LIKE', '%Pickup & Delivery%')
+            ->orWhere('name', 'LIKE', '%Pickup%')
+            ->orWhere('service_type', 'pickup_delivery')
+            ->delete();
+
         foreach ($services as $srv) {
             Service::updateOrCreate(
                 ['service_type' => $srv['service_type']],
