@@ -873,64 +873,7 @@
             </div>
         </div>
 
-        <!-- RIDER OF HOUR WASH REAL-TIME ANALYTICS -->
-        <div id="rider-dispatch-section" class="app-card p-4 sm:p-6 space-y-4 w-full">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-zinc-800 pb-3">
-                <div>
-                    <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
-                        Rider of Hour Wash Analytics
-                    </h2>
-                    <p class="text-xs text-slate-500 dark:text-slate-400">
-                        Live 5-stage pickup and delivery dispatch metrics for store dispatches.
-                    </p>
-                </div>
 
-                <div class="flex items-center gap-2">
-                    <span class="px-3 py-1.5 rounded-lg bg-blue-600/15 text-blue-600 dark:text-blue-400 text-xs font-bold shrink-0 border border-blue-600/30">
-                        Live Rider Dispatch Fleet
-                    </span>
-                </div>
-            </div>
-
-            <!-- Rider 5-Stage Logistics Analytics Grid -->
-            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
-                <div class="card-accent-amber p-4 flex items-center justify-between shadow-sm">
-                    <div>
-                        <span class="text-[10.5px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider block">1. Pickup</span>
-                        <span class="text-xs text-slate-500 dark:text-slate-400">Requests</span>
-                    </div>
-                    <span class="text-2xl font-black text-amber-600 dark:text-amber-400 font-mono">{{ $riderPickupRequests ?? 0 }}</span>
-                </div>
-                <div class="card-accent-blue p-4 flex items-center justify-between shadow-sm">
-                    <div>
-                        <span class="text-[10.5px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider block">2. In-Shop</span>
-                        <span class="text-xs text-slate-500 dark:text-slate-400">Received</span>
-                    </div>
-                    <span class="text-2xl font-black text-blue-600 dark:text-blue-400 font-mono">{{ $riderReceivedCount ?? 0 }}</span>
-                </div>
-                <div class="card-accent-purple p-4 flex items-center justify-between shadow-sm">
-                    <div>
-                        <span class="text-[10.5px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider block">3. Delivery</span>
-                        <span class="text-xs text-slate-500 dark:text-slate-400">Out For Delivery</span>
-                    </div>
-                    <span class="text-2xl font-black text-purple-600 dark:text-purple-400 font-mono">{{ $riderDeliveryCount ?? 0 }}</span>
-                </div>
-                <div class="card-accent-emerald p-4 flex items-center justify-between shadow-sm">
-                    <div>
-                        <span class="text-[10.5px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block">4. Done</span>
-                        <span class="text-xs text-slate-500 dark:text-slate-400">Completed</span>
-                    </div>
-                    <span class="text-2xl font-black text-emerald-600 dark:text-emerald-400 font-mono">{{ $riderCompletedCount ?? 0 }}</span>
-                </div>
-                <div class="card-accent-rose p-4 flex items-center justify-between shadow-sm col-span-2 sm:col-span-1">
-                    <div>
-                        <span class="text-[10.5px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider block">5. Cancelled</span>
-                        <span class="text-xs text-slate-500 dark:text-slate-400">Orders</span>
-                    </div>
-                    <span class="text-2xl font-black text-rose-600 dark:text-rose-400 font-mono">{{ $riderCancelledCount ?? 0 }}</span>
-                </div>
-            </div>
-        </div>
 
         <!-- Top Store Customers & Laundry Order Frequency -->
         @php

@@ -25,7 +25,7 @@
         @endif
 
         <!-- Summary KPI Cards -->
-        <div class="grid grid-cols-2 sm:grid-cols-5 gap-3">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
             <a href="{{ route('admin.users.index') }}" class="card-accent-blue p-4 flex items-center justify-between shadow-sm hover:border-blue-600 transition">
                 <div>
                     <span class="text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider block">Total Users</span>
@@ -47,7 +47,7 @@
                 </div>
                 <span class="text-2xl font-black text-amber-600 dark:text-amber-400 font-mono">{{ $staffCount }}</span>
             </a>
-            <a href="{{ route('admin.users.index', ['role' => 'customer']) }}" class="card-accent-emerald p-4 flex items-center justify-between shadow-sm hover:border-emerald-600 transition col-span-2 sm:col-span-1">
+            <a href="{{ route('admin.users.index', ['role' => 'customer']) }}" class="card-accent-emerald p-4 flex items-center justify-between shadow-sm hover:border-emerald-600 transition">
                 <div>
                     <span class="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block">Customers</span>
                     <span class="text-xs text-slate-500 dark:text-slate-400">Registered</span>
