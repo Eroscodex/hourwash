@@ -302,19 +302,51 @@ class LaundryController extends Controller
             $authUser = Auth::user();
             $isStaffOrAdmin = $authUser && ($authUser->isStaff() || $authUser->isAdmin() || $authUser->isOwner());
 
-            if ($order->qrCode) {
+            $scannerMode = request('scanner_mode', 'camera');
+            $scannerLabels = [
+                'camera' => 'Built-in Camera Scanner',
+                'wired_usb' => 'Wired USB Scanner',
+                'wireless_2g4' => '2.4GHz Wireless Scanner',
+                'bluetooth' => 'Wireless Bluetooth Scanner',
+            ];
+            $scannerModeLabel = $scannerLabels[$scannerMode] ?? 'Built-in Camera Scanner';
+
+            $autoPaid = false;
+            if ($isStaffOrAdmin && $order->payment_status !== 'paid') {
+                $order->payment_status = 'paid';
+                $order->save();
+                $autoPaid = true;
+
                 try {
-                    QrScanLog::create([
-                        'qr_code_id' => $order->qrCode->id,
-                        'order_id' => $order->id,
-                        'scanned_by' => $authUser?->id,
-                        'scan_type' => $isStaffOrAdmin ? 'staff_scan' : 'customer_scan',
-                        'device' => request()->header('User-Agent'),
-                        'ip_address' => request()->ip(),
+                    $order->statusHistory()->create([
+                        'order_status' => $order->order_status,
+                        'notes' => 'Payment status automatically set to PAID upon QR code scan verification by '.$authUser->name.' ('.$scannerModeLabel.').',
                     ]);
                 } catch (\Throwable $e) {
-                    Log::warning('Failed to log QR scan: '.$e->getMessage());
+                    Log::warning('Failed to log payment status history: '.$e->getMessage());
                 }
+            }
+
+            try {
+                $qrRecordId = $order->qrCode?->id;
+                if (! $qrRecordId) {
+                    $qrRecord = QrCode::firstOrCreate(
+                        ['order_id' => $order->id],
+                        ['qr_token' => $order->order_number]
+                    );
+                    $qrRecordId = $qrRecord->id;
+                }
+
+                QrScanLog::create([
+                    'qr_code_id' => $qrRecordId,
+                    'order_id' => $order->id,
+                    'scanned_by' => $authUser?->id,
+                    'scan_type' => $isStaffOrAdmin ? 'staff_scan' : 'customer_scan',
+                    'device' => $scannerModeLabel.' • '.Str::limit(request()->header('User-Agent'), 80),
+                    'ip_address' => request()->ip(),
+                ]);
+            } catch (\Throwable $e) {
+                Log::warning('Failed to log QR scan: '.$e->getMessage());
             }
 
             // Customers can only view their own orders; Admin & Staff can view any customer order
@@ -323,6 +355,10 @@ class LaundryController extends Controller
                     return redirect()->route('dashboard')->with('error', 'Unauthorized: You are only allowed to view your own order tracking details.');
                 }
             }
+
+            $successMsg = $autoPaid
+                ? "Order #{$order->order_number} scanned successfully via {$scannerModeLabel}! Payment automatically marked as PAID."
+                : "Order #{$order->order_number} scanned successfully via {$scannerModeLabel}.";
 
             return view(
                 'laundry.track',

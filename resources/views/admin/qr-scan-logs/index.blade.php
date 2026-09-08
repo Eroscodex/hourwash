@@ -8,39 +8,80 @@
                 <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">Real-time audit log of customer, staff, and rider QR code scans across order tracking & verification</p>
             </div>
 
-            @if(count($logs) > 0)
-                <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-clear-qr-logs')" class="px-3.5 py-2 rounded-lg bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 text-xs font-bold hover:bg-rose-500 hover:text-white transition shadow-sm">
-                    Clear All Scan Logs
+            <div class="flex items-center gap-2">
+                <button type="button" onclick="openAdminCameraScanner()" class="px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition shadow-sm flex items-center gap-1.5 cursor-pointer">
+                    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                        <circle cx="12" cy="13" r="3"/>
+                    </svg>
+                    <span>Scan Order QR</span>
                 </button>
 
-                <x-modal name="confirm-clear-qr-logs" maxWidth="sm">
-                    <div class="p-6 bg-white dark:bg-[#141417] text-slate-900 dark:text-zinc-100 space-y-4 rounded-lg text-left">
-                        <h2 class="text-base font-bold text-rose-600 dark:text-rose-400">Clear All QR Scan Logs?</h2>
-                        <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                            Are you sure you want to clear all QR code audit scan logs permanently?
-                        </p>
-                        <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-200 dark:border-zinc-800">
-                            <button type="button" x-on:click="$dispatch('close')" class="btn-secondary text-xs py-1.5 px-3">
-                                Cancel
-                            </button>
-                            <form method="POST" action="{{ route('admin.qr_scan_logs.clear') }}">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn-danger text-xs py-1.5 px-3">
-                                    Clear Scan Logs
+                @if(count($logs) > 0)
+                    <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-clear-qr-logs')" class="px-3.5 py-2 rounded-lg bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 text-xs font-bold hover:bg-rose-500 hover:text-white transition shadow-sm cursor-pointer">
+                        Clear All Scan Logs
+                    </button>
+
+                    <x-modal name="confirm-clear-qr-logs" maxWidth="sm">
+                        <div class="p-6 bg-white dark:bg-[#141417] text-slate-900 dark:text-zinc-100 space-y-4 rounded-lg text-left">
+                            <h2 class="text-base font-bold text-rose-600 dark:text-rose-400">Clear All QR Scan Logs?</h2>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                                Are you sure you want to clear all QR code audit scan logs permanently?
+                            </p>
+                            <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-200 dark:border-zinc-800">
+                                <button type="button" x-on:click="$dispatch('close')" class="btn-secondary text-xs py-1.5 px-3">
+                                    Cancel
                                 </button>
-                            </form>
+                                <form method="POST" action="{{ route('admin.qr_scan_logs.clear') }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-danger text-xs py-1.5 px-3">
+                                        Clear Scan Logs
+                                    </button>
+                                </form>
+                            </div>
                         </div>
-                    </div>
-                </x-modal>
-            @endif
+                    </x-modal>
+                @endif
+            </div>
         </div>
 
         @if(session('success'))
-            <div class="p-4 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 text-xs font-semibold">
-                {{ session('success') }}
+            <div class="p-4 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 text-xs font-bold flex items-center gap-2 shadow-sm animate-fade-in">
+                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>{{ session('success') }}</span>
             </div>
         @endif
+
+        <!-- Live Hardware Scanner Mode Switcher Controls -->
+        <div class="app-card p-4 flex flex-col md:flex-row md:items-center justify-between gap-3 shadow-sm border-l-4 border-l-blue-600">
+            <div class="space-y-0.5">
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-extrabold uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-1.5">
+                        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span>Hardware Scanner Connection Mode</span>
+                    </span>
+                </div>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400">
+                    Switch active connection mode for wired, 2.4GHz wireless USB dongle, Bluetooth handheld scanners, or built-in camera.
+                </p>
+            </div>
+
+            <div class="flex items-center gap-1.5 bg-slate-100 dark:bg-zinc-800 p-1 rounded-lg text-xs font-bold overflow-x-auto">
+                <button type="button" onclick="switchQrScannerMode('camera')" class="qr-mode-btn px-3 py-1.5 rounded-md transition whitespace-nowrap">
+                    📷 Camera
+                </button>
+                <button type="button" onclick="switchQrScannerMode('wired_usb')" class="qr-mode-btn px-3 py-1.5 rounded-md transition whitespace-nowrap">
+                    🔌 Wired USB
+                </button>
+                <button type="button" onclick="switchQrScannerMode('wireless_2g4')" class="qr-mode-btn px-3 py-1.5 rounded-md transition whitespace-nowrap">
+                    ⚡ 2.4GHz Wireless
+                </button>
+                <button type="button" onclick="switchQrScannerMode('bluetooth')" class="qr-mode-btn px-3 py-1.5 rounded-md transition whitespace-nowrap">
+                    📶 Bluetooth
+                </button>
+            </div>
+        </div>
 
         <!-- Quick Summary Metrics -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
@@ -81,15 +122,16 @@
             </div>
 
             <div class="overflow-x-auto max-w-full">
-                <table class="w-full text-left text-xs whitespace-nowrap min-w-[700px]">
+                <table class="w-full text-left text-xs whitespace-nowrap min-w-[750px]">
                     <thead class="bg-slate-100 dark:bg-[#18181B] text-slate-700 dark:text-slate-300 uppercase text-[10px] tracking-wider border-b border-slate-200 dark:border-zinc-700">
                         <tr>
                             <th class="px-4 py-3">Scan Time</th>
                             <th class="px-4 py-3">Order #</th>
                             <th class="px-4 py-3">Scanned By</th>
+                            <th class="px-4 py-3">Payment Status</th>
                             <th class="px-4 py-3">Scan Type</th>
+                            <th class="px-4 py-3">Scanner Mode & Device</th>
                             <th class="px-4 py-3">IP Address</th>
-                            <th class="px-4 py-3">Device / User Agent</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-200 dark:divide-zinc-800">
@@ -111,20 +153,31 @@
                                     {{ $log->scannedBy->name ?? 'Guest / Public User' }}
                                 </td>
                                 <td class="px-4 py-3">
+                                    @if(($log->order->payment_status ?? '') === 'paid')
+                                        <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
+                                            PAID ✓
+                                        </span>
+                                    @else
+                                        <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30">
+                                            UNPAID
+                                        </span>
+                                    @endif
+                                </td>
+                                <td class="px-4 py-3">
                                     <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase {{ $log->scan_type === 'staff_scan' ? 'bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30' : 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30' }}">
                                         {{ str_replace('_', ' ', $log->scan_type) }}
                                     </span>
                                 </td>
-                                <td class="px-4 py-3 font-mono text-slate-600 dark:text-slate-400">
-                                    {{ $log->ip_address ?? '127.0.0.1' }}
+                                <td class="px-4 py-3 text-slate-600 dark:text-slate-300 font-medium truncate max-w-[220px]" title="{{ $log->device }}">
+                                    {{ Str::limit($log->device ?? 'Browser', 45) }}
                                 </td>
-                                <td class="px-4 py-3 text-slate-500 dark:text-slate-400 truncate max-w-[200px]" title="{{ $log->device }}">
-                                    {{ Str::limit($log->device ?? 'Browser', 40) }}
+                                <td class="px-4 py-3 font-mono text-slate-500 dark:text-slate-400">
+                                    {{ $log->ip_address ?? '127.0.0.1' }}
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="px-4 py-8 text-center text-slate-500 dark:text-slate-400 text-xs">
+                                <td colspan="7" class="px-4 py-8 text-center text-slate-500 dark:text-slate-400 text-xs">
                                     No QR scan logs recorded yet. Scans made from the public landing or tracking page will automatically show here!
                                 </td>
                             </tr>

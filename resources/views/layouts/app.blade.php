@@ -893,6 +893,10 @@
             </p>
         </div>
     </div>
+
+    @auth
+        <x-camera-qr-scanner />
+    @endauth
 </body>
 
 </html>
