@@ -7,12 +7,12 @@
                 <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">Manage active laundry stages, process cashier payments, and print store receipts.</p>
             </div>
             <div class="grid grid-cols-2 sm:flex sm:items-center gap-2 w-full sm:w-auto">
-                <button type="button" onclick="openAdminCameraScanner()" class="btn-secondary text-[10px] py-1.5 px-2.5 whitespace-nowrap flex items-center justify-center gap-1 w-full sm:w-auto">
-                    <svg class="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button type="button" onclick="openAdminCameraScanner()" class="btn-primary text-[10px] py-1.5 px-2.5 whitespace-nowrap flex items-center justify-center gap-1.5 w-full sm:w-auto text-white cursor-pointer">
+                    <svg class="w-3.5 h-3.5 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
                         <circle cx="12" cy="13" r="3"/>
                     </svg>
-                    <span>Scan Order QR</span>
+                    <span class="text-white font-extrabold">Scan Order QR</span>
                 </button>
                 <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-reset-all-orders')" class="w-full bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 hover:bg-rose-500/25 px-2.5 py-1.5 rounded-lg text-[10px] font-bold transition whitespace-nowrap flex items-center justify-center h-full">
                     Reset All Orders

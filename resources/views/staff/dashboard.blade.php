@@ -30,12 +30,12 @@
                     @endif
                 </form>
 
-                <button type="button" onclick="openAdminCameraScanner()" class="btn-secondary text-[10px] py-1.5 px-2.5 whitespace-nowrap flex items-center justify-center gap-1 w-full sm:w-auto h-full">
-                    <svg class="w-3.5 h-3.5 text-blue-600 dark:text-blue-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button type="button" onclick="openAdminCameraScanner()" class="btn-primary text-[10px] py-1.5 px-2.5 whitespace-nowrap flex items-center justify-center gap-1.5 w-full sm:w-auto h-full text-white cursor-pointer">
+                    <svg class="w-3.5 h-3.5 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
                         <circle cx="12" cy="13" r="3"/>
                     </svg>
-                    <span>Scan QR</span>
+                    <span class="text-white font-extrabold">Scan QR</span>
                 </button>
 
                 <a href="{{ route('staff.laundry.index') }}" class="btn-secondary text-[10px] py-1.5 px-2.5 whitespace-nowrap text-center w-full sm:w-auto flex items-center justify-center h-full">

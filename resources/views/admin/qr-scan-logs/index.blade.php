@@ -9,12 +9,12 @@
             </div>
 
             <div class="flex items-center gap-2">
-                <button type="button" onclick="openAdminCameraScanner()" class="px-3.5 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition shadow-sm flex items-center gap-1.5 cursor-pointer">
-                    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <button type="button" onclick="openAdminCameraScanner()" class="btn-primary text-xs py-2 px-3.5 font-bold flex items-center justify-center gap-2 cursor-pointer shadow-sm text-white">
+                    <svg class="w-4 h-4 text-white shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
                         <circle cx="12" cy="13" r="3"/>
                     </svg>
-                    <span>Scan Order QR</span>
+                    <span class="text-white font-extrabold tracking-tight">Scan Order QR</span>
                 </button>
 
                 @if(count($logs) > 0)

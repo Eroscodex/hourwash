@@ -46,7 +46,6 @@
 
             <div class="space-y-6 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
                 <div class="space-y-2">
-                    <h3 class="text-base font-bold text-slate-900 dark:text-white">Our Story</h3>
                     <p class="text-slate-600 dark:text-zinc-300">
                         Located in the heart of Magallanes St., Orosite, Legazpi City, HourWash Laundry Shop was established with a singular mission: to redefine the laundry experience. We combine heavy-duty, high-efficiency equipment with a custom-built digital platform to deliver seamless drop-off, self-service, and delivery options for our community.
                     </p>
