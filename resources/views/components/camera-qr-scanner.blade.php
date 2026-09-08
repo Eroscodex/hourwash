@@ -81,32 +81,46 @@
     let currentQrScannerMode = localStorage.getItem('hourwash_qr_scanner_mode') || 'camera';
     let hardwareScanBuffer = '';
     let lastKeyTime = 0;
+    let isScanLocked = false;
+    let sharedAudioCtx = null;
 
-    // Web Audio API Synth Sound Beeper
+    // Web Audio API Synth Sound Beeper (Retail Barcode Scanner Double-Beep)
     function playQrScanBeep() {
         try {
             const AudioCtx = window.AudioContext || window.webkitAudioContext;
             if (!AudioCtx) return;
-            const audioCtx = new AudioCtx();
-            if (audioCtx.state === 'suspended') {
-                audioCtx.resume();
+            if (!sharedAudioCtx) {
+                sharedAudioCtx = new AudioCtx();
+            }
+            if (sharedAudioCtx.state === 'suspended') {
+                sharedAudioCtx.resume();
             }
 
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
+            const now = sharedAudioCtx.currentTime;
 
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(1400, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(1800, audioCtx.currentTime + 0.12);
+            // Tone 1 (High chime)
+            const osc1 = sharedAudioCtx.createOscillator();
+            const gain1 = sharedAudioCtx.createGain();
+            osc1.type = 'sine';
+            osc1.frequency.setValueAtTime(1400, now);
+            gain1.gain.setValueAtTime(0.4, now);
+            gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+            osc1.connect(gain1);
+            gain1.connect(sharedAudioCtx.destination);
+            osc1.start(now);
+            osc1.stop(now + 0.1);
 
-            gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.12);
-
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.12);
+            // Tone 2 (Higher success chime)
+            const osc2 = sharedAudioCtx.createOscillator();
+            const gain2 = sharedAudioCtx.createGain();
+            osc2.type = 'sine';
+            osc2.frequency.setValueAtTime(1800, now + 0.11);
+            gain2.gain.setValueAtTime(0.4, now + 0.11);
+            gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+            osc2.connect(gain2);
+            gain2.connect(sharedAudioCtx.destination);
+            osc2.start(now + 0.11);
+            osc2.stop(now + 0.22);
         } catch (e) {
             console.log("Audio beep playback notice:", e);
         }
@@ -169,12 +183,21 @@
             return;
         }
 
+        isScanLocked = false;
+
         const qrCodeSuccessCallback = (decodedText) => {
+            if (isScanLocked) return;
+            isScanLocked = true;
+
             playQrScanBeep();
-            closeAdminCameraScanner();
-            if (decodedText) {
-                processQrScanResult(decodedText);
-            }
+            stopCameraStream();
+
+            setTimeout(() => {
+                closeAdminCameraScanner();
+                if (decodedText) {
+                    processQrScanResult(decodedText);
+                }
+            }, 300);
         };
 
         const config = { fps: 15, qrbox: { width: 220, height: 220 } };
@@ -216,6 +239,7 @@
         modal.classList.remove('hidden');
         modal.classList.add('flex');
 
+        isScanLocked = false;
         updateScannerModeUI();
 
         if (currentQrScannerMode === 'camera') {
@@ -229,6 +253,7 @@
         await stopCameraStream();
         modal.classList.add('hidden');
         modal.classList.remove('flex');
+        isScanLocked = false;
     }
 
     function processQrScanResult(scannedText) {

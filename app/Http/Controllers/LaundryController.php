@@ -327,26 +327,36 @@ class LaundryController extends Controller
                 }
             }
 
-            try {
-                $qrRecordId = $order->qrCode?->id;
-                if (! $qrRecordId) {
-                    $qrRecord = QrCode::firstOrCreate(
-                        ['order_id' => $order->id],
-                        ['qr_token' => $order->order_number]
-                    );
-                    $qrRecordId = $qrRecord->id;
-                }
+            // De-duplicate scan logs within 5 seconds for the same order
+            $recentLog = QrScanLog::where('order_id', $order->id)
+                ->where('created_at', '>=', now()->subSeconds(5))
+                ->latest()
+                ->first();
 
-                QrScanLog::create([
-                    'qr_code_id' => $qrRecordId,
-                    'order_id' => $order->id,
-                    'scanned_by' => $authUser?->id,
-                    'scan_type' => $isStaffOrAdmin ? 'staff_scan' : 'customer_scan',
-                    'device' => $scannerModeLabel.' • '.Str::limit(request()->header('User-Agent'), 80),
-                    'ip_address' => request()->ip(),
-                ]);
-            } catch (\Throwable $e) {
-                Log::warning('Failed to log QR scan: '.$e->getMessage());
+            if (! $recentLog) {
+                try {
+                    $qrRecordId = $order->qrCode?->id;
+                    if (! $qrRecordId) {
+                        $qrRecord = QrCode::firstOrCreate(
+                            ['order_id' => $order->id],
+                            ['qr_token' => $order->order_number]
+                        );
+                        $qrRecordId = $qrRecord->id;
+                    }
+
+                    $scanType = $isStaffOrAdmin ? 'staff_scan' : ($authUser ? 'customer_scan' : 'public_scan');
+
+                    QrScanLog::create([
+                        'qr_code_id' => $qrRecordId,
+                        'order_id' => $order->id,
+                        'scanned_by' => $authUser?->id,
+                        'scan_type' => $scanType,
+                        'device' => $scannerModeLabel.' • '.Str::limit(request()->header('User-Agent'), 80),
+                        'ip_address' => request()->ip(),
+                    ]);
+                } catch (\Throwable $e) {
+                    Log::warning('Failed to log QR scan: '.$e->getMessage());
+                }
             }
 
             // Customers can only view their own orders; Admin & Staff can view any customer order

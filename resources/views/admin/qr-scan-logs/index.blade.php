@@ -94,10 +94,10 @@
             </div>
             <div class="card-accent-emerald p-4 flex items-center justify-between shadow-sm">
                 <div>
-                    <span class="text-[10px] uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-bold block">Customer Scans</span>
+                    <span class="text-[10px] uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-bold block">Customer / Public Scans</span>
                     <span class="text-xs text-slate-500 dark:text-slate-400">Public scans</span>
                 </div>
-                <span class="text-2xl font-black text-emerald-600 dark:text-emerald-400 font-mono">{{ $logs->where('scan_type', 'customer_scan')->count() }}</span>
+                <span class="text-2xl font-black text-emerald-600 dark:text-emerald-400 font-mono">{{ $logs->whereIn('scan_type', ['customer_scan', 'public_scan'])->count() }}</span>
             </div>
             <div class="card-accent-purple p-4 flex items-center justify-between shadow-sm">
                 <div>
@@ -164,9 +164,19 @@
                                     @endif
                                 </td>
                                 <td class="px-4 py-3">
-                                    <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase {{ $log->scan_type === 'staff_scan' ? 'bg-indigo-500/15 text-indigo-600 dark:text-indigo-400 border border-indigo-500/30' : 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30' }}">
-                                        {{ str_replace('_', ' ', $log->scan_type) }}
-                                    </span>
+                                    @if($log->scan_type === 'staff_scan')
+                                        <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-indigo-500/15 text-indigo-700 dark:text-indigo-300 border border-indigo-500/30">
+                                            STAFF SCAN
+                                        </span>
+                                    @elseif($log->scan_type === 'customer_scan')
+                                        <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
+                                            CUSTOMER SCAN
+                                        </span>
+                                    @else
+                                        <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-500/30">
+                                            PUBLIC SCAN
+                                        </span>
+                                    @endif
                                 </td>
                                 <td class="px-4 py-3 text-slate-600 dark:text-slate-300 font-medium truncate max-w-[220px]" title="{{ $log->device }}">
                                     {{ Str::limit($log->device ?? 'Browser', 45) }}
