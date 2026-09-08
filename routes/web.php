@@ -10,7 +10,6 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\ChatbotController;
 use App\Http\Controllers\LaundryController;
 use App\Http\Controllers\ProfileController;
-use App\Mail\OrderStatusUpdated;
 use App\Models\CustomerFeedback;
 use App\Models\EmailNotification;
 use App\Models\Machine;
@@ -20,14 +19,10 @@ use App\Models\QrScanLog;
 use App\Models\Service;
 use App\Models\SmsNotification;
 use App\Models\User;
-use App\Services\SmsNotificationService;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 
@@ -195,49 +190,6 @@ Route::post('/laundry/{order}/cancel', function (Order $order) {
 
     return back()->with('success', "Order #{$order->order_number} has been cancelled successfully.");
 })->middleware('auth')->name('laundry.cancel');
-
-// Brownout / Power Outage Time Extension Route
-Route::post('/laundry/{order}/extend-brownout', function (Request $request, Order $order) {
-    $minutes = (int) $request->get('delay_minutes', 60);
-
-    // Extend order completion time
-    if ($order->estimated_completion) {
-        $order->estimated_completion = Carbon::parse($order->estimated_completion)->addMinutes($minutes);
-    } else {
-        $order->estimated_completion = now()->addMinutes($minutes);
-    }
-
-    $order->save();
-
-    // Extend machine remaining minutes if assigned
-    if ($order->machine_id) {
-        $machine = Machine::find($order->machine_id);
-        if ($machine) {
-            $machine->increment('remaining_minutes', $minutes);
-        }
-    }
-
-    // Eager load customer and service for notification
-    $order->load(['customer', 'service']);
-
-    // Send email notification to customer explaining power interruption
-    try {
-        if ($order->customer && $order->customer->email) {
-            Mail::to($order->customer->email)->send(new OrderStatusUpdated($order, 'customer'));
-        }
-    } catch (Throwable $e) {
-        Log::error('Brownout email notification error: '.$e->getMessage());
-    }
-
-    // Send SMS Notification explaining power outage delay
-    try {
-        SmsNotificationService::sendOrderStatusSms($order, "POWER OUTAGE ALERT: Completion time extended by +{$minutes} mins due to store brownout.");
-    } catch (Throwable $e) {
-        Log::error('Brownout SMS notification error: '.$e->getMessage());
-    }
-
-    return back()->with('success', "Power Outage / Brownout extension applied! Order #{$order->order_number} estimated completion extended by +{$minutes} minutes. Customer notified via Email & SMS ({$order->customer->phone}).");
-})->middleware('auth')->name('admin.laundry.extend');
 
 Route::delete('/laundry/{order}', [LaundryController::class, 'destroy'])->middleware('auth')->name('laundry.destroy');
 

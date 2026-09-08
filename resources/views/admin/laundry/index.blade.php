@@ -292,10 +292,6 @@
                             </button>
                         </form>
 
-                        <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'power-outage-{{ $order->id }}')" class="bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30 hover:bg-amber-500/25 px-3 py-1.5 rounded-lg text-xs font-bold transition">
-                            Power Outage Extension
-                        </button>
-
                         <form method="POST" action="{{ route('laundry.destroy', $order->id) }}" class="inline" onsubmit="return confirm('Are you sure you want to delete Order #{{ $order->order_number }} permanently? This action cannot be undone.');">
                             @csrf
                             @method('DELETE')
@@ -303,32 +299,6 @@
                                 Delete
                             </button>
                         </form>
-
-                        <x-modal name="power-outage-{{ $order->id }}" maxWidth="sm">
-                            <form method="POST" action="{{ route('admin.laundry.extend', $order->id) }}" class="p-6 bg-white dark:bg-[#141417] text-slate-900 dark:text-zinc-100 space-y-4 rounded-lg text-left">
-                                @csrf
-                                <h2 class="text-base font-bold text-amber-600 dark:text-amber-400">Power Outage Extension?</h2>
-                                <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                                    Select estimated brownout delay time for order <strong>#{{ $order->order_number }}</strong>:
-                                </p>
-                                <div>
-                                    <select name="delay_minutes" class="w-full py-2 px-3 text-xs rounded-md bg-slate-50 dark:bg-[#18181B] border border-slate-300 dark:border-zinc-700">
-                                        <option value="30">+30 mins delay</option>
-                                        <option value="60" selected>+60 mins delay</option>
-                                        <option value="120">+2 hours delay</option>
-                                        <option value="180">+3 hours delay</option>
-                                    </select>
-                                </div>
-                                <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-200 dark:border-zinc-800">
-                                    <button type="button" x-on:click="$dispatch('close')" class="btn-secondary text-xs py-1.5 px-3">
-                                        Cancel
-                                    </button>
-                                    <button type="submit" class="btn-primary text-xs py-1.5 px-3">
-                                        Apply Delay & Notify Customer
-                                    </button>
-                                </div>
-                            </form>
-                        </x-modal>
                     </div>
                 </div>
             @empty
