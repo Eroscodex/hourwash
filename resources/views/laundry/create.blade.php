@@ -76,8 +76,8 @@
 
                     <!-- Option A: Select Existing Registered Customer -->
                     <div x-show="customerMode === 'select'" class="space-y-1.5">
-                        <label class="block text-[11px] font-semibold text-slate-600 dark:text-slate-400">Registered Customer Account</label>
-                        <select name="customer_id" class="w-full text-xs">
+                        <label for="customer_id" class="block text-[11px] font-semibold text-slate-600 dark:text-slate-400">Registered Customer Account</label>
+                        <select id="customer_id" name="customer_id" class="w-full text-xs">
                             <option value="">-- Select Registered Customer --</option>
                             @foreach($customers ?? [] as $c)
                                 <option value="{{ $c->id }}" {{ old('customer_id') == $c->id ? 'selected' : '' }}>
@@ -97,36 +97,36 @@
                         </p>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                             <div>
-                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Full Name:</label>
-                                <input type="text" name="new_customer_name" value="{{ old('new_customer_name') }}" placeholder="e.g. Your Name" class="w-full">
+                                <label for="new_customer_name" class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Full Name:</label>
+                                <input type="text" id="new_customer_name" name="new_customer_name" value="{{ old('new_customer_name') }}" placeholder="e.g. Your Name" class="w-full">
                             </div>
                             <div>
-                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Email Address</label>
-                                <input type="email" name="new_customer_email" value="{{ old('new_customer_email') }}" placeholder="e.g. name@example.com (Auto-generated if blank)" class="w-full">
+                                <label for="new_customer_email" class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Email Address</label>
+                                <input type="email" id="new_customer_email" name="new_customer_email" value="{{ old('new_customer_email') }}" placeholder="e.g. name@example.com (Auto-generated if blank)" class="w-full">
                             </div>
                             <div>
-                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Phone Number</label>
-                                <input type="text" name="new_customer_phone" value="{{ old('new_customer_phone') }}" placeholder="e.g. 09XXXXXXXXX" class="w-full">
+                                <label for="new_customer_phone" class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Phone Number</label>
+                                <input type="text" id="new_customer_phone" name="new_customer_phone" value="{{ old('new_customer_phone') }}" placeholder="e.g. 09XXXXXXXXX" class="w-full">
                             </div>
                             <div>
-                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">House No. / Street Address</label>
-                                <input type="text" name="new_customer_address" value="{{ old('new_customer_address') }}" placeholder="e.g. #123 Magallanes St." class="w-full">
+                                <label for="new_customer_address" class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">House No. / Street Address</label>
+                                <input type="text" id="new_customer_address" name="new_customer_address" value="{{ old('new_customer_address') }}" placeholder="e.g. #123 Magallanes St." class="w-full">
                             </div>
                             <div>
-                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Barangay</label>
-                                <input type="text" name="new_customer_barangay" value="{{ old('new_customer_barangay') }}" placeholder="e.g. Brgy. Orosite" class="w-full">
+                                <label for="new_customer_barangay" class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Barangay</label>
+                                <input type="text" id="new_customer_barangay" name="new_customer_barangay" value="{{ old('new_customer_barangay') }}" placeholder="e.g. Brgy. Orosite" class="w-full">
                             </div>
                             <div>
-                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">City / Municipality</label>
-                                <input type="text" name="new_customer_city" value="{{ old('new_customer_city', 'Legazpi City') }}" placeholder="e.g. Legazpi City" class="w-full">
+                                <label for="new_customer_city" class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">City / Municipality</label>
+                                <input type="text" id="new_customer_city" name="new_customer_city" value="{{ old('new_customer_city', 'Legazpi City') }}" placeholder="e.g. Legazpi City" class="w-full">
                             </div>
                             <div>
-                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Province</label>
-                                <input type="text" name="new_customer_province" value="{{ old('new_customer_province', 'Albay') }}" placeholder="e.g. Albay" class="w-full">
+                                <label for="new_customer_province" class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Province</label>
+                                <input type="text" id="new_customer_province" name="new_customer_province" value="{{ old('new_customer_province', 'Albay') }}" placeholder="e.g. Albay" class="w-full">
                             </div>
                             <div>
-                                <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Account Password</label>
-                                <input type="password" name="new_customer_password" placeholder="Default: password (if left blank)" class="w-full">
+                                <label for="new_customer_password" class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Account Password</label>
+                                <input type="password" id="new_customer_password" name="new_customer_password" placeholder="Default: password (if left blank)" class="w-full">
                             </div>
                         </div>
                     </div>

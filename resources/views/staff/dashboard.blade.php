@@ -758,6 +758,4 @@
         </div>
     </div>
 
-    <x-camera-qr-scanner />
-
 </x-app-layout>

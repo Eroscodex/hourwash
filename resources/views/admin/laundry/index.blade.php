@@ -309,8 +309,6 @@
         </div>
     </div>
 
-    <x-camera-qr-scanner />
-
 <script>
     function filterAdminOrders(type) {
         const cards = document.querySelectorAll('.admin-order-card');

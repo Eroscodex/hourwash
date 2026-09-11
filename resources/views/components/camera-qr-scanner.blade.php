@@ -15,9 +15,9 @@
 
         <!-- Connection Mode Switcher Tabs -->
         <div class="space-y-1.5 text-left">
-            <label class="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">
+            <span class="text-[10px] font-extrabold uppercase tracking-wider text-slate-500 dark:text-slate-400 block">
                 Select Scanner Hardware Mode:
-            </label>
+            </span>
             <div class="grid grid-cols-2 gap-1.5 p-1 bg-slate-100 dark:bg-zinc-800/80 rounded-lg text-[11px] font-bold">
                 <button type="button" id="scanner-mode-camera" onclick="switchQrScannerMode('camera')" class="qr-mode-btn px-2.5 py-1.5 rounded-md transition flex items-center justify-center gap-1.5">
                     <span>📷</span> <span>Camera</span>
@@ -77,12 +77,12 @@
 
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <script>
-    let adminHtml5QrCodeScanner = null;
-    let currentQrScannerMode = localStorage.getItem('hourwash_qr_scanner_mode') || 'camera';
-    let hardwareScanBuffer = '';
-    let lastKeyTime = 0;
-    let isScanLocked = false;
-    let sharedAudioCtx = null;
+    window.adminHtml5QrCodeScanner = window.adminHtml5QrCodeScanner || null;
+    window.currentQrScannerMode = localStorage.getItem('hourwash_qr_scanner_mode') || 'camera';
+    window.hardwareScanBuffer = window.hardwareScanBuffer || '';
+    window.lastKeyTime = window.lastKeyTime || 0;
+    window.isScanLocked = window.isScanLocked || false;
+    window.sharedAudioCtx = window.sharedAudioCtx || null;
 
     // Web Audio API Synth Sound Beeper (Retail Barcode Scanner Double-Beep)
     function playQrScanBeep() {
