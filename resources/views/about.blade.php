@@ -41,13 +41,13 @@
             <div class="text-center space-y-2 border-b border-slate-200 dark:border-zinc-700/80 pb-6">
                 <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-16 h-16 rounded-full mx-auto bg-white p-1 border border-slate-200 dark:border-zinc-700 shadow-sm">
                 <h1 class="text-2xl font-bold text-slate-900 dark:text-white">About HourWash</h1>
-                <p class="text-xs font-medium text-slate-500 dark:text-zinc-400">Premium Laundry Services in Legazpi City</p>
+                <p class="text-xs font-medium text-slate-500 dark:text-zinc-400">Laundry Shop & Self-Service in Legazpi City</p>
             </div>
 
             <div class="space-y-6 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
                 <div class="space-y-2">
                     <p class="text-slate-600 dark:text-zinc-300">
-                        Located in the heart of Magallanes St., Orosite, Legazpi City, HourWash Laundry Shop was established with a singular mission: to redefine the laundry experience. We combine heavy-duty, high-efficiency equipment with a custom-built digital platform to deliver seamless drop-off, self-service, and delivery options for our community.
+                        Located in the heart of Magallanes St., Orosite, Legazpi City, HourWash Laundry Shop was established with a singular mission: to redefine the laundry experience. We combine heavy-duty, high-efficiency equipment with a custom-built digital platform to deliver seamless drop-off, self-service, and full-service wash, dry, and fold care for our community.
                     </p>
                 </div>
 
@@ -55,7 +55,7 @@
                     <h3 class="text-base font-bold text-slate-900 dark:text-white">Why Choose HourWash?</h3>
                     <ul class="list-disc pl-5 space-y-1.5 text-slate-600 dark:text-zinc-300">
                         <li><strong>Real-Time Digital Tracking:</strong> Know exactly when your clothes are washing, drying, or ready for pickup.</li>
-                        <li><strong>Premium Equipment:</strong> Heavy-duty industrial washers and dryers that protect fabric fibers while delivering optimal cleanliness.</li>
+                        <li><strong>High-Efficiency Equipment:</strong> Heavy-duty industrial washers and dryers that protect fabric fibers while delivering optimal cleanliness.</li>
                         <li><strong>Flexible Service Models:</strong> Choose between self-service washing or fully managed wash-and-fold services.</li>
                         <li><strong>Eco-Friendly Operations:</strong> We use energy-efficient appliances and high-quality eco-detergents to minimize environmental footprint.</li>
                     </ul>

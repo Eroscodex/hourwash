@@ -208,17 +208,17 @@
 
                     <!-- Slide 3 -->
                     <div class="slide-item absolute inset-0 transition-opacity duration-700 opacity-0 z-0">
-                        <img src="{{ asset('images/slideshow/slide3.jpg') }}" alt="Hour Wash Premium Detergent Station" class="w-full h-full object-cover object-center">
+                        <img src="{{ asset('images/slideshow/slide3.jpg') }}" alt="Hour Wash Detergent & Supplies Station" class="w-full h-full object-cover object-center">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-transparent flex flex-col justify-end p-5 sm:p-8 md:p-10">
                             <div class="backdrop-blur-md bg-slate-950/70 border border-white/20 p-4 sm:p-6 rounded-xl text-white max-w-2xl shadow-2xl space-y-2">
                                 <span class="px-3 py-1 rounded-md text-[10px] sm:text-xs font-black uppercase tracking-wider bg-emerald-600 text-white shadow-md inline-block">
-                                    Included Free • Top Brands
+                                    Top Store Brands Available
                                 </span>
                                 <h3 class="text-lg sm:text-2xl md:text-3xl font-extrabold text-white leading-tight drop-shadow-md">
-                                    Premium Detergents &amp; Fabric Softeners Included
+                                    Quality Detergents &amp; Add-On Supplies
                                 </h3>
                                 <p class="text-xs sm:text-sm text-slate-200 font-medium leading-relaxed drop-shadow-sm">
-                                    Enjoy complimentary Ariel, Breeze, Surf, Downy, and Zonrox treatment with every wash package, or request your preferred brand at our store counter.
+                                    Add Breeze, Champion, Tide, Zonrox bleach, or Downy fabric softener to your order, or bring your own preferred laundry detergent.
                                 </p>
                             </div>
                         </div>
@@ -404,7 +404,7 @@
                     </h1>
 
                     <p class="text-slate-600 dark:text-zinc-400 text-xs sm:text-sm max-w-xl leading-relaxed font-medium">
-                        Magallanes St., Orosite, Legazpi City. Experience 7kg capacity commercial washing & drying, QR code verification, automated real-time monitoring, and doorstep pickup & delivery.
+                        Magallanes St., Orosite, Legazpi City. Experience 7kg capacity commercial washing & drying, QR code verification, automated real-time monitoring, and seamless drop-off, self-service, or full-service laundry care.
                     </p>
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
