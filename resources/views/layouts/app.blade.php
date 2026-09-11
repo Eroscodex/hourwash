@@ -388,7 +388,7 @@
             <footer class="border-t border-slate-200 dark:dark:border-zinc-700 py-3.5 px-4 sm:px-6 md:px-8 bg-white dark:bg-[#141417] w-full">
                 <div class="max-w-7xl mx-auto space-y-2.5">
                     <div class="flex justify-center mb-1">
-                        <div class="w-7 h-7 bg-blue-600 rounded-full flex items-center justify-center shadow-xs overflow-hidden p-0.5 border border-blue-500/30">
+                        <div class="w-7 h-7 bg-blue-600 rounded-full flex items-center justify-center shadow-sm overflow-hidden p-0.5 border border-blue-500/30">
                             <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-full h-full object-cover rounded-full">
                         </div>
                     </div>

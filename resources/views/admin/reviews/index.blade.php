@@ -109,7 +109,7 @@
                         </div>
                     </div>
 
-                    <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-zinc-800/50 text-slate-900 dark:text-slate-100 text-xs leading-relaxed italic border border-slate-200 dark:border-zinc-700 shadow-xs">
+                    <div class="p-3.5 rounded-lg bg-slate-50 dark:bg-zinc-800/50 text-slate-900 dark:text-slate-100 text-xs leading-relaxed italic border border-slate-200 dark:border-zinc-700 shadow-sm">
                         "{{ $fb->comment }}"
                     </div>
                 </div>

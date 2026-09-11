@@ -38,7 +38,7 @@
         
         <!-- Receipt Header -->
         <div class="text-center space-y-1 border-b border-dashed border-slate-300 pb-4">
-            <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-14 h-14 mx-auto mb-1.5 rounded-full object-cover shadow-xs p-0.5 border border-slate-200 bg-white">
+            <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-14 h-14 mx-auto mb-1.5 rounded-full object-cover shadow-sm p-0.5 border border-slate-200 bg-white">
             <h1 class="text-xl font-black tracking-wide uppercase text-slate-900 font-sans leading-none">
                 HOUR WASH LAUNDRY
             </h1>
@@ -144,7 +144,7 @@
 
         <!-- Receipt Bottom QR & Footer Info -->
         <div class="text-center pt-3 space-y-2.5 border-t border-dashed border-slate-300 mt-2">
-            <div class="w-32 h-32 mx-auto bg-white p-1.5 border border-slate-300 rounded-lg flex items-center justify-center shadow-xs">
+            <div class="w-32 h-32 mx-auto bg-white p-1.5 border border-slate-300 rounded-lg flex items-center justify-center shadow-sm">
                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ $order->qrCode->qr_token ?? $order->order_number }}" 
                      alt="Order QR Tag {{ $order->order_number }}" 
                      class="w-full h-full">
@@ -152,7 +152,7 @@
             <p class="text-[10px] text-slate-500">Scan QR Code tag to view live cleaning progress</p>
 
             <div class="pt-2 flex flex-col items-center justify-center space-y-1">
-                <div class="w-7 h-7 bg-blue-600 rounded-full flex items-center justify-center shadow-xs overflow-hidden p-0.5 border border-blue-500/30">
+                <div class="w-7 h-7 bg-blue-600 rounded-full flex items-center justify-center shadow-sm overflow-hidden p-0.5 border border-blue-500/30">
                     <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-full h-full object-cover rounded-full">
                 </div>
                 <p class="text-[11px] font-bold text-slate-800 font-sans">Thank you for washing with HourWash!</p>
