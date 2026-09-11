@@ -49,24 +49,22 @@ def generate_system_design_diagram():
     ax.add_patch(rect1)
     ax.text(5, 92.5, "1. PRESENTATION LAYER (Web Portals & Responsive Sidebar Navigation UI)", fontsize=10, fontweight='bold', color='#000000')
     
-    ax.text(14, 85.0, "[ Customer Portal ]\n• Customer Dashboard\n• Book New Order\n• My Order History\n• Frequent User Card\n• Home Dashboard\n• Account Settings", fontsize=7.2, ha='center', va='center', bbox=dict(boxstyle="round,pad=0.3", fc="#FFFFFF", ec="#000000", lw=1))
-    ax.text(38, 85.0, "[ Staff Console ]\n• Workstation Dashboard\n• Manage Laundry Orders\n• Manage Machines\n• New Walk-in Order\n• QR Scan Logs Outbox\n• Account Settings", fontsize=7.2, ha='center', va='center', bbox=dict(boxstyle="round,pad=0.3", fc="#FFFFFF", ec="#000000", lw=1))
-    ax.text(62, 85.0, "[ Rider Dashboard ]\n• Rider of Hour Wash\n  (Pickup/Delivery)\n• Home Dashboard\n• Account Settings\n• Proof Photo Upload", fontsize=7.2, ha='center', va='center', bbox=dict(boxstyle="round,pad=0.3", fc="#FFFFFF", ec="#000000", lw=1))
-    ax.text(86, 85.0, "[ Admin Portal ]\n• Overall Reports\n• Manage Laundry Orders\n• Manage Machines & Users\n• Services & Pricing\n• Live SMS/Email Outbox", fontsize=7.2, ha='center', va='center', bbox=dict(boxstyle="round,pad=0.3", fc="#FFFFFF", ec="#000000", lw=1))
+    ax.text(18, 85.0, "[ Customer Portal ]\n• Customer Dashboard\n• Book New Order\n• My Order History\n• Frequent User Card\n• Home Dashboard\n• Account Settings", fontsize=7.6, ha='center', va='center', bbox=dict(boxstyle="round,pad=0.3", fc="#FFFFFF", ec="#000000", lw=1))
+    ax.text(50, 85.0, "[ Staff Console ]\n• Workstation Dashboard\n• Manage Laundry Orders\n• Manage Machines\n• New Walk-in Order\n• QR Scan Logs Outbox\n• Account Settings", fontsize=7.6, ha='center', va='center', bbox=dict(boxstyle="round,pad=0.3", fc="#FFFFFF", ec="#000000", lw=1))
+    ax.text(82, 85.0, "[ Admin Portal ]\n• Overall Reports\n• Manage Laundry Orders\n• Manage Machines & Users\n• Services & Pricing\n• Live SMS/Email Outbox", fontsize=7.6, ha='center', va='center', bbox=dict(boxstyle="round,pad=0.3", fc="#FFFFFF", ec="#000000", lw=1))
 
-    ax.annotate("", xy=(50, 62), xytext=(50, 78), arrowprops=dict(arrowstyle="->", lw=1.8, color="#000000"))
+    ax.annotate("", xy=(50, 62), xytext=(50, 78), arrowprops=dict(arrowstyle="->", lw=1.8, color="#000000", shrinkA=0, shrinkB=0))
     ax.text(52, 70, "HTTP / HTTPS Requests (JSON / Blade Forms / REST API)", fontsize=8.5, color="#000000", fontweight='bold')
 
     # Layer 2: Routing & Middleware
     rect2 = patches.FancyBboxPatch((3, 50), 94, 12, linewidth=1.4, edgecolor='#000000', facecolor='#FFFFFF', boxstyle="round,pad=0.3")
     ax.add_patch(rect2)
     ax.text(5, 59, "2. SECURITY, AUTHENTICATION & ROUTING MIDDLEWARE LAYER", fontsize=10, fontweight='bold', color='#000000')
-    ax.text(16, 54.5, "Breeze Auth Session\nVerification", fontsize=8, ha='center', va='center', bbox=dict(boxstyle="round,pad=0.2", fc="#FFFFFF", ec="#000000", lw=1))
-    ax.text(38, 54.5, "CustomerMiddleware &\nStaffMiddleware", fontsize=8, ha='center', va='center', bbox=dict(boxstyle="round,pad=0.2", fc="#FFFFFF", ec="#000000", lw=1))
-    ax.text(62, 54.5, "RiderMiddleware &\nAdminMiddleware", fontsize=8, ha='center', va='center', bbox=dict(boxstyle="round,pad=0.2", fc="#FFFFFF", ec="#000000", lw=1))
-    ax.text(84, 54.5, "SecurityHeaders &\nCSRF Protection", fontsize=8, ha='center', va='center', bbox=dict(boxstyle="round,pad=0.2", fc="#FFFFFF", ec="#000000", lw=1))
+    ax.text(20, 54.5, "Breeze Auth Session\nVerification", fontsize=8.2, ha='center', va='center', bbox=dict(boxstyle="round,pad=0.2", fc="#FFFFFF", ec="#000000", lw=1))
+    ax.text(50, 54.5, "CustomerMiddleware &\nStaffMiddleware", fontsize=8.2, ha='center', va='center', bbox=dict(boxstyle="round,pad=0.2", fc="#FFFFFF", ec="#000000", lw=1))
+    ax.text(80, 54.5, "AdminMiddleware &\nCSRF Security Headers", fontsize=8.2, ha='center', va='center', bbox=dict(boxstyle="round,pad=0.2", fc="#FFFFFF", ec="#000000", lw=1))
 
-    ax.annotate("", xy=(50, 38), xytext=(50, 50), arrowprops=dict(arrowstyle="->", lw=1.8, color="#000000"))
+    ax.annotate("", xy=(50, 38), xytext=(50, 50), arrowprops=dict(arrowstyle="->", lw=1.8, color="#000000", shrinkA=0, shrinkB=0))
 
     # Layer 3: Controllers & Services
     rect3 = patches.FancyBboxPatch((3, 23), 94, 15, linewidth=1.4, edgecolor='#000000', facecolor='#FFFFFF', boxstyle="round,pad=0.3")
@@ -76,9 +74,9 @@ def generate_system_design_diagram():
     ax.text(52, 28.5, "Domain Services:\nSmsNotificationService (TextBee)\nEmailNotificationService (Brevo)\nLoyaltyStampService (12-Stamp Card)\nReceiptGeneratorEngine", fontsize=7.5, ha='center', va='center', bbox=dict(boxstyle="round,pad=0.3", fc="#FFFFFF", ec="#000000", lw=1))
     ax.text(82, 28.5, "Asynchronous Jobs & AI:\nSendSmsJob Queue\nOrderStatusUpdated Mail\nOpenAI / Ollama AI Chatbot Engine", fontsize=7.5, ha='center', va='center', bbox=dict(boxstyle="round,pad=0.3", fc="#FFFFFF", ec="#000000", lw=1))
 
-    ax.annotate("", xy=(35, 14), xytext=(35, 23), arrowprops=dict(arrowstyle="->", lw=1.8, color="#000000"))
+    ax.annotate("", xy=(35, 14), xytext=(35, 23), arrowprops=dict(arrowstyle="->", lw=1.8, color="#000000", shrinkA=0, shrinkB=0))
     ax.text(36.5, 18.5, "Eloquent ORM (SQL Queries / Relational Reads & Writes)", fontsize=8.2, color="#000000", fontweight='bold')
-    ax.annotate("", xy=(82, 14), xytext=(82, 23), arrowprops=dict(arrowstyle="->", lw=1.8, color="#000000"))
+    ax.annotate("", xy=(82, 14), xytext=(82, 23), arrowprops=dict(arrowstyle="->", lw=1.8, color="#000000", shrinkA=0, shrinkB=0))
     ax.text(83.5, 18.5, "REST / API Integration", fontsize=8.2, color="#000000", fontweight='bold')
 
     # Layer 4A: Database Persistence
@@ -126,7 +124,7 @@ def draw_dashed_relationship_border_bw(ax, src_cx, src_cy, src_rx, src_ry, tgt_c
     x2, y2 = get_ellipse_border_pt(tgt_cx, tgt_cy, tgt_rx, tgt_ry, src_cx, src_cy)
 
     ax.annotate("", xy=(x2, y2), xytext=(x1, y1),
-                arrowprops=dict(arrowstyle="->", lw=1.2, color='#000000', linestyle='--'))
+                arrowprops=dict(arrowstyle="->", lw=1.2, color='#000000', linestyle='--', shrinkA=0, shrinkB=0))
     mx, my = (x1 + x2) / 2, (y1 + y2) / 2
     ax.text(mx, my, label, fontsize=6.2, fontweight='bold', color='#000000', ha='center', va='center',
             bbox=dict(boxstyle="square,pad=0.12", fc="#FFFFFF", ec="none"))
@@ -144,10 +142,9 @@ def generate_use_case_diagram():
     ax.add_patch(rect)
     ax.text(50, 95.2, "A Web-Based Laundry Service Management System for HourWash Laundry Shop in Orosite Legazpi City", fontsize=7.2, fontweight='bold', ha='center', color='#000000')
 
-    # Actor Stick Figures
-    customer_hand = draw_actor_bw(ax, 7, 75, "Customer Role\n(User / Student)", is_left=True)
-    staff_hand = draw_actor_bw(ax, 7, 25, "Staff Operator\n(Store Cashier)", is_left=True)
-    rider_hand = draw_actor_bw(ax, 93, 75, "Rider of HourWash", is_left=False)
+    # Actor Stick Figures (3 Primary Roles: Customer, Staff, Admin)
+    customer_hand = draw_actor_bw(ax, 7, 55, "Customer Role\n(User / Student)", is_left=True)
+    staff_hand = draw_actor_bw(ax, 93, 75, "Staff Operator\n(Store Cashier)", is_left=False)
     admin_hand = draw_actor_bw(ax, 93, 25, "System Administrator\n(Store Manager)", is_left=False)
 
     uc_dict = {}
@@ -171,12 +168,6 @@ def generate_use_case_diagram():
     uc_dict['UC_WALKIN_ORDER'] = draw_usecase_bw(ax, 33, 31.0, "New Walk-in Order")
     uc_dict['UC_STAFF_QR'] = draw_usecase_bw(ax, 33, 26.0, "QR Scan Logs Outbox")
     uc_dict['UC_STAFF_SETTINGS'] = draw_usecase_bw(ax, 33, 21.0, "Staff Account Settings")
-
-    # --- RIDER LOGISTICS ROLE USE CASES ---
-    uc_dict['UC_RIDER_DASH'] = draw_usecase_bw(ax, 67, 82.0, "Rider of Hour Wash")
-    uc_dict['UC_PICKUP_STATUS'] = draw_usecase_bw(ax, 67, 77.0, "Update Pickup Status")
-    uc_dict['UC_DELIVERY_PROOF'] = draw_usecase_bw(ax, 67, 72.0, "Update Delivery & Proof Upload")
-    uc_dict['UC_RIDER_SETTINGS'] = draw_usecase_bw(ax, 67, 67.0, "Rider Account Settings")
 
     # --- SYSTEM ADMINISTRATOR ROLE USE CASES ---
     uc_dict['UC_ADMIN_REPORTS'] = draw_usecase_bw(ax, 67, 54.0, "Overall Reports & Dashboard")
@@ -208,12 +199,6 @@ def generate_use_case_diagram():
         bx, by = get_ellipse_border_pt(cx, cy, rx, ry, hx, hy)
         ax.plot([hx, bx], [hy, by], color='#000000', lw=1.1)
 
-    hx, hy = rider_hand
-    for key in ['LOGIN', 'FORGOT', 'UC_RIDER_DASH', 'UC_PICKUP_STATUS', 'UC_DELIVERY_PROOF', 'UC_RIDER_SETTINGS', 'HOME_VIEW']:
-        cx, cy, rx, ry = uc_dict[key]
-        bx, by = get_ellipse_border_pt(cx, cy, rx, ry, hx, hy)
-        ax.plot([hx, bx], [hy, by], color='#000000', lw=1.1)
-
     hx, hy = admin_hand
     for key in ['LOGIN', 'FORGOT', 'UC_ADMIN_REPORTS', 'UC_PRICING', 'UC_MANAGE_USERS', 'UC_SMS_OUTBOX', 'UC_EMAIL_OUTBOX', 'UC_REVIEWS', 'UC_ADMIN_SETTINGS', 'HOME_VIEW']:
         cx, cy, rx, ry = uc_dict[key]
@@ -231,7 +216,6 @@ def generate_use_case_diagram():
     connect_dashed('UC_BOOK_ORDER', 'SMS_GW', "<<include>>")
     connect_dashed('UC_ORDER_HIST', 'QR_ENG', "<<include>>")
     connect_dashed('UC_MANAGE_MACHINES', 'EXT_TIME', "<<extend>>")
-    connect_dashed('UC_PICKUP_STATUS', 'SMS_GW', "<<include>>")
     connect_dashed('UC_SMS_OUTBOX', 'SMS_GW', "<<include>>")
     connect_dashed('UC_EMAIL_OUTBOX', 'EMAIL_GW', "<<include>>")
 
@@ -306,52 +290,43 @@ def generate_class_diagram():
                       ["+login()", "+changePassword()", "+updateProfile()"], w=24, h=16.5)
 
     # 2. MIDDLE TIER: Subclasses Inheriting from Users (y=57.0 to y=73.0)
-    draw_class_box_bw(ax, 4, 57.0, "Customer", 
+    draw_class_box_bw(ax, 6.0, 57.0, "Customer", 
                       ["- user_id: int", "- address: varchar", "- barangay: varchar", "- city: varchar"], 
-                      ["+registerCustomer()", "+bookNewOrder()", "+viewMyOrderHistory()", "+viewFrequentUserCard()", "+editProfile()"], w=20, h=16.0)
+                      ["+registerCustomer()", "+bookNewOrder()", "+viewMyOrderHistory()", "+viewFrequentUserCard()", "+editProfile()"], w=24.0, h=16.0)
 
-    draw_class_box_bw(ax, 27.5, 57.0, "Staff", 
+    draw_class_box_bw(ax, 38.0, 57.0, "Staff", 
                       ["- user_id: int", "- employee_id: varchar", "- position: varchar", "- status: varchar"], 
-                      ["+manageLaundryOrders()", "+weighScaleOrder()", "+manageMachines()", "+triggerExtension()", "+createWalkInOrder()"], w=20, h=16.0)
+                      ["+manageLaundryOrders()", "+weighScaleOrder()", "+manageMachines()", "+triggerExtension()", "+createWalkInOrder()"], w=24.0, h=16.0)
 
-    draw_class_box_bw(ax, 51, 57.0, "Rider of HourWash", 
-                      ["- user_id: int", "- rider_name: varchar", "- contact_number: varchar", "- status: varchar"], 
-                      ["+viewRiderDispatches()", "+updatePickupStatus()", "+updateDeliveryStatus()", "+uploadProofPhoto()"], w=20, h=16.0)
-
-    draw_class_box_bw(ax, 74.5, 57.0, "Admin", 
+    draw_class_box_bw(ax, 70.0, 57.0, "Admin", 
                       ["- user_id: int", "- admin_level: varchar", "- status: varchar"], 
-                      ["+viewOverallReports()", "+manageServicesAndPricing()", "+manageUsersAndStamps()", "+viewLiveSmsOutbox()", "+viewLiveEmailOutbox()"], w=20, h=16.0)
+                      ["+viewOverallReports()", "+manageServicesAndPricing()", "+manageUsersAndStamps()", "+viewLiveSmsOutbox()", "+viewLiveEmailOutbox()"], w=24.0, h=16.0)
 
     # Generalization Lines (Subclasses -> Users Parent)
     draw_generalization_triangle_bw(ax, 50, 80.0, direction='up')
     ax.plot([50, 50], [77.4, 76.5], color='#000000', lw=1.4)
-    ax.plot([14.0, 84.5], [76.5, 76.5], color='#000000', lw=1.4)
-    ax.plot([14.0, 14.0], [76.5, 73.0], color='#000000', lw=1.4)
-    ax.plot([37.5, 37.5], [76.5, 73.0], color='#000000', lw=1.4)
-    ax.plot([61.0, 61.0], [76.5, 73.0], color='#000000', lw=1.4)
-    ax.plot([84.5, 84.5], [76.5, 73.0], color='#000000', lw=1.4)
+    ax.plot([18.0, 82.0], [76.5, 76.5], color='#000000', lw=1.4)
+    ax.plot([18.0, 18.0], [76.5, 73.0], color='#000000', lw=1.4)
+    ax.plot([50.0, 50.0], [76.5, 73.0], color='#000000', lw=1.4)
+    ax.plot([82.0, 82.0], [76.5, 73.0], color='#000000', lw=1.4)
 
-    # 3. BOTTOM TIER: 10 Use Case Feature Classes (w=17.5, gap=2.125)
+    # 3. BOTTOM TIER: 9 Use Case Feature Classes
     # Row 1 (y=30.0 to 46.0, h=16.0)
     draw_class_box_bw(ax, 2.0, 30.0, "Manage Laundry Orders", 
                       ["- Order ID: int", "- Order Number: varchar", "- Customer ID: int", "- Service ID: int", "- Total Amount: float", "- Order Status: varchar", "- Weight: float"], 
-                      ["+createBookOrder()", "+createWalkInOrder()", "+updateOrderStatus()", "+calculateTotalAmount()"], w=17.5, h=16.0)
+                      ["+createBookOrder()", "+createWalkInOrder()", "+updateOrderStatus()", "+calculateTotalAmount()"], w=21.5, h=16.0)
 
-    draw_class_box_bw(ax, 21.625, 30.0, "Services & Pricing", 
+    draw_class_box_bw(ax, 26.5, 30.0, "Services & Pricing", 
                       ["- Service ID: int", "- Service Name: varchar", "- Service Type: varchar", "- Rate Per Kg: float", "- Est Duration: int"], 
-                      ["+getPublicServices()", "+calculateServiceRate()", "+updateTariffRates()"], w=17.5, h=16.0)
+                      ["+getPublicServices()", "+calculateServiceRate()", "+updateTariffRates()"], w=21.5, h=16.0)
 
-    draw_class_box_bw(ax, 41.25, 30.0, "Manage Machines", 
+    draw_class_box_bw(ax, 51.0, 30.0, "Manage Machines", 
                       ["- Machine ID: int", "- Machine Code: varchar", "- Machine Type: varchar", "- Status: varchar", "- Remaining Min: int"], 
-                      ["+assignOrderToMachine()", "+trigger60mExtension()", "+toggleMachineStatus()"], w=17.5, h=16.0)
+                      ["+assignOrderToMachine()", "+trigger60mExtension()", "+toggleMachineStatus()"], w=21.5, h=16.0)
 
-    draw_class_box_bw(ax, 60.875, 30.0, "Pickup & Delivery", 
-                      ["- Task ID: int", "- Order ID: int", "- Rider Name: varchar", "- Logistics Status: varchar", "- Proof Photo: varchar"], 
-                      ["+updatePickupStatus()", "+updateDeliveryStatus()", "+uploadProofPhoto()"], w=17.5, h=16.0)
-
-    draw_class_box_bw(ax, 80.5, 30.0, "Overall Reports", 
+    draw_class_box_bw(ax, 75.5, 30.0, "Overall Reports", 
                       ["- Report ID: int", "- Total Revenue: float", "- Total Orders: int", "- Active Machines: int", "- Report Date: date"], 
-                      ["+generateDailyReport()", "+fetchRevenueAnalytics()", "+exportSummaryPDF()"], w=17.5, h=16.0)
+                      ["+generateDailyReport()", "+fetchRevenueAnalytics()", "+exportSummaryPDF()"], w=21.5, h=16.0)
 
     # Row 2 (y=3.5 to 18.5, h=15.0)
     draw_class_box_bw(ax, 2.0, 3.5, "Live SMS Outbox", 
@@ -405,51 +380,41 @@ def generate_class_diagram():
         ax.text(target_x, target_y + 0.8, "1..*", fontsize=6.8, fontweight='bold', color='#000000', ha='center', 
                 bbox=dict(boxstyle="square,pad=0.1", fc="#FFFFFF", ec="none"))
 
-    # Channel Midpoints:
-    # Ch1 (between 19.5 and 21.625): 20.56
-    # Ch2 (between 39.125 and 41.25): 40.188 (use 39.8 and 40.5)
-    # Ch3 (between 58.75 and 60.875): 59.81
-    # Ch4 (between 78.375 and 80.5): 79.44
-
-    # --- A) CUSTOMER CONNECTIONS (Subclass x=4..24) ---
+    # --- A) CUSTOMER CONNECTIONS (Subclass x=6..30) ---
     # 1. Customer ◆-- Manage Laundry Orders
-    draw_guide_conn(x_start=6.5, target_x=6.5, target_y=46.0, is_comp=True, y_track1=50.8)
+    draw_guide_conn(x_start=9.0, target_x=8.0, target_y=46.0, is_comp=True, y_track1=50.8)
 
     # 2. Customer ◇-- Services & Pricing
-    draw_guide_conn(x_start=11.5, target_x=26.0, target_y=46.0, is_comp=False, y_track1=52.8)
+    draw_guide_conn(x_start=15.0, target_x=32.0, target_y=46.0, is_comp=False, y_track1=52.8)
 
     # 3. Customer ◇-- 12-Stamp User Card
-    draw_guide_conn(x_start=16.5, target_x=69.625, target_y=18.5, is_comp=False, y_track1=51.8, x_channel=59.81, y_track2=23.0)
+    draw_guide_conn(x_start=21.0, target_x=69.625, target_y=18.5, is_comp=False, y_track1=51.8, x_channel=59.81, y_track2=23.0)
 
     # 4. Customer ◇-- Customer Reviews
-    draw_guide_conn(x_start=21.5, target_x=89.25, target_y=18.5, is_comp=False, y_track1=50.0, x_channel=79.44, y_track2=21.8)
+    draw_guide_conn(x_start=27.0, target_x=89.25, target_y=18.5, is_comp=False, y_track1=50.0, x_channel=79.44, y_track2=21.8)
 
-    # --- B) STAFF CONNECTIONS (Subclass x=27.5..47.5) ---
+    # --- B) STAFF CONNECTIONS (Subclass x=38..62) ---
     # 1. Staff ◆-- Manage Laundry Orders
-    draw_guide_conn(x_start=30.0, target_x=15.0, target_y=46.0, is_comp=True, y_track1=49.6)
+    draw_guide_conn(x_start=41.0, target_x=16.0, target_y=46.0, is_comp=True, y_track1=49.6)
 
     # 2. Staff ◆-- Manage Machines
-    draw_guide_conn(x_start=37.5, target_x=45.5, target_y=46.0, is_comp=True, y_track1=48.4)
+    draw_guide_conn(x_start=50.0, target_x=58.0, target_y=46.0, is_comp=True, y_track1=48.4)
 
     # 3. Staff ◇-- QR Scan Logs
-    draw_guide_conn(x_start=44.0, target_x=50.0, target_y=18.5, is_comp=False, y_track1=49.0, x_channel=39.8, y_track2=24.2)
+    draw_guide_conn(x_start=59.0, target_x=50.0, target_y=18.5, is_comp=False, y_track1=49.0, x_channel=39.8, y_track2=24.2)
 
-    # --- C) RIDER CONNECTIONS (Subclass x=51..71) ---
-    # 1. Rider ◆-- Pickup & Delivery
-    draw_guide_conn(x_start=61.0, target_x=69.625, target_y=46.0, is_comp=True, y_track1=47.5)
-
-    # --- D) ADMIN CONNECTIONS (Subclass x=74.5..94.5) ---
+    # --- C) ADMIN CONNECTIONS (Subclass x=70..94) ---
     # 1. Admin ◇-- Services & Pricing
-    draw_guide_conn(x_start=77.5, target_x=34.0, target_y=46.0, is_comp=False, y_track1=53.4)
+    draw_guide_conn(x_start=73.0, target_x=40.0, target_y=46.0, is_comp=False, y_track1=53.4)
 
     # 2. Admin ◇-- Overall Reports
-    draw_guide_conn(x_start=82.0, target_x=89.25, target_y=46.0, is_comp=False, y_track1=48.2)
+    draw_guide_conn(x_start=79.0, target_x=86.0, target_y=46.0, is_comp=False, y_track1=48.2)
 
     # 3. Admin ◇-- Live Email Outbox
-    draw_guide_conn(x_start=87.0, target_x=30.375, target_y=18.5, is_comp=False, y_track1=52.4, x_channel=40.5, y_track2=25.4)
+    draw_guide_conn(x_start=85.0, target_x=30.375, target_y=18.5, is_comp=False, y_track1=52.4, x_channel=40.5, y_track2=25.4)
 
     # 4. Admin ◇-- Live SMS Outbox
-    draw_guide_conn(x_start=91.5, target_x=10.75, target_y=18.5, is_comp=False, y_track1=53.8, x_channel=20.56, y_track2=26.6)
+    draw_guide_conn(x_start=91.0, target_x=10.75, target_y=18.5, is_comp=False, y_track1=53.8, x_channel=20.56, y_track2=26.6)
 
     plt.tight_layout()
     plt.savefig('diagrams/class_diagram.png', dpi=300, bbox_inches='tight', facecolor='white')
@@ -719,86 +684,31 @@ ALL_ACCURATE_SEQUENCES = [
      None,
      "sequence_diagram_18.png"),
 
-    # --- RIDER ROLE (UC19 - UC25) ---
-    ("Sequence Diagram 19: UC19 - Rider Login Authentication Flow",
-     ["Rider", "Rider Login UI", "AuthenticatedSessionController", "RiderMiddleware", "User Model", "MySQL users Table"],
-     [(0, 1, "Enter rider credentials", False), (1, 2, "POST /login (rider credentials)", False), (2, 4, "User::where('email', email)", False),
-      (4, 5, "SELECT * FROM users WHERE role='rider'", False), (5, 4, "Return Rider record & password hash", True), (4, 2, "Hash::check(password, hash)", True),
-      (2, 3, "Verify RiderMiddleware permissions", True), (2, 1, "Redirect to Rider Dashboard UI", True)],
-     (45.0, 27.0, 15.0, "Valid Rider Credentials", "Invalid Credentials"),
-     "sequence_diagram_19.png"),
-
-    ("Sequence Diagram 20: UC20 - Rider Forgot Password Reset Flow via Brevo Email API",
-     ["Rider", "Forgot Password UI", "PasswordResetLinkController", "EmailNotificationService", "User Model", "Brevo API Gateway"],
-     [(0, 1, "Enter rider email address", False), (1, 2, "POST /forgot-password (rider email)", False), (2, 4, "User::where('email', email)", False),
-      (4, 2, "Rider account verified", True), (2, 3, "EmailNotificationService::sendBrevoPasswordReset()", False), (3, 5, "POST https://api.brevo.com/v3/smtp/email", False),
-      (2, 1, "Display Brevo reset token dispatched alert", True)],
-     (42.0, 25.0, 14.0, "Rider Account Verified", "Email Not Found"),
-     "sequence_diagram_20.png"),
-
-    ("Sequence Diagram 21: UC21 - Rider of Hour Wash Navigation Flow",
-     ["Rider", "Rider Dashboard UI", "RiderDashboardController", "PickupDelivery Model", "Order Model", "MySQL pickup_delivery"],
-     [(0, 1, "Click 'Rider of Hour Wash' nav", False), (1, 2, "GET /rider/dashboard", False), (2, 4, "PickupDelivery::where('rider_name', rider)", False),
-      (4, 5, "SELECT * FROM pickup_delivery WHERE status='scheduled'", False), (5, 4, "Return pickup & delivery task dispatches", True),
-      (2, 1, "Render dispatch task cards UI", True)],
-     None,
-     "sequence_diagram_21.png"),
-
-    ("Sequence Diagram 22: UC22 - Update Pickup Logistics Status Flow & TextBee SMS Alert",
-     ["Rider", "Rider Dashboard UI", "PickupDeliveryController", "PickupDelivery Model", "SmsNotificationService", "TextBee SMS Gateway"],
-     [(0, 1, "Click 'Arrived & Picked Up'", False), (1, 2, "POST /rider/status/pickup (pickup_id)", False), (2, 3, "PickupDelivery::update(['status'=>'picked_up'])", False),
-      (3, 4, "SmsNotificationService::sendTextBeeSms()", False), (4, 5, "POST https://api.textbee.dev/api/v1/gateway/send-sms", False),
-      (5, 4, "TextBee SMS alert delivered to customer", True), (2, 1, "Task updated to Picked Up UI", True)],
-     None,
-     "sequence_diagram_22.png"),
-
-    ("Sequence Diagram 23: UC23 - Update Delivery Status & Proof Photo Upload Flow",
-     ["Rider", "Rider Dashboard UI", "PickupDeliveryController", "PickupDelivery Model", "OrderStatusHistory", "MySQL pickup_delivery"],
-     [(0, 1, "Deliver laundry & upload proof photo", False), (1, 2, "POST /rider/status/delivery (proof_image)", False), (2, 3, "saveProofImage(file)", False),
-      (3, 4, "PickupDelivery::update(['status'=>'delivered', 'proof_images'])", False), (4, 5, "UPDATE pickup_delivery & orders SET status='completed'", False),
-      (2, 1, "Task completed confirmation alert", True)],
-     None,
-     "sequence_diagram_23.png"),
-
-    ("Sequence Diagram 24: UC24 - Rider Home Dashboard Navigation Flow",
-     ["Rider", "Home Dashboard UI", "HomeController", "Service Model", "StoreInfo", "MySQL DB"],
-     [(0, 1, "Click 'Home Dashboard' nav", False), (1, 2, "GET /home", False), (2, 4, "Service::where('status', 'active')->get()", False),
-      (4, 5, "SELECT public landing page metadata", False), (5, 4, "Return landing page info", True), (2, 1, "Render public landing page view", True)],
-     None,
-     "sequence_diagram_24.png"),
-
-    ("Sequence Diagram 25: UC25 - Rider Account Settings Navigation Flow",
-     ["Rider", "Account Settings UI", "ProfileController", "RiderProfile", "User Model", "MySQL users Table"],
-     [(0, 1, "Click 'Account Settings' nav & update password", False), (1, 2, "POST /rider/profile/update", False), (2, 4, "User::update(['password'])", False),
-      (4, 5, "UPDATE users SET password=? WHERE id=?", False), (2, 1, "Display profile updated alert", True)],
-     None,
-     "sequence_diagram_25.png"),
-
-    # --- ADMIN ROLE (UC26 - UC38) ---
-    ("Sequence Diagram 26: UC26 - Administrator Login Authentication Flow",
+    # --- ADMIN ROLE (UC19 - UC31) ---
+    ("Sequence Diagram 19: UC19 - Administrator Login Authentication Flow",
      ["Admin", "Admin Login UI", "AuthenticatedSessionController", "AdminMiddleware", "User Model", "MySQL users Table"],
      [(0, 1, "Enter admin credentials", False), (1, 2, "POST /login (admin credentials)", False), (2, 4, "User::where('email', email)", False),
       (4, 5, "SELECT * FROM users WHERE role='admin'", False), (5, 4, "Return Admin record & hash", True), (4, 2, "Hash::check(password, hash)", True),
       (2, 3, "Verify AdminMiddleware permissions", True), (2, 1, "Redirect to Overall Reports & Dashboard", True)],
      (45.0, 27.0, 15.0, "Valid Admin Credentials", "Invalid Credentials"),
-     "sequence_diagram_26.png"),
+     "sequence_diagram_19.png"),
 
-    ("Sequence Diagram 27: UC27 - Administrator Password Reset Flow via Brevo Email API",
+    ("Sequence Diagram 20: UC20 - Administrator Password Reset Flow via Brevo Email API",
      ["Admin", "Forgot Password UI", "PasswordResetLinkController", "EmailNotificationService", "User Model", "Brevo API Gateway"],
      [(0, 1, "Enter admin secure email", False), (1, 2, "POST /forgot-password (admin email)", False), (2, 4, "User::where('email', email)", False),
       (4, 2, "Admin account verified", True), (2, 3, "EmailNotificationService::sendBrevoPasswordReset()", False), (3, 5, "POST https://api.brevo.com/v3/smtp/email", False),
       (2, 1, "Display Brevo reset email sent notification", True)],
      (42.0, 25.0, 14.0, "Admin Account Verified", "Email Not Registered"),
-     "sequence_diagram_27.png"),
+     "sequence_diagram_20.png"),
 
-    ("Sequence Diagram 28: UC28 - Overall Reports & Dashboard Navigation Flow",
+    ("Sequence Diagram 21: UC21 - Overall Reports & Dashboard Navigation Flow",
      ["Admin", "Overall Reports UI", "AnalyticsController", "Order Model", "Machine Model", "MySQL DB"],
      [(0, 1, "Click 'Overall Reports & Dashboard' nav", False), (1, 2, "GET /admin/dashboard", False), (2, 4, "Order::selectRaw('SUM(total_amount), COUNT(id)')->get()", False),
       (4, 5, "SELECT sales, profit, & machine status", False), (5, 4, "Return system overview & financial metrics", True), (2, 1, "Render overall reports & metrics dashboard", True)],
      None,
-     "sequence_diagram_28.png"),
+     "sequence_diagram_21.png"),
 
-    ("Sequence Diagram 29: UC29 - Manage Laundry Orders Navigation Flow",
+    ("Sequence Diagram 22: UC22 - Manage Laundry Orders Navigation Flow",
      ["Admin", "Manage Orders UI", "Database"],
      [(0, 1, "click laundry orders", False), (1, 2, "request order table from database", False),
       (2, 1, "order list retrieved from database", True), (1, 0, "orders displayed", True),
@@ -809,9 +719,9 @@ ALL_ACCURATE_SEQUENCES = [
       (0, 1, "delete order", False), (1, 2, "request delete order", False),
       (2, 1, "delete order is granted", True), (1, 0, "order deleted", True)],
      None,
-     "sequence_diagram_29.png"),
+     "sequence_diagram_22.png"),
 
-    ("Sequence Diagram 30: UC30 - Manage Machines Navigation Flow (Add, Edit, Remove)",
+    ("Sequence Diagram 23: UC23 - Manage Machines Navigation Flow (Add, Edit, Remove)",
      ["Admin", "Manage Machines UI", "Database"],
      [(0, 1, "click machines", False), (1, 2, "request machine list from database", False),
       (2, 1, "machine list retrieved from database", True), (1, 0, "machines displayed", True),
@@ -822,9 +732,9 @@ ALL_ACCURATE_SEQUENCES = [
       (0, 1, "delete machine", False), (1, 2, "request delete account", False),
       (2, 1, "delete machine is granted", True), (1, 0, "machine deleted", True)],
      None,
-     "sequence_diagram_30.png"),
+     "sequence_diagram_23.png"),
 
-    ("Sequence Diagram 31: UC31 - Services & Pricing Navigation Flow",
+    ("Sequence Diagram 24: UC24 - Services & Pricing Navigation Flow",
      ["Admin", "Services & Pricing UI", "Database"],
      [(0, 1, "click services", False), (1, 2, "request service table from database", False),
       (2, 1, "services retrieved from database", True), (1, 0, "services displayed", True),
@@ -835,9 +745,9 @@ ALL_ACCURATE_SEQUENCES = [
       (0, 1, "delete service", False), (1, 2, "request delete service", False),
       (2, 1, "delete service is granted", True), (1, 0, "service deleted", True)],
      None,
-     "sequence_diagram_31.png"),
+     "sequence_diagram_24.png"),
 
-    ("Sequence Diagram 32: UC32 - Manage Users Navigation Flow (Stamps, Add, Edit, Remove)",
+    ("Sequence Diagram 25: UC25 - Manage Users Navigation Flow (Stamps, Add, Edit, Remove)",
      ["Admin", "Manage Users UI", "Database"],
      [(0, 1, "click staff / users", False), (1, 2, "request user accounts from database", False),
       (2, 1, "user accounts retrieved from database", True), (1, 0, "user accounts displayed", True),
@@ -848,23 +758,23 @@ ALL_ACCURATE_SEQUENCES = [
       (0, 1, "delete account", False), (1, 2, "request delete account", False),
       (2, 1, "delete user is granted", True), (1, 0, "user deleted", True)],
      None,
-     "sequence_diagram_32.png"),
+     "sequence_diagram_25.png"),
 
-    ("Sequence Diagram 33: UC33 - Live SMS Outbox Navigation Flow (TextBee Logs)",
+    ("Sequence Diagram 26: UC26 - Live SMS Outbox Navigation Flow (TextBee Logs)",
      ["Admin", "Live SMS Outbox UI", "SmsLogController", "SmsNotification Model", "TextBee Gateway", "MySQL sms_notifications"],
      [(0, 1, "Click 'Live SMS Outbox' nav", False), (1, 2, "GET /admin/sms-outbox", False), (2, 4, "SmsNotification::latest()->get()", False),
       (4, 5, "SELECT * FROM sms_notifications", False), (5, 4, "Return TextBee SMS delivery logs", True), (2, 1, "Render Live TextBee SMS outbox log table", True)],
      None,
-     "sequence_diagram_33.png"),
+     "sequence_diagram_26.png"),
 
-    ("Sequence Diagram 34: UC34 - Live Email Outbox Navigation Flow (Brevo Logs)",
+    ("Sequence Diagram 27: UC27 - Live Email Outbox Navigation Flow (Brevo Logs)",
      ["Admin", "Live Email Outbox UI", "EmailLogController", "EmailNotification Model", "Brevo Gateway", "MySQL email_notifications"],
      [(0, 1, "Click 'Live Email Outbox' nav", False), (1, 2, "GET /admin/email-outbox", False), (2, 4, "EmailNotification::latest()->get()", False),
       (4, 5, "SELECT * FROM email_notifications", False), (5, 4, "Return Brevo email notification logs", True), (2, 1, "Render Live Brevo Email outbox table", True)],
      None,
-     "sequence_diagram_34.png"),
+     "sequence_diagram_27.png"),
 
-    ("Sequence Diagram 35: UC35 - Customer Reviews Outbox Navigation Flow",
+    ("Sequence Diagram 28: UC28 - Customer Reviews Outbox Navigation Flow",
      ["Admin", "Customer Reviews UI", "Database"],
      [(0, 1, "click reviews", False), (1, 2, "request reviews table from database", False),
       (2, 1, "reviews retrieved from database", True), (1, 0, "reviews displayed", True),
@@ -875,28 +785,28 @@ ALL_ACCURATE_SEQUENCES = [
       (0, 1, "delete review", False), (1, 2, "request delete review", False),
       (2, 1, "delete review is granted", True), (1, 0, "review deleted", True)],
      None,
-     "sequence_diagram_35.png"),
+     "sequence_diagram_28.png"),
 
-    ("Sequence Diagram 36: UC36 - QR Scan Logs Outbox Navigation Flow",
+    ("Sequence Diagram 29: UC29 - QR Scan Logs Outbox Navigation Flow",
      ["Admin", "QR Scan Logs UI", "QrScanLogController", "QrScanLog Model", "Order Model", "MySQL qr_scan_logs"],
      [(0, 1, "Click 'QR Scan Logs Outbox' nav", False), (1, 2, "GET /admin/qr-outbox", False), (2, 4, "QrScanLog::with('order', 'scannedBy')->get()", False),
       (4, 5, "SELECT * FROM qr_scan_logs", False), (5, 4, "Return audit log of all QR scans", True), (2, 1, "Render admin QR scan log outbox UI", True)],
      None,
-     "sequence_diagram_36.png"),
+     "sequence_diagram_29.png"),
 
-    ("Sequence Diagram 37: UC37 - Admin Home Dashboard Navigation Flow",
+    ("Sequence Diagram 30: UC30 - Admin Home Dashboard Navigation Flow",
      ["Admin", "Home Dashboard UI", "HomeController", "Service Model", "StoreInfo", "MySQL DB"],
      [(0, 1, "Click 'Home Dashboard' nav", False), (1, 2, "GET /home", False), (2, 4, "Service::where('status', 'active')->get()", False),
-      (4, 5, "SELECT public landing page details", False), (5, 4, "Return landing page info", True), (2, 1, "Render public landing page view", True)],
+      (4, 5, "SELECT public landing page metadata", False), (5, 4, "Return landing page info", True), (2, 1, "Render public landing page view", True)],
      None,
-     "sequence_diagram_37.png"),
+     "sequence_diagram_30.png"),
 
-    ("Sequence Diagram 38: UC38 - Admin Account Settings Navigation Flow",
+    ("Sequence Diagram 31: UC31 - Admin Account Settings Navigation Flow",
      ["Admin", "Account Settings UI", "ProfileController", "AdminProfile", "User Model", "MySQL users Table"],
-     [(0, 1, "Click 'Account Settings' nav & update info", False), (1, 2, "POST /admin/profile/update", False), (2, 4, "User::update(['password'])", False),
-      (4, 5, "UPDATE users SET password=? WHERE id=?", False), (2, 1, "Display admin profile updated alert", True)],
+     [(0, 1, "Click 'Account Settings' nav & update security", False), (1, 2, "POST /admin/profile/update", False), (2, 4, "User::update(['password'])", False),
+      (4, 5, "UPDATE users SET password=? WHERE id=?", False), (2, 1, "Display security settings updated alert", True)],
      None,
-     "sequence_diagram_38.png"),
+     "sequence_diagram_31.png")
 ]
 
 def generate_all_sequence_diagrams():
@@ -911,9 +821,7 @@ def generate_all_sequence_diagrams():
         print(f"Saved diagrams/{filename}")
 
 # -------------------------------------------------------------
-# 8. PACKAGE DIAGRAM OF THE SYSTEM (STRICTLY MATCHING REFERENCE IMAGE 1 LAYOUT)
-# -------------------------------------------------------------
-# 8. PACKAGE DIAGRAM OF THE SYSTEM (STRICTLY MATCHING REFERENCE IMAGE LAYOUT & FEATURES)
+# 8. PACKAGE DIAGRAM OF THE SYSTEM (3 PRIMARY ROLES)
 # -------------------------------------------------------------
 def draw_role_package_container_reference(ax, x, y, role_name, left_folders, right_folders, bottom_folder_name='Profile', w=45.5, h=44.0):
     # Outer Role Container Box
@@ -976,32 +884,34 @@ def draw_role_package_container_reference(ax, x, y, role_name, left_folders, rig
     ax.text((left_x + folder_w + right_x)/2.0, y_starts[0] + folder_h/2.0 + (1.0 * scale_h), "ACCESS", fontsize=max(4.2, 6.2 * min(scale_w, scale_h)), fontweight='bold', ha='center', color='#000000')
 
     # 2. Vertical dashed ACCESS arrow: Row 0 -> Row 1 (Left Column)
-    top_y0 = left_boxes[0][0]
-    bot_y1 = left_boxes[1][1]
+    top_y0 = y_starts[0]
+    bot_y1 = y_starts[1] + folder_h
     ax.annotate("", xy=(left_x + folder_w/2.0, bot_y1), xytext=(left_x + folder_w/2.0, top_y0),
                 arrowprops=dict(arrowstyle="->", lw=1.1, color='#000000', linestyle='--', shrinkA=0, shrinkB=0))
     ax.text(left_x + folder_w/2.0 - (2.5 * scale_w), (top_y0 + bot_y1)/2.0, "ACCESS", fontsize=max(4.0, 5.8 * min(scale_w, scale_h)), fontweight='bold', ha='right', va='center', color='#000000')
 
     # 3. Remaining Vertical Dashed Arrows Down Left Column
     for i in range(1, num_f - 1):
-        top_y = left_boxes[i][0]
-        bot_y = left_boxes[i+1][1]
+        top_y = y_starts[i]
+        bot_y = y_starts[i+1] + folder_h
         ax.annotate("", xy=(left_x + folder_w/2.0, bot_y), xytext=(left_x + folder_w/2.0, top_y),
                     arrowprops=dict(arrowstyle="->", lw=1.1, color='#000000', linestyle='--', shrinkA=0, shrinkB=0))
 
     # 4. Vertical Dashed Arrows Down Right Column
-    for j in range(num_f - 1):
-        top_y = right_boxes[j][0]
-        bot_y = right_boxes[j+1][1]
+    for j in range(len(right_folders) - 1):
+        top_y = y_starts[j]
+        bot_y = y_starts[j+1] + folder_h
         ax.annotate("", xy=(right_x + folder_w/2.0, bot_y), xytext=(right_x + folder_w/2.0, top_y),
                     arrowprops=dict(arrowstyle="->", lw=1.1, color='#000000', linestyle='--', shrinkA=0, shrinkB=0))
 
-    # 5. Draw Bottom Folder (Trashbin or Profile)
+    # 5. Draw Bottom Folder (Profile)
     b_w = 14.5 * scale_w
     b_h = 4.0 * scale_h
     b_x = x + (15.5 * scale_w)
     b_y = y + (1.0 * scale_h)
-    t_tab = patches.Rectangle((b_x, b_y + b_h), 6.0 * scale_w, 0.9 * scale_h, fc='#FFFFFF', ec='#000000', lw=1.0)
+    t_tab_w = 6.0 * scale_w
+    t_tab_h = 0.9 * scale_h
+    t_tab = patches.Rectangle((b_x, b_y + b_h), t_tab_w, t_tab_h, fc='#FFFFFF', ec='#000000', lw=1.0)
     ax.add_patch(t_tab)
     t_box = patches.Rectangle((b_x, b_y), b_w, b_h, fc='#FFFFFF', ec='#000000', lw=1.0)
     ax.add_patch(t_box)
@@ -1009,25 +919,31 @@ def draw_role_package_container_reference(ax, x, y, role_name, left_folders, rig
 
     # Arrows from left bottom and right bottom folders down to Profile
     left_bot_x = left_x + folder_w/2.0
-    left_bot_y = left_boxes[num_f - 1][0]
+    left_bot_y = y_starts[num_f - 1]
     right_bot_x = right_x + folder_w/2.0
-    right_bot_y = right_boxes[num_f - 1][0]
-    prof_top_y = b_y + b_h + (0.9 * scale_h)
+    right_bot_y = y_starts[len(right_folders) - 1]
 
-    # Arrow from left column down to Profile
-    ax.plot([left_bot_x, left_bot_x, b_x + (3.0 * scale_w), b_x + (3.0 * scale_w)],
-            [left_bot_y, prof_top_y + (0.6 * scale_h), prof_top_y + (0.6 * scale_h), prof_top_y],
+    left_target_x = b_x + (3.0 * scale_w)
+    left_target_y = b_y + b_h + t_tab_h
+
+    right_target_x = b_x + b_w - (3.0 * scale_w)
+    right_target_y = b_y + b_h
+
+    y_mid = b_y + b_h + t_tab_h + (0.8 * scale_h)
+
+    # Arrow from left column down to Profile tab top
+    ax.plot([left_bot_x, left_bot_x, left_target_x],
+            [left_bot_y, y_mid, y_mid],
             color='#000000', linestyle='--', lw=1.1)
-    ax.annotate("", xy=(b_x + (3.0 * scale_w), prof_top_y), xytext=(b_x + (3.0 * scale_w), prof_top_y + 0.2),
+    ax.annotate("", xy=(left_target_x, left_target_y), xytext=(left_target_x, y_mid),
                 arrowprops=dict(arrowstyle="->", lw=1.1, color='#000000', linestyle='--', shrinkA=0, shrinkB=0))
 
-    # Arrow from right column down to Profile
-    ax.plot([right_bot_x, right_bot_x, b_x + b_w - (3.0 * scale_w), b_x + b_w - (3.0 * scale_w)],
-            [right_bot_y, prof_top_y + (0.6 * scale_h), prof_top_y + (0.6 * scale_h), prof_top_y],
+    # Arrow from right column down to Profile box top
+    ax.plot([right_bot_x, right_bot_x, right_target_x],
+            [right_bot_y, y_mid, y_mid],
             color='#000000', linestyle='--', lw=1.1)
-    ax.annotate("", xy=(b_x + b_w - (3.0 * scale_w), prof_top_y), xytext=(b_x + b_w - (3.0 * scale_w), prof_top_y + 0.2),
+    ax.annotate("", xy=(right_target_x, right_target_y), xytext=(right_target_x, y_mid),
                 arrowprops=dict(arrowstyle="->", lw=1.1, color='#000000', linestyle='--', shrinkA=0, shrinkB=0))
-
 
 def generate_package_diagram():
     fig, ax = plt.subplots(figsize=(16, 12.5), dpi=300)
@@ -1037,34 +953,29 @@ def generate_package_diagram():
     ax.set_ylim(0, 100)
     ax.axis('off')
 
-    # Outer Main System Frame Box (Matching Reference Image 1)
+    # Outer Main System Frame Box
     rect_sys = patches.Rectangle((1.5, 1.5), 97, 93.5, fc='#FFFFFF', ec='#000000', lw=1.6)
     ax.add_patch(rect_sys)
 
-    # Outer Main System Title Tab at Top Left (Matching Reference Image 1)
+    # Outer Main System Title Tab at Top Left
     sys_tab = patches.Rectangle((1.5, 95.0), 84.0, 2.4, fc='#FFFFFF', ec='#000000', lw=1.4)
     ax.add_patch(sys_tab)
     ax.text(3.0, 96.2, "A Web-Based Laundry Service Management System for HourWash Laundry Shop in Orosite Legazpi City", fontsize=6.8, fontweight='bold', color='#000000', va='center')
 
-    # 1. Admin Role Package (Top Left - y=48.0 to y=92.0, tab y=92.0 to 94.4)
+    # 1. Admin Role Package (Top Left - y=48.0 to y=92.0)
     admin_left = ["Login", "Manage Orders", "Services & Pricing"]
     admin_right = ["Dashboard", "User Accounts", "Manage Machines"]
     draw_role_package_container_reference(ax, 3.0, 48.0, "Admin", admin_left, admin_right, bottom_folder_name="Profile", w=45.5, h=44.0)
 
-    # 2. Customer Role Package (Top Right - y=48.0 to y=92.0, tab y=92.0 to 94.4)
+    # 2. Customer Role Package (Top Right - y=48.0 to y=92.0)
     customer_left = ["Login", "Book New Order", "My Order History"]
     customer_right = ["Dashboard", "12-Stamp Card", "Active Services"]
     draw_role_package_container_reference(ax, 51.5, 48.0, "Customer", customer_left, customer_right, bottom_folder_name="Profile", w=45.5, h=44.0)
 
-    # 3. Staff Operator Role Package (Bottom Left - y=2.5 to y=46.5)
+    # 3. Staff Operator Role Package (Bottom Center - y=2.5 to y=46.5)
     staff_left = ["Login", "Workstation Queue", "Manage Laundry"]
     staff_right = ["Dashboard", "New Walk-in Order", "Manage Machines"]
-    draw_role_package_container_reference(ax, 3.0, 2.5, "Staff", staff_left, staff_right, bottom_folder_name="Profile", w=45.5, h=44.0)
-
-    # 4. Rider of HourWash Package (Bottom Right - y=2.5 to y=46.5)
-    rider_left = ["Login", "Rider Dashboard", "Pickup Logistics"]
-    rider_right = ["Dashboard", "Delivery Tasks", "Proof Photo Upload"]
-    draw_role_package_container_reference(ax, 51.5, 2.5, "Rider of HourWash", rider_left, rider_right, bottom_folder_name="Profile", w=45.5, h=44.0)
+    draw_role_package_container_reference(ax, 27.25, 2.5, "Staff", staff_left, staff_right, bottom_folder_name="Profile", w=45.5, h=44.0)
 
     plt.tight_layout()
     plt.savefig('diagrams/package_diagram.png', dpi=300, bbox_inches='tight', facecolor='white')
@@ -1072,7 +983,7 @@ def generate_package_diagram():
     print("Saved diagrams/package_diagram.png")
 
 # -------------------------------------------------------------
-# 9. SYSTEM DEPLOYMENT DIAGRAM (STRICTLY MATCHING USER REFERENCE IMAGE: 3D WEB SERVER WITH EMBEDDED PACKAGE & DATABASE + 4 CLIENT NODES)
+# 9. SYSTEM DEPLOYMENT DIAGRAM (3 CLIENT NODES & 3 SERVER PACKAGES)
 # -------------------------------------------------------------
 def generate_deployment_diagram():
     fig, ax = plt.subplots(figsize=(16, 16.0), dpi=300)
@@ -1097,34 +1008,27 @@ def generate_deployment_diagram():
     # Label on Top Left inside WEB SERVER face
     ax.text(ws_x + 3.0, ws_y + ws_h - 2.5, "WEB SERVER", fontsize=13, fontweight='bold', color='#000000')
 
-
     # INSIDE WEB SERVER:
     # A) Upper Block: Package Diagram Container (y=48.0 to 91.0)
     pkg_x, pkg_y, pkg_w, pkg_h = ws_x + 3.0, ws_y + 10.0, ws_w - 6.0, 43.0
     rect_sys = patches.Rectangle((pkg_x, pkg_y), pkg_w, pkg_h, fc='#FFFFFF', ec='#000000', lw=1.2)
     ax.add_patch(rect_sys)
 
-    # Render 4 Role Packages inside Package Diagram Container (Admin & Customer tabs end at y=84.7, 6.3 units BELOW pkg_y + pkg_h = 91.0)
+    # Render 3 Role Packages inside Package Diagram Container
     # Admin (Top Left)
     admin_left = ["Login", "Manage Orders", "Services & Pricing"]
     admin_right = ["Dashboard", "User Accounts", "Manage Machines"]
-    draw_role_package_container_reference(ax, pkg_x + 1.5, pkg_y + 19.5, "Admin", admin_left, admin_right, bottom_folder_name="Profile", w=39.5, h=16.0)
+    draw_role_package_container_reference(ax, pkg_x + 1.5, pkg_y + 20.0, "Admin", admin_left, admin_right, bottom_folder_name="Profile", w=39.5, h=19.0)
 
     # Customer (Top Right)
     customer_left = ["Login", "Book New Order", "My Order History"]
     customer_right = ["Dashboard", "12-Stamp Card", "Active Services"]
-    draw_role_package_container_reference(ax, pkg_x + 43.0, pkg_y + 19.5, "Customer", customer_left, customer_right, bottom_folder_name="Profile", w=39.5, h=16.0)
+    draw_role_package_container_reference(ax, pkg_x + 43.0, pkg_y + 20.0, "Customer", customer_left, customer_right, bottom_folder_name="Profile", w=39.5, h=19.0)
 
-    # Staff (Bottom Left)
+    # Staff (Bottom Center)
     staff_left = ["Login", "Workstation Queue", "Manage Laundry"]
     staff_right = ["Dashboard", "New Walk-in Order", "Manage Machines"]
-    draw_role_package_container_reference(ax, pkg_x + 1.5, pkg_y + 1.0, "Staff", staff_left, staff_right, bottom_folder_name="Profile", w=39.5, h=16.0)
-
-    # Rider of HourWash (Bottom Right)
-    rider_left = ["Login", "Rider Dashboard", "Pickup Logistics"]
-    rider_right = ["Dashboard", "Delivery Tasks", "Proof Photo Upload"]
-    draw_role_package_container_reference(ax, pkg_x + 43.0, pkg_y + 1.0, "Rider of HourWash", rider_left, rider_right, bottom_folder_name="Profile", w=39.5, h=16.0)
-
+    draw_role_package_container_reference(ax, pkg_x + 22.25, pkg_y + 1.0, "Staff", staff_left, staff_right, bottom_folder_name="Profile", w=39.5, h=18.0)
 
     # B) Lower Block: DATABASE Container (y=40.0 to 48.5)
     db_x, db_y, db_w, db_h = ws_x + 3.0, ws_y + 2.0, ws_w - 6.0, 8.5
@@ -1143,7 +1047,6 @@ def generate_deployment_diagram():
     f_body = patches.Rectangle((icon_x, icon_y), icon_w, icon_h, fc='#FFFFFF', ec='#000000', lw=1.0)
     ax.add_patch(f_body)
 
-
     # C) Connecting Elbow Arrow inside Web Server (DATABASE -> Package Diagram)
     st_x = db_x + db_w
     st_y = db_y + db_h/2.0
@@ -1155,15 +1058,13 @@ def generate_deployment_diagram():
             [st_y, st_y, tg_y, tg_y],
             color='#000000', lw=1.4)
     ax.annotate("", xy=(tg_x, tg_y), xytext=(tg_x + 0.6, tg_y),
-                arrowprops=dict(arrowstyle="->", lw=1.4, color='#000000'))
+                arrowprops=dict(arrowstyle="->", lw=1.4, color='#000000', shrinkA=0, shrinkB=0))
 
-
-    # 2. BOTTOM 3D NODE CUBES: CLIENT NODES (ADMIN, CUSTOMER, STAFF, RIDER OF HOURWASH)
+    # 2. BOTTOM 3D NODE CUBES: 3 CLIENT NODES (ADMIN, CUSTOMER, STAFF)
     client_nodes = [
-        ("ADMIN", 2.0, 4.0, 20.5),
-        ("CUSTOMER", 25.5, 4.0, 20.5),
-        ("STAFF", 49.0, 4.0, 20.5),
-        ("RIDER OF HOURWASH", 72.5, 4.0, 24.0)
+        ("ADMIN", 6.0, 4.0, 26.0),
+        ("CUSTOMER", 37.0, 4.0, 26.0),
+        ("STAFF", 68.0, 4.0, 26.0)
     ]
 
     client_top_anchors = []
@@ -1180,34 +1081,31 @@ def generate_deployment_diagram():
         c_side = patches.Polygon([[cx + cw, cy], [cx + cw + cd, cy + cd], [cx + cw + cd, cy + ch + cd], [cx + cw, cy + ch]], fc='#F1F5F9', ec='#000000', lw=1.4)
         ax.add_patch(c_side)
 
-        lbl_fs = 7.2 if "HOURWASH" in node_name else 8.5
-        ax.text(cx + 1.2, cy + ch - 3.2, node_name, fontsize=lbl_fs, fontweight='bold', color='#000000')
+        ax.text(cx + 1.2, cy + ch - 3.2, node_name, fontsize=8.5, fontweight='bold', color='#000000')
 
         # Inside client node cube: Inner box centered labeled "BROWSER"
-        b_box = patches.Rectangle((cx + 3.0, cy + 4.5), cw - 6.0, 10.0, fc='#FFFFFF', ec='#000000', lw=1.0)
+        b_box = patches.Rectangle((cx + 4.0, cy + 4.5), cw - 8.0, 10.0, fc='#FFFFFF', ec='#000000', lw=1.0)
         ax.add_patch(b_box)
         ax.text(cx + cw/2.0, cy + 9.5, "BROWSER", fontsize=8.0, fontweight='bold', ha='center', va='center', color='#000000')
 
         # Store top anchor point for connecting arrows
         client_top_anchors.append((cx + cw/2.0, cy + ch + cd))
 
-
     # 3. CONNECTING ARROWS FROM WEB SERVER DOWN TO CLIENT NODES WITH "http" LABELS
-    ws_bottom_y = ws_y # y = 38.0
+    ws_bottom_y = ws_y
     ws_bottom_anchors = [
-        ws_x + 8.0,
-        ws_x + 28.0,
-        ws_x + 52.0,
+        ws_x + 14.0,
+        ws_x + 45.0,
         ws_x + 76.0
     ]
 
-    for i in range(4):
+    for i in range(3):
         src_x = ws_bottom_anchors[i]
         src_y = ws_bottom_y
         tgt_x, tgt_y = client_top_anchors[i]
 
         ax.annotate("", xy=(tgt_x, tgt_y), xytext=(src_x, src_y),
-                    arrowprops=dict(arrowstyle="->", lw=1.3, color='#000000'))
+                    arrowprops=dict(arrowstyle="->", lw=1.3, color='#000000', shrinkA=0, shrinkB=0))
         
         mid_x = (src_x + tgt_x) / 2.0
         mid_y = (src_y + tgt_y) / 2.0

@@ -64,11 +64,6 @@ class Order extends Model
         return $this->hasOne(CustomerFeedback::class);
     }
 
-    public function pickupDelivery()
-    {
-        return $this->hasOne(PickupDelivery::class);
-    }
-
     public function statusHistory()
     {
         return $this->hasMany(OrderStatusHistory::class, 'order_id');

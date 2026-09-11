@@ -31,7 +31,7 @@ def create_system_design_docx():
 
     p_sub = doc.add_paragraph()
     p_sub.alignment = WD_ALIGN_PARAGRAPH.LEFT
-    r_sub = p_sub.add_run("Comprehensive System Architecture, Database Authentication & UML Diagrams Specification (Featuring 38 Dedicated Sequence Diagrams for All UI Navigation Sidebars)")
+    r_sub = p_sub.add_run("Comprehensive System Architecture, Database Authentication & UML Diagrams Specification (Featuring 31 Dedicated Sequence Diagrams for All UI Navigation Sidebars)")
     r_sub.font.size = Pt(12)
     r_sub.font.color.rgb = RGBColor(0x47, 0x55, 0x69)
     p_sub.paragraph_format.space_after = Pt(16)
@@ -55,24 +55,22 @@ def create_system_design_docx():
     p_disc1 = doc.add_paragraph()
     p_disc1.add_run("System Design & All System Features Breakdown (Isa-Isahin):\n").bold = True
     p_disc1.add_run(
-        "A Web-Based Laundry Service Management System for HourWash Laundry Shop in Orosite Legazpi City adopts a multi-tiered, decoupled architecture engineered to deliver real-time operational efficiency, seamless database authentication, and scalable laundry shop management. Built on Laravel 11/12 (PHP 8.5) with Tailwind CSS and Vite, the system structures its capabilities across 13 comprehensive feature modules and 6 architectural layers:\n\n"
+        "A Web-Based Laundry Service Management System for HourWash Laundry Shop in Orosite Legazpi City adopts a multi-tiered, decoupled architecture engineered to deliver real-time operational efficiency, seamless database authentication, and scalable laundry shop management. Built on Laravel 11/12 (PHP 8.5) with Tailwind CSS and Vite, the system structures its capabilities across 11 comprehensive feature modules and 6 architectural layers:\n\n"
         "1. Comprehensive System Feature Breakdown (Isa-Isahin):\n"
-        "   • Feature 1: User Authentication & Role-Based Access Control (RBAC): Handles user registration, database login authentication, password hashing (Bcrypt), and session token management for four distinct roles (Customer, Staff, Rider, Admin).\n"
-        "   • Feature 2: Customer Profile & Contact Management: Stores customer delivery addresses, barangay, city, province, phone numbers, and specialized laundry instructions in the customer_profiles database table.\n"
+        "   • Feature 1: User Authentication & Role-Based Access Control (RBAC): Handles user registration, database login authentication, password hashing (Bcrypt), and session token management for three distinct roles (Customer, Staff, Admin).\n"
+        "   • Feature 2: Customer Profile & Contact Management: Stores customer addresses, barangay, city, province, phone numbers, and specialized laundry instructions in the customer_profiles database table.\n"
         "   • Feature 3: Service Catalog & Pricing Management: Configures laundry service offerings (Wash & Dry, Heavy Duty, Special Detergent, Fabric Conditioner, Fold Only) with weight tariff rates (price per kg/load) and estimated cycle durations in the services table.\n"
-        "   • Feature 4: Customer Laundry Order Placement & Scheduling: Allows customers to submit orders, specify load weight estimates, select wash options, choose pickup/delivery types, and set preferred pickup dates and times.\n"
+        "   • Feature 4: Customer Laundry Order Placement & Scheduling: Allows customers to submit orders, specify load weight estimates, select wash options, and set preferred dates and times.\n"
         "   • Feature 5: Washing Machine & Dryer Fleet Management: Tracks real-time machine operational states (Idle, Washing, Rinsing, Drying, Maintenance, Offline), current order assignments, and remaining cycle timers in the machines database table.\n"
         "   • Feature 6: Store Power Outage / Brownout Time Extension (+60 Mins): Enables store staff to trigger a 60-minute time extension on active machine timers during brownouts, adjusting estimated completion timestamps and alerting customers via TextBee SMS.\n"
-        "   • Feature 7: Pickup & Delivery Logistics Management: Manages rider assignments, dispatching, real-time status updates (Requested, Scheduled, On the Way, Picked Up, Delivering, Delivered), customer delivery notes, and proof-of-delivery images in the pickup_delivery table.\n"
-        "   • Feature 8: Promotional Coupons & Discount Management: Validates promo codes, calculates percentage or flat-rate discounts, updates order subtotal and total_amount fields, and enforces usage limits.\n"
-        "   • Feature 9: Unique QR Code Order Verification & Audit Logs (api.qrserver.com): Generates a unique QR token hash and image for every order (qr_codes table) via api.qrserver.com, allowing staff and riders to scan and log verified transactions into the qr_scan_logs audit table.\n"
-        "   • Feature 10: Real-Time SMS Phone Notifications (TextBee.dev API): Dispatches automated SMS alerts (SendSmsJob) via TextBee SMS Gateway (api.textbee.dev) upon order status transitions (e.g., Wash Started, Ready for Pickup, Out for Delivery), logging records in sms_notifications.\n"
-        "   • Feature 11: Transactional Email Notifications (Brevo API): Sends order confirmation and password reset emails via Brevo Transactional Email Gateway (api.brevo.com).\n"
-        "   • Feature 12: Digital Itemized Receipt & Billing: Computes weight-based subtotal, delivery fees, applied discounts, and grand totals, rendering and printing digital transaction receipts.\n"
-        "   • Feature 13: Financial Sales Analytics, AI Chatbot (OpenAI / Ollama) & CRM Ratings: Provides administrators with financial revenue charts, 12-stamp Frequent User Card rewards, customer feedback ratings, and integrates an AI Chatbot Assistant powered by OpenAI Cloud LLM (gpt-3.5-turbo) and local Ollama (gemma3:1b).\n\n"
+        "   • Feature 7: Promotional Coupons & Discount Management: Validates promo codes, calculates percentage or flat-rate discounts, updates order subtotal and total_amount fields, and enforces usage limits.\n"
+        "   • Feature 8: Unique QR Code Order Verification & Audit Logs (api.qrserver.com): Generates a unique QR token hash and image for every order (qr_codes table) via api.qrserver.com, allowing staff to scan and log verified transactions into the qr_scan_logs audit table.\n"
+        "   • Feature 9: Real-Time SMS Phone Notifications (TextBee.dev API): Dispatches automated SMS alerts (SendSmsJob) via TextBee SMS Gateway (api.textbee.dev) upon order status transitions (e.g., Wash Started, Ready for Pickup), logging records in sms_notifications.\n"
+        "   • Feature 10: Transactional Email Notifications (Brevo API): Sends order confirmation and password reset emails via Brevo Transactional Email Gateway (api.brevo.com).\n"
+        "   • Feature 11: Digital Itemized Receipt & Billing, AI Chatbot (OpenAI / Ollama) & CRM Ratings: Computes weight-based subtotal, applied discounts, and grand totals, rendering digital transaction receipts, 12-stamp Frequent User Card rewards, customer feedback ratings, and integrates an AI Chatbot Assistant powered by OpenAI Cloud LLM (gpt-3.5-turbo) and local Ollama (gemma3:1b).\n\n"
         "2. Multi-Tiered Layer Breakdown:\n"
         "   • Presentation Layer: Blade views, Vite asset bundling, and Tailwind CSS responsive templates matching the exact application sidebars.\n"
-        "   • Security & Middleware Layer: AdminMiddleware, StaffMiddleware, CustomerMiddleware, RiderMiddleware, and CSRF protection.\n"
+        "   • Security & Middleware Layer: AdminMiddleware, StaffMiddleware, CustomerMiddleware, and CSRF protection.\n"
         "   • Application Controller Layer: HTTP request handlers executing core business logic, including ChatbotController.\n"
         "   • Domain & Asynchronous Service Layer: SmsNotificationService (TextBee), EmailNotificationService (Brevo), LoyaltyStampService, and background queue workers.\n"
         "   • Persistence Layer: MySQL relational database with normalized schema tables.\n"
@@ -97,7 +95,7 @@ def create_system_design_docx():
     p_interp1 = doc.add_paragraph()
     p_interp1.add_run("Figure 1 Interpretation (Step-by-Step Execution Flow):\n").bold = True
     p_interp1.add_run(
-        "Figure 1 details how requests flow step-by-step when a user logs in and performs actions. Step 1: User submits login credentials (email and password) via the Presentation Layer. Step 2: The request hits the Routing & Security Layer where CSRF tokens are verified and session middleware intercepts the call. Step 3: AuthenticatedSessionController queries the MySQL database users table to verify the email and check the password hash using Bcrypt. Step 4: Upon database verification, the user's role (Customer, Staff, Rider, Admin) is loaded, a session cookie is generated, and role-specific middleware routes the user to their authorized portal. Step 5: Subsequent actions execute SQL operations on corresponding MySQL tables and enqueue asynchronous notifications via TextBee SMS, Brevo Email, QRServer API, and OpenAI/Ollama LLM."
+        "Figure 1 details how requests flow step-by-step when a user logs in and performs actions. Step 1: User submits login credentials (email and password) via the Presentation Layer. Step 2: The request hits the Routing & Security Layer where CSRF tokens are verified and session middleware intercepts the call. Step 3: AuthenticatedSessionController queries the MySQL database users table to verify the email and check the password hash using Bcrypt. Step 4: Upon database verification, the user's role (Customer, Staff, Admin) is loaded, a session cookie is generated, and role-specific middleware routes the user to their authorized portal. Step 5: Subsequent actions execute SQL operations on corresponding MySQL tables and enqueue asynchronous notifications via TextBee SMS, Brevo Email, QRServer API, and OpenAI/Ollama LLM."
     )
 
     # ---------------------------------------------------------
@@ -112,10 +110,10 @@ def create_system_design_docx():
     r_h2_uc.font.color.rgb = RGBColor(0x0F, 0x17, 0x2A)
 
     p_disc2 = doc.add_paragraph()
-    p_disc2.add_run("Use Case Diagram Discussion & Actor Responsibilities (Matching All 38 UI Navigation Menu Items):\n").bold = True
+    p_disc2.add_run("Use Case Diagram Discussion & Actor Responsibilities (Matching All 31 UI Navigation Menu Items):\n").bold = True
     p_disc2.add_run(
-        "The Use Case Diagram defines the functional boundary of the HourWash system across 38 distinct use cases matching all navigation features from the 4 application UI screenshots in exact order:\n\n"
-        "• Customer Actor Navigation Use Cases (Screenshot 3 Sidebar):\n"
+        "The Use Case Diagram defines the functional boundary of the HourWash system across 31 distinct use cases matching all navigation features from the application UI screenshots in exact order:\n\n"
+        "• Customer Actor Navigation Use Cases:\n"
         "   - UC1: Customer Registration\n"
         "   - UC2: Customer Login Authentication\n"
         "   - UC3: Customer Forgot Password Reset (Brevo API)\n"
@@ -125,7 +123,7 @@ def create_system_design_docx():
         "   - UC7: Frequent User Card (12-stamp loyalty rewards)\n"
         "   - UC8: Home Dashboard (Public landing page)\n"
         "   - UC9: Account Settings (Profile & security settings)\n\n"
-        "• Staff Operator Actor Navigation Use Cases (Screenshot 2 Sidebar):\n"
+        "• Staff Operator Actor Navigation Use Cases:\n"
         "   - UC10: Staff Login Authentication\n"
         "   - UC11: Staff Forgot Password Reset\n"
         "   - UC12: Workstation Dashboard (Queue & cashier processing overview)\n"
@@ -135,28 +133,20 @@ def create_system_design_docx():
         "   - UC16: QR Scan Logs Outbox (Audit log of all QR scans)\n"
         "   - UC17: Home Dashboard (Public landing page)\n"
         "   - UC18: Account Settings (Profile & security settings)\n\n"
-        "• Rider Logistics Actor Navigation Use Cases (Screenshot 4 Sidebar):\n"
-        "   - UC19: Rider Login Authentication\n"
-        "   - UC20: Rider Forgot Password Reset\n"
-        "   - UC21: Rider of Hour Wash (Pickup & delivery dispatches)\n"
-        "   - UC22: Update Pickup Logistics Status ('On the Way', 'Picked Up' via TextBee SMS)\n"
-        "   - UC23: Update Delivery Status & Upload Proof Photo Image ('Delivered')\n"
-        "   - UC24: Home Dashboard (Public landing page)\n"
-        "   - UC25: Account Settings (Profile & security settings)\n\n"
-        "• System Administrator Actor Navigation Use Cases (Screenshot 1 Sidebar):\n"
-        "   - UC26: Admin Login Authentication\n"
-        "   - UC27: Admin Forgot Password Reset\n"
-        "   - UC28: Overall Reports & Dashboard (System overview & metrics)\n"
-        "   - UC29: Manage Laundry Orders (Queue & cashier processing)\n"
-        "   - UC30: Manage Machines (Add, Edit, & Remove Machines)\n"
-        "   - UC31: Services & Pricing (Service rates & load options)\n"
-        "   - UC32: Manage Users (Stamps, Add, Edit, & Remove Users)\n"
-        "   - UC33: Live SMS Outbox (Phone notification logs via TextBee Gateway)\n"
-        "   - UC34: Live Email Outbox (Email notification logs via Brevo Gateway)\n"
-        "   - UC35: Customer Reviews Outbox (Ratings & feedback logs)\n"
-        "   - UC36: QR Scan Logs Outbox (Audit log of all QR scans)\n"
-        "   - UC37: Home Dashboard (Public landing page)\n"
-        "   - UC38: Account Settings (Profile & security settings)"
+        "• System Administrator Actor Navigation Use Cases:\n"
+        "   - UC19: Admin Login Authentication\n"
+        "   - UC20: Admin Forgot Password Reset\n"
+        "   - UC21: Overall Reports & Dashboard (System overview & metrics)\n"
+        "   - UC22: Manage Laundry Orders (Queue & cashier processing)\n"
+        "   - UC23: Manage Machines (Add, Edit, & Remove Machines)\n"
+        "   - UC24: Services & Pricing (Service rates & load options)\n"
+        "   - UC25: Manage Users (Stamps, Add, Edit, & Remove Users)\n"
+        "   - UC26: Live SMS Outbox (Phone notification logs via TextBee Gateway)\n"
+        "   - UC27: Live Email Outbox (Email notification logs via Brevo Gateway)\n"
+        "   - UC28: Customer Reviews Outbox (Ratings & feedback logs)\n"
+        "   - UC29: QR Scan Logs Outbox (Audit log of all QR scans)\n"
+        "   - UC30: Home Dashboard (Public landing page)\n"
+        "   - UC31: Account Settings (Profile & security settings)"
     )
 
     p_fig2 = doc.add_paragraph()
@@ -168,7 +158,7 @@ def create_system_design_docx():
 
     p_cap2 = doc.add_paragraph()
     p_cap2.alignment = WD_ALIGN_PARAGRAPH.LEFT
-    r_cap2 = p_cap2.add_run("Figure 2: HourWash System Use Case Diagram - Matching All 38 UI Navigation Sidebar Items")
+    r_cap2 = p_cap2.add_run("Figure 2: HourWash System Use Case Diagram - Matching All 31 UI Navigation Sidebar Items")
     r_cap2.italic = True
     r_cap2.font.size = Pt(9.5)
     r_cap2.font.color.rgb = RGBColor(0x47, 0x55, 0x69)
@@ -176,7 +166,7 @@ def create_system_design_docx():
     p_interp2 = doc.add_paragraph()
     p_interp2.add_run("Figure 2 Interpretation:\n").bold = True
     p_interp2.add_run(
-        "Figure 2 visually maps all 38 use cases enclosed within the system boundary box. Associations connect each actor to their permissible interactions matching the exact navigation bar menus from the application UI."
+        "Figure 2 visually maps all 31 use cases enclosed within the system boundary box. Associations connect each actor to their permissible interactions matching the exact navigation bar menus from the application UI."
     )
 
     # ---------------------------------------------------------
@@ -194,14 +184,14 @@ def create_system_design_docx():
     p_disc3.add_run("Class Diagram Discussion & Relational Database Mapping (Isa-Isahin):\n").bold = True
     p_disc3.add_run(
         "The Class Diagram presents the static object-oriented domain model of the HourWash application, mapping directly to Laravel Eloquent ORM models and MySQL database tables:\n\n"
-        "• User Model (users table): Attributes: id (PK), name, email, password, role ('customer', 'staff', 'rider', 'admin'), frequent_stamps. Methods: authenticate(), claimLoyaltyStamp().\n"
-        "• CustomerProfile Model (customer_profiles table): Attributes: id (PK), user_id (FK), address, barangay, city, province. BelongsTo User.\n"
-        "• StaffProfile Model (staff_profiles table): Attributes: id (PK), user_id (FK), employee_id, position, status. BelongsTo User.\n"
+        "• User Model (users table): Attributes: id (PK), name, email, password, role ('customer', 'staff', 'admin'), frequent_stamps. Methods: authenticate(), claimLoyaltyStamp().\n"
+        "• Customer Subclass (customer_profiles table): Attributes: id (PK), user_id (FK), address, barangay, city. BelongsTo User.\n"
+        "• Staff Subclass (staff_profiles table): Attributes: id (PK), user_id (FK), employee_id, position, status. BelongsTo User.\n"
+        "• Admin Subclass: Attributes: user_id (FK), admin_level, status. BelongsTo User.\n"
         "• Service Model (services table): Attributes: id (PK), name, service_type, price, estimated_minutes. HasMany Order.\n"
         "• Machine Model (machines table): Attributes: id (PK), machine_code, machine_type, status, current_order_id (FK). Methods: assignOrder(), addBrownoutTime().\n"
-        "• Order Model (orders table): Attributes: id (PK), order_number, customer_id (FK), service_id (FK), total_amount, order_status. HasMany OrderStatusHistory, HasOne QrCode, HasOne PickupDelivery.\n"
+        "• Order Model (orders table): Attributes: id (PK), order_number, customer_id (FK), service_id (FK), total_amount, order_status. HasMany OrderStatusHistory, HasOne QrCode.\n"
         "• OrderStatusHistory Model (order_status_history table): Attributes: id (PK), order_id (FK), status, changed_by (FK), created_at.\n"
-        "• PickupDelivery Model (pickup_delivery table): Attributes: id (PK), order_id (FK), type, status, proof_images. BelongsTo Order.\n"
         "• QrCode & QrScanLog Models (qr_codes & qr_scan_logs tables): QrCode stores order_id (FK), qr_token. QrScanLog stores scanned_by (FK), scan_type.\n"
         "• SmsNotification & EmailNotification Models (sms_notifications & email_notifications tables): Stores dispatch logs for TextBee SMS and Brevo Email APIs."
     )
@@ -227,7 +217,7 @@ def create_system_design_docx():
     )
 
     # ---------------------------------------------------------
-    # SECTION 4: SEQUENCE DIAGRAMS (UC1 to UC38)
+    # SECTION 4: SEQUENCE DIAGRAMS (UC1 to UC31)
     # ---------------------------------------------------------
     doc.add_paragraph().paragraph_format.space_after = Pt(12)
     h4_sd = doc.add_heading(level=1)
@@ -240,13 +230,13 @@ def create_system_design_docx():
     p_disc4 = doc.add_paragraph()
     p_disc4.add_run("Sequence Diagram Discussion:\n").bold = True
     p_disc4.add_run(
-        "Sequence diagrams model the dynamic execution flows and step-by-step ('isa-isahin') message passing between user lifelines, controllers, models, and MySQL database tables during critical system operations for all 38 Use Cases across the four navigation sidebars."
+        "Sequence diagrams model the dynamic execution flows and step-by-step message passing between user lifelines, controllers, models, and MySQL database tables during critical system operations for all 31 Use Cases across the three navigation sidebars."
     )
 
-    # 38 Sequence Diagram items definitions matching UI navigation
-    SD_ITEMS_38 = [
+    # 31 Sequence Diagram items definitions matching UI navigation
+    SD_ITEMS_31 = [
         # Customer Role (UC1 - UC9)
-        ("Customer Role Navigation Workflows (Screenshot 3 Sidebar)", 1, "UC1: Customer Account Registration Flow", "sequence_diagram_1.png",
+        ("Customer Role Navigation Workflows", 1, "UC1: Customer Account Registration Flow", "sequence_diagram_1.png",
          "Figure 4: Sequence Diagram 1 - UC1 Customer Account Registration Flow",
          "Figure 4 details customer registration. The user submits registration details, RegisteredUserController validates input, creates a row in the users table (role='customer'), and inserts contact metadata into customer_profiles."),
 
@@ -283,7 +273,7 @@ def create_system_design_docx():
          "Figure 12 depicts profile updates. The customer modifies contact info or password, and ProfileController executes SQL UPDATE statements on users and customer_profiles tables."),
 
         # Staff Role (UC10 - UC18)
-        ("Staff Operator Role Navigation Workflows (Screenshot 2 Sidebar)", 10, "UC10: Staff Login Authentication Flow", "sequence_diagram_10.png",
+        ("Staff Operator Role Navigation Workflows", 10, "UC10: Staff Login Authentication Flow", "sequence_diagram_10.png",
          "Figure 13: Sequence Diagram 10 - UC10 Staff Login Authentication Flow",
          "Figure 13 details staff authentication. The staff operator inputs credentials, AuthenticatedSessionController verifies the user record (role='staff'), validates the password hash, and StaffMiddleware grants console access."),
 
@@ -319,90 +309,61 @@ def create_system_design_docx():
          "Figure 21: Sequence Diagram 18 - UC18 Staff Account Settings Navigation Flow",
          "Figure 21 details staff profile updates. The staff member updates password or security settings, executing SQL UPDATE statements on the users table."),
 
-        # Rider Role (UC19 - UC25)
-        ("Rider Logistics Role Navigation Workflows (Screenshot 4 Sidebar)", 19, "UC19: Rider Login Authentication Flow", "sequence_diagram_19.png",
-         "Figure 22: Sequence Diagram 19 - UC19 Rider Login Authentication Flow",
-         "Figure 22 details rider authentication. The rider inputs login credentials, AuthenticatedSessionController verifies the user record (role='rider'), checks the password hash, and RiderMiddleware grants access."),
+        # Admin Role (UC19 - UC31)
+        ("Administrator Role Navigation Workflows", 19, "UC19: Administrator Login Authentication Flow", "sequence_diagram_19.png",
+         "Figure 22: Sequence Diagram 19 - UC19 Administrator Login Authentication Flow",
+         "Figure 22 details admin authentication. The administrator inputs credentials, AuthenticatedSessionController verifies the user record (role='admin'), checks password hash, and AdminMiddleware grants access."),
 
-        (None, 20, "UC20: Rider Forgot Password Reset Flow via Brevo Email API", "sequence_diagram_20.png",
-         "Figure 23: Sequence Diagram 20 - UC20 Rider Forgot Password Reset Flow via Brevo Email API",
-         "Figure 23 details rider password recovery. PasswordResetLinkController triggers EmailNotificationService to dispatch a reset email via Brevo Email Gateway."),
+        (None, 20, "UC20: Administrator Password Reset Flow via Brevo Email API", "sequence_diagram_20.png",
+         "Figure 23: Sequence Diagram 20 - UC20 Administrator Password Reset Flow via Brevo Email API",
+         "Figure 23 details admin password recovery. PasswordResetLinkController triggers EmailNotificationService to send a secure reset link via Brevo Email API."),
 
-        (None, 21, "UC21: Rider of Hour Wash Navigation Flow", "sequence_diagram_21.png",
-         "Figure 24: Sequence Diagram 21 - UC21 Rider of Hour Wash Navigation Flow",
-         "Figure 24 models rider task access. The rider opens the Rider Dashboard, and RiderDashboardController queries the pickup_delivery table for assigned jobs."),
+        (None, 21, "UC21: Overall Reports & Dashboard Navigation Flow", "sequence_diagram_21.png",
+         "Figure 24: Sequence Diagram 21 - UC21 Overall Reports & Dashboard Navigation Flow",
+         "Figure 24 details Overall Reports Dashboard rendering. AnalyticsController aggregates overall sales revenue, daily profit, and machine utilization metrics."),
 
-        (None, 22, "UC22: Update Pickup Logistics Status Flow & TextBee SMS Alert", "sequence_diagram_22.png",
-         "Figure 25: Sequence Diagram 22 - UC22 Update Pickup Logistics Status Flow",
-         "Figure 25 details pickup completion. Rider updates status to 'picked_up', and SmsNotificationService dispatches an automated SMS alert to customer phone via TextBee Gateway (api.textbee.dev)."),
+        (None, 22, "UC22: Manage Laundry Orders Navigation Flow", "sequence_diagram_22.png",
+         "Figure 25: Sequence Diagram 22 - UC22 Manage Laundry Orders Navigation Flow",
+         "Figure 25 shows admin order management. Admin reviews order queue status and overrides order statuses, updating orders and order_status_history tables."),
 
-        (None, 23, "UC23: Update Delivery Status & Proof Photo Upload Flow", "sequence_diagram_23.png",
-         "Figure 26: Sequence Diagram 23 - UC23 Update Delivery Status & Proof Photo Upload Flow",
-         "Figure 26 models delivery completion. The rider uploads a proof photo, PickupDeliveryController updates status to 'delivered', sets order to 'completed', and alerts the customer."),
+        (None, 23, "UC23: Manage Machines Navigation Flow (Add, Edit, Remove)", "sequence_diagram_23.png",
+         "Figure 26: Sequence Diagram 23 - UC23 Manage Machines Navigation Flow",
+         "Figure 26 models machine fleet management. Admin adds, edits, or removes machines, executing SQL INSERT, UPDATE, or DELETE statements on the machines table."),
 
-        (None, 24, "UC24: Rider Home Dashboard Navigation Flow", "sequence_diagram_24.png",
-         "Figure 27: Sequence Diagram 24 - UC24 Rider Home Dashboard Navigation Flow",
-         "Figure 27 details rider home landing page access, rendering store hours and active service packages."),
+        (None, 24, "UC24: Services & Pricing Navigation Flow", "sequence_diagram_24.png",
+         "Figure 27: Sequence Diagram 24 - UC24 Services & Pricing Navigation Flow",
+         "Figure 27 details service rate management. Admin configures pricing tariffs per kg and estimated cycle minutes, updating the services table."),
 
-        (None, 25, "UC25: Rider Account Settings Navigation Flow", "sequence_diagram_25.png",
-         "Figure 28: Sequence Diagram 25 - UC25 Rider Account Settings Navigation Flow",
-         "Figure 28 details rider profile updates. The rider updates profile details or password, executing SQL UPDATE statements on the users table."),
+        (None, 25, "UC25: Manage Users Navigation Flow (Stamps, Add, Edit, Remove)", "sequence_diagram_25.png",
+         "Figure 28: Sequence Diagram 25 - UC28 Manage Users Navigation Flow",
+         "Figure 28 details user & stamp management. Admin manages user profiles and adjusts 12-stamp Frequent User Card counts in the users table."),
 
-        # Admin Role (UC26 - UC38)
-        ("Administrator Role Navigation Workflows (Screenshot 1 Sidebar)", 26, "UC26: Administrator Login Authentication Flow", "sequence_diagram_26.png",
-         "Figure 29: Sequence Diagram 26 - UC26 Administrator Login Authentication Flow",
-         "Figure 29 details admin authentication. The administrator inputs credentials, AuthenticatedSessionController verifies the user record (role='admin'), checks password hash, and AdminMiddleware grants access."),
+        (None, 26, "UC26: Live SMS Outbox Navigation Flow (TextBee Logs)", "sequence_diagram_26.png",
+         "Figure 29: Sequence Diagram 26 - UC26 Live SMS Outbox Navigation Flow",
+         "Figure 29 details Live TextBee SMS Outbox inspection. SmsLogController queries sms_notifications table to display phone SMS delivery logs from TextBee Gateway."),
 
-        (None, 27, "UC27: Administrator Password Reset Flow via Brevo Email API", "sequence_diagram_27.png",
-         "Figure 30: Sequence Diagram 27 - UC27 Administrator Password Reset Flow via Brevo Email API",
-         "Figure 30 details admin password recovery. PasswordResetLinkController triggers EmailNotificationService to send a secure reset link via Brevo Email API."),
+        (None, 27, "UC27: Live Email Outbox Navigation Flow (Brevo Logs)", "sequence_diagram_27.png",
+         "Figure 30: Sequence Diagram 27 - UC27 Live Brevo Email Outbox Navigation Flow",
+         "Figure 30 details Live Brevo Email Outbox inspection. EmailLogController queries email_notifications table to render transactional email logs from Brevo Gateway."),
 
-        (None, 28, "UC28: Overall Reports & Dashboard Navigation Flow", "sequence_diagram_28.png",
-         "Figure 31: Sequence Diagram 28 - UC28 Overall Reports & Dashboard Navigation Flow",
-         "Figure 31 details Overall Reports Dashboard rendering. AnalyticsController aggregates overall sales revenue, daily profit, and machine utilization metrics."),
+        (None, 28, "UC28: Customer Reviews Outbox Navigation Flow", "sequence_diagram_28.png",
+         "Figure 31: Sequence Diagram 28 - UC28 Customer Reviews Outbox Navigation Flow",
+         "Figure 31 shows customer review management. CustomerFeedbackController queries ratings and comments from customer_feedbacks table."),
 
-        (None, 29, "UC29: Manage Laundry Orders Navigation Flow", "sequence_diagram_29.png",
-         "Figure 32: Sequence Diagram 29 - UC29 Manage Laundry Orders Navigation Flow",
-         "Figure 32 shows admin order management. Admin reviews order queue status and overrides order statuses, updating orders and order_status_history tables."),
+        (None, 29, "UC29: QR Scan Logs Outbox Navigation Flow", "sequence_diagram_29.png",
+         "Figure 32: Sequence Diagram 29 - UC29 QR Scan Logs Outbox Navigation Flow",
+         "Figure 32 models global QR audit log inspection. QrScanLogController queries all scan events from qr_scan_logs table for administrative auditing."),
 
-        (None, 30, "UC30: Manage Machines Navigation Flow (Add, Edit, Remove)", "sequence_diagram_30.png",
-         "Figure 33: Sequence Diagram 30 - UC30 Manage Machines Navigation Flow",
-         "Figure 33 models machine fleet management. Admin adds, edits, or removes machines, executing SQL INSERT, UPDATE, or DELETE statements on the machines table."),
+        (None, 30, "UC30: Admin Home Dashboard Navigation Flow", "sequence_diagram_30.png",
+         "Figure 33: Sequence Diagram 30 - UC30 Admin Home Dashboard Navigation Flow",
+         "Figure 33 details admin home page navigation, rendering public landing page metrics and store info."),
 
-        (None, 31, "UC31: Services & Pricing Navigation Flow", "sequence_diagram_31.png",
-         "Figure 34: Sequence Diagram 31 - UC31 Services & Pricing Navigation Flow",
-         "Figure 34 details service rate management. Admin configures pricing tariffs per kg and estimated cycle minutes, updating the services table."),
-
-        (None, 32, "UC32: Manage Users Navigation Flow (Stamps, Add, Edit, Remove)", "sequence_diagram_32.png",
-         "Figure 35: Sequence Diagram 32 - UC32 Manage Users Navigation Flow",
-         "Figure 35 details user & stamp management. Admin manages user profiles and adjusts 12-stamp Frequent User Card counts in the users table."),
-
-        (None, 33, "UC33: Live SMS Outbox Navigation Flow (TextBee Logs)", "sequence_diagram_33.png",
-         "Figure 36: Sequence Diagram 33 - UC33 Live SMS Outbox Navigation Flow",
-         "Figure 36 details Live TextBee SMS Outbox inspection. SmsLogController queries sms_notifications table to display phone SMS delivery logs from TextBee Gateway."),
-
-        (None, 34, "UC34: Live Email Outbox Navigation Flow (Brevo Logs)", "sequence_diagram_34.png",
-         "Figure 37: Sequence Diagram 34 - UC34 Live Brevo Email Outbox Navigation Flow",
-         "Figure 37 details Live Brevo Email Outbox inspection. EmailLogController queries email_notifications table to render transactional email logs from Brevo Gateway."),
-
-        (None, 35, "UC35: Customer Reviews Outbox Navigation Flow", "sequence_diagram_35.png",
-         "Figure 38: Sequence Diagram 35 - UC35 Customer Reviews Outbox Navigation Flow",
-         "Figure 38 shows customer review management. CustomerFeedbackController queries ratings and comments from customer_feedbacks table."),
-
-        (None, 36, "UC36: QR Scan Logs Outbox Navigation Flow", "sequence_diagram_36.png",
-         "Figure 39: Sequence Diagram 36 - UC36 QR Scan Logs Outbox Navigation Flow",
-         "Figure 39 models global QR audit log inspection. QrScanLogController queries all scan events from qr_scan_logs table for administrative auditing."),
-
-        (None, 37, "UC37: Admin Home Dashboard Navigation Flow", "sequence_diagram_37.png",
-         "Figure 40: Sequence Diagram 37 - UC37 Admin Home Dashboard Navigation Flow",
-         "Figure 40 details admin home page navigation, rendering public landing page metrics and store info."),
-
-        (None, 38, "UC38: Admin Account Settings Navigation Flow", "sequence_diagram_38.png",
-         "Figure 41: Sequence Diagram 38 - UC38 Admin Account Settings Navigation Flow",
-         "Figure 41 details admin profile updates. Admin updates password or security settings, executing SQL UPDATE statements on the users table."),
+        (None, 31, "UC31: Admin Account Settings Navigation Flow", "sequence_diagram_31.png",
+         "Figure 34: Sequence Diagram 31 - UC31 Admin Account Settings Navigation Flow",
+         "Figure 34 details admin profile updates. Admin updates password or security settings, executing SQL UPDATE statements on the users table."),
     ]
 
-    for section_header, sd_num, uc_title, img_filename, cap_text, interp_text in SD_ITEMS_38:
+    for section_header, sd_num, uc_title, img_filename, cap_text, interp_text in SD_ITEMS_31:
         if section_header:
             doc.add_paragraph().paragraph_format.space_after = Pt(10)
             h_sec = doc.add_heading(level=2)
@@ -457,33 +418,33 @@ def create_system_design_docx():
     p_disc5.add_run("Package Diagram Discussion & Subsystem Architecture (Isa-Isahin):\n").bold = True
     p_disc5.add_run(
         "The Package Diagram structures the HourWash codebase into modular namespaces under App\\ and Database\\:\n\n"
-        "• App\\Http\\Controllers: Contains Auth\\AuthenticatedSessionController, LaundryController, MachineController, ChatbotController (OpenAI / Ollama AI), RiderDashboardController, and AnalyticsController.\n"
-        "• App\\Http\\Middleware: Contains AdminMiddleware, StaffMiddleware, CustomerMiddleware, RiderMiddleware, and SecurityHeaders.\n"
-        "• App\\Models: Contains User (frequent_user_card), CustomerProfile, StaffProfile, Order, Machine, PickupDelivery, QrCode, QrScanLog, SmsNotification, and CustomerFeedback.\n"
+        "• App\\Http\\Controllers: Contains Auth\\AuthenticatedSessionController, LaundryController, MachineController, ChatbotController (OpenAI / Ollama AI), and AnalyticsController.\n"
+        "• App\\Http\\Middleware: Contains AdminMiddleware, StaffMiddleware, CustomerMiddleware, and SecurityHeaders.\n"
+        "• App\\Models: Contains User (frequent_user_card), CustomerProfile, StaffProfile, Order, Machine, QrCode, QrScanLog, SmsNotification, and CustomerFeedback.\n"
         "• App\\Services: Contains SmsNotificationService (TextBee.dev API) and EmailNotificationService (Brevo API).\n"
         "• App\\Jobs & App\\Mail: Contains SendSmsJob (TextBee) and OrderStatusUpdated Mail (Brevo).\n"
         "• Database\\Migrations: Contains migration files creating MySQL database tables.\n"
-        "• Resources\\Views: Contains server-side Blade templates organized by role (auth/*, customer/*, staff/*, rider/*, admin/*)."
+        "• Resources\\Views: Contains server-side Blade templates organized by role (auth/*, customer/*, staff/*, admin/*)."
     )
 
-    p_fig42 = doc.add_paragraph()
-    p_fig42.alignment = WD_ALIGN_PARAGRAPH.LEFT
-    p_fig42.paragraph_format.space_before = Pt(12)
-    p_fig42.paragraph_format.space_after = Pt(4)
-    run_fig42 = p_fig42.add_run()
-    run_fig42.add_picture('diagrams/package_diagram.png', width=Inches(6.2))
+    p_fig35 = doc.add_paragraph()
+    p_fig35.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    p_fig35.paragraph_format.space_before = Pt(12)
+    p_fig35.paragraph_format.space_after = Pt(4)
+    run_fig35 = p_fig35.add_run()
+    run_fig35.add_picture('diagrams/package_diagram.png', width=Inches(6.2))
 
-    p_cap42 = doc.add_paragraph()
-    p_cap42.alignment = WD_ALIGN_PARAGRAPH.LEFT
-    r_cap42 = p_cap42.add_run("Figure 42: HourWash System Subsystem Package Diagram")
-    r_cap42.italic = True
-    r_cap42.font.size = Pt(9.5)
-    r_cap42.font.color.rgb = RGBColor(0x47, 0x55, 0x69)
+    p_cap35 = doc.add_paragraph()
+    p_cap35.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    r_cap35 = p_cap35.add_run("Figure 35: HourWash System Subsystem Package Diagram")
+    r_cap35.italic = True
+    r_cap35.font.size = Pt(9.5)
+    r_cap35.font.color.rgb = RGBColor(0x47, 0x55, 0x69)
 
-    p_interp42 = doc.add_paragraph()
-    p_interp42.add_run("Figure 42 Interpretation:\n").bold = True
-    p_interp42.add_run(
-        "Figure 42 details the clean packaging layout of the application. Dependencies flow inwards from HTTP Controllers through Security Middleware down to Eloquent Models and Service classes, preserving modularity and low coupling."
+    p_interp35 = doc.add_paragraph()
+    p_interp35.add_run("Figure 35 Interpretation:\n").bold = True
+    p_interp35.add_run(
+        "Figure 35 details the clean packaging layout of the application across 3 primary roles (Admin, Customer, Staff). Dependencies flow inwards from HTTP Controllers through Security Middleware down to Eloquent Models and Service classes, preserving modularity and low coupling."
     )
 
     # ---------------------------------------------------------
@@ -501,35 +462,35 @@ def create_system_design_docx():
     p_disc6.add_run("Deployment Diagram Discussion & Node Topology (Isa-Isahin):\n").bold = True
     p_disc6.add_run(
         "The Deployment Diagram details the hardware nodes, execution runtimes, and network protocols supporting the HourWash system in production:\n\n"
-        "1. Client Devices Node: Mobile smartphones and desktop web browsers running Tailwind CSS user interfaces and executing Vite/JavaScript code.\n"
-        "2. Web Application Server Node: Ubuntu Linux or Windows Server hosting Nginx/Apache Web Server, PHP 8.5 FPM runtime, Laravel 11 application engine, and Artisan task queue worker.\n"
-        "3. Database Server Node: Dedicated database node running MySQL Server 8.0 with InnoDB storage engine, storing encrypted user password hashes and relational data tables.\n"
+        "1. Client Devices Node: 3 client nodes (ADMIN, CUSTOMER, STAFF) running web browsers with Tailwind CSS user interfaces.\n"
+        "2. Web Application Server Node: 3D Web Server hosting Nginx/Apache Web Server, PHP 8.5 FPM runtime, Laravel 11 application engine, and Artisan task queue worker, encapsulating role packages and embedded database.\n"
+        "3. Database Container: MySQL Database storing encrypted user password hashes and relational data tables.\n"
         "4. External Integration Gateways: TextBee SMS REST API (api.textbee.dev), Brevo Email REST API (api.brevo.com), OpenAI Cloud API (api.openai.com), local Ollama LLM (127.0.0.1:11434), and QRServer Engine (api.qrserver.com)."
     )
 
-    p_fig43 = doc.add_paragraph()
-    p_fig43.alignment = WD_ALIGN_PARAGRAPH.LEFT
-    p_fig43.paragraph_format.space_before = Pt(12)
-    p_fig43.paragraph_format.space_after = Pt(4)
-    run_fig43 = p_fig43.add_run()
-    run_fig43.add_picture('diagrams/deployment_diagram.png', width=Inches(6.2))
+    p_fig36 = doc.add_paragraph()
+    p_fig36.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    p_fig36.paragraph_format.space_before = Pt(12)
+    p_fig36.paragraph_format.space_after = Pt(4)
+    run_fig36 = p_fig36.add_run()
+    run_fig36.add_picture('diagrams/deployment_diagram.png', width=Inches(6.2))
 
-    p_cap43 = doc.add_paragraph()
-    p_cap43.alignment = WD_ALIGN_PARAGRAPH.LEFT
-    r_cap43 = p_cap43.add_run("Figure 43: HourWash Production Infrastructure & Deployment Diagram")
-    r_cap43.italic = True
-    r_cap43.font.size = Pt(9.5)
-    r_cap43.font.color.rgb = RGBColor(0x47, 0x55, 0x69)
+    p_cap36 = doc.add_paragraph()
+    p_cap36.alignment = WD_ALIGN_PARAGRAPH.LEFT
+    r_cap36 = p_cap36.add_run("Figure 36: HourWash Production Infrastructure & Deployment Diagram")
+    r_cap36.italic = True
+    r_cap36.font.size = Pt(9.5)
+    r_cap36.font.color.rgb = RGBColor(0x47, 0x55, 0x69)
 
-    p_interp43 = doc.add_paragraph()
-    p_interp43.add_run("Figure 43 Interpretation:\n").bold = True
-    p_interp43.add_run(
-        "Figure 43 illustrates the network communication channels connecting hardware nodes. Client Devices communicate with the Web Application Server via secure HTTPS (Port 443). The Application Server executes PDO SQL queries against the Database Server Node over TCP/IP Port 3306. Outbound REST API calls (HTTPS Port 443) route notification and AI requests to TextBee SMS, Brevo Email, OpenAI Cloud, and QRServer APIs."
+    p_interp36 = doc.add_paragraph()
+    p_interp36.add_run("Figure 36 Interpretation:\n").bold = True
+    p_interp36.add_run(
+        "Figure 36 illustrates the network communication channels connecting hardware nodes. Client Devices (Admin, Customer, Staff) communicate with the Web Application Server via HTTP. The Application Server executes PDO SQL queries against the Database Container. Outbound REST API calls route notification and AI requests to TextBee SMS, Brevo Email, OpenAI Cloud, and QRServer APIs."
     )
 
     output_filename = "Hour_Wash_System_Design_Diagrams.docx"
     doc.save(output_filename)
-    print(f"DOCUMENT SUCCESSFULLY CREATED WITH ALL 38 SEQUENCE DIAGRAMS AND SAVED TO: {output_filename}")
+    print(f"DOCUMENT SUCCESSFULLY CREATED WITH ALL 31 SEQUENCE DIAGRAMS AND SAVED TO: {output_filename}")
 
 if __name__ == '__main__':
     create_system_design_docx()

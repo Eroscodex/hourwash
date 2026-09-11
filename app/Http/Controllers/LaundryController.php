@@ -277,10 +277,10 @@ class LaundryController extends Controller
             $qrCode = QrCode::where('qr_token', $cleanQr)->first();
 
             if ($qrCode) {
-                $order = Order::with(['service', 'customer.customerProfile', 'machine', 'qrCode', 'pickupDelivery', 'statusHistory'])->find($qrCode->order_id);
+                $order = Order::with(['service', 'customer.customerProfile', 'machine', 'qrCode', 'statusHistory'])->find($qrCode->order_id);
             } else {
                 // 2. Check if code is Order Code or numeric Order ID
-                $query = Order::with(['service', 'customer.customerProfile', 'machine', 'qrCode', 'pickupDelivery', 'statusHistory'])
+                $query = Order::with(['service', 'customer.customerProfile', 'machine', 'qrCode', 'statusHistory'])
                     ->where('order_number', $cleanQr);
 
                 if (is_numeric($cleanQr)) {
@@ -293,7 +293,7 @@ class LaundryController extends Controller
                 if (! $order) {
                     $machine = Machine::where('machine_code', $cleanQr)->first();
                     if ($machine && $machine->current_order_id) {
-                        $order = Order::with(['service', 'customer.customerProfile', 'machine', 'qrCode', 'pickupDelivery', 'statusHistory'])->find($machine->current_order_id);
+                        $order = Order::with(['service', 'customer.customerProfile', 'machine', 'qrCode', 'statusHistory'])->find($machine->current_order_id);
                     }
                 }
             }
@@ -418,9 +418,6 @@ class LaundryController extends Controller
 
             if ($order->qrCode) {
                 $order->qrCode->delete();
-            }
-            if ($order->pickupDelivery) {
-                $order->pickupDelivery->delete();
             }
             if ($order->statusHistory()) {
                 $order->statusHistory()->delete();
