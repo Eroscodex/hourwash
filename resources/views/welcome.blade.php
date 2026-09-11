@@ -283,7 +283,7 @@
                 <p class="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 mt-1">Select from our wide range of professional washing, drying, and folding packages per load (max 7kg).</p>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
                 @forelse($services as $service)
                     <article class="app-card p-4 sm:p-3 flex flex-col justify-between space-y-3 hover:border-blue-500/40 transition">
                         <div class="space-y-2">

@@ -68,7 +68,7 @@
                         <span class="text-xs font-bold text-amber-600 dark:text-amber-400">*Detergent, Fabcon &amp; Bleach not included</span>
                     </div>
 
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 text-xs">
                         <article class="p-4 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700/80 shadow-sm hover:border-blue-500/40 transition">
                             <div class="flex items-center justify-between font-bold text-sm text-slate-900 dark:text-white mb-1.5">
                                 <h3>Wash Only</h3>
