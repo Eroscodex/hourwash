@@ -604,7 +604,7 @@
                     © {{ date('Y') }} A Web-Based Laundry Service Management System for Hour Wash Laundry Shop in Orosite, Legazpi City
                 </div>
                 <a href="https://maps.app.goo.gl/3yJAPrj4HQTZJPRb9" target="_blank" rel="noopener noreferrer" class="text-center sm:text-right font-medium text-slate-600 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                    Magallanes St., Orosite, Legazpi City
+                    In Gooogle Maps Location
                 </a>
             </div>
         </div>
