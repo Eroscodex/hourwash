@@ -29,6 +29,6 @@ class CustomerProfile extends Model
             $this->province,
         ]);
 
-        return count($parts) > 0 ? implode(', ', $parts) : 'Magallanes St., Orosite, Legazpi City, Albay';
+        return count($parts) > 0 ? implode(', ', $parts) : 'Orosite, Legazpi City, Albay';
     }
 }

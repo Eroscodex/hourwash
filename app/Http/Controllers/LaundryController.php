@@ -95,7 +95,7 @@ class LaundryController extends Controller
 
                     if (Schema::hasTable('customer_profiles')) {
                         $newCust->customerProfile()->create([
-                            'address' => $request->new_customer_address ?: 'Magallanes St.',
+                            'address' => $request->new_customer_address ?: 'Orosite, Legazpi City',
                             'barangay' => $request->new_customer_barangay ?: 'Brgy. Orosite',
                             'city' => $request->new_customer_city ?: 'Legazpi City',
                             'province' => $request->new_customer_province ?: 'Albay',

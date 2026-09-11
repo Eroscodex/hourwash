@@ -47,7 +47,7 @@
             <div class="space-y-6 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
                 <section class="space-y-2">
                     <p class="text-slate-600 dark:text-zinc-300">
-                        Located in the heart of Magallanes St., Orosite, Legazpi City, HourWash Laundry Shop was established with a singular mission: to redefine the laundry experience. We combine heavy-duty, high-efficiency equipment with a custom-built digital platform to deliver seamless drop-off, self-service, and full-service wash, dry, and fold care for our community.
+                        Located in the heart of Orosite, Legazpi City, HourWash Laundry Shop was established with a singular mission: to redefine the laundry experience. We combine heavy-duty, high-efficiency equipment with a custom-built digital platform to deliver seamless drop-off, self-service, and full-service wash, dry, and fold care for our community.
                     </p>
                 </section>
 
@@ -130,7 +130,7 @@
                 <section class="space-y-2.5 border-t border-slate-200 dark:border-zinc-700/80 pt-5">
                     <h2 class="text-base font-bold text-slate-900 dark:text-white">Contact &amp; Shop Details</h2>
                     <address class="not-italic text-slate-600 dark:text-zinc-300 leading-relaxed text-xs sm:text-sm">
-                        <strong>Address:</strong> Magallanes St., Orosite, Legazpi City, Albay, Philippines<br>
+                        <strong>Address:</strong> Orosite, Legazpi City, Albay, Philippines<br>
                         <strong>Store Hours:</strong> 7:30 AM – 6:00 PM (Monday – Sunday)<br>
                         <strong>Same-Day Order Cut-Off:</strong> 4:30 PM (Orders placed after 4:30 PM processed next morning)<br>
                         <strong>Support Helpline:</strong> Available via our customer dashboard and live AI assistant

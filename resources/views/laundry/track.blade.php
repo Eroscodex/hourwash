@@ -196,7 +196,7 @@
                         $maskedName = $nameParts[0] . (isset($nameParts[1]) && strlen($nameParts[1]) > 0 ? ' ' . substr($nameParts[1], 0, 1) . '.' : '');
                         $displayName = $isAuthorizedViewer ? $rawName : $maskedName;
 
-                        $rawAddress = $order->customer?->customerProfile?->full_address ?? 'Magallanes St., Orosite, Legazpi City, Albay';
+                        $rawAddress = $order->customer?->customerProfile?->full_address ?? 'Orosite, Legazpi City, Albay';
                         $displayAddress = $isAuthorizedViewer ? $rawAddress : 'Orosite, Legazpi City (Privacy Protected)';
                     @endphp
 
@@ -444,7 +444,7 @@
         </div>
 
         <div class="text-center text-[11px] text-slate-500 dark:text-slate-400 pt-2 border-t border-black/5 dark:border-white/5">
-            Store Location: Magallanes St., Orosite, Legazpi City • Hour Wash System
+            Store Location: Orosite, Legazpi City • Hour Wash System
         </div>
 
     </div>
