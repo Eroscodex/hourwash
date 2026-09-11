@@ -66,7 +66,7 @@
                     };
                 @endphp
                 <div class="flex items-center sm:justify-end gap-2">
-                    <span class="inline-block px-3 py-1 rounded-md text-xs font-black uppercase tracking-wider border {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border-rose-500/30' }}">
+                    <span class="inline-block px-3 py-1 rounded-md text-xs font-black uppercase tracking-wider border {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30' : 'bg-red-600 text-white border-red-700 shadow-sm' }}">
                         {{ strtoupper($order->payment_status) }}
                     </span>
                     <span class="inline-block px-3 py-1 rounded-md text-xs font-black uppercase tracking-wider border {{ $statusBadge }}">
@@ -259,7 +259,7 @@
                         <div class="flex justify-between items-center text-sm font-extrabold text-slate-900 dark:text-white pt-2 border-t border-slate-200 dark:dark:border-zinc-700">
                             <div class="flex items-center gap-2">
                                 <span>Total Payment Amount</span>
-                                <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
+                                <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-red-600 text-white border border-red-700 shadow-sm' }}">
                                     {{ strtoupper($order->payment_status) }}
                                 </span>
                             </div>

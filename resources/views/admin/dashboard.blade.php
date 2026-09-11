@@ -30,7 +30,7 @@
                     @endif
                 </form>
 
-                <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-admin-reset-all-orders')" class="w-full bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 hover:bg-rose-500/25 px-3 py-2 rounded-lg text-xs font-bold transition whitespace-nowrap flex items-center justify-center h-full">
+                <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-admin-reset-all-orders')" class="w-full bg-red-600 hover:bg-red-700 text-white font-extrabold border border-red-700 px-3 py-2 rounded-lg text-xs transition whitespace-nowrap flex items-center justify-center h-full cursor-pointer shadow-sm">
                     Reset All Orders
                 </button>
 

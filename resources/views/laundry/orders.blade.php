@@ -54,7 +54,7 @@
                     <p class="text-xs text-slate-600 dark:text-zinc-400">{{ $order->service->name ?? 'Wash & Dry' }} (₱{{ number_format($order->service->price ?? 0, 2) }}/{{ $order->service->price_unit ?? 'kg' }})</p>
                 </div>
                 <div class="flex items-center gap-2 text-left sm:text-right">
-                    <span class="px-2.5 py-1 rounded-md text-[10px] font-extrabold uppercase tracking-wider {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
+                    <span class="px-2.5 py-1 rounded-md text-[10px] font-extrabold uppercase tracking-wider {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-red-600 text-white border border-red-700 shadow-sm' }}">
                         {{ strtoupper($order->payment_status) }}
                     </span>
                     <span class="text-emerald-600 dark:text-emerald-400 font-extrabold text-xl">₱{{ number_format($order->total_amount, 2) }}</span>

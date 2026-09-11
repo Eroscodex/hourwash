@@ -14,7 +14,7 @@
                     </svg>
                     <span class="text-white font-extrabold">Scan Order QR</span>
                 </button>
-                <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-reset-all-orders')" class="w-full bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 hover:bg-rose-500/25 px-2.5 py-1.5 rounded-lg text-[10px] font-bold transition whitespace-nowrap flex items-center justify-center h-full">
+                <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-reset-all-orders')" class="w-full bg-red-600 hover:bg-red-700 text-white border border-red-700 px-2.5 py-1.5 rounded-lg text-[10px] font-extrabold transition whitespace-nowrap flex items-center justify-center h-full cursor-pointer shadow-sm">
                     Reset All Orders
                 </button>
 
@@ -100,7 +100,7 @@
                             <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-3 py-2 rounded-lg text-xs font-bold hover:opacity-90 transition flex items-center gap-1.5 shadow-sm">
                                 Receipt
                             </a>
-                            <span class="px-2.5 py-1 rounded-md text-[10px] font-extrabold uppercase tracking-wider {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
+                            <span class="px-2.5 py-1 rounded-md text-[10px] font-extrabold uppercase tracking-wider {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-red-600 text-white border border-red-700 shadow-sm' }}">
                                 {{ strtoupper($order->payment_status) }}
                             </span>
                             <span class="text-emerald-600 dark:text-emerald-400 font-extrabold text-xl">₱{{ number_format($order->total_amount, 2) }}</span>
@@ -118,7 +118,7 @@
                         </div>
                         <div>
                             <span class="text-slate-500 dark:text-slate-400 text-[11px] block">Payment Status</span>
-                            <span class="font-bold uppercase {{ $order->payment_status === 'paid' ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400' }}">
+                            <span class="font-bold uppercase {{ $order->payment_status === 'paid' ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400' }}">
                                 {{ $order->payment_status }}
                             </span>
                         </div>
@@ -295,7 +295,7 @@
                         <form method="POST" action="{{ route('laundry.destroy', $order->id) }}" class="inline" onsubmit="return confirm('Are you sure you want to delete Order #{{ $order->order_number }} permanently? This action cannot be undone.');">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="bg-rose-500/15 text-rose-700 dark:text-rose-400 border border-rose-500/30 hover:bg-rose-600 hover:text-white px-3 py-1.5 rounded-lg text-xs font-bold transition cursor-pointer" title="Delete Order One-by-One">
+                            <button type="submit" class="bg-red-600 hover:bg-red-700 text-white font-extrabold border border-red-700 px-3.5 py-1.5 rounded-lg text-xs transition cursor-pointer shadow-sm" title="Delete Order One-by-One">
                                 Delete
                             </button>
                         </form>

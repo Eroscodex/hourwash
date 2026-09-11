@@ -596,7 +596,7 @@
                                 <td class="px-4 py-3 text-slate-700 dark:text-slate-300">{{ $order->service->name ?? 'Standard Wash' }}</td>
                                 <td class="px-4 py-3 text-slate-700 dark:text-slate-300 font-mono">{{ $order->weight_kg }} kg</td>
                                 <td class="px-4 py-3 font-mono">
-                                    <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
+                                    <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-red-600 text-white border border-red-700 shadow-sm' }}">
                                         {{ strtoupper($order->payment_status) }} (₱{{ number_format($order->total_amount, 2) }})
                                     </span>
                                 </td>
