@@ -38,7 +38,7 @@
             <div class="px-6 py-4.5 border-b border-slate-200 dark:border-zinc-800 bg-slate-50/50 dark:bg-zinc-900/30 flex items-center justify-between">
                 <div>
                     <h3 class="text-base font-extrabold text-slate-900 dark:text-white">Personal Information & Address</h3>
-                    <p class="text-xs text-slate-500 dark:text-zinc-400 mt-0.5">Update your display name, contact phone number, and delivery address details.</p>
+                    <p class="text-xs text-slate-500 dark:text-zinc-400 mt-0.5">Update your display name, contact phone number, and address details.</p>
                 </div>
                 <span class="text-blue-600 dark:text-blue-400 font-bold text-[11px] uppercase tracking-wider hidden sm:inline">Profile Data</span>
             </div>
