@@ -417,7 +417,7 @@
     </div>
 
     @if(!auth()->check() || (auth()->check() && auth()->user()->isCustomer()))
-    <button id="chat-toggle" class="fixed bottom-6 right-6 w-14 h-14 rounded-lg bg-blue-600 dark:bg-blue-600 text-white chat-bubble-glow flex items-center justify-center active:scale-[0.98] transition-transform z-50 group" aria-label="Toggle AI Assistant Chat">
+    <button id="chat-toggle" class="fixed bottom-6 right-6 w-14 h-14 rounded-lg bg-blue-600 text-white chat-bubble-glow flex items-center justify-center active:scale-[0.98] transition-transform z-50 group cursor-pointer" aria-label="Toggle AI Assistant Chat">
         <span class="absolute -top-1 -right-1 flex h-3.5 w-3.5">
             <span class="animate-ping absolute inline-flex h-full w-full rounded-md bg-emerald-400 opacity-75"></span>
             <span class="relative inline-flex rounded-md h-3.5 w-3.5 bg-emerald-500 border-2 border-slate-900"></span>
@@ -425,49 +425,49 @@
         <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-8 h-8 rounded-full object-cover group-hover:rotate-12 transition-transform bg-white p-0.5 border border-white/20 shadow-sm">
     </button>
 
-    <aside id="chat-window" class="fixed bottom-24 right-6 w-80 sm:w-96 bg-white dark:bg-[#141417] border border-slate-200 dark:dark:border-zinc-600 rounded-2xl shadow-xl z-50 hidden flex-col overflow-hidden backdrop-blur-sm">
-        <header class="p-3.5 bg-blue-600 dark:bg-blue-600 text-white flex items-center justify-between">
+    <aside id="chat-window" class="fixed bottom-24 right-6 w-80 sm:w-96 bg-white dark:bg-[#141417] border border-slate-200 dark:border-zinc-800 rounded-lg shadow-xl z-50 hidden flex-col overflow-hidden backdrop-blur-sm">
+        <header class="p-3.5 bg-blue-600 text-white flex items-center justify-between">
             <div class="flex items-center gap-2.5">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
                 <div>
                     <h4 class="font-extrabold text-sm text-white leading-tight">Hour Wash AI Assistant</h4>
-                    <span class="text-[10px] text-blue-100 font-medium block">Live Store Support</span>
+                    <span class="text-[10px] text-blue-100 font-medium block">Live 24/7 Customer Support</span>
                 </div>
             </div>
-            <button id="chat-close" class="text-white/80 hover:text-white text-base font-bold px-1.5 py-0.5 rounded hover:bg-white/10 transition" aria-label="Close Chat">✕</button>
+            <button id="chat-close" class="text-white/80 hover:text-white text-base font-bold px-1.5 py-0.5 rounded hover:bg-white/10 transition cursor-pointer" aria-label="Close Chat">✕</button>
         </header>
 
         <div id="chat-box" class="p-4 h-80 overflow-y-auto space-y-3 text-xs bg-slate-50 dark:bg-[#09090B]">
             <div class="flex justify-start">
-                <div class="bg-white dark:bg-[#18181B] text-slate-900 dark:text-zinc-100 px-4 py-3 rounded-2xl rounded-tl-sm max-w-[85%] border border-slate-200 dark:dark:border-zinc-700 shadow-sm">
-                    Hi! How can I help you today, po? 😊
+                <div class="bg-white dark:bg-[#18181B] text-slate-900 dark:text-zinc-100 px-4 py-3 rounded-lg max-w-[85%] border border-slate-200 dark:border-zinc-700 shadow-sm">
+                    Hi {{ auth()->check() ? auth()->user()->name : 'there' }}! How can I help you today? Ask me about your active orders, prices, store hours, or laundry care! 😊
                 </div>
             </div>
 
             <!-- Quick Suggestion Pills -->
             <div id="quick-suggestions-container" class="flex flex-col items-end space-y-2 pt-2">
-                <button onclick="sendQuickMessage('Services & rates offered?')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-4 py-2 rounded-full transition shadow-sm">
+                <button onclick="sendQuickMessage('My Order Status')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-3 py-1.5 rounded-md transition shadow-sm cursor-pointer">
+                    My Order Status
+                </button>
+                <button onclick="sendQuickMessage('Services & rates offered?')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-3 py-1.5 rounded-md transition shadow-sm cursor-pointer">
                     Services & rates offered?
                 </button>
-                <button onclick="sendQuickMessage('How to track my laundry order?')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-4 py-2 rounded-full transition shadow-sm">
-                    How to track my laundry order?
-                </button>
-                <button onclick="sendQuickMessage('Store location & hours?')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-4 py-2 rounded-full transition shadow-sm">
+                <button onclick="sendQuickMessage('Store location & hours?')" class="text-xs bg-white dark:bg-[#18181B] text-slate-800 dark:text-slate-200 hover:bg-slate-100 border border-slate-300 dark:border-zinc-700 px-3 py-1.5 rounded-md transition shadow-sm cursor-pointer">
                     Store location & hours?
                 </button>
             </div>
         </div>
 
-        <footer class="p-3 border-t border-slate-200 dark:dark:border-zinc-700 bg-white dark:bg-[#141417] flex flex-col gap-1.5">
+        <footer class="p-3 border-t border-slate-200 dark:border-zinc-800 bg-white dark:bg-[#141417] flex flex-col gap-1.5">
             <div class="flex items-center gap-2">
                 <label for="message" class="sr-only">Type a message</label>
-                <input id="message" type="text" placeholder="Hello! I have a question :)" class="flex-1 bg-slate-100 dark:bg-[#18181B] border border-slate-300 dark:dark:border-zinc-700 rounded-full px-4 py-2.5 text-xs focus:outline-none focus:border-blue-600" onkeydown="if(event.key==='Enter')sendMessage()">
-                <button onclick="sendMessage()" aria-label="Send message" class="bg-blue-600 hover:bg-blue-700 text-white font-bold w-9 h-9 rounded-full text-sm flex items-center justify-center transition shadow-sm shrink-0">
-                    ↑
+                <input id="message" type="text" placeholder="Ask about orders, services..." class="flex-1 bg-slate-100 dark:bg-[#18181B] border border-slate-300 dark:border-zinc-700 rounded-md px-3.5 py-2 text-xs focus:outline-none focus:border-blue-600 text-slate-900 dark:text-zinc-100" onkeydown="if(event.key==='Enter')sendMessage()">
+                <button onclick="sendMessage()" aria-label="Send message" class="bg-blue-600 hover:bg-blue-700 text-white font-bold px-3 py-2 rounded-md text-xs transition shadow-sm shrink-0 cursor-pointer">
+                    Send
                 </button>
             </div>
-            <p class="text-[9.5px] text-center text-slate-400 dark:text-slate-500 font-medium">
-                💬 Need help or want to report an issue? Contact Customer Support & Developers at <a href="mailto:karlnicko2019@gmail.com" class="text-blue-600 dark:text-blue-400 font-bold hover:underline">karlnicko2019@gmail.com</a>
+            <p class="text-[9.5px] text-center text-slate-500 dark:text-slate-400 font-medium pt-1">
+                💬 Need help or want to report an issue? Email Developer Support at <a href="mailto:karlnicko2019@gmail.com" class="text-blue-600 dark:text-blue-400 font-bold hover:underline">karlnicko2019@gmail.com</a>
             </p>
         </footer>
     </aside>
@@ -752,149 +752,7 @@
         });
     });
 
-    function appSendQuick(query) {
-        const input = document.getElementById('app-message');
-        if (input) {
-            input.value = query;
-            appSendMessage();
-        }
-    }
 
-    function appSendMessage() {
-        const input = document.getElementById('app-message');
-        const message = input ? input.value.trim() : '';
-        if (!message) return;
-
-        const chatBox = document.getElementById('app-chat-box');
-        if (!chatBox) return;
-
-        chatBox.innerHTML += `
-            <div class="flex justify-end">
-                <div class="bg-blue-600 text-white font-medium px-3.5 py-2.5 rounded-lg max-w-[85%] shadow-sm">
-                    ${message}
-                </div>
-            </div>
-        `;
-        input.value = "";
-        chatBox.scrollTop = chatBox.scrollHeight;
-
-        const typingId = 'app-typing-' + Date.now();
-        chatBox.innerHTML += `
-            <div class="flex justify-start" id="${typingId}">
-                <div class="bg-white dark:bg-zinc-800 text-slate-500 px-3.5 py-2.5 rounded-lg border border-slate-200 dark:border-zinc-700 shadow-sm">
-                    <span class="animate-pulse">Typing...</span>
-                </div>
-            </div>
-        `;
-        chatBox.scrollTop = chatBox.scrollHeight;
-
-        fetch('/chatbot', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
-            },
-            body: JSON.stringify({ message: message })
-        })
-        .then(res => res.json())
-        .then(data => {
-            const typingEl = document.getElementById(typingId);
-            if (typingEl) typingEl.remove();
-
-            const formattedReply = (data.reply || '').replace(/\n/g, '<br>');
-
-            chatBox.innerHTML += `
-                <div class="flex justify-start">
-                    <div class="bg-white dark:bg-zinc-800 text-slate-900 dark:text-zinc-100 px-3.5 py-2.5 rounded-lg max-w-[85%] border border-slate-200 dark:border-zinc-700 shadow-sm break-words">
-                        <strong class="text-blue-600 dark:text-blue-400 block mb-0.5 font-semibold">HourWash Assistant</strong>
-                        ${formattedReply}
-                    </div>
-                </div>
-            `;
-            chatBox.scrollTop = chatBox.scrollHeight;
-        })
-        .catch(err => {
-            const typingEl = document.getElementById(typingId);
-            if (typingEl) typingEl.remove();
-
-            chatBox.innerHTML += `
-                <div class="flex justify-start">
-                    <div class="bg-rose-50 text-rose-600 border border-rose-200 px-3 py-2 rounded-md">
-                        Could not reach assistant. Please try again.
-                    </div>
-                </div>
-            `;
-        });
-    }
-
-    document.addEventListener('DOMContentLoaded', function () {
-        const chatToggle = document.getElementById('app-chat-toggle');
-        const chatWindow = document.getElementById('app-chat-window');
-        const chatClose = document.getElementById('app-chat-close');
-
-        if (chatToggle && chatWindow) {
-            chatToggle.addEventListener('click', function() {
-                chatWindow.classList.toggle('hidden');
-                chatWindow.classList.toggle('flex');
-            });
-        }
-        if (chatClose && chatWindow) {
-            chatClose.addEventListener('click', function() {
-                chatWindow.classList.add('hidden');
-                chatWindow.classList.remove('flex');
-            });
-        }
-    });
-    </script>
-
-    <!-- AI Assistant Floating Widget for App Layout -->
-    <button id="app-chat-toggle" class="fixed bottom-6 right-6 w-13 h-13 rounded-lg bg-blue-600 text-white flex items-center justify-center hover:bg-blue-700 transition-all shadow-lg z-50 p-2 group cursor-pointer" aria-label="Toggle AI Assistant Chat">
-        <span class="absolute -top-1 -right-1 flex h-3.5 w-3.5">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-md bg-emerald-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-md h-3.5 w-3.5 bg-emerald-500 border-2 border-slate-900"></span>
-        </span>
-        <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-8 h-8 rounded-full object-cover group-hover:rotate-12 transition-transform bg-white p-0.5 border border-white/20 shadow-sm">
-    </button>
-
-    <div id="app-chat-window" class="fixed bottom-20 right-6 w-80 sm:w-96 bg-white dark:bg-[#141417] border border-slate-200 dark:border-zinc-800 rounded-lg shadow-xl z-50 hidden flex-col overflow-hidden">
-        <div class="p-3.5 bg-blue-600 text-white flex items-center justify-between">
-            <div class="flex items-center gap-2.5">
-                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
-                <div>
-                    <h4 class="font-extrabold text-sm text-white leading-tight">Hour Wash AI Assistant</h4>
-                    <span class="text-[10px] text-blue-100 font-medium block">Live 24/7 Portal Support</span>
-                </div>
-            </div>
-            <button id="app-chat-close" class="text-white/80 hover:text-white text-base font-bold px-1.5 py-0.5 rounded hover:bg-white/10 transition cursor-pointer">✕</button>
-        </div>
-
-        <div id="app-chat-box" class="p-4 h-72 overflow-y-auto space-y-3 text-xs bg-slate-50 dark:bg-[#09090B]">
-            <div class="flex justify-start">
-                <div class="bg-white dark:bg-zinc-800 text-slate-900 dark:text-zinc-100 px-3.5 py-2.5 rounded-lg max-w-[85%] border border-slate-200 dark:border-zinc-700 shadow-sm">
-                    Hello {{ auth()->user()->name ?? 'there' }}! Welcome to Hour Wash AI Assistant. Ask me about your active orders, prices, store hours, or laundry care!
-                </div>
-            </div>
-
-            <div class="flex flex-wrap gap-1.5 pt-1">
-                <button type="button" onclick="appSendQuick('My Order Status')" class="px-2 py-1 rounded bg-blue-50 dark:bg-zinc-800 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-zinc-700 text-[10px] font-bold hover:bg-blue-100 transition cursor-pointer">My Order Status</button>
-                <button type="button" onclick="appSendQuick('What laundry services do you offer?')" class="px-2 py-1 rounded bg-blue-50 dark:bg-zinc-800 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-zinc-700 text-[10px] font-bold hover:bg-blue-100 transition cursor-pointer">Services &amp; Rates</button>
-                <button type="button" onclick="appSendQuick('How long does laundry take?')" class="px-2 py-1 rounded bg-blue-50 dark:bg-zinc-800 text-blue-600 dark:text-blue-400 border border-blue-200 dark:border-zinc-700 text-[10px] font-bold hover:bg-blue-100 transition cursor-pointer">Same-Day &amp; Hours</button>
-            </div>
-        </div>
-
-        <div class="p-3 border-t border-slate-200 dark:border-zinc-800 bg-white dark:bg-[#141417] flex flex-col gap-1.5">
-            <div class="flex gap-2">
-                <input id="app-message" type="text" placeholder="Ask about orders, services..." class="flex-1 bg-slate-50 dark:bg-zinc-800 border border-slate-300 dark:border-zinc-700 rounded-md px-3 py-1.5 text-xs focus:outline-none focus:border-blue-600 text-slate-900 dark:text-zinc-100" onkeydown="if(event.key==='Enter')appSendMessage()">
-                <button onclick="appSendMessage()" class="btn-primary py-1.5 px-3 text-xs shrink-0 cursor-pointer">
-                    Send
-                </button>
-            </div>
-            <p class="text-[9.5px] text-center text-slate-500 dark:text-slate-400 font-medium pt-1">
-                💬 Need help or want to report an issue? Email Developer Support at
-                <a href="mailto:karlnicko2019@gmail.com" class="text-blue-600 dark:text-blue-400 font-bold hover:underline">karlnicko2019@gmail.com</a>
-            </p>
-        </div>
-    </div>
 
     @auth
         <x-camera-qr-scanner />
