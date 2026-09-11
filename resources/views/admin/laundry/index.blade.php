@@ -292,13 +292,35 @@
                             </button>
                         </form>
 
-                        <form method="POST" action="{{ route('laundry.destroy', $order->id) }}" class="inline" onsubmit="return confirm('Are you sure you want to delete Order #{{ $order->order_number }} permanently? This action cannot be undone.');">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn-danger h-9 text-xs py-1 px-3 whitespace-nowrap cursor-pointer" title="Delete Order One-by-One">
-                                Delete
-                            </button>
-                        </form>
+                        <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'delete-order-{{ $order->id }}')" class="btn-danger h-9 text-xs py-1 px-3 whitespace-nowrap cursor-pointer" title="Delete Order One-by-One">
+                            Delete
+                        </button>
+
+                        <x-modal name="delete-order-{{ $order->id }}" maxWidth="md">
+                            <div class="p-6 bg-white dark:bg-[#141417] text-slate-900 dark:text-zinc-100 space-y-4 rounded-lg text-left">
+                                <div class="flex items-center gap-3 text-rose-600 dark:text-rose-400">
+                                    <svg class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                                    </svg>
+                                    <h2 class="text-base font-bold">Delete Order #{{ $order->order_number }}?</h2>
+                                </div>
+                                <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                                    Are you sure you want to delete order <strong>#{{ $order->order_number }}</strong> permanently? This action cannot be undone.
+                                </p>
+                                <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-200 dark:border-zinc-800">
+                                    <button type="button" x-on:click="$dispatch('close')" class="btn-secondary text-xs py-1.5 px-3">
+                                        Cancel
+                                    </button>
+                                    <form method="POST" action="{{ route('laundry.destroy', $order->id) }}" class="inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn-danger text-xs py-1.5 px-3">
+                                            Yes, Delete Order
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </x-modal>
                     </div>
                 </div>
             @empty
