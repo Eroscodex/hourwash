@@ -68,8 +68,8 @@ class RegisteredUserController extends Controller
             ['user_id' => $user->id],
             [
                 'address' => $request->address,
-                'city' => $request->city,
-                'province' => $request->province,
+                'city' => $request->city ?: 'Legazpi City',
+                'province' => $request->province ?: 'Albay',
             ]
         );
 

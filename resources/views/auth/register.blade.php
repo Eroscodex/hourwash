@@ -42,12 +42,12 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-1">
             <div>
                 <x-input-label for="city" :value="__('City / Municipality')" />
-                <x-text-input id="city" class="block mt-1 w-full" type="text" name="city" :value="old('city')" required placeholder="e.g. Legazpi City" />
+                <x-text-input id="city" class="block mt-1 w-full" type="text" name="city" :value="old('city', 'Legazpi City')" required placeholder="e.g. Legazpi City" />
                 <x-input-error :messages="$errors->get('city')" class="mt-2" />
             </div>
             <div>
                 <x-input-label for="province" :value="__('Province')" />
-                <x-text-input id="province" class="block mt-1 w-full" type="text" name="province" :value="old('province')" required placeholder="e.g. Albay" />
+                <x-text-input id="province" class="block mt-1 w-full" type="text" name="province" :value="old('province', 'Albay')" required placeholder="e.g. Albay" />
                 <x-input-error :messages="$errors->get('province')" class="mt-2" />
             </div>
         </div>

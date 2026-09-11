@@ -118,11 +118,11 @@
                             </div>
                             <div>
                                 <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">City / Municipality</label>
-                                <input type="text" name="new_customer_city" value="{{ old('new_customer_city') }}" placeholder="e.g. Legazpi City" class="w-full">
+                                <input type="text" name="new_customer_city" value="{{ old('new_customer_city', 'Legazpi City') }}" placeholder="e.g. Legazpi City" class="w-full">
                             </div>
                             <div>
                                 <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Province</label>
-                                <input type="text" name="new_customer_province" value="{{ old('new_customer_province') }}" placeholder="e.g. Albay" class="w-full">
+                                <input type="text" name="new_customer_province" value="{{ old('new_customer_province', 'Albay') }}" placeholder="e.g. Albay" class="w-full">
                             </div>
                             <div>
                                 <label class="block font-semibold text-slate-700 dark:text-slate-300 mb-1">Account Password</label>

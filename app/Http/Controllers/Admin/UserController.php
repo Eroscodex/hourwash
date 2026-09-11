@@ -100,8 +100,8 @@ class UserController extends Controller
             [
                 'address' => $request->address,
                 'barangay' => $request->barangay,
-                'city' => $request->city,
-                'province' => $request->province,
+                'city' => $request->city ?: 'Legazpi City',
+                'province' => $request->province ?: 'Albay',
             ]
         );
 
@@ -167,8 +167,8 @@ class UserController extends Controller
             [
                 'address' => $request->address,
                 'barangay' => $request->barangay,
-                'city' => $request->city,
-                'province' => $request->province,
+                'city' => $request->city ?: 'Legazpi City',
+                'province' => $request->province ?: 'Albay',
             ]
         );
 
