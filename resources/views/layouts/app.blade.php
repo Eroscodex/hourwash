@@ -751,8 +751,7 @@
             }
         });
     });
-
-
+    </script>
 
     @auth
         <x-camera-qr-scanner />
