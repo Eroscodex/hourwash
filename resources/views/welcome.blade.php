@@ -144,7 +144,7 @@
                 <div>
                     <span class="text-xs font-extrabold uppercase tracking-wider text-blue-600 dark:text-blue-400">Store Tour &amp; Facility Gallery</span>
                     <h2 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mt-0.5">Our Laundry Shop &amp; Commercial Fleet</h2>
-                    <p class="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 mt-0.5">Take a visual tour of our clean store facilities, heavy commercial washers, and waiting lounge in Orosite, Legazpi City</p>
+                    <p class="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 mt-0.5">Take a visual tour of our clean store facilities, heavy commercial washers, and waiting lounge in Magallanes St., Orosite</p>
                 </div>
                 <div class="hidden sm:flex items-center gap-2">
                     <button onclick="prevSlide()" class="p-2 rounded-lg bg-white dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 border border-slate-200 dark:border-zinc-700 hover:bg-blue-600 hover:text-white hover:border-blue-600 transition shadow-sm cursor-pointer" aria-label="Previous Slide">
@@ -236,7 +236,7 @@
                                     Clean Customer Lounge &amp; Order Counter
                                 </h3>
                                 <p class="text-xs sm:text-sm text-slate-200 font-medium leading-relaxed drop-shadow-sm">
-                                    Located in Orosite, Legazpi City. Walk-ins are always welcome 7 days a week (Monday to Sunday) with free Wi-Fi and water dispenser.
+                                    Located in Magallanes St., Orosite, Legazpi City. Walk-ins are always welcome 7 days a week (Monday to Sunday) with free Wi-Fi and water dispenser.
                                 </p>
                             </div>
                         </div>
@@ -399,7 +399,7 @@
                     </h1>
 
                     <p class="text-slate-600 dark:text-zinc-400 text-xs sm:text-sm max-w-xl leading-relaxed font-medium">
-                        Orosite, Legazpi City. Experience 7kg capacity commercial washing & drying, QR code verification, automated real-time monitoring, and seamless drop-off, self-service, or full-service laundry care.
+                        Magallanes St., Orosite, Legazpi City. Experience 7kg capacity commercial washing & drying, QR code verification, automated real-time monitoring, and seamless drop-off, self-service, or full-service laundry care.
                     </p>
 
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
@@ -485,7 +485,7 @@
                             </div>
                         </div>
                         <address class="not-italic text-[11px] text-slate-500 dark:text-zinc-400 border-t border-slate-200 dark:border-zinc-700/60 pt-3 flex justify-between">
-                            <span>Orosite, Legazpi City</span>
+                            <span>Magallanes St., Orosite</span>
                             <span class="text-blue-600 dark:text-blue-400 font-semibold">Legazpi City, Albay</span>
                         </address>
                     </div>
@@ -521,7 +521,7 @@
                     What Our Legazpi Customers Say
                 </h2>
                 <p class="text-xs text-slate-600 dark:text-zinc-400">
-                    Real feedback and ratings from verified customers at Orosite, Legazpi City.
+                    Real feedback and ratings from verified customers at Magallanes St., Orosite, Legazpi City.
                 </p>
             </div>
 
@@ -577,25 +577,21 @@
                         card.style.display = '';
                     } else {
                         card.style.display = 'none';
-    <!-- Footer Section -->
-    <footer class="bg-white dark:bg-[#141417] border-t border-slate-200 dark:border-zinc-800 pt-8 pb-6 transition-colors">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-                <div class="flex items-center gap-3">
-                    <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-8 h-8 rounded-lg">
-                    <div>
-                        <span class="font-extrabold text-slate-900 dark:text-white text-base block tracking-tight">Hour Wash Laundry Shop</span>
-                        <span class="text-xs text-slate-500 dark:text-zinc-400 block">Commercial Laundromat &amp; Order Management Platform</span>
-                    </div>
-                </div>
-                <div class="flex items-center gap-2">
-                    <a href="{{ route('login') }}" class="btn-secondary text-xs py-1.5 px-3">Sign In</a>
-                    <a href="{{ route('register') }}" class="btn-primary text-xs py-1.5 px-3">Get Started</a>
+                    }
+                });
+            }
+        </script>
+    </main>
+
+    <footer class="bg-white dark:bg-[#141417] border-t border-slate-200 dark:border-zinc-800 py-3.5 px-4 sm:px-6 md:px-8">
+        <div class="max-w-7xl mx-auto space-y-2.5">
+            <div class="flex justify-center mb-1">
+                <div class="w-7 h-7 bg-blue-600 rounded-full flex items-center justify-center shadow-sm overflow-hidden p-0.5 border border-blue-500/30">
+                    <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-full h-full object-cover rounded-full">
                 </div>
             </div>
-
-            <nav class="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-slate-600 dark:text-zinc-400 border-t border-slate-100 dark:border-zinc-800/80 pt-4">
-                <a href="{{ route('about') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap">About Shop</a>
+            <nav class="flex items-center justify-center gap-x-1.5 sm:gap-x-3 text-[10px] sm:text-xs text-slate-500 dark:text-zinc-400">
+                <a href="{{ route('about') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap">About Us</a>
                 <span class="text-slate-300 dark:text-zinc-700">•</span>
                 <a href="{{ route('developers') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap">Developers</a>
                 <span class="text-slate-300 dark:text-zinc-700">•</span>
@@ -603,13 +599,13 @@
                 <span class="text-slate-300 dark:text-zinc-700">•</span>
                 <a href="{{ route('terms') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors whitespace-nowrap">Terms &amp; Conditions</a>
             </nav>
-            <div class="flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500 dark:text-zinc-400 border-t border-slate-100 dark:border-zinc-800/80 pt-4">
-                <div>
-                    © {{ date('Y') }} Hour Wash Laundry Shop. All rights reserved.
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-1.5 text-[11px] text-slate-500 dark:text-zinc-400 border-t border-slate-100 dark:border-zinc-800/80 pt-2.5">
+                <div class="text-center sm:text-left">
+                    © {{ date('Y') }} A Web-Based Laundry Service Management System for Hour Wash Laundry Shop in Orosite, Legazpi City
                 </div>
-                <div>
-                    Orosite, Legazpi City, Albay
-                </div>
+                <a href="https://maps.app.goo.gl/3yJAPrj4HQTZJPRb9" target="_blank" rel="noopener noreferrer" class="text-center sm:text-right font-medium text-slate-600 dark:text-zinc-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
+                    Magallanes St., Orosite, Legazpi City
+                </a>
             </div>
         </div>
     </footer>
@@ -628,21 +624,17 @@
             <div class="flex items-center gap-2.5">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
                 <div>
-                    <h3 class="text-xs font-black tracking-tight text-white leading-tight">Hour Wash AI Assistant</h3>
-                    <p class="text-[10px] text-blue-100 font-medium">Online • Store Information &amp; Rates</p>
+                    <h4 class="font-extrabold text-sm text-white leading-tight">Hour Wash AI Assistant</h4>
+                    <span class="text-[10px] text-blue-100 font-medium block">Live 24/7 Store Support</span>
                 </div>
             </div>
-            <button id="welcome-chat-close" class="text-blue-100 hover:text-white transition cursor-pointer" aria-label="Close Chat">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                </svg>
-            </button>
+            <button id="welcome-chat-close" class="text-white/80 hover:text-white text-base font-bold px-1.5 py-0.5 rounded hover:bg-white/10 transition">✕</button>
         </div>
 
-        <div id="welcome-chat-messages" class="p-3.5 space-y-3 max-h-80 overflow-y-auto text-xs bg-slate-50 dark:bg-[#09090B]">
+        <div id="welcome-chat-box" class="p-4 h-72 overflow-y-auto space-y-3 text-xs bg-slate-50 dark:bg-[#09090B]">
             <div class="flex justify-start">
                 <div class="bg-white dark:bg-zinc-800 text-slate-900 dark:text-zinc-100 px-3.5 py-2.5 rounded-lg max-w-[85%] border border-slate-200 dark:border-zinc-700 shadow-sm">
-                    Hello! Welcome to Hour Wash Laundry Shop in Orosite, Legazpi City. How can I assist you today with services, pricing, or store hours?
+                    Hello! Welcome to Hour Wash Laundry Shop in Magallanes St., Orosite, Legazpi City. How can I assist you today with services, pricing, or store hours?
                 </div>
             </div>
 

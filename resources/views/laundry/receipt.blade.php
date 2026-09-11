@@ -43,7 +43,7 @@
                 HOUR WASH LAUNDRY
             </h1>
             <p class="text-[11px] font-bold font-sans text-slate-700 leading-tight">Laundry Shop Management System</p>
-            <p class="text-[10.5px] text-slate-600 font-sans leading-tight">Orosite, Legazpi City, Albay</p>
+            <p class="text-[10.5px] text-slate-600 font-sans leading-tight">Magallanes St., Orosite, Legazpi City, Albay</p>
             <p class="text-[10px] text-slate-500 font-sans">Email: karlnicko2019@gmail.com | Mobile: 09123456789</p>
         </div>
 

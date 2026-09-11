@@ -27,7 +27,7 @@ class ChatbotController extends Controller
         // 1. Guardrail Check: Intercept non-laundry queries
         if (Str::contains($msg, ['pancit', 'cook', 'recipe', 'food', 'noodle', 'dish', 'ingredient', 'python', 'code', 'math', 'politic'])) {
             return response()->json([
-                'reply' => 'I am the HourWash AI Assistant, specialized exclusively for Hour Wash Laundry Shop in Orosite, Legazpi City! I can help you with services, prices, store hours (7:30 AM – 6:00 PM daily • cut-off: 4:30 PM), or tracking orders. How can I assist with your laundry today?',
+                'reply' => 'I am the HourWash AI Assistant, specialized exclusively for Hour Wash Laundry Shop in Magallanes St., Orosite, Legazpi City! I can help you with services, prices, store hours (7:30 AM – 6:00 PM daily • cut-off: 4:30 PM), or tracking orders. How can I assist with your laundry today?',
             ]);
         }
 
@@ -145,7 +145,7 @@ HOUR WASH LAUNDRY SHOP FULL FAQ & KNOWLEDGE BASE:
    - Order Tracking: Track live cleaning status on our website via Order Code (e.g. #HW-XXXXXX) or scanning the receipt QR tag.
 
 4. LOCATION & STORE HOURS:
-   - Address: Orosite, Legazpi City, Albay, Philippines.
+   - Address: Magallanes St., Orosite, Legazpi City, Albay, Philippines.
    - Store Hours: 7:30 AM – 6:00 PM Daily (OPEN MONDAY TO SUNDAY!).
    - Walk-ins & Appointments: WALK-INS ARE ALWAYS WELCOME! No appointment necessary.
 
@@ -157,7 +157,7 @@ FAQ;
 
         if ($role === 'guest') {
             return <<<PROMPT
-You are the Public Storefront AI Assistant for Hour Wash Laundry Shop located in Orosite, Legazpi City, Albay, assisting store visitors.
+You are the Public Storefront AI Assistant for Hour Wash Laundry Shop located in Magallanes St., Orosite, Legazpi City, Albay, assisting store visitors.
 
 MULTILINGUAL RULE:
 - Understand ANY language or dialect (English, Tagalog, Bikolano, etc.) and respond fluently in the SAME language.
@@ -270,7 +270,7 @@ PROMPT;
 
         // 3. Dry Cleaning Inquiry
         if (Str::contains($msg, ['dry clean', 'dry-cleaning', 'drycleaning', 'suit', 'tuxedo', 'barong'])) {
-            return "Dry Cleaning & Suit Care Information:\nWe offer wet-washing, gentle fabric care, and steam processing for jackets, suits, and barongs (2 to 3 days turnaround). For specialized chemical dry cleaning inquiries, please ask our store counter at Orosite or call (052) 800-HOURWASH!";
+            return "Dry Cleaning & Suit Care Information:\nWe offer wet-washing, gentle fabric care, and steam processing for jackets, suits, and barongs (2 to 3 days turnaround). For specialized chemical dry cleaning inquiries, please ask our store counter at Magallanes St., Orosite or call (052) 800-HOURWASH!";
         }
 
         // 4. Blankets, Comforters & Heavy Items Inquiry
@@ -290,7 +290,7 @@ PROMPT;
 
         // 7. Self-Service Laundry Inquiry
         if (Str::contains($msg, ['self-service', 'self service', 'ako maglalaba', 'sarili'])) {
-            return "Self-Service Laundry Information:\nYES! We offer Self-Service Commercial Washer & Dryer usage at P150 per load. You can load and operate our high-efficiency machines yourself at our store in Orosite, Legazpi City!";
+            return "Self-Service Laundry Information:\nYES! We offer Self-Service Commercial Washer & Dryer usage at P150 per load. You can load and operate our high-efficiency machines yourself at our store in Magallanes St., Orosite, Legazpi City!";
         }
 
         // 8. Prices, Per Kilo Cost & Blanket Cost
@@ -320,7 +320,7 @@ PROMPT;
 
         // 13. Location, Hours, Sundays, Walk-ins & Appointments
         if (Str::contains($msg, ['location', 'located', 'where is', 'address', 'open and close', 'store hours', 'sundays', 'sunday', 'appointment', 'walk-in', 'walk-ins', 'walk in', 'oras', 'saan', 'lugar', 'linggo'])) {
-            return "Hour Wash Shop Location & Operating Hours:\n- Address: Orosite, Legazpi City, Albay, Philippines\n- Store Hours: 7:30 AM – 6:00 PM Daily (OPEN MONDAY TO SUNDAY!)\n- Same-Day Cut-Off: 4:30 PM\n- Walk-ins & Appointments: WALK-INS ARE ALWAYS WELCOME! No appointment required.";
+            return "Hour Wash Shop Location & Operating Hours:\n- Address: Magallanes St., Orosite, Legazpi City, Albay, Philippines\n- Store Hours: 7:30 AM – 6:00 PM Daily (OPEN MONDAY TO SUNDAY!)\n- Same-Day Cut-Off: 4:30 PM\n- Walk-ins & Appointments: WALK-INS ARE ALWAYS WELCOME! No appointment required.";
         }
 
         // 14. Payment Methods Inquiry
@@ -344,7 +344,7 @@ PROMPT;
             }
 
             if (Str::contains($msg, ['about us', 'about', 'background', 'shop info'])) {
-                return "About Hour Wash Laundry Shop:\nWe are Legazpi City's premier laundry management system located in Orosite. We offer fast, hygienic, and affordable wash, dry, and fold services.";
+                return "About Hour Wash Laundry Shop:\nWe are Legazpi City's premier laundry management system located in Magallanes St., Orosite. We offer fast, hygienic, and affordable wash, dry, and fold services.";
             }
 
             if (Str::contains($msg, ['developer', 'developers', 'creator', 'built', 'team', 'who made'])) {
@@ -376,20 +376,20 @@ PROMPT;
 
         // 19. Contact & Support
         if (Str::contains($msg, ['contact', 'support', 'report', 'email', 'help', 'hotline', 'phone', 'tumawag'])) {
-            return "Hour Wash Customer Support & Technical Team:\n- Shop Hotline: (052) 800-HOURWASH / 09100317744\n- Store Address: Orosite, Legazpi City, Albay\n- Email Developer Support: karlnicko2019@gmail.com\n- Developer Team Page: https://hourwash.onrender.com/developers";
+            return "Hour Wash Customer Support & Technical Team:\n- Shop Hotline: (052) 800-HOURWASH / 09100317744\n- Store Address: Magallanes St., Orosite, Legazpi City, Albay\n- Email Developer Support: karlnicko2019@gmail.com\n- Developer Team Page: https://hourwash.onrender.com/developers";
         }
 
         // 20. Greetings
         if (Str::contains($msg, ['hi', 'hello', 'hey', 'good', 'kumusta', 'musta', 'marhay'])) {
             if ($role === 'guest') {
-                return "Hello / Marhay na aldaw! Welcome to Hour Wash Laundry Shop! I can assist you with:\n- Services & Rates (Wash, Dry, Fold, Self-Service)\n- Special Garments (Blankets, Comforters, Curtains, Delicate Clothes)\n- Store Hours & Location (Orosite • 7:30 AM – 6:00 PM Daily)\n- Track Order (#HW-XXXXXX)\n- Customer Support & Developer Email (karlnicko2019@gmail.com)\n\nHow can I help you today?";
+                return "Hello / Marhay na aldaw! Welcome to Hour Wash Laundry Shop! I can assist you with:\n- Services & Rates (Wash, Dry, Fold, Self-Service)\n- Special Garments (Blankets, Comforters, Curtains, Delicate Clothes)\n- Store Hours & Location (Magallanes St., Orosite • 7:30 AM – 6:00 PM Daily)\n- Track Order (#HW-XXXXXX)\n- Customer Support & Developer Email (karlnicko2019@gmail.com)\n\nHow can I help you today?";
             }
 
             return "Hello {$user->name}! Welcome back to Hour Wash Laundry Portal! How can I assist you with your dashboard today?";
         }
 
         // 21. General Multilingual Storefront Fallback
-        return "Hour Wash Laundry Shop AI Assistant:\n- Location: Orosite, Legazpi City\n- Store Hours: 7:30 AM – 6:00 PM Daily (Cut-Off: 4:30 PM • Open Sundays!)\n- Customer Support & Developer Email: karlnicko2019@gmail.com\n- Services & Rates: Wash Only (P75), Dry Only (P75), Fold Only (P50), Self-Service (P150), Full-Service (P200)\n- Track Order: Provide your Order Code (e.g. #HW-XXXXXX) to view live status!";
+        return "Hour Wash Laundry Shop AI Assistant:\n- Location: Magallanes St., Orosite, Legazpi City\n- Store Hours: 7:30 AM – 6:00 PM Daily (Cut-Off: 4:30 PM • Open Sundays!)\n- Customer Support & Developer Email: karlnicko2019@gmail.com\n- Services & Rates: Wash Only (P75), Dry Only (P75), Fold Only (P50), Self-Service (P150), Full-Service (P200)\n- Track Order: Provide your Order Code (e.g. #HW-XXXXXX) to view live status!";
     }
 
     /**
