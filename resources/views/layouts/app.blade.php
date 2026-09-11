@@ -87,7 +87,7 @@
         <aside id="sidebar" class="fixed top-0 bottom-0 left-0 h-screen w-64 bg-white dark:bg-[#141417] border-r border-slate-200 dark:dark:border-zinc-700 z-50 transform -translate-x-full md:translate-x-0 transition-[width,transform] duration-300 flex flex-col justify-between shadow-sm">
 
             <div class="flex flex-col flex-1 min-h-0 overflow-y-auto">
-                <div id="sidebar-header-box" class="p-4 sm:p-5 border-b border-slate-200 dark:dark:border-zinc-700 flex items-center justify-between flex-shrink-0 transition-all gap-2">
+                <div id="sidebar-header-box" class="px-4 py-3 border-b border-slate-200 dark:dark:border-zinc-700 flex items-center justify-between flex-shrink-0 transition-all gap-2">
                     <a href="{{ route('welcome') }}" class="flex items-center gap-2.5 group min-w-0 transition-all">
                         <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-10 h-10 sm:w-11 sm:h-11 rounded-full object-cover shadow-sm group-transition-transform bg-white p-0.5 border border-slate-200 dark:dark:border-zinc-700 shrink-0">
                         <div id="sidebar-logo-text" class="sidebar-text min-w-0">
@@ -104,166 +104,147 @@
                     </button>
                 </div>
 
-                <nav class="p-4 space-y-1.5 text-sm font-medium">
+                <nav class="p-2.5 space-y-1 text-xs font-medium">
                     @auth
                         @if(auth()->user()->isOwner())
-                            <div class="sidebar-section-header px-3 py-2 text-[11px] font-extrabold text-slate-900 dark:text-slate-200 uppercase tracking-wider">Navigation</div>
+                            <div class="sidebar-section-header px-2.5 py-1 text-[10px] font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-0.5">Navigation</div>
 
-                            <a href="{{ route('admin.dashboard') }}" title="Overall Reports & Dashboard" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all {{ request()->routeIs('admin.dashboard') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-900 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
-                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                            <a href="{{ route('admin.dashboard') }}" title="Overall Reports & Dashboard" class="sidebar-nav-item flex items-center gap-2.5 px-3 py-1.5 rounded-md transition-all {{ request()->routeIs('admin.dashboard') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-900 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
                                 <div class="sidebar-text">
-                                    <span class="block leading-snug text-[11.5px] font-bold whitespace-nowrap">Overall Reports & Dashboard</span>
-                                    <p class="text-[10px] opacity-75 font-normal block leading-tight mt-0.5 whitespace-nowrap">System overview & metrics</p>
+                                    <span class="block leading-snug text-xs font-bold whitespace-nowrap">Overall Reports & Dashboard</span>
                                 </div>
                             </a>
 
-                            <a href="{{ route('admin.laundry.index') }}" title="Manage Laundry Orders" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all {{ request()->routeIs('admin.laundry.*') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
-                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+                            <a href="{{ route('admin.laundry.index') }}" title="Manage Laundry Orders" class="sidebar-nav-item flex items-center gap-2.5 px-3 py-1.5 rounded-md transition-all {{ request()->routeIs('admin.laundry.*') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
                                 <div class="sidebar-text">
-                                    <span class="block leading-snug text-[11.5px] font-bold whitespace-nowrap">Manage Laundry Orders</span>
-                                    <p class="text-[10px] opacity-75 font-normal block leading-tight mt-0.5 whitespace-nowrap">Queue & cashier processing</p>
+                                    <span class="block leading-snug text-xs font-bold whitespace-nowrap">Manage Laundry Orders</span>
                                 </div>
                             </a>
 
-                            <a href="{{ route('admin.machines.index') }}" title="Manage Machines" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all {{ request()->routeIs('admin.machines.*') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
-                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                            <a href="{{ route('admin.machines.index') }}" title="Manage Machines" class="sidebar-nav-item flex items-center gap-2.5 px-3 py-1.5 rounded-md transition-all {{ request()->routeIs('admin.machines.*') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                                 <div class="sidebar-text">
-                                    <span class="block leading-snug text-[11.5px] font-bold whitespace-nowrap">Manage Machines</span>
-                                    <p class="text-[10px] opacity-75 font-normal block leading-tight mt-0.5 whitespace-nowrap">Add, Edit, & Remove Machines</p>
+                                    <span class="block leading-snug text-xs font-bold whitespace-nowrap">Manage Machines</span>
                                 </div>
                             </a>
 
-                            <a href="{{ route('admin.services.index') }}" title="Services & Pricing" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all {{ request()->routeIs('admin.services.*') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
-                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
+                            <a href="{{ route('admin.services.index') }}" title="Services & Pricing" class="sidebar-nav-item flex items-center gap-2.5 px-3 py-1.5 rounded-md transition-all {{ request()->routeIs('admin.services.*') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"/></svg>
                                 <div class="sidebar-text">
-                                    <span class="block leading-snug text-[11.5px] font-bold whitespace-nowrap">Services & Pricing</span>
-                                    <p class="text-[10px] opacity-75 font-normal block leading-tight mt-0.5 whitespace-nowrap">Service rates & load options</p>
+                                    <span class="block leading-snug text-xs font-bold whitespace-nowrap">Services & Pricing</span>
                                 </div>
                             </a>
 
-                            <a href="{{ route('admin.users.index') }}" title="Manage Users" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all {{ request()->routeIs('admin.users.*') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
-                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                            <a href="{{ route('admin.users.index') }}" title="Manage Users" class="sidebar-nav-item flex items-center gap-2.5 px-3 py-1.5 rounded-md transition-all {{ request()->routeIs('admin.users.*') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                                 <div class="sidebar-text">
-                                    <span class="block leading-snug text-[11.5px] font-bold whitespace-nowrap">Manage Users</span>
-                                    <p class="text-[10px] opacity-75 font-normal block leading-tight mt-0.5 whitespace-nowrap">Stamps, Add, Edit, & Remove Users</p>
+                                    <span class="block leading-snug text-xs font-bold whitespace-nowrap">Manage Users</span>
                                 </div>
                             </a>
 
-                            <a href="{{ route('admin.sms.index') }}" title="Live SMS Outbox" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all {{ request()->routeIs('admin.sms.*') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
-                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                            <a href="{{ route('admin.sms.index') }}" title="Live SMS Outbox" class="sidebar-nav-item flex items-center gap-2.5 px-3 py-1.5 rounded-md transition-all {{ request()->routeIs('admin.sms.*') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
                                 <div class="sidebar-text">
-                                    <span class="block leading-snug text-[11.5px] font-bold whitespace-nowrap">Live SMS Outbox</span>
-                                    <p class="text-[10px] opacity-75 font-normal block leading-tight mt-0.5 whitespace-nowrap">Phone notification logs</p>
+                                    <span class="block leading-snug text-xs font-bold whitespace-nowrap">Live SMS Outbox</span>
                                 </div>
                             </a>
 
-                            <a href="{{ route('admin.emails.index') }}" title="Live Email Outbox" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all {{ request()->routeIs('admin.emails.*') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
-                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                            <a href="{{ route('admin.emails.index') }}" title="Live Email Outbox" class="sidebar-nav-item flex items-center gap-2.5 px-3 py-1.5 rounded-md transition-all {{ request()->routeIs('admin.emails.*') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                                 <div class="sidebar-text">
-                                    <span class="block leading-snug text-[11.5px] font-bold whitespace-nowrap">Live Email Outbox</span>
-                                    <p class="text-[10px] opacity-75 font-normal block leading-tight mt-0.5 whitespace-nowrap">email notification logs</p>
+                                    <span class="block leading-snug text-xs font-bold whitespace-nowrap">Live Email Outbox</span>
                                 </div>
                             </a>
 
-                            <a href="{{ route('admin.reviews.index') }}" title="Customer Reviews Outbox" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all {{ request()->routeIs('admin.reviews.*') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
-                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
+                            <a href="{{ route('admin.reviews.index') }}" title="Customer Reviews Outbox" class="sidebar-nav-item flex items-center gap-2.5 px-3 py-1.5 rounded-md transition-all {{ request()->routeIs('admin.reviews.*') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>
                                 <div class="sidebar-text">
-                                    <span class="block leading-snug text-[11.5px] font-bold whitespace-nowrap">Customer Reviews Outbox</span>
-                                    <p class="text-[10px] opacity-75 font-normal block leading-tight mt-0.5 whitespace-nowrap">Ratings & feedback logs</p>
+                                    <span class="block leading-snug text-xs font-bold whitespace-nowrap">Customer Reviews Outbox</span>
                                 </div>
                             </a>
 
-                            <a href="{{ route('admin.qr_scan_logs.index') }}" title="QR Scan Logs Outbox" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all {{ request()->routeIs('admin.qr_scan_logs.*') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
-                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
+                            <a href="{{ route('admin.qr_scan_logs.index') }}" title="QR Scan Logs Outbox" class="sidebar-nav-item flex items-center gap-2.5 px-3 py-1.5 rounded-md transition-all {{ request()->routeIs('admin.qr_scan_logs.*') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
                                 <div class="sidebar-text">
-                                    <span class="block leading-snug text-[11.5px] font-bold whitespace-nowrap">QR Scan Logs Outbox</span>
-                                    <p class="text-[10px] opacity-75 font-normal block leading-tight mt-0.5 whitespace-nowrap">Audit log of all QR scans</p>
+                                    <span class="block leading-snug text-xs font-bold whitespace-nowrap">QR Scan Logs Outbox</span>
                                 </div>
                             </a>
                         @elseif(auth()->user()->isStaff())
-                            <div class="sidebar-section-header px-3 py-2 text-[11px] font-extrabold text-slate-900 dark:text-slate-200 uppercase tracking-wider">Navigation</div>
+                            <div class="sidebar-section-header px-2.5 py-1 text-[10px] font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-0.5">Navigation</div>
 
-                            <a href="{{ route('staff.dashboard') }}" title="Workstation Dashboard" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all {{ request()->routeIs('staff.dashboard') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
-                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                            <a href="{{ route('staff.dashboard') }}" title="Workstation Dashboard" class="sidebar-nav-item flex items-center gap-2.5 px-3 py-1.5 rounded-md transition-all {{ request()->routeIs('staff.dashboard') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
                                 <div class="sidebar-text">
-                                    <span class="block leading-snug">Workstation Dashboard</span>
-                                    <p class="text-[10.5px] opacity-75 font-normal block leading-tight mt-0.5">Queue & cashier processing</p>
+                                    <span class="block leading-snug text-xs font-bold whitespace-nowrap">Workstation Dashboard</span>
                                 </div>
                             </a>
 
-                            <a href="{{ route('staff.laundry.index') }}" title="Manage Laundry Orders" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all {{ request()->routeIs('staff.laundry.*') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
-                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+                            <a href="{{ route('staff.laundry.index') }}" title="Manage Laundry Orders" class="sidebar-nav-item flex items-center gap-2.5 px-3 py-1.5 rounded-md transition-all {{ request()->routeIs('staff.laundry.*') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
                                 <div class="sidebar-text">
-                                    <span class="block leading-snug">Manage Laundry Orders</span>
-                                    <p class="text-[10.5px] opacity-75 font-normal block leading-tight mt-0.5">Queue & cashier processing</p>
+                                    <span class="block leading-snug text-xs font-bold whitespace-nowrap">Manage Laundry Orders</span>
                                 </div>
                             </a>
 
-                            <a href="{{ route('staff.machines.index') }}" title="Manage Machines" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all {{ request()->routeIs('staff.machines.*') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
-                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                            <a href="{{ route('staff.machines.index') }}" title="Manage Machines" class="sidebar-nav-item flex items-center gap-2.5 px-3 py-1.5 rounded-md transition-all {{ request()->routeIs('staff.machines.*') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                                 <div class="sidebar-text">
-                                    <span class="block leading-snug">Manage Machines</span>
-                                    <p class="text-[10.5px] opacity-75 font-normal block leading-tight mt-0.5">Add, Edit, & Remove Machines</p>
+                                    <span class="block leading-snug text-xs font-bold whitespace-nowrap">Manage Machines</span>
                                 </div>
                             </a>
 
-                            <a href="{{ route('laundry.create') }}" title="New Walk-in Order" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all {{ request()->routeIs('laundry.create') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
-                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                            <a href="{{ route('laundry.create') }}" title="New Walk-in Order" class="sidebar-nav-item flex items-center gap-2.5 px-3 py-1.5 rounded-md transition-all {{ request()->routeIs('laundry.create') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                                 <div class="sidebar-text">
-                                    <span class="block leading-snug">New Walk-in Order</span>
-                                    <p class="text-[10.5px] opacity-75 font-normal block leading-tight mt-0.5">Book customer wash</p>
+                                    <span class="block leading-snug text-xs font-bold whitespace-nowrap">New Walk-in Order</span>
                                 </div>
                             </a>
 
-                            <a href="{{ route('staff.qr_scan_logs.index') }}" title="QR Scan Logs Outbox" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all {{ request()->routeIs('staff.qr_scan_logs.*') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
-                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
+                            <a href="{{ route('staff.qr_scan_logs.index') }}" title="QR Scan Logs Outbox" class="sidebar-nav-item flex items-center gap-2.5 px-3 py-1.5 rounded-md transition-all {{ request()->routeIs('staff.qr_scan_logs.*') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
                                 <div class="sidebar-text">
-                                    <span class="block leading-snug">QR Scan Logs Outbox</span>
-                                    <p class="text-[10.5px] opacity-75 font-normal block leading-tight mt-0.5">Audit log of all QR scans</p>
+                                    <span class="block leading-snug text-xs font-bold whitespace-nowrap">QR Scan Logs Outbox</span>
                                 </div>
                             </a>
                         @else
-                            <div class="sidebar-section-header px-3 py-2 text-[11px] font-extrabold text-slate-900 dark:text-slate-200 uppercase tracking-wider">NAVIGATION</div>
+                            <div class="sidebar-section-header px-2.5 py-1 text-[10px] font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-0.5">NAVIGATION</div>
 
-                            <a href="{{ route('dashboard') }}" title="Customer Dashboard" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all {{ request()->routeIs('dashboard') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
-                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                            <a href="{{ route('dashboard') }}" title="Customer Dashboard" class="sidebar-nav-item flex items-center gap-2.5 px-3 py-1.5 rounded-md transition-all {{ request()->routeIs('dashboard') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
                                 <div class="sidebar-text">
-                                    <span class="block leading-snug">Customer Dashboard</span>
-                                    <p class="text-[10.5px] opacity-75 font-normal block leading-tight mt-0.5">Live status & quick actions</p>
+                                    <span class="block leading-snug text-xs font-bold whitespace-nowrap">Customer Dashboard</span>
                                 </div>
                             </a>
 
-                            <a href="{{ route('laundry.create') }}" title="Book New Order" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all {{ request()->routeIs('laundry.create') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
-                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                            <a href="{{ route('laundry.create') }}" title="Book New Order" class="sidebar-nav-item flex items-center gap-2.5 px-3 py-1.5 rounded-md transition-all {{ request()->routeIs('laundry.create') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                                 <div class="sidebar-text">
-                                    <span class="block leading-snug">Book New Order</span>
-                                    <p class="text-[10.5px] opacity-75 font-normal block leading-tight mt-0.5">New wash booking request</p>
+                                    <span class="block leading-snug text-xs font-bold whitespace-nowrap">Book New Order</span>
                                 </div>
                             </a>
 
-                            <a href="{{ route('my.orders') }}" title="My Order History" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all {{ request()->routeIs('my.orders') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
-                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                            <a href="{{ route('my.orders') }}" title="My Order History" class="sidebar-nav-item flex items-center gap-2.5 px-3 py-1.5 rounded-md transition-all {{ request()->routeIs('my.orders') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                                 <div class="sidebar-text">
-                                    <span class="block leading-snug">My Order History</span>
-                                    <p class="text-[10.5px] opacity-75 font-normal block leading-tight mt-0.5">Track bookings & receipts</p>
+                                    <span class="block leading-snug text-xs font-bold whitespace-nowrap">My Order History</span>
                                 </div>
                             </a>
 
-                            <a href="{{ route('frequent_card.index') }}" title="Frequent User Card" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all {{ request()->routeIs('frequent_card.*') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
-                                <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5h14a2 2 0 012 2v3a2 2 0 000 4v3a2 2 0 01-2 2H5a2 2 0 01-2-2v-3a2 2 0 000-4V7a2 2 0 012-2z"/></svg>
+                            <a href="{{ route('frequent_card.index') }}" title="Frequent User Card" class="sidebar-nav-item flex items-center gap-2.5 px-3 py-1.5 rounded-md transition-all {{ request()->routeIs('frequent_card.*') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
+                                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 5v2m0 4v2m0 4v2M5 5h14a2 2 0 012 2v3a2 2 0 000 4v3a2 2 0 01-2 2H5a2 2 0 01-2-2v-3a2 2 0 000-4V7a2 2 0 012-2z"/></svg>
                                 <div class="sidebar-text">
-                                    <span class="block leading-snug">Frequent User Card</span>
-                                    <p class="text-[10.5px] opacity-75 font-normal block leading-tight mt-0.5">12-stamp loyalty rewards</p>
+                                    <span class="block leading-snug text-xs font-bold whitespace-nowrap">Frequent User Card</span>
                                 </div>
                             </a>
                         @endif
 
-                        <div class="pt-4 border-t border-slate-200 dark:dark:border-zinc-700 my-2"></div>
-                        <a href="{{ route('welcome') }}" title="Home Dashboard" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800 font-medium transition-all">
-                            <svg class="w-5 h-5 text-slate-600 dark:text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+                        <div class="border-t border-slate-200 dark:dark:border-zinc-800 my-1"></div>
+                        <a href="{{ route('welcome') }}" title="Home Dashboard" class="sidebar-nav-item flex items-center gap-2.5 px-3 py-1.5 rounded-md text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800 font-medium transition-all">
+                            <svg class="w-4 h-4 text-slate-600 dark:text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
                             <div class="sidebar-text">
-                                <span class="block leading-snug">Home Dashboard</span>
-                                <p class="text-[10.5px] opacity-75 font-normal block leading-tight mt-0.5">Public landing page</p>
+                                <span class="block leading-snug text-xs font-bold whitespace-nowrap">Home Dashboard</span>
                             </div>
                         </a>
                         @php
@@ -274,11 +255,10 @@
                                 default => route('customer.profile.edit'),
                             };
                         @endphp
-                        <a href="{{ $profileRoute }}" title="Account Settings" class="sidebar-nav-item flex items-center gap-3 px-3.5 py-2.5 rounded-lg transition-all {{ request()->routeIs('*.profile.edit') || request()->routeIs('profile.edit') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
-                            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                        <a href="{{ $profileRoute }}" title="Account Settings" class="sidebar-nav-item flex items-center gap-2.5 px-3 py-1.5 rounded-md transition-all {{ request()->routeIs('*.profile.edit') || request()->routeIs('profile.edit') ? 'bg-blue-600 text-white font-bold shadow-sm' : 'text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800' }}">
+                            <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                             <div class="sidebar-text">
-                                <span class="block leading-snug">Account Settings</span>
-                                <p class="text-[10.5px] opacity-75 font-normal block leading-tight mt-0.5">Profile & security settings</p>
+                                <span class="block leading-snug text-xs font-bold whitespace-nowrap">Account Settings</span>
                             </div>
                         </a>
                     @endauth
@@ -286,7 +266,7 @@
             </div>
 
             @auth
-            <div id="sidebar-user-box" class="p-4 border-t border-slate-200 dark:dark:border-zinc-700 bg-slate-50 dark:bg-white/5 transition-all">
+            <div id="sidebar-user-box" class="px-3 py-2.5 border-t border-slate-200 dark:dark:border-zinc-700 bg-slate-50 dark:bg-white/5 transition-all">
                 <div class="flex items-center justify-between gap-3 w-full transition-all">
                     <div class="flex items-center gap-3 min-w-0 flex-1">
                         <div class="w-10 h-10 rounded-lg bg-blue-600 dark:bg-blue-600 text-white flex items-center justify-center font-bold shadow-sm shrink-0 sidebar-user-avatar">
