@@ -393,11 +393,6 @@
         <section id="home" class="relative rounded-lg overflow-hidden app-card p-6 md:p-12">
             <div class="grid lg:grid-cols-12 gap-8 lg:gap-10 items-center">
                 <div class="lg:col-span-7 space-y-5">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-blue-50 text-blue-700 border border-blue-200 dark:bg-blue-950/40 dark:text-blue-400 dark:border-blue-800/60 text-xs font-semibold">
-                        <span class="w-2 h-2 rounded-full bg-blue-600 dark:bg-blue-400 animate-pulse"></span>
-                        Hour Wash Laundry Shop
-                    </div>
-
                     <h1 class="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white leading-snug">
                         Professional Clean. <br>
                         <span class="text-blue-600 dark:text-blue-400">Fast 1-Hour Wash & Live Tracking</span>
