@@ -519,7 +519,7 @@
                                             <button type="button"
                                                 x-data=""
                                                 x-on:click="$dispatch('open-modal', 'cancel-order-{{ $order->id }}')"
-                                                class="px-2.5 py-1 rounded text-[10px] font-extrabold uppercase tracking-wider bg-red-600 text-white border border-red-700 hover:bg-red-700 shadow-sm transition cursor-pointer">
+                                                class="btn-danger text-[10px] py-1 px-2.5 uppercase tracking-wider cursor-pointer">
                                                 Cancel
                                             </button>
 

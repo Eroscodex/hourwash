@@ -16,13 +16,13 @@
                 <form method="POST" action="{{ route('admin.store-status.toggle') }}" class="w-full sm:w-auto">
                     @csrf
                     @if(($storeStatus ?? 'open') === 'open')
-                        <button type="submit" title="Click to Mark Store Closed Today" class="w-full px-3 py-2 rounded-lg bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 font-extrabold text-xs whitespace-nowrap hover:bg-emerald-500/25 transition flex items-center justify-center gap-1.5 h-full">
+                        <button type="submit" title="Click to Mark Store Closed Today" class="w-full px-3 py-1.5 rounded-md bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 font-extrabold text-xs whitespace-nowrap hover:bg-emerald-500/25 transition flex items-center justify-center gap-1.5 cursor-pointer">
                             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
                             <span>STORE OPEN TODAY</span>
                             <span class="hidden xl:inline-block text-[10px] text-slate-500 dark:text-slate-400 font-normal pl-1 border-l border-emerald-500/30">(Click to Close)</span>
                         </button>
                     @else
-                        <button type="submit" title="Click to Re-open Store Today" class="w-full px-3 py-2 rounded-lg bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 font-extrabold text-xs whitespace-nowrap hover:bg-rose-500/25 transition flex items-center justify-center gap-1.5 h-full">
+                        <button type="submit" title="Click to Re-open Store Today" class="w-full px-3 py-1.5 rounded-md bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 font-extrabold text-xs whitespace-nowrap hover:bg-rose-500/25 transition flex items-center justify-center gap-1.5 cursor-pointer">
                             <span class="w-2 h-2 rounded-full bg-rose-500 shrink-0"></span>
                             <span>STORE CLOSED TODAY</span>
                             <span class="hidden xl:inline-block text-[10px] text-slate-500 dark:text-slate-400 font-normal pl-1 border-l border-rose-500/30">(Click to Open)</span>
@@ -30,7 +30,7 @@
                     @endif
                 </form>
 
-                <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-admin-reset-all-orders')" class="w-full bg-red-600 hover:bg-red-700 text-white font-extrabold border border-red-700 px-3 py-2 rounded-lg text-xs transition whitespace-nowrap flex items-center justify-center h-full cursor-pointer shadow-sm">
+                <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-admin-reset-all-orders')" class="btn-danger text-xs py-1.5 px-3 whitespace-nowrap w-full sm:w-auto cursor-pointer">
                     Reset All Orders
                 </button>
 
@@ -59,7 +59,7 @@
                     </div>
                 </x-modal>
 
-                <a href="{{ route('admin.laundry.index') }}" class="btn-primary text-xs py-2 px-3 whitespace-nowrap text-center w-full sm:w-auto flex items-center justify-center h-full">
+                <a href="{{ route('admin.laundry.index') }}" class="btn-primary text-xs py-1.5 px-3 whitespace-nowrap text-center w-full sm:w-auto">
                     Manage Orders Queue
                 </a>
 
