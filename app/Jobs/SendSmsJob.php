@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Services\SmsService;
+use App\Services\SmsNotificationService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -18,11 +18,11 @@ class SendSmsJob implements ShouldQueue
     public int $backoff = 30;
 
     public function __construct(
-        private string $phone,
-        private string $message,
+        public string $phone,
+        public string $message,
     ) {}
 
-    public function handle(SmsService $sms): void
+    public function handle(SmsNotificationService $sms): void
     {
         $sms->send($this->phone, $this->message);
     }
