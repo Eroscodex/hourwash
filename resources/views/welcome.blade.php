@@ -285,7 +285,7 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                 @forelse($services as $service)
-                    <div class="app-card p-4 sm:p-3 flex flex-col justify-between space-y-3 hover:border-blue-500/40 transition">
+                    <article class="app-card p-4 sm:p-3 flex flex-col justify-between space-y-3 hover:border-blue-500/40 transition">
                         <div class="space-y-2">
                             <div class="flex items-start justify-between gap-2">
                                 <h3 class="text-xs sm:text-sm font-bold text-slate-900 dark:text-white leading-tight flex-1">{{ $service->name }}</h3>
@@ -303,7 +303,7 @@
                             @endphp
                             <span class="text-blue-600 dark:text-blue-400 font-bold shrink-0 whitespace-nowrap">{{ $durationFormatted }}</span>
                         </div>
-                    </div>
+                    </article>
                 @empty
                     <div class="col-span-full text-center py-8 text-xs text-slate-500">Services catalog loading...</div>
                 @endforelse
@@ -318,9 +318,9 @@
                 <p class="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 mt-1">Follow our simple 4-step process from sorting your clothes to relaxing in our lounge.</p>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <ol class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <!-- Step 1 -->
-                <div class="app-card p-5 space-y-3 relative overflow-hidden group hover:border-blue-500/40 transition">
+                <li class="app-card p-5 space-y-3 relative overflow-hidden group hover:border-blue-500/40 transition">
                     <div class="flex items-center justify-between">
                         <div class="w-8 h-8 rounded-md bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400 border border-blue-200 dark:border-blue-800/60 flex items-center justify-center font-extrabold text-xs">
                             1
@@ -334,10 +334,10 @@
                     <p class="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed">
                         Separate your white garments and colored clothes before loading to prevent color bleeding.
                     </p>
-                </div>
+                </li>
 
                 <!-- Step 2 -->
-                <div class="app-card p-5 space-y-3 relative overflow-hidden group hover:border-blue-500/40 transition">
+                <li class="app-card p-5 space-y-3 relative overflow-hidden group hover:border-blue-500/40 transition">
                     <div class="flex items-center justify-between">
                         <div class="w-8 h-8 rounded-md bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400 border border-blue-200 dark:border-blue-800/60 flex items-center justify-center font-extrabold text-xs">
                             2
@@ -351,10 +351,10 @@
                     <p class="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed">
                         Load your sorted clothes into the commercial machine along with your detergent and fabric conditioner.
                     </p>
-                </div>
+                </li>
 
                 <!-- Step 3 -->
-                <div class="app-card p-5 space-y-3 relative overflow-hidden group hover:border-blue-500/40 transition">
+                <li class="app-card p-5 space-y-3 relative overflow-hidden group hover:border-blue-500/40 transition">
                     <div class="flex items-center justify-between">
                         <div class="w-8 h-8 rounded-md bg-blue-50 text-blue-600 dark:bg-blue-950/40 dark:text-blue-400 border border-blue-200 dark:border-blue-800/60 flex items-center justify-center font-extrabold text-xs">
                             3
@@ -368,10 +368,10 @@
                     <p class="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed">
                         Select your machine wash cycle (Whites, Colors, Perm Press, or Delicates) and start the cycle.
                     </p>
-                </div>
+                </li>
 
                 <!-- Step 4 -->
-                <div class="app-card p-5 space-y-3 relative overflow-hidden group hover:border-emerald-500/40 transition">
+                <li class="app-card p-5 space-y-3 relative overflow-hidden group hover:border-emerald-500/40 transition">
                     <div class="flex items-center justify-between">
                         <div class="w-8 h-8 rounded-md bg-emerald-50 text-emerald-600 dark:bg-emerald-950/40 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60 flex items-center justify-center font-extrabold text-xs">
                             4
@@ -385,8 +385,8 @@
                     <p class="text-xs text-slate-600 dark:text-zinc-400 leading-relaxed">
                         Relax with free Wi-Fi & snacks while our automated monitors your load in real-time and sends instant notifications!
                     </p>
-                </div>
-            </div>
+                </li>
+            </ol>
         </section>
 
         <!-- Storefront Hero Section -->
@@ -448,7 +448,7 @@
                 </div>
 
                 <!-- Store Operational Status Widget -->
-                <div class="lg:col-span-5 relative flex justify-center">
+                <aside class="lg:col-span-5 relative flex justify-center">
                     <div class="w-full max-w-sm rounded-lg bg-slate-50 dark:bg-zinc-800/60 border border-slate-200 dark:border-zinc-800 p-5 flex flex-col justify-between shadow-sm space-y-5">
                         <div class="flex items-center justify-between border-b border-slate-200 dark:border-zinc-700/60 pb-3">
                             <span class="text-xs font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wider">Live Store Status</span>
@@ -489,12 +489,12 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="text-[11px] text-slate-500 dark:text-zinc-400 border-t border-slate-200 dark:border-zinc-700/60 pt-3 flex justify-between">
+                        <address class="not-italic text-[11px] text-slate-500 dark:text-zinc-400 border-t border-slate-200 dark:border-zinc-700/60 pt-3 flex justify-between">
                             <span>Magallanes St., Orosite</span>
                             <span class="text-blue-600 dark:text-blue-400 font-semibold">Legazpi City, Albay</span>
-                        </div>
+                        </address>
                     </div>
-                </div>
+                </aside>
             </div>
         </section>
 
@@ -507,6 +507,7 @@
             </div>
 
             <form onsubmit="event.preventDefault(); trackPublicOrder();" class="max-w-md mx-auto flex flex-col sm:flex-row gap-2.5">
+                <label for="public-qr-input" class="sr-only">Order Number</label>
                 <input id="public-qr-input" type="text" placeholder="Enter order number: #********" class="flex-1" required>
                 <button type="submit" class="btn-primary text-center">
                     Check Status
@@ -531,14 +532,14 @@
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 @forelse($feedbacks ?? [] as $fb)
-                    <div class="app-card p-5 space-y-3 hover:border-blue-500/40 transition">
+                    <article class="app-card p-5 space-y-3 hover:border-blue-500/40 transition">
                         <div class="flex items-center justify-between">
                             <div class="flex items-center gap-2.5">
                                 <div class="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs">
                                     {{ strtoupper(substr($fb->user->name ?? 'C', 0, 1)) }}
                                 </div>
                                 <div>
-                                    <h4 class="text-xs font-bold text-slate-900 dark:text-white">{{ $fb->user->name ?? 'Verified Customer' }}</h4>
+                                    <h3 class="text-xs font-bold text-slate-900 dark:text-white">{{ $fb->user->name ?? 'Verified Customer' }}</h3>
                                     <span class="text-[10px] text-slate-500 dark:text-zinc-400">{{ $fb->created_at->diffForHumans() }}</span>
                                 </div>
                             </div>
@@ -550,7 +551,7 @@
                         <p class="text-xs text-slate-600 dark:text-zinc-300 leading-relaxed italic">
                             "{{ $fb->comment }}"
                         </p>
-                    </div>
+                    </article>
                 @empty
                     <div class="col-span-full text-center py-6 text-xs text-slate-500">No customer reviews published yet.</div>
                 @endforelse

@@ -20,9 +20,8 @@
 </head>
 <body class="bg-slate-50 dark:bg-[#09090B] text-slate-900 dark:text-zinc-100 font-['Inter'] antialiased min-h-screen py-10 px-4 sm:px-6">
     <div class="w-full max-w-3xl mx-auto space-y-6">
-        
-        
-        <div class="flex items-center justify-between">
+
+        <header class="flex items-center justify-between">
             <a href="{{ route('welcome') }}" class="btn-secondary text-xs">Back</a>
             <button id="theme-toggle" class="p-2 px-3 rounded-lg bg-white dark:bg-zinc-800 text-slate-900 dark:text-zinc-100 border border-slate-200 dark:border-zinc-700 transition-all text-xs font-semibold flex items-center gap-1.5 shadow-sm cursor-pointer" title="Toggle Light/Dark Theme">
                 <span class="dark:hidden flex items-center gap-1.5">
@@ -34,43 +33,53 @@
                     <span>Dark</span>
                 </span>
             </button>
-        </div>
+        </header>
 
         <!-- Content Card -->
-        <div class="bg-white dark:bg-[#141417] border border-slate-200 dark:border-zinc-600 rounded-lg p-6 sm:p-8 space-y-6 shadow-sm">
-            <div class="text-center space-y-2 border-b border-slate-200 dark:border-zinc-700 pb-5">
+        <main class="bg-white dark:bg-[#141417] border border-slate-200 dark:border-zinc-600 rounded-lg p-6 sm:p-8 space-y-6 shadow-sm">
+            <header class="text-center space-y-2 border-b border-slate-200 dark:border-zinc-700 pb-5">
                 <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-16 h-16 rounded-full mx-auto bg-white p-1 border border-slate-200 shadow-sm">
                 <h1 class="text-2xl font-bold text-slate-900 dark:text-white">Privacy Policy</h1>
                 <p class="text-xs text-slate-500 font-medium">Last updated: September 05, 2026</p>
+            </header>
+
+            <div class="space-y-6 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+                <section class="space-y-2">
+                    <p>
+                        At <strong>Hour Wash Laundry</strong>, we value your privacy and are committed to protecting your personal data. This Privacy Policy explains how we collect, use, and protect your information when you use our laundry services and web application.
+                    </p>
+                </section>
+
+                <section class="space-y-2">
+                    <h2 class="text-base font-bold text-slate-900 dark:text-white pt-2">1. Information We Collect</h2>
+                    <p>
+                        We collect basic information required to process your laundry orders, manage your account, and contact you regarding order status updates. This includes your name, email address, phone number, and laundry transaction details.
+                    </p>
+                </section>
+
+                <section class="space-y-2">
+                    <h2 class="text-base font-bold text-slate-900 dark:text-white pt-2">2. How We Use Your Information</h2>
+                    <ul class="list-disc pl-5 space-y-1">
+                        <li>To process, track, and complete your laundry orders.</li>
+                        <li>To send automated SMS and email notifications regarding order status updates (e.g. Received, Washing, Ready for pickup).</li>
+                    </ul>
+                </section>
+
+                <section class="space-y-2">
+                    <h2 class="text-base font-bold text-slate-900 dark:text-white pt-2">3. Data Security</h2>
+                    <p>
+                        We implement industry-standard security measures to protect your account credentials, transactional logs, and contact details from unauthorized access, alteration, or disclosure.
+                    </p>
+                </section>
+
+                <section class="space-y-2">
+                    <h2 class="text-base font-bold text-slate-900 dark:text-white pt-2">4. Third-Party Services</h2>
+                    <p>
+                        We use trusted third-party services (such as Brevo for sending emails and SMS) solely to dispatch transactional notifications. We do not sell or rent your personal information to third parties.
+                    </p>
+                </section>
             </div>
-
-            <div class="space-y-4 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
-                <p>
-                    At <strong>Hour Wash Laundry</strong>, we value your privacy and are committed to protecting your personal data. This Privacy Policy explains how we collect, use, and protect your information when you use our laundry services and web application.
-                </p>
-
-                <h3 class="text-base font-bold text-slate-900 dark:text-white pt-2">1. Information We Collect</h3>
-                <p>
-                    We collect basic information required to process your laundry orders, manage your account, and contact you regarding order status updates. This includes your name, email address, phone number, and laundry transaction details.
-                </p>
-
-                <h3 class="text-base font-bold text-slate-900 dark:text-white pt-2">2. How We Use Your Information</h3>
-                <ul class="list-disc pl-5 space-y-1">
-                    <li>To process, track, and complete your laundry orders.</li>
-                    <li>To send automated SMS and email notifications regarding order status updates (e.g. Received, Washing, Ready for pickup).</li>
-                </ul>
-
-                <h3 class="text-base font-bold text-slate-900 dark:text-white pt-2">3. Data Security</h3>
-                <p>
-                    We implement industry-standard security measures to protect your account credentials, transactional logs, and contact details from unauthorized access, alteration, or disclosure.
-                </p>
-
-                <h3 class="text-base font-bold text-slate-900 dark:text-white pt-2">4. Third-Party Services</h3>
-                <p>
-                    We use trusted third-party services (such as Brevo for sending emails and SMS) solely to dispatch transactional notifications. We do not sell or rent your personal information to third parties.
-                </p>
-            </div>
-        </div>
+        </main>
 
         <footer class="pt-4 border-t border-slate-200 dark:border-zinc-800 text-center text-[11px] text-slate-500 dark:text-zinc-400 space-y-2.5">
             <div class="flex justify-center mb-1">
@@ -78,7 +87,7 @@
                     <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-full h-full object-cover rounded-full">
                 </div>
             </div>
-            <div class="flex items-center justify-center gap-x-1.5 sm:gap-x-3 text-[10px] sm:text-xs">
+            <nav class="flex items-center justify-center gap-x-1.5 sm:gap-x-3 text-[10px] sm:text-xs">
                 <a href="{{ route('about') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">About Us</a>
                 <span class="text-slate-300 dark:text-zinc-700">•</span>
                 <a href="{{ route('developers') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Developers</a>
@@ -86,7 +95,7 @@
                 <a href="{{ route('privacy') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Privacy Policy</a>
                 <span class="text-slate-300 dark:text-zinc-700">•</span>
                 <a href="{{ route('terms') }}" class="hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Terms &amp; Conditions</a>
-            </div>
+            </nav>
             <div>© {{ date('Y') }} A Web-Based Laundry Service Management System for Hour Wash Laundry Shop in Orosite, Legazpi City</div>
         </footer>
     </div>

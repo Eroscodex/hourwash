@@ -337,12 +337,13 @@
                             };
                         @endphp
                         <form action="{{ route('global.search') }}" method="GET" class="hidden sm:flex items-center relative w-64 md:w-80">
+                            <label for="global-search-input" class="sr-only">Global Search</label>
                             <button type="submit" aria-label="Submit search" class="absolute left-3 text-slate-400 dark:text-zinc-400 hover:text-blue-600 focus:outline-none z-10 flex items-center justify-center">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                                 </svg>
                             </button>
-                            <input type="text" name="q" value="{{ request('q') }}" placeholder="{{ $searchPlaceholder }}" class="w-full !pl-9 pr-4 py-2 bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700 rounded-lg text-xs text-slate-900 dark:text-zinc-100 placeholder-slate-400 dark:placeholder-zinc-500 focus:outline-none focus:border-blue-600 transition" style="padding-left: 2.25rem !important;" required>
+                            <input id="global-search-input" type="text" name="q" value="{{ request('q') }}" placeholder="{{ $searchPlaceholder }}" class="w-full !pl-9 pr-4 py-2 bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700 rounded-lg text-xs text-slate-900 dark:text-zinc-100 placeholder-slate-400 dark:placeholder-zinc-500 focus:outline-none focus:border-blue-600 transition" style="padding-left: 2.25rem !important;" required>
                         </form>
                     @endauth
                 </div>
@@ -363,7 +364,7 @@
                         <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                         </svg>
-                        <span>{{ now()->format('M d, Y') }}</span>
+                        <time datetime="{{ now()->format('Y-m-d') }}">{{ now()->format('M d, Y') }}</time>
                     </div>
 
                     @auth
@@ -405,9 +406,9 @@
                         <div class="text-center sm:text-left">
                             © {{ date('Y') }} A Web-Based Laundry Service Management System for Hour Wash Laundry Shop in Orosite, Legazpi City
                         </div>
-                        <div class="text-center sm:text-right font-medium text-slate-600 dark:text-zinc-300">
+                        <address class="not-italic text-center sm:text-right font-medium text-slate-600 dark:text-zinc-300">
                             Magallanes St., Orosite, Legazpi City
-                        </div>
+                        </address>
                     </div>
                 </div>
             </footer>
@@ -424,8 +425,8 @@
         <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-8 h-8 rounded-full object-cover group-hover:rotate-12 transition-transform bg-white p-0.5 border border-white/20 shadow-sm">
     </button>
 
-    <div id="chat-window" class="fixed bottom-24 right-6 w-80 sm:w-96 bg-white dark:bg-[#141417] border border-slate-200 dark:dark:border-zinc-600 rounded-2xl shadow-xl z-50 hidden flex-col overflow-hidden backdrop-blur-sm">
-        <div class="p-3.5 bg-blue-600 dark:bg-blue-600 text-white flex items-center justify-between">
+    <aside id="chat-window" class="fixed bottom-24 right-6 w-80 sm:w-96 bg-white dark:bg-[#141417] border border-slate-200 dark:dark:border-zinc-600 rounded-2xl shadow-xl z-50 hidden flex-col overflow-hidden backdrop-blur-sm">
+        <header class="p-3.5 bg-blue-600 dark:bg-blue-600 text-white flex items-center justify-between">
             <div class="flex items-center gap-2.5">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shrink-0"></span>
                 <div>
@@ -433,8 +434,8 @@
                     <span class="text-[10px] text-blue-100 font-medium block">Live Store Support</span>
                 </div>
             </div>
-            <button id="chat-close" class="text-white/80 hover:text-white text-base font-bold px-1.5 py-0.5 rounded hover:bg-white/10 transition">✕</button>
-        </div>
+            <button id="chat-close" class="text-white/80 hover:text-white text-base font-bold px-1.5 py-0.5 rounded hover:bg-white/10 transition" aria-label="Close Chat">✕</button>
+        </header>
 
         <div id="chat-box" class="p-4 h-80 overflow-y-auto space-y-3 text-xs bg-slate-50 dark:bg-[#09090B]">
             <div class="flex justify-start">
@@ -457,18 +458,19 @@
             </div>
         </div>
 
-        <div class="p-3 border-t border-slate-200 dark:dark:border-zinc-700 bg-white dark:bg-[#141417] flex flex-col gap-1.5">
+        <footer class="p-3 border-t border-slate-200 dark:dark:border-zinc-700 bg-white dark:bg-[#141417] flex flex-col gap-1.5">
             <div class="flex items-center gap-2">
+                <label for="message" class="sr-only">Type a message</label>
                 <input id="message" type="text" placeholder="Hello! I have a question :)" class="flex-1 bg-slate-100 dark:bg-[#18181B] border border-slate-300 dark:dark:border-zinc-700 rounded-full px-4 py-2.5 text-xs focus:outline-none focus:border-blue-600" onkeydown="if(event.key==='Enter')sendMessage()">
-                <button onclick="sendMessage()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold w-9 h-9 rounded-full text-sm flex items-center justify-center transition shadow-sm shrink-0">
+                <button onclick="sendMessage()" aria-label="Send message" class="bg-blue-600 hover:bg-blue-700 text-white font-bold w-9 h-9 rounded-full text-sm flex items-center justify-center transition shadow-sm shrink-0">
                     ↑
                 </button>
             </div>
             <p class="text-[9.5px] text-center text-slate-400 dark:text-slate-500 font-medium">
                 💬 Need help or want to report an issue? Contact Customer Support & Developers at <a href="mailto:karlnicko2019@gmail.com" class="text-blue-600 dark:text-blue-400 font-bold hover:underline">karlnicko2019@gmail.com</a>
             </p>
-        </div>
-    </div>
+        </footer>
+    </aside>
     @endif
 
     <script>

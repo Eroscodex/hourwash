@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="space-y-6 sm:space-y-8">
 
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <header class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
                 <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white">
                     Welcome back, {{ auth()->user()->name }}!
@@ -10,71 +10,81 @@
                     Manage your laundry bookings, track live orders, and check machine availability.
                 </p>
             </div>
-        </div>
+        </header>
 
         <!-- Quick Navbar Selection Shortcuts -->
-        <div>
+        <nav aria-label="Quick Shortcuts">
             <h2 class="text-[11px] font-bold text-slate-400 dark:text-zinc-500 uppercase tracking-widest mb-3">
                 Quick Navbar Selection Shortcuts
             </h2>
 
-            <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-2.5">
-                <a href="{{ route('laundry.create') }}"
-                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-4 border-l-blue-600 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group shadow-sm">
-                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
-                        Book New Order
-                    </span>
-                    <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
-                        Schedule laundry wash
-                    </span>
-                </a>
-
-                <a href="{{ route('my.orders') }}"
-                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-4 border-l-blue-500 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group shadow-sm">
-                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
-                        My Laundry Orders
-                    </span>
-                    <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
-                        {{ $recentOrders->count() }} total bookings
-                    </span>
-                </a>
-
-                <a href="{{ route('frequent_card.index') }}"
-                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-4 border-l-pink-500 hover:border-pink-500 dark:hover:border-pink-500 transition-colors group shadow-sm">
-                    <div class="flex items-center justify-between">
-                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-pink-600 dark:group-hover:text-pink-400 transition block truncate">
-                            Frequent User Card
+            <ul class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-2.5">
+                <li>
+                    <a href="{{ route('laundry.create') }}"
+                       class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-4 border-l-blue-600 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group shadow-sm block">
+                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
+                            Book New Order
                         </span>
-                    </div>
-                    <span class="text-[10px] text-pink-600 dark:text-pink-400 font-bold block mt-1">
-                        {{ auth()->user()->stamps_count ?? 0 }}/12 Stamps
-                        @if((auth()->user()->discount_rewards_available ?? 0) > 0)
-                            <span class="text-[9px] bg-emerald-600 text-white px-1 rounded ml-1 font-bold">REWARD</span>
-                        @endif
-                    </span>
-                </a>
+                        <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
+                            Schedule laundry wash
+                        </span>
+                    </a>
+                </li>
 
-                <a href="{{ route('welcome') }}"
-                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-4 border-l-blue-500 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group shadow-sm">
-                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
-                        Home Dashboard
-                    </span>
-                    <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
-                        View store info & services
-                    </span>
-                </a>
+                <li>
+                    <a href="{{ route('my.orders') }}"
+                       class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-4 border-l-blue-500 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group shadow-sm block">
+                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
+                            My Laundry Orders
+                        </span>
+                        <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
+                            {{ $recentOrders->count() }} total bookings
+                        </span>
+                    </a>
+                </li>
 
-                <a href="{{ route('profile.edit') }}"
-                   class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-4 border-l-blue-500 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group shadow-sm">
-                    <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
-                        Account Settings
-                    </span>
-                    <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
-                        Profile & Security
-                    </span>
-                </a>
-            </div>
-        </div>
+                <li>
+                    <a href="{{ route('frequent_card.index') }}"
+                       class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-4 border-l-pink-500 hover:border-pink-500 dark:hover:border-pink-500 transition-colors group shadow-sm block">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-pink-600 dark:group-hover:text-pink-400 transition block truncate">
+                                Frequent User Card
+                            </span>
+                        </div>
+                        <span class="text-[10px] text-pink-600 dark:text-pink-400 font-bold block mt-1">
+                            {{ auth()->user()->stamps_count ?? 0 }}/12 Stamps
+                            @if((auth()->user()->discount_rewards_available ?? 0) > 0)
+                                <span class="text-[9px] bg-emerald-600 text-white px-1 rounded ml-1 font-bold">REWARD</span>
+                            @endif
+                        </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('welcome') }}"
+                       class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-4 border-l-blue-500 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group shadow-sm block">
+                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
+                            Home Dashboard
+                        </span>
+                        <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
+                            View store info & services
+                        </span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{ route('profile.edit') }}"
+                       class="p-3.5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-4 border-l-blue-500 hover:border-blue-500 dark:hover:border-blue-500 transition-colors group shadow-sm block">
+                        <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition block truncate">
+                            Account Settings
+                        </span>
+                        <span class="text-[10px] text-slate-400 dark:text-zinc-500 block mt-1">
+                            Profile & Security
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
 
         @php
             $customerUnpaidOrders = $recentOrders->where('payment_status', 'unpaid');
@@ -87,13 +97,13 @@
         @endphp
 
         <!-- Customer Payment Summary (Unpaid vs Paid) -->
-        <div>
-            <h2 class="text-[11px] font-bold text-slate-400 dark:text-zinc-500 uppercase tracking-widest mb-3">
+        <section aria-labelledby="payment-summary-title">
+            <h2 id="payment-summary-title" class="text-[11px] font-bold text-slate-400 dark:text-zinc-500 uppercase tracking-widest mb-3">
                 My Payment Summary & Invoices
             </h2>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
-                <div class="p-4 sm:p-5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-4 border-l-rose-500 flex items-center justify-between shadow-sm">
+                <article class="p-4 sm:p-5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-4 border-l-rose-500 flex items-center justify-between shadow-sm">
                     <div>
                         <span class="text-[10px] font-extrabold text-rose-600 dark:text-rose-400 uppercase tracking-wider block">
                             UNPAID ORDERS (NEED PAYMENT COLLECTION)
@@ -108,9 +118,9 @@
                     <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-800/60">
                         UNPAID
                     </span>
-                </div>
+                </article>
 
-                <div class="p-4 sm:p-5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-4 border-l-emerald-500 flex items-center justify-between shadow-sm">
+                <article class="p-4 sm:p-5 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-4 border-l-emerald-500 flex items-center justify-between shadow-sm">
                     <div>
                         <span class="text-[10px] font-extrabold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider block">
                             PAID ORDERS (CLEARED INVOICES)
@@ -125,9 +135,9 @@
                     <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800/60">
                         PAID
                     </span>
-                </div>
+                </article>
             </div>
-        </div>
+        </section>
 
         <div class="grid grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3">
             <div class="p-3.5 sm:p-4 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-4 border-l-emerald-500 shadow-sm">
@@ -178,7 +188,7 @@
         <div class="space-y-6">
 
             <!-- 1. Live Store Machine Availability -->
-            <div class="app-card p-4 sm:p-6 space-y-6">
+            <section class="app-card p-4 sm:p-6 space-y-6">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-zinc-700 pb-3">
                     <div>
                         <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
@@ -329,11 +339,11 @@
                     <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Idle / Available</span>
                     <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-rose-500"></span> Maintenance</span>
                 </div>
-            </div>
+            </section>
 
             <!-- 2. Active Order Tracker -->
             @if(isset($activeOrder) && $activeOrder)
-                <div class="p-5 sm:p-6 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-2 border-l-blue-600 space-y-4 shadow-sm">
+                <section class="p-5 sm:p-6 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 border-l-2 border-l-blue-600 space-y-4 shadow-sm">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-zinc-800/80 pb-3.5">
                         <div class="flex items-center gap-3">
                             @if($activeOrder->qrCode)
@@ -425,9 +435,9 @@
                             <span class="font-semibold text-slate-900 dark:text-slate-100 mt-0.5 block">{{ $activeOrder->estimated_completion ? $activeOrder->estimated_completion->format('M d, Y • h:i A') : 'Processing' }}</span>
                         </div>
                     </div>
-                </div>
+                </section>
             @else
-                <div class="p-5 sm:p-6 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 text-center space-y-3 w-full shadow-sm">
+                <section class="p-5 sm:p-6 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 text-center space-y-3 w-full shadow-sm">
                     <h3 class="text-base font-bold text-slate-900 dark:text-white">No Active Laundry Order</h3>
                     <p class="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
                         You currently have no laundry orders in progress. Place a new drop-off or pickup order to track live cleaning progress!
@@ -443,11 +453,11 @@
                             </button>
                         @endif
                     </div>
-                </div>
+                </section>
             @endif
 
             <!-- 3. My Order History -->
-            <div class="p-4 sm:p-6 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 space-y-4 overflow-hidden shadow-sm">
+            <section class="p-4 sm:p-6 rounded-lg bg-white dark:bg-[#18181B] border border-slate-200/80 dark:border-zinc-800 space-y-4 overflow-hidden shadow-sm">
                 <div class="flex items-center justify-between border-b border-slate-100 dark:border-zinc-800/80 pb-3">
                     <div>
                         <h2 class="text-base font-bold text-slate-900 dark:text-white">My Order History</h2>
@@ -545,9 +555,7 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-
-
+            </section>
 
         </div>
     </div>
