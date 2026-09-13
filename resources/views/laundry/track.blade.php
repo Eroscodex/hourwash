@@ -169,7 +169,7 @@
                             {{ $info['step'] }}. {{ $info['label'] }}
                         </span>
                         @if($isCurrent)
-                            <span class="w-1.5 h-1.5 rounded-full bg-blue-600 animate-ping absolute -top-0.5 -right-0.5"></span>
+                            <span class="w-2 h-2 rounded-full bg-red-600 animate-ping absolute -top-0.5 -right-0.5"></span>
                         @endif
                     </div>
                 @endforeach
