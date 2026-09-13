@@ -97,60 +97,60 @@
         <!-- Users Table -->
         <div class="app-card overflow-hidden">
             <div class="overflow-x-auto max-w-full">
-                <table class="w-full text-left text-[11px] whitespace-nowrap min-w-[750px]">
+                <table class="w-full text-left text-[11px] whitespace-nowrap min-w-full">
                     <thead class="bg-slate-100 dark:bg-[#18181B] text-slate-700 dark:text-slate-300 uppercase text-[9.5px] font-extrabold tracking-wider border-b border-slate-200 dark:dark:border-zinc-700">
                         <tr>
-                            <th class="px-4 py-2.5">User Name</th>
-                            <th class="px-4 py-2.5">Email Address</th>
-                            <th class="px-4 py-2.5">Phone Number</th>
-                            <th class="px-4 py-2.5">Physical Address</th>
-                            <th class="px-4 py-2.5">Role / Account</th>
-                            <th class="px-4 py-2.5">Status</th>
-                            <th class="px-4 py-2.5 text-right">Actions</th>
+                            <th class="px-2.5 py-2">User Name</th>
+                            <th class="px-2.5 py-2">Email Address</th>
+                            <th class="px-2.5 py-2">Phone Number</th>
+                            <th class="px-2.5 py-2">Physical Address</th>
+                            <th class="px-2.5 py-2">Role / Account</th>
+                            <th class="px-2.5 py-2">Status</th>
+                            <th class="px-2.5 py-2 text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-black/5 dark:divide-white/5 text-slate-900 dark:text-slate-200">
                     @forelse($users as $user)
                         <tr class="hover:bg-black/5 dark:hover:bg-white/5 transition">
-                            <td class="px-4 py-2 font-bold text-slate-900 dark:text-white flex items-center gap-2.5">
-                                <div class="w-7 h-7 rounded-lg bg-blue-600/15 text-blue-600 dark:text-blue-400 font-bold flex items-center justify-center text-[10.5px] shrink-0">
+                            <td class="px-2.5 py-1.5 font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                                <div class="w-6 h-6 rounded-lg bg-blue-600/15 text-blue-600 dark:text-blue-400 font-bold flex items-center justify-center text-[10px] shrink-0">
                                     {{ strtoupper(substr($user->name, 0, 1)) }}
                                 </div>
-                                <span class="text-[11.5px] font-bold text-slate-900 dark:text-white">{{ $user->name }}</span>
+                                <span class="text-[11px] font-bold text-slate-900 dark:text-white truncate max-w-[130px]" title="{{ $user->name }}">{{ $user->name }}</span>
                             </td>
-                            <td class="px-4 py-2 text-slate-700 dark:text-slate-300 font-mono text-[11px]">{{ $user->email }}</td>
-                            <td class="px-4 py-2 text-slate-700 dark:text-slate-300 font-mono text-[11px]">
+                            <td class="px-2.5 py-1.5 text-slate-700 dark:text-slate-300 font-mono text-[10.5px] max-w-[160px] truncate" title="{{ $user->email }}">{{ $user->email }}</td>
+                            <td class="px-2.5 py-1.5 text-slate-700 dark:text-slate-300 font-mono text-[10.5px]">
                                 {{ $user->phone ?: 'N/A' }}
                             </td>
-                            <td class="px-4 py-2 text-slate-600 dark:text-slate-400 text-[11px] max-w-[220px] truncate" title="{{ $user->customerProfile?->full_address ?? '' }}">
+                            <td class="px-2.5 py-1.5 text-slate-600 dark:text-slate-400 text-[10.5px] max-w-[160px] truncate" title="{{ $user->customerProfile?->full_address ?? '' }}">
                                 {{ $user->customerProfile?->full_address ?? 'N/A' }}
                             </td>
-                            <td class="px-4 py-2">
+                            <td class="px-2.5 py-1.5">
                                 @if($user->role === 'owner' || $user->role === 'admin')
-                                    <span class="px-2 py-0.5 rounded-md text-[9.5px] font-bold uppercase tracking-wider bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30">
+                                    <span class="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30">
                                         {{ ucfirst($user->role) }}
                                     </span>
                                 @elseif($user->role === 'staff')
-                                    <span class="px-2 py-0.5 rounded-md text-[9.5px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30">
+                                    <span class="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30">
                                         Staff Specialist
                                     </span>
                                 @elseif($user->role === 'rider')
-                                    <span class="px-2 py-0.5 rounded-md text-[9.5px] font-bold uppercase tracking-wider bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border border-cyan-500/30">
+                                    <span class="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-cyan-500/15 text-cyan-700 dark:text-cyan-300 border border-cyan-500/30">
                                         Rider
                                     </span>
                                 @else
-                                    <span class="px-2 py-0.5 rounded-md text-[9.5px] font-bold uppercase tracking-wider bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-500/30">
+                                    <span class="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-sky-500/15 text-sky-700 dark:text-sky-300 border border-sky-500/30">
                                         Customer
                                     </span>
                                 @endif
                             </td>
-                            <td class="px-4 py-2">
-                                <span class="px-2 py-0.5 rounded text-[9.5px] font-bold uppercase @if(($user->status ?? 'active') === 'active') bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 @else bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 @endif">
+                            <td class="px-2.5 py-1.5">
+                                <span class="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase @if(($user->status ?? 'active') === 'active') bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 @else bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 @endif">
                                     {{ strtoupper($user->status ?? 'active') }}
                                 </span>
                             </td>
-                            <td class="px-4 py-2 text-right">
-                                <div class="flex items-center justify-end gap-1.5">
+                            <td class="px-2.5 py-1.5 text-right">
+                                <div class="flex items-center justify-end gap-1">
                                     <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'manage-stamps-{{ $user->id }}')" class="p-1 text-pink-600 dark:text-pink-400 hover:bg-pink-500/10 rounded-lg transition" title="Manage Frequent User Stamp Card">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                                     </button>
