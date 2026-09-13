@@ -221,7 +221,7 @@
                             $targetOrder = ($ord && $ord->customer_id === auth()->id()) ? $ord : ((isset($activeOrder) && $activeOrder && $machine->id == $activeOrder->machine_id) ? $activeOrder : null);
                             $isMyOrder = auth()->check() && ($targetOrder !== null);
                             $isMaintenance = in_array($machine->status, ['maintenance', 'out_of_service', 'broken']);
-                            $isBusy = in_array($machine->status, ['washing', 'rinsing', 'drying', 'in_use', 'busy']);
+                            $isBusy = in_array($machine->status, ['washing', 'rinsing', 'drying', 'in_use', 'busy']) || ($ord !== null && ! in_array($ord->order_status, ['completed', 'cancelled', 'finish']));
 
                             $cardBorderClass = match(true) {
                                 $isMaintenance => 'border-rose-500/40 dark:border-rose-900/50 bg-rose-500/5 dark:bg-rose-950/15',
@@ -230,19 +230,21 @@
                                 default => 'border border-slate-200 dark:border-zinc-800 bg-white dark:bg-[#18181B] hover:border-emerald-500/60 dark:hover:border-emerald-500/50 hover:shadow-md'
                             };
 
-                            $statusIconBg = match($machine->status) {
-                                'washing' => 'bg-teal-500/15 text-teal-600 dark:text-teal-400 border border-teal-500/30',
-                                'rinsing' => 'bg-sky-500/15 text-sky-600 dark:text-sky-400 border border-sky-500/30',
-                                'drying' => 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30',
-                                'idle' => 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30',
+                            $statusIconBg = match(true) {
+                                $machine->status === 'washing' => 'bg-teal-500/15 text-teal-600 dark:text-teal-400 border border-teal-500/30',
+                                $machine->status === 'rinsing' => 'bg-sky-500/15 text-sky-600 dark:text-sky-400 border border-sky-500/30',
+                                $machine->status === 'drying' => 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30',
+                                $isBusy => 'bg-blue-500/15 text-blue-600 dark:text-blue-400 border border-blue-500/30',
+                                $machine->status === 'idle' => 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30',
                                 default => 'bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30',
                             };
 
-                            $dotLed = match($machine->status) {
-                                'washing' => 'bg-teal-500 shadow-[0_0_8px_rgba(20,184,166,0.8)] animate-pulse',
-                                'rinsing' => 'bg-sky-500 shadow-[0_0_8px_rgba(14,165,233,0.8)] animate-pulse',
-                                'drying' => 'bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.8)] animate-pulse',
-                                'idle' => 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]',
+                            $dotLed = match(true) {
+                                $machine->status === 'washing' => 'bg-teal-500 shadow-[0_0_8px_rgba(20,184,166,0.8)] animate-pulse',
+                                $machine->status === 'rinsing' => 'bg-sky-500 shadow-[0_0_8px_rgba(14,165,233,0.8)] animate-pulse',
+                                $machine->status === 'drying' => 'bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.8)] animate-pulse',
+                                $isBusy => 'bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.8)] animate-pulse',
+                                $machine->status === 'idle' => 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.8)]',
                                 default => 'bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.8)]',
                             };
                         @endphp
@@ -309,6 +311,8 @@
                                     <div class="w-9 h-9 rounded-xl flex items-center justify-center text-xs shrink-0 {{ $statusIconBg }}">
                                         @if($isMaintenance)
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                                        @elseif($isBusy)
+                                            <svg class="w-4 h-4 text-blue-600 dark:text-blue-400 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                                         @else
                                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                                         @endif
@@ -316,10 +320,10 @@
                                     <div class="truncate">
                                         <span class="inline-flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wider text-slate-700 dark:text-zinc-300">
                                             <span class="w-2 h-2 rounded-full {{ $dotLed }}"></span>
-                                            {{ strtoupper($machine->status) }}
+                                            {{ $isBusy ? ($machine->status === 'idle' ? 'IN USE' : strtoupper($machine->status)) : 'IDLE' }}
                                         </span>
                                         <span class="block text-[10px] text-slate-500 dark:text-zinc-400 font-medium truncate">
-                                            {{ $machine->status === 'idle' ? 'Available' : ($machine->remaining_minutes ? $machine->remaining_minutes.'m remaining' : 'In Service') }}
+                                            {{ $isBusy ? ($machine->remaining_minutes ? $machine->remaining_minutes.'m remaining' : 'In Service') : 'Available' }}
                                         </span>
                                     </div>
                                 </div>

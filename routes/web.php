@@ -122,7 +122,14 @@ Route::get('/dashboard', function () {
         $idleWashers = (int) ceil($totalIdle / 2);
         $idleDryers = (int) floor($totalIdle / 2);
     }
-    $availableMachinesCount = Machine::where('status', 'idle')->count();
+    $availableMachinesCount = Machine::where('status', 'idle')
+        ->where(function ($q) {
+            $q->whereNull('current_order_id')
+                ->orWhereDoesntHave('currentOrder', function ($sub) {
+                    $sub->whereNotIn('order_status', ['completed', 'cancelled', 'finish']);
+                });
+        })
+        ->count();
     $storeStatus = Cache::get('store_status', 'open');
 
     return view('dashboard', compact('user', 'activeOrder', 'recentOrders', 'notifications', 'machines', 'idleWashers', 'idleDryers', 'availableMachinesCount', 'storeStatus'));
