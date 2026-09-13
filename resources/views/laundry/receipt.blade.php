@@ -9,42 +9,40 @@
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         @media print {
-            body { background: #fff !important; color: #000 !important; }
+            body { background: #fff !important; color: #000 !important; padding: 0 !important; }
             .no-print { display: none !important; }
-            .printable-card { border: none !important; shadow: none !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; }
+            .printable-card { border: none !important; box-shadow: none !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; }
         }
         body { font-family: 'Space Mono', monospace; }
     </style>
 </head>
-<body class="bg-slate-100 text-slate-900 min-h-screen flex flex-col items-center justify-center p-4">
+<body class="bg-slate-100 dark:bg-zinc-900 text-slate-900 dark:text-slate-100 min-h-screen flex flex-col items-center justify-center p-2 sm:p-3">
 
-    
-    <div class="no-print mb-4 flex gap-3">
+    <div class="no-print mb-2 flex items-center gap-2">
         @if(auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isOwner() || auth()->user()->isStaff()))
-            <button onclick="window.print()" class="bg-blue-600 text-white px-5 py-2.5 rounded-lg text-xs font-bold shadow-md hover:bg-blue-700 transition flex items-center gap-2 cursor-pointer">
+            <button onclick="window.print()" class="bg-blue-600 text-white px-3.5 py-1.5 rounded-md text-[11px] font-bold shadow-sm hover:bg-blue-700 transition flex items-center gap-1.5 cursor-pointer">
                 🖨 Print Official Thermal Receipt
             </button>
         @endif
-        <button onclick="window.close()" class="bg-slate-200 text-slate-700 px-4 py-2.5 rounded-lg text-xs font-bold hover:bg-slate-300 transition cursor-pointer">
-            Close Window
+        <button onclick="if(window.opener) { window.close(); } else if(window.history.length > 1) { window.history.back(); } else { window.close(); }" class="bg-slate-200 dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 px-3 py-1.5 rounded-md text-[11px] font-bold hover:bg-slate-300 dark:hover:bg-zinc-700 transition cursor-pointer">
+            ✕ Close Window
         </button>
     </div>
 
-    
-    <div class="printable-card max-w-sm w-full bg-white p-6 rounded-lg shadow-sm border border-slate-200 text-slate-900 space-y-4">
-        
+    <div class="printable-card max-w-sm w-full bg-white dark:bg-[#18181B] p-3.5 sm:p-4 rounded-lg shadow-sm border border-slate-200 dark:border-zinc-800 text-slate-900 dark:text-zinc-100 space-y-2 text-[10.5px]">
+
         <!-- Receipt Header -->
-        <div class="text-center space-y-1 border-b border-dashed border-slate-300 pb-4">
-            <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-14 h-14 mx-auto mb-1.5 rounded-full object-cover shadow-sm p-0.5 border border-slate-200 bg-white">
-            <h1 class="text-xl font-black tracking-wide uppercase text-slate-900 font-sans leading-none">
+        <div class="text-center space-y-0.5 border-b border-dashed border-slate-300 dark:border-zinc-700 pb-2">
+            <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-10 h-10 mx-auto mb-1 rounded-full object-cover shadow-sm p-0.5 border border-slate-200 dark:border-zinc-700 bg-white">
+            <h1 class="text-base font-black tracking-wide uppercase text-slate-900 dark:text-white font-sans leading-none">
                 HOUR WASH LAUNDRY
             </h1>
-            <p class="text-[11px] font-bold font-sans text-slate-700 leading-tight">Laundry Shop Management System</p>
-            <p class="text-[10.5px] text-slate-600 font-sans leading-tight">Magallanes St., Orosite, Legazpi City, Albay</p>
-            <p class="text-[10px] text-slate-500 font-sans">Email: karlnicko2019@gmail.com | Mobile: 09123456789</p>
+            <p class="text-[10px] font-bold font-sans text-slate-700 dark:text-zinc-300 leading-tight">Laundry Shop Management System</p>
+            <p class="text-[9.5px] text-slate-600 dark:text-zinc-400 leading-tight">Magallanes St., Orosite, Legazpi City, Albay</p>
+            <p class="text-[9px] text-slate-500 dark:text-zinc-500 font-sans">Email: karlnicko2019@gmail.com | Mobile: 09123456789</p>
         </div>
 
         @php
@@ -68,8 +66,8 @@
             }
         @endphp
 
-        
-        <div class="text-[11px] space-y-1 border-b border-dashed border-slate-300 pb-3">
+        <!-- Receipt Order Meta -->
+        <div class="space-y-0.5 border-b border-dashed border-slate-300 dark:border-zinc-700 pb-2">
             <div class="flex justify-between">
                 <span>RECEIPT NO:</span>
                 <span class="font-bold">#{{ $order->order_number }}</span>
@@ -86,21 +84,21 @@
                 <span>CUSTOMER PHONE:</span>
                 <span class="font-bold">{{ $order->customer->phone ?? ($order->customer->customerProfile->phone ?? 'N/A') }}</span>
             </div>
-            <div class="flex justify-between text-blue-700">
+            <div class="flex justify-between text-blue-600 dark:text-blue-400">
                 <span>PROCESSED BY:</span>
                 <span class="font-bold">{{ $processorName }}</span>
             </div>
             <div class="flex justify-between">
                 <span>ASSIGNED MACHINE:</span>
-                <span class="font-bold text-slate-900 font-mono">
+                <span class="font-bold font-mono">
                     {{ $order->machine ? $order->machine->machine_name . ' (' . $order->machine->machine_code . ')' : 'UNASSIGNED (AUTO-ASSIGN)' }}
                 </span>
             </div>
         </div>
 
-        
-        <div class="text-[11px] space-y-2 border-b border-dashed border-slate-300 pb-3">
-            <div class="flex justify-between font-bold text-slate-700 border-b border-slate-200 pb-1">
+        <!-- Receipt Line Items -->
+        <div class="space-y-1 border-b border-dashed border-slate-300 dark:border-zinc-700 pb-2">
+            <div class="flex justify-between font-bold text-slate-700 dark:text-zinc-300 border-b border-slate-200 dark:border-zinc-800 pb-0.5">
                 <span>DESCRIPTION</span>
                 <span>QTY / AMT</span>
             </div>
@@ -108,7 +106,7 @@
             <div class="flex justify-between">
                 <div>
                     <span class="font-bold block">{{ $order->service->name ?? 'Standard Laundry Service' }}</span>
-                    <span class="text-[10px] text-slate-500">{{ $order->weight_kg }} kg @ ₱{{ number_format($order->service->price ?? 120, 2) }}/kg</span>
+                    <span class="text-[9.5px] text-slate-500 dark:text-zinc-400">{{ $order->weight_kg }} kg @ ₱{{ number_format($order->service->price ?? 120, 2) }}/kg</span>
                 </div>
                 <span class="font-bold">₱{{ number_format($order->subtotal, 2) }}</span>
             </div>
@@ -121,41 +119,41 @@
             @endif
 
             @if($order->discount > 0)
-                <div class="flex justify-between text-emerald-600">
+                <div class="flex justify-between text-emerald-600 dark:text-emerald-400">
                     <span>Voucher Discount</span>
                     <span>-₱{{ number_format($order->discount, 2) }}</span>
                 </div>
             @endif
         </div>
 
-        
-        <div class="text-[11px] space-y-1.5 border-b border-dashed border-slate-300 pb-3">
-            <div class="flex justify-between text-sm font-bold pt-1">
+        <!-- Total Amount & Payment Status -->
+        <div class="space-y-1 border-b border-dashed border-slate-300 dark:border-zinc-700 pb-2">
+            <div class="flex justify-between text-xs font-bold pt-0.5">
                 <span>TOTAL AMOUNT:</span>
-                <span class="text-base text-slate-900">₱{{ number_format($order->total_amount, 2) }}</span>
+                <span class="text-sm font-extrabold text-slate-900 dark:text-white">₱{{ number_format($order->total_amount, 2) }}</span>
             </div>
             <div class="flex justify-between">
                 <span>PAYMENT STATUS:</span>
-                <span class="font-bold uppercase {{ $order->payment_status === 'paid' ? 'text-emerald-600' : 'text-amber-600' }}">
+                <span class="font-bold uppercase {{ $order->payment_status === 'paid' ? 'text-emerald-600 dark:text-emerald-400' : 'text-amber-600 dark:text-amber-400' }}">
                     {{ strtoupper($order->payment_status) }} (CASHIER)
                 </span>
             </div>
         </div>
 
         <!-- Receipt Bottom QR & Footer Info -->
-        <div class="text-center pt-3 space-y-2.5 border-t border-dashed border-slate-300 mt-2">
-            <div class="w-32 h-32 mx-auto bg-white p-1.5 border border-slate-300 rounded-lg flex items-center justify-center shadow-sm">
+        <div class="text-center pt-2 space-y-1.5 border-t border-dashed border-slate-300 dark:border-zinc-700 mt-1">
+            <div class="w-20 h-20 mx-auto bg-white p-1 border border-slate-300 dark:border-zinc-700 rounded-md flex items-center justify-center shadow-sm">
                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ $order->qrCode->qr_token ?? $order->order_number }}" 
                      alt="Order QR Tag {{ $order->order_number }}" 
                      class="w-full h-full">
             </div>
-            <p class="text-[10px] text-slate-500">Scan QR Code tag to view live cleaning progress</p>
+            <p class="text-[9px] text-slate-500 dark:text-zinc-400">Scan QR Code tag to view live cleaning progress</p>
 
-            <div class="pt-2 flex flex-col items-center justify-center space-y-1">
-                <div class="w-7 h-7 bg-blue-600 rounded-full flex items-center justify-center shadow-sm overflow-hidden p-0.5 border border-blue-500/30">
+            <div class="pt-1 flex flex-col items-center justify-center space-y-0.5">
+                <div class="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center shadow-sm overflow-hidden p-0.5 border border-blue-500/30">
                     <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-full h-full object-cover rounded-full">
                 </div>
-                <p class="text-[11px] font-bold text-slate-800 font-sans">Thank you for washing with HourWash!</p>
+                <p class="text-[10px] font-bold text-slate-800 dark:text-zinc-200 font-sans">Thank you for washing with HourWash!</p>
             </div>
         </div>
 

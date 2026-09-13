@@ -97,7 +97,7 @@
                             <a href="{{ route('laundry.track', $order->qrCode->qr_token ?? $order->order_number) }}" class="btn-secondary text-xs">
                                 Track Order
                             </a>
-                            <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-3 py-2 rounded-lg text-xs font-bold hover:opacity-90 transition flex items-center gap-1.5 shadow-sm">
+                            <a href="{{ route('laundry.receipt', $order->id) }}" onclick="event.preventDefault(); window.open(this.href, 'ReceiptPopup', 'width=420,height=640,left=' + ((screen.width - 420) / 2) + ',top=' + ((screen.height - 640) / 2));" class="bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-3 py-2 rounded-lg text-xs font-bold hover:opacity-90 transition flex items-center gap-1.5 shadow-sm">
                                 Receipt
                             </a>
                             <span class="px-2.5 py-1 rounded-md text-[10px] font-extrabold uppercase tracking-wider {{ $order->payment_status === 'paid' ? 'bg-emerald-600 text-white border border-emerald-700 shadow-sm' : 'bg-red-600 text-white border border-red-700 shadow-sm' }}">

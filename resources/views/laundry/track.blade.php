@@ -17,11 +17,11 @@
 
         <div class="flex flex-wrap items-center gap-1.5 w-full sm:w-auto">
             @if(auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isOwner() || auth()->user()->isStaff()))
-                <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="flex-1 sm:flex-none text-center px-2.5 py-1 rounded-md bg-blue-600 text-white text-[11px] font-bold hover:bg-blue-700 transition shadow-sm">
+                <a href="{{ route('laundry.receipt', $order->id) }}" onclick="event.preventDefault(); window.open(this.href, 'ReceiptPopup', 'width=420,height=640,left=' + ((screen.width - 420) / 2) + ',top=' + ((screen.height - 640) / 2));" class="flex-1 sm:flex-none text-center px-2.5 py-1 rounded-md bg-blue-600 text-white text-[11px] font-bold hover:bg-blue-700 transition shadow-sm">
                     Print Thermal Receipt
                 </a>
             @else
-                <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="flex-1 sm:flex-none text-center px-2.5 py-1 rounded-md bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-[11px] font-bold hover:opacity-90 transition shadow-sm">
+                <a href="{{ route('laundry.receipt', $order->id) }}" onclick="event.preventDefault(); window.open(this.href, 'ReceiptPopup', 'width=420,height=640,left=' + ((screen.width - 420) / 2) + ',top=' + ((screen.height - 640) / 2));" class="flex-1 sm:flex-none text-center px-2.5 py-1 rounded-md bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-[11px] font-bold hover:opacity-90 transition shadow-sm">
                     View Digital Receipt
                 </a>
             @endif
