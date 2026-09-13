@@ -36,7 +36,7 @@
                 </button>
             </div>
 
-            <div x-show="showGuide" x-collapse class="space-y-4 pt-2 border-t border-slate-200 dark:border-zinc-700 text-xs">
+            <div x-show="showGuide" x-transition class="space-y-4 pt-2 border-t border-slate-200 dark:border-zinc-700 text-xs">
                 <!-- Dryer Buttons -->
                 <div class="space-y-2">
                     <h4 class="font-extrabold text-blue-600 dark:text-blue-400 flex items-center gap-1.5 text-[11px] uppercase tracking-wider">
