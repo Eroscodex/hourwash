@@ -1,48 +1,48 @@
 <x-app-layout>
-    <div class="space-y-6 sm:space-y-8">
+    <div class="space-y-3.5">
 
         <!-- Header -->
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-                <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white">
+                <h1 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
                     User Accounts & Directory
                 </h1>
-                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
+                <p class="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
                     Manage store owners, administrators, staff specialists, dispatch riders, and customer accounts.
                 </p>
             </div>
 
-            <button onclick="document.getElementById('add-user-modal').classList.remove('hidden')" class="btn-primary w-full sm:w-fit text-center flex items-center justify-center gap-1.5 shadow-sm">
+            <button onclick="document.getElementById('add-user-modal').classList.remove('hidden')" class="btn-primary w-full sm:w-fit text-center flex items-center justify-center gap-1.5 py-1.5 px-3 text-xs shadow-sm">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
                 Add User Account
             </button>
         </div>
 
         @if(session('success'))
-            <div class="p-4 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 text-xs font-semibold">
+            <div class="px-3.5 py-2 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-700 dark:text-emerald-400 text-xs font-semibold">
                 {{ session('success') }}
             </div>
         @endif
 
         <!-- Summary KPI Cards -->
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
-            <a href="{{ route('admin.users.index') }}" class="card-accent-blue p-4 flex items-center justify-between shadow-sm hover:border-blue-600 transition">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2.5">
+            <a href="{{ route('admin.users.index') }}" class="card-accent-blue p-3 flex items-center justify-between shadow-sm hover:border-blue-600 transition">
                 <div>
-                    <span class="text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider block">Total Users</span>
-                    <span class="text-xs text-slate-500 dark:text-slate-400">All Accounts</span>
+                    <span class="text-[9.5px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider block">Total Users</span>
+                    <span class="text-[11px] text-slate-500 dark:text-slate-400">All Accounts</span>
                 </div>
-                <span class="text-2xl font-black text-blue-600 dark:text-blue-400 font-mono">{{ $totalUsers }}</span>
+                <span class="text-xl font-black text-blue-600 dark:text-blue-400 font-mono">{{ $totalUsers }}</span>
             </a>
-            <a href="{{ route('admin.users.index', ['role' => 'admin']) }}" class="card-accent-rose p-4 flex items-center justify-between shadow-sm hover:border-rose-600 transition">
+            <a href="{{ route('admin.users.index', ['role' => 'admin']) }}" class="card-accent-rose p-3 flex items-center justify-between shadow-sm hover:border-rose-600 transition">
                 <div>
-                    <span class="text-[10px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider block">Owners & Admins</span>
-                    <span class="text-xs text-slate-500 dark:text-slate-400">Management</span>
+                    <span class="text-[9.5px] font-bold text-rose-600 dark:text-rose-400 uppercase tracking-wider block">Owners & Admins</span>
+                    <span class="text-[11px] text-slate-500 dark:text-slate-400">Management</span>
                 </div>
-                <span class="text-2xl font-black text-rose-600 dark:text-rose-400 font-mono">{{ $adminCount }}</span>
+                <span class="text-xl font-black text-rose-600 dark:text-rose-400 font-mono">{{ $adminCount }}</span>
             </a>
-            <a href="{{ route('admin.users.index', ['role' => 'staff']) }}" class="card-accent-amber p-4 flex items-center justify-between shadow-sm hover:border-amber-600 transition">
+            <a href="{{ route('admin.users.index', ['role' => 'staff']) }}" class="card-accent-amber p-3 flex items-center justify-between shadow-sm hover:border-amber-600 transition">
                 <div>
-                    <span class="text-[10px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider block">Staff Accounts</span>
+                    <span class="text-[9.5px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider block">Staff Accounts</span>
                     <span class="text-xs text-slate-500 dark:text-slate-400">Operators</span>
                 </div>
                 <span class="text-2xl font-black text-amber-600 dark:text-amber-400 font-mono">{{ $staffCount }}</span>

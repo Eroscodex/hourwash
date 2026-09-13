@@ -1,10 +1,10 @@
 <x-app-layout>
 
-    <div class="space-y-6">
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div class="space-y-3.5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-                <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white">Store Orders & Cashier Queue</h1>
-                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">Manage active laundry stages, process cashier payments, and print store receipts.</p>
+                <h1 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">Store Orders & Cashier Queue</h1>
+                <p class="text-xs text-slate-600 dark:text-slate-400 mt-0.5">Manage active laundry stages, process cashier payments, and print store receipts.</p>
             </div>
             <div class="grid grid-cols-2 sm:flex sm:items-center gap-2 w-full sm:w-auto">
                 <button type="button" onclick="openAdminCameraScanner()" class="btn-primary text-xs py-1.5 px-3 whitespace-nowrap flex items-center justify-center gap-1.5 w-full sm:w-auto text-white cursor-pointer">
@@ -47,30 +47,30 @@
         </div>
 
         @if(session('success'))
-            <div class="bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 px-4 py-3 rounded-lg text-xs font-semibold">
+            <div class="bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 px-3.5 py-2 rounded-lg text-xs font-semibold">
                 {{ session('success') }}
             </div>
         @endif
 
         <!-- Filter Tabs for Admin History Management -->
-        <div class="flex flex-wrap items-center gap-2 border-b border-slate-200 dark:border-zinc-800 pb-3" x-data="{ adminTab: 'all' }">
-            <button type="button" @click="adminTab = 'all'; filterAdminOrders('all')" :class="adminTab === 'all' ? 'bg-blue-600 text-white font-bold' : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-200'" class="px-3.5 py-1.5 rounded-lg text-xs transition border border-slate-200 dark:border-zinc-700 cursor-pointer">
+        <div class="flex flex-wrap items-center gap-1.5 border-b border-slate-200 dark:border-zinc-800 pb-2" x-data="{ adminTab: 'all' }">
+            <button type="button" @click="adminTab = 'all'; filterAdminOrders('all')" :class="adminTab === 'all' ? 'bg-blue-600 text-white font-bold' : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-200'" class="px-3 py-1 rounded-lg text-xs transition border border-slate-200 dark:border-zinc-700 cursor-pointer">
                 All Orders ({{ $orders->count() }})
             </button>
-            <button type="button" @click="adminTab = 'active'; filterAdminOrders('active')" :class="adminTab === 'active' ? 'bg-blue-600 text-white font-bold' : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-200'" class="px-3.5 py-1.5 rounded-lg text-xs transition border border-slate-200 dark:border-zinc-700 cursor-pointer">
+            <button type="button" @click="adminTab = 'active'; filterAdminOrders('active')" :class="adminTab === 'active' ? 'bg-blue-600 text-white font-bold' : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-200'" class="px-3 py-1 rounded-lg text-xs transition border border-slate-200 dark:border-zinc-700 cursor-pointer">
                 Active Queue ({{ $orders->whereNotIn('order_status', ['completed', 'cancelled'])->count() }})
             </button>
-            <button type="button" @click="adminTab = 'completed'; filterAdminOrders('completed')" :class="adminTab === 'completed' ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-200'" class="px-3.5 py-1.5 rounded-lg text-xs transition border border-slate-200 dark:border-zinc-700 cursor-pointer">
+            <button type="button" @click="adminTab = 'completed'; filterAdminOrders('completed')" :class="adminTab === 'completed' ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-200'" class="px-3 py-1 rounded-lg text-xs transition border border-slate-200 dark:border-zinc-700 cursor-pointer">
                 Completed History Log ({{ $orders->where('order_status', 'completed')->count() }})
             </button>
-            <button type="button" @click="adminTab = 'cancelled'; filterAdminOrders('cancelled')" :class="adminTab === 'cancelled' ? 'bg-rose-600 text-white font-bold' : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-200'" class="px-3.5 py-1.5 rounded-lg text-xs transition border border-slate-200 dark:border-zinc-700 cursor-pointer">
+            <button type="button" @click="adminTab = 'cancelled'; filterAdminOrders('cancelled')" :class="adminTab === 'cancelled' ? 'bg-rose-600 text-white font-bold' : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-200'" class="px-3 py-1 rounded-lg text-xs transition border border-slate-200 dark:border-zinc-700 cursor-pointer">
                 Cancelled History Log ({{ $orders->where('order_status', 'cancelled')->count() }})
             </button>
         </div>
 
-        <div class="space-y-4 pb-64">
+        <div class="space-y-3 pb-32">
             @forelse($orders as $order)
-                <div data-status="{{ $order->order_status }}" class="app-card p-5 space-y-4 shadow-sm hover:border-blue-600/30 transition admin-order-card">
+                <div data-status="{{ $order->order_status }}" class="app-card p-3.5 sm:p-4 space-y-3 shadow-sm hover:border-blue-600/30 transition admin-order-card">
                     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:dark:border-zinc-700 pb-3">
                         <div class="flex items-center gap-4">
                             <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data={{ $order->qrCode->qr_token ?? $order->order_number }}"

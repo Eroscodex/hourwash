@@ -1,12 +1,12 @@
 <x-app-layout>
-    <div class="space-y-6 sm:space-y-8">
+    <div class="space-y-3.5">
 
-        <header class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <header class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-                <h1 class="text-xl sm:text-2xl lg:text-3xl font-bold text-slate-900 dark:text-white">
+                <h1 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
                     Welcome back, {{ auth()->user()->name }}!
                 </h1>
-                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1">
+                <p class="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
                     Manage your laundry bookings, track live orders, and check machine availability.
                 </p>
             </div>

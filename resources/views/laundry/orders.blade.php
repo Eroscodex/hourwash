@@ -1,39 +1,39 @@
 <x-app-layout>
 
-<div class="space-y-6">
+<div class="space-y-3.5">
 
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-            <h1 class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">My Order History</h1>
-            <p class="text-xs sm:text-sm text-slate-600 dark:text-zinc-400 mt-1">Review all your current and past laundry bookings, track status, and submit feedback.</p>
+            <h1 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">My Order History</h1>
+            <p class="text-xs text-slate-600 dark:text-zinc-400 mt-0.5">Review all your current and past laundry bookings, track status, and submit feedback.</p>
         </div>
         @if(\Illuminate\Support\Facades\Cache::get('store_status', 'open') === 'open' || (auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isOwner() || auth()->user()->isStaff())))
-            <a href="{{ route('laundry.create') }}" class="btn-primary py-2 px-4 text-xs font-bold w-full sm:w-auto text-center flex items-center justify-center shrink-0">Book New Order</a>
+            <a href="{{ route('laundry.create') }}" class="btn-primary py-1.5 px-3 text-xs font-bold w-full sm:w-auto text-center flex items-center justify-center shrink-0">Book New Order</a>
         @else
-            <button disabled class="opacity-65 bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30 px-4 py-2 rounded-lg text-xs font-bold cursor-not-allowed inline-flex items-center justify-center gap-1.5 w-full sm:w-auto shrink-0">
+            <button disabled class="opacity-65 bg-rose-500/15 text-rose-600 dark:text-rose-400 border border-rose-500/30 px-3 py-1.5 rounded-lg text-xs font-bold cursor-not-allowed inline-flex items-center justify-center gap-1.5 w-full sm:w-auto shrink-0">
                 🚫 Store Closed Today (Bookings Disabled)
             </button>
         @endif
     </div>
 
     <!-- Filter Tabs for Customer History Management -->
-    <div class="flex flex-wrap items-center gap-2 border-b border-slate-200 dark:border-zinc-800 pb-3" x-data="{ activeTab: 'all' }">
-        <button type="button" @click="activeTab = 'all'; filterOrders('all')" :class="activeTab === 'all' ? 'bg-blue-600 text-white font-bold' : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-200'" class="px-3.5 py-1.5 rounded-lg text-xs transition border border-slate-200 dark:border-zinc-700 cursor-pointer">
+    <div class="flex flex-wrap items-center gap-1.5 border-b border-slate-200 dark:border-zinc-800 pb-2" x-data="{ activeTab: 'all' }">
+        <button type="button" @click="activeTab = 'all'; filterOrders('all')" :class="activeTab === 'all' ? 'bg-blue-600 text-white font-bold' : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-200'" class="px-3 py-1 rounded-lg text-xs transition border border-slate-200 dark:border-zinc-700 cursor-pointer">
             All Orders ({{ $orders->count() }})
         </button>
-        <button type="button" @click="activeTab = 'active'; filterOrders('active')" :class="activeTab === 'active' ? 'bg-blue-600 text-white font-bold' : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-200'" class="px-3.5 py-1.5 rounded-lg text-xs transition border border-slate-200 dark:border-zinc-700 cursor-pointer">
+        <button type="button" @click="activeTab = 'active'; filterOrders('active')" :class="activeTab === 'active' ? 'bg-blue-600 text-white font-bold' : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-200'" class="px-3 py-1 rounded-lg text-xs transition border border-slate-200 dark:border-zinc-700 cursor-pointer">
             Active Orders ({{ $orders->whereNotIn('order_status', ['completed', 'cancelled'])->count() }})
         </button>
-        <button type="button" @click="activeTab = 'completed'; filterOrders('completed')" :class="activeTab === 'completed' ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-200'" class="px-3.5 py-1.5 rounded-lg text-xs transition border border-slate-200 dark:border-zinc-700 cursor-pointer">
+        <button type="button" @click="activeTab = 'completed'; filterOrders('completed')" :class="activeTab === 'completed' ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-200'" class="px-3 py-1 rounded-lg text-xs transition border border-slate-200 dark:border-zinc-700 cursor-pointer">
             Completed History ({{ $orders->where('order_status', 'completed')->count() }})
         </button>
-        <button type="button" @click="activeTab = 'cancelled'; filterOrders('cancelled')" :class="activeTab === 'cancelled' ? 'bg-rose-600 text-white font-bold' : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-200'" class="px-3.5 py-1.5 rounded-lg text-xs transition border border-slate-200 dark:border-zinc-700 cursor-pointer">
+        <button type="button" @click="activeTab = 'cancelled'; filterOrders('cancelled')" :class="activeTab === 'cancelled' ? 'bg-rose-600 text-white font-bold' : 'bg-slate-100 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-200'" class="px-3 py-1 rounded-lg text-xs transition border border-slate-200 dark:border-zinc-700 cursor-pointer">
             Cancelled History ({{ $orders->where('order_status', 'cancelled')->count() }})
         </button>
     </div>
 
     @forelse($orders as $order)
-        <div data-status="{{ $order->order_status }}" class="app-card p-5 space-y-4 shadow-sm hover:border-blue-600/40 transition customer-order-card">
+        <div data-status="{{ $order->order_status }}" class="app-card p-3.5 sm:p-4 space-y-3 shadow-sm hover:border-blue-600/40 transition customer-order-card">
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-zinc-800 pb-3">
                 <div>
                     <div class="flex flex-wrap items-center gap-2">
