@@ -61,7 +61,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 text-xs">
+            <div class="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-6 gap-3 text-xs">
                 <div>
                     <span class="text-slate-500 dark:text-zinc-400 text-[11px] block">Laundry Weight</span>
                     <p class="text-slate-900 dark:text-zinc-100 font-semibold">{{ $order->weight_kg }} kg</p>
@@ -80,17 +80,17 @@
                     <span class="text-slate-500 dark:text-zinc-400 text-[11px] block">Est. Completion</span>
                     <p class="text-slate-900 dark:text-zinc-200 font-semibold">{{ $order->estimated_completion?->format('M d, Y h:i A') ?? 'TBD' }}</p>
                 </div>
-                <div class="col-span-2 sm:col-span-1">
+                <div class="col-span-2 sm:col-span-2 lg:col-span-2">
                     <span class="text-slate-500 dark:text-zinc-400 text-[11px] block">Tracking & Receipt</span>
-                    <div class="flex items-center gap-2 mt-1">
-                        <a href="{{ route('laundry.track', $order->qrCode->qr_token ?? $order->order_number) }}" class="btn-primary px-3 py-1.5 text-[11px] font-bold inline-flex items-center gap-1 shadow-sm">
+                    <div class="flex items-center gap-1.5 mt-1 flex-wrap sm:flex-nowrap">
+                        <a href="{{ route('laundry.track', $order->qrCode->qr_token ?? $order->order_number) }}" class="btn-primary px-2.5 py-1.5 text-[11px] font-bold inline-flex items-center gap-1 shadow-sm whitespace-nowrap">
                             Track Order
                         </a>
-                        <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="btn-secondary px-3 py-1.5 text-[11px] font-bold inline-flex items-center gap-1 shadow-sm">
+                        <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="btn-secondary px-2.5 py-1.5 text-[11px] font-bold inline-flex items-center gap-1 shadow-sm whitespace-nowrap">
                             Receipt
                         </a>
                         @if(in_array($order->order_status, ['pending', 'cancelled']))
-                            <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'cust-delete-order-{{ $order->id }}')" class="btn-danger px-2.5 py-1.5 text-[11px] font-bold shadow-sm cursor-pointer" title="Delete Order">
+                            <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'cust-delete-order-{{ $order->id }}')" class="btn-danger px-2.5 py-1.5 text-[11px] font-bold shadow-sm cursor-pointer whitespace-nowrap" title="Delete Order">
                                 Delete
                             </button>
 
