@@ -245,13 +245,13 @@
 
                             <div class="relative inline-block" @click.outside="machineOpen = false">
                                 <button type="button" @click="machineOpen = !machineOpen; statusOpen = false; paymentOpen = false;" class="h-9 min-w-[210px] py-1 px-3 text-xs rounded-lg font-medium bg-white dark:bg-[#18181B] border border-slate-300 dark:border-zinc-700 text-slate-900 dark:text-zinc-100 flex items-center justify-between gap-2 shadow-sm">
-                                    <span class="truncate" x-text="machineVal ? ({{ json_encode($allMachineMap) }}[machineVal] || '-- Assign Machine --') : '-- Assign Machine --'"></span>
+                                    <span class="truncate" x-text="machineVal ? ({{ json_encode($allMachineMap) }}[machineVal] || '-- Auto-Assign (Live Monitor) --') : '-- Auto-Assign (Live Monitor) --'"></span>
                                     <svg class="w-3.5 h-3.5 text-slate-500 shrink-0 transition-transform duration-200" :class="machineOpen ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                                 </button>
 
                                 <div x-show="machineOpen" x-cloak x-transition class="absolute z-50 top-full left-0 mt-1 min-w-[230px] w-full bg-white dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700 rounded-lg shadow-xl max-h-60 overflow-y-auto py-1 divide-y divide-slate-100 dark:divide-zinc-800/60">
                                     <button type="button" @click="machineVal = ''; machineOpen = false;" class="w-full text-left px-3.5 py-2 text-xs font-semibold text-slate-500 hover:bg-slate-100 dark:hover:bg-zinc-800">
-                                        -- No Machine Assigned --
+                                        -- Auto-Assign First Available Unit --
                                     </button>
 
                                     @if(count($availableM) > 0)

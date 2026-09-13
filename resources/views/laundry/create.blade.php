@@ -210,9 +210,9 @@
                     <div class="relative" x-data="{
                         open: false,
                         selectedId: '{{ old('machine_id', '') }}',
-                        selectedLabel: '-- Auto-Assign First Available Idle Machine --',
+                        selectedLabel: '-- Auto-Assign First Available Idle Machine (Connected to Live Monitor) --',
                         machines: [
-                            { id: '', label: '-- Auto-Assign First Available Idle Machine --' },
+                            { id: '', label: '-- Auto-Assign First Available Idle Machine (Connected to Live Monitor) --' },
                             @foreach($availableMachines ?? [] as $mach)
                                 { id: '{{ $mach->id }}', label: '{{ $mach->machine_name }} ({{ $mach->machine_code }}) • Idle & Ready' },
                             @endforeach

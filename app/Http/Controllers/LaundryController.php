@@ -386,9 +386,12 @@ class LaundryController extends Controller
                 return redirect()->route('laundry.track', ['qr' => $cleanTrackingToken])->with('success', $successMsg);
             }
 
+            $totalMachinesCount = Machine::count();
+            $availableMachinesCount = Machine::where('status', 'idle')->count();
+
             return view(
                 'laundry.track',
-                compact('order')
+                compact('order', 'totalMachinesCount', 'availableMachinesCount')
             );
         } catch (\Throwable $e) {
             Log::error('Order tracking view error: '.$e->getMessage(), ['trace' => $e->getTraceAsString()]);

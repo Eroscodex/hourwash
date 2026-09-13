@@ -277,20 +277,43 @@
                 <!-- Single Combined Live Machine & Completion Card -->
                 <div class="p-2.5 rounded-lg bg-slate-900 text-white space-y-2 shadow-sm border border-slate-800">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-1">
-                        <span class="text-[9.5px] font-extrabold uppercase tracking-wider text-blue-400">MACHINE & DISPATCH STATUS</span>
-                        <span class="text-[9.5px] font-mono text-emerald-400 font-bold">● LIVE</span>
+                        <span class="text-[9.5px] font-extrabold uppercase tracking-wider text-blue-400 flex items-center gap-1">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                            LIVE STORE MACHINE MONITOR
+                        </span>
+                        <span class="text-[9.5px] font-mono text-emerald-400 font-bold flex items-center gap-1">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+                            ● ONLINE
+                        </span>
                     </div>
 
                     @php
                         $assignedUnitLabel = match(true) {
                             $order->machine !== null => $order->machine->machine_name . ' (' . $order->machine->machine_code . ')',
+                            $isFoldOnly => 'No Machine Needed (Fold Only)',
+                            in_array($order->order_status, ['finish', 'completed', 'cancelled']) => 'No Machine Needed (Done)',
                             $order->order_status === 'out_for_pickup' => 'Rider Pickup Dispatch',
                             $order->order_status === 'picked_up' => 'In Transit to Shop',
                             $order->order_status === 'received' => 'Store Intake / Queued',
                             $order->order_status === 'out_for_delivery' => 'Rider Delivery Dispatch',
                             $order->order_status === 'delivered' => 'Delivered to Customer',
-                            $order->order_status === 'completed' => 'Completed & Archived',
-                            default => 'Auto-Assign on Wash',
+                            default => 'Auto-Assigns Next Available Unit',
+                        };
+
+                        $machineStatusLabel = match(true) {
+                            $order->machine !== null && $order->machine->status === 'washing' => 'WASHING CYCLE',
+                            $order->machine !== null && $order->machine->status === 'rinsing' => 'RINSING CYCLE',
+                            $order->machine !== null && $order->machine->status === 'drying' => 'DRYING CYCLE',
+                            $order->machine !== null => 'UNIT IDLE & BOUND',
+                            $isFoldOnly || in_array($order->order_status, ['finish', 'completed', 'cancelled']) => 'UNASSIGNED (FOLDING/DONE)',
+                            default => 'STANDBY AUTO-ASSIGN',
+                        };
+
+                        $machineLedClass = match(true) {
+                            $order->machine !== null && $order->machine->status === 'washing' => 'bg-teal-500 animate-pulse',
+                            $order->machine !== null && $order->machine->status === 'rinsing' => 'bg-sky-500 animate-pulse',
+                            $order->machine !== null && $order->machine->status === 'drying' => 'bg-amber-500 animate-pulse',
+                            default => 'bg-emerald-500',
                         };
 
                         $estCompletionTime = match($order->order_status) {
@@ -304,15 +327,18 @@
                     <div class="grid grid-cols-2 gap-2 text-[11px]">
                         <div class="space-y-0.5 min-w-0">
                             <span class="text-[9.5px] text-slate-400 font-semibold block uppercase">Assigned Unit</span>
-                            <div class="font-bold text-white font-mono text-xs break-words">
-                                {{ $assignedUnitLabel }}
+                            <div class="font-bold text-white font-mono text-xs break-words flex items-center gap-1.5">
+                                <span class="w-2 h-2 rounded-full shrink-0 {{ $machineLedClass }}"></span>
+                                <span>{{ $assignedUnitLabel }}</span>
                             </div>
+                            <span class="text-[9px] text-slate-400 font-mono block">{{ $machineStatusLabel }}</span>
                         </div>
                         <div class="space-y-0.5 min-w-0">
                             <span class="text-[9.5px] text-slate-400 font-semibold block uppercase">Est. Completion</span>
                             <div class="font-bold text-amber-400 text-xs break-words">
                                 {{ $estCompletionTime }}
                             </div>
+                            <span class="text-[9px] text-emerald-400 font-mono block">Fleet: {{ $availableMachinesCount ?? 19 }} / {{ $totalMachinesCount ?? 20 }} Units Idle</span>
                         </div>
                     </div>
 
