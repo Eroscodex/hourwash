@@ -31,6 +31,23 @@ use Illuminate\Support\Facades\Schema;
 |--------------------------------------------------------------------------
 */
 Route::get('/', function () {
+    // Auto-heal & separate any active orders that share duplicate machine assignments
+    $activeOrders = Order::whereNotIn('order_status', ['completed', 'cancelled', 'finish'])
+        ->orderBy('id', 'asc')
+        ->get();
+
+    $assignedTracker = [];
+    foreach ($activeOrders as $activeOrd) {
+        if ($activeOrd->machine_id && in_array($activeOrd->machine_id, $assignedTracker)) {
+            // Duplicate detected! Re-sync to give this order its own fresh idle machine
+            $activeOrd->syncMachineAssignment();
+            $activeOrd->save();
+        }
+        if ($activeOrd->machine_id) {
+            $assignedTracker[] = $activeOrd->machine_id;
+        }
+    }
+
     // Auto-cleanup any active machines that lack an active order so Machine 5 and all idle machines correctly show IDLE / Available
     Machine::whereIn('status', ['washing', 'rinsing', 'drying'])
         ->where(function ($query) {

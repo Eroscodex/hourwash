@@ -81,15 +81,29 @@ class Order extends Model
 
         $oldMachineId = $this->machine_id;
 
+        // List of machine IDs currently occupied by OTHER active orders
+        $occupiedByOthers = Order::whereNotIn('order_status', ['completed', 'cancelled', 'finish'])
+            ->where('id', '!=', $this->id)
+            ->whereNotNull('machine_id')
+            ->pluck('machine_id')
+            ->toArray();
+
         // 1. Fold Only orders or Finished/Completed/Cancelled orders -> No Machine Needed
         if ($isFoldOnly || in_array($status, ['completed', 'cancelled', 'finish'])) {
             if ($oldMachineId) {
-                Machine::where('id', $oldMachineId)->update([
-                    'current_order_id' => null,
-                    'status' => 'idle',
-                    'remaining_minutes' => null,
-                    'last_status_update' => now(),
-                ]);
+                $otherUsingOld = Order::where('machine_id', $oldMachineId)
+                    ->where('id', '!=', $this->id)
+                    ->whereNotIn('order_status', ['completed', 'cancelled', 'finish'])
+                    ->exists();
+
+                if (! $otherUsingOld) {
+                    Machine::where('id', $oldMachineId)->update([
+                        'current_order_id' => null,
+                        'status' => 'idle',
+                        'remaining_minutes' => null,
+                        'last_status_update' => now(),
+                    ]);
+                }
             }
             $this->machine_id = null;
 
@@ -99,7 +113,7 @@ class Order extends Model
         // 2. Manual machine selection override by Staff/Admin
         if ($hasManualMachineInput) {
             if ($manualMachineId && $manualMachineId != $oldMachineId) {
-                if ($oldMachineId) {
+                if ($oldMachineId && ! in_array($oldMachineId, $occupiedByOthers)) {
                     Machine::where('id', $oldMachineId)->update([
                         'current_order_id' => null,
                         'status' => 'idle',
@@ -109,7 +123,7 @@ class Order extends Model
                 }
                 $this->machine_id = $manualMachineId;
             } elseif (! $manualMachineId) {
-                if ($oldMachineId) {
+                if ($oldMachineId && ! in_array($oldMachineId, $occupiedByOthers)) {
                     Machine::where('id', $oldMachineId)->update([
                         'current_order_id' => null,
                         'status' => 'idle',
@@ -123,14 +137,16 @@ class Order extends Model
             }
         }
 
-        // 3. Stage-based Auto Assignment (if no machine assigned yet, or stage transition requires machine type change)
+        // 3. Stage-based Auto Assignment (excluding machines occupied by other active orders)
         if (in_array($status, ['washing', 'rinsing']) || ($status === 'received' && ! $isDryOnly) || ($status === 'pending' && ! $isDryOnly)) {
             // Requires a Washer
             $currentMachine = $this->machine_id ? Machine::find($this->machine_id) : null;
-            $isCurrentWasher = $currentMachine && in_array($currentMachine->machine_type, ['washer', 'washer_dryer']);
+            $isCurrentWasherValid = $currentMachine
+                && in_array($currentMachine->machine_type, ['washer', 'washer_dryer'])
+                && ! in_array($currentMachine->id, $occupiedByOthers);
 
-            if (! $isCurrentWasher) {
-                if ($currentMachine) {
+            if (! $isCurrentWasherValid) {
+                if ($currentMachine && ! in_array($currentMachine->id, $occupiedByOthers)) {
                     $currentMachine->update([
                         'current_order_id' => null,
                         'status' => 'idle',
@@ -139,12 +155,22 @@ class Order extends Model
                     ]);
                 }
                 $availWasher = Machine::where('status', 'idle')
+                    ->where(function ($q) {
+                        $q->whereNull('current_order_id')
+                            ->orWhereDoesntHave('currentOrder', function ($sub) {
+                                $sub->whereNotIn('order_status', ['completed', 'cancelled', 'finish']);
+                            });
+                    })
+                    ->whereNotIn('id', $occupiedByOthers)
                     ->whereIn('machine_type', ['washer', 'washer_dryer'])
                     ->first();
 
                 if ($availWasher) {
                     $this->machine_id = $availWasher->id;
                     $currentMachine = $availWasher;
+                } else {
+                    $this->machine_id = null;
+                    $currentMachine = null;
                 }
             }
 
@@ -161,11 +187,12 @@ class Order extends Model
         } elseif ($status === 'drying' || ($status === 'received' && $isDryOnly) || ($status === 'pending' && $isDryOnly)) {
             // Requires a Dryer
             $currentMachine = $this->machine_id ? Machine::find($this->machine_id) : null;
-            $isCurrentDryer = $currentMachine && in_array($currentMachine->machine_type, ['dryer', 'washer_dryer']);
+            $isCurrentDryerValid = $currentMachine
+                && in_array($currentMachine->machine_type, ['dryer', 'washer_dryer'])
+                && ! in_array($currentMachine->id, $occupiedByOthers);
 
-            if (! $isCurrentDryer) {
-                // Release washer machine so it becomes idle for other orders
-                if ($currentMachine) {
+            if (! $isCurrentDryerValid) {
+                if ($currentMachine && ! in_array($currentMachine->id, $occupiedByOthers)) {
                     $currentMachine->update([
                         'current_order_id' => null,
                         'status' => 'idle',
@@ -174,12 +201,22 @@ class Order extends Model
                     ]);
                 }
                 $availDryer = Machine::where('status', 'idle')
+                    ->where(function ($q) {
+                        $q->whereNull('current_order_id')
+                            ->orWhereDoesntHave('currentOrder', function ($sub) {
+                                $sub->whereNotIn('order_status', ['completed', 'cancelled', 'finish']);
+                            });
+                    })
+                    ->whereNotIn('id', $occupiedByOthers)
                     ->whereIn('machine_type', ['dryer', 'washer_dryer'])
                     ->first();
 
                 if ($availDryer) {
                     $this->machine_id = $availDryer->id;
                     $currentMachine = $availDryer;
+                } else {
+                    $this->machine_id = null;
+                    $currentMachine = null;
                 }
             }
 
