@@ -16,16 +16,16 @@
                 <form method="POST" action="{{ route('admin.store-status.toggle') }}" class="w-full sm:w-auto">
                     @csrf
                     @if(($storeStatus ?? 'open') === 'open')
-                        <button type="submit" title="Click to Mark Store Closed Today" class="w-full px-2.5 py-1.5 rounded-md bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 font-extrabold text-xs whitespace-nowrap hover:bg-emerald-500/25 transition flex items-center justify-center gap-1.5 cursor-pointer">
-                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+                        <button type="submit" title="Click to Mark Store Closed Today" class="w-full px-3 py-1.5 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs whitespace-nowrap transition flex items-center justify-center gap-1.5 cursor-pointer shadow-sm border border-emerald-700">
+                            <span class="w-2 h-2 rounded-full bg-white animate-pulse shrink-0"></span>
                             <span>STORE OPEN TODAY</span>
-                            <span class="hidden xl:inline-block text-[10px] text-slate-500 dark:text-slate-400 font-normal pl-1 border-l border-emerald-500/30">(Click to Close)</span>
+                            <span class="hidden xl:inline-block text-[10px] text-emerald-100 font-normal pl-1 border-l border-emerald-500/50">(Click to Close)</span>
                         </button>
                     @else
-                        <button type="submit" title="Click to Re-open Store Today" class="w-full px-2.5 py-1.5 rounded-md bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 font-extrabold text-xs whitespace-nowrap hover:bg-rose-500/25 transition flex items-center justify-center gap-1.5 cursor-pointer">
-                            <span class="w-2 h-2 rounded-full bg-rose-500 shrink-0"></span>
+                        <button type="submit" title="Click to Re-open Store Today" class="w-full px-3 py-1.5 rounded-md bg-red-600 hover:bg-red-700 text-white font-extrabold text-xs whitespace-nowrap transition flex items-center justify-center gap-1.5 cursor-pointer shadow-sm border border-red-700">
+                            <span class="w-2 h-2 rounded-full bg-white shrink-0"></span>
                             <span>STORE CLOSED TODAY</span>
-                            <span class="hidden xl:inline-block text-[10px] text-slate-500 dark:text-slate-400 font-normal pl-1 border-l border-rose-500/30">(Click to Open)</span>
+                            <span class="hidden xl:inline-block text-[10px] text-red-100 font-normal pl-1 border-l border-red-500/50">(Click to Open)</span>
                         </button>
                     @endif
                 </form>

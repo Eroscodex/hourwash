@@ -20,7 +20,7 @@
                     {{ $totalReviews }} Total Reviews
                 </span>
                 @if($totalReviews > 0)
-                    <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-clear-reviews')" class="px-3.5 py-1.5 rounded-lg bg-rose-500/20 hover:bg-rose-500/30 text-rose-600 dark:text-rose-400 text-xs font-bold border border-rose-500/30 transition">
+                    <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-clear-reviews')" class="px-3.5 py-1.5 rounded-md bg-red-600 hover:bg-red-700 text-white text-xs font-extrabold border border-red-700 shadow-sm transition cursor-pointer">
                         Clear All Reviews
                     </button>
 
@@ -82,7 +82,7 @@
                                 {{ $fb->created_at->format('M d, Y h:i A') }} ({{ $fb->created_at->diffForHumans() }})
                             </span>
 
-                            <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'delete-review-{{ $fb->id }}')" class="text-xs text-rose-600 dark:text-rose-400 hover:underline font-semibold">
+                            <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'delete-review-{{ $fb->id }}')" class="px-2.5 py-1 rounded-md bg-red-600 hover:bg-red-700 text-white text-xs font-extrabold border border-red-700 shadow-sm transition inline-flex items-center cursor-pointer">
                                 Delete Review
                             </button>
 

@@ -16,7 +16,7 @@
                     {{ $totalDispatched }} Emails Dispatched
                 </span>
 
-                <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-clear-emails')" class="px-3 py-1.5 rounded-md bg-rose-500/20 hover:bg-rose-500/30 text-rose-600 dark:text-rose-400 text-xs font-bold border border-rose-500/30 transition cursor-pointer">
+                <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-clear-emails')" class="px-3 py-1.5 rounded-md bg-red-600 hover:bg-red-700 text-white text-xs font-extrabold border border-red-700 shadow-sm transition cursor-pointer">
                     Clear All Email History
                 </button>
 

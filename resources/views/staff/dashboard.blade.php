@@ -16,16 +16,16 @@
                 <form method="POST" action="{{ route('admin.store-status.toggle') }}" class="w-full sm:w-auto">
                     @csrf
                     @if(($storeStatus ?? 'open') === 'open')
-                        <button type="submit" title="Click to Mark Store Closed Today" class="w-full px-2.5 py-1.5 rounded-lg bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 font-extrabold text-[10px] whitespace-nowrap hover:bg-emerald-500/25 transition flex items-center justify-center gap-1.5 h-full">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
+                        <button type="submit" title="Click to Mark Store Closed Today" class="w-full px-2.5 py-1.5 rounded-md bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-[10px] whitespace-nowrap transition flex items-center justify-center gap-1.5 h-full cursor-pointer shadow-sm border border-emerald-700">
+                            <span class="w-1.5 h-1.5 rounded-full bg-white animate-pulse shrink-0"></span>
                             <span>STORE OPEN TODAY</span>
-                            <span class="hidden xl:inline-block text-[9px] text-slate-500 dark:text-slate-400 font-normal pl-1 border-l border-emerald-500/30">(Click to Close)</span>
+                            <span class="hidden xl:inline-block text-[9px] text-emerald-100 font-normal pl-1 border-l border-emerald-500/50">(Click to Close)</span>
                         </button>
                     @else
-                        <button type="submit" title="Click to Re-open Store Today" class="w-full px-2.5 py-1.5 rounded-lg bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 font-extrabold text-[10px] whitespace-nowrap hover:bg-rose-500/25 transition flex items-center justify-center gap-1.5 h-full">
-                            <span class="w-1.5 h-1.5 rounded-full bg-rose-500 shrink-0"></span>
+                        <button type="submit" title="Click to Re-open Store Today" class="w-full px-2.5 py-1.5 rounded-md bg-red-600 hover:bg-red-700 text-white font-extrabold text-[10px] whitespace-nowrap transition flex items-center justify-center gap-1.5 h-full cursor-pointer shadow-sm border border-red-700">
+                            <span class="w-1.5 h-1.5 rounded-full bg-white shrink-0"></span>
                             <span>STORE CLOSED TODAY</span>
-                            <span class="hidden xl:inline-block text-[9px] text-slate-500 dark:text-slate-400 font-normal pl-1 border-l border-rose-500/30">(Click to Open)</span>
+                            <span class="hidden xl:inline-block text-[9px] text-red-100 font-normal pl-1 border-l border-red-500/50">(Click to Open)</span>
                         </button>
                     @endif
                 </form>
@@ -569,49 +569,50 @@
             </div>
 
             <div class="overflow-x-auto max-w-full border border-slate-200 dark:border-zinc-800 rounded-lg">
-                <table class="w-full text-left text-xs whitespace-nowrap min-w-[650px]">
-                    <thead class="bg-slate-100 dark:bg-[#18181B] text-slate-700 dark:text-slate-300 uppercase text-[10px] tracking-wider border-b border-slate-200 dark:border-zinc-700">
+                <table class="w-full text-left text-xs whitespace-nowrap min-w-[600px]">
+                    <thead class="bg-slate-100 dark:bg-[#18181B] text-slate-700 dark:text-slate-300 uppercase text-[9.5px] tracking-wider border-b border-slate-200 dark:border-zinc-700">
                         <tr>
-                            <th class="px-4 py-3">Order Tag</th>
-                            <th class="px-4 py-3">Customer</th>
-                            <th class="px-4 py-3">Service</th>
-                            <th class="px-4 py-3">Weight</th>
-                            <th class="px-4 py-3">Payment</th>
-                            <th class="px-4 py-3">Current Stage</th>
-                            <th class="px-4 py-3 text-center">Action</th>
+                            <th class="px-3 py-2.5">Order Tag</th>
+                            <th class="px-3 py-2.5">Customer</th>
+                            <th class="px-3 py-2.5">Service</th>
+                            <th class="px-3 py-2.5">Weight</th>
+                            <th class="px-3 py-2.5">Payment</th>
+                            <th class="px-3 py-2.5">Current Stage</th>
+                            <th class="px-3 py-2.5 text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-200 dark:divide-zinc-700 text-slate-900 dark:text-slate-200">
                         @forelse($orders->whereNotIn('order_status', ['completed', 'cancelled'])->take(10) as $order)
                             <tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition">
-                                <td class="px-4 py-3 font-mono font-bold text-blue-600 dark:text-blue-400">#{{ $order->order_number }}</td>
-                                <td class="px-4 py-3">
-                                    <div class="font-medium text-slate-900 dark:text-slate-100">{{ $order->customer->name ?? 'Walk-in' }}</div>
+                                <td class="px-3 py-2 font-mono font-bold text-blue-600 dark:text-blue-400 text-xs whitespace-nowrap">#{{ $order->order_number }}</td>
+                                <td class="px-3 py-2">
+                                    <div class="font-medium text-slate-900 dark:text-slate-100 text-xs">{{ $order->customer->name ?? 'Walk-in' }}</div>
                                     @if(!empty($order->notes))
-                                        <div class="text-[10px] text-slate-500 dark:text-slate-400 italic max-w-xs truncate" title="{{ $order->notes }}">
+                                        <div class="text-[10px] text-slate-500 dark:text-slate-400 italic max-w-[150px] truncate" title="{{ $order->notes }}">
                                             {{ $order->notes }}
                                         </div>
                                     @endif
                                 </td>
-                                <td class="px-4 py-3 text-slate-700 dark:text-slate-300">{{ $order->service->name ?? 'Standard Wash' }}</td>
-                                <td class="px-4 py-3 text-slate-700 dark:text-slate-300 font-mono">{{ $order->weight_kg }} kg</td>
-                                <td class="px-4 py-3 font-mono">
-                                    <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-red-600 text-white border border-red-700 shadow-sm' }}">
+                                <td class="px-3 py-2 text-slate-700 dark:text-slate-300 text-xs">{{ $order->service->name ?? 'Standard Wash' }}</td>
+                                <td class="px-3 py-2 text-slate-700 dark:text-slate-300 font-mono text-xs">{{ $order->weight_kg }} kg</td>
+                                <td class="px-3 py-2 font-mono text-xs whitespace-nowrap">
+                                    <span class="px-2 py-0.5 rounded text-[9.5px] font-extrabold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-red-600 text-white border border-red-700 shadow-sm' }}">
                                         {{ strtoupper($order->payment_status) }} (₱{{ number_format($order->total_amount, 2) }})
                                     </span>
                                 </td>
-                                <td class="px-4 py-3">
+                                <td class="px-3 py-2 whitespace-nowrap">
                                      @if($order->order_status === 'completed')
-                                         <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">Completed</span>
+                                         <span class="px-2 py-0.5 rounded-md text-[9.5px] font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">Completed</span>
                                      @elseif($order->order_status === 'finish')
-                                         <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30">Finish</span>
+                                         <span class="px-2 py-0.5 rounded-md text-[9.5px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30">Finish</span>
                                      @elseif($order->order_status === 'cancelled')
-                                         <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30">Cancelled</span>
+                                         <span class="px-2 py-0.5 rounded-md text-[9.5px] font-bold uppercase tracking-wider bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30">Cancelled</span>
                                      @else
-                                         <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30">{{ str_replace('_', ' ', $order->order_status) }}</span>
+                                         <span class="px-2 py-0.5 rounded-md text-[9.5px] font-bold uppercase tracking-wider bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30">{{ str_replace('_', ' ', $order->order_status) }}</span>
                                      @endif
-                                 <td class="px-4 py-3 text-center flex items-center justify-center gap-1.5">
-                                    <a href="{{ route('staff.laundry.index') }}" class="btn-secondary py-1 px-2.5 text-[11px]">Manage</a>
+                                </td>
+                                <td class="px-3 py-2 text-center flex items-center justify-center gap-1.5 whitespace-nowrap">
+                                    <a href="{{ route('staff.laundry.index') }}" class="btn-secondary py-1 px-2.5 text-[10px]">Manage</a>
                                      <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'staff-delete-order-{{ $order->id }}')" class="btn-danger py-1 px-2.5 text-[10px] whitespace-nowrap cursor-pointer" title="Delete Order">
                                          Delete
                                      </button>
