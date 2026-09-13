@@ -315,15 +315,15 @@
 
         <div id="main-wrapper" class="flex-1 flex flex-col min-w-0 md:pl-64 transition-[padding] duration-300">
 
-            <header class="bg-white dark:bg-[#141417] border-b border-slate-200 dark:dark:border-zinc-700 px-4 md:px-8 py-3.5 flex items-center justify-between sticky top-0 z-30 shadow-sm backdrop-blur-sm">
-                <div class="flex items-center gap-3">
-                    <button id="open-sidebar" class="md:hidden p-2 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-zinc-800 focus:outline-none">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <header class="bg-white dark:bg-[#141417] border-b border-slate-200 dark:dark:border-zinc-700 px-4 md:px-6 py-2 flex items-center justify-between sticky top-0 z-30 shadow-sm backdrop-blur-sm">
+                <div class="flex items-center gap-2.5">
+                    <button id="open-sidebar" class="md:hidden p-1.5 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-zinc-800 focus:outline-none">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
                         </svg>
                     </button>
-                    <button id="toggle-collapse-sidebar" class="hidden md:flex p-2 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-zinc-800 focus:outline-none transition-all cursor-pointer" title="Toggle Sidebar Collapse">
-                        <svg id="sidebar-toggle-icon" class="w-5 h-5 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button id="toggle-collapse-sidebar" class="hidden md:flex p-1.5 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-zinc-800 focus:outline-none transition-all cursor-pointer" title="Toggle Sidebar Collapse">
+                        <svg id="sidebar-toggle-icon" class="w-4 h-4 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/>
                         </svg>
                     </button>
@@ -336,20 +336,20 @@
                                 default => 'Search my orders & receipts...',
                             };
                         @endphp
-                        <form action="{{ route('global.search') }}" method="GET" class="hidden sm:flex items-center relative w-64 md:w-80">
+                        <form action="{{ route('global.search') }}" method="GET" class="hidden sm:flex items-center relative w-60 md:w-72">
                             <label for="global-search-input" class="sr-only">Global Search</label>
-                            <button type="submit" aria-label="Submit search" class="absolute left-3 text-slate-400 dark:text-zinc-400 hover:text-blue-600 focus:outline-none z-10 flex items-center justify-center">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <button type="submit" aria-label="Submit search" class="absolute left-2.5 text-slate-400 dark:text-zinc-400 hover:text-blue-600 focus:outline-none z-10 flex items-center justify-center">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                                 </svg>
                             </button>
-                            <input id="global-search-input" type="text" name="q" value="{{ request('q') }}" placeholder="{{ $searchPlaceholder }}" class="w-full !pl-9 pr-4 py-2 bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700 rounded-lg text-xs text-slate-900 dark:text-zinc-100 placeholder-slate-400 dark:placeholder-zinc-500 focus:outline-none focus:border-blue-600 transition" style="padding-left: 2.25rem !important;" required>
+                            <input id="global-search-input" type="text" name="q" value="{{ request('q') }}" placeholder="{{ $searchPlaceholder }}" class="w-full !pl-8 pr-3 py-1.5 bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700 rounded-lg text-xs text-slate-900 dark:text-zinc-100 placeholder-slate-400 dark:placeholder-zinc-500 focus:outline-none focus:border-blue-600 transition" style="padding-left: 2rem !important;" required>
                         </form>
                     @endauth
                 </div>
 
-                <div class="flex items-center gap-2 sm:gap-4">
-                    <button id="theme-toggle" class="p-2 px-3 rounded-lg bg-slate-100 dark:dark:bg-zinc-800 text-slate-900 dark:text-zinc-100 border border-slate-200 dark:dark:border-zinc-700 transition-all text-xs font-semibold flex items-center gap-1.5 shadow-sm" title="Toggle Light/Dark Theme">
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <button id="theme-toggle" class="p-1 px-2.5 rounded-lg bg-slate-100 dark:dark:bg-zinc-800 text-slate-900 dark:text-zinc-100 border border-slate-200 dark:dark:border-zinc-700 transition-all text-xs font-semibold flex items-center gap-1.5 shadow-sm" title="Toggle Light/Dark Theme">
                         <span class="dark:hidden flex items-center gap-1.5">
                             <svg class="w-3.5 h-3.5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                             Light
@@ -360,8 +360,8 @@
                         </span>
                     </button>
 
-                    <div class="hidden md:flex items-center gap-2 px-2.5 py-1 rounded-lg bg-slate-100 dark:dark:bg-zinc-800 border border-slate-200 dark:dark:border-zinc-700 text-xs text-slate-800 dark:text-slate-200 font-semibold">
-                        <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 dark:dark:bg-zinc-800 border border-slate-200 dark:dark:border-zinc-700 text-xs text-slate-800 dark:text-slate-200 font-semibold">
+                        <svg class="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                         </svg>
                         <time datetime="{{ now()->format('Y-m-d') }}">{{ now()->format('M d, Y') }}</time>
@@ -371,7 +371,7 @@
                     <form method="POST" action="{{ route('logout') }}" class="inline-block">
                         @csrf
                         <button type="submit" class="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-zinc-800 text-slate-800 dark:text-zinc-200 hover:bg-slate-200 dark:hover:bg-zinc-700 border border-slate-200 dark:border-zinc-700 text-xs font-semibold flex items-center gap-1.5 transition-all shadow-sm" title="Logout Account">
-                            <svg class="w-4 h-4 text-slate-600 dark:text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-3.5 h-3.5 text-slate-600 dark:text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/>
                             </svg>
                             <span>Logout</span>
@@ -381,12 +381,12 @@
                 </div>
             </header>
 
-            <main id="main-content-area" class="flex-1 p-4 md:p-8 max-w-7xl w-full mx-auto">
+            <main id="main-content-area" class="flex-1 p-3 sm:p-4 md:p-5 max-w-7xl w-full mx-auto">
                 <x-popup-alert />
                 {{ $slot }}
             </main>
 
-            <footer class="border-t border-slate-200 dark:dark:border-zinc-700 py-3.5 px-4 sm:px-6 md:px-8 bg-white dark:bg-[#141417] w-full">
+            <footer class="border-t border-slate-200 dark:dark:border-zinc-700 py-2 px-4 sm:px-6 md:px-8 bg-white dark:bg-[#141417] w-full">
                 <div class="max-w-7xl mx-auto space-y-2.5">
                     <div class="flex justify-center mb-1">
                         <div class="w-7 h-7 bg-blue-600 rounded-full flex items-center justify-center shadow-sm overflow-hidden p-0.5 border border-blue-500/30">
