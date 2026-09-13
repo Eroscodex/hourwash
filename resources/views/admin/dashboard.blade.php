@@ -520,125 +520,125 @@
             }
         </script>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-4">
+        <div class="grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3.5 sm:gap-4">
 
-            <div class="card-accent-blue p-4 sm:p-5 flex flex-col justify-between space-y-3">
+            <div class="card-accent-blue p-2.5 sm:p-5 flex flex-col justify-between space-y-1.5 sm:space-y-3">
                 <div>
-                    <span class="text-[11px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
+                    <span class="text-[9px] sm:text-[11px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
                         TODAY'S ORDERS
                     </span>
                 </div>
                 <div>
-                    <div class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+                    <div class="text-xl sm:text-3xl font-bold text-slate-900 dark:text-white">
                         {{ $totalToday ?? 0 }}
                     </div>
-                    <span class="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+                    <span class="text-[9px] sm:text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
                         ↑ Active store queue
                     </span>
                 </div>
             </div>
 
-            <div class="card-accent-purple p-4 sm:p-5 flex flex-col justify-between space-y-3">
+            <div class="card-accent-purple p-2.5 sm:p-5 flex flex-col justify-between space-y-1.5 sm:space-y-3">
                 <div>
-                    <span class="text-[11px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider">
+                    <span class="text-[9px] sm:text-[11px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider">
                         IN PROCESSING
                     </span>
                 </div>
                 <div>
-                    <div class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+                    <div class="text-xl sm:text-3xl font-bold text-slate-900 dark:text-white">
                         {{ $inProgress ?? 0 }}
                     </div>
-                    <span class="text-[11px] text-slate-500 dark:text-slate-400">
+                    <span class="text-[9px] sm:text-[11px] text-slate-500 dark:text-slate-400">
                         Active machine cycles
                     </span>
                 </div>
             </div>
 
-            <div class="card-accent-emerald p-4 sm:p-5 flex flex-col justify-between space-y-3">
+            <div class="card-accent-emerald p-2.5 sm:p-5 flex flex-col justify-between space-y-1.5 sm:space-y-3">
                 <div>
-                    <span class="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">COMPLETED TODAY</span>
+                    <span class="text-[9px] sm:text-[11px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">COMPLETED TODAY</span>
                 </div>
                 <div>
-                    <div class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+                    <div class="text-xl sm:text-3xl font-bold text-slate-900 dark:text-white">
                         {{ $completedToday ?? 0 }}
                     </div>
-                    <span class="text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+                    <span class="text-[9px] sm:text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
                         ↑ Completed today
                     </span>
                 </div>
             </div>
 
-            <div class="card-accent-amber p-4 sm:p-5 flex flex-col justify-between space-y-3">
+            <div class="card-accent-amber p-2.5 sm:p-5 flex flex-col justify-between space-y-1.5 sm:space-y-3">
                 <div>
-                    <span class="text-[11px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider">STAFF COUNT</span>
+                    <span class="text-[9px] sm:text-[11px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider">STAFF COUNT</span>
                 </div>
                 <div>
-                    <div class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+                    <div class="text-xl sm:text-3xl font-bold text-slate-900 dark:text-white">
                         {{ $staffCount ?? 0 }}
                     </div>
-                    <span class="text-[11px] text-slate-500 dark:text-slate-400">Active staff members</span>
+                    <span class="text-[9px] sm:text-[11px] text-slate-500 dark:text-slate-400">Active staff members</span>
                 </div>
             </div>
 
-            <div class="card-accent-blue p-4 sm:p-5 flex flex-col justify-between space-y-3">
+            <div class="card-accent-blue p-2.5 sm:p-5 flex flex-col justify-between space-y-1.5 sm:space-y-3">
                 <div>
-                    <span class="text-[11px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">DISPATCH RIDERS</span>
+                    <span class="text-[9px] sm:text-[11px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">DISPATCH RIDERS</span>
                 </div>
                 <div>
-                    <div class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+                    <div class="text-xl sm:text-3xl font-bold text-slate-900 dark:text-white">
                         {{ $riderCount ?? 0 }}
                     </div>
-                    <span class="text-[11px] text-cyan-600 dark:text-cyan-400 font-semibold">Active delivery riders</span>
+                    <span class="text-[9px] sm:text-[11px] text-cyan-600 dark:text-cyan-400 font-semibold">Active delivery riders</span>
                 </div>
             </div>
 
-            <div class="card-accent-purple p-4 sm:p-5 flex flex-col justify-between space-y-3">
+            <div class="card-accent-purple p-2.5 sm:p-5 flex flex-col justify-between space-y-1.5 sm:space-y-3">
                 <div>
-                    <span class="text-[11px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider">REGISTERED CUSTOMERS</span>
+                    <span class="text-[9px] sm:text-[11px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider">REGISTERED CUSTOMERS</span>
                 </div>
                 <div>
-                    <div class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+                    <div class="text-xl sm:text-3xl font-bold text-slate-900 dark:text-white">
                         {{ $customerCount ?? 0 }}
                     </div>
-                    <span class="text-[11px] text-slate-500 dark:text-slate-400">Total registered accounts</span>
+                    <span class="text-[9px] sm:text-[11px] text-slate-500 dark:text-slate-400">Total registered accounts</span>
                 </div>
             </div>
 
-            <div class="card-accent-emerald p-4 sm:p-5 flex flex-col justify-between space-y-3">
+            <div class="card-accent-emerald p-2.5 sm:p-5 flex flex-col justify-between space-y-1.5 sm:space-y-3">
                 <div>
-                    <span class="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">PROFIT (PAID)</span>
+                    <span class="text-[9px] sm:text-[11px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">PROFIT (PAID)</span>
                 </div>
                 <div>
-                    <div class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+                    <div class="text-base sm:text-3xl font-bold text-slate-900 dark:text-white">
                         ₱{{ number_format($profitTotal ?? 0, 2) }}
                     </div>
-                    <span class="text-[11px] text-slate-500 dark:text-slate-400">Total revenue from paid orders</span>
+                    <span class="text-[9px] sm:text-[11px] text-slate-500 dark:text-slate-400">Total revenue from paid orders</span>
                 </div>
             </div>
 
-            <div class="card-accent-blue p-4 sm:p-5 flex flex-col justify-between space-y-3">
+            <div class="card-accent-blue p-2.5 sm:p-5 flex flex-col justify-between space-y-1.5 sm:space-y-3">
                 <div>
-                    <span class="text-[11px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">TOTAL MACHINES</span>
+                    <span class="text-[9px] sm:text-[11px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">TOTAL MACHINES</span>
                 </div>
                 <div>
-                    <div class="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+                    <div class="text-xl sm:text-3xl font-bold text-slate-900 dark:text-white">
                         {{ $totalMachines ?? 20 }}
                     </div>
-                    <span class="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold">
+                    <span class="text-[9px] sm:text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold">
                         {{ $availableMachines ?? 0 }} Available (Idle)
                     </span>
                 </div>
             </div>
 
-            <div class="card-accent-purple p-4 sm:p-5 flex flex-col justify-between space-y-3">
+            <div class="card-accent-purple p-2.5 sm:p-5 flex flex-col justify-between space-y-1.5 sm:space-y-3">
                 <div>
-                    <span class="text-[11px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider">TOTAL SYSTEM ORDERS</span>
+                    <span class="text-[9px] sm:text-[11px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider">TOTAL SYSTEM ORDERS</span>
                 </div>
                 <div>
-                    <div class="text-2xl sm:text-3xl font-bold text-blue-600 dark:text-blue-400">
+                    <div class="text-xl sm:text-3xl font-bold text-blue-600 dark:text-blue-400">
                         {{ $totalLaundry ?? 0 }}
                     </div>
-                    <span class="text-[11px] text-slate-500 dark:text-slate-400">Lifetime processed orders</span>
+                    <span class="text-[9px] sm:text-[11px] text-slate-500 dark:text-slate-400">Lifetime processed orders</span>
                 </div>
             </div>
 

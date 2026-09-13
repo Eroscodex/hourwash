@@ -756,6 +756,33 @@
     @auth
         <x-camera-qr-scanner />
     @endauth
+
+    {{-- Scroll to Top Button --}}
+    <button id="scroll-to-top"
+        onclick="window.scrollTo({top: 0, behavior: 'smooth'})"
+        class="fixed bottom-6 left-6 z-40 w-10 h-10 rounded-full bg-blue-600 hover:bg-blue-700 text-white shadow-lg flex items-center justify-center transition-all duration-300 opacity-0 pointer-events-none cursor-pointer"
+        aria-label="Scroll to top"
+        title="Back to top">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 15l7-7 7 7"/>
+        </svg>
+    </button>
+
+    <script>
+        (function () {
+            var btn = document.getElementById('scroll-to-top');
+            if (!btn) return;
+            window.addEventListener('scroll', function () {
+                if (window.scrollY > 300) {
+                    btn.classList.remove('opacity-0', 'pointer-events-none');
+                    btn.classList.add('opacity-100');
+                } else {
+                    btn.classList.add('opacity-0', 'pointer-events-none');
+                    btn.classList.remove('opacity-100');
+                }
+            }, { passive: true });
+        })();
+    </script>
 </body>
 
 </html>
