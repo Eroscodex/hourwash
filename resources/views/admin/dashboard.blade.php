@@ -1,13 +1,13 @@
 <x-app-layout>
-    <div class="space-y-6 sm:space-y-8">
+    <div class="space-y-3.5 sm:space-y-4">
 
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-                <h1 class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                <h1 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white tracking-tight">
                     Welcome back, {{ auth()->user()->name }}!
                 </h1>
 
-                <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 mt-1 font-medium">
+                <p class="text-xs text-slate-600 dark:text-slate-400 mt-0.5 font-medium">
                     Central operational hub, system analytics, and quick navigation shortcuts.
                 </p>
             </div>
@@ -16,13 +16,13 @@
                 <form method="POST" action="{{ route('admin.store-status.toggle') }}" class="w-full sm:w-auto">
                     @csrf
                     @if(($storeStatus ?? 'open') === 'open')
-                        <button type="submit" title="Click to Mark Store Closed Today" class="w-full px-3 py-1.5 rounded-md bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 font-extrabold text-xs whitespace-nowrap hover:bg-emerald-500/25 transition flex items-center justify-center gap-1.5 cursor-pointer">
+                        <button type="submit" title="Click to Mark Store Closed Today" class="w-full px-2.5 py-1.5 rounded-md bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30 font-extrabold text-xs whitespace-nowrap hover:bg-emerald-500/25 transition flex items-center justify-center gap-1.5 cursor-pointer">
                             <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0"></span>
                             <span>STORE OPEN TODAY</span>
                             <span class="hidden xl:inline-block text-[10px] text-slate-500 dark:text-slate-400 font-normal pl-1 border-l border-emerald-500/30">(Click to Close)</span>
                         </button>
                     @else
-                        <button type="submit" title="Click to Re-open Store Today" class="w-full px-3 py-1.5 rounded-md bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 font-extrabold text-xs whitespace-nowrap hover:bg-rose-500/25 transition flex items-center justify-center gap-1.5 cursor-pointer">
+                        <button type="submit" title="Click to Re-open Store Today" class="w-full px-2.5 py-1.5 rounded-md bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 font-extrabold text-xs whitespace-nowrap hover:bg-rose-500/25 transition flex items-center justify-center gap-1.5 cursor-pointer">
                             <span class="w-2 h-2 rounded-full bg-rose-500 shrink-0"></span>
                             <span>STORE CLOSED TODAY</span>
                             <span class="hidden xl:inline-block text-[10px] text-slate-500 dark:text-slate-400 font-normal pl-1 border-l border-rose-500/30">(Click to Open)</span>
@@ -30,22 +30,22 @@
                     @endif
                 </form>
 
-                <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-admin-reset-all-orders')" class="btn-danger text-xs py-1.5 px-3 whitespace-nowrap w-full sm:w-auto cursor-pointer">
+                <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'confirm-admin-reset-all-orders')" class="btn-danger text-xs py-1.5 px-2.5 whitespace-nowrap w-full sm:w-auto cursor-pointer">
                     Reset All Orders
                 </button>
 
                 <x-modal name="confirm-admin-reset-all-orders" maxWidth="md">
-                    <div class="p-6 bg-white dark:bg-[#141417] text-slate-900 dark:text-zinc-100 space-y-4 rounded-lg">
-                        <div class="flex items-center gap-3 text-rose-600 dark:text-rose-400">
-                            <svg class="w-6 h-6 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="p-5 bg-white dark:bg-[#141417] text-slate-900 dark:text-zinc-100 space-y-3.5 rounded-lg">
+                        <div class="flex items-center gap-2.5 text-rose-600 dark:text-rose-400">
+                            <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                             </svg>
-                            <h2 class="text-base font-bold">Reset All Orders?</h2>
+                            <h2 class="text-sm font-bold">Reset All Orders?</h2>
                         </div>
                         <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
                             This action will permanently purge all order history and set all commercial machines to idle status.
                         </p>
-                        <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-200 dark:border-zinc-800">
+                        <div class="pt-3 flex items-center justify-end gap-2.5 border-t border-slate-200 dark:border-zinc-800">
                             <button type="button" x-on:click="$dispatch('close')" class="btn-secondary text-xs py-1.5 px-3">
                                 Cancel
                             </button>
@@ -63,21 +63,21 @@
                     Manage Orders Queue
                 </a>
 
-                <a href="{{ route('admin.machines.create') }}" class="btn-secondary text-xs py-2 px-3 whitespace-nowrap text-center w-full sm:w-auto flex items-center justify-center h-full">
+                <a href="{{ route('admin.machines.create') }}" class="btn-secondary text-xs py-1.5 px-3 whitespace-nowrap text-center w-full sm:w-auto flex items-center justify-center h-full">
                     Add New Machine
                 </a>
             </div>
         </div>
 
         <div>
-            <h2 class="text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">
+            <h2 class="text-[11px] font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
                 Quick Navbar Selection Shortcuts
             </h2>
 
-            <div class="grid grid-cols-2 sm:grid-cols-5 lg:grid-cols-5 gap-3.5">
+            <div class="grid grid-cols-2 sm:grid-cols-5 lg:grid-cols-5 gap-2 sm:gap-2.5">
 
                 <a href="{{ route('admin.laundry.index') }}"
-                   class="card-accent-blue p-3.5 flex items-center justify-between transition-all group hover:border-blue-600">
+                   class="card-accent-blue p-2.5 flex items-center justify-between transition-all group hover:border-blue-600">
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
                             Laundry Orders
@@ -86,13 +86,13 @@
                             Order Queue
                         </span>
                     </div>
-                    <span class="text-lg font-black text-blue-600 dark:text-blue-400 font-mono shrink-0">
+                    <span class="text-base font-black text-blue-600 dark:text-blue-400 font-mono shrink-0">
                         {{ $totalLaundry ?? 0 }}
                     </span>
                 </a>
 
                 <a href="{{ route('admin.machines.index') }}"
-                   class="card-accent-blue p-3.5 flex items-center justify-between transition-all group hover:border-blue-600">
+                   class="card-accent-blue p-2.5 flex items-center justify-between transition-all group hover:border-blue-600">
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
                             All Machines
@@ -101,13 +101,13 @@
                             Active Machines
                         </span>
                     </div>
-                    <span class="text-lg font-black text-blue-600 dark:text-blue-400 font-mono shrink-0">
+                    <span class="text-base font-black text-blue-600 dark:text-blue-400 font-mono shrink-0">
                         {{ $totalMachines ?? 20 }}
                     </span>
                 </a>
 
                 <a href="{{ route('admin.services.index') }}"
-                   class="card-accent-blue p-3.5 flex items-center justify-between transition-all group hover:border-blue-600">
+                   class="card-accent-blue p-2.5 flex items-center justify-between transition-all group hover:border-blue-600">
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
                             Services & Rates
@@ -116,13 +116,13 @@
                             Pricing Catalog
                         </span>
                     </div>
-                    <span class="text-xs font-extrabold text-blue-600 dark:text-blue-400 uppercase shrink-0">
+                    <span class="text-[11px] font-extrabold text-blue-600 dark:text-blue-400 uppercase shrink-0">
                         RATE
                     </span>
                 </a>
 
                 <a href="{{ route('admin.users.index') }}"
-                   class="card-accent-blue p-3.5 flex items-center justify-between transition-all group hover:border-blue-600">
+                   class="card-accent-blue p-2.5 flex items-center justify-between transition-all group hover:border-blue-600">
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
                             All Users
@@ -131,13 +131,13 @@
                             Accounts
                         </span>
                     </div>
-                    <span class="text-lg font-black text-blue-600 dark:text-blue-400 font-mono shrink-0">
+                    <span class="text-base font-black text-blue-600 dark:text-blue-400 font-mono shrink-0">
                         {{ $totalUsers ?? 0 }}
                     </span>
                 </a>
 
                 <a href="{{ route('admin.qr_scan_logs.index') }}"
-                   class="card-accent-blue p-3.5 flex items-center justify-between transition-all group hover:border-blue-600">
+                   class="card-accent-blue p-2.5 flex items-center justify-between transition-all group hover:border-blue-600">
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
                             QR Scan Logs
@@ -146,13 +146,13 @@
                             Audit Trail
                         </span>
                     </div>
-                    <span class="text-lg font-black text-blue-600 dark:text-blue-400 font-mono shrink-0">
+                    <span class="text-base font-black text-blue-600 dark:text-blue-400 font-mono shrink-0">
                         {{ $qrScanCount ?? 0 }}
                     </span>
                 </a>
 
                 <a href="{{ route('admin.reviews.index') }}"
-                   class="card-accent-blue p-3.5 flex items-center justify-between transition-all group hover:border-blue-600">
+                   class="card-accent-blue p-2.5 flex items-center justify-between transition-all group hover:border-blue-600">
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
                             Customer Reviews
@@ -161,13 +161,13 @@
                             Feedback Logs
                         </span>
                     </div>
-                    <span class="text-lg font-black text-blue-600 dark:text-blue-400 font-mono shrink-0">
+                    <span class="text-base font-black text-blue-600 dark:text-blue-400 font-mono shrink-0">
                         {{ $reviewCount ?? 0 }}
                     </span>
                 </a>
 
                 <a href="{{ route('admin.sms.index') }}"
-                   class="card-accent-blue p-3.5 flex items-center justify-between transition-all group hover:border-blue-600">
+                   class="card-accent-blue p-2.5 flex items-center justify-between transition-all group hover:border-blue-600">
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
                             Live SMS Outbox
@@ -176,13 +176,13 @@
                             Phone Alerts
                         </span>
                     </div>
-                    <span class="text-lg font-black text-blue-600 dark:text-blue-400 font-mono shrink-0">
+                    <span class="text-base font-black text-blue-600 dark:text-blue-400 font-mono shrink-0">
                         {{ $smsCount ?? 0 }}
                     </span>
                 </a>
 
                 <a href="{{ route('admin.emails.index') }}"
-                   class="card-accent-blue p-3.5 flex items-center justify-between transition-all group hover:border-blue-600">
+                   class="card-accent-blue p-2.5 flex items-center justify-between transition-all group hover:border-blue-600">
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
                             Live Email Outbox
@@ -191,13 +191,13 @@
                             Receipt Emails
                         </span>
                     </div>
-                    <span class="text-lg font-black text-blue-600 dark:text-blue-400 font-mono shrink-0">
+                    <span class="text-base font-black text-blue-600 dark:text-blue-400 font-mono shrink-0">
                         {{ $emailCount ?? 0 }}
                     </span>
                 </a>
 
                 <a href="{{ route('laundry.create') }}"
-                   class="card-accent-blue p-3.5 flex items-center justify-between transition-all group hover:border-blue-600">
+                   class="card-accent-blue p-2.5 flex items-center justify-between transition-all group hover:border-blue-600">
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
                             New Drop-Off
@@ -206,13 +206,13 @@
                             Book Order
                         </span>
                     </div>
-                    <span class="text-xs font-extrabold text-blue-600 dark:text-blue-400 uppercase shrink-0">
+                    <span class="text-[11px] font-extrabold text-blue-600 dark:text-blue-400 uppercase shrink-0">
                         +BOOK
                     </span>
                 </a>
 
                 <a href="{{ route('profile.edit') }}"
-                   class="card-accent-blue p-3.5 flex items-center justify-between transition-all group hover:border-blue-600">
+                   class="card-accent-blue p-2.5 flex items-center justify-between transition-all group hover:border-blue-600">
                     <div>
                         <span class="text-xs font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition block truncate">
                             Account Settings
@@ -221,7 +221,7 @@
                             Profile
                         </span>
                     </div>
-                    <span class="text-xs font-extrabold text-blue-600 dark:text-blue-400 uppercase shrink-0">
+                    <span class="text-[11px] font-extrabold text-blue-600 dark:text-blue-400 uppercase shrink-0">
                         EDIT
                     </span>
                 </a>
@@ -241,45 +241,45 @@
         @endphp
 
         <div>
-            <h2 class="text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3">
+            <h2 class="text-[11px] font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-2">
                 Payment Collection & Cashier Summary
             </h2>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="metric-pill-card-rose">
-                    <div class="flex items-center gap-3.5">
-                        <div class="w-11 h-11 rounded-xl bg-rose-500/15 text-rose-600 dark:text-rose-400 flex items-center justify-center font-extrabold text-base shrink-0 border border-rose-500/30">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 sm:gap-3">
+                <div class="metric-pill-card-rose !p-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-lg bg-rose-500/15 text-rose-600 dark:text-rose-400 flex items-center justify-center font-extrabold text-sm shrink-0 border border-rose-500/30">
                             ₱
                         </div>
                         <div>
                             <span class="text-xs font-bold text-slate-800 dark:text-slate-200 block">
                                 Unpaid Orders Collection
                             </span>
-                            <span class="text-[11px] text-slate-500 dark:text-slate-400">
+                            <span class="text-[10px] text-slate-500 dark:text-slate-400">
                                 {{ $adminUnpaidCount }} order(s) pending cashier payment
                             </span>
                         </div>
                     </div>
-                    <span class="text-2xl sm:text-3xl font-extrabold text-rose-600 dark:text-rose-400 font-mono shrink-0">
+                    <span class="text-xl sm:text-2xl font-extrabold text-rose-600 dark:text-rose-400 font-mono shrink-0">
                         ₱{{ number_format($adminUnpaidTotal, 2) }}
                     </span>
                 </div>
 
-                <div class="metric-pill-card-emerald">
-                    <div class="flex items-center gap-3.5">
-                        <div class="w-11 h-11 rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-extrabold text-base shrink-0 border border-emerald-500/30">
+                <div class="metric-pill-card-emerald !p-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-lg bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-extrabold text-sm shrink-0 border border-emerald-500/30">
                             ✓
                         </div>
                         <div>
                             <span class="text-xs font-bold text-slate-800 dark:text-slate-200 block">
                                 Total Collected Revenue
                             </span>
-                            <span class="text-[11px] text-slate-500 dark:text-slate-400">
+                            <span class="text-[10px] text-slate-500 dark:text-slate-400">
                                 {{ $adminPaidCount }} order(s) cleared & paid
                             </span>
                         </div>
                     </div>
-                    <span class="text-2xl sm:text-3xl font-extrabold text-emerald-600 dark:text-emerald-400 font-mono shrink-0">
+                    <span class="text-xl sm:text-2xl font-extrabold text-emerald-600 dark:text-emerald-400 font-mono shrink-0">
                         ₱{{ number_format($adminPaidTotal, 2) }}
                     </span>
                 </div>
@@ -354,35 +354,35 @@
             ];
         @endphp
 
-        <div class="space-y-4">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div class="space-y-2.5">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-2">
                 <div>
-                    <h2 class="text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                    <h2 class="text-[11px] font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                         Live Order Stage Pipeline Breakdown
                     </h2>
-                    <p class="text-[11px] text-slate-500 dark:text-slate-400">
+                    <p class="text-[10px] text-slate-500 dark:text-slate-400">
                         Filter 7-stage breakdown by service package (Wash Only, Dry Only, Fold Only, Self-Service, Full Service)
                     </p>
                 </div>
 
                 <!-- Service Package Filter Pill Tabs (6 Buttons in 1 Row) -->
-                <div class="flex items-center justify-between gap-1 bg-slate-200/60 dark:bg-zinc-800/60 p-1 rounded-lg text-[11px] overflow-x-auto w-full md:w-auto">
-                    <button type="button" id="tab-btn-all" onclick="switchPipelineService('all', this)" class="pipeline-tab-btn px-2 py-1 rounded-md font-bold transition bg-blue-600 text-white shadow-sm whitespace-nowrap flex-1 text-center">
+                <div class="flex items-center justify-between gap-1 bg-slate-200/60 dark:bg-zinc-800/60 p-1 rounded-lg text-[10px] overflow-x-auto w-full md:w-auto">
+                    <button type="button" id="tab-btn-all" onclick="switchPipelineService('all', this)" class="pipeline-tab-btn px-2 py-0.5 rounded-md font-bold transition bg-blue-600 text-white shadow-sm whitespace-nowrap flex-1 text-center">
                         All Services
                     </button>
-                    <button type="button" id="tab-btn-wash" onclick="switchPipelineService('wash', this)" class="pipeline-tab-btn px-2 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition whitespace-nowrap flex-1 text-center">
+                    <button type="button" id="tab-btn-wash" onclick="switchPipelineService('wash', this)" class="pipeline-tab-btn px-2 py-0.5 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition whitespace-nowrap flex-1 text-center">
                         Wash Only
                     </button>
-                    <button type="button" id="tab-btn-dry" onclick="switchPipelineService('dry', this)" class="pipeline-tab-btn px-2 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition whitespace-nowrap flex-1 text-center">
+                    <button type="button" id="tab-btn-dry" onclick="switchPipelineService('dry', this)" class="pipeline-tab-btn px-2 py-0.5 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition whitespace-nowrap flex-1 text-center">
                         Dry Only
                     </button>
-                    <button type="button" id="tab-btn-fold" onclick="switchPipelineService('fold', this)" class="pipeline-tab-btn px-2 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition whitespace-nowrap flex-1 text-center">
+                    <button type="button" id="tab-btn-fold" onclick="switchPipelineService('fold', this)" class="pipeline-tab-btn px-2 py-0.5 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition whitespace-nowrap flex-1 text-center">
                         Fold Only
                     </button>
-                    <button type="button" id="tab-btn-self_service" onclick="switchPipelineService('self_service', this)" class="pipeline-tab-btn px-2 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition whitespace-nowrap flex-1 text-center">
+                    <button type="button" id="tab-btn-self_service" onclick="switchPipelineService('self_service', this)" class="pipeline-tab-btn px-2 py-0.5 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition whitespace-nowrap flex-1 text-center">
                         Self-Service
                     </button>
-                    <button type="button" id="tab-btn-full_service" onclick="switchPipelineService('full_service', this)" class="pipeline-tab-btn px-2 py-1 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition whitespace-nowrap flex-1 text-center">
+                    <button type="button" id="tab-btn-full_service" onclick="switchPipelineService('full_service', this)" class="pipeline-tab-btn px-2 py-0.5 rounded-md font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-zinc-700 transition whitespace-nowrap flex-1 text-center">
                         Full-Service
                     </button>
                 </div>
@@ -390,89 +390,89 @@
 
             <!-- 7-Stage Pipeline Cards -->
             <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-7 lg:grid-cols-7 gap-1.5" id="admin-stage-cards-container">
-                <div class="card-accent-blue p-2 flex flex-col justify-between shadow-sm transition-all" id="stage-card-pending">
-                    <span class="text-[8.5px] font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-tight block truncate">1. PENDING</span>
-                    <span id="stage-count-pending" class="text-lg font-bold text-slate-900 dark:text-white mt-0.5">{{ $pipelineData['all']['pending'] }}</span>
+                <div class="card-accent-blue p-1.5 sm:p-2 flex flex-col justify-between shadow-sm transition-all" id="stage-card-pending">
+                    <span class="text-[8px] font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-tight block truncate">1. PENDING</span>
+                    <span id="stage-count-pending" class="text-base font-bold text-slate-900 dark:text-white mt-0.5">{{ $pipelineData['all']['pending'] }}</span>
                     <p class="text-[8px] text-slate-500 dark:text-slate-400 truncate">Order Placed</p>
                 </div>
 
-                <div class="card-accent-blue p-2 flex flex-col justify-between shadow-sm transition-all" id="stage-card-received">
-                    <span class="text-[8.5px] font-extrabold text-blue-600 dark:text-blue-400 uppercase tracking-tight block truncate">2. RECEIVED</span>
-                    <span id="stage-count-received" class="text-lg font-bold text-blue-600 dark:text-blue-400 mt-0.5">{{ $pipelineData['all']['received'] }}</span>
+                <div class="card-accent-blue p-1.5 sm:p-2 flex flex-col justify-between shadow-sm transition-all" id="stage-card-received">
+                    <span class="text-[8px] font-extrabold text-blue-600 dark:text-blue-400 uppercase tracking-tight block truncate">2. RECEIVED</span>
+                    <span id="stage-count-received" class="text-base font-bold text-blue-600 dark:text-blue-400 mt-0.5">{{ $pipelineData['all']['received'] }}</span>
                     <p class="text-[8px] text-slate-500 dark:text-slate-400 truncate">Store Received</p>
                 </div>
 
-                <div class="card-accent-blue p-2 flex flex-col justify-between shadow-sm transition-all" id="stage-card-washing">
-                    <span class="text-[8.5px] font-extrabold text-teal-600 dark:text-teal-400 uppercase tracking-tight block truncate">3. WASHING</span>
-                    <span id="stage-count-washing" class="text-lg font-bold text-teal-600 dark:text-teal-400 mt-0.5">{{ $pipelineData['all']['washing'] }}</span>
+                <div class="card-accent-blue p-1.5 sm:p-2 flex flex-col justify-between shadow-sm transition-all" id="stage-card-washing">
+                    <span class="text-[8px] font-extrabold text-teal-600 dark:text-teal-400 uppercase tracking-tight block truncate">3. WASHING</span>
+                    <span id="stage-count-washing" class="text-base font-bold text-teal-600 dark:text-teal-400 mt-0.5">{{ $pipelineData['all']['washing'] }}</span>
                     <p class="text-[8px] text-slate-500 dark:text-slate-400 truncate">Wash Cycle</p>
                 </div>
 
-                <div class="card-accent-blue p-2 flex flex-col justify-between shadow-sm transition-all" id="stage-card-rinsing">
-                    <span class="text-[8.5px] font-extrabold text-cyan-600 dark:text-cyan-400 uppercase tracking-tight block truncate">4. RINSING</span>
-                    <span id="stage-count-rinsing" class="text-lg font-bold text-cyan-600 dark:text-cyan-400 mt-0.5">{{ $pipelineData['all']['rinsing'] }}</span>
+                <div class="card-accent-blue p-1.5 sm:p-2 flex flex-col justify-between shadow-sm transition-all" id="stage-card-rinsing">
+                    <span class="text-[8px] font-extrabold text-cyan-600 dark:text-cyan-400 uppercase tracking-tight block truncate">4. RINSING</span>
+                    <span id="stage-count-rinsing" class="text-base font-bold text-cyan-600 dark:text-cyan-400 mt-0.5">{{ $pipelineData['all']['rinsing'] }}</span>
                     <p class="text-[8px] text-slate-500 dark:text-slate-400 truncate">Rinse Cycle</p>
                 </div>
 
-                <div class="card-accent-purple p-2 flex flex-col justify-between shadow-sm transition-all" id="stage-card-drying">
-                    <span class="text-[8.5px] font-extrabold text-indigo-600 dark:text-indigo-400 uppercase tracking-tight block truncate">5. DRYING</span>
-                    <span id="stage-count-drying" class="text-lg font-bold text-indigo-600 dark:text-indigo-400 mt-0.5">{{ $pipelineData['all']['drying'] }}</span>
+                <div class="card-accent-purple p-1.5 sm:p-2 flex flex-col justify-between shadow-sm transition-all" id="stage-card-drying">
+                    <span class="text-[8px] font-extrabold text-indigo-600 dark:text-indigo-400 uppercase tracking-tight block truncate">5. DRYING</span>
+                    <span id="stage-count-drying" class="text-base font-bold text-indigo-600 dark:text-indigo-400 mt-0.5">{{ $pipelineData['all']['drying'] }}</span>
                     <p class="text-[8px] text-slate-500 dark:text-slate-400 truncate">Dryer Units</p>
                 </div>
 
-                <div class="card-accent-amber p-2 flex flex-col justify-between shadow-sm transition-all" id="stage-card-finish">
-                    <span class="text-[8.5px] font-extrabold text-amber-600 dark:text-amber-400 uppercase tracking-tight block truncate">6. FINISH</span>
-                    <span id="stage-count-finish" class="text-lg font-bold text-amber-600 dark:text-amber-400 mt-0.5">{{ $pipelineData['all']['finish'] }}</span>
+                <div class="card-accent-amber p-1.5 sm:p-2 flex flex-col justify-between shadow-sm transition-all" id="stage-card-finish">
+                    <span class="text-[8px] font-extrabold text-amber-600 dark:text-amber-400 uppercase tracking-tight block truncate">6. FINISH</span>
+                    <span id="stage-count-finish" class="text-base font-bold text-amber-600 dark:text-amber-400 mt-0.5">{{ $pipelineData['all']['finish'] }}</span>
                     <p class="text-[8px] text-slate-500 dark:text-slate-400 truncate">Folding & Ready</p>
                 </div>
 
-                <div class="card-accent-emerald p-2 flex flex-col justify-between shadow-sm transition-all" id="stage-card-completed">
-                    <span class="text-[8.5px] font-extrabold text-emerald-600 dark:text-emerald-400 uppercase tracking-tight block truncate">7. COMPLETED</span>
-                    <span id="stage-count-completed" class="text-lg font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">{{ $pipelineData['all']['completed'] }}</span>
+                <div class="card-accent-emerald p-1.5 sm:p-2 flex flex-col justify-between shadow-sm transition-all" id="stage-card-completed">
+                    <span class="text-[8px] font-extrabold text-emerald-600 dark:text-emerald-400 uppercase tracking-tight block truncate">7. COMPLETED</span>
+                    <span id="stage-count-completed" class="text-base font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">{{ $pipelineData['all']['completed'] }}</span>
                     <p class="text-[8px] text-slate-500 dark:text-slate-400 truncate">Fulfilled & Done</p>
                 </div>
             </div>
 
             <!-- Active Service Packages Breakdown Cards Grid -->
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 pt-1">
-                <div onclick="switchPipelineService('wash', document.getElementById('tab-btn-wash'))" class="p-3 rounded-lg bg-blue-500/10 border border-blue-500/30 flex items-center justify-between cursor-pointer hover:bg-blue-500/20 transition">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 pt-0.5">
+                <div onclick="switchPipelineService('wash', document.getElementById('tab-btn-wash'))" class="p-2 rounded-lg bg-blue-500/10 border border-blue-500/30 flex items-center justify-between cursor-pointer hover:bg-blue-500/20 transition">
                     <div>
-                        <span class="text-[10px] font-extrabold text-blue-700 dark:text-blue-300 uppercase block">Wash Only</span>
-                        <span class="text-xs text-slate-500 dark:text-slate-400">35m Wash Cycle</span>
+                        <span class="text-[9.5px] font-extrabold text-blue-700 dark:text-blue-300 uppercase block">Wash Only</span>
+                        <span class="text-[11px] text-slate-500 dark:text-slate-400">35m Wash Cycle</span>
                     </div>
-                    <span class="text-lg font-black text-blue-600 dark:text-blue-400 font-mono">{{ $washOnlyOrders->whereNotIn('order_status', ['completed', 'cancelled'])->count() }}</span>
+                    <span class="text-base font-black text-blue-600 dark:text-blue-400 font-mono">{{ $washOnlyOrders->whereNotIn('order_status', ['completed', 'cancelled'])->count() }}</span>
                 </div>
 
-                <div onclick="switchPipelineService('dry', document.getElementById('tab-btn-dry'))" class="p-3 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-between cursor-pointer hover:bg-indigo-500/20 transition">
+                <div onclick="switchPipelineService('dry', document.getElementById('tab-btn-dry'))" class="p-2 rounded-lg bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-between cursor-pointer hover:bg-indigo-500/20 transition">
                     <div>
-                        <span class="text-[10px] font-extrabold text-indigo-700 dark:text-indigo-300 uppercase block">Dry Only</span>
-                        <span class="text-xs text-slate-500 dark:text-slate-400">40m Dryer Cycle</span>
+                        <span class="text-[9.5px] font-extrabold text-indigo-700 dark:text-indigo-300 uppercase block">Dry Only</span>
+                        <span class="text-[11px] text-slate-500 dark:text-slate-400">40m Dryer Cycle</span>
                     </div>
-                    <span class="text-lg font-black text-indigo-600 dark:text-indigo-400 font-mono">{{ $dryOnlyOrders->whereNotIn('order_status', ['completed', 'cancelled'])->count() }}</span>
+                    <span class="text-base font-black text-indigo-600 dark:text-indigo-400 font-mono">{{ $dryOnlyOrders->whereNotIn('order_status', ['completed', 'cancelled'])->count() }}</span>
                 </div>
 
-                <div onclick="switchPipelineService('fold', document.getElementById('tab-btn-fold'))" class="p-3 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-between cursor-pointer hover:bg-amber-500/20 transition">
+                <div onclick="switchPipelineService('fold', document.getElementById('tab-btn-fold'))" class="p-2 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-between cursor-pointer hover:bg-amber-500/20 transition">
                     <div>
-                        <span class="text-[10px] font-extrabold text-amber-700 dark:text-amber-300 uppercase block">Fold Only</span>
-                        <span class="text-xs text-slate-500 dark:text-slate-400">15m Folding</span>
+                        <span class="text-[9.5px] font-extrabold text-amber-700 dark:text-amber-300 uppercase block">Fold Only</span>
+                        <span class="text-[11px] text-slate-500 dark:text-slate-400">15m Folding</span>
                     </div>
-                    <span class="text-lg font-black text-amber-600 dark:text-amber-400 font-mono">{{ $foldOnlyOrders->whereNotIn('order_status', ['completed', 'cancelled'])->count() }}</span>
+                    <span class="text-base font-black text-amber-600 dark:text-amber-400 font-mono">{{ $foldOnlyOrders->whereNotIn('order_status', ['completed', 'cancelled'])->count() }}</span>
                 </div>
 
-                <div onclick="switchPipelineService('self_service', document.getElementById('tab-btn-self_service'))" class="p-3 rounded-lg bg-teal-500/10 border border-teal-500/30 flex items-center justify-between cursor-pointer hover:bg-teal-500/20 transition">
+                <div onclick="switchPipelineService('self_service', document.getElementById('tab-btn-self_service'))" class="p-2 rounded-lg bg-teal-500/10 border border-teal-500/30 flex items-center justify-between cursor-pointer hover:bg-teal-500/20 transition">
                     <div>
-                        <span class="text-[10px] font-extrabold text-teal-700 dark:text-teal-300 uppercase block">Self-Service</span>
-                        <span class="text-xs text-slate-500 dark:text-slate-400">75m Wash + Dry</span>
+                        <span class="text-[9.5px] font-extrabold text-teal-700 dark:text-teal-300 uppercase block">Self-Service</span>
+                        <span class="text-[11px] text-slate-500 dark:text-slate-400">75m Wash + Dry</span>
                     </div>
-                    <span class="text-lg font-black text-teal-600 dark:text-teal-400 font-mono">{{ $washDryOrders->whereNotIn('order_status', ['completed', 'cancelled'])->count() }}</span>
+                    <span class="text-base font-black text-teal-600 dark:text-teal-400 font-mono">{{ $washDryOrders->whereNotIn('order_status', ['completed', 'cancelled'])->count() }}</span>
                 </div>
 
-                <div onclick="switchPipelineService('full_service', document.getElementById('tab-btn-full_service'))" class="p-3 rounded-lg bg-purple-500/10 border border-purple-500/30 flex items-center justify-between cursor-pointer hover:bg-purple-500/20 transition">
+                <div onclick="switchPipelineService('full_service', document.getElementById('tab-btn-full_service'))" class="p-2 rounded-lg bg-purple-500/10 border border-purple-500/30 flex items-center justify-between cursor-pointer hover:bg-purple-500/20 transition">
                     <div>
-                        <span class="text-[10px] font-extrabold text-purple-700 dark:text-purple-300 uppercase block">Full-Service</span>
-                        <span class="text-xs text-slate-500 dark:text-slate-400">90m Wash Dry Fold</span>
+                        <span class="text-[9.5px] font-extrabold text-purple-700 dark:text-purple-300 uppercase block">Full-Service</span>
+                        <span class="text-[11px] text-slate-500 dark:text-slate-400">90m Wash Dry Fold</span>
                     </div>
-                    <span class="text-lg font-black text-purple-600 dark:text-purple-400 font-mono">{{ $fullServiceOrders->whereNotIn('order_status', ['completed', 'cancelled'])->count() }}</span>
+                    <span class="text-base font-black text-purple-600 dark:text-purple-400 font-mono">{{ $fullServiceOrders->whereNotIn('order_status', ['completed', 'cancelled'])->count() }}</span>
                 </div>
             </div>
         </div>
@@ -520,152 +520,152 @@
             }
         </script>
 
-        <div class="grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3.5 sm:gap-4">
+        <div class="grid grid-cols-3 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-2.5">
 
-            <div class="card-accent-blue p-2.5 sm:p-5 flex flex-col justify-between space-y-1.5 sm:space-y-3">
+            <div class="card-accent-blue p-2.5 sm:p-3 flex flex-col justify-between space-y-1">
                 <div>
-                    <span class="text-[9px] sm:text-[11px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
+                    <span class="text-[9px] sm:text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">
                         TODAY'S ORDERS
                     </span>
                 </div>
                 <div>
-                    <div class="text-xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+                    <div class="text-lg sm:text-2xl font-bold text-slate-900 dark:text-white">
                         {{ $totalToday ?? 0 }}
                     </div>
-                    <span class="text-[9px] sm:text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+                    <span class="text-[9px] sm:text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
                         ↑ Active store queue
                     </span>
                 </div>
             </div>
 
-            <div class="card-accent-purple p-2.5 sm:p-5 flex flex-col justify-between space-y-1.5 sm:space-y-3">
+            <div class="card-accent-purple p-2.5 sm:p-3 flex flex-col justify-between space-y-1">
                 <div>
-                    <span class="text-[9px] sm:text-[11px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider">
+                    <span class="text-[9px] sm:text-[10px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider">
                         IN PROCESSING
                     </span>
                 </div>
                 <div>
-                    <div class="text-xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+                    <div class="text-lg sm:text-2xl font-bold text-slate-900 dark:text-white">
                         {{ $inProgress ?? 0 }}
                     </div>
-                    <span class="text-[9px] sm:text-[11px] text-slate-500 dark:text-slate-400">
+                    <span class="text-[9px] sm:text-[10px] text-slate-500 dark:text-slate-400">
                         Active machine cycles
                     </span>
                 </div>
             </div>
 
-            <div class="card-accent-emerald p-2.5 sm:p-5 flex flex-col justify-between space-y-1.5 sm:space-y-3">
+            <div class="card-accent-emerald p-2.5 sm:p-3 flex flex-col justify-between space-y-1">
                 <div>
-                    <span class="text-[9px] sm:text-[11px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">COMPLETED TODAY</span>
+                    <span class="text-[9px] sm:text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">COMPLETED TODAY</span>
                 </div>
                 <div>
-                    <div class="text-xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+                    <div class="text-lg sm:text-2xl font-bold text-slate-900 dark:text-white">
                         {{ $completedToday ?? 0 }}
                     </div>
-                    <span class="text-[9px] sm:text-[11px] font-semibold text-emerald-600 dark:text-emerald-400">
+                    <span class="text-[9px] sm:text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
                         ↑ Completed today
                     </span>
                 </div>
             </div>
 
-            <div class="card-accent-amber p-2.5 sm:p-5 flex flex-col justify-between space-y-1.5 sm:space-y-3">
+            <div class="card-accent-amber p-2.5 sm:p-3 flex flex-col justify-between space-y-1">
                 <div>
-                    <span class="text-[9px] sm:text-[11px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider">STAFF COUNT</span>
+                    <span class="text-[9px] sm:text-[10px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider">STAFF COUNT</span>
                 </div>
                 <div>
-                    <div class="text-xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+                    <div class="text-lg sm:text-2xl font-bold text-slate-900 dark:text-white">
                         {{ $staffCount ?? 0 }}
                     </div>
-                    <span class="text-[9px] sm:text-[11px] text-slate-500 dark:text-slate-400">Active staff members</span>
+                    <span class="text-[9px] sm:text-[10px] text-slate-500 dark:text-slate-400">Active staff members</span>
                 </div>
             </div>
 
-            <div class="card-accent-blue p-2.5 sm:p-5 flex flex-col justify-between space-y-1.5 sm:space-y-3">
+            <div class="card-accent-blue p-2.5 sm:p-3 flex flex-col justify-between space-y-1">
                 <div>
-                    <span class="text-[9px] sm:text-[11px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">DISPATCH RIDERS</span>
+                    <span class="text-[9px] sm:text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">DISPATCH RIDERS</span>
                 </div>
                 <div>
-                    <div class="text-xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+                    <div class="text-lg sm:text-2xl font-bold text-slate-900 dark:text-white">
                         {{ $riderCount ?? 0 }}
                     </div>
-                    <span class="text-[9px] sm:text-[11px] text-cyan-600 dark:text-cyan-400 font-semibold">Active delivery riders</span>
+                    <span class="text-[9px] sm:text-[10px] text-cyan-600 dark:text-cyan-400 font-semibold">Active delivery riders</span>
                 </div>
             </div>
 
-            <div class="card-accent-purple p-2.5 sm:p-5 flex flex-col justify-between space-y-1.5 sm:space-y-3">
+            <div class="card-accent-purple p-2.5 sm:p-3 flex flex-col justify-between space-y-1">
                 <div>
-                    <span class="text-[9px] sm:text-[11px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider">REGISTERED CUSTOMERS</span>
+                    <span class="text-[9px] sm:text-[10px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider">REGISTERED CUSTOMERS</span>
                 </div>
                 <div>
-                    <div class="text-xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+                    <div class="text-lg sm:text-2xl font-bold text-slate-900 dark:text-white">
                         {{ $customerCount ?? 0 }}
                     </div>
-                    <span class="text-[9px] sm:text-[11px] text-slate-500 dark:text-slate-400">Total registered accounts</span>
+                    <span class="text-[9px] sm:text-[10px] text-slate-500 dark:text-slate-400">Total registered accounts</span>
                 </div>
             </div>
 
-            <div class="card-accent-emerald p-2.5 sm:p-5 flex flex-col justify-between space-y-1.5 sm:space-y-3">
+            <div class="card-accent-emerald p-2.5 sm:p-3 flex flex-col justify-between space-y-1">
                 <div>
-                    <span class="text-[9px] sm:text-[11px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">PROFIT (PAID)</span>
+                    <span class="text-[9px] sm:text-[10px] font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">PROFIT (PAID)</span>
                 </div>
                 <div>
-                    <div class="text-base sm:text-3xl font-bold text-slate-900 dark:text-white">
+                    <div class="text-base sm:text-2xl font-bold text-slate-900 dark:text-white">
                         ₱{{ number_format($profitTotal ?? 0, 2) }}
                     </div>
-                    <span class="text-[9px] sm:text-[11px] text-slate-500 dark:text-slate-400">Total revenue from paid orders</span>
+                    <span class="text-[9px] sm:text-[10px] text-slate-500 dark:text-slate-400">Total revenue from paid orders</span>
                 </div>
             </div>
 
-            <div class="card-accent-blue p-2.5 sm:p-5 flex flex-col justify-between space-y-1.5 sm:space-y-3">
+            <div class="card-accent-blue p-2.5 sm:p-3 flex flex-col justify-between space-y-1">
                 <div>
-                    <span class="text-[9px] sm:text-[11px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">TOTAL MACHINES</span>
+                    <span class="text-[9px] sm:text-[10px] font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">TOTAL MACHINES</span>
                 </div>
                 <div>
-                    <div class="text-xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+                    <div class="text-lg sm:text-2xl font-bold text-slate-900 dark:text-white">
                         {{ $totalMachines ?? 20 }}
                     </div>
-                    <span class="text-[9px] sm:text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold">
+                    <span class="text-[9px] sm:text-[10px] text-emerald-600 dark:text-emerald-400 font-semibold">
                         {{ $availableMachines ?? 0 }} Available (Idle)
                     </span>
                 </div>
             </div>
 
-            <div class="card-accent-purple p-2.5 sm:p-5 flex flex-col justify-between space-y-1.5 sm:space-y-3">
+            <div class="card-accent-purple p-2.5 sm:p-3 flex flex-col justify-between space-y-1">
                 <div>
-                    <span class="text-[9px] sm:text-[11px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider">TOTAL SYSTEM ORDERS</span>
+                    <span class="text-[9px] sm:text-[10px] font-bold text-purple-600 dark:text-purple-400 uppercase tracking-wider">TOTAL SYSTEM ORDERS</span>
                 </div>
                 <div>
-                    <div class="text-xl sm:text-3xl font-bold text-blue-600 dark:text-blue-400">
+                    <div class="text-lg sm:text-2xl font-bold text-blue-600 dark:text-blue-400">
                         {{ $totalLaundry ?? 0 }}
                     </div>
-                    <span class="text-[9px] sm:text-[11px] text-slate-500 dark:text-slate-400">Lifetime processed orders</span>
+                    <span class="text-[9px] sm:text-[10px] text-slate-500 dark:text-slate-400">Lifetime processed orders</span>
                 </div>
             </div>
 
         </div>
 
-        <div class="grid grid-cols-1 gap-6">
-            <div class="app-card p-4 sm:p-6 space-y-6">
+        <div class="grid grid-cols-1 gap-4">
+            <div class="app-card p-3 sm:p-4 space-y-3.5">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+                        <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white">
                             Machine Status Monitor
                         </h2>
-                        <p class="text-xs text-slate-500 dark:text-slate-400">
+                        <p class="text-[11px] text-slate-500 dark:text-slate-400">
                             Real-time status of commercial washers & dryers
                         </p>
                     </div>
                     <div class="flex items-center gap-2">
-                        <a href="{{ route('admin.machines.create') }}" class="btn-primary py-1.5 px-3 text-xs">
+                        <a href="{{ route('admin.machines.create') }}" class="btn-primary py-1 px-2.5 text-xs">
                             + Add Machine
                         </a>
-                        <a href="{{ route('admin.machines.index') }}" class="btn-secondary py-1.5 px-3 text-xs">
+                        <a href="{{ route('admin.machines.index') }}" class="btn-secondary py-1 px-2.5 text-xs">
                             Manage Machines
                         </a>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 sm:gap-3.5">
+                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-2.5">
                     @forelse($machines as $machine)
                         @php
                             $isMaintenance = in_array($machine->status, ['maintenance', 'out_of_service', 'broken']);
@@ -674,8 +674,8 @@
 
                             $cardBorderClass = match(true) {
                                 $isMaintenance => 'border-rose-500/40 dark:border-rose-900/50 bg-rose-500/5 dark:bg-rose-950/15',
-                                $isBusy || $ord => 'border-2 border-blue-600 dark:border-blue-500 bg-blue-50/40 dark:bg-[#18181B] shadow-md shadow-blue-500/10',
-                                default => 'border border-slate-200 dark:border-zinc-800 bg-white dark:bg-[#18181B] hover:border-emerald-500/60 dark:hover:border-emerald-500/50 hover:shadow-md'
+                                $isBusy || $ord => 'border-2 border-blue-600 dark:border-blue-500 bg-blue-50/40 dark:bg-[#18181B] shadow-sm',
+                                default => 'border border-slate-200 dark:border-zinc-800 bg-white dark:bg-[#18181B] hover:border-emerald-500/60 dark:hover:border-emerald-500/50 hover:shadow-sm'
                             };
 
                             $statusIconBg = match($machine->status) {
@@ -697,48 +697,48 @@
 
                         @if($ord)
                             <a href="{{ route('laundry.track', $ord->qrCode->qr_token ?? $ord->order_number) }}"
-                               class="block p-4 rounded-xl {{ $cardBorderClass }} space-y-3 transition-all duration-200 cursor-pointer group hover:scale-[1.02]"
+                               class="block p-2.5 rounded-lg {{ $cardBorderClass }} space-y-2 transition-all duration-200 cursor-pointer group"
                                title="Click to track order #{{ $ord->order_number }}">
                                 <div class="flex items-center justify-between gap-1">
                                     <span class="text-xs font-bold text-slate-900 dark:text-white truncate group-hover:text-blue-600 transition">
                                         {{ $machine->machine_name }}
                                     </span>
-                                    <span class="text-[10px] bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-zinc-400 font-mono font-bold px-1.5 py-0.5 rounded border border-slate-200 dark:border-zinc-700 shrink-0">
+                                    <span class="text-[9.5px] bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-zinc-400 font-mono font-bold px-1.5 py-0.2 rounded border border-slate-200 dark:border-zinc-700 shrink-0">
                                         {{ $machine->machine_code }}
                                     </span>
                                 </div>
 
-                                <div class="flex items-center gap-2.5">
-                                    <div class="w-9 h-9 rounded-xl flex items-center justify-center text-xs shrink-0 {{ $statusIconBg }}">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-7 h-7 rounded-lg flex items-center justify-center text-xs shrink-0 {{ $statusIconBg }}">
                                         @if($machine->status === 'washing')
-                                            <svg class="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                                            <svg class="w-3.5 h-3.5 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                                         @elseif($machine->status === 'drying')
-                                            <svg class="w-4 h-4 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/></svg>
+                                            <svg class="w-3.5 h-3.5 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z"/></svg>
                                         @elseif($isMaintenance)
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
                                         @else
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                                         @endif
                                     </div>
                                     <div class="truncate">
-                                        <span class="inline-flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wider text-slate-800 dark:text-zinc-200">
-                                            <span class="w-2 h-2 rounded-full {{ $dotLed }}"></span>
+                                        <span class="inline-flex items-center gap-1 text-[9.5px] font-extrabold uppercase tracking-wider text-slate-800 dark:text-zinc-200">
+                                            <span class="w-1.5 h-1.5 rounded-full {{ $dotLed }}"></span>
                                             {{ strtoupper($machine->status === 'idle' ? str_replace('_', ' ', $ord->order_status) : $machine->status) }}
                                         </span>
                                         @if(in_array($machine->status, ['washing', 'rinsing', 'drying']) && $machine->remaining_minutes)
-                                            <span class="block text-[10px] text-blue-600 dark:text-blue-400 font-bold font-mono truncate">{{ $machine->remaining_minutes }}m remaining</span>
+                                            <span class="block text-[9.5px] text-blue-600 dark:text-blue-400 font-bold font-mono truncate">{{ $machine->remaining_minutes }}m remaining</span>
                                         @else
-                                            <span class="block text-[10px] text-amber-600 dark:text-amber-400 font-bold truncate">Order {{ ucfirst(str_replace('_', ' ', $ord->order_status)) }}</span>
+                                            <span class="block text-[9.5px] text-amber-600 dark:text-amber-400 font-bold truncate">Order {{ ucfirst(str_replace('_', ' ', $ord->order_status)) }}</span>
                                         @endif
                                     </div>
                                 </div>
 
-                                <div class="pt-2 border-t border-slate-100 dark:border-zinc-800 text-[10px] space-y-0.5">
+                                <div class="pt-1.5 border-t border-slate-100 dark:border-zinc-800 text-[9.5px] space-y-0.5">
                                     <div class="flex items-center justify-between">
                                         <span class="font-bold text-blue-600 dark:text-blue-400 group-hover:underline truncate">
                                             #{{ $ord->order_number }}
                                         </span>
-                                        <span class="text-[9px] text-slate-400 dark:text-zinc-500 uppercase font-semibold">Active</span>
+                                        <span class="text-[8.5px] text-slate-400 dark:text-zinc-500 uppercase font-semibold">Active</span>
                                     </div>
                                     <span class="block text-slate-600 dark:text-slate-400 font-medium truncate">
                                         {{ $ord->customer->name ?? 'Customer' }}
@@ -746,30 +746,30 @@
                                 </div>
                             </a>
                         @else
-                            <div class="p-4 rounded-xl {{ $cardBorderClass }} space-y-3 transition-all duration-200 hover:scale-[1.01]">
+                            <div class="p-2.5 rounded-lg {{ $cardBorderClass }} space-y-2 transition-all duration-200">
                                 <div class="flex items-center justify-between gap-1">
                                     <span class="text-xs font-bold text-slate-900 dark:text-white truncate">
                                         {{ $machine->machine_name }}
                                     </span>
-                                    <span class="text-[10px] bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-zinc-400 font-mono font-bold px-1.5 py-0.5 rounded border border-slate-200 dark:border-zinc-700 shrink-0">
+                                    <span class="text-[9.5px] bg-slate-100 dark:bg-zinc-800 text-slate-500 dark:text-zinc-400 font-mono font-bold px-1.5 py-0.2 rounded border border-slate-200 dark:border-zinc-700 shrink-0">
                                         {{ $machine->machine_code }}
                                     </span>
                                 </div>
 
-                                <div class="flex items-center gap-2.5">
-                                    <div class="w-9 h-9 rounded-xl flex items-center justify-center text-xs shrink-0 {{ $statusIconBg }}">
+                                <div class="flex items-center gap-2">
+                                    <div class="w-7 h-7 rounded-lg flex items-center justify-center text-xs shrink-0 {{ $statusIconBg }}">
                                         @if($isMaintenance)
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
                                         @else
-                                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                                         @endif
                                     </div>
                                     <div class="truncate">
-                                        <span class="inline-flex items-center gap-1.5 text-[10px] font-extrabold uppercase tracking-wider text-slate-700 dark:text-zinc-300">
-                                            <span class="w-2 h-2 rounded-full {{ $dotLed }}"></span>
+                                        <span class="inline-flex items-center gap-1 text-[9.5px] font-extrabold uppercase tracking-wider text-slate-700 dark:text-zinc-300">
+                                            <span class="w-1.5 h-1.5 rounded-full {{ $dotLed }}"></span>
                                             {{ strtoupper($machine->status) }}
                                         </span>
-                                        <span class="block text-[10px] text-slate-500 dark:text-zinc-400 font-medium truncate">
+                                        <span class="block text-[9.5px] text-slate-500 dark:text-zinc-400 font-medium truncate">
                                             {{ $machine->status === 'idle' ? 'Available' : ($machine->remaining_minutes ? $machine->remaining_minutes.'m remaining' : 'In Service') }}
                                         </span>
                                     </div>
@@ -777,93 +777,93 @@
                             </div>
                         @endif
                     @empty
-                        <div class="col-span-full text-center py-6 text-xs text-slate-500">
+                        <div class="col-span-full text-center py-4 text-xs text-slate-500">
                             No machines configured.
                         </div>
                     @endforelse
                 </div>
 
-                <div class="flex flex-wrap items-center gap-4 text-[11px] font-medium text-slate-600 dark:text-slate-400 border-t border-slate-200/80 dark:border-zinc-800 pt-3.5">
-                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-teal-500"></span> Washing</span>
-                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-sky-500"></span> Rinsing</span>
-                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-amber-500"></span> Drying</span>
-                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Idle / Available</span>
-                    <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-rose-500"></span> Maintenance</span>
+                <div class="flex flex-wrap items-center gap-3 text-[10px] font-medium text-slate-600 dark:text-slate-400 border-t border-slate-200/80 dark:border-zinc-800 pt-2.5">
+                    <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-teal-500"></span> Washing</span>
+                    <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span> Rinsing</span>
+                    <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span> Drying</span>
+                    <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span> Idle / Available</span>
+                    <span class="flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-rose-500"></span> Maintenance</span>
                 </div>
             </div>
         </div>
 
         <!-- Recent Laundry Orders -->
-        <div class="app-card p-4 sm:p-6 space-y-4 overflow-hidden flex flex-col shadow-sm">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 dark:border-zinc-700 pb-3">
+        <div class="app-card p-3 sm:p-4 space-y-3 overflow-hidden flex flex-col shadow-sm">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 dark:border-zinc-700 pb-2.5">
                 <div>
-                    <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+                    <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white">
                         Recent Laundry Orders
                     </h2>
-                    <p class="text-xs text-slate-500 dark:text-slate-400">
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400">
                         Live feed of active store and online orders
                     </p>
                 </div>
                 <div class="grid grid-cols-2 sm:flex sm:items-center gap-2 w-full sm:w-auto">
-                    <a href="{{ route('laundry.create') }}" class="btn-primary py-1.5 px-3 text-xs w-full sm:w-auto text-center flex items-center justify-center">
+                    <a href="{{ route('laundry.create') }}" class="btn-primary py-1 px-2.5 text-xs w-full sm:w-auto text-center flex items-center justify-center">
                         + New Order
                     </a>
-                    <a href="{{ route('admin.laundry.index') }}" class="btn-secondary py-1.5 px-3 text-xs w-full sm:w-auto text-center flex items-center justify-center">
+                    <a href="{{ route('admin.laundry.index') }}" class="btn-secondary py-1 px-2.5 text-xs w-full sm:w-auto text-center flex items-center justify-center">
                         View All Orders Queue
                     </a>
                 </div>
             </div>
 
-            <div class="overflow-x-auto max-w-full flex-1 mt-2 border border-slate-200 dark:border-zinc-800 rounded-lg">
+            <div class="overflow-x-auto max-w-full flex-1 mt-1 border border-slate-200 dark:border-zinc-800 rounded-lg">
                 <table class="w-full text-left text-xs whitespace-nowrap min-w-[650px]">
-                    <thead class="bg-black/5 dark:bg-[#18181B] text-slate-700 dark:text-slate-300 uppercase text-[10px] tracking-wider border-b border-slate-200 dark:border-zinc-700">
+                    <thead class="bg-black/5 dark:bg-[#18181B] text-slate-700 dark:text-slate-300 uppercase text-[9.5px] tracking-wider border-b border-slate-200 dark:border-zinc-700">
                         <tr>
-                            <th class="px-4 py-3">Order Code</th>
-                            <th class="px-4 py-3">Customer</th>
-                            <th class="px-4 py-3">Service</th>
-                            <th class="px-4 py-3">Payment</th>
-                            <th class="px-4 py-3">Status</th>
-                            <th class="px-4 py-3 text-center">Action</th>
+                            <th class="px-3 py-2">Order Code</th>
+                            <th class="px-3 py-2">Customer</th>
+                            <th class="px-3 py-2">Service</th>
+                            <th class="px-3 py-2">Payment</th>
+                            <th class="px-3 py-2">Status</th>
+                            <th class="px-3 py-2 text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-black/5 dark:divide-white/5 text-slate-900 dark:text-slate-200">
                         @forelse($recentOrders->take(6) as $order)
                             <tr class="hover:bg-black/5 dark:hover:bg-white/5 transition">
-                                <td class="px-4 py-3 font-mono font-bold text-blue-600 dark:text-blue-400">
+                                <td class="px-3 py-2 font-mono font-bold text-blue-600 dark:text-blue-400">
                                     #{{ $order->order_number }}
                                 </td>
-                                <td class="px-4 py-3 font-medium">
+                                <td class="px-3 py-2 font-medium">
                                     {{ $order->customer->name ?? 'Walk-in Customer' }}
                                 </td>
-                                <td class="px-4 py-3 text-slate-600 dark:text-slate-300">
+                                <td class="px-3 py-2 text-slate-600 dark:text-slate-300">
                                     {{ $order->service->name ?? 'Standard Wash' }}
                                 </td>
-                                <td class="px-4 py-3 font-mono">
-                                    <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
+                                <td class="px-3 py-2 font-mono">
+                                    <span class="px-2 py-0.5 rounded text-[9.5px] font-extrabold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
                                         {{ strtoupper($order->payment_status) }} (₱{{ number_format($order->total_amount, 2) }})
                                     </span>
                                 </td>
-                                <td class="px-4 py-3">
+                                <td class="px-3 py-2">
                                     @if($order->order_status === 'completed')
-                                        <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">Completed</span>
+                                        <span class="px-2 py-0.5 rounded text-[9.5px] font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">Completed</span>
                                     @elseif($order->order_status === 'ready' || $order->order_status === 'finish')
-                                        <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30">Finish</span>
+                                        <span class="px-2 py-0.5 rounded text-[9.5px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30">Finish</span>
                                     @elseif($order->order_status === 'pending')
-                                        <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300">Pending</span>
+                                        <span class="px-2 py-0.5 rounded text-[9.5px] font-bold uppercase tracking-wider bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300">Pending</span>
                                     @else
-                                        <span class="px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30">{{ str_replace('_', ' ', $order->order_status) }}</span>
+                                        <span class="px-2 py-0.5 rounded text-[9.5px] font-bold uppercase tracking-wider bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30">{{ str_replace('_', ' ', $order->order_status) }}</span>
                                     @endif
                                 </td>
-                                <td class="px-4 py-3 text-center">
+                                <td class="px-3 py-2 text-center">
                                     <a href="{{ route('admin.laundry.index') }}"
-                                       class="btn-secondary py-1 px-3 text-[11px]">
+                                       class="btn-secondary py-1 px-2.5 text-[10.5px]">
                                         Manage
                                     </a>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="text-center py-6 text-slate-500">
+                                <td colspan="6" class="text-center py-4 text-slate-500">
                                     No recent orders recorded.
                                 </td>
                             </tr>
@@ -872,8 +872,6 @@
                 </table>
             </div>
         </div>
-
-
 
         <!-- Top Store Customers & Laundry Order Frequency -->
         @php
@@ -888,40 +886,40 @@
                 ->get();
         @endphp
 
-        <div class="app-card p-4 sm:p-6 space-y-4">
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-zinc-800 pb-3">
+        <div class="app-card p-3 sm:p-4 space-y-3">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 dark:border-zinc-800 pb-2.5">
                 <div>
-                    <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
+                    <h2 class="text-sm sm:text-base font-bold text-slate-900 dark:text-white">
                         Customer Laundry Activity & Order History
                     </h2>
-                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                    <p class="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                         Overview of registered store customers and their total accumulated laundry orders
                     </p>
                 </div>
-                <a href="{{ route('admin.users.index') }}" class="btn-secondary py-1.5 px-3 text-xs w-full sm:w-auto text-center flex items-center justify-center">
+                <a href="{{ route('admin.users.index') }}" class="btn-secondary py-1 px-2.5 text-xs w-full sm:w-auto text-center flex items-center justify-center">
                     Manage All Customers
                 </a>
             </div>
 
             <div class="overflow-x-auto border border-slate-200 dark:border-zinc-800 rounded-lg">
                 <table class="w-full text-xs whitespace-nowrap min-w-[650px]">
-                    <thead class="bg-black/5 dark:bg-[#18181B] text-slate-700 dark:text-slate-300 uppercase text-[10px] tracking-wider border-b border-slate-200 dark:border-zinc-700">
+                    <thead class="bg-black/5 dark:bg-[#18181B] text-slate-700 dark:text-slate-300 uppercase text-[9.5px] tracking-wider border-b border-slate-200 dark:border-zinc-700">
                         <tr>
-                            <th class="text-left px-4 py-3">Customer</th>
-                            <th class="text-left px-4 py-3">Phone Contact</th>
-                            <th class="text-center px-4 py-3">Total Orders Placed</th>
-                            <th class="text-left px-4 py-3">Total Spent</th>
-                            <th class="text-left px-4 py-3">Latest Order</th>
-                            <th class="text-center px-4 py-3">Action</th>
+                            <th class="text-left px-3 py-2">Customer</th>
+                            <th class="text-left px-3 py-2">Phone Contact</th>
+                            <th class="text-center px-3 py-2">Total Orders Placed</th>
+                            <th class="text-left px-3 py-2">Total Spent</th>
+                            <th class="text-left px-3 py-2">Latest Order</th>
+                            <th class="text-center px-3 py-2">Action</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-black/5 dark:divide-white/5 text-slate-900 dark:text-slate-200">
                         @forelse($laundryCustomers as $customer)
                             @php $latestOrder = $customer->orders->first(); @endphp
                             <tr class="hover:bg-black/5 dark:hover:bg-white/5 transition">
-                                <td class="px-4 py-3">
-                                    <div class="flex items-center gap-2.5">
-                                        <div class="w-8 h-8 rounded-full bg-blue-600/15 text-blue-600 dark:text-blue-400 font-bold flex items-center justify-center text-xs shrink-0 border border-blue-600/30 uppercase">
+                                <td class="px-3 py-2">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-7 h-7 rounded-full bg-blue-600/15 text-blue-600 dark:text-blue-400 font-bold flex items-center justify-center text-[11px] shrink-0 border border-blue-600/30 uppercase">
                                             {{ substr($customer->name, 0, 1) }}
                                         </div>
                                         <div>
@@ -934,46 +932,46 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-4 py-3 text-slate-600 dark:text-slate-300 text-[11px] font-medium">
+                                <td class="px-3 py-2 text-slate-600 dark:text-slate-300 text-[10.5px] font-medium">
                                     {{ $customer->phone ?? 'No phone' }}
                                 </td>
-                                <td class="px-4 py-3 text-center">
-                                    <div class="flex flex-col items-center gap-1">
-                                        <span class="px-2.5 py-1 rounded-md text-xs font-bold inline-flex items-center gap-1 {{ $customer->orders_count > 0 ? 'bg-blue-600/15 text-blue-600 dark:text-blue-400 border border-blue-600/30' : 'bg-slate-100 text-slate-500 dark:bg-zinc-800 dark:text-slate-400 border border-slate-200 dark:border-zinc-700' }}">
+                                <td class="px-3 py-2 text-center">
+                                    <div class="flex flex-col items-center gap-0.5">
+                                        <span class="px-2 py-0.5 rounded text-[11px] font-bold inline-flex items-center gap-1 {{ $customer->orders_count > 0 ? 'bg-blue-600/15 text-blue-600 dark:text-blue-400 border border-blue-600/30' : 'bg-slate-100 text-slate-500 dark:bg-zinc-800 dark:text-slate-400 border border-slate-200 dark:border-zinc-700' }}">
                                             {{ $customer->orders_count }} {{ Str::plural('Order', $customer->orders_count) }}
                                         </span>
-                                        <span class="text-[10px] font-bold text-pink-600 dark:text-pink-400 inline-flex items-center gap-1">
+                                        <span class="text-[9.5px] font-bold text-pink-600 dark:text-pink-400 inline-flex items-center gap-1">
                                             {{ $customer->stamps_count ?? 0 }}/12 Stamps
                                             @if(($customer->discount_rewards_available ?? 0) > 0)
-                                                <span class="text-[9px] bg-pink-500 text-white px-1.5 py-0.2 rounded font-extrabold">REWARD READY</span>
+                                                <span class="text-[8.5px] bg-pink-500 text-white px-1 py-0.2 rounded font-extrabold">REWARD READY</span>
                                             @endif
                                         </span>
                                     </div>
                                 </td>
-                                <td class="px-4 py-3 font-semibold text-emerald-600 dark:text-emerald-400 text-xs">
+                                <td class="px-3 py-2 font-semibold text-emerald-600 dark:text-emerald-400 text-[11px]">
                                     ₱{{ number_format($customer->orders_sum_total_amount ?? 0, 2) }}
                                 </td>
-                                <td class="px-4 py-3">
+                                <td class="px-3 py-2">
                                     @if($latestOrder)
                                         <div>
-                                            <span class="font-mono font-bold text-blue-600 dark:text-blue-400 text-[11px]">#{{ $latestOrder->order_number }}</span>
-                                            <span class="text-[10px] text-slate-500 dark:text-slate-400 block">
+                                            <span class="font-mono font-bold text-blue-600 dark:text-blue-400 text-[10.5px]">#{{ $latestOrder->order_number }}</span>
+                                            <span class="text-[9.5px] text-slate-500 dark:text-slate-400 block">
                                                 {{ $latestOrder->created_at->format('M d, Y') }} ({{ str_replace('_', ' ', $latestOrder->order_status) }})
                                             </span>
                                         </div>
                                     @else
-                                        <span class="text-[10px] text-slate-400 dark:text-slate-500 italic">No orders yet</span>
+                                        <span class="text-[9.5px] text-slate-400 dark:text-slate-500 italic">No orders yet</span>
                                     @endif
                                 </td>
-                                <td class="px-4 py-3 text-center">
-                                    <a href="{{ route('admin.laundry.index') }}" class="btn-secondary py-1 px-3 text-[11px]">
+                                <td class="px-3 py-2 text-center">
+                                    <a href="{{ route('admin.laundry.index') }}" class="btn-secondary py-1 px-2.5 text-[10.5px]">
                                         View Orders
                                     </a>
                                 </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="text-center py-6 text-xs text-slate-500">
+                                <td colspan="6" class="text-center py-4 text-xs text-slate-500">
                                     No registered customers found.
                                 </td>
                             </tr>
