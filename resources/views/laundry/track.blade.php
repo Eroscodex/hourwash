@@ -17,7 +17,7 @@
 
         <div class="flex flex-wrap items-center gap-1.5 w-full sm:w-auto">
             @if(auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isOwner() || auth()->user()->isStaff()))
-                <a href="{{ route('laundry.receipt', ['order' => $order->id, 'auto_print' => 1]) }}" onclick="event.preventDefault(); window.open(this.href, 'ReceiptPopup', 'width=420,height=640,left=' + ((screen.width - 420) / 2) + ',top=' + ((screen.height - 640) / 2));" class="btn-primary text-xs py-1.5 px-3 inline-flex items-center justify-center gap-1.5 shadow-sm">
+                <a href="{{ route('laundry.receipt', ['order' => $order->id, 'auto_print' => 1]) }}" onclick="event.preventDefault(); window.open(this.href, 'ReceiptPopup', 'width=420,height=640,left=' + ((screen.width - 420) / 2) + ',top=' + ((screen.height - 640) / 2));" class="btn-secondary text-xs py-1.5 px-3 inline-flex items-center justify-center gap-1.5 shadow-sm">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
                     <span>Print Thermal Receipt</span>
                 </a>
@@ -29,12 +29,12 @@
 
             @auth
                 @if(auth()->user()->isOwner() || auth()->user()->isStaff())
-                    <a href="{{ route('admin.laundry.index') }}" class="flex-1 sm:flex-none text-center btn-secondary text-[11px] py-1 px-2.5">Back to Orders</a>
+                    <a href="{{ route('admin.laundry.index') }}" class="flex-1 sm:flex-none text-center btn-primary text-xs py-1.5 px-3">Back to Orders</a>
                 @else
-                    <a href="{{ route('my.orders') }}" class="flex-1 sm:flex-none text-center btn-secondary text-[11px] py-1 px-2.5">My Orders</a>
+                    <a href="{{ route('my.orders') }}" class="flex-1 sm:flex-none text-center btn-primary text-xs py-1.5 px-3">My Orders</a>
                 @endif
             @else
-                <a href="{{ route('welcome') }}" class="flex-1 sm:flex-none text-center btn-secondary text-[11px] py-1 px-2.5">Home</a>
+                <a href="{{ route('welcome') }}" class="flex-1 sm:flex-none text-center btn-primary text-xs py-1.5 px-3">Home</a>
             @endauth
         </div>
     </div>
