@@ -198,15 +198,17 @@ class LaundryController extends Controller
                 'notes' => $notes,
             ]);
 
+            // Eager load service before syncing machine assignment
+            $order->load(['customer', 'service']);
+            $order->syncMachineAssignment('pending', $machineId, $request->filled('machine_id'));
+            $order->save();
+
             QrCode::create([
                 'order_id' => $order->id,
                 'qr_token' => Str::uuid(),
                 'status' => 'active',
                 'expires_at' => now()->addDays(7),
             ]);
-
-            // Eager load customer and service for emails
-            $order->load(['customer', 'service']);
 
             // 1. Send email notification to Customer
             try {

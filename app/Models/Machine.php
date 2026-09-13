@@ -32,7 +32,15 @@ class Machine extends Model
 
     public function getDisplayOrderAttribute()
     {
-        return $this->currentOrder ?? $this->activeOrder;
+        if ($this->currentOrder && ! in_array($this->currentOrder->order_status, ['completed', 'cancelled', 'finish']) && $this->currentOrder->machine_id == $this->id) {
+            return $this->currentOrder;
+        }
+
+        if ($this->activeOrder && ! in_array($this->activeOrder->order_status, ['completed', 'cancelled', 'finish'])) {
+            return $this->activeOrder;
+        }
+
+        return null;
     }
 
     public function getRemainingMinutesAttribute($value)

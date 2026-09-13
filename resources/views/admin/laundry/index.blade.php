@@ -79,9 +79,18 @@
                             <div>
                                 <div class="flex items-center gap-2">
                                     <h3 class="text-base font-bold font-mono text-blue-600 dark:text-blue-400">#{{ $order->order_number }}</h3>
+                                    @php
+                                        $sType = strtolower($order->service?->service_type ?? '');
+                                        $sName = strtolower($order->service?->name ?? '');
+                                        $isFoldOnlyOrder = ($sType === 'fold') || (str_contains($sName, 'fold') && !str_contains($sName, 'wash') && !str_contains($sName, 'dry'));
+                                    @endphp
                                     @if($order->machine)
                                         <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30">
                                             {{ $order->machine->machine_name }} ({{ $order->machine->machine_code }})
+                                        </span>
+                                    @elseif($isFoldOnlyOrder || in_array($order->order_status, ['finish', 'completed', 'cancelled']))
+                                        <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-slate-500/15 text-slate-700 dark:text-zinc-300 border border-slate-500/30">
+                                            No Machine Needed ({{ $isFoldOnlyOrder ? 'Fold Only' : 'Folding/Done' }})
                                         </span>
                                     @else
                                         <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30">

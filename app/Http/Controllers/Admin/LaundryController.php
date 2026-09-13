@@ -45,9 +45,8 @@ class LaundryController extends Controller
             $prevPaymentStatus = $order->payment_status;
             $statusInput = $request->input('status') ?? $request->input('order_status');
 
-            if ($request->has('machine_id')) {
-                $order->machine_id = $request->machine_id ?: null;
-            }
+            $hasMachineInput = $request->has('machine_id');
+            $manualMachineId = ($hasMachineInput && $request->filled('machine_id')) ? (int) $request->machine_id : null;
 
             if (! empty($statusInput)) {
                 $order->order_status = $statusInput;
@@ -71,58 +70,13 @@ class LaundryController extends Controller
                     $order->estimated_completion = now()->addMinutes($order->service?->estimatedDurationMinutes() ?? 15);
                 }
 
-                // If order has no machine assigned yet, assign an available idle machine
-                if (! $order->machine_id && in_array($statusInput, ['washing', 'rinsing', 'drying', 'received'])) {
-                    $availableMachine = Machine::where('status', 'idle')->first();
-                    if ($availableMachine) {
-                        $order->machine_id = $availableMachine->id;
-                    }
-                }
-
-                // Sync assigned machine status dynamically
-                if ($order->machine_id) {
-                    if ($statusInput === 'washing') {
-                        Machine::where('id', $order->machine_id)->update([
-                            'current_order_id' => $order->id,
-                            'status' => 'washing',
-                            'remaining_minutes' => 35,
-                            'last_status_update' => now(),
-                        ]);
-                    } elseif ($statusInput === 'rinsing') {
-                        Machine::where('id', $order->machine_id)->update([
-                            'current_order_id' => $order->id,
-                            'status' => 'rinsing',
-                            'remaining_minutes' => 15,
-                            'last_status_update' => now(),
-                        ]);
-                    } elseif ($statusInput === 'drying') {
-                        Machine::where('id', $order->machine_id)->update([
-                            'current_order_id' => $order->id,
-                            'status' => 'drying',
-                            'remaining_minutes' => 40,
-                            'last_status_update' => now(),
-                        ]);
-                    } elseif ($statusInput === 'received') {
-                        Machine::where('id', $order->machine_id)->update([
-                            'current_order_id' => $order->id,
-                            'status' => 'idle',
-                            'remaining_minutes' => null,
-                            'last_status_update' => now(),
-                        ]);
-                    } elseif (in_array($statusInput, ['pending', 'out_for_pickup', 'picked_up', 'ready', 'finish', 'completed', 'cancelled'])) {
-                        Machine::where('id', $order->machine_id)->update([
-                            'current_order_id' => null,
-                            'status' => 'idle',
-                            'remaining_minutes' => null,
-                            'last_status_update' => now(),
-                        ]);
-                    }
-                }
-
                 if ($statusInput === 'completed' && $previousStatus !== 'completed') {
                     $order->completed_at = now();
                 }
             }
+
+            // Sync assigned machine dynamically (auto-assign washer for wash, dryer for dry, release for fold/finish/done)
+            $order->syncMachineAssignment($statusInput ?: $order->order_status, $manualMachineId, $hasMachineInput);
 
             if ($request->filled('payment_status')) {
                 $order->payment_status = $request->payment_status;
