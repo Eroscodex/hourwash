@@ -569,51 +569,53 @@
             </div>
 
             <div class="overflow-x-auto max-w-full border border-slate-200 dark:border-zinc-800 rounded-lg">
-                <table class="w-full text-left text-xs whitespace-nowrap min-w-[600px]">
+                <table class="w-full text-left text-xs">
                     <thead class="bg-slate-100 dark:bg-[#18181B] text-slate-700 dark:text-slate-300 uppercase text-[9.5px] tracking-wider border-b border-slate-200 dark:border-zinc-700">
                         <tr>
-                            <th class="px-3 py-2.5">Order Tag</th>
-                            <th class="px-3 py-2.5">Customer</th>
-                            <th class="px-3 py-2.5">Service</th>
-                            <th class="px-3 py-2.5">Weight</th>
-                            <th class="px-3 py-2.5">Payment</th>
-                            <th class="px-3 py-2.5">Current Stage</th>
-                            <th class="px-3 py-2.5 text-center">Action</th>
+                            <th class="px-2 py-2">Order Tag</th>
+                            <th class="px-2 py-2">Customer</th>
+                            <th class="px-2 py-2">Service</th>
+                            <th class="px-2 py-2">Weight</th>
+                            <th class="px-2 py-2">Payment</th>
+                            <th class="px-2 py-2">Current Stage</th>
+                            <th class="px-2 py-2 text-center">Action</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-200 dark:divide-zinc-700 text-slate-900 dark:text-slate-200">
                         @forelse($orders->whereNotIn('order_status', ['completed', 'cancelled'])->take(10) as $order)
                             <tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition">
-                                <td class="px-3 py-2 font-mono font-bold text-blue-600 dark:text-blue-400 text-xs whitespace-nowrap">#{{ $order->order_number }}</td>
-                                <td class="px-3 py-2">
-                                    <div class="font-medium text-slate-900 dark:text-slate-100 text-xs">{{ $order->customer->name ?? 'Walk-in' }}</div>
+                                <td class="px-2 py-1.5 font-mono font-bold text-blue-600 dark:text-blue-400 text-xs whitespace-nowrap">#{{ $order->order_number }}</td>
+                                <td class="px-2 py-1.5 max-w-[120px]">
+                                    <div class="font-medium text-slate-900 dark:text-slate-100 text-xs truncate" title="{{ $order->customer->name ?? 'Walk-in' }}">{{ $order->customer->name ?? 'Walk-in' }}</div>
                                     @if(!empty($order->notes))
-                                        <div class="text-[10px] text-slate-500 dark:text-slate-400 italic max-w-[150px] truncate" title="{{ $order->notes }}">
+                                        <div class="text-[10px] text-slate-500 dark:text-slate-400 italic max-w-[120px] truncate" title="{{ $order->notes }}">
                                             {{ $order->notes }}
                                         </div>
                                     @endif
                                 </td>
-                                <td class="px-3 py-2 text-slate-700 dark:text-slate-300 text-xs">{{ $order->service->name ?? 'Standard Wash' }}</td>
-                                <td class="px-3 py-2 text-slate-700 dark:text-slate-300 font-mono text-xs">{{ $order->weight_kg }} kg</td>
-                                <td class="px-3 py-2 font-mono text-xs whitespace-nowrap">
-                                    <span class="px-2 py-0.5 rounded text-[9.5px] font-extrabold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-red-600 text-white border border-red-700 shadow-sm' }}">
+                                <td class="px-2 py-1.5 text-slate-700 dark:text-slate-300 text-xs max-w-[130px] truncate" title="{{ $order->service->name ?? 'Standard Wash' }}">
+                                    {{ $order->service->name ?? 'Standard Wash' }}
+                                </td>
+                                <td class="px-2 py-1.5 text-slate-700 dark:text-slate-300 font-mono text-xs whitespace-nowrap">{{ $order->weight_kg }} kg</td>
+                                <td class="px-2 py-1.5 font-mono text-xs whitespace-nowrap">
+                                    <span class="px-1.5 py-0.5 rounded text-[9.5px] font-extrabold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-red-600 text-white border border-red-700 shadow-sm' }}">
                                         {{ strtoupper($order->payment_status) }} (₱{{ number_format($order->total_amount, 2) }})
                                     </span>
                                 </td>
-                                <td class="px-3 py-2 whitespace-nowrap">
+                                <td class="px-2 py-1.5 whitespace-nowrap">
                                      @if($order->order_status === 'completed')
-                                         <span class="px-2 py-0.5 rounded-md text-[9.5px] font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">Completed</span>
+                                         <span class="px-1.5 py-0.5 rounded-md text-[9.5px] font-bold uppercase tracking-wider bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">Completed</span>
                                      @elseif($order->order_status === 'finish')
-                                         <span class="px-2 py-0.5 rounded-md text-[9.5px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30">Finish</span>
+                                         <span class="px-1.5 py-0.5 rounded-md text-[9.5px] font-bold uppercase tracking-wider bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30">Finish</span>
                                      @elseif($order->order_status === 'cancelled')
-                                         <span class="px-2 py-0.5 rounded-md text-[9.5px] font-bold uppercase tracking-wider bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30">Cancelled</span>
+                                         <span class="px-1.5 py-0.5 rounded-md text-[9.5px] font-bold uppercase tracking-wider bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30">Cancelled</span>
                                      @else
-                                         <span class="px-2 py-0.5 rounded-md text-[9.5px] font-bold uppercase tracking-wider bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30">{{ str_replace('_', ' ', $order->order_status) }}</span>
+                                         <span class="px-1.5 py-0.5 rounded-md text-[9.5px] font-bold uppercase tracking-wider bg-blue-500/15 text-blue-700 dark:text-blue-300 border border-blue-500/30">{{ str_replace('_', ' ', $order->order_status) }}</span>
                                      @endif
                                 </td>
-                                <td class="px-3 py-2 text-center flex items-center justify-center gap-1.5 whitespace-nowrap">
-                                    <a href="{{ route('staff.laundry.index') }}" class="btn-secondary py-1 px-2.5 text-[10px]">Manage</a>
-                                     <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'staff-delete-order-{{ $order->id }}')" class="btn-danger py-1 px-2.5 text-[10px] whitespace-nowrap cursor-pointer" title="Delete Order">
+                                <td class="px-2 py-1.5 text-center flex items-center justify-center gap-1 whitespace-nowrap">
+                                    <a href="{{ route('staff.laundry.index') }}" class="btn-secondary py-0.5 px-2 text-[9.5px]">Manage</a>
+                                     <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'staff-delete-order-{{ $order->id }}')" class="btn-danger py-0.5 px-2 text-[9.5px] whitespace-nowrap cursor-pointer" title="Delete Order">
                                          Delete
                                      </button>
 
@@ -673,37 +675,37 @@
             </div>
 
             <div class="overflow-x-auto max-w-full border border-slate-200 dark:border-zinc-800 rounded-lg">
-                <table class="w-full text-left text-xs whitespace-nowrap min-w-[650px]">
-                    <thead class="bg-slate-100 dark:bg-[#18181B] text-slate-700 dark:text-slate-300 uppercase text-[10px] tracking-wider border-b border-slate-200 dark:border-zinc-700">
+                <table class="w-full text-left text-xs">
+                    <thead class="bg-slate-100 dark:bg-[#18181B] text-slate-700 dark:text-slate-300 uppercase text-[9.5px] tracking-wider border-b border-slate-200 dark:border-zinc-700">
                         <tr>
-                            <th class="px-4 py-3">Order Tag</th>
-                            <th class="px-4 py-3">Customer</th>
-                            <th class="px-4 py-3">Service</th>
-                            <th class="px-4 py-3">Weight</th>
-                            <th class="px-4 py-3">Payment</th>
-                            <th class="px-4 py-3">Date Completed</th>
-                            <th class="px-4 py-3 text-center">Receipt</th>
+                            <th class="px-2 py-2">Order Tag</th>
+                            <th class="px-2 py-2">Customer</th>
+                            <th class="px-2 py-2">Service</th>
+                            <th class="px-2 py-2">Weight</th>
+                            <th class="px-2 py-2">Payment</th>
+                            <th class="px-2 py-2">Date Completed</th>
+                            <th class="px-2 py-2 text-center">Receipt</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-200 dark:divide-zinc-700 text-slate-900 dark:text-slate-200">
                         @forelse($completedOrdersList as $compOrder)
                             <tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition">
-                                <td class="px-4 py-3 font-mono font-bold text-emerald-600 dark:text-emerald-400">#{{ $compOrder->order_number }}</td>
-                                <td class="px-4 py-3">
-                                    <div class="font-medium text-slate-900 dark:text-slate-100">{{ $compOrder->customer->name ?? 'Walk-in' }}</div>
+                                <td class="px-2 py-1.5 font-mono font-bold text-emerald-600 dark:text-emerald-400 text-xs whitespace-nowrap">#{{ $compOrder->order_number }}</td>
+                                <td class="px-2 py-1.5 max-w-[120px]">
+                                    <div class="font-medium text-slate-900 dark:text-slate-100 text-xs truncate" title="{{ $compOrder->customer->name ?? 'Walk-in' }}">{{ $compOrder->customer->name ?? 'Walk-in' }}</div>
                                 </td>
-                                <td class="px-4 py-3 text-slate-700 dark:text-slate-300">{{ $compOrder->service->name ?? 'Standard Wash' }}</td>
-                                <td class="px-4 py-3 text-slate-700 dark:text-slate-300 font-mono">{{ $compOrder->weight_kg }} kg</td>
-                                <td class="px-4 py-3 font-mono">
-                                    <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase {{ $compOrder->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
+                                <td class="px-2 py-1.5 text-slate-700 dark:text-slate-300 text-xs max-w-[130px] truncate" title="{{ $compOrder->service->name ?? 'Standard Wash' }}">{{ $compOrder->service->name ?? 'Standard Wash' }}</td>
+                                <td class="px-2 py-1.5 text-slate-700 dark:text-slate-300 font-mono text-xs whitespace-nowrap">{{ $compOrder->weight_kg }} kg</td>
+                                <td class="px-2 py-1.5 font-mono text-xs whitespace-nowrap">
+                                    <span class="px-1.5 py-0.5 rounded text-[9.5px] font-extrabold uppercase {{ $compOrder->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
                                         {{ strtoupper($compOrder->payment_status) }} (₱{{ number_format($compOrder->total_amount, 2) }})
                                     </span>
                                 </td>
-                                <td class="px-4 py-3 text-slate-500 dark:text-zinc-400 text-[11px]">
+                                <td class="px-2 py-1.5 text-slate-500 dark:text-zinc-400 text-[10.5px] whitespace-nowrap">
                                     {{ $compOrder->updated_at->format('M d, Y h:i A') }}
                                 </td>
-                                <td class="px-4 py-3 text-center">
-                                    <a href="{{ route('laundry.receipt', $compOrder->id) }}" target="_blank" class="px-2.5 py-1 rounded bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-[11px] font-bold hover:opacity-90 transition">
+                                <td class="px-2 py-1.5 text-center whitespace-nowrap">
+                                    <a href="{{ route('laundry.receipt', $compOrder->id) }}" target="_blank" class="px-2 py-0.5 rounded bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-[10px] font-bold hover:opacity-90 transition">
                                         View Receipt
                                     </a>
                                 </td>
@@ -737,37 +739,37 @@
             </div>
 
             <div class="overflow-x-auto max-w-full border border-slate-200 dark:border-zinc-800 rounded-lg">
-                <table class="w-full text-left text-xs whitespace-nowrap min-w-[650px]">
-                    <thead class="bg-slate-100 dark:bg-[#18181B] text-slate-700 dark:text-slate-300 uppercase text-[10px] tracking-wider border-b border-slate-200 dark:border-zinc-700">
+                <table class="w-full text-left text-xs">
+                    <thead class="bg-slate-100 dark:bg-[#18181B] text-slate-700 dark:text-slate-300 uppercase text-[9.5px] tracking-wider border-b border-slate-200 dark:border-zinc-700">
                         <tr>
-                            <th class="px-4 py-3">Order Tag</th>
-                            <th class="px-4 py-3">Customer</th>
-                            <th class="px-4 py-3">Service</th>
-                            <th class="px-4 py-3">Weight</th>
-                            <th class="px-4 py-3">Payment</th>
-                            <th class="px-4 py-3">Date Cancelled</th>
-                            <th class="px-4 py-3 text-center">Status</th>
+                            <th class="px-2 py-2">Order Tag</th>
+                            <th class="px-2 py-2">Customer</th>
+                            <th class="px-2 py-2">Service</th>
+                            <th class="px-2 py-2">Weight</th>
+                            <th class="px-2 py-2">Payment</th>
+                            <th class="px-2 py-2">Date Cancelled</th>
+                            <th class="px-2 py-2 text-center">Status</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-200 dark:divide-zinc-700 text-slate-900 dark:text-slate-200">
                         @forelse($cancelledOrdersList as $cancOrder)
                             <tr class="hover:bg-slate-50 dark:hover:bg-white/5 transition">
-                                <td class="px-4 py-3 font-mono font-bold text-rose-600 dark:text-rose-400">#{{ $cancOrder->order_number }}</td>
-                                <td class="px-4 py-3">
-                                    <div class="font-medium text-slate-900 dark:text-slate-100">{{ $cancOrder->customer->name ?? 'Walk-in' }}</div>
+                                <td class="px-2 py-1.5 font-mono font-bold text-rose-600 dark:text-rose-400 text-xs whitespace-nowrap">#{{ $cancOrder->order_number }}</td>
+                                <td class="px-2 py-1.5 max-w-[120px]">
+                                    <div class="font-medium text-slate-900 dark:text-slate-100 text-xs truncate" title="{{ $cancOrder->customer->name ?? 'Walk-in' }}">{{ $cancOrder->customer->name ?? 'Walk-in' }}</div>
                                 </td>
-                                <td class="px-4 py-3 text-slate-700 dark:text-slate-300">{{ $cancOrder->service->name ?? 'Standard Wash' }}</td>
-                                <td class="px-4 py-3 text-slate-700 dark:text-slate-300 font-mono">{{ $cancOrder->weight_kg }} kg</td>
-                                <td class="px-4 py-3 font-mono">
-                                    <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase {{ $cancOrder->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
+                                <td class="px-2 py-1.5 text-slate-700 dark:text-slate-300 text-xs max-w-[130px] truncate" title="{{ $cancOrder->service->name ?? 'Standard Wash' }}">{{ $cancOrder->service->name ?? 'Standard Wash' }}</td>
+                                <td class="px-2 py-1.5 text-slate-700 dark:text-slate-300 font-mono text-xs whitespace-nowrap">{{ $cancOrder->weight_kg }} kg</td>
+                                <td class="px-2 py-1.5 font-mono text-xs whitespace-nowrap">
+                                    <span class="px-1.5 py-0.5 rounded text-[9.5px] font-extrabold uppercase {{ $cancOrder->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
                                         {{ strtoupper($cancOrder->payment_status) }} (₱{{ number_format($cancOrder->total_amount, 2) }})
                                     </span>
                                 </td>
-                                <td class="px-4 py-3 text-slate-500 dark:text-zinc-400 text-[11px]">
+                                <td class="px-2 py-1.5 text-slate-500 dark:text-zinc-400 text-[10.5px] whitespace-nowrap">
                                     {{ $cancOrder->updated_at->format('M d, Y h:i A') }}
                                 </td>
-                                <td class="px-4 py-3 text-center">
-                                    <span class="px-2.5 py-1 rounded-md text-[10px] font-extrabold uppercase tracking-wider bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30">Cancelled</span>
+                                <td class="px-2 py-1.5 text-center whitespace-nowrap">
+                                    <span class="px-2 py-0.5 rounded-md text-[9.5px] font-extrabold uppercase tracking-wider bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30">Cancelled</span>
                                 </td>
                             </tr>
                         @empty
