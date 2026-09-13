@@ -46,11 +46,11 @@
             </a>
 
             <div class="flex items-center gap-2">
-                <button id="chatbot-theme-toggle" class="p-2 px-3 rounded-lg bg-white dark:dark:bg-zinc-800 text-slate-900 dark:text-zinc-100 border border-slate-200 dark:border-zinc-700  transition-all text-xs font-semibold flex items-center gap-1.5 shadow-sm cursor-pointer">
+                <button id="chatbot-theme-toggle" class="p-2 px-3 rounded-lg bg-white dark:bg-zinc-800 text-slate-900 dark:text-zinc-100 border border-slate-200 dark:border-zinc-700  transition-all text-xs font-semibold flex items-center gap-1.5 shadow-sm cursor-pointer">
                     <span class="dark:hidden">Dark</span>
                     <span class="hidden dark:inline">Light</span>
                 </button>
-                <a href="{{ route('welcome') }}" class="p-2 px-3 rounded-lg bg-white dark:dark:bg-zinc-800 text-slate-900 dark:text-zinc-100 border border-slate-200 dark:border-zinc-700  transition-all text-xs font-semibold shadow-sm">
+                <a href="{{ route('welcome') }}" class="p-2 px-3 rounded-lg bg-white dark:bg-zinc-800 text-slate-900 dark:text-zinc-100 border border-slate-200 dark:border-zinc-700  transition-all text-xs font-semibold shadow-sm">
                     Back
                 </a>
             </div>

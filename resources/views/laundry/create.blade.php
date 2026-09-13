@@ -54,8 +54,8 @@
 
             @if(auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isOwner() || auth()->user()->isStaff()))
                 <!-- WALK-IN CUSTOMER SELECTION & INSTANT REGISTRATION (Admin & Staff Only) -->
-                <div class="mb-3.5 p-3 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:dark:border-zinc-700 space-y-3" x-data="{ customerMode: '{{ old('customer_mode', 'select') }}' }">
-                    <div class="flex items-center justify-between border-b border-slate-200 dark:dark:border-zinc-700 pb-2">
+                <div class="mb-3.5 p-3 rounded-lg bg-slate-100 dark:bg-[#18181B] border border-slate-200 dark:border-zinc-700 space-y-3" x-data="{ customerMode: '{{ old('customer_mode', 'select') }}' }">
+                    <div class="flex items-center justify-between border-b border-slate-200 dark:border-zinc-700 pb-2">
                         <label class="block text-[11px] font-bold text-slate-900 dark:text-white uppercase tracking-wider">
                             Customer Assignment (Walk-In / Order Owner)
                         </label>

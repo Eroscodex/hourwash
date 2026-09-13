@@ -71,7 +71,7 @@
         <div class="space-y-3 pb-32">
             @forelse($orders as $order)
                 <div data-status="{{ $order->order_status }}" class="app-card p-3.5 sm:p-4 space-y-3 shadow-sm hover:border-blue-600/30 transition admin-order-card">
-                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:dark:border-zinc-700 pb-3">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-zinc-700 pb-3">
                         <div class="flex items-center gap-4">
                             <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data={{ $order->qrCode->qr_token ?? $order->order_number }}"
                                  alt="QR Tag #{{ $order->order_number }}"

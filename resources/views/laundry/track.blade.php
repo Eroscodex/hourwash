@@ -41,13 +41,13 @@
 
     <div class="app-card p-3 sm:p-4 space-y-2.5 sm:space-y-3 shadow-sm border-t-2 border-t-[#2563EB]">
 
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 dark:dark:border-zinc-700 pb-2">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 dark:border-zinc-700 pb-2">
             <div class="space-y-0.5">
                 <div class="flex items-center gap-1.5">
                     <h2 class="text-sm sm:text-base font-extrabold font-mono text-slate-900 dark:text-white">
                         #{{ $order->order_number }}
                     </h2>
-                    <button onclick="navigator.clipboard.writeText('{{ $order->order_number }}'); alert('Order ID copied to clipboard!')" class="px-1.5 py-0.5 rounded bg-slate-100 dark:dark:bg-zinc-800 text-slate-600 dark:text-slate-300 text-[9.5px] font-bold hover:bg-blue-600 hover:text-white transition">
+                    <button onclick="navigator.clipboard.writeText('{{ $order->order_number }}'); alert('Order ID copied to clipboard!')" class="px-1.5 py-0.5 rounded bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-slate-300 text-[9.5px] font-bold hover:bg-blue-600 hover:text-white transition">
                         Copy
                     </button>
                 </div>
@@ -136,7 +136,7 @@
             $totalSteps = count($stages);
         @endphp
 
-        <div class="space-y-2 bg-slate-50 dark:bg-[#141417] p-2.5 sm:p-3 rounded-lg border border-black/5 dark:dark:border-zinc-700">
+        <div class="space-y-2 bg-slate-50 dark:bg-[#141417] p-2.5 sm:p-3 rounded-lg border border-black/5 dark:border-zinc-700">
             <div class="flex items-center justify-between text-[10.5px]">
                 <span class="font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
                     Order Tracking Progress ({{ $isWalkIn ? 'Store Walk-in / Drop-off' : 'Pickup & Delivery' }})
@@ -180,8 +180,8 @@
         <div class="grid grid-cols-1 md:grid-cols-12 gap-2.5">
 
             <div class="md:col-span-7 space-y-2.5">
-                <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-black/5 dark:dark:border-zinc-700 space-y-1.5">
-                    <div class="flex items-center gap-2 text-[10.5px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider border-b border-black/5 dark:dark:border-zinc-700 pb-1">
+                <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-black/5 dark:border-zinc-700 space-y-1.5">
+                    <div class="flex items-center gap-2 text-[10.5px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider border-b border-black/5 dark:border-zinc-700 pb-1">
                         <span>Customer Address</span>
                     </div>
 
@@ -214,8 +214,8 @@
                     </div>
                 </div>
 
-                <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-black/5 dark:dark:border-zinc-700 space-y-1.5">
-                    <div class="flex items-center justify-between border-b border-black/5 dark:dark:border-zinc-700 pb-1">
+                <div class="p-2.5 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-black/5 dark:border-zinc-700 space-y-1.5">
+                    <div class="flex items-center justify-between border-b border-black/5 dark:border-zinc-700 pb-1">
                         <span class="text-[10.5px] font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
                             Order Items & Package Summary
                         </span>
@@ -238,7 +238,7 @@
                         </span>
                     </div>
 
-                    <div class="border-t border-black/5 dark:dark:border-zinc-700 pt-1.5 space-y-1 text-[11px] text-slate-600 dark:text-slate-300">
+                    <div class="border-t border-black/5 dark:border-zinc-700 pt-1.5 space-y-1 text-[11px] text-slate-600 dark:text-slate-300">
                         <div class="flex justify-between">
                             <span>Subtotal</span>
                             <span>₱{{ number_format($order->subtotal ?? $order->total_amount, 2) }}</span>
@@ -257,7 +257,7 @@
                                 <span>-₱{{ number_format($order->discount, 2) }}</span>
                             </div>
                         @endif
-                        <div class="flex justify-between items-center text-xs font-bold text-slate-900 dark:text-white pt-1 border-t border-slate-200 dark:dark:border-zinc-700">
+                        <div class="flex justify-between items-center text-xs font-bold text-slate-900 dark:text-white pt-1 border-t border-slate-200 dark:border-zinc-700">
                             <div class="flex items-center gap-1.5">
                                 <span>Total Payment Amount</span>
                                 <span class="px-1.5 py-0.5 rounded text-[9.5px] font-bold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-600 text-white border border-emerald-700 shadow-sm' : 'bg-red-600 text-white border border-red-700 shadow-sm' }}">
@@ -381,7 +381,7 @@
                 </div>
 
                 <!-- Scannable QR Laundry Tag Card -->
-                <div class="p-2 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-black/5 dark:dark:border-zinc-700 flex items-center justify-center">
+                <div class="p-2 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-black/5 dark:border-zinc-700 flex items-center justify-center">
                     <div class="w-20 h-20 sm:w-24 sm:h-24 mx-auto bg-white p-1 rounded-md shadow-sm border border-slate-200 flex items-center justify-center">
                         <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data={{ $order->qrCode?->qr_token ?? $order->order_number }}"
                              alt="QR Code Tag #{{ $order->order_number }}"
@@ -393,7 +393,7 @@
 
         </div>
 
-        <div class="space-y-2 border-t border-slate-200 dark:dark:border-zinc-700 pt-2">
+        <div class="space-y-2 border-t border-slate-200 dark:border-zinc-700 pt-2">
             <h3 class="text-[10.5px] font-extrabold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
                 Detailed History & Status Updates
             </h3>

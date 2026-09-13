@@ -84,12 +84,12 @@
 
         <div id="sidebar-overlay" class="fixed inset-0 bg-black/60 dark:bg-black/80 z-40 hidden md:hidden transition-opacity"></div>
 
-        <aside id="sidebar" class="fixed top-0 bottom-0 left-0 h-screen w-64 bg-white dark:bg-[#141417] border-r border-slate-200 dark:dark:border-zinc-700 z-50 transform -translate-x-full md:translate-x-0 transition-[width,transform] duration-300 flex flex-col justify-between shadow-sm">
+        <aside id="sidebar" class="fixed top-0 bottom-0 left-0 h-screen w-64 bg-white dark:bg-[#141417] border-r border-slate-200 dark:border-zinc-700 z-50 transform -translate-x-full md:translate-x-0 transition-[width,transform] duration-300 flex flex-col justify-between shadow-sm">
 
             <div class="flex flex-col flex-1 min-h-0 overflow-y-auto">
-                <div id="sidebar-header-box" class="p-2 border-b border-slate-200 dark:dark:border-zinc-700 flex items-center justify-between flex-shrink-0 transition-all gap-2">
+                <div id="sidebar-header-box" class="h-14 px-3 border-b border-slate-200 dark:border-zinc-700 flex items-center justify-between flex-shrink-0 transition-all gap-2">
                     <a href="{{ route('welcome') }}" class="flex items-center gap-2 group min-w-0 transition-all">
-                        <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-8 h-8 rounded-full object-cover shadow-sm group-transition-transform bg-white p-0.5 border border-slate-200 dark:dark:border-zinc-700 shrink-0">
+                        <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-8 h-8 rounded-full object-cover shadow-sm group-transition-transform bg-white p-0.5 border border-slate-200 dark:border-zinc-700 shrink-0">
                         <div id="sidebar-logo-text" class="sidebar-text min-w-0">
                             <h1 class="text-sm font-bold tracking-wide text-slate-900 dark:text-white inline-flex items-center gap-0.5 leading-none">
                                 H<span class="inline-flex items-center justify-center text-slate-800 dark:text-slate-100 mx-[0.5px]"><svg class="w-[0.85em] h-[0.85em] inline-block -mt-0.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path stroke-linecap="round" stroke-linejoin="round" d="M12 7v5l3 3"/></svg></span>UR WASH
@@ -258,9 +258,9 @@
                             </a>
                         @endif
 
-                        <div class="pt-1 border-t border-slate-200 dark:dark:border-zinc-700 my-0.5"></div>
+                        <div class="pt-1 border-t border-slate-200 dark:border-zinc-700 my-0.5"></div>
                         <a href="{{ route('welcome') }}" title="Home Dashboard" class="sidebar-nav-item flex items-center gap-2.5 px-2.5 py-1 rounded-lg text-slate-800 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-zinc-800 font-medium transition-all">
-                            <svg class="w-4 h-4 text-slate-600 dark:text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+                            <svg class="w-4 h-4 text-slate-600 dark:text-slate-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m-9 9a9 9 0 019-9"/></svg>
                             <div class="sidebar-text">
                                 <span class="block leading-snug text-[11px] font-bold whitespace-nowrap">Home Dashboard</span>
                                 <p class="text-[9.5px] opacity-75 font-normal block leading-tight whitespace-nowrap">Public landing page</p>
@@ -286,7 +286,7 @@
             </div>
 
             @auth
-            <div id="sidebar-user-box" class="p-2 border-t border-slate-200 dark:dark:border-zinc-700 bg-slate-50 dark:bg-white/5 transition-all">
+            <div id="sidebar-user-box" class="h-14 px-3 border-t border-slate-200 dark:border-zinc-700 bg-slate-50 dark:bg-white/5 flex items-center justify-between gap-2 w-full transition-all shrink-0">
                 <div class="flex items-center justify-between gap-2 w-full transition-all">
                     <div class="flex items-center gap-2 min-w-0 flex-1">
                         <div class="w-7 h-7 rounded-lg bg-blue-600 dark:bg-blue-600 text-white flex items-center justify-center font-bold shadow-sm shrink-0 sidebar-user-avatar text-xs">
@@ -315,7 +315,7 @@
 
         <div id="main-wrapper" class="flex-1 flex flex-col min-w-0 md:pl-64 transition-[padding] duration-300">
 
-            <header class="bg-white dark:bg-[#141417] border-b border-slate-200 dark:dark:border-zinc-700 px-4 md:px-6 py-2 flex items-center justify-between sticky top-0 z-30 shadow-sm backdrop-blur-sm">
+            <header class="h-14 bg-white dark:bg-[#141417] border-b border-slate-200 dark:border-zinc-700 px-4 md:px-6 flex items-center justify-between sticky top-0 z-30 shadow-sm backdrop-blur-sm">
                 <div class="flex items-center gap-2.5">
                     <button id="open-sidebar" class="md:hidden p-1.5 rounded-lg text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-zinc-800 focus:outline-none">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -349,7 +349,7 @@
                 </div>
 
                 <div class="flex items-center gap-2 sm:gap-3">
-                    <button id="theme-toggle" class="p-1 px-2.5 rounded-lg bg-slate-100 dark:dark:bg-zinc-800 text-slate-900 dark:text-zinc-100 border border-slate-200 dark:dark:border-zinc-700 transition-all text-xs font-semibold flex items-center gap-1.5 shadow-sm" title="Toggle Light/Dark Theme">
+                    <button id="theme-toggle" class="p-1 px-2.5 rounded-lg bg-slate-100 dark:bg-zinc-800 text-slate-900 dark:text-zinc-100 border border-slate-200 dark:border-zinc-700 transition-all text-xs font-semibold flex items-center gap-1.5 shadow-sm" title="Toggle Light/Dark Theme">
                         <span class="dark:hidden flex items-center gap-1.5">
                             <svg class="w-3.5 h-3.5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                             Light
@@ -360,7 +360,7 @@
                         </span>
                     </button>
 
-                    <div class="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 dark:dark:bg-zinc-800 border border-slate-200 dark:dark:border-zinc-700 text-xs text-slate-800 dark:text-slate-200 font-semibold">
+                    <div class="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-zinc-800 border border-slate-200 dark:border-zinc-700 text-xs text-slate-800 dark:text-slate-200 font-semibold">
                         <svg class="w-3.5 h-3.5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                         </svg>
@@ -386,7 +386,7 @@
                 {{ $slot }}
             </main>
 
-            <footer class="border-t border-slate-200 dark:dark:border-zinc-700 py-2 px-4 sm:px-6 md:px-8 bg-white dark:bg-[#141417] w-full">
+            <footer class="border-t border-slate-200 dark:border-zinc-700 py-2 px-4 sm:px-6 md:px-8 bg-white dark:bg-[#141417] w-full">
                 <div class="max-w-7xl mx-auto space-y-2.5">
                     <div class="flex justify-center mb-1">
                         <div class="w-7 h-7 bg-blue-600 rounded-full flex items-center justify-center shadow-sm overflow-hidden p-0.5 border border-blue-500/30">
@@ -664,7 +664,7 @@
         const typingId = 'typing-' + Date.now();
         chatBox.innerHTML += `
             <div class="flex justify-start" id="${typingId}">
-                <div class="bg-white dark:bg-[#18181B] text-slate-500 px-3.5 py-2.5 rounded-2xl rounded-tl-sm border border-slate-200 dark:dark:border-zinc-700 shadow-sm">
+                <div class="bg-white dark:bg-[#18181B] text-slate-500 px-3.5 py-2.5 rounded-2xl rounded-tl-sm border border-slate-200 dark:border-zinc-700 shadow-sm">
                     <span class="animate-pulse">Typing...</span>
                 </div>
             </div>
@@ -691,7 +691,7 @@
 
             chatBox.innerHTML += `
                 <div class="flex justify-start">
-                    <div class="bg-white dark:bg-[#18181B] text-slate-900 dark:text-zinc-100 px-3.5 py-2.5 rounded-2xl rounded-tl-sm max-w-[85%] border border-slate-200 dark:dark:border-zinc-700 shadow-sm break-all [word-break:break-word] overflow-hidden">
+                    <div class="bg-white dark:bg-[#18181B] text-slate-900 dark:text-zinc-100 px-3.5 py-2.5 rounded-2xl rounded-tl-sm max-w-[85%] border border-slate-200 dark:border-zinc-700 shadow-sm break-all [word-break:break-word] overflow-hidden">
                         <strong class="text-blue-600 dark:text-blue-400 block mb-0.5">Hour Wash Assistant</strong>
                         ${formattedReply}
                     </div>

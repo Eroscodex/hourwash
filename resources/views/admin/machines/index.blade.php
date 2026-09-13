@@ -96,7 +96,7 @@
         <div class="app-card overflow-hidden">
             <div class="overflow-x-auto max-w-full">
                 <table class="w-full text-left text-xs sm:text-sm whitespace-nowrap min-w-[600px]">
-                    <thead class="bg-slate-100 dark:bg-[#18181B] text-slate-700 dark:text-slate-300 uppercase text-[10px] tracking-wider border-b border-slate-200 dark:dark:border-zinc-700">
+                    <thead class="bg-slate-100 dark:bg-[#18181B] text-slate-700 dark:text-slate-300 uppercase text-[10px] tracking-wider border-b border-slate-200 dark:border-zinc-700">
                         <tr>
                             <th class="px-4 sm:px-6 py-3.5">Machine Tag QR</th>
                             <th class="px-4 sm:px-6 py-3.5">Machine Name</th>
@@ -228,7 +228,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="p-4 border-t border-slate-200 dark:dark:border-zinc-700">{{ $machines->links() }}</div>
+            <div class="p-4 border-t border-slate-200 dark:border-zinc-700">{{ $machines->links() }}</div>
         </div>
     </div>
 
