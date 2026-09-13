@@ -175,8 +175,8 @@ class Order extends Model
             }
 
             if ($currentMachine) {
-                $machineStatus = in_array($status, ['washing', 'rinsing']) ? $status : 'washing';
-                $remMins = ($status === 'washing') ? 35 : (($status === 'rinsing') ? 15 : 35);
+                $machineStatus = in_array($status, ['washing', 'rinsing']) ? $status : 'idle';
+                $remMins = ($status === 'washing') ? 35 : (($status === 'rinsing') ? 15 : null);
                 $currentMachine->update([
                     'current_order_id' => $this->id,
                     'status' => $machineStatus,
@@ -221,8 +221,8 @@ class Order extends Model
             }
 
             if ($currentMachine) {
-                $machineStatus = 'drying';
-                $remMins = 40;
+                $machineStatus = ($status === 'drying') ? 'drying' : 'idle';
+                $remMins = ($status === 'drying') ? 40 : null;
                 $currentMachine->update([
                     'current_order_id' => $this->id,
                     'status' => $machineStatus,
