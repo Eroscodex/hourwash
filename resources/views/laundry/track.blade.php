@@ -2,7 +2,7 @@
 
 <div class="max-w-4xl mx-auto space-y-4 sm:space-y-6 px-1 sm:px-0">
 
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3">
         <div>
             <div class="flex items-center gap-2">
                 <span class="px-2.5 py-0.5 rounded-md bg-blue-600/15 text-blue-600 dark:text-blue-400 text-[10px] font-extrabold uppercase tracking-wider border border-blue-600/30">
@@ -10,47 +10,47 @@
                 </span>
                 <span class="text-xs text-slate-500 dark:text-slate-400 font-mono truncate max-w-[180px] sm:max-w-none">Order #{{ $order->order_number }}</span>
             </div>
-            <h1 class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 dark:text-white mt-1">
+            <h1 class="text-lg sm:text-xl font-bold text-slate-900 dark:text-white mt-0.5">
                 Order Tracking & Verification
             </h1>
         </div>
 
         <div class="flex flex-wrap items-center gap-2 w-full sm:w-auto">
             @if(auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isOwner() || auth()->user()->isStaff()))
-                <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="flex-1 sm:flex-none text-center px-3 py-2 rounded-lg bg-blue-600 text-white text-xs font-bold hover:bg-blue-700 transition shadow-sm">
+                <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="flex-1 sm:flex-none text-center px-2.5 py-1.5 rounded-lg bg-blue-600 text-white text-xs font-bold hover:bg-blue-700 transition shadow-sm">
                     Print Thermal Receipt
                 </a>
             @else
-                <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="flex-1 sm:flex-none text-center px-3 py-2 rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-bold hover:opacity-90 transition shadow-sm">
+                <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="flex-1 sm:flex-none text-center px-2.5 py-1.5 rounded-lg bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-xs font-bold hover:opacity-90 transition shadow-sm">
                     View Digital Receipt
                 </a>
             @endif
 
             @auth
                 @if(auth()->user()->isOwner() || auth()->user()->isStaff())
-                    <a href="{{ route('admin.laundry.index') }}" class="flex-1 sm:flex-none text-center btn-secondary text-xs">Back to Orders</a>
+                    <a href="{{ route('admin.laundry.index') }}" class="flex-1 sm:flex-none text-center btn-secondary text-xs py-1.5 px-3">Back to Orders</a>
                 @else
-                    <a href="{{ route('my.orders') }}" class="flex-1 sm:flex-none text-center btn-secondary text-xs">My Orders</a>
+                    <a href="{{ route('my.orders') }}" class="flex-1 sm:flex-none text-center btn-secondary text-xs py-1.5 px-3">My Orders</a>
                 @endif
             @else
-                <a href="{{ route('welcome') }}" class="flex-1 sm:flex-none text-center btn-secondary text-xs">Home</a>
+                <a href="{{ route('welcome') }}" class="flex-1 sm:flex-none text-center btn-secondary text-xs py-1.5 px-3">Home</a>
             @endauth
         </div>
     </div>
 
-    <div class="app-card p-4 sm:p-7 space-y-5 sm:space-y-6 shadow-sm border-t-4 border-t-[#2563EB]">
+    <div class="app-card p-3.5 sm:p-5 space-y-4 sm:space-y-5 shadow-sm border-t-4 border-t-[#2563EB]">
 
-        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 sm:gap-4 border-b border-slate-200 dark:dark:border-zinc-700 pb-4 sm:pb-5">
-            <div class="space-y-1">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3 border-b border-slate-200 dark:dark:border-zinc-700 pb-3 sm:pb-4">
+            <div class="space-y-0.5">
                 <div class="flex items-center gap-2">
-                    <h2 class="text-lg sm:text-xl font-black font-mono text-slate-900 dark:text-white">
+                    <h2 class="text-base sm:text-lg font-extrabold font-mono text-slate-900 dark:text-white">
                         #{{ $order->order_number }}
                     </h2>
                     <button onclick="navigator.clipboard.writeText('{{ $order->order_number }}'); alert('Order ID copied to clipboard!')" class="px-2 py-0.5 rounded-md bg-slate-100 dark:dark:bg-zinc-800 text-slate-600 dark:text-slate-300 text-[10px] font-bold hover:bg-blue-600 hover:text-white transition">
                         Copy
                     </button>
                 </div>
-                <p class="text-xs text-slate-500 dark:text-slate-400">
+                <p class="text-[11px] text-slate-500 dark:text-slate-400">
                     Placed on {{ $order->created_at->format('M d, Y • h:i A') }}
                 </p>
             </div>
@@ -65,11 +65,11 @@
                         default => 'bg-blue-600/15 text-blue-600 dark:text-blue-400 border-blue-600/30',
                     };
                 @endphp
-                <div class="flex items-center sm:justify-end gap-2">
-                    <span class="inline-block px-3 py-1 rounded-md text-xs font-black uppercase tracking-wider border {{ $order->payment_status === 'paid' ? 'bg-emerald-600 text-white border-emerald-700 shadow-sm' : 'bg-red-600 text-white border-red-700 shadow-sm' }}">
+                <div class="flex items-center sm:justify-end gap-1.5">
+                    <span class="inline-block px-2.5 py-0.5 rounded-md text-[11px] font-bold uppercase tracking-wider border {{ $order->payment_status === 'paid' ? 'bg-emerald-600 text-white border-emerald-700 shadow-sm' : 'bg-red-600 text-white border-red-700 shadow-sm' }}">
                         {{ strtoupper($order->payment_status) }}
                     </span>
-                    <span class="inline-block px-3 py-1 rounded-md text-xs font-black uppercase tracking-wider border {{ $statusBadge }}">
+                    <span class="inline-block px-2.5 py-0.5 rounded-md text-[11px] font-bold uppercase tracking-wider border {{ $statusBadge }}">
                         {{ $order->order_status === 'finish' ? 'FINISH & READY' : str_replace('_', ' ', $order->order_status) }}
                     </span>
                 </div>
@@ -135,37 +135,37 @@
             $totalSteps = count($stages);
         @endphp
 
-        <div class="space-y-3 sm:space-y-5 bg-slate-50 dark:bg-[#141417] p-3 sm:p-5 rounded-lg sm:rounded-lg border border-black/5 dark:dark:border-zinc-700">
+        <div class="space-y-2.5 sm:space-y-3.5 bg-slate-50 dark:bg-[#141417] p-3 sm:p-4 rounded-lg border border-black/5 dark:dark:border-zinc-700">
             <div class="flex items-center justify-between text-xs">
-                <span class="font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 text-[11px] sm:text-xs">
+                <span class="font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300 text-[10px] sm:text-[11px]">
                     Order Tracking Progress ({{ $isWalkIn ? 'Store Walk-in / Drop-off' : 'Pickup & Delivery' }})
                 </span>
-                <span class="font-extrabold text-blue-600 dark:text-blue-400 text-[11px] sm:text-xs">
+                <span class="font-extrabold text-blue-600 dark:text-blue-400 text-[10px] sm:text-[11px]">
                     {{ $currentStatus === 'completed' ? '100% Completed' : $currentStageInfo['pct'].'% Progress' }}
                 </span>
             </div>
 
-            <div class="relative w-full h-2 sm:h-3 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden p-0.5">
+            <div class="relative w-full h-1.5 sm:h-2 bg-slate-200 dark:bg-slate-800 rounded-full overflow-hidden p-0.5">
                 <div class="h-full bg-blue-600 dark:bg-blue-600 rounded-full transition-all duration-700 shadow-sm"
                      style="width: {{ $currentStageInfo['pct'] }}%"></div>
             </div>
 
             @if($currentStatus === 'cancelled')
-                <div class="bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 p-3 rounded-lg text-xs font-semibold text-center">
+                <div class="bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30 p-2.5 rounded-lg text-xs font-semibold text-center">
                     This order has been Cancelled.
                 </div>
             @endif
 
             <!-- Clean Unified Responsive Stepper -->
-            <div class="flex overflow-x-auto sm:grid gap-1 pb-2 sm:pb-0 text-center scrollbar-none snap-x snap-mandatory" style="grid-template-columns: repeat({{ $totalSteps }}, minmax(0, 1fr));">
+            <div class="flex overflow-x-auto sm:grid gap-1 pb-1.5 sm:pb-0 text-center scrollbar-none snap-x snap-mandatory" style="grid-template-columns: repeat({{ $totalSteps }}, minmax(0, 1fr));">
                 @foreach($stages as $key => $info)
                     @php
                         $stageIdx = array_search($key, $statusKeys);
                         $isActive = ($currentIndex >= $stageIdx && $currentStatus !== 'cancelled');
                         $isCurrent = ($currentStatus === $key);
                     @endphp
-                    <div class="min-w-[85px] sm:min-w-0 flex-1 p-1 rounded-lg border flex flex-col items-center justify-center transition-all duration-300 relative min-h-[44px] snap-start shrink-0 {{ $isCurrent ? 'bg-blue-600/15 border-blue-600 text-blue-600 dark:text-blue-400 font-black shadow-sm' : ($isActive ? 'border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 font-bold' : 'border-black/5 dark:border-white/5 text-slate-400 opacity-50 font-medium') }}">
-                        <span class="text-[8.5px] md:text-[9.5px] uppercase leading-tight tracking-tight text-center w-full px-0.5 whitespace-normal break-normal">
+                    <div class="min-w-[70px] sm:min-w-0 flex-1 py-1 px-0.5 rounded-md border flex flex-col items-center justify-center transition-all duration-300 relative min-h-[34px] snap-start shrink-0 {{ $isCurrent ? 'bg-blue-600/15 border-blue-600 text-blue-600 dark:text-blue-400 font-extrabold shadow-sm' : ($isActive ? 'border-emerald-500/40 text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 font-bold' : 'border-black/5 dark:border-white/5 text-slate-400 opacity-50 font-medium') }}">
+                        <span class="text-[8px] sm:text-[9px] uppercase leading-tight tracking-tight text-center w-full px-0.5 whitespace-normal break-normal">
                             {{ $info['step'] }}. {{ $info['label'] }}
                         </span>
                         @if($isCurrent)
@@ -274,8 +274,8 @@
             <div class="md:col-span-5 space-y-4">
 
                 <!-- Single Combined Live Machine & Completion Card -->
-                <div class="p-4 rounded-lg bg-slate-900 text-white space-y-3 shadow-lg border border-slate-800">
-                    <div class="flex items-center justify-between border-b border-slate-800 pb-2">
+                <div class="p-3.5 rounded-lg bg-slate-900 text-white space-y-2.5 shadow-sm border border-slate-800">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-1.5">
                         <span class="text-[10px] font-extrabold uppercase tracking-wider text-blue-400">MACHINE & DISPATCH STATUS</span>
                         <span class="text-[10px] font-mono text-emerald-400 font-bold">● LIVE</span>
                     </div>
@@ -300,16 +300,16 @@
                         };
                     @endphp
 
-                    <div class="grid grid-cols-2 gap-3 text-xs items-stretch">
-                        <div class="space-y-1 min-w-0 flex flex-col">
-                            <span class="text-[10px] text-slate-400 font-semibold block uppercase min-h-[30px]">Assigned Unit</span>
-                            <div class="font-bold text-white font-mono text-xs sm:text-sm min-h-[40px] break-words">
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <div class="space-y-0.5 min-w-0">
+                            <span class="text-[10px] text-slate-400 font-semibold block uppercase">Assigned Unit</span>
+                            <div class="font-bold text-white font-mono text-xs sm:text-sm break-words">
                                 {{ $assignedUnitLabel }}
                             </div>
                         </div>
-                        <div class="space-y-1 min-w-0 flex flex-col">
-                            <span class="text-[10px] text-slate-400 font-semibold block uppercase min-h-[30px]">Est. Completion</span>
-                            <div class="font-bold text-amber-400 text-xs sm:text-sm min-h-[40px] break-words">
+                        <div class="space-y-0.5 min-w-0">
+                            <span class="text-[10px] text-slate-400 font-semibold block uppercase">Est. Completion</span>
+                            <div class="font-bold text-amber-400 text-xs sm:text-sm break-words">
                                 {{ $estCompletionTime }}
                             </div>
                         </div>
@@ -345,20 +345,20 @@
                     @endphp
 
                     @if(in_array($order->order_status, ['pending', 'received', 'washing', 'rinsing', 'drying', 'finish']))
-                        <div class="p-2.5 rounded-lg bg-slate-800/90 border border-amber-400/40 flex items-center justify-between text-xs font-mono font-bold text-amber-300">
-                            <span class="text-amber-300 font-bold opacity-100">{{ $stageTimerLabel }}</span>
-                            <span id="order-countdown" data-expiry="{{ $stageExpiryTimestamp }}" class="text-amber-300 font-extrabold">Calculating...</span>
+                        <div class="p-2 rounded-lg bg-slate-800/90 border border-amber-400/40 flex items-center justify-between text-xs font-mono font-bold text-amber-300">
+                            <span class="text-amber-300 font-bold opacity-100 text-[11px]">{{ $stageTimerLabel }}</span>
+                            <span id="order-countdown" data-expiry="{{ $stageExpiryTimestamp }}" class="text-amber-300 font-extrabold text-[11px]">Calculating...</span>
                         </div>
                     @endif
 
                 </div>
 
                 <!-- Scannable QR Laundry Tag Card -->
-                <div class="p-4 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-black/5 dark:dark:border-zinc-700 flex items-center justify-center">
-                    <div class="w-44 h-44 sm:w-48 sm:h-48 mx-auto bg-white p-2.5 rounded-xl shadow-sm border border-slate-200 flex items-center justify-center">
+                <div class="p-3 rounded-lg bg-slate-50 dark:bg-[#18181B] border border-black/5 dark:dark:border-zinc-700 flex items-center justify-center">
+                    <div class="w-32 h-32 sm:w-36 sm:h-36 mx-auto bg-white p-2 rounded-lg shadow-sm border border-slate-200 flex items-center justify-center">
                         <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data={{ $order->qrCode?->qr_token ?? $order->order_number }}"
                              alt="QR Code Tag #{{ $order->order_number }}"
-                             class="w-full h-full rounded-lg">
+                             class="w-full h-full rounded-md">
                     </div>
                 </div>
 
@@ -366,12 +366,12 @@
 
         </div>
 
-        <div class="space-y-3 border-t border-slate-200 dark:dark:border-zinc-700 pt-4 sm:pt-5">
+        <div class="space-y-2.5 border-t border-slate-200 dark:dark:border-zinc-700 pt-3 sm:pt-4">
             <h3 class="text-xs font-extrabold text-slate-700 dark:text-slate-300 uppercase tracking-wider">
                 Detailed History & Status Updates
             </h3>
 
-            <div class="relative pl-5 sm:pl-6 space-y-4 border-l-2 border-slate-200 dark:border-slate-800 text-xs">
+            <div class="relative pl-5 sm:pl-6 space-y-3 border-l-2 border-slate-200 dark:border-slate-800 text-xs">
                 @forelse(($order->statusHistory ?? collect())->sortByDesc('created_at') as $history)
                     @php
                         $formattedTitle = match($history->status) {
