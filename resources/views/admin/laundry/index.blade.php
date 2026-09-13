@@ -94,7 +94,7 @@
                         </div>
 
                         <div class="flex items-center gap-3">
-                            <a href="{{ route('laundry.track', $order->qrCode->qr_token ?? $order->order_number) }}" class="btn-secondary text-xs">
+                            <a href="{{ route('laundry.track', $order->qrCode->qr_token ?? $order->order_number) }}" class="btn-primary text-xs">
                                 Track Order
                             </a>
                             <a href="{{ route('laundry.receipt', $order->id) }}" onclick="event.preventDefault(); window.open(this.href, 'ReceiptPopup', 'width=420,height=640,left=' + ((screen.width - 420) / 2) + ',top=' + ((screen.height - 640) / 2));" class="bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-3 py-2 rounded-lg text-xs font-bold hover:opacity-90 transition flex items-center gap-1.5 shadow-sm">
