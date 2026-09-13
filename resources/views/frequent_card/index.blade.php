@@ -12,8 +12,8 @@
                 </p>
             </div>
 
-            <div class="flex items-center gap-2">
-                <a href="{{ route('laundry.create') }}" class="btn-primary py-2 px-4 text-xs font-bold flex items-center gap-1.5 shadow-sm">
+            <div class="flex items-center gap-2 shrink-0">
+                <a href="{{ route('laundry.create') }}" class="btn-primary py-1.5 px-3 text-[11px] sm:text-xs font-bold flex items-center gap-1.5 shadow-sm whitespace-nowrap shrink-0">
                     + Book New Order
                 </a>
             </div>
