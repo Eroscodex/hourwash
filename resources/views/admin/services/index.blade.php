@@ -73,10 +73,89 @@
                             </td>
                             <td class="px-2.5 py-1.5 text-right">
                                 <div class="flex items-center justify-end gap-1">
-                                    <a href="{{ route('admin.services.edit', $srv) }}" class="p-1 text-blue-500 hover:bg-blue-500/10 rounded-lg transition" title="Edit Service">
+                                    <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'edit-service-{{ $srv->id }}')" class="p-1.5 bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 rounded-lg transition cursor-pointer" title="Edit Service Package {{ $srv->name }}">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                                    </a>
-                                    <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'delete-service-{{ $srv->id }}')" class="p-1 text-rose-500 hover:bg-rose-500/10 rounded-lg transition" title="Delete Service">
+                                    </button>
+
+                                    <x-modal name="edit-service-{{ $srv->id }}" maxWidth="lg">
+                                        <div class="p-6 sm:p-7 bg-white dark:bg-[#141417] text-slate-900 dark:text-zinc-100 rounded-lg text-left space-y-5">
+                                            <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-zinc-800">
+                                                <h2 class="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white">Edit Service Package: <span class="text-blue-600 dark:text-blue-400">{{ $srv->name }}</span></h2>
+                                                <button type="button" x-on:click="$dispatch('close')" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition text-base font-bold">✕</button>
+                                            </div>
+
+                                            <form action="{{ route('admin.services.update', $srv) }}" method="POST" class="space-y-4">
+                                                @csrf
+                                                @method('PUT')
+
+                                                <div>
+                                                    <label class="block text-xs font-bold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-1.5">Package Name <span class="text-rose-500">*</span></label>
+                                                    <input type="text" name="name" value="{{ old('name', $srv->name) }}" placeholder="e.g. Wash & Dry Special" class="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-300 dark:border-zinc-700 rounded-md px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-zinc-100 focus:outline-none focus:border-blue-600" required>
+                                                </div>
+
+                                                <div>
+                                                    <label class="block text-xs font-bold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-1.5">Description</label>
+                                                    <textarea name="description" rows="2" placeholder="Brief details about what is included..." class="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-300 dark:border-zinc-700 rounded-md px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-zinc-100 focus:outline-none focus:border-blue-600">{{ old('description', $srv->description) }}</textarea>
+                                                </div>
+
+                                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                    <div>
+                                                        <label class="block text-xs font-bold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-1.5">Category Type <span class="text-rose-500">*</span></label>
+                                                        <select name="service_type" class="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-300 dark:border-zinc-700 rounded-md px-3 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-zinc-100 focus:outline-none focus:border-blue-600" required>
+                                                            <option value="wash_dry" {{ old('service_type', $srv->service_type) === 'wash_dry' ? 'selected' : '' }}>Wash & Dry</option>
+                                                            <option value="wash" {{ old('service_type', $srv->service_type) === 'wash' ? 'selected' : '' }}>Wash Only</option>
+                                                            <option value="dry" {{ old('service_type', $srv->service_type) === 'dry' ? 'selected' : '' }}>Dry Only</option>
+                                                            <option value="fold" {{ old('service_type', $srv->service_type) === 'fold' ? 'selected' : '' }}>Fold Only</option>
+                                                            <option value="wash_dry_fold" {{ old('service_type', $srv->service_type) === 'wash_dry_fold' ? 'selected' : '' }}>Wash, Dry & Fold</option>
+                                                            <option value="blanket" {{ old('service_type', $srv->service_type) === 'blanket' ? 'selected' : '' }}>Comforters & Blankets</option>
+                                                            <option value="other" {{ old('service_type', $srv->service_type) === 'other' ? 'selected' : '' }}>Other</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div>
+                                                        <label class="block text-xs font-bold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-1.5">Price Amount (₱) <span class="text-rose-500">*</span></label>
+                                                        <input type="number" step="0.01" name="price" value="{{ old('price', $srv->price) }}" placeholder="120.00" class="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-300 dark:border-zinc-700 rounded-md px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-zinc-100 focus:outline-none focus:border-blue-600" required>
+                                                    </div>
+                                                </div>
+
+                                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                                    <div>
+                                                        <label class="block text-xs font-bold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-1.5">Pricing Unit <span class="text-rose-500">*</span></label>
+                                                        <select name="price_unit" class="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-300 dark:border-zinc-700 rounded-md px-3 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-zinc-100 focus:outline-none focus:border-blue-600" required>
+                                                            <option value="load" {{ old('price_unit', $srv->price_unit) === 'load' ? 'selected' : '' }}>Per Load</option>
+                                                            <option value="kg" {{ old('price_unit', $srv->price_unit) === 'kg' ? 'selected' : '' }}>Per Kilogram (kg)</option>
+                                                            <option value="item" {{ old('price_unit', $srv->price_unit) === 'item' ? 'selected' : '' }}>Per Item</option>
+                                                            <option value="service" {{ old('price_unit', $srv->price_unit) === 'service' ? 'selected' : '' }}>Per Service</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div>
+                                                        <label class="block text-xs font-bold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-1.5">Est. Mins <span class="text-rose-500">*</span></label>
+                                                        <input type="number" name="estimated_minutes" value="{{ old('estimated_minutes', $srv->estimated_minutes) }}" placeholder="60" class="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-300 dark:border-zinc-700 rounded-md px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-zinc-100 focus:outline-none focus:border-blue-600" required>
+                                                    </div>
+
+                                                    <div>
+                                                        <label class="block text-xs font-bold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-1.5">Status <span class="text-rose-500">*</span></label>
+                                                        <select name="status" class="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-300 dark:border-zinc-700 rounded-md px-3 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-zinc-100 focus:outline-none focus:border-blue-600" required>
+                                                            <option value="active" {{ old('status', $srv->status) === 'active' ? 'selected' : '' }}>Active</option>
+                                                            <option value="inactive" {{ old('status', $srv->status) === 'inactive' ? 'selected' : '' }}>Inactive</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-200 dark:border-zinc-800">
+                                                    <button type="button" x-on:click="$dispatch('close')" class="btn-secondary py-2 px-4 text-xs font-bold">
+                                                        Cancel
+                                                    </button>
+                                                    <button type="submit" class="btn-primary py-2 px-5 text-xs font-bold shadow-sm">
+                                                        Save Service Package
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </x-modal>
+
+                                    <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'delete-service-{{ $srv->id }}')" class="p-1.5 text-rose-500 hover:bg-rose-500/10 rounded-lg transition" title="Delete Service">
                                         <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                                     </button>
 
