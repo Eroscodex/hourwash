@@ -417,9 +417,9 @@
                     </p>
                 </div>
                 <div class="flex items-center gap-2">
-                    <a href="{{ route('staff.machines.create') }}" class="btn-primary py-1.5 px-3 text-xs">
+                    <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'add-machine-modal')" class="btn-primary py-1.5 px-3 text-xs shadow-sm cursor-pointer">
                         + Add Machine
-                    </a>
+                    </button>
                     <a href="{{ route('staff.machines.index') }}" class="btn-secondary py-1.5 px-3 text-xs">
                         Manage Machines
                     </a>
@@ -552,6 +552,62 @@
                 <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-rose-500"></span> Maintenance</span>
             </div>
         </div>
+
+        <!-- Register New Machine Modal -->
+        <x-modal name="add-machine-modal" maxWidth="lg">
+            <div class="p-6 sm:p-7 bg-white dark:bg-[#141417] text-slate-900 dark:text-zinc-100 rounded-lg text-left space-y-5">
+                <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-zinc-800">
+                    <h2 class="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white">Register New Machine Unit</h2>
+                    <button type="button" x-on:click="$dispatch('close')" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition text-base font-bold">✕</button>
+                </div>
+
+                <form method="POST" action="{{ route('admin.machines.store') }}" class="space-y-4">
+                    @csrf
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-1.5">Machine Name <span class="text-rose-500">*</span></label>
+                        <input type="text" name="machine_name" value="{{ old('machine_name') }}" placeholder="e.g. Commercial Washer #1" class="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-300 dark:border-zinc-700 rounded-md px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-zinc-100 focus:outline-none focus:border-blue-600" required>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-1.5">Machine Tag Code <span class="text-rose-500">*</span></label>
+                        <input type="text" name="machine_code" value="{{ old('machine_code') }}" placeholder="e.g. WM-001" class="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-300 dark:border-zinc-700 rounded-md px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-zinc-100 font-mono uppercase focus:outline-none focus:border-blue-600" required>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-1.5">Machine Type <span class="text-rose-500">*</span></label>
+                            <select name="machine_type" class="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-300 dark:border-zinc-700 rounded-md px-3 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-zinc-100 focus:outline-none focus:border-blue-600" required>
+                                <option value="washer">Washer</option>
+                                <option value="dryer">Dryer</option>
+                                <option value="washer_dryer">Washer & Dryer Combo</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-1.5">Initial Status <span class="text-rose-500">*</span></label>
+                            <select name="status" class="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-300 dark:border-zinc-700 rounded-md px-3 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-zinc-100 focus:outline-none focus:border-blue-600" required>
+                                <option value="idle">Idle (Available)</option>
+                                <option value="washing">Washing</option>
+                                <option value="rinsing">Rinsing</option>
+                                <option value="drying">Drying</option>
+                                <option value="maintenance">Maintenance</option>
+                                <option value="offline">Offline</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-200 dark:border-zinc-800">
+                        <button type="button" x-on:click="$dispatch('close')" class="btn-secondary py-2 px-4 text-xs font-bold">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn-primary py-2 px-5 text-xs font-bold shadow-sm">
+                            Save Machine Unit
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </x-modal>
 
                 <!-- Active Processing Pipeline -->
         <div class="app-card p-4 sm:p-6 space-y-4 overflow-hidden shadow-sm">

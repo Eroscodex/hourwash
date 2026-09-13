@@ -133,10 +133,67 @@
                             </td>
                             <td class="px-4 sm:px-6 py-4 text-right">
                                 <div class="flex items-center justify-end gap-2">
-                                    <a href="{{ route('admin.machines.edit', $machine) }}" class="p-1.5 text-blue-500 hover:bg-blue-500/10 rounded-lg transition" title="Edit Machine">
+                                    <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'edit-machine-{{ $machine->id }}')" class="p-2 bg-blue-500/10 hover:bg-blue-500/20 text-blue-600 dark:text-blue-400 rounded-lg transition cursor-pointer" title="Edit Machine #{{ $machine->machine_code }}">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
-                                    </a>
-                                    <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'delete-machine-{{ $machine->id }}')" class="p-1.5 text-rose-500 hover:bg-rose-500/10 rounded-lg transition" title="Delete Machine">
+                                    </button>
+
+                                    <x-modal name="edit-machine-{{ $machine->id }}" maxWidth="lg">
+                                        <div class="p-6 sm:p-7 bg-white dark:bg-[#141417] text-slate-900 dark:text-zinc-100 rounded-lg text-left space-y-5">
+                                            <div class="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-zinc-800">
+                                                <h2 class="text-base sm:text-lg font-extrabold text-slate-900 dark:text-white">Edit Machine Unit <span class="font-mono text-blue-600 dark:text-blue-400">#{{ $machine->machine_code }}</span></h2>
+                                                <button type="button" x-on:click="$dispatch('close')" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 transition text-base font-bold">✕</button>
+                                            </div>
+
+                                            <form method="POST" action="{{ route('admin.machines.update', $machine) }}" class="space-y-4">
+                                                @csrf
+                                                @method('PUT')
+
+                                                <div>
+                                                    <label class="block text-xs font-bold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-1.5">Machine Name <span class="text-rose-500">*</span></label>
+                                                    <input type="text" name="machine_name" value="{{ old('machine_name', $machine->machine_name) }}" placeholder="e.g. Commercial Washer #1" class="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-300 dark:border-zinc-700 rounded-md px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-zinc-100 focus:outline-none focus:border-blue-600" required>
+                                                </div>
+
+                                                <div>
+                                                    <label class="block text-xs font-bold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-1.5">Machine Tag Code <span class="text-rose-500">*</span></label>
+                                                    <input type="text" name="machine_code" value="{{ old('machine_code', $machine->machine_code) }}" placeholder="e.g. WM-001" class="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-300 dark:border-zinc-700 rounded-md px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-zinc-100 font-mono uppercase focus:outline-none focus:border-blue-600" required>
+                                                </div>
+
+                                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                    <div>
+                                                        <label class="block text-xs font-bold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-1.5">Machine Type <span class="text-rose-500">*</span></label>
+                                                        <select name="machine_type" class="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-300 dark:border-zinc-700 rounded-md px-3 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-zinc-100 focus:outline-none focus:border-blue-600" required>
+                                                            <option value="washer" {{ old('machine_type', $machine->machine_type) === 'washer' ? 'selected' : '' }}>Washer</option>
+                                                            <option value="dryer" {{ old('machine_type', $machine->machine_type) === 'dryer' ? 'selected' : '' }}>Dryer</option>
+                                                            <option value="washer_dryer" {{ old('machine_type', $machine->machine_type) === 'washer_dryer' ? 'selected' : '' }}>Washer & Dryer Combo</option>
+                                                        </select>
+                                                    </div>
+
+                                                    <div>
+                                                        <label class="block text-xs font-bold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-1.5">Current Status <span class="text-rose-500">*</span></label>
+                                                        <select name="status" class="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-300 dark:border-zinc-700 rounded-md px-3 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-zinc-100 focus:outline-none focus:border-blue-600" required>
+                                                            <option value="idle" {{ old('status', $machine->status) === 'idle' ? 'selected' : '' }}>Idle (Available)</option>
+                                                            <option value="washing" {{ old('status', $machine->status) === 'washing' ? 'selected' : '' }}>Washing</option>
+                                                            <option value="rinsing" {{ old('status', $machine->status) === 'rinsing' ? 'selected' : '' }}>Rinsing</option>
+                                                            <option value="drying" {{ old('status', $machine->status) === 'drying' ? 'selected' : '' }}>Drying</option>
+                                                            <option value="maintenance" {{ old('status', $machine->status) === 'maintenance' ? 'selected' : '' }}>Maintenance</option>
+                                                            <option value="offline" {{ old('status', $machine->status) === 'offline' ? 'selected' : '' }}>Offline</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-200 dark:border-zinc-800">
+                                                    <button type="button" x-on:click="$dispatch('close')" class="btn-secondary py-2 px-4 text-xs font-bold">
+                                                        Cancel
+                                                    </button>
+                                                    <button type="submit" class="btn-primary py-2 px-5 text-xs font-bold shadow-sm">
+                                                        Save Machine Unit
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </x-modal>
+
+                                    <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'delete-machine-{{ $machine->id }}')" class="p-2 text-rose-500 hover:bg-rose-500/10 rounded-lg transition" title="Delete Machine">
                                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                                     </button>
 

@@ -48,51 +48,43 @@
                     @enderror
                 </div>
 
-                <!-- Machine Type -->
-                <div>
-                    <label for="machine_type" class="block text-xs font-bold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-2">
-                        Machine Type <span class="text-rose-500">*</span>
-                    </label>
-                    <div class="relative">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <!-- Machine Type -->
+                    <div>
+                        <label for="machine_type" class="block text-xs font-bold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-2">
+                            Machine Type <span class="text-rose-500">*</span>
+                        </label>
                         <select id="machine_type" 
                                 name="machine_type" 
-                                class="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-300 dark:border-zinc-700 rounded-md px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-zinc-100 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition shadow-sm appearance-none pr-10">
-                            <option value="washer" {{ old('machine_type', $machine->machine_type) === 'washer' ? 'selected' : '' }}>Washer (Washing Machine)</option>
-                            <option value="dryer" {{ old('machine_type', $machine->machine_type) === 'dryer' ? 'selected' : '' }}>Dryer (Tumble Dryer)</option>
+                                class="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-300 dark:border-zinc-700 rounded-md px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-zinc-100 focus:outline-none focus:border-blue-600 transition shadow-sm">
+                            <option value="washer" {{ old('machine_type', $machine->machine_type) === 'washer' ? 'selected' : '' }}>Washer</option>
+                            <option value="dryer" {{ old('machine_type', $machine->machine_type) === 'dryer' ? 'selected' : '' }}>Dryer</option>
                             <option value="washer_dryer" {{ old('machine_type', $machine->machine_type) === 'washer_dryer' ? 'selected' : '' }}>Washer & Dryer Combo Unit</option>
                         </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                        </div>
+                        @error('machine_type')
+                            <p class="text-rose-500 text-xs font-semibold mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
-                    @error('machine_type')
-                        <p class="text-rose-500 text-xs font-semibold mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
 
-                <!-- Current Status -->
-                <div>
-                    <label for="status" class="block text-xs font-bold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-2">
-                        Current Operational Status <span class="text-rose-500">*</span>
-                    </label>
-                    <div class="relative">
+                    <!-- Current Status -->
+                    <div>
+                        <label for="status" class="block text-xs font-bold text-slate-700 dark:text-zinc-300 uppercase tracking-wider mb-2">
+                            Current Operational Status <span class="text-rose-500">*</span>
+                        </label>
                         <select id="status" 
                                 name="status" 
-                                class="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-300 dark:border-zinc-700 rounded-md px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-zinc-100 focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 transition shadow-sm appearance-none pr-10">
+                                class="w-full bg-slate-50 dark:bg-zinc-800/80 border border-slate-300 dark:border-zinc-700 rounded-md px-3.5 py-2.5 text-xs sm:text-sm text-slate-900 dark:text-zinc-100 focus:outline-none focus:border-blue-600 transition shadow-sm">
                             <option value="idle" {{ old('status', $machine->status) === 'idle' ? 'selected' : '' }}>Idle (Available for Laundry)</option>
-                            <option value="washing" {{ old('status', $machine->status) === 'washing' ? 'selected' : '' }}>Washing Cycle Active</option>
-                            <option value="rinsing" {{ old('status', $machine->status) === 'rinsing' ? 'selected' : '' }}>Rinsing Cycle Active</option>
-                            <option value="drying" {{ old('status', $machine->status) === 'drying' ? 'selected' : '' }}>Drying Cycle Active</option>
-                            <option value="maintenance" {{ old('status', $machine->status) === 'maintenance' ? 'selected' : '' }}>Maintenance / Servicing</option>
-                            <option value="offline" {{ old('status', $machine->status) === 'offline' ? 'selected' : '' }}>Offline (Out of Order)</option>
+                            <option value="washing" {{ old('status', $machine->status) === 'washing' ? 'selected' : '' }}>Washing</option>
+                            <option value="rinsing" {{ old('status', $machine->status) === 'rinsing' ? 'selected' : '' }}>Rinsing</option>
+                            <option value="drying" {{ old('status', $machine->status) === 'drying' ? 'selected' : '' }}>Drying</option>
+                            <option value="maintenance" {{ old('status', $machine->status) === 'maintenance' ? 'selected' : '' }}>Maintenance</option>
+                            <option value="offline" {{ old('status', $machine->status) === 'offline' ? 'selected' : '' }}>Offline</option>
                         </select>
-                        <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-slate-500">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                        </div>
+                        @error('status')
+                            <p class="text-rose-500 text-xs font-semibold mt-1">{{ $message }}</p>
+                        @enderror
                     </div>
-                    @error('status')
-                        <p class="text-rose-500 text-xs font-semibold mt-1">{{ $message }}</p>
-                    @enderror
                 </div>
 
                 <!-- Form Action Buttons -->
