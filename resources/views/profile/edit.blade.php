@@ -81,7 +81,7 @@
                         <span class="text-rose-600 dark:text-rose-400 font-bold text-[10px] uppercase tracking-wider hidden sm:inline">Action</span>
                     </div>
 
-                    <div class="p-3.5 sm:p-4">
+                    <div class="p-3">
                         @include('profile.partials.delete-user-form')
                     </div>
                 </div>

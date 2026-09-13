@@ -1,16 +1,18 @@
-<section class="space-y-6">
-    <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-        {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.') }}
+<section class="space-y-2.5">
+    <p class="text-[11px] text-slate-600 dark:text-slate-400 leading-snug">
+        {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Download any data you wish to retain.') }}
     </p>
 
-    <button
-        type="button"
-        x-data=""
-        x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
-        class="btn-danger text-xs py-2 px-4 shadow-sm"
-    >
-        {{ __('Delete Account') }}
-    </button>
+    <div>
+        <button
+            type="button"
+            x-data=""
+            x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')"
+            class="btn-danger text-xs py-1.5 px-3.5 shadow-sm"
+        >
+            {{ __('Delete Account') }}
+        </button>
+    </div>
 
     <x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
         <form method="post" action="{{ route('profile.destroy') }}" class="p-6 bg-white dark:bg-[#141417] text-slate-900 dark:text-zinc-100 space-y-4 rounded-lg">
