@@ -12,9 +12,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         @media print {
-            body { background: #fff !important; color: #000 !important; padding: 0 !important; }
+            @page { margin: 0; size: auto; }
+            body { background: #fff !important; color: #000 !important; padding: 0 !important; margin: 0 !important; }
             .no-print { display: none !important; }
-            .printable-card { border: none !important; box-shadow: none !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; }
+            .printable-card { border: none !important; box-shadow: none !important; padding: 0 !important; margin: 0 !important; width: 100% !important; max-width: 100% !important; }
         }
         body { font-family: 'Space Mono', monospace; }
     </style>
@@ -22,15 +23,24 @@
 <body class="bg-slate-100 dark:bg-zinc-900 text-slate-900 dark:text-slate-100 min-h-screen flex flex-col items-center justify-center p-2 sm:p-3">
 
     <div class="no-print mb-2 flex items-center gap-2">
-        @if(auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isOwner() || auth()->user()->isStaff()))
-            <button onclick="window.print()" class="bg-blue-600 text-white px-3.5 py-1.5 rounded-md text-[11px] font-bold shadow-sm hover:bg-blue-700 transition flex items-center gap-1.5 cursor-pointer">
-                🖨 Print Official Thermal Receipt
-            </button>
-        @endif
-        <button onclick="if(window.opener) { window.close(); } else if(window.history.length > 1) { window.history.back(); } else { window.close(); }" class="bg-slate-200 dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 px-3 py-1.5 rounded-md text-[11px] font-bold hover:bg-slate-300 dark:hover:bg-zinc-700 transition cursor-pointer">
-            ✕ Close Window
+        <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white px-3.5 py-1.5 rounded-lg text-xs font-bold shadow-sm transition flex items-center gap-1.5 cursor-pointer">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+            <span>Print Official Thermal Receipt</span>
+        </button>
+        <button onclick="if(window.opener) { window.close(); } else if(window.history.length > 1) { window.history.back(); } else { window.close(); }" class="bg-slate-200 dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-slate-300 dark:hover:bg-zinc-700 transition cursor-pointer">
+            ✕ Close
         </button>
     </div>
+
+    @if(request()->boolean('auto_print') || request()->boolean('print'))
+        <script>
+            window.addEventListener('load', function() {
+                setTimeout(function() {
+                    window.print();
+                }, 300);
+            });
+        </script>
+    @endif
 
     <div class="printable-card max-w-sm w-full bg-white dark:bg-[#18181B] p-3.5 sm:p-4 rounded-lg shadow-sm border border-slate-200 dark:border-zinc-800 text-slate-900 dark:text-zinc-100 space-y-2 text-[10.5px]">
 

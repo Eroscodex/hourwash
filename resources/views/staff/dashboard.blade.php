@@ -761,7 +761,7 @@
                                     {{ $compOrder->updated_at->format('M d, Y h:i A') }}
                                 </td>
                                 <td class="px-2 py-1.5 text-center whitespace-nowrap">
-                                    <a href="{{ route('laundry.receipt', $compOrder->id) }}" onclick="event.preventDefault(); window.open(this.href, 'ReceiptPopup', 'width=420,height=640,left=' + ((screen.width - 420) / 2) + ',top=' + ((screen.height - 640) / 2));" class="px-2 py-0.5 rounded bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-[10px] font-bold hover:opacity-90 transition">
+                                    <a href="{{ route('laundry.receipt', ['order' => $compOrder->id, 'auto_print' => 1]) }}" onclick="event.preventDefault(); window.open(this.href, 'ReceiptPopup', 'width=420,height=640,left=' + ((screen.width - 420) / 2) + ',top=' + ((screen.height - 640) / 2));" class="px-2 py-0.5 rounded bg-slate-900 text-white dark:bg-white dark:text-slate-900 text-[10px] font-bold hover:opacity-90 transition">
                                         View Receipt
                                     </a>
                                 </td>
