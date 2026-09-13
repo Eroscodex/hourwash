@@ -29,12 +29,12 @@
 
             @auth
                 @if(auth()->user()->isOwner() || auth()->user()->isStaff())
-                    <a href="{{ route('admin.laundry.index') }}" class="flex-1 sm:flex-none text-center btn-primary text-xs py-1.5 px-3">Back to Orders</a>
+                    <a href="{{ route('admin.laundry.index') }}" class="btn-primary text-xs py-1.5 px-3 inline-flex items-center justify-center gap-1.5 shadow-sm flex-1 sm:flex-none text-center">Back to Orders</a>
                 @else
-                    <a href="{{ route('my.orders') }}" class="flex-1 sm:flex-none text-center btn-primary text-xs py-1.5 px-3">My Orders</a>
+                    <a href="{{ route('my.orders') }}" class="btn-primary text-xs py-1.5 px-3 inline-flex items-center justify-center gap-1.5 shadow-sm flex-1 sm:flex-none text-center">My Orders</a>
                 @endif
             @else
-                <a href="{{ route('welcome') }}" class="flex-1 sm:flex-none text-center btn-primary text-xs py-1.5 px-3">Home</a>
+                <a href="{{ route('welcome') }}" class="btn-primary text-xs py-1.5 px-3 inline-flex items-center justify-center gap-1.5 shadow-sm flex-1 sm:flex-none text-center">Home</a>
             @endauth
         </div>
     </div>
