@@ -373,7 +373,7 @@
                                 Track Live Status
                             </a>
                             @if(in_array($activeOrder->order_status, ['pending', 'received']))
-                                <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'cancel-active-order-{{ $activeOrder->id }}')" class="bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-800/60 hover:bg-rose-100 dark:hover:bg-rose-900/60 px-2.5 py-1 rounded-md text-xs font-bold transition">
+                                <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'cancel-active-order-{{ $activeOrder->id }}')" class="btn-danger text-xs px-3 py-1.5 font-bold cursor-pointer shadow-sm">
                                     Cancel
                                 </button>
 
