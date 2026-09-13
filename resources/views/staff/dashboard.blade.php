@@ -722,7 +722,7 @@
                     <div class="flex items-center gap-2">
                         <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
                         <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Completed Orders History Log</h2>
-                        <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
+                        <span class="px-2 py-0.5 rounded-md text-xs font-bold bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
                             {{ $completedOrdersList->count() }} Finished Orders
                         </span>
                     </div>
@@ -786,7 +786,7 @@
                     <div class="flex items-center gap-2">
                         <span class="w-2.5 h-2.5 rounded-full bg-rose-500"></span>
                         <h2 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">Cancelled Orders History Log</h2>
-                        <span class="px-2 py-0.5 rounded-full text-xs font-bold bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30">
+                        <span class="px-2 py-0.5 rounded-md text-xs font-bold bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30">
                             {{ $cancelledOrdersList->count() }} Cancelled Orders
                         </span>
                     </div>

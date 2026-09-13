@@ -8,10 +8,10 @@
             <p class="text-[11px] sm:text-xs text-slate-600 dark:text-slate-400 mt-0.5">Select service package, supplies option, input weight, and choose an available machine.</p>
         </div>
         <div class="flex items-center gap-1.5 shrink-0 text-[10.5px] sm:text-[11px] font-bold">
-            <span class="px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30">
+            <span class="px-2 py-0.5 rounded-md bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/30">
                 *Detergent & Fabcon optional
             </span>
-            <span class="px-2 py-0.5 rounded-full bg-blue-600/15 text-blue-600 dark:text-blue-400 border border-blue-600/30">
+            <span class="px-2 py-0.5 rounded-md bg-blue-600/15 text-blue-600 dark:text-blue-400 border border-blue-600/30">
                 ⏱ Cut-Off: 4:30 PM
             </span>
         </div>
