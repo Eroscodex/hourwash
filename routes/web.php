@@ -14,7 +14,6 @@ use App\Models\CustomerFeedback;
 use App\Models\EmailNotification;
 use App\Models\Machine;
 use App\Models\Order;
-use App\Models\QrCode;
 use App\Models\QrScanLog;
 use App\Models\Service;
 use App\Models\SmsNotification;
@@ -32,45 +31,19 @@ use Illuminate\Support\Facades\Schema;
 |--------------------------------------------------------------------------
 */
 Route::get('/', function () {
-    // Auto-fix any active machines that lack a current_order_id
-    $unlinkedActiveMachines = Machine::whereIn('status', ['washing', 'rinsing', 'drying'])
-        ->whereNull('current_order_id')
-        ->get();
-
-    if ($unlinkedActiveMachines->isNotEmpty()) {
-        $defaultUser = User::where('role', 'owner')->first() ?? User::first();
-        $defaultService = Service::where('status', 'active')->first();
-
-        foreach ($unlinkedActiveMachines as $mach) {
-            $numPart = preg_replace('/[^0-9]/', '', $mach->machine_code);
-            $orderNum = 'HW'.str_pad($numPart, 6, '0', STR_PAD_RIGHT);
-
-            $order = Order::firstOrCreate(
-                ['order_number' => $orderNum],
-                [
-                    'customer_id' => $defaultUser?->id ?? 1,
-                    'service_id' => $defaultService?->id ?? 1,
-                    'machine_id' => $mach->id,
-                    'weight_kg' => 5.0,
-                    'subtotal' => 120.0,
-                    'total_amount' => 120.0,
-                    'payment_status' => 'paid',
-                    'order_status' => $mach->status,
-                    'estimated_completion' => now()->addMinutes($mach->remaining_minutes ?? 30),
-                ]
-            );
-
-            $mach->update(['current_order_id' => $order->id]);
-
-            QrCode::firstOrCreate(
-                ['order_id' => $order->id],
-                [
-                    'qr_token' => $orderNum,
-                    'status' => 'active',
-                ]
-            );
-        }
-    }
+    // Auto-cleanup any active machines that lack an active order so Machine 5 and all idle machines correctly show IDLE / Available
+    Machine::whereIn('status', ['washing', 'rinsing', 'drying'])
+        ->where(function ($query) {
+            $query->whereNull('current_order_id')
+                ->orWhereHas('currentOrder', function ($q) {
+                    $q->whereIn('order_status', ['completed', 'cancelled', 'finish']);
+                });
+        })
+        ->update([
+            'current_order_id' => null,
+            'status' => 'idle',
+            'remaining_minutes' => null,
+        ]);
 
     $machines = Machine::with('currentOrder')->orderBy('id', 'asc')->get();
     $services = Service::where('status', 'active')->get();
@@ -178,15 +151,8 @@ Route::post('/laundry/{order}/cancel', function (Order $order) {
     }
 
     $order->order_status = 'cancelled';
+    $order->syncMachineAssignment('cancelled');
     $order->save();
-
-    // Release assigned machine if any
-    if ($order->machine_id) {
-        $machine = Machine::find($order->machine_id);
-        if ($machine) {
-            $machine->update(['status' => 'idle', 'remaining_minutes' => 0]);
-        }
-    }
 
     return back()->with('success', "Order #{$order->order_number} has been cancelled successfully.");
 })->middleware('auth')->name('laundry.cancel');
