@@ -16,16 +16,18 @@
                 size: 58mm auto; /* Physical paper roll width 58mm with automatic continuous roll height */
                 margin: 0;
             }
+            *, *::before, *::after {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
             html, body {
                 width: 58mm !important;
                 max-width: 58mm !important;
-                margin: 0 !important;
+                margin: 0 auto !important;
                 padding: 0 !important;
-                background: #fff !important;
-                color: #000 !important;
+                background: #ffffff !important;
+                color: #000000 !important;
                 font-family: 'Space Mono', 'Courier New', monospace !important;
-                -webkit-print-color-adjust: exact !important;
-                print-color-adjust: exact !important;
             }
             .no-print {
                 display: none !important;
@@ -38,8 +40,8 @@
                 border: none !important;
                 box-shadow: none !important;
                 border-radius: 0 !important;
-                background: #fff !important;
-                color: #000 !important;
+                background: #ffffff !important;
+                color: #000000 !important;
             }
         }
         body {
@@ -67,11 +69,22 @@
 
     @if(request()->boolean('auto_print') || request()->boolean('print'))
         <script>
-            window.addEventListener('load', function() {
-                setTimeout(function() {
-                    window.print();
-                }, 300);
-            });
+            (function() {
+                function triggerPrint() {
+                    setTimeout(function() {
+                        try {
+                            window.print();
+                        } catch(e) {
+                            console.log('Print error:', e);
+                        }
+                    }, 350);
+                }
+                if (document.readyState === 'complete' || document.readyState === 'interactive') {
+                    triggerPrint();
+                } else {
+                    window.addEventListener('load', triggerPrint);
+                }
+            })();
         </script>
     @endif
 
