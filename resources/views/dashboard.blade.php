@@ -411,7 +411,7 @@
                         </div>
                         <div>
                             <span class="text-slate-400 dark:text-zinc-500 text-[10px] uppercase tracking-wider font-bold block">Payment Status</span>
-                            <span class="inline-block mt-0.5 px-2 py-0.5 rounded text-[10px] font-extrabold uppercase {{ $activeOrder->payment_status === 'paid' ? 'bg-emerald-600 text-white border border-emerald-700 shadow-sm' : 'bg-red-600 text-white border border-red-700 shadow-sm' }}">
+                            <span class="inline-block mt-0.5 px-2 py-0.5 rounded text-[10px] font-extrabold uppercase {{ $activeOrder->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
                                 {{ strtoupper($activeOrder->payment_status ?? 'UNPAID') }} (₱{{ number_format($activeOrder->total_amount, 2) }})
                             </span>
                         </div>
@@ -503,8 +503,8 @@
                                     <td class="px-4 py-3 font-medium">{{ $order->service->name ?? 'Wash & Dry' }}</td>
                                     <td class="px-4 py-3 text-slate-400 dark:text-zinc-500 font-mono text-[11px]">{{ $order->created_at->format('M d, Y') }}</td>
                                     <td class="px-4 py-3 font-mono">
-                                        <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-600 text-white border border-emerald-700 shadow-sm' : 'bg-red-600 text-white border border-red-700 shadow-sm' }}">
-                                            {{ strtoupper($order->payment_status) }} (₱{{ number_format($order->total_amount, 2) }})
+                                        <span class="px-2 py-0.5 rounded text-[10px] font-extrabold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
+                                            {{ strtoupper($order->payment_status ?? 'UNPAID') }}
                                         </span>
                                     </td>
                                     <td class="px-4 py-3">

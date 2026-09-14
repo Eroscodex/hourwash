@@ -294,8 +294,8 @@
                         </div>
                         <div class="sidebar-text flex-1 overflow-hidden">
                             <h4 class="text-xs font-bold truncate text-slate-900 dark:text-white">{{ auth()->user()->name }}</h4>
-                            <p class="text-[10px] text-blue-600 dark:text-blue-400 capitalize flex items-center gap-1 font-extrabold">
-                                <span class="w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-blue-500 inline-block animate-pulse"></span>
+                            <p class="text-[10px] {{ auth()->user()->isCustomer() ? 'text-emerald-600 dark:text-emerald-400' : 'text-blue-600 dark:text-blue-400' }} capitalize flex items-center gap-1 font-extrabold">
+                                <span class="w-1.5 h-1.5 rounded-full {{ auth()->user()->isCustomer() ? 'bg-emerald-600 dark:bg-emerald-500' : 'bg-blue-600 dark:bg-blue-500' }} inline-block animate-pulse"></span>
                                 {{ auth()->user()->role }}
                             </p>
                         </div>
