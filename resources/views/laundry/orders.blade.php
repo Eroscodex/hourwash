@@ -86,7 +86,7 @@
                         <a href="{{ route('laundry.track', $order->qrCode->qr_token ?? $order->order_number) }}" class="btn-primary px-2.5 py-1.5 text-[11px] font-bold inline-flex items-center gap-1 shadow-sm whitespace-nowrap">
                             Track Order
                         </a>
-                        <a href="{{ route('laundry.receipt', $order->id) }}" onclick="event.preventDefault(); window.open(this.href, 'ReceiptPopup', 'width=420,height=640,left=' + ((screen.width - 420) / 2) + ',top=' + ((screen.height - 640) / 2));" class="btn-secondary px-2.5 py-1.5 text-[11px] font-bold inline-flex items-center gap-1 shadow-sm whitespace-nowrap">
+                        <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="btn-secondary px-2.5 py-1.5 text-[11px] font-bold inline-flex items-center gap-1 shadow-sm whitespace-nowrap">
                             Receipt
                         </a>
                         @if(in_array($order->order_status, ['pending', 'cancelled']))
