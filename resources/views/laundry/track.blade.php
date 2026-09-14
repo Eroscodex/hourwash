@@ -67,7 +67,7 @@
                     };
                 @endphp
                 <div class="flex items-center sm:justify-end gap-1.5">
-                    <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border-rose-500/30' }}">
+                    <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider {{ $order->payment_status === 'paid' ? 'bg-emerald-600 text-white border border-emerald-700 shadow-sm' : 'bg-red-600 text-white border border-red-700 shadow-sm' }}">
                         {{ strtoupper($order->payment_status) }}
                     </span>
                     <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border {{ $statusBadge }}">
@@ -260,7 +260,7 @@
                         <div class="flex justify-between items-center text-xs font-bold text-slate-900 dark:text-white pt-1 border-t border-slate-200 dark:border-zinc-700">
                             <div class="flex items-center gap-1.5">
                                 <span>Total Payment Amount</span>
-                                <span class="px-1.5 py-0.5 rounded text-[9.5px] font-bold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
+                                <span class="px-1.5 py-0.5 rounded text-[9.5px] font-bold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-600 text-white border border-emerald-700 shadow-sm' : 'bg-red-600 text-white border border-red-700 shadow-sm' }}">
                                     {{ strtoupper($order->payment_status) }}
                                 </span>
                             </div>

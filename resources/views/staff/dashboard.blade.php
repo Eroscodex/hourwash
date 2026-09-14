@@ -654,7 +654,7 @@
                                 </td>
                                 <td class="px-2 py-1.5 text-slate-700 dark:text-slate-300 font-mono text-xs whitespace-nowrap">{{ $order->weight_kg }} kg</td>
                                 <td class="px-2 py-1.5 font-mono text-xs whitespace-nowrap">
-                                    <span class="px-1.5 py-0.5 rounded text-[9.5px] font-extrabold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
+                                    <span class="px-1.5 py-0.5 rounded text-[9.5px] font-extrabold uppercase {{ $order->payment_status === 'paid' ? 'bg-emerald-600 text-white border border-emerald-700 shadow-sm' : 'bg-red-600 text-white border border-red-700 shadow-sm' }}">
                                         {{ strtoupper($order->payment_status) }} (₱{{ number_format($order->total_amount, 2) }})
                                     </span>
                                 </td>
@@ -753,7 +753,7 @@
                                 <td class="px-2 py-1.5 text-slate-700 dark:text-slate-300 text-xs max-w-[130px] truncate" title="{{ $compOrder->service->name ?? 'Standard Wash' }}">{{ $compOrder->service->name ?? 'Standard Wash' }}</td>
                                 <td class="px-2 py-1.5 text-slate-700 dark:text-slate-300 font-mono text-xs whitespace-nowrap">{{ $compOrder->weight_kg }} kg</td>
                                 <td class="px-2 py-1.5 font-mono text-xs whitespace-nowrap">
-                                    <span class="px-1.5 py-0.5 rounded text-[9.5px] font-extrabold uppercase {{ $compOrder->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
+                                    <span class="px-1.5 py-0.5 rounded text-[9.5px] font-extrabold uppercase {{ $compOrder->payment_status === 'paid' ? 'bg-emerald-600 text-white border border-emerald-700 shadow-sm' : 'bg-red-600 text-white border border-red-700 shadow-sm' }}">
                                         {{ strtoupper($compOrder->payment_status) }} (₱{{ number_format($compOrder->total_amount, 2) }})
                                     </span>
                                 </td>
@@ -817,7 +817,7 @@
                                 <td class="px-2 py-1.5 text-slate-700 dark:text-slate-300 text-xs max-w-[130px] truncate" title="{{ $cancOrder->service->name ?? 'Standard Wash' }}">{{ $cancOrder->service->name ?? 'Standard Wash' }}</td>
                                 <td class="px-2 py-1.5 text-slate-700 dark:text-slate-300 font-mono text-xs whitespace-nowrap">{{ $cancOrder->weight_kg }} kg</td>
                                 <td class="px-2 py-1.5 font-mono text-xs whitespace-nowrap">
-                                    <span class="px-1.5 py-0.5 rounded text-[9.5px] font-extrabold uppercase {{ $cancOrder->payment_status === 'paid' ? 'bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30' : 'bg-rose-500/15 text-rose-700 dark:text-rose-300 border border-rose-500/30' }}">
+                                    <span class="px-1.5 py-0.5 rounded text-[9.5px] font-extrabold uppercase {{ $cancOrder->payment_status === 'paid' ? 'bg-emerald-600 text-white border border-emerald-700 shadow-sm' : 'bg-red-600 text-white border border-red-700 shadow-sm' }}">
                                         {{ strtoupper($cancOrder->payment_status) }} (₱{{ number_format($cancOrder->total_amount, 2) }})
                                     </span>
                                 </td>
