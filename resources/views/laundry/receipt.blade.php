@@ -13,7 +13,7 @@
     <style>
         @media print {
             @page {
-                size: 58mm auto; /* Automatic height for 58mm POS thermal paper roll */
+                size: 58mm auto; /* Physical paper roll width 58mm with automatic continuous roll height */
                 margin: 0;
             }
             html, body {
@@ -31,12 +31,12 @@
                 display: none !important;
             }
             .printable-card {
-                width: 58mm !important;
-                max-width: 58mm !important;
+                width: 48mm !important; /* Active printhead printable width (48mm ±1mm) */
+                max-width: 48mm !important;
+                margin: 0 auto !important;
+                padding: 0 !important;
                 border: none !important;
                 box-shadow: none !important;
-                padding: 1.5mm !important;
-                margin: 0 auto !important;
                 border-radius: 0 !important;
                 background: #fff !important;
                 color: #000 !important;
@@ -53,7 +53,7 @@
     <div class="no-print mb-3 flex items-center gap-2">
         <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-xs font-bold shadow-sm transition flex items-center gap-1.5 cursor-pointer">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
-            <span>Print 58mm Receipt</span>
+            <span>Print 58mm (48mm Area)</span>
         </button>
         <button onclick="if(window.opener) { window.close(); } else if(window.history.length > 1) { window.history.back(); } else { window.close(); }" class="bg-white dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 px-3.5 py-2 rounded-lg text-xs font-bold border border-slate-300 dark:border-zinc-700 hover:bg-slate-50 dark:hover:bg-zinc-700 transition cursor-pointer">
             ✕ Close
@@ -70,18 +70,18 @@
         </script>
     @endif
 
-    <!-- 58mm Thermal Paper Receipt Container -->
-    <div class="printable-card w-[58mm] max-w-[58mm] bg-white p-2.5 sm:p-3 rounded-lg shadow-xl border border-slate-300 text-slate-900 space-y-1.5 text-[9px] leading-tight">
+    <!-- 58mm Thermal Paper Roll (48mm Printable Width Container) -->
+    <div class="printable-card w-[58mm] max-w-[58mm] bg-white px-[5mm] py-3 rounded-lg shadow-xl border border-slate-300 text-slate-900 space-y-1.5 text-[8.5px] leading-tight">
 
         <!-- Receipt Header -->
-        <div class="text-center space-y-0.5 border-b border-dashed border-slate-400 pb-2">
-            <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-8 h-8 mx-auto mb-1 rounded-full object-cover shadow-sm p-0.5 border border-slate-300 bg-white">
-            <h1 class="text-[11px] font-black tracking-wide uppercase text-slate-900 font-sans leading-tight">
+        <div class="text-center space-y-0.5 border-b border-dashed border-slate-400 pb-1.5">
+            <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-7 h-7 mx-auto mb-1 rounded-full object-cover shadow-sm p-0.5 border border-slate-300 bg-white">
+            <h1 class="text-[10px] font-black tracking-wide uppercase text-slate-900 font-sans leading-tight">
                 HOUR WASH LAUNDRY
             </h1>
-            <p class="text-[8.5px] font-bold font-sans text-slate-700 leading-tight">Laundry Shop System</p>
-            <p class="text-[8px] text-slate-600 leading-tight">Magallanes St., Orosite, Legazpi City</p>
-            <p class="text-[7.5px] text-slate-500 font-sans">Mobile: 09123456789</p>
+            <p class="text-[8px] font-bold font-sans text-slate-700 leading-tight">Laundry Shop System</p>
+            <p class="text-[7.5px] text-slate-600 leading-tight">Magallanes St., Orosite, Legazpi</p>
+            <p class="text-[7px] text-slate-500 font-sans">Mobile: 09123456789</p>
         </div>
 
         @php
@@ -117,7 +117,7 @@
             </div>
             <div class="flex justify-between">
                 <span>CUSTOMER:</span>
-                <span class="font-bold max-w-[28mm] truncate text-right">{{ $order->customer->name ?? 'Walk-in' }}</span>
+                <span class="font-bold max-w-[24mm] truncate text-right">{{ $order->customer->name ?? 'Walk-in' }}</span>
             </div>
             <div class="flex justify-between">
                 <span>PHONE:</span>
@@ -125,11 +125,11 @@
             </div>
             <div class="flex justify-between text-blue-700">
                 <span>STAFF:</span>
-                <span class="font-bold max-w-[28mm] truncate text-right">{{ $processorName }}</span>
+                <span class="font-bold max-w-[24mm] truncate text-right">{{ $processorName }}</span>
             </div>
             <div class="flex justify-between">
                 <span>MACHINE:</span>
-                <span class="font-bold font-mono">
+                <span class="font-bold font-mono text-[8px]">
                     {{ $order->machine ? $order->machine->machine_name . ' (' . $order->machine->machine_code . ')' : 'AUTO-ASSIGN' }}
                 </span>
             </div>
@@ -137,28 +137,28 @@
 
         <!-- Receipt Line Items -->
         <div class="space-y-1 border-b border-dashed border-slate-400 pb-1.5">
-            <div class="flex justify-between font-bold text-slate-800 border-b border-slate-300 pb-0.5 text-[8.5px]">
+            <div class="flex justify-between font-bold text-slate-800 border-b border-slate-300 pb-0.5 text-[8px]">
                 <span>ITEM / SERVICE</span>
                 <span>AMT</span>
             </div>
             
             <div class="flex justify-between items-start">
-                <div class="max-w-[34mm]">
-                    <span class="font-bold block leading-tight">{{ $order->service->name ?? 'Standard Wash' }}</span>
-                    <span class="text-[8px] text-slate-600 block">{{ $order->weight_kg }} kg @ ₱{{ number_format($order->service->price ?? 120, 2) }}/kg</span>
+                <div class="max-w-[30mm]">
+                    <span class="font-bold block leading-tight text-[8px]">{{ $order->service->name ?? 'Standard Wash' }}</span>
+                    <span class="text-[7.5px] text-slate-600 block">{{ $order->weight_kg }} kg @ ₱{{ number_format($order->service->price ?? 120, 2) }}/kg</span>
                 </div>
-                <span class="font-bold">₱{{ number_format($order->subtotal, 2) }}</span>
+                <span class="font-bold text-[8.5px]">₱{{ number_format($order->subtotal, 2) }}</span>
             </div>
 
             @if($order->delivery_fee > 0)
-                <div class="flex justify-between">
+                <div class="flex justify-between text-[8px]">
                     <span>Delivery Fee</span>
                     <span>₱{{ number_format($order->delivery_fee, 2) }}</span>
                 </div>
             @endif
 
             @if($order->discount > 0)
-                <div class="flex justify-between text-emerald-700">
+                <div class="flex justify-between text-emerald-700 text-[8px]">
                     <span>Discount</span>
                     <span>-₱{{ number_format($order->discount, 2) }}</span>
                 </div>
@@ -167,11 +167,11 @@
 
         <!-- Total Amount & Payment Status -->
         <div class="space-y-1 border-b border-dashed border-slate-400 pb-1.5">
-            <div class="flex justify-between text-[10px] font-bold pt-0.5">
+            <div class="flex justify-between text-[9px] font-bold pt-0.5">
                 <span>TOTAL:</span>
-                <span class="text-xs font-black text-slate-900">₱{{ number_format($order->total_amount, 2) }}</span>
+                <span class="text-[11px] font-black text-slate-900">₱{{ number_format($order->total_amount, 2) }}</span>
             </div>
-            <div class="flex justify-between text-[8.5px]">
+            <div class="flex justify-between text-[8px]">
                 <span>PAYMENT:</span>
                 <span class="font-bold uppercase {{ $order->payment_status === 'paid' ? 'text-emerald-700' : 'text-rose-700' }}">
                     {{ strtoupper($order->payment_status) }}
@@ -180,16 +180,16 @@
         </div>
 
         <!-- Receipt Bottom QR & Footer Info -->
-        <div class="text-center pt-1.5 space-y-1 border-t border-dashed border-slate-400 mt-1">
-            <div class="w-16 h-16 mx-auto bg-white p-0.5 border border-slate-400 rounded flex items-center justify-center shadow-sm">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data={{ $order->qrCode->qr_token ?? $order->order_number }}" 
+        <div class="text-center pt-1 space-y-1 border-t border-dashed border-slate-400 mt-1">
+            <div class="w-14 h-14 mx-auto bg-white p-0.5 border border-slate-400 rounded flex items-center justify-center shadow-sm">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=110x110&data={{ $order->qrCode->qr_token ?? $order->order_number }}" 
                      alt="Order QR Tag {{ $order->order_number }}" 
                      class="w-full h-full">
             </div>
-            <p class="text-[7.5px] text-slate-600">Scan QR Code tag to track order</p>
+            <p class="text-[7px] text-slate-600">Scan QR Code tag to track order</p>
 
             <div class="pt-0.5 flex flex-col items-center justify-center space-y-0.5">
-                <p class="text-[9px] font-bold text-slate-800 font-sans">Thank you for washing with HourWash!</p>
+                <p class="text-[8.5px] font-bold text-slate-800 font-sans leading-tight">Thank you for washing with HourWash!</p>
             </div>
         </div>
 
