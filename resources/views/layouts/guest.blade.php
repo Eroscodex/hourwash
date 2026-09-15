@@ -67,7 +67,7 @@
 
 
         <p class="text-center text-slate-500 dark:text-slate-400 text-xs mt-6">
-            © {{ date('Y') }} A Web-Based Laundry Service Management System for Hour Wash Laundry Shop in Orosite, Legazpi City
+            © {{ date('Y') }} A Web-Based Laundry Management System for Hour Wash Laundry Shop in Orosite, Legazpi City
         </p>
 
     </div>
