@@ -136,7 +136,7 @@
 
         <!-- Receipt Header -->
         <div class="text-center space-y-0.5 border-b-2 border-black pb-2">
-            <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-8 h-8 mx-auto mb-1 rounded-full object-cover p-0.5 border border-black bg-white">
+            <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-14 h-14 mx-auto mb-1.5 rounded-full object-contain p-1 border-2 border-black bg-white shadow-none">
             <h1 class="text-[12px] font-black tracking-wide uppercase text-black leading-tight">
                 HOUR WASH LAUNDRY
             </h1>
