@@ -227,11 +227,12 @@
         </div>
 
         <!-- Receipt Bottom QR & Footer Info -->
-        <div class="text-center pt-1.5 space-y-0.5 text-black">
-            <div class="w-12 h-12 mx-auto bg-white p-0.5 border border-black rounded flex items-center justify-center shadow-none">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data={{ $qrToken }}" 
+        <div class="text-center pt-1 space-y-0.5 text-black">
+            <div class="w-16 h-16 mx-auto bg-white p-1 border-2 border-black rounded flex items-center justify-center shadow-none">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data={{ urlencode($qrToken) }}&margin=1" 
                      alt="Order QR Tag {{ $order->order_number }}" 
-                     class="w-full h-full">
+                     class="w-full h-full object-contain"
+                     style="image-rendering: pixelated; image-rendering: -moz-crisp-edges; image-rendering: crisp-edges;">
             </div>
             <p class="text-[7.5px] font-bold text-black pt-0.5">Scan QR Code tag to track order</p>
 
