@@ -761,7 +761,7 @@
                                     {{ $compOrder->updated_at->format('M d, Y h:i A') }}
                                 </td>
                                 <td class="px-2 py-1.5 text-center whitespace-nowrap">
-                                    <a href="{{ route('laundry.receipt', ['order' => $compOrder->id, 'auto_print' => 1]) }}" target="_blank" class="btn-secondary text-[11px] py-1 px-2.5 inline-flex items-center gap-1 shadow-sm">
+                                    <a href="{{ route('laundry.receipt', $compOrder->id) }}" target="_blank" class="btn-secondary text-[11px] py-1 px-2.5 inline-flex items-center gap-1 shadow-sm">
                                         View Receipt
                                     </a>
                                 </td>

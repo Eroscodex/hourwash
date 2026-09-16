@@ -2,6 +2,7 @@ import os
 import math
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+from matplotlib.path import Path
 
 os.makedirs('diagrams', exist_ok=True)
 
@@ -1112,12 +1113,218 @@ def generate_deployment_diagram():
         ax.text(mid_x, mid_y, "http", fontsize=7.5, color='#000000', ha='center', va='center',
                 bbox=dict(boxstyle="square,pad=0.1", fc="#FFFFFF", ec="none"))
 
+# -------------------------------------------------------------
+# 10. NETWORK INFRASTRUCTURE DIAGRAM (PURE B&W - NO RIDER, ARROWS CONNECTED WITH 0 GAP)
+# -------------------------------------------------------------
+def create_cloud_path(x, y, w, h, num_bumps_x=8, num_bumps_y=5, bump_size=2.0):
+    verts = []
+    codes = []
+    
+    verts.append((x, y + h))
+    codes.append(Path.MOVETO)
+    
+    dx = w / num_bumps_x
+    for i in range(num_bumps_x):
+        x0 = x + i * dx
+        x1 = x + (i + 1) * dx
+        ctrl_x = (x0 + x1) / 2.0
+        ctrl_y = y + h + bump_size
+        verts.extend([(ctrl_x, ctrl_y), (x1, y + h)])
+        codes.extend([Path.CURVE3, Path.CURVE3])
+        
+    dy = h / num_bumps_y
+    for j in range(num_bumps_y):
+        y0 = y + h - j * dy
+        y1 = y + h - (j + 1) * dy
+        ctrl_x = x + w + bump_size
+        ctrl_y = (y0 + y1) / 2.0
+        verts.extend([(ctrl_x, ctrl_y), (x + w, y1)])
+        codes.extend([Path.CURVE3, Path.CURVE3])
+
+    for i in range(num_bumps_x):
+        x0 = x + w - i * dx
+        x1 = x + w - (i + 1) * dx
+        ctrl_x = (x0 + x1) / 2.0
+        ctrl_y = y - bump_size
+        verts.extend([(ctrl_x, ctrl_y), (x1, y)])
+        codes.extend([Path.CURVE3, Path.CURVE3])
+
+    for j in range(num_bumps_y):
+        y0 = y + j * dy
+        y1 = y + (j + 1) * dy
+        ctrl_x = x - bump_size
+        ctrl_y = (y0 + y1) / 2.0
+        verts.extend([(ctrl_x, ctrl_y), (x, y1)])
+        codes.extend([Path.CURVE3, Path.CURVE3])
+
+    return Path(verts, codes)
+
+def generate_network_infrastructure_diagram():
+    fig, ax = plt.subplots(figsize=(18, 13.5), dpi=300)
+    fig.patch.set_facecolor(PRIMARY_BG)
+    ax.set_facecolor(PRIMARY_BG)
+    ax.set_xlim(0, 100)
+    ax.set_ylim(0, 100)
+    ax.axis('off')
+
+    # 1. OUTSIDE USER (CUSTOMER) STICK FIGURE (Top Left)
+    cust_x, cust_y = 6.0, 68.5
+    circle = patches.Circle((cust_x, cust_y + 2.8), 1.5, fc='#FFFFFF', ec='#000000', lw=1.8, zorder=4)
+    ax.add_patch(circle)
+    ax.plot([cust_x, cust_x], [cust_y + 1.3, cust_y - 2.0], color='#000000', lw=2.0, zorder=4)
+    ax.plot([cust_x - 2.2, cust_x + 2.2], [cust_y + 0.3, cust_y + 0.3], color='#000000', lw=2.0, zorder=4)
+    ax.plot([cust_x, cust_x - 1.8], [cust_y - 2.0, cust_y - 4.5], color='#000000', lw=2.0, zorder=4)
+    ax.plot([cust_x, cust_x + 1.8], [cust_y - 2.0, cust_y - 4.5], color='#000000', lw=2.0, zorder=4)
+    ax.text(cust_x, cust_y - 6.2, "Outside User\n(Customer)", fontsize=11.5, fontweight='bold', ha='center', va='top', color='#000000', zorder=4)
+
+    # 2. ROUTER (INTERNET GATEWAY) 3D BOX
+    r1_x, r1_y, r1_w, r1_h, r1_d = 16.0, 63.0, 15.0, 11.0, 2.2
+    r1_front = patches.Rectangle((r1_x, r1_y), r1_w, r1_h, fc='#FFFFFF', ec='#000000', lw=1.6, zorder=4)
+    ax.add_patch(r1_front)
+    r1_top = patches.Polygon([[r1_x, r1_y + r1_h], [r1_x + r1_d, r1_y + r1_h + r1_d], [r1_x + r1_w + r1_d, r1_y + r1_h + r1_d], [r1_x + r1_w, r1_y + r1_h]], fc='#F8F9FA', ec='#000000', lw=1.6, zorder=4)
+    ax.add_patch(r1_top)
+    r1_side = patches.Polygon([[r1_x + r1_w, r1_y], [r1_x + r1_w + r1_d, r1_y + r1_d], [r1_x + r1_w + r1_d, r1_y + r1_h + r1_d], [r1_x + r1_w, r1_y + r1_h]], fc='#F1F5F9', ec='#000000', lw=1.6, zorder=4)
+    ax.add_patch(r1_side)
+    ax.text(r1_x + r1_w/2.0, r1_y + r1_h/2.0, "Router\n(Internet Gateway)", fontsize=11.0, fontweight='bold', ha='center', va='center', color='#000000', zorder=5)
+
+    # Arrow from Customer -> Router (Internet Gateway)
+    ax.annotate("", xy=(r1_x, cust_y + 0.3), xytext=(cust_x + 2.2, cust_y + 0.3),
+                arrowprops=dict(arrowstyle="->", lw=1.6, color='#000000', shrinkA=0, shrinkB=0), zorder=6)
+
+    # 3. INTERNET / CLOUD HOSTING (RENDER WEB SERVER) CLOUD BOUNDARY
+    c1_x, c1_y, c1_w, c1_h = 36.0, 40.0, 47.0, 49.0
+    cloud1_path = create_cloud_path(c1_x, c1_y, c1_w, c1_h, num_bumps_x=10, num_bumps_y=7, bump_size=2.2)
+    cloud1_patch = patches.PathPatch(cloud1_path, facecolor='#FFFFFF', edgecolor='#000000', lw=1.6, zorder=1)
+    ax.add_patch(cloud1_patch)
+
+    # Cloud Title
+    ax.text(c1_x + c1_w/2.0, c1_y + c1_h - 3.2, "Internet / Cloud Hosting\n(Render Web Server)", fontsize=13.0, fontweight='bold', ha='center', va='top', color='#000000', zorder=3)
+
+    # Arrow from Router -> Web Application inside Cloud
+    webapp_x, webapp_y, webapp_w, webapp_h = 40.5, 61.5, 22.0, 16.0
+    ax.annotate("", xy=(webapp_x, r1_y + r1_h/2.0), xytext=(r1_x + r1_w + r1_d, r1_y + r1_h/2.0),
+                arrowprops=dict(arrowstyle="->", lw=1.6, color='#000000', shrinkA=0, shrinkB=0), zorder=6)
+
+    # 4. INSIDE CLOUD:
+    # A) Web Application 3D Box
+    wa_front = patches.Rectangle((webapp_x, webapp_y), webapp_w, webapp_h, fc='#FFFFFF', ec='#000000', lw=1.6, zorder=4)
+    ax.add_patch(wa_front)
+    wa_top = patches.Polygon([[webapp_x, webapp_y + webapp_h], [webapp_x + 2.2, webapp_y + webapp_h + 2.2], [webapp_x + webapp_w + 2.2, webapp_y + webapp_h + 2.2], [webapp_x + webapp_w, webapp_y + webapp_h]], fc='#F8F9FA', ec='#000000', lw=1.6, zorder=4)
+    ax.add_patch(wa_top)
+    wa_side = patches.Polygon([[webapp_x + webapp_w, webapp_y], [webapp_x + webapp_w + 2.2, webapp_y + 2.2], [webapp_x + webapp_w + 2.2, webapp_y + webapp_h + 2.2], [webapp_x + webapp_w, webapp_y + webapp_h]], fc='#F1F5F9', ec='#000000', lw=1.6, zorder=4)
+    ax.add_patch(wa_side)
+    ax.text(webapp_x + webapp_w/2.0, webapp_y + webapp_h/2.0, "Web Application\n(Hour Wash Laundry Shop\nManagement System)", fontsize=10.5, fontweight='bold', ha='center', va='center', color='#000000', zorder=5)
+
+    # B) Database Cylinder
+    db_x, db_y, db_w, db_h = 68.5, 61.5, 12.5, 16.0
+    db_rect = patches.Rectangle((db_x, db_y), db_w, db_h, fc='#FFFFFF', ec='#000000', lw=1.6, zorder=4)
+    ax.add_patch(db_rect)
+    db_bot = patches.Ellipse((db_x + db_w/2.0, db_y), db_w, db_h*0.28, fc='#FFFFFF', ec='#000000', lw=1.6, zorder=4)
+    ax.add_patch(db_bot)
+    db_top = patches.Ellipse((db_x + db_w/2.0, db_y + db_h), db_w, db_h*0.28, fc='#FFFFFF', ec='#000000', lw=1.6, zorder=4)
+    ax.add_patch(db_top)
+    db_mid1 = patches.Arc((db_x + db_w/2.0, db_y + db_h*0.65), db_w, db_h*0.28, angle=0, theta1=180, theta2=360, color='#000000', lw=1.4, zorder=4)
+    ax.add_patch(db_mid1)
+    db_mid2 = patches.Arc((db_x + db_w/2.0, db_y + db_h*0.35), db_w, db_h*0.28, angle=0, theta1=180, theta2=360, color='#000000', lw=1.4, zorder=4)
+    ax.add_patch(db_mid2)
+    ax.text(db_x + db_w/2.0, db_y + db_h/2.0, "Database", fontsize=12.0, fontweight='bold', ha='center', va='center', color='#000000', zorder=5,
+            bbox=dict(boxstyle="square,pad=0.15", fc="#FFFFFF", ec="none"))
+
+    # Bi-directional Arrow: Web Application <-> Database
+    ax.annotate("", xy=(db_x, webapp_y + webapp_h/2.0), xytext=(webapp_x + webapp_w + 2.2, webapp_y + webapp_h/2.0),
+                arrowprops=dict(arrowstyle="<->", lw=1.6, color='#000000', shrinkA=0, shrinkB=0), zorder=6)
+
+    # C) QR Code Tracking (System Feature) Box
+    qr_x, qr_y, qr_w, qr_h = 42.5, 44.5, 18.0, 9.5
+    qr_box = patches.Rectangle((qr_x, qr_y), qr_w, qr_h, fc='#FFFFFF', ec='#000000', lw=1.5, zorder=4)
+    ax.add_patch(qr_box)
+    ax.text(qr_x + qr_w/2.0, qr_y + qr_h/2.0, "QR Code Tracking\n(System Feature)", fontsize=10.5, fontweight='bold', ha='center', va='center', color='#000000', zorder=5)
+
+    # Bi-directional Arrow: Web Application <-> QR Code Tracking
+    ax.annotate("", xy=(qr_x + qr_w/2.0, qr_y + qr_h), xytext=(qr_x + qr_w/2.0, webapp_y),
+                arrowprops=dict(arrowstyle="<->", lw=1.6, color='#000000', shrinkA=0, shrinkB=0), zorder=6)
+
+    # 5. EXTERNAL SERVICES (RIGHT SIDE)
+    # A) SMS Notification Service (TextBee)
+    sms_x, sms_y, sms_w, sms_h = 85.5, 75.5, 13.0, 10.0
+    sms_box = patches.Rectangle((sms_x, sms_y), sms_w, sms_h, fc='#FFFFFF', ec='#000000', lw=1.5, zorder=4)
+    ax.add_patch(sms_box)
+    ax.text(sms_x + sms_w/2.0, sms_y + sms_h/2.0, "SMS Notification\nService\n(TextBee API)", fontsize=10.0, fontweight='bold', ha='center', va='center', color='#000000', zorder=5)
+    ax.annotate("", xy=(sms_x, sms_y + sms_h/2.0), xytext=(db_x + db_w, db_y + db_h*0.8),
+                arrowprops=dict(arrowstyle="->", lw=1.5, color='#000000', shrinkA=0, shrinkB=0), zorder=6)
+
+    # B) Email Notification Service (Brevo)
+    email_x, email_y, email_w, email_h = 85.5, 61.5, 13.0, 10.0
+    email_box = patches.Rectangle((email_x, email_y), email_w, email_h, fc='#FFFFFF', ec='#000000', lw=1.5, zorder=4)
+    ax.add_patch(email_box)
+    ax.text(email_x + email_w/2.0, email_y + email_h/2.0, "Email Notification\nService\n(Brevo API)", fontsize=10.0, fontweight='bold', ha='center', va='center', color='#000000', zorder=5)
+    ax.annotate("", xy=(email_x, email_y + email_h/2.0), xytext=(db_x + db_w, db_y + db_h*0.5),
+                arrowprops=dict(arrowstyle="->", lw=1.5, color='#000000', shrinkA=0, shrinkB=0), zorder=6)
+
+    # C) AI Assistant / Chatbot
+    ai_x, ai_y, ai_w, ai_h = 85.5, 47.5, 13.0, 10.0
+    ai_box = patches.Rectangle((ai_x, ai_y), ai_w, ai_h, fc='#FFFFFF', ec='#000000', lw=1.5, zorder=4)
+    ax.add_patch(ai_box)
+    ax.text(ai_x + ai_w/2.0, ai_y + ai_h/2.0, "AI Assistant /\nChatbot\n(OpenAI / Ollama)", fontsize=10.0, fontweight='bold', ha='center', va='center', color='#000000', zorder=5)
+    ax.annotate("", xy=(ai_x, ai_y + ai_h/2.0), xytext=(db_x + db_w, db_y + db_h*0.2),
+                arrowprops=dict(arrowstyle="->", lw=1.5, color='#000000', shrinkA=0, shrinkB=0), zorder=6)
+
+    # 6. INSIDE USERS (BOTTOM CLOUD & LAN ROUTER - NO RIDER!)
+    c2_x, c2_y, c2_w, c2_h = 25.0, 0.8, 50.0, 20.0
+    cloud2_path = create_cloud_path(c2_x, c2_y, c2_w, c2_h, num_bumps_x=9, num_bumps_y=4, bump_size=1.8)
+    cloud2_patch = patches.PathPatch(cloud2_path, facecolor='#FFFFFF', edgecolor='#000000', lw=1.6, zorder=1)
+    ax.add_patch(cloud2_patch)
+
+    # Label inside cloud top
+    ax.text(c2_x + c2_w/2.0, c2_y + c2_h - 2.2, "Inside Users", fontsize=12.5, fontweight='bold', ha='center', va='top', color='#000000', zorder=4)
+
+    # Two Stick Figures inside Bottom Cloud (Administrator/Owner & Staff - NO RIDER!)
+    admin_x, admin_y = 36.0, 9.5
+    circle_a = patches.Circle((admin_x, admin_y + 2.5), 1.3, fc='#FFFFFF', ec='#000000', lw=1.8, zorder=4)
+    ax.add_patch(circle_a)
+    ax.plot([admin_x, admin_x], [admin_y + 1.2, admin_y - 1.8], color='#000000', lw=1.8, zorder=4)
+    ax.plot([admin_x - 1.8, admin_x + 1.8], [admin_y + 0.3, admin_y + 0.3], color='#000000', lw=1.8, zorder=4)
+    ax.plot([admin_x, admin_x - 1.5], [admin_y - 1.8, admin_y - 3.8], color='#000000', lw=1.8, zorder=4)
+    ax.plot([admin_x, admin_x + 1.5], [admin_y - 1.8, admin_y - 3.8], color='#000000', lw=1.8, zorder=4)
+    ax.text(admin_x, admin_y - 4.4, "Administrator /\nOwner", fontsize=11.0, fontweight='bold', ha='center', va='top', color='#000000', zorder=4)
+
+    staff_x, staff_y = 64.0, 9.5
+    circle_s = patches.Circle((staff_x, staff_y + 2.5), 1.3, fc='#FFFFFF', ec='#000000', lw=1.8, zorder=4)
+    ax.add_patch(circle_s)
+    ax.plot([staff_x, staff_x], [staff_y + 1.2, staff_y - 1.8], color='#000000', lw=1.8, zorder=4)
+    ax.plot([staff_x - 1.8, staff_x + 1.8], [staff_y + 0.3, staff_y + 0.3], color='#000000', lw=1.8, zorder=4)
+    ax.plot([staff_x, staff_x - 1.5], [staff_y - 1.8, staff_y - 3.8], color='#000000', lw=1.8, zorder=4)
+    ax.plot([staff_x, staff_x + 1.5], [staff_y - 1.8, staff_y - 3.8], color='#000000', lw=1.8, zorder=4)
+    ax.text(staff_x, staff_y - 4.4, "Staff", fontsize=11.0, fontweight='bold', ha='center', va='top', color='#000000', zorder=4)
+
+    # T-Junction connection lines from Admin & Staff up to LAN Router
+    r2_x, r2_y, r2_w, r2_h, r2_d = 42.0, 25.0, 16.0, 10.5, 2.2
+
+    ax.plot([admin_x, admin_x], [admin_y + 3.8, 21.0], color='#000000', lw=1.6, zorder=4)
+    ax.plot([staff_x, staff_x], [staff_y + 3.8, 21.0], color='#000000', lw=1.6, zorder=4)
+    ax.plot([admin_x, staff_x], [21.0, 21.0], color='#000000', lw=1.6, zorder=4)
+
+    # Router (Local Area Network) 3D Box
+    r2_front = patches.Rectangle((r2_x, r2_y), r2_w, r2_h, fc='#FFFFFF', ec='#000000', lw=1.6, zorder=4)
+    ax.add_patch(r2_front)
+    r2_top = patches.Polygon([[r2_x, r2_y + r2_h], [r2_x + r2_d, r2_y + r2_h + r2_d], [r2_x + r2_w + r2_d, r2_y + r2_h + r2_d], [r2_x + r2_w, r2_y + r2_h]], fc='#F8F9FA', ec='#000000', lw=1.6, zorder=4)
+    ax.add_patch(r2_top)
+    r2_side = patches.Polygon([[r2_x + r2_w, r2_y], [r2_x + r2_w + r2_d, r2_y + r2_d], [r2_x + r2_w + r2_d, r2_y + r2_h + r2_d], [r2_x + r2_w, r2_y + r2_h]], fc='#F1F5F9', ec='#000000', lw=1.6, zorder=4)
+    ax.add_patch(r2_side)
+    ax.text(r2_x + r2_w/2.0, r2_y + r2_h/2.0, "Router\n(Local Area Network)", fontsize=10.5, fontweight='bold', ha='center', va='center', color='#000000', zorder=5)
+
+    # Arrow from T-Junction center -> LAN Router bottom
+    ax.annotate("", xy=(50.0, r2_y), xytext=(50.0, 21.0),
+                arrowprops=dict(arrowstyle="->", lw=1.6, color='#000000', shrinkA=0, shrinkB=0), zorder=6)
+
+    # Bi-directional Arrow from LAN Router top -> Web Application bottom
+    ax.annotate("", xy=(webapp_x + 9.5, webapp_y), xytext=(r2_x + r2_w/2.0, r2_y + r2_h + r2_d),
+                arrowprops=dict(arrowstyle="<->", lw=1.6, color='#000000', shrinkA=0, shrinkB=0), zorder=6)
+
     plt.tight_layout()
-    plt.savefig('diagrams/deployment_diagram.png', dpi=300, bbox_inches='tight', facecolor='white')
+    plt.savefig('diagrams/network_infrastructure_diagram.png', dpi=300, bbox_inches='tight', facecolor='white')
     plt.close()
-    print("Saved diagrams/deployment_diagram.png")
-
-
+    print("Saved diagrams/network_infrastructure_diagram.png")
 
 if __name__ == '__main__':
     generate_system_design_diagram()
@@ -1126,4 +1333,5 @@ if __name__ == '__main__':
     generate_all_sequence_diagrams()
     generate_package_diagram()
     generate_deployment_diagram()
+    generate_network_infrastructure_diagram()
     print("ALL HIGH-RESOLUTION BLACK & WHITE DIAGRAMS GENERATED SUCCESSFULLY!")

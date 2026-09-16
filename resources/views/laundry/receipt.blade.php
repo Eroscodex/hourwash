@@ -9,7 +9,8 @@
     <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         @media print {
             @page {
@@ -51,21 +52,60 @@
 </head>
 <body class="bg-slate-200 dark:bg-zinc-950 text-slate-900 min-h-screen flex flex-col items-center justify-center p-2 sm:p-4">
 
-    <!-- Print Action Bar -->
-    <div class="no-print mb-3 flex flex-col items-center justify-center gap-2 text-center">
-        <div class="flex items-center gap-2">
-            <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-xs font-bold shadow-sm transition flex items-center gap-1.5 cursor-pointer">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
-                <span>Print 58mm Receipt</span>
+    <!-- Print & Download Action Bar -->
+    <div class="no-print mb-3 flex flex-col items-center justify-center gap-2 text-center max-w-md w-full">
+        <div class="flex items-center justify-center gap-2 flex-wrap">
+            <button id="download-img-btn" onclick="downloadReceiptImage()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-3.5 py-2 rounded-lg text-xs font-bold shadow-sm transition flex items-center gap-1.5 cursor-pointer">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+                <span>Download Image (PNG)</span>
             </button>
-            <button onclick="if(window.opener) { window.close(); } else if(window.history.length > 1) { window.history.back(); } else { window.close(); }" class="bg-white dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 px-3.5 py-2 rounded-lg text-xs font-bold border border-slate-300 dark:border-zinc-700 hover:bg-slate-50 dark:hover:bg-zinc-700 transition cursor-pointer">
+            <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white px-3.5 py-2 rounded-lg text-xs font-bold shadow-sm transition flex items-center gap-1.5 cursor-pointer">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+                <span>Print 58mm</span>
+            </button>
+            <button onclick="if(window.opener) { window.close(); } else if(window.history.length > 1) { window.history.back(); } else { window.close(); }" class="bg-white dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 px-3 py-2 rounded-lg text-xs font-bold border border-slate-300 dark:border-zinc-700 hover:bg-slate-50 dark:hover:bg-zinc-700 transition cursor-pointer">
                 ✕ Close
             </button>
         </div>
-        <p class="text-[10.5px] text-slate-600 dark:text-zinc-400 bg-white/80 dark:bg-zinc-900/80 px-3 py-1 rounded-md border border-slate-200 dark:border-zinc-800 shadow-sm">
-            💡 <strong>Thermal Printer Tip:</strong> Select your <strong>POS-58 Thermal Printer</strong> under <em>Destination</em> in the print dialog.
+        <p class="text-[10.5px] text-slate-600 dark:text-zinc-400 bg-white/90 dark:bg-zinc-900/90 px-3 py-1.5 rounded-md border border-slate-200 dark:border-zinc-800 shadow-sm leading-normal">
+            📲 <strong>Mobile / Y58 Printer Tip:</strong> Click <strong>Download Image (PNG)</strong> to save a high-contrast receipt image to your phone, then print via <em>RawBT / Bluetooth Printer app</em>.
         </p>
     </div>
+
+    <script>
+        function downloadReceiptImage() {
+            const card = document.querySelector('.printable-card');
+            if (!card) return;
+
+            const btn = document.getElementById('download-img-btn');
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<svg class="animate-spin h-3.5 w-3.5 text-white inline mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Saving...';
+
+            html2canvas(card, {
+                scale: 3,
+                backgroundColor: '#ffffff',
+                useCORS: true,
+                allowTaint: true,
+                logging: false
+            }).then(function(canvas) {
+                const link = document.createElement('a');
+                link.download = 'Receipt-{{ $order->order_number }}.png';
+                link.href = canvas.toDataURL('image/png', 1.0);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }).catch(function(err) {
+                console.error('Download error:', err);
+                alert('Could not download image automatically. You can screenshot the receipt card instead.');
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            });
+        }
+    </script>
 
     @if(request()->boolean('auto_print') || request()->boolean('print'))
         <script>
