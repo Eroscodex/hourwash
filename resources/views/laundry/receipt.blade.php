@@ -14,7 +14,7 @@
     <style>
         @media print {
             @page {
-                size: 58mm auto; /* Physical paper roll width 58mm with automatic continuous roll height */
+                size: 48mm 72mm; /* Physical paper width 48.0mm, height 72.0mm */
                 margin: 0;
             }
             *, *::before, *::after {
@@ -22,27 +22,34 @@
                 print-color-adjust: exact !important;
             }
             html, body {
-                width: 58mm !important;
-                max-width: 58mm !important;
+                width: 48mm !important;
+                max-width: 48mm !important;
+                height: 72mm !important;
+                max-height: 72mm !important;
                 margin: 0 auto !important;
                 padding: 0 !important;
                 background: #ffffff !important;
                 color: #000000 !important;
                 font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif !important;
+                overflow: hidden !important;
             }
             .no-print {
                 display: none !important;
             }
             .printable-card {
-                width: 48mm !important; /* Active printhead printable width (48mm ±1mm) */
+                width: 48mm !important;
                 max-width: 48mm !important;
+                height: 72mm !important;
+                max-height: 72mm !important;
                 margin: 0 auto !important;
-                padding: 0 !important;
+                padding: 2mm !important;
                 border: none !important;
                 box-shadow: none !important;
                 border-radius: 0 !important;
                 background: #ffffff !important;
                 color: #000000 !important;
+                box-sizing: border-box !important;
+                overflow: hidden !important;
             }
         }
         body {
@@ -515,8 +522,8 @@
         </script>
     @endif
 
-    <!-- 58mm Thermal Paper Roll (48mm Printable Width Container) - High Contrast Monochrome Thermal Layout -->
-    <div class="printable-card w-[58mm] max-w-[58mm] bg-white px-[3mm] py-3 text-black space-y-2.5 text-[9.5px] leading-normal border-0 shadow-none rounded-none">
+    <!-- 48mm x 72mm Thermal Paper Roll Printable Card Container -->
+    <div class="printable-card w-[48mm] max-w-[48mm] min-h-[72mm] bg-white px-[2.5mm] py-2 text-black space-y-2 text-[9px] leading-normal border-0 shadow-sm rounded-none font-sans">
 
         <!-- Receipt Header -->
         <div class="text-center space-y-0.5 border-b-2 border-black pb-2">
