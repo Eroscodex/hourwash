@@ -102,18 +102,20 @@
                             </div>
                         </div>
 
-                        <div class="flex items-center gap-3">
-                            <a href="{{ route('laundry.track', $order->qrCode->qr_token ?? $order->order_number) }}" class="btn-primary text-xs">
-                                Track Order
-                            </a>
-                            <button type="button" onclick="openReceiptModal({{ $order->id }})" class="btn-secondary text-xs inline-flex items-center gap-1.5 shadow-sm cursor-pointer">
-                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
-                                <span>Receipt</span>
-                            </button>
-                            <span class="px-2.5 py-1 rounded-md text-[10px] font-extrabold uppercase tracking-wider {{ $order->payment_status === 'paid' ? 'bg-emerald-600 text-white border border-emerald-700 shadow-sm' : 'bg-red-600 text-white border border-red-700 shadow-sm' }}">
-                                {{ strtoupper($order->payment_status) }}
-                            </span>
-                            <span class="text-emerald-600 dark:text-emerald-400 font-extrabold text-xl">₱{{ number_format($order->total_amount, 2) }}</span>
+                        <div class="flex items-center gap-2 sm:gap-3 flex-wrap justify-between sm:justify-end w-full sm:w-auto">
+                            <div class="flex items-center gap-1.5 flex-wrap shrink-0">
+                                <a href="{{ route('laundry.track', $order->qrCode->qr_token ?? $order->order_number) }}" class="btn-primary text-xs py-1.5 px-3 whitespace-nowrap inline-flex items-center justify-center gap-1 shrink-0">
+                                    Track Order
+                                </a>
+                                <button type="button" onclick="openReceiptModal({{ $order->id }})" class="btn-secondary text-xs py-1.5 px-2.5 whitespace-nowrap inline-flex items-center justify-center gap-1 shadow-sm cursor-pointer shrink-0">
+                                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
+                                    <span>Receipt</span>
+                                </button>
+                                <span class="px-2.5 py-1 rounded-md text-[10px] font-extrabold uppercase tracking-wider shrink-0 {{ $order->payment_status === 'paid' ? 'bg-emerald-600 text-white border border-emerald-700 shadow-sm' : 'bg-red-600 text-white border border-red-700 shadow-sm' }}">
+                                    {{ strtoupper($order->payment_status) }}
+                                </span>
+                            </div>
+                            <span class="text-emerald-600 dark:text-emerald-400 font-extrabold text-base sm:text-xl whitespace-nowrap shrink-0 ml-auto sm:ml-0">₱{{ number_format($order->total_amount, 2) }}</span>
                         </div>
                     </div>
 
