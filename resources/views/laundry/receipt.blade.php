@@ -57,7 +57,7 @@
         }
     </style>
 </head>
-<body class="bg-slate-200 dark:bg-zinc-950 text-slate-900 min-h-screen flex flex-col items-center justify-center p-2 sm:p-4">
+<body class="bg-slate-200 dark:bg-zinc-950 text-slate-900 min-h-full flex flex-col items-center justify-start p-2 sm:p-3 overflow-y-auto">
 
     @php
         $historyUser = $order->statusHistory?->whereNotNull('changed_by')->last()?->changedBy;

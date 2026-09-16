@@ -786,9 +786,9 @@
 
     <!-- Universal Receipt Overlay Modal Popup -->
     <div id="universal-receipt-modal" onclick="if(event.target === this) closeReceiptModal()" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-slate-900/70 dark:bg-black/85 backdrop-blur-sm p-2 sm:p-4 transition-all duration-200">
-        <div class="relative w-full max-w-lg bg-slate-100 dark:bg-zinc-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-zinc-800 max-h-[94vh] flex flex-col overflow-hidden animate-fade-in">
+        <div class="relative w-full max-w-md bg-slate-100 dark:bg-zinc-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-zinc-800 max-h-[92vh] flex flex-col overflow-hidden animate-fade-in">
             <!-- Modal Header -->
-            <div class="no-print flex items-center justify-between px-4 py-3 bg-white dark:bg-zinc-950 border-b border-slate-200 dark:border-zinc-800 shrink-0">
+            <div class="no-print flex items-center justify-between px-3.5 py-2.5 bg-white dark:bg-zinc-950 border-b border-slate-200 dark:border-zinc-800 shrink-0">
                 <div class="flex items-center gap-2">
                     <img src="{{ asset('favicon.svg') }}" class="w-5 h-5 rounded-full" alt="Logo">
                     <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-900 dark:text-white">Store Thermal Receipt</h3>
@@ -799,8 +799,8 @@
             </div>
             
             <!-- Modal Body (Receipt Iframe Container) -->
-            <div class="p-2 sm:p-4 overflow-y-auto flex-1 flex justify-center items-center bg-slate-200/60 dark:bg-zinc-950/80">
-                <iframe id="receipt-modal-iframe" src="about:blank" class="w-full h-[75vh] min-h-[480px] border-0 rounded-xl bg-slate-200 dark:bg-zinc-950 shadow-inner"></iframe>
+            <div class="p-2 flex-1 flex justify-center items-start bg-slate-200/60 dark:bg-zinc-950/80 overflow-hidden">
+                <iframe id="receipt-modal-iframe" src="about:blank" class="w-full h-[78vh] max-h-[560px] min-h-[420px] border-0 rounded-lg bg-slate-200 dark:bg-zinc-950"></iframe>
             </div>
         </div>
     </div>
