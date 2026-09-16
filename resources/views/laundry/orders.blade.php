@@ -86,9 +86,9 @@
                         <a href="{{ route('laundry.track', $order->qrCode->qr_token ?? $order->order_number) }}" class="btn-primary px-2.5 py-1.5 text-[11px] font-bold inline-flex items-center gap-1 shadow-sm whitespace-nowrap">
                             Track Order
                         </a>
-                        <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="btn-secondary px-2.5 py-1.5 text-[11px] font-bold inline-flex items-center gap-1 shadow-sm whitespace-nowrap">
+                        <button type="button" onclick="openReceiptModal({{ $order->id }})" class="btn-secondary px-2.5 py-1.5 text-[11px] font-bold inline-flex items-center gap-1 shadow-sm whitespace-nowrap cursor-pointer">
                             Receipt
-                        </a>
+                        </button>
                         @if(in_array($order->order_status, ['pending', 'cancelled']))
                             <button type="button" x-data="" x-on:click="$dispatch('open-modal', 'cust-delete-order-{{ $order->id }}')" class="btn-danger px-2.5 py-1.5 text-[11px] font-bold shadow-sm cursor-pointer whitespace-nowrap" title="Delete Order">
                                 Delete

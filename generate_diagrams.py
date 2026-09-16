@@ -48,49 +48,49 @@ def generate_system_design_diagram():
     # Layer 1: Client / Presentation
     rect1 = patches.FancyBboxPatch((3, 78), 94, 17, linewidth=1.4, edgecolor='#000000', facecolor='#FFFFFF', boxstyle="round,pad=0.3")
     ax.add_patch(rect1)
-    ax.text(5, 92.5, "1. PRESENTATION LAYER (Web Portals & Responsive Sidebar Navigation UI)", fontsize=10, fontweight='bold', color='#000000')
+    ax.text(5, 92.5, "1. PRESENTATION LAYER (Web Portals & Responsive Sidebar Navigation UI)", fontsize=13.0, fontweight='bold', color='#000000')
     
-    ax.text(18, 85.0, "[ Customer Portal ]\n• Customer Dashboard\n• Book New Order\n• My Order History\n• Frequent User Card\n• Home Dashboard\n• Account Settings", fontsize=7.6, ha='center', va='center', bbox=dict(boxstyle="round,pad=0.3", fc="#FFFFFF", ec="#000000", lw=1))
-    ax.text(50, 85.0, "[ Staff Console ]\n• Workstation Dashboard\n• Manage Laundry Orders\n• Manage Machines\n• New Walk-in Order\n• QR Scan Logs Outbox\n• Account Settings", fontsize=7.6, ha='center', va='center', bbox=dict(boxstyle="round,pad=0.3", fc="#FFFFFF", ec="#000000", lw=1))
-    ax.text(82, 85.0, "[ Admin Portal ]\n• Overall Reports\n• Manage Laundry Orders\n• Manage Machines & Users\n• Services & Pricing\n• Live SMS/Email Outbox", fontsize=7.6, ha='center', va='center', bbox=dict(boxstyle="round,pad=0.3", fc="#FFFFFF", ec="#000000", lw=1))
+    ax.text(18, 85.0, "[ Customer Portal ]\n• Customer Dashboard\n• Book New Order\n• My Order History\n• Frequent User Card\n• Home Dashboard\n• Account Settings", fontsize=10.0, fontweight='bold', ha='center', va='center', bbox=dict(boxstyle="round,pad=0.3", fc="#FFFFFF", ec="#000000", lw=1))
+    ax.text(50, 85.0, "[ Staff Console ]\n• Workstation Dashboard\n• Manage Laundry Orders\n• Manage Machines\n• New Walk-in Order\n• QR Scan Logs Outbox\n• Account Settings", fontsize=10.0, fontweight='bold', ha='center', va='center', bbox=dict(boxstyle="round,pad=0.3", fc="#FFFFFF", ec="#000000", lw=1))
+    ax.text(82, 85.0, "[ Admin Portal ]\n• Overall Reports\n• Manage Laundry Orders\n• Manage Machines & Users\n• Services & Pricing\n• Live SMS/Email Outbox", fontsize=10.0, fontweight='bold', ha='center', va='center', bbox=dict(boxstyle="round,pad=0.3", fc="#FFFFFF", ec="#000000", lw=1))
 
     ax.annotate("", xy=(50, 62), xytext=(50, 78), arrowprops=dict(arrowstyle="->", lw=1.8, color="#000000", shrinkA=0, shrinkB=0))
-    ax.text(52, 70, "HTTP / HTTPS Requests (JSON / Blade Forms / REST API)", fontsize=8.5, color="#000000", fontweight='bold')
+    ax.text(52, 70, "HTTP / HTTPS Requests (JSON / Blade Forms / REST API)", fontsize=11.5, color="#000000", fontweight='bold')
 
     # Layer 2: Routing & Middleware
     rect2 = patches.FancyBboxPatch((3, 50), 94, 12, linewidth=1.4, edgecolor='#000000', facecolor='#FFFFFF', boxstyle="round,pad=0.3")
     ax.add_patch(rect2)
-    ax.text(5, 59, "2. SECURITY, AUTHENTICATION & ROUTING MIDDLEWARE LAYER", fontsize=10, fontweight='bold', color='#000000')
-    ax.text(20, 54.5, "Breeze Auth Session\nVerification", fontsize=8.2, ha='center', va='center', bbox=dict(boxstyle="round,pad=0.2", fc="#FFFFFF", ec="#000000", lw=1))
-    ax.text(50, 54.5, "CustomerMiddleware &\nStaffMiddleware", fontsize=8.2, ha='center', va='center', bbox=dict(boxstyle="round,pad=0.2", fc="#FFFFFF", ec="#000000", lw=1))
-    ax.text(80, 54.5, "AdminMiddleware &\nCSRF Security Headers", fontsize=8.2, ha='center', va='center', bbox=dict(boxstyle="round,pad=0.2", fc="#FFFFFF", ec="#000000", lw=1))
+    ax.text(5, 59, "2. SECURITY, AUTHENTICATION & ROUTING MIDDLEWARE LAYER", fontsize=13.0, fontweight='bold', color='#000000')
+    ax.text(20, 54.5, "Breeze Auth Session\nVerification", fontsize=10.5, fontweight='bold', ha='center', va='center', bbox=dict(boxstyle="round,pad=0.2", fc="#FFFFFF", ec="#000000", lw=1))
+    ax.text(50, 54.5, "CustomerMiddleware &\nStaffMiddleware", fontsize=10.5, fontweight='bold', ha='center', va='center', bbox=dict(boxstyle="round,pad=0.2", fc="#FFFFFF", ec="#000000", lw=1))
+    ax.text(80, 54.5, "AdminMiddleware &\nCSRF Security Headers", fontsize=10.5, fontweight='bold', ha='center', va='center', bbox=dict(boxstyle="round,pad=0.2", fc="#FFFFFF", ec="#000000", lw=1))
 
     ax.annotate("", xy=(50, 38), xytext=(50, 50), arrowprops=dict(arrowstyle="->", lw=1.8, color="#000000", shrinkA=0, shrinkB=0))
 
     # Layer 3: Controllers & Services
     rect3 = patches.FancyBboxPatch((3, 23), 94, 15, linewidth=1.4, edgecolor='#000000', facecolor='#FFFFFF', boxstyle="round,pad=0.3")
     ax.add_patch(rect3)
-    ax.text(5, 35.5, "3. APPLICATION CONTROLLERS & LOGIC LAYER (Laravel 11 / PHP 8.5)", fontsize=10, fontweight='bold', color='#000000')
-    ax.text(20, 28.5, "Controllers:\nAuth Controllers | LaundryController\nMachineController | ServiceController\nChatbotController (AI Engine)\nQrScanLogController | ProfileController", fontsize=7.5, ha='center', va='center', bbox=dict(boxstyle="round,pad=0.3", fc="#FFFFFF", ec="#000000", lw=1))
-    ax.text(52, 28.5, "Domain Services:\nSmsNotificationService (TextBee)\nEmailNotificationService (Brevo)\nLoyaltyStampService (12-Stamp Card)\nReceiptGeneratorEngine", fontsize=7.5, ha='center', va='center', bbox=dict(boxstyle="round,pad=0.3", fc="#FFFFFF", ec="#000000", lw=1))
-    ax.text(82, 28.5, "Asynchronous Jobs & AI:\nSendSmsJob Queue\nOrderStatusUpdated Mail\nOpenAI / Ollama AI Chatbot Engine", fontsize=7.5, ha='center', va='center', bbox=dict(boxstyle="round,pad=0.3", fc="#FFFFFF", ec="#000000", lw=1))
+    ax.text(5, 35.5, "3. APPLICATION CONTROLLERS & LOGIC LAYER (Laravel 11 / PHP 8.5)", fontsize=13.0, fontweight='bold', color='#000000')
+    ax.text(20, 28.5, "Controllers:\nAuth Controllers | LaundryController\nMachineController | ServiceController\nChatbotController (AI Engine)\nQrScanLogController | ProfileController", fontsize=9.8, fontweight='bold', ha='center', va='center', bbox=dict(boxstyle="round,pad=0.3", fc="#FFFFFF", ec="#000000", lw=1))
+    ax.text(52, 28.5, "Domain Services:\nSmsNotificationService (TextBee)\nEmailNotificationService (Brevo)\nLoyaltyStampService (12-Stamp Card)\nReceiptGeneratorEngine", fontsize=9.8, fontweight='bold', ha='center', va='center', bbox=dict(boxstyle="round,pad=0.3", fc="#FFFFFF", ec="#000000", lw=1))
+    ax.text(82, 28.5, "Asynchronous Jobs & AI:\nSendSmsJob Queue\nOrderStatusUpdated Mail\nOpenAI / Ollama AI Chatbot Engine", fontsize=9.8, fontweight='bold', ha='center', va='center', bbox=dict(boxstyle="round,pad=0.3", fc="#FFFFFF", ec="#000000", lw=1))
 
     ax.annotate("", xy=(35, 14), xytext=(35, 23), arrowprops=dict(arrowstyle="->", lw=1.8, color="#000000", shrinkA=0, shrinkB=0))
-    ax.text(36.5, 18.5, "Eloquent ORM (SQL Queries / Relational Reads & Writes)", fontsize=8.2, color="#000000", fontweight='bold')
+    ax.text(36.5, 18.5, "Eloquent ORM (SQL Queries / Relational Reads & Writes)", fontsize=11.0, color="#000000", fontweight='bold')
     ax.annotate("", xy=(82, 14), xytext=(82, 23), arrowprops=dict(arrowstyle="->", lw=1.8, color="#000000", shrinkA=0, shrinkB=0))
-    ax.text(83.5, 18.5, "REST / API Integration", fontsize=8.2, color="#000000", fontweight='bold')
+    ax.text(83.5, 18.5, "REST / API Integration", fontsize=11.0, color="#000000", fontweight='bold')
 
     # Layer 4A: Database Persistence
     rect4a = patches.FancyBboxPatch((3, 2), 60, 12, linewidth=1.4, edgecolor='#000000', facecolor='#FFFFFF', boxstyle="round,pad=0.3")
     ax.add_patch(rect4a)
-    ax.text(5, 11.5, "4. PERSISTENCE LAYER (MySQL Database)", fontsize=9.5, fontweight='bold', color='#000000')
-    ax.text(33, 6.0, "Tables: users (frequent_user_card) | customer_profiles | staff_profiles | services |\nmachines | orders | order_status_history | qr_codes | qr_scan_logs |\npickup_delivery | sms_notifications | email_notifications | customer_feedbacks", fontsize=7.2, ha='center', va='center', bbox=dict(boxstyle="round,pad=0.3", fc="#FFFFFF", ec="#000000", lw=1))
+    ax.text(5, 11.5, "4. PERSISTENCE LAYER (MySQL Database)", fontsize=12.0, fontweight='bold', color='#000000')
+    ax.text(33, 6.0, "Tables: users (frequent_user_card) | customer_profiles | staff_profiles | services |\nmachines | orders | order_status_history | qr_codes | qr_scan_logs |\npickup_delivery | sms_notifications | email_notifications | customer_feedbacks", fontsize=9.5, fontweight='bold', ha='center', va='center', bbox=dict(boxstyle="round,pad=0.3", fc="#FFFFFF", ec="#000000", lw=1))
 
     # Layer 4B: External APIs
     rect4b = patches.FancyBboxPatch((65, 2), 32, 12, linewidth=1.4, edgecolor='#000000', facecolor='#FFFFFF', boxstyle="round,pad=0.3")
     ax.add_patch(rect4b)
-    ax.text(67, 11.5, "5. EXTERNAL API GATEWAYS", fontsize=9.5, fontweight='bold', color='#000000')
-    ax.text(81, 6.0, "• TextBee SMS Gateway (api.textbee.dev)\n• Brevo Transactional Email (api.brevo.com)\n• OpenAI Cloud LLM & Ollama Local LLM\n• QRServer Engine (api.qrserver.com)", fontsize=7.2, ha='center', va='center', bbox=dict(boxstyle="round,pad=0.3", fc="#FFFFFF", ec="#000000", lw=1))
+    ax.text(67, 11.5, "5. EXTERNAL API GATEWAYS", fontsize=12.0, fontweight='bold', color='#000000')
+    ax.text(81, 6.0, "• TextBee SMS Gateway (api.textbee.dev)\n• Brevo Transactional Email (api.brevo.com)\n• OpenAI Cloud LLM & Ollama Local LLM\n• QRServer Engine (api.qrserver.com)", fontsize=9.5, fontweight='bold', ha='center', va='center', bbox=dict(boxstyle="round,pad=0.3", fc="#FFFFFF", ec="#000000", lw=1))
 
     plt.tight_layout()
     plt.savefig('diagrams/system_design_diagram.png', dpi=300, bbox_inches='tight', facecolor='white')
@@ -107,17 +107,17 @@ def draw_actor_bw(ax, x, y, name, is_left=True):
     ax.plot([x - 2.0, x + 2.0], [y + 0.3, y + 0.3], color='#000000', lw=1.8)
     ax.plot([x, x - 1.6], [y - 1.8, y - 4.0], color='#000000', lw=1.8)
     ax.plot([x, x + 1.6], [y - 1.8, y - 4.0], color='#000000', lw=1.8)
-    ax.text(x, y - 5.5, name, fontsize=9.2, fontweight='bold', ha='center', va='top', color='#000000')
+    ax.text(x, y - 5.5, name, fontsize=12.0, fontweight='bold', ha='center', va='top', color='#000000')
 
     if is_left:
         return (x + 2.0, y + 0.3)
     else:
         return (x - 2.0, y + 0.3)
 
-def draw_usecase_bw(ax, x, y, text, w=17, h=2.3):
+def draw_usecase_bw(ax, x, y, text, w=20, h=3.2):
     ellipse = patches.Ellipse((x, y), w, h, fc='#FFFFFF', ec='#000000', lw=1.3)
     ax.add_patch(ellipse)
-    ax.text(x, y, text, fontsize=6.5, ha='center', va='center', color='#000000', fontweight='bold')
+    ax.text(x, y, text, fontsize=9.8, ha='center', va='center', color='#000000', fontweight='bold')
     return x, y, w/2.0, h/2.0
 
 def draw_dashed_relationship_border_bw(ax, src_cx, src_cy, src_rx, src_ry, tgt_cx, tgt_cy, tgt_rx, tgt_ry, label):
@@ -127,7 +127,7 @@ def draw_dashed_relationship_border_bw(ax, src_cx, src_cy, src_rx, src_ry, tgt_c
     ax.annotate("", xy=(x2, y2), xytext=(x1, y1),
                 arrowprops=dict(arrowstyle="->", lw=1.2, color='#000000', linestyle='--', shrinkA=0, shrinkB=0))
     mx, my = (x1 + x2) / 2, (y1 + y2) / 2
-    ax.text(mx, my, label, fontsize=6.2, fontweight='bold', color='#000000', ha='center', va='center',
+    ax.text(mx, my, label, fontsize=9.0, fontweight='bold', color='#000000', ha='center', va='center',
             bbox=dict(boxstyle="square,pad=0.12", fc="#FFFFFF", ec="none"))
 
 def generate_use_case_diagram():
@@ -141,7 +141,7 @@ def generate_use_case_diagram():
     # System Boundary Box
     rect = patches.FancyBboxPatch((18, 2), 64, 95, boxstyle="round,pad=0.5", ec='#000000', fc='#FFFFFF', lw=2.0)
     ax.add_patch(rect)
-    ax.text(50, 95.2, "A Web-Based Laundry Service Management System for HourWash Laundry Shop in Orosite Legazpi City", fontsize=7.2, fontweight='bold', ha='center', color='#000000')
+    ax.text(50, 95.2, "A Web-Based Laundry Service Management System for HourWash Laundry Shop in Orosite Legazpi City", fontsize=10.5, fontweight='bold', ha='center', color='#000000')
 
     # Actor Stick Figures (3 Primary Roles: Customer, Staff, Admin)
     customer_hand = draw_actor_bw(ax, 7, 55, "Customer Role\n(User / Student)", is_left=True)
@@ -234,20 +234,20 @@ def draw_class_box_bw(ax, x, y, name, attrs, methods, w=29, h=30):
     
     h_rect = patches.Rectangle((x, y + h - 3.2), w, 3.2, fc='#FFFFFF', ec='#000000', lw=1.4)
     ax.add_patch(h_rect)
-    ax.text(x + w/2.0, y + h - 1.6, name, fontsize=8.8, fontweight='bold', ha='center', va='center', color='#000000')
+    ax.text(x + w/2.0, y + h - 1.6, name, fontsize=11.5, fontweight='bold', ha='center', va='center', color='#000000')
     
     ax.plot([x, x + w], [y + h - 3.2, y + h - 3.2], color='#000000', lw=1.2)
 
     attr_start_y = y + h - 3.8
     for i, attr in enumerate(attrs):
-        ax.text(x + 0.6, attr_start_y - (i * 1.05), attr, fontsize=6.2, va='top', ha='left', color='#000000', fontfamily='sans-serif')
+        ax.text(x + 0.6, attr_start_y - (i * 1.30), attr, fontsize=8.8, fontweight='bold', va='top', ha='left', color='#000000', fontfamily='sans-serif')
 
     div_y = attr_start_y - (len(attrs) * 1.05) - 0.2
     ax.plot([x, x + w], [div_y, div_y], color='#000000', lw=1.2)
 
     method_start_y = div_y - 0.4
     for j, meth in enumerate(methods):
-        ax.text(x + 0.6, method_start_y - (j * 1.05), meth, fontsize=6.2, va='top', ha='left', color='#000000', fontfamily='sans-serif')
+        ax.text(x + 0.6, method_start_y - (j * 1.30), meth, fontsize=8.8, fontweight='bold', va='top', ha='left', color='#000000', fontfamily='sans-serif')
 
 def draw_composition_diamond_bw(ax, x, y, direction='down'):
     if direction == 'down':
@@ -361,7 +361,7 @@ def generate_class_diagram():
             draw_aggregation_diamond_bw(ax, x_start, 57.0, direction='down')
         
         # Multiplicity '1' next to diamond
-        ax.text(x_start + 1.1, 54.8, "1", fontsize=7.2, fontweight='bold', color='#000000', va='center')
+        ax.text(x_start + 1.1, 54.8, "1", fontsize=9.5, fontweight='bold', color='#000000', va='center')
 
         # Line points
         d_bottom = 54.6
@@ -378,7 +378,7 @@ def generate_class_diagram():
                     arrowprops=dict(arrowstyle="->", lw=1.3, color='#000000', shrinkA=0, shrinkB=0))
         
         # Multiplicity '1..*' near arrowhead
-        ax.text(target_x, target_y + 0.8, "1..*", fontsize=6.8, fontweight='bold', color='#000000', ha='center', 
+        ax.text(target_x, target_y + 0.8, "1..*", fontsize=9.0, fontweight='bold', color='#000000', ha='center', 
                 bbox=dict(boxstyle="square,pad=0.1", fc="#FFFFFF", ec="none"))
 
     # --- A) CUSTOMER CONNECTIONS (Subclass x=6..30) ---
@@ -443,14 +443,14 @@ def draw_sequence_template(ax, title, lifelines, steps, alt_fragment=None):
     ax.plot([actor_x - 1.6, actor_x + 1.6], [91.7, 91.7], color='#000000', lw=1.8)
     ax.plot([actor_x, actor_x - 1.2], [90.2, 88.5], color='#000000', lw=1.8)
     ax.plot([actor_x, actor_x + 1.2], [90.2, 88.5], color='#000000', lw=1.8)
-    ax.text(actor_x, 87.0, lifelines[0], fontsize=7.8, fontweight='bold', ha='center', va='top', color='#000000')
+    ax.text(actor_x, 87.0, lifelines[0], fontsize=11.5, fontweight='bold', ha='center', va='top', color='#000000')
 
     # Draw Subsequent Participants as B&W Component Boxes
     for i in range(1, num_l):
         x = xs[i]
         box = patches.Rectangle((x - 6.5, 89.0), 13.0, 4.2, fc='#FFFFFF', ec='#000000', lw=1.3)
         ax.add_patch(box)
-        ax.text(x, 91.1, lifelines[i], fontsize=7.2, fontweight='bold', ha='center', va='center', color='#000000')
+        ax.text(x, 91.1, lifelines[i], fontsize=10.5, fontweight='bold', ha='center', va='center', color='#000000')
 
     # Draw Lifeline Vertical Black Dashed Lines
     ax.plot([xs[0], xs[0]], [85.5, 7.0], color='#000000', linestyle='--', lw=1.2)
@@ -495,12 +495,12 @@ def draw_sequence_template(ax, title, lifelines, steps, alt_fragment=None):
         tag = patches.Polygon([[xs[0] - 3.5, alt_top], [xs[0] + 3.0, alt_top], [xs[0] + 5.0, alt_top - 2.2], [xs[0] - 3.5, alt_top - 2.2]],
                               fc='#FFFFFF', ec='#000000', lw=1, zorder=4)
         ax.add_patch(tag)
-        ax.text(xs[0] - 0.5, alt_top - 1.1, "Alt", fontsize=8.0, fontweight='bold', color='#000000', ha='center', va='center', zorder=5)
+        ax.text(xs[0] - 0.5, alt_top - 1.1, "Alt", fontsize=9.5, fontweight='bold', color='#000000', ha='center', va='center', zorder=5)
 
         ax.plot([xs[0] - 3.5, xs[min(3, num_l-1)] + 3.5], [alt_mid, alt_mid], color='#000000', linestyle='--', lw=1.2, zorder=4)
 
-        ax.text(xs[0] - 2.5, alt_top - 3.5, f"[ {valid_text} ]", fontsize=7.5, fontweight='bold', fontstyle='italic', color='#000000', zorder=5)
-        ax.text(xs[0] - 2.5, alt_mid - 2.5, f"[ {invalid_text} ]", fontsize=7.5, fontweight='bold', fontstyle='italic', color='#000000', zorder=5)
+        ax.text(xs[0] - 2.5, alt_top - 3.5, f"[ {valid_text} ]", fontsize=9.5, fontweight='bold', fontstyle='italic', color='#000000', zorder=5)
+        ax.text(xs[0] - 2.5, alt_mid - 2.5, f"[ {invalid_text} ]", fontsize=9.5, fontweight='bold', fontstyle='italic', color='#000000', zorder=5)
 
     # Render Sequence Arrow Messages
     for idx, step in enumerate(steps):
@@ -530,7 +530,7 @@ def draw_sequence_template(ax, title, lifelines, steps, alt_fragment=None):
                         arrowprops=dict(arrowstyle=arr_style, lw=1.2, color='#000000', linestyle=ls, shrinkA=0, shrinkB=0), zorder=6)
         
         mid_x = (fx_center + tx_center) / 2 if fx_center != tx_center else fx_center + half_bar + 1.5
-        ax.text(mid_x, cur_y + 1.1, f"{idx+1}. {label}", fontsize=6.8, ha='center', va='bottom', color='#000000', fontweight='bold',
+        ax.text(mid_x, cur_y + 1.1, f"{idx+1}. {label}", fontsize=9.5, ha='center', va='bottom', color='#000000', fontweight='bold',
                 bbox=dict(boxstyle="square,pad=0.1", fc="#FFFFFF", ec="none"), zorder=7)
 
 # -------------------------------------------------------------
@@ -837,7 +837,7 @@ def draw_role_package_container_reference(ax, x, y, role_name, left_folders, rig
     tab_h = min(2.4, h * 0.06)
     tab = patches.Rectangle((x, y + h), tab_w, tab_h, fc='#FFFFFF', ec='#000000', lw=1.4)
     ax.add_patch(tab)
-    tab_fs = max(5.2, 8.5 * min(scale_w, scale_h))
+    tab_fs = max(8.5, 12.0 * min(scale_w, scale_h))
     ax.text(x + 1.2 * scale_w, y + h + tab_h/2.0, role_name, fontsize=tab_fs, fontweight='bold', color='#000000', va='center')
 
     num_f = len(left_folders)
@@ -857,7 +857,7 @@ def draw_role_package_container_reference(ax, x, y, role_name, left_folders, rig
     left_boxes = []
     right_boxes = []
 
-    lbl_fs = max(4.8, 7.2 * min(scale_w, scale_h))
+    lbl_fs = max(7.5, 10.0 * min(scale_w, scale_h))
 
     # Draw Left Column Folders
     for i, fname in enumerate(left_folders):

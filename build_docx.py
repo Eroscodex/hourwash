@@ -83,7 +83,7 @@ def create_system_design_docx():
     p_fig1.paragraph_format.space_before = Pt(12)
     p_fig1.paragraph_format.space_after = Pt(4)
     run_fig1 = p_fig1.add_run()
-    run_fig1.add_picture('diagrams/system_design_diagram.png', width=Inches(6.2))
+    run_fig1.add_picture('diagrams/system_design_diagram.png', width=Inches(6.5))
 
     p_cap1 = doc.add_paragraph()
     p_cap1.alignment = WD_ALIGN_PARAGRAPH.LEFT
@@ -154,7 +154,7 @@ def create_system_design_docx():
     p_fig2.paragraph_format.space_before = Pt(12)
     p_fig2.paragraph_format.space_after = Pt(4)
     run_fig2 = p_fig2.add_run()
-    run_fig2.add_picture('diagrams/use_case_diagram.png', width=Inches(6.2))
+    run_fig2.add_picture('diagrams/use_case_diagram.png', width=Inches(6.5))
 
     p_cap2 = doc.add_paragraph()
     p_cap2.alignment = WD_ALIGN_PARAGRAPH.LEFT
@@ -201,7 +201,7 @@ def create_system_design_docx():
     p_fig3.paragraph_format.space_before = Pt(12)
     p_fig3.paragraph_format.space_after = Pt(4)
     run_fig3 = p_fig3.add_run()
-    run_fig3.add_picture('diagrams/class_diagram.png', width=Inches(6.2))
+    run_fig3.add_picture('diagrams/class_diagram.png', width=Inches(6.5))
 
     p_cap3 = doc.add_paragraph()
     p_cap3.alignment = WD_ALIGN_PARAGRAPH.LEFT
@@ -390,7 +390,7 @@ def create_system_design_docx():
         p_fig.paragraph_format.space_before = Pt(8)
         p_fig.paragraph_format.space_after = Pt(4)
         run_fig = p_fig.add_run()
-        run_fig.add_picture(f'diagrams/{img_filename}', width=Inches(6.2))
+        run_fig.add_picture(f'diagrams/{img_filename}', width=Inches(6.5))
 
         p_cap = doc.add_paragraph()
         p_cap.alignment = WD_ALIGN_PARAGRAPH.LEFT
@@ -432,7 +432,7 @@ def create_system_design_docx():
     p_fig35.paragraph_format.space_before = Pt(12)
     p_fig35.paragraph_format.space_after = Pt(4)
     run_fig35 = p_fig35.add_run()
-    run_fig35.add_picture('diagrams/package_diagram.png', width=Inches(6.2))
+    run_fig35.add_picture('diagrams/package_diagram.png', width=Inches(6.5))
 
     p_cap35 = doc.add_paragraph()
     p_cap35.alignment = WD_ALIGN_PARAGRAPH.LEFT
@@ -473,7 +473,7 @@ def create_system_design_docx():
     p_fig36.paragraph_format.space_before = Pt(12)
     p_fig36.paragraph_format.space_after = Pt(4)
     run_fig36 = p_fig36.add_run()
-    run_fig36.add_picture('diagrams/deployment_diagram.png', width=Inches(6.2))
+    run_fig36.add_picture('diagrams/deployment_diagram.png', width=Inches(6.5))
 
     p_cap36 = doc.add_paragraph()
     p_cap36.alignment = WD_ALIGN_PARAGRAPH.LEFT

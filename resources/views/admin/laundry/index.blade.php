@@ -106,10 +106,10 @@
                             <a href="{{ route('laundry.track', $order->qrCode->qr_token ?? $order->order_number) }}" class="btn-primary text-xs">
                                 Track Order
                             </a>
-                            <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="btn-secondary text-xs inline-flex items-center gap-1.5 shadow-sm">
+                            <button type="button" onclick="openReceiptModal({{ $order->id }})" class="btn-secondary text-xs inline-flex items-center gap-1.5 shadow-sm cursor-pointer">
                                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
                                 <span>Receipt</span>
-                            </a>
+                            </button>
                             <span class="px-2.5 py-1 rounded-md text-[10px] font-extrabold uppercase tracking-wider {{ $order->payment_status === 'paid' ? 'bg-emerald-600 text-white border border-emerald-700 shadow-sm' : 'bg-red-600 text-white border border-red-700 shadow-sm' }}">
                                 {{ strtoupper($order->payment_status) }}
                             </span>

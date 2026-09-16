@@ -17,14 +17,14 @@
 
         <div class="flex flex-wrap items-center gap-1.5 w-full sm:w-auto">
             @if(auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isOwner() || auth()->user()->isStaff()))
-                <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="btn-secondary text-xs py-1.5 px-3 inline-flex items-center justify-center gap-1.5 shadow-sm">
+                <button type="button" onclick="openReceiptModal({{ $order->id }})" class="btn-secondary text-xs py-1.5 px-3 inline-flex items-center justify-center gap-1.5 shadow-sm cursor-pointer">
                     <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
                     <span>Print Thermal Receipt</span>
-                </a>
+                </button>
             @else
-                <a href="{{ route('laundry.receipt', $order->id) }}" target="_blank" class="btn-secondary text-xs py-1.5 px-3 inline-flex items-center justify-center gap-1.5 shadow-sm">
+                <button type="button" onclick="openReceiptModal({{ $order->id }})" class="btn-secondary text-xs py-1.5 px-3 inline-flex items-center justify-center gap-1.5 shadow-sm cursor-pointer">
                     <span>View Digital Receipt</span>
-                </a>
+                </button>
             @endif
 
             @auth

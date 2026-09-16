@@ -188,7 +188,7 @@ def create_flowchart_docx():
             p_img.paragraph_format.space_before = Pt(6)
             p_img.paragraph_format.space_after = Pt(6)
             run = p_img.add_run()
-            run.add_picture(item['img'], width=Inches(6.2))
+            run.add_picture(item['img'], width=Inches(6.5))
 
             p_cap = doc.add_paragraph()
             p_cap.alignment = WD_ALIGN_PARAGRAPH.CENTER

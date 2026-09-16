@@ -761,9 +761,9 @@
                                     {{ $compOrder->updated_at->format('M d, Y h:i A') }}
                                 </td>
                                 <td class="px-2 py-1.5 text-center whitespace-nowrap">
-                                    <a href="{{ route('laundry.receipt', $compOrder->id) }}" target="_blank" class="btn-secondary text-[11px] py-1 px-2.5 inline-flex items-center gap-1 shadow-sm">
+                                    <button type="button" onclick="openReceiptModal({{ $compOrder->id }})" class="btn-secondary text-[11px] py-1 px-2.5 inline-flex items-center gap-1 shadow-sm cursor-pointer">
                                         View Receipt
-                                    </a>
+                                    </button>
                                 </td>
                             </tr>
                         @empty

@@ -780,8 +780,53 @@
                     btn.classList.add('opacity-0', 'pointer-events-none');
                     btn.classList.remove('opacity-100');
                 }
-            }, { passive: true });
-        })();
+    <!-- Universal Receipt Overlay Modal Popup -->
+    <div id="universal-receipt-modal" onclick="if(event.target === this) closeReceiptModal()" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-slate-900/70 dark:bg-black/85 backdrop-blur-sm p-2 sm:p-4 transition-all duration-200">
+        <div class="relative w-full max-w-lg bg-slate-100 dark:bg-zinc-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-zinc-800 max-h-[94vh] flex flex-col overflow-hidden animate-fade-in">
+            <!-- Modal Header -->
+            <div class="no-print flex items-center justify-between px-4 py-3 bg-white dark:bg-zinc-950 border-b border-slate-200 dark:border-zinc-800 shrink-0">
+                <div class="flex items-center gap-2">
+                    <img src="{{ asset('favicon.svg') }}" class="w-5 h-5 rounded-full" alt="Logo">
+                    <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-900 dark:text-white">Store Thermal Receipt</h3>
+                </div>
+                <button type="button" onclick="closeReceiptModal()" class="w-7 h-7 rounded-full bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-300 hover:bg-rose-600 hover:text-white transition flex items-center justify-center font-black text-sm cursor-pointer shadow-sm">
+                    ✕
+                </button>
+            </div>
+            
+            <!-- Modal Body (Receipt Iframe Container) -->
+            <div class="p-2 sm:p-4 overflow-y-auto flex-1 flex justify-center items-center bg-slate-200/60 dark:bg-zinc-950/80">
+                <iframe id="receipt-modal-iframe" src="about:blank" class="w-full h-[75vh] min-h-[480px] border-0 rounded-xl bg-slate-200 dark:bg-zinc-950 shadow-inner"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openReceiptModal(orderId) {
+            const modal = document.getElementById('universal-receipt-modal');
+            const iframe = document.getElementById('receipt-modal-iframe');
+            if (!modal || !iframe) return;
+
+            iframe.src = `/laundry/receipt/${orderId}`;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeReceiptModal() {
+            const modal = document.getElementById('universal-receipt-modal');
+            const iframe = document.getElementById('receipt-modal-iframe');
+            if (modal) {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+            if (iframe) {
+                iframe.src = 'about:blank';
+            }
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeReceiptModal();
+        });
     </script>
 </body>
 
