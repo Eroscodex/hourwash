@@ -780,6 +780,10 @@
                     btn.classList.add('opacity-0', 'pointer-events-none');
                     btn.classList.remove('opacity-100');
                 }
+            }, { passive: true });
+        })();
+    </script>
+
     <!-- Universal Receipt Overlay Modal Popup -->
     <div id="universal-receipt-modal" onclick="if(event.target === this) closeReceiptModal()" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-slate-900/70 dark:bg-black/85 backdrop-blur-sm p-2 sm:p-4 transition-all duration-200">
         <div class="relative w-full max-w-lg bg-slate-100 dark:bg-zinc-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-zinc-800 max-h-[94vh] flex flex-col overflow-hidden animate-fade-in">
