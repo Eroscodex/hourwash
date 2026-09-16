@@ -295,27 +295,194 @@
                 console.error('Download error:', err);
                 alert('Could not download image automatically. You can screenshot the receipt card instead.');
                 btn.disabled = false;
-                btn.innerHTML = originalText;
-            });
-        }
-    </script>
+        <p id="bt-status-text" class="text-[10.5px] text-slate-600 dark:text-zinc-400 bg-white/90 dark:bg-zinc-900/90 px-3 py-1.5 rounded-md border border-slate-200 dark:border-zinc-800 shadow-sm leading-normal w-full">
+            📡 <strong>Bluetooth Direct Print:</strong> Tap <strong>Print via Bluetooth (Y58)</strong> to pair & print directly from your browser without leaving the page!
+        </p>
+    </div>
 
-    @if(request()->boolean('auto_print') || request()->boolean('print'))
-        <script>
-            (function() {
-                function triggerPrint() {
-                    setTimeout(function() {
-                        try {
-                            window.print();
-                        } catch(e) {
-                            console.log('Print error:', e);
-                        }
-                    }, 350);
+    <script>
+        // Web Bluetooth Direct ESC/POS Printer Engine
+        let btDevice = null;
+        let btCharacteristic = null;
+
+        async function printViaBluetooth() {
+            const statusEl = document.getElementById('bt-status-text');
+            const btn = document.getElementById('bt-print-btn');
+            const origHtml = btn.innerHTML;
+
+            try {
+                if (!navigator.bluetooth) {
+                    alert('Web Bluetooth is not supported in this browser. Please open in Chrome or Edge on Android/PC (or WebBLE on iOS), or click "Download Image (PNG)".');
+                    return;
                 }
-                if (document.readyState === 'complete' || document.readyState === 'interactive') {
-                    triggerPrint();
-                } else {
-                    window.addEventListener('load', triggerPrint);
+
+                btn.disabled = true;
+                btn.innerHTML = '<svg class="animate-spin h-3.5 w-3.5 text-white inline mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Connecting...';
+                if (statusEl) statusEl.innerText = '🔵 Searching for Bluetooth Thermal Printer...';
+
+                if (!btDevice || !btDevice.gatt.connected || !btCharacteristic) {
+                    btDevice = await navigator.bluetooth.requestDevice({
+                        acceptAllDevices: true,
+                        optionalServices: [
+                            '000018f0-0000-1000-8000-00805f9b34fb',
+                            '00001101-0000-1000-8000-00805f9b34fb',
+                            '49535343-fe7d-4ae5-8fa9-9fafd205e455',
+                            'e7810a71-73ae-499d-8c15-faa9aef0c3f2'
+                        ]
+                    });
+
+                    if (statusEl) statusEl.innerText = `🟡 Connecting to ${btDevice.name || 'Bluetooth Printer'}...`;
+                    const server = await btDevice.gatt.connect();
+                    
+                    const services = await server.getPrimaryServices();
+                    for (const service of services) {
+                        try {
+                            const characteristics = await service.getCharacteristics();
+                            for (const char of characteristics) {
+                                if (char.properties.write || char.properties.writeWithoutResponse) {
+                                    btCharacteristic = char;
+                                    break;
+                                }
+                            }
+                        } catch (e) {
+                            console.log('Service scan skip:', e);
+                        }
+                        if (btCharacteristic) break;
+                    }
+
+                    if (!btCharacteristic) {
+                        throw new Error('No writable print characteristic found on selected device.');
+                    }
+                }
+
+                if (statusEl) statusEl.innerText = `🟢 Connected to ${btDevice.name || 'POS Printer'}! Sending receipt commands...`;
+
+                const escBytes = buildEscPosCommands();
+                const chunkSize = 512;
+                for (let i = 0; i < escBytes.length; i += chunkSize) {
+                    const chunk = escBytes.subarray(i, i + chunkSize);
+                    if (btCharacteristic.properties.writeWithoutResponse) {
+                        await btCharacteristic.writeValueWithoutResponse(chunk);
+                    } else {
+                        await btCharacteristic.writeValue(chunk);
+                    }
+                }
+
+                if (statusEl) statusEl.innerText = `✅ Printed successfully to ${btDevice.name || 'Bluetooth Printer'}!`;
+                btn.disabled = false;
+                btn.innerHTML = origHtml;
+
+            } catch (err) {
+                console.error('Bluetooth Print Error:', err);
+                if (statusEl) statusEl.innerText = `❌ Bluetooth Error: ${err.message || err}`;
+                btn.disabled = false;
+                btn.innerHTML = origHtml;
+                if (err.name !== 'NotFoundError') {
+                    alert('Bluetooth Printing Error: ' + (err.message || err));
+                }
+            }
+        }
+
+        function buildEscPosCommands() {
+            const encoder = new TextEncoder();
+            let buffer = [];
+
+            const add = (arr) => buffer.push(...arr);
+            const addText = (str) => {
+                const bytes = encoder.encode(str);
+                buffer.push(...bytes);
+            };
+
+            // ESC @ - Initialize
+            add([0x1B, 0x40]);
+            
+            // ESC a 1 - Center Align
+            add([0x1B, 0x61, 0x01]);
+
+            // Double Size Bold Title
+            add([0x1B, 0x21, 0x30]);
+            addText("HOUR WASH LAUNDRY\n");
+            
+            // Normal size
+            add([0x1B, 0x21, 0x00]);
+            addText("Laundry Shop System\n");
+            addText("Magallanes St., Orosite, Legazpi\n");
+            addText("Mobile: 09123456789\n");
+            addText("--------------------------------\n");
+
+            // ESC a 0 - Left Align
+            add([0x1B, 0x61, 0x00]);
+            
+            addText(`RECEIPT:  #{{ $order->order_number }}\n`);
+            addText(`DATE:     {{ $order->created_at->format('M d, Y h:i A') }}\n`);
+            addText(`CUSTOMER: {{ substr($customerName, 0, 20) }}\n`);
+            addText(`PHONE:    {{ substr($customerPhone, 0, 20) }}\n`);
+            addText(`STAFF:    {{ substr($processorName, 0, 20) }}\n`);
+            addText(`MACHINE:  {{ substr($machineCode, 0, 20) }}\n`);
+            addText("--------------------------------\n");
+            addText("ITEM / SERVICE               AMT\n");
+            addText("--------------------------------\n");
+            
+            const serviceNameStr = "{{ substr($serviceName, 0, 20) }}";
+            const amountStr = "P{{ number_format($order->subtotal, 2) }}";
+            addText(`${serviceNameStr.padEnd(20)} ${amountStr}\n`);
+            addText(`  {{ $order->weight_kg }} kg @ P{{ number_format($servicePrice, 2) }}/kg\n`);
+
+            @if($order->delivery_fee > 0)
+                addText(`  Delivery Fee:      P{{ number_format($order->delivery_fee, 2) }}\n`);
+            @endif
+
+            @if($order->discount > 0)
+                addText(`  Discount:         -P{{ number_format($order->discount, 2) }}\n`);
+            @endif
+
+            addText("--------------------------------\n");
+            
+            // Bold Total
+            add([0x1B, 0x45, 0x01]);
+            addText(`TOTAL:                   P{{ number_format($order->total_amount, 2) }}\n`);
+            add([0x1B, 0x45, 0x00]);
+            
+            addText(`PAYMENT:                  {{ strtoupper($order->payment_status) }}\n`);
+            addText("--------------------------------\n");
+
+            // ESC a 1 - Center Align Footer
+            add([0x1B, 0x61, 0x01]);
+            addText(`QR TOKEN: {{ $qrToken }}\n`);
+            addText("Scan QR Code tag to track order\n");
+            addText("Thank you for washing with HourWash!\n");
+            addText("\n\n\n");
+
+            // Cut paper / feed
+            add([0x1D, 0x56, 0x41, 0x03]);
+
+            return new Uint8Array(buffer);
+        }
+
+        function downloadReceiptImage() {
+            const card = document.querySelector('.printable-card');
+            if (!card) return;
+
+            const btn = document.getElementById('download-img-btn');
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<svg class="animate-spin h-3.5 w-3.5 text-white inline mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Saving...';
+
+            html2canvas(card, {
+                scale: 4, // 4x Ultra HD Resolution for pitch-black thermal printing
+                backgroundColor: '#ffffff',
+                useCORS: true,
+                allowTaint: true,
+                logging: false,
+                letterRendering: true
+            }).then(function(canvas) {
+                const link = document.createElement('a');
+                link.download = 'Receipt-{{ $order->order_number }}.png';
+                link.href = canvas.toDataURL('image/png', 1.0);
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+
                 btn.disabled = false;
                 btn.innerHTML = originalText;
             }).catch(function(err) {
@@ -349,71 +516,71 @@
     @endif
 
     <!-- 58mm Thermal Paper Roll (48mm Printable Width Container) - High Contrast Monochrome Thermal Layout -->
-    <div class="printable-card w-[58mm] max-w-[58mm] bg-white px-[3.5mm] py-3 text-black space-y-2 text-[8px] leading-normal border-0 shadow-none rounded-none">
+    <div class="printable-card w-[58mm] max-w-[58mm] bg-white px-[3mm] py-3 text-black space-y-2.5 text-[9.5px] leading-normal border-0 shadow-none rounded-none">
 
         <!-- Receipt Header -->
         <div class="text-center space-y-0.5 border-b-2 border-black pb-2">
-            <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-7 h-7 mx-auto mb-1 rounded-full object-cover p-0.5 border border-black bg-white">
-            <h1 class="text-[10px] font-black tracking-wide uppercase text-black leading-tight">
+            <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-8 h-8 mx-auto mb-1 rounded-full object-cover p-0.5 border border-black bg-white">
+            <h1 class="text-[11px] font-black tracking-wide uppercase text-black leading-tight">
                 HOUR WASH LAUNDRY
             </h1>
-            <p class="text-[8px] font-bold text-black leading-tight">Laundry Shop System</p>
-            <p class="text-[7.5px] font-semibold text-black leading-tight">Magallanes St., Orosite, Legazpi</p>
-            <p class="text-[7px] font-bold text-black">Mobile: 09123456789</p>
+            <p class="text-[8.5px] font-bold text-black leading-tight">Laundry Shop System</p>
+            <p class="text-[8px] font-semibold text-black leading-tight">Magallanes St., Orosite, Legazpi</p>
+            <p class="text-[8px] font-bold text-black">Mobile: 09123456789</p>
         </div>
 
         <!-- Receipt Order Meta -->
-        <div class="space-y-1 border-b-2 border-black pb-2 text-[8px] text-black">
-            <div class="flex justify-between items-center">
-                <span class="font-bold shrink-0">RECEIPT:</span>
-                <span class="font-extrabold text-right font-mono">#{{ $order->order_number }}</span>
+        <div class="space-y-1.5 border-b-2 border-black pb-2.5 text-[9.5px] text-black">
+            <div class="flex justify-between items-start gap-1">
+                <span class="font-bold text-black shrink-0">RECEIPT:</span>
+                <span class="font-black text-right font-mono text-[10px] text-black">#{{ $order->order_number }}</span>
             </div>
-            <div class="flex justify-between items-center">
-                <span class="font-bold shrink-0">DATE:</span>
-                <span class="font-bold text-right">{{ $order->created_at->format('M d, Y h:i A') }}</span>
+            <div class="flex justify-between items-start gap-1">
+                <span class="font-bold text-black shrink-0">DATE:</span>
+                <span class="font-bold text-right text-black text-[9px]">{{ $order->created_at->format('M d, Y h:i A') }}</span>
             </div>
-            <div class="flex justify-between items-center">
-                <span class="font-bold shrink-0">CUSTOMER:</span>
-                <span class="font-extrabold text-right max-w-[28mm] leading-tight block break-words">{{ $customerName }}</span>
+            <div class="flex justify-between items-start gap-1">
+                <span class="font-bold text-black shrink-0">CUSTOMER:</span>
+                <span class="font-black text-right text-black block break-words flex-1 pl-2 text-[9.5px] leading-tight uppercase">{{ $customerName }}</span>
             </div>
-            <div class="flex justify-between items-center">
-                <span class="font-bold shrink-0">PHONE:</span>
-                <span class="font-bold text-right">{{ $customerPhone }}</span>
+            <div class="flex justify-between items-start gap-1">
+                <span class="font-bold text-black shrink-0">PHONE:</span>
+                <span class="font-bold text-right text-black text-[9px]">{{ $customerPhone }}</span>
             </div>
-            <div class="flex justify-between items-center">
-                <span class="font-bold shrink-0">STAFF:</span>
-                <span class="font-extrabold text-right max-w-[28mm] leading-tight block break-words">{{ $processorName }}</span>
+            <div class="flex justify-between items-start gap-1">
+                <span class="font-bold text-black shrink-0">STAFF:</span>
+                <span class="font-black text-right text-black block break-words flex-1 pl-2 text-[9.5px] leading-tight uppercase">{{ $processorName }}</span>
             </div>
-            <div class="flex justify-between items-center">
-                <span class="font-bold shrink-0">MACHINE:</span>
-                <span class="font-extrabold font-mono text-[7.5px] text-right">{{ $machineLabel }}</span>
+            <div class="flex justify-between items-start gap-1">
+                <span class="font-bold text-black shrink-0">MACHINE:</span>
+                <span class="font-extrabold font-mono text-[8.5px] text-right text-black">{{ $machineLabel }}</span>
             </div>
         </div>
 
         <!-- Receipt Line Items -->
-        <div class="space-y-1.5 border-b-2 border-black pb-2 text-[8px] text-black">
-            <div class="flex justify-between font-black border-b border-black pb-1 text-[8px]">
+        <div class="space-y-1.5 border-b-2 border-black pb-2.5 text-[9.5px] text-black">
+            <div class="flex justify-between font-black border-b border-black pb-1 text-[9px]">
                 <span>ITEM / SERVICE</span>
                 <span>AMT</span>
             </div>
             
-            <div class="flex justify-between items-start pt-0.5">
-                <div class="max-w-[32mm]">
-                    <span class="font-extrabold block leading-normal text-[8px] text-black break-words">{{ $serviceName }}</span>
-                    <span class="text-[7.5px] font-bold text-black block mt-0.5 leading-normal">{{ $order->weight_kg }} kg @ ₱{{ number_format($servicePrice, 2) }}/kg</span>
+            <div class="flex justify-between items-start pt-0.5 gap-1">
+                <div class="flex-1 pr-1">
+                    <span class="font-black block leading-snug text-[9px] text-black break-words">{{ $serviceName }}</span>
+                    <span class="text-[8px] font-bold text-black block mt-0.5 leading-tight">{{ $order->weight_kg }} kg @ ₱{{ number_format($servicePrice, 2) }}/kg</span>
                 </div>
-                <span class="font-extrabold text-[8.5px] text-black shrink-0 text-right">₱{{ number_format($order->subtotal, 2) }}</span>
+                <span class="font-black text-[10px] text-black shrink-0 text-right">₱{{ number_format($order->subtotal, 2) }}</span>
             </div>
 
             @if($order->delivery_fee > 0)
-                <div class="flex justify-between text-[7.5px] font-bold text-black pt-1">
+                <div class="flex justify-between text-[8.5px] font-bold text-black pt-1">
                     <span>Delivery Fee</span>
                     <span>₱{{ number_format($order->delivery_fee, 2) }}</span>
                 </div>
             @endif
 
             @if($order->discount > 0)
-                <div class="flex justify-between text-[7.5px] font-bold text-black pt-1">
+                <div class="flex justify-between text-[8.5px] font-bold text-black pt-1">
                     <span>Discount</span>
                     <span>-₱{{ number_format($order->discount, 2) }}</span>
                 </div>
@@ -421,12 +588,12 @@
         </div>
 
         <!-- Total Amount & Payment Status -->
-        <div class="space-y-1 border-b-2 border-black pb-2 text-[8px] text-black">
+        <div class="space-y-1 border-b-2 border-black pb-2 text-[9.5px] text-black">
             <div class="flex justify-between font-black items-center pt-1">
-                <span class="text-[8.5px]">TOTAL:</span>
-                <span class="text-[11px] font-black text-black">₱{{ number_format($order->total_amount, 2) }}</span>
+                <span class="text-[10px]">TOTAL:</span>
+                <span class="text-[12px] font-black text-black">₱{{ number_format($order->total_amount, 2) }}</span>
             </div>
-            <div class="flex justify-between text-[8px] font-extrabold items-center pt-0.5">
+            <div class="flex justify-between text-[9px] font-extrabold items-center pt-0.5">
                 <span>PAYMENT:</span>
                 <span class="font-black uppercase text-black">
                     {{ strtoupper($order->payment_status) }}
@@ -436,15 +603,15 @@
 
         <!-- Receipt Bottom QR & Footer Info -->
         <div class="text-center pt-2 space-y-1 text-black">
-            <div class="w-14 h-14 mx-auto bg-white p-0.5 border border-black rounded flex items-center justify-center shadow-none">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=110x110&data={{ $qrToken }}" 
+            <div class="w-16 h-16 mx-auto bg-white p-0.5 border border-black rounded flex items-center justify-center shadow-none">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data={{ $qrToken }}" 
                      alt="Order QR Tag {{ $order->order_number }}" 
                      class="w-full h-full">
             </div>
-            <p class="text-[7px] font-bold text-black pt-0.5">Scan QR Code tag to track order</p>
+            <p class="text-[8px] font-bold text-black pt-0.5">Scan QR Code tag to track order</p>
 
             <div class="pt-1 flex flex-col items-center justify-center space-y-0.5">
-                <p class="text-[8px] font-extrabold text-black leading-tight">Thank you for washing with HourWash!</p>
+                <p class="text-[8.5px] font-extrabold text-black leading-tight">Thank you for washing with HourWash!</p>
             </div>
         </div>
 
