@@ -52,12 +52,15 @@
                 overflow: hidden !important;
             }
         }
+        html, body {
+            overflow: hidden !important;
+        }
         body {
             font-family: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
         }
     </style>
 </head>
-<body class="bg-slate-200 dark:bg-zinc-950 text-slate-900 min-h-full flex flex-col items-center justify-start p-2 sm:p-3 overflow-y-auto">
+<body class="bg-slate-200 dark:bg-zinc-950 text-slate-900 h-screen w-full flex flex-col items-center justify-center p-2 overflow-hidden select-none">
 
     @php
         $historyUser = $order->statusHistory?->whereNotNull('changed_by')->last()?->changedBy;
