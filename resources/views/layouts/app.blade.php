@@ -799,8 +799,8 @@
             </div>
             
             <!-- Modal Body (Receipt Iframe Container) -->
-            <div class="p-2 flex-1 flex justify-center items-center bg-slate-200/60 dark:bg-zinc-950/80 overflow-hidden">
-                <iframe id="receipt-modal-iframe" src="about:blank" scrolling="no" class="w-full h-[560px] max-h-[88vh] border-0 rounded-lg bg-slate-200 dark:bg-zinc-950 overflow-hidden"></iframe>
+            <div class="p-2 flex-1 flex justify-center items-start bg-slate-200/60 dark:bg-zinc-950/80 overflow-y-auto">
+                <iframe id="receipt-modal-iframe" src="about:blank" class="w-full h-[82vh] max-h-[640px] min-h-[480px] border-0 rounded-lg bg-slate-200 dark:bg-zinc-950"></iframe>
             </div>
         </div>
     </div>
