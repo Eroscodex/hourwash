@@ -52,6 +52,35 @@
 </head>
 <body class="bg-slate-200 dark:bg-zinc-950 text-slate-900 min-h-screen flex flex-col items-center justify-center p-2 sm:p-4">
 
+    @php
+        $historyUser = $order->statusHistory?->whereNotNull('changed_by')->last()?->changedBy;
+        if ($historyUser && in_array($historyUser->role, ['admin', 'owner', 'staff'])) {
+            $roleLabel = match($historyUser->role) {
+                'admin', 'owner' => 'Admin',
+                'staff' => 'Staff',
+                default => ucfirst($historyUser->role)
+            };
+            $processorName = $historyUser->name . ' (' . $roleLabel . ')';
+        } elseif (auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isOwner() || auth()->user()->isStaff())) {
+            $roleLabel = match(auth()->user()->role) {
+                'admin', 'owner' => 'Admin',
+                'staff' => 'Staff',
+                default => ucfirst(auth()->user()->role)
+            };
+            $processorName = auth()->user()->name . ' (' . $roleLabel . ')';
+        } else {
+            $processorName = 'Counter Staff';
+        }
+
+        $customerName = $order->customer?->name ?? 'Walk-in';
+        $customerPhone = $order->customer?->phone ?? ($order->customer?->customerProfile?->phone ?? 'N/A');
+        $serviceName = $order->service?->name ?? 'Standard Wash';
+        $servicePrice = $order->service?->price ?? 120;
+        $machineLabel = $order->machine ? $order->machine->machine_name . ' (' . $order->machine->machine_code . ')' : 'AUTO-ASSIGN';
+        $machineCode = $order->machine ? $order->machine->machine_code : 'AUTO-ASSIGN';
+        $qrToken = $order->qrCode?->qr_token ?? $order->order_number;
+    @endphp
+
     <!-- Print & Download Action Bar -->
     <div class="no-print mb-3 flex flex-col items-center justify-center gap-2 text-center max-w-lg w-full">
         <div class="flex items-center justify-center gap-2 flex-wrap">
@@ -305,26 +334,7 @@
             <p class="text-[6.5px] text-slate-500">Mobile: 09123456789</p>
         </div>
 
-        @php
-            $historyUser = $order->statusHistory?->whereNotNull('changed_by')->last()?->changedBy;
-            if ($historyUser && in_array($historyUser->role, ['admin', 'owner', 'staff'])) {
-                $roleLabel = match($historyUser->role) {
-                    'admin', 'owner' => 'Admin',
-                    'staff' => 'Staff',
-                    default => ucfirst($historyUser->role)
-                };
-                $processorName = $historyUser->name . ' (' . $roleLabel . ')';
-            } elseif (auth()->check() && (auth()->user()->isAdmin() || auth()->user()->isOwner() || auth()->user()->isStaff())) {
-                $roleLabel = match(auth()->user()->role) {
-                    'admin', 'owner' => 'Admin',
-                    'staff' => 'Staff',
-                    default => ucfirst(auth()->user()->role)
-                };
-                $processorName = auth()->user()->name . ' (' . $roleLabel . ')';
-            } else {
-                $processorName = 'Counter Staff';
-            }
-        @endphp
+
 
         <!-- Receipt Order Meta -->
         <div class="space-y-0.5 border-b border-dashed border-slate-400 pb-1 text-[7.5px]">
