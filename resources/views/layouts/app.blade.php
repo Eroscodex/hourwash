@@ -3,27 +3,30 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <!-- iOS & Android Add to Home Screen PWA Compatibility -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="HourWash">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="HourWash">
-    <meta name="format-detection" content="telephone=no">
 
     <title>{{ config('app.name', 'Hour Wash Laundry System') }}</title>
     <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
     <link rel="shortcut icon" href="{{ asset('favicon.svg') }}">
-    <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('favicon-192.png') }}">
-    <link rel="icon" type="image/png" sizes="512x512" href="{{ asset('favicon.png') }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon-192.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('favicon.png') }}">
     <link rel="apple-touch-icon" href="{{ asset('favicon.png') }}">
     <link rel="manifest" href="{{ asset('manifest.json') }}">
-    <meta name="theme-color" content="#2563EB" media="(prefers-color-scheme: light)">
-    <meta name="theme-color" content="#09090B" media="(prefers-color-scheme: dark)">
+    <meta name="theme-color" content="#2563EB">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Hour Wash">
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('/sw.js').catch(function(err) {
+                    console.log('SW reg fail:', err);
+                });
+            });
+        }
+    </script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -842,87 +845,6 @@
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') closeReceiptModal();
         });
-    </script>
-
-    <!-- PWA Smart "Add to Home Screen" Floating Banner (iOS & Android Compatible) -->
-    <div id="pwa-install-banner" class="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-4 z-[9990] hidden max-w-sm w-full bg-slate-900/95 dark:bg-zinc-900/95 text-white border border-slate-700/80 dark:border-zinc-700 p-3.5 rounded-xl shadow-2xl backdrop-blur-md animate-fade-in no-print">
-        <div class="flex items-center justify-between gap-3">
-            <div class="flex items-center gap-3">
-                <img src="{{ asset('favicon-192.png') }}" class="w-9 h-9 rounded-lg shadow-sm border border-white/20 shrink-0" alt="HourWash App">
-                <div>
-                    <h4 class="text-xs font-bold text-white leading-tight">Hour Wash Laundry</h4>
-                    <p id="pwa-banner-text" class="text-[11px] text-slate-300 dark:text-zinc-300 leading-tight">Add to Home Screen for fast mobile access!</p>
-                </div>
-            </div>
-            <div class="flex items-center gap-1.5 shrink-0">
-                <button id="pwa-install-btn" onclick="installPwaApp()" class="bg-blue-600 hover:bg-blue-500 text-white font-bold text-xs px-3 py-1.5 rounded-lg shadow-sm transition cursor-pointer">
-                    Install
-                </button>
-                <button onclick="dismissPwaBanner()" class="text-slate-400 hover:text-white p-1 rounded-md text-xs transition cursor-pointer" title="Dismiss">
-                    ✕
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // PWA Service Worker Registration & Installation Prompt Handler
-        let deferredPwaPrompt = null;
-
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js').catch(function() {});
-            });
-        }
-
-        window.addEventListener('beforeinstallprompt', function(e) {
-            e.preventDefault();
-            deferredPwaPrompt = e;
-            showPwaBanner('android');
-        });
-
-        function showPwaBanner(platform) {
-            const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-            if (isStandalone || localStorage.getItem('pwa_banner_dismissed') === 'true') return;
-
-            const banner = document.getElementById('pwa-install-banner');
-            const bannerText = document.getElementById('pwa-banner-text');
-            const installBtn = document.getElementById('pwa-install-btn');
-            if (!banner) return;
-
-            if (platform === 'ios') {
-                if (bannerText) bannerText.innerHTML = 'Tap <span class="font-bold text-blue-400">Share [↑]</span> then <span class="font-bold text-blue-400">"Add to Home Screen"</span>';
-                if (installBtn) installBtn.style.display = 'none';
-            }
-            banner.classList.remove('hidden');
-        }
-
-        function installPwaApp() {
-            if (deferredPwaPrompt) {
-                deferredPwaPrompt.prompt();
-                deferredPwaPrompt.userChoice.then(function() {
-                    deferredPwaPrompt = null;
-                    dismissPwaBanner();
-                });
-            }
-        }
-
-        function dismissPwaBanner() {
-            const banner = document.getElementById('pwa-install-banner');
-            if (banner) banner.classList.add('hidden');
-            localStorage.setItem('pwa_banner_dismissed', 'true');
-        }
-
-        // iOS Safari Add to Home Screen Detection
-        (function() {
-            const isIos = /iPhone|iPad|iPod/.test(navigator.userAgent) && !window.MSStream;
-            const isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
-            if (isIos && !isStandalone && localStorage.getItem('pwa_banner_dismissed') !== 'true') {
-                setTimeout(function() {
-                    showPwaBanner('ios');
-                }, 2000);
-            }
-        })();
     </script>
 </body>
 
