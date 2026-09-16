@@ -316,13 +316,40 @@
                     triggerPrint();
                 } else {
                     window.addEventListener('load', triggerPrint);
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            }).catch(function(err) {
+                console.error('Download error:', err);
+                alert('Could not download image automatically. You can screenshot the receipt card instead.');
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            });
+        }
+    </script>
+
+    @if(request()->boolean('auto_print') || request()->boolean('print'))
+        <script>
+            (function() {
+                function triggerPrint() {
+                    setTimeout(function() {
+                        try {
+                            window.print();
+                        } catch(e) {
+                            console.log('Print error:', e);
+                        }
+                    }, 350);
+                }
+                if (document.readyState === 'complete' || document.readyState === 'interactive') {
+                    triggerPrint();
+                } else {
+                    window.addEventListener('load', triggerPrint);
                 }
             })();
         </script>
     @endif
 
     <!-- 58mm Thermal Paper Roll (48mm Printable Width Container) - High Contrast Monochrome Thermal Layout -->
-    <div class="printable-card w-[58mm] max-w-[58mm] bg-white px-[4mm] py-3 text-black space-y-2 text-[8px] leading-snug border-0 shadow-none rounded-none">
+    <div class="printable-card w-[58mm] max-w-[58mm] bg-white px-[3.5mm] py-3 text-black space-y-2 text-[8px] leading-normal border-0 shadow-none rounded-none">
 
         <!-- Receipt Header -->
         <div class="text-center space-y-0.5 border-b-2 border-black pb-2">
@@ -337,31 +364,29 @@
 
         <!-- Receipt Order Meta -->
         <div class="space-y-1 border-b-2 border-black pb-2 text-[8px] text-black">
-            <div class="flex justify-between">
-                <span class="font-bold">RECEIPT:</span>
-                <span class="font-extrabold">#{{ $order->order_number }}</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold shrink-0">RECEIPT:</span>
+                <span class="font-extrabold text-right font-mono">#{{ $order->order_number }}</span>
             </div>
-            <div class="flex justify-between">
-                <span class="font-bold">DATE:</span>
-                <span class="font-bold">{{ $order->created_at->format('M d, Y h:i A') }}</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold shrink-0">DATE:</span>
+                <span class="font-bold text-right">{{ $order->created_at->format('M d, Y h:i A') }}</span>
             </div>
-            <div class="flex justify-between">
-                <span class="font-bold">CUSTOMER:</span>
-                <span class="font-extrabold max-w-[26mm] truncate text-right">{{ $customerName }}</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold shrink-0">CUSTOMER:</span>
+                <span class="font-extrabold text-right max-w-[28mm] leading-tight block break-words">{{ $customerName }}</span>
             </div>
-            <div class="flex justify-between">
-                <span class="font-bold">PHONE:</span>
-                <span class="font-bold">{{ $customerPhone }}</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold shrink-0">PHONE:</span>
+                <span class="font-bold text-right">{{ $customerPhone }}</span>
             </div>
-            <div class="flex justify-between">
-                <span class="font-bold">STAFF:</span>
-                <span class="font-extrabold max-w-[26mm] truncate text-right">{{ $processorName }}</span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold shrink-0">STAFF:</span>
+                <span class="font-extrabold text-right max-w-[28mm] leading-tight block break-words">{{ $processorName }}</span>
             </div>
-            <div class="flex justify-between">
-                <span class="font-bold">MACHINE:</span>
-                <span class="font-extrabold font-mono text-[7.5px]">
-                    {{ $machineLabel }}
-                </span>
+            <div class="flex justify-between items-center">
+                <span class="font-bold shrink-0">MACHINE:</span>
+                <span class="font-extrabold font-mono text-[7.5px] text-right">{{ $machineLabel }}</span>
             </div>
         </div>
 
@@ -373,11 +398,11 @@
             </div>
             
             <div class="flex justify-between items-start pt-0.5">
-                <div class="max-w-[34mm]">
-                    <span class="font-extrabold block leading-normal text-[8px] text-black">{{ $serviceName }}</span>
-                    <span class="text-[7.5px] font-bold text-black block mt-0.5">{{ $order->weight_kg }} kg @ ₱{{ number_format($servicePrice, 2) }}/kg</span>
+                <div class="max-w-[32mm]">
+                    <span class="font-extrabold block leading-normal text-[8px] text-black break-words">{{ $serviceName }}</span>
+                    <span class="text-[7.5px] font-bold text-black block mt-0.5 leading-normal">{{ $order->weight_kg }} kg @ ₱{{ number_format($servicePrice, 2) }}/kg</span>
                 </div>
-                <span class="font-extrabold text-[8.5px] text-black">₱{{ number_format($order->subtotal, 2) }}</span>
+                <span class="font-extrabold text-[8.5px] text-black shrink-0 text-right">₱{{ number_format($order->subtotal, 2) }}</span>
             </div>
 
             @if($order->delivery_fee > 0)
@@ -397,11 +422,11 @@
 
         <!-- Total Amount & Payment Status -->
         <div class="space-y-1 border-b-2 border-black pb-2 text-[8px] text-black">
-            <div class="flex justify-between font-black pt-1">
+            <div class="flex justify-between font-black items-center pt-1">
                 <span class="text-[8.5px]">TOTAL:</span>
                 <span class="text-[11px] font-black text-black">₱{{ number_format($order->total_amount, 2) }}</span>
             </div>
-            <div class="flex justify-between text-[8px] font-extrabold pt-0.5">
+            <div class="flex justify-between text-[8px] font-extrabold items-center pt-0.5">
                 <span>PAYMENT:</span>
                 <span class="font-black uppercase text-black">
                     {{ strtoupper($order->payment_status) }}
@@ -410,7 +435,7 @@
         </div>
 
         <!-- Receipt Bottom QR & Footer Info -->
-        <div class="text-center pt-2 space-y-1 border-t-2 border-black mt-2 text-black">
+        <div class="text-center pt-2 space-y-1 text-black">
             <div class="w-14 h-14 mx-auto bg-white p-0.5 border border-black rounded flex items-center justify-center shadow-none">
                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=110x110&data={{ $qrToken }}" 
                      alt="Order QR Tag {{ $order->order_number }}" 
