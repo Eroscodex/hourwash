@@ -229,25 +229,25 @@ def generate_use_case_diagram():
 # 3. CLASS DIAGRAM (BLACK & WHITE - EXACT 3-TIER, ZERO OVERLAPS, NO TITLE WORDS)
 # -------------------------------------------------------------
 def draw_class_box_bw(ax, x, y, name, attrs, methods, w=29, h=30):
-    rect = patches.Rectangle((x, y), w, h, fc='#FFFFFF', ec='#000000', lw=1.4)
+    rect = patches.Rectangle((x, y), w, h, fc='#FFFFFF', ec='#000000', lw=1.6)
     ax.add_patch(rect)
     
-    h_rect = patches.Rectangle((x, y + h - 3.2), w, 3.2, fc='#FFFFFF', ec='#000000', lw=1.4)
+    h_rect = patches.Rectangle((x, y + h - 3.2), w, 3.2, fc='#FFFFFF', ec='#000000', lw=1.6)
     ax.add_patch(h_rect)
     ax.text(x + w/2.0, y + h - 1.6, name, fontsize=11.5, fontweight='bold', ha='center', va='center', color='#000000')
     
-    ax.plot([x, x + w], [y + h - 3.2, y + h - 3.2], color='#000000', lw=1.2)
+    ax.plot([x, x + w], [y + h - 3.2, y + h - 3.2], color='#000000', lw=1.4)
 
     attr_start_y = y + h - 3.8
     for i, attr in enumerate(attrs):
-        ax.text(x + 0.6, attr_start_y - (i * 1.30), attr, fontsize=8.8, fontweight='bold', va='top', ha='left', color='#000000', fontfamily='sans-serif')
+        ax.text(x + 0.6, attr_start_y - (i * 1.20), attr, fontsize=8.2, fontweight='bold', va='top', ha='left', color='#000000', fontfamily='sans-serif')
 
-    div_y = attr_start_y - (len(attrs) * 1.05) - 0.2
-    ax.plot([x, x + w], [div_y, div_y], color='#000000', lw=1.2)
+    div_y = attr_start_y - (len(attrs) * 1.20) - 0.3
+    ax.plot([x, x + w], [div_y, div_y], color='#000000', lw=1.4)
 
     method_start_y = div_y - 0.4
     for j, meth in enumerate(methods):
-        ax.text(x + 0.6, method_start_y - (j * 1.30), meth, fontsize=8.8, fontweight='bold', va='top', ha='left', color='#000000', fontfamily='sans-serif')
+        ax.text(x + 0.6, method_start_y - (j * 1.20), meth, fontsize=8.2, fontweight='bold', va='top', ha='left', color='#000000', fontfamily='sans-serif')
 
 def draw_composition_diamond_bw(ax, x, y, direction='down'):
     if direction == 'down':
@@ -288,20 +288,20 @@ def generate_class_diagram():
     # 1. TOP TIER: Users Parent Base Class (Top Center, y=80.0 to y=96.5)
     draw_class_box_bw(ax, 38, 80.0, "Users", 
                       ["- Name: varchar", "- Email: varchar", "- Phone Number: varchar", "- Address: varchar", "- Password: varchar", "- Role: varchar", "- Frequent Stamps: int"], 
-                      ["+login()", "+changePassword()", "+updateProfile()"], w=24, h=16.5)
+                      ["+login()", "+changePassword()", "+updateProfile()"], w=25.0, h=18.0)
 
     # 2. MIDDLE TIER: Subclasses Inheriting from Users (y=57.0 to y=73.0)
     draw_class_box_bw(ax, 6.0, 57.0, "Customer", 
                       ["- user_id: int", "- address: varchar", "- barangay: varchar", "- city: varchar"], 
-                      ["+registerCustomer()", "+bookNewOrder()", "+viewMyOrderHistory()", "+viewFrequentUserCard()", "+editProfile()"], w=24.0, h=16.0)
+                      ["+registerCustomer()", "+bookNewOrder()", "+viewMyOrderHistory()", "+viewFrequentUserCard()", "+editProfile()"], w=25.0, h=17.5)
 
     draw_class_box_bw(ax, 38.0, 57.0, "Staff", 
                       ["- user_id: int", "- employee_id: varchar", "- position: varchar", "- status: varchar"], 
-                      ["+manageLaundryOrders()", "+weighScaleOrder()", "+manageMachines()", "+triggerExtension()", "+createWalkInOrder()"], w=24.0, h=16.0)
+                      ["+manageLaundryOrders()", "+weighScaleOrder()", "+manageMachines()", "+triggerExtension()", "+createWalkInOrder()"], w=25.0, h=17.5)
 
     draw_class_box_bw(ax, 70.0, 57.0, "Admin", 
                       ["- user_id: int", "- admin_level: varchar", "- status: varchar"], 
-                      ["+viewOverallReports()", "+manageServicesAndPricing()", "+manageUsersAndStamps()", "+viewLiveSmsOutbox()", "+viewLiveEmailOutbox()"], w=24.0, h=16.0)
+                      ["+viewOverallReports()", "+manageServicesAndPricing()", "+manageUsersAndStamps()", "+viewLiveSmsOutbox()", "+viewLiveEmailOutbox()"], w=25.0, h=17.5)
 
     # Generalization Lines (Subclasses -> Users Parent)
     draw_generalization_triangle_bw(ax, 50, 80.0, direction='up')
@@ -315,40 +315,40 @@ def generate_class_diagram():
     # Row 1 (y=30.0 to 46.0, h=16.0)
     draw_class_box_bw(ax, 2.0, 30.0, "Manage Laundry Orders", 
                       ["- Order ID: int", "- Order Number: varchar", "- Customer ID: int", "- Service ID: int", "- Total Amount: float", "- Order Status: varchar", "- Weight: float"], 
-                      ["+createBookOrder()", "+createWalkInOrder()", "+updateOrderStatus()", "+calculateTotalAmount()"], w=21.5, h=16.0)
+                      ["+createBookOrder()", "+createWalkInOrder()", "+updateOrderStatus()", "+calculateTotalAmount()"], w=21.5, h=19.5)
 
     draw_class_box_bw(ax, 26.5, 30.0, "Services & Pricing", 
                       ["- Service ID: int", "- Service Name: varchar", "- Service Type: varchar", "- Rate Per Kg: float", "- Est Duration: int"], 
-                      ["+getPublicServices()", "+calculateServiceRate()", "+updateTariffRates()"], w=21.5, h=16.0)
+                      ["+getPublicServices()", "+calculateServiceRate()", "+updateTariffRates()"], w=21.5, h=19.5)
 
     draw_class_box_bw(ax, 51.0, 30.0, "Manage Machines", 
                       ["- Machine ID: int", "- Machine Code: varchar", "- Machine Type: varchar", "- Status: varchar", "- Remaining Min: int"], 
-                      ["+assignOrderToMachine()", "+trigger60mExtension()", "+toggleMachineStatus()"], w=21.5, h=16.0)
+                      ["+assignOrderToMachine()", "+trigger60mExtension()", "+toggleMachineStatus()"], w=21.5, h=19.5)
 
     draw_class_box_bw(ax, 75.5, 30.0, "Overall Reports", 
                       ["- Report ID: int", "- Total Revenue: float", "- Total Orders: int", "- Active Machines: int", "- Report Date: date"], 
-                      ["+generateDailyReport()", "+fetchRevenueAnalytics()", "+exportSummaryPDF()"], w=21.5, h=16.0)
+                      ["+generateDailyReport()", "+fetchRevenueAnalytics()", "+exportSummaryPDF()"], w=21.5, h=19.5)
 
     # Row 2 (y=3.5 to 18.5, h=15.0)
     draw_class_box_bw(ax, 2.0, 3.5, "Live SMS Outbox", 
                       ["- Log ID: int", "- Recipient Phone: varchar", "- Message Body: text", "- Delivery Status: varchar", "- Sent Timestamp: datetime"], 
-                      ["+sendTextBeeSms()", "+logSmsDispatch()", "+skipIfCanceled()"], w=17.5, h=15.0)
+                      ["+sendTextBeeSms()", "+logSmsDispatch()", "+skipIfCanceled()"], w=17.5, h=16.5)
 
     draw_class_box_bw(ax, 21.625, 3.5, "Live Email Outbox", 
                       ["- Email ID: int", "- Recipient Email: varchar", "- Subject: varchar", "- Email Body: text", "- Send Status: varchar"], 
-                      ["+sendBrevoEmail()", "+logEmailDispatch()", "+retryFailedEmail()"], w=17.5, h=15.0)
+                      ["+sendBrevoEmail()", "+logEmailDispatch()", "+retryFailedEmail()"], w=17.5, h=16.5)
 
     draw_class_box_bw(ax, 41.25, 3.5, "QR Scan Logs", 
                       ["- Audit Log ID: int", "- Order ID: int", "- Scanned By: int", "- QR Token: varchar", "- Scan Timestamp: datetime"], 
-                      ["+logQrScan()", "+verifyQrToken()", "+fetchScanAuditHistory()"], w=17.5, h=15.0)
+                      ["+logQrScan()", "+verifyQrToken()", "+fetchScanAuditHistory()"], w=17.5, h=16.5)
 
     draw_class_box_bw(ax, 60.875, 3.5, "12-Stamp User Card", 
                       ["- Card ID: int", "- Customer ID: int", "- Total Stamps: int", "- Reward Claimed: boolean", "- Expiry Date: date"], 
-                      ["+addOrderStamp()", "+redeemFreeWash()", "+getStampingStatus()"], w=17.5, h=15.0)
+                      ["+addOrderStamp()", "+redeemFreeWash()", "+getStampingStatus()"], w=17.5, h=16.5)
 
     draw_class_box_bw(ax, 80.5, 3.5, "Customer Reviews", 
                       ["- Review ID: int", "- Order ID: int", "- Customer ID: int", "- Rating Stars: int", "- Comments: text"], 
-                      ["+submitCustomerReview()", "+getPublicReviews()", "+deleteReview()"], w=17.5, h=15.0)
+                      ["+submitCustomerReview()", "+getPublicReviews()", "+deleteReview()"], w=17.5, h=16.5)
 
     # 4. RELATIONSHIP CONNECTIONS (Exact Guide Style with Generous Channel Spacing)
 

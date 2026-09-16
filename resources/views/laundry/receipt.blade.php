@@ -221,18 +221,18 @@
             
             addText(`RECEIPT:  #{{ $order->order_number }}\n`);
             addText(`DATE:     {{ $order->created_at->format('M d, Y h:i A') }}\n`);
-            addText(`CUSTOMER: {{ substr($order->customer->name ?? 'Walk-in', 0, 20) }}\n`);
-            addText(`PHONE:    {{ substr($order->customer->phone ?? ($order->customer->customerProfile->phone ?? 'N/A'), 0, 20) }}\n`);
+            addText(`CUSTOMER: {{ substr($customerName, 0, 20) }}\n`);
+            addText(`PHONE:    {{ substr($customerPhone, 0, 20) }}\n`);
             addText(`STAFF:    {{ substr($processorName, 0, 20) }}\n`);
-            addText(`MACHINE:  {{ $order->machine ? $order->machine->machine_code : 'AUTO-ASSIGN' }}\n`);
+            addText(`MACHINE:  {{ substr($machineCode, 0, 20) }}\n`);
             addText("--------------------------------\n");
             addText("ITEM / SERVICE               AMT\n");
             addText("--------------------------------\n");
             
-            const serviceName = "{{ substr($order->service->name ?? 'Standard Wash', 0, 20) }}";
+            const serviceNameStr = "{{ substr($serviceName, 0, 20) }}";
             const amountStr = "P{{ number_format($order->subtotal, 2) }}";
-            addText(`${serviceName.padEnd(20)} ${amountStr}\n`);
-            addText(`  {{ $order->weight_kg }} kg @ P{{ number_format($order->service->price ?? 120, 2) }}/kg\n`);
+            addText(`${serviceNameStr.padEnd(20)} ${amountStr}\n`);
+            addText(`  {{ $order->weight_kg }} kg @ P{{ number_format($servicePrice, 2) }}/kg\n`);
 
             @if($order->delivery_fee > 0)
                 addText(`  Delivery Fee:      P{{ number_format($order->delivery_fee, 2) }}\n`);
@@ -254,7 +254,7 @@
 
             // ESC a 1 - Center Align Footer
             add([0x1B, 0x61, 0x01]);
-            addText(`QR TOKEN: {{ $order->qrCode->qr_token ?? $order->order_number }}\n`);
+            addText(`QR TOKEN: {{ $qrToken }}\n`);
             addText("Scan QR Code tag to track order\n");
             addText("Thank you for washing with HourWash!\n");
             addText("\n\n\n");
@@ -275,11 +275,12 @@
             btn.innerHTML = '<svg class="animate-spin h-3.5 w-3.5 text-white inline mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg> Saving...';
 
             html2canvas(card, {
-                scale: 3,
+                scale: 4, // 4x Ultra HD Resolution for pitch-black thermal printing
                 backgroundColor: '#ffffff',
                 useCORS: true,
                 allowTaint: true,
-                logging: false
+                logging: false,
+                letterRendering: true
             }).then(function(canvas) {
                 const link = document.createElement('a');
                 link.download = 'Receipt-{{ $order->order_number }}.png';
@@ -320,76 +321,74 @@
         </script>
     @endif
 
-    <!-- 58mm Thermal Paper Roll (48mm Printable Width Container) -->
-    <div class="printable-card w-[58mm] max-w-[58mm] bg-white px-[4mm] py-2.5 rounded-lg shadow-xl border border-slate-300 text-slate-900 space-y-1 text-[7.5px] leading-tight">
+    <!-- 58mm Thermal Paper Roll (48mm Printable Width Container) - High Contrast Monochrome Thermal Layout -->
+    <div class="printable-card w-[58mm] max-w-[58mm] bg-white px-[4mm] py-3 text-black space-y-2 text-[8px] leading-snug border-0 shadow-none rounded-none">
 
         <!-- Receipt Header -->
-        <div class="text-center space-y-0.5 border-b border-dashed border-slate-400 pb-1">
-            <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-6 h-6 mx-auto mb-0.5 rounded-full object-cover shadow-sm p-0.5 border border-slate-300 bg-white">
-            <h1 class="text-[9px] font-black tracking-wide uppercase text-slate-900 leading-tight">
+        <div class="text-center space-y-0.5 border-b-2 border-black pb-2">
+            <img src="{{ asset('favicon.svg') }}" alt="Hour Wash Logo" class="w-7 h-7 mx-auto mb-1 rounded-full object-cover p-0.5 border border-black bg-white">
+            <h1 class="text-[10px] font-black tracking-wide uppercase text-black leading-tight">
                 HOUR WASH LAUNDRY
             </h1>
-            <p class="text-[7.5px] font-bold text-slate-700 leading-tight">Laundry Shop System</p>
-            <p class="text-[7px] text-slate-600 leading-tight">Magallanes St., Orosite, Legazpi</p>
-            <p class="text-[6.5px] text-slate-500">Mobile: 09123456789</p>
+            <p class="text-[8px] font-bold text-black leading-tight">Laundry Shop System</p>
+            <p class="text-[7.5px] font-semibold text-black leading-tight">Magallanes St., Orosite, Legazpi</p>
+            <p class="text-[7px] font-bold text-black">Mobile: 09123456789</p>
         </div>
 
-
-
         <!-- Receipt Order Meta -->
-        <div class="space-y-0.5 border-b border-dashed border-slate-400 pb-1 text-[7.5px]">
+        <div class="space-y-1 border-b-2 border-black pb-2 text-[8px] text-black">
             <div class="flex justify-between">
-                <span>RECEIPT:</span>
-                <span class="font-bold">#{{ $order->order_number }}</span>
+                <span class="font-bold">RECEIPT:</span>
+                <span class="font-extrabold">#{{ $order->order_number }}</span>
             </div>
             <div class="flex justify-between">
-                <span>DATE:</span>
-                <span>{{ $order->created_at->format('M d, Y h:i A') }}</span>
+                <span class="font-bold">DATE:</span>
+                <span class="font-bold">{{ $order->created_at->format('M d, Y h:i A') }}</span>
             </div>
             <div class="flex justify-between">
-                <span>CUSTOMER:</span>
-                <span class="font-bold max-w-[26mm] truncate text-right">{{ $order->customer->name ?? 'Walk-in' }}</span>
+                <span class="font-bold">CUSTOMER:</span>
+                <span class="font-extrabold max-w-[26mm] truncate text-right">{{ $customerName }}</span>
             </div>
             <div class="flex justify-between">
-                <span>PHONE:</span>
-                <span class="font-bold">{{ $order->customer->phone ?? ($order->customer->customerProfile->phone ?? 'N/A') }}</span>
-            </div>
-            <div class="flex justify-between text-blue-700">
-                <span>STAFF:</span>
-                <span class="font-bold max-w-[26mm] truncate text-right">{{ $processorName }}</span>
+                <span class="font-bold">PHONE:</span>
+                <span class="font-bold">{{ $customerPhone }}</span>
             </div>
             <div class="flex justify-between">
-                <span>MACHINE:</span>
-                <span class="font-bold font-mono text-[7px]">
-                    {{ $order->machine ? $order->machine->machine_name . ' (' . $order->machine->machine_code . ')' : 'AUTO-ASSIGN' }}
+                <span class="font-bold">STAFF:</span>
+                <span class="font-extrabold max-w-[26mm] truncate text-right">{{ $processorName }}</span>
+            </div>
+            <div class="flex justify-between">
+                <span class="font-bold">MACHINE:</span>
+                <span class="font-extrabold font-mono text-[7.5px]">
+                    {{ $machineLabel }}
                 </span>
             </div>
         </div>
 
         <!-- Receipt Line Items -->
-        <div class="space-y-1 border-b border-dashed border-slate-400 pb-1 text-[7.5px]">
-            <div class="flex justify-between font-bold text-slate-800 border-b border-slate-300 pb-0.5 text-[7.5px]">
+        <div class="space-y-1.5 border-b-2 border-black pb-2 text-[8px] text-black">
+            <div class="flex justify-between font-black border-b border-black pb-1 text-[8px]">
                 <span>ITEM / SERVICE</span>
                 <span>AMT</span>
             </div>
             
-            <div class="flex justify-between items-start">
+            <div class="flex justify-between items-start pt-0.5">
                 <div class="max-w-[34mm]">
-                    <span class="font-bold block leading-tight text-[7.5px]">{{ $order->service->name ?? 'Standard Wash' }}</span>
-                    <span class="text-[6.5px] text-slate-600 block">{{ $order->weight_kg }} kg @ ₱{{ number_format($order->service->price ?? 120, 2) }}/kg</span>
+                    <span class="font-extrabold block leading-normal text-[8px] text-black">{{ $serviceName }}</span>
+                    <span class="text-[7.5px] font-bold text-black block mt-0.5">{{ $order->weight_kg }} kg @ ₱{{ number_format($servicePrice, 2) }}/kg</span>
                 </div>
-                <span class="font-bold text-[7.5px]">₱{{ number_format($order->subtotal, 2) }}</span>
+                <span class="font-extrabold text-[8.5px] text-black">₱{{ number_format($order->subtotal, 2) }}</span>
             </div>
 
             @if($order->delivery_fee > 0)
-                <div class="flex justify-between text-[7px]">
+                <div class="flex justify-between text-[7.5px] font-bold text-black pt-1">
                     <span>Delivery Fee</span>
                     <span>₱{{ number_format($order->delivery_fee, 2) }}</span>
                 </div>
             @endif
 
             @if($order->discount > 0)
-                <div class="flex justify-between text-emerald-700 text-[7px]">
+                <div class="flex justify-between text-[7.5px] font-bold text-black pt-1">
                     <span>Discount</span>
                     <span>-₱{{ number_format($order->discount, 2) }}</span>
                 </div>
@@ -397,30 +396,30 @@
         </div>
 
         <!-- Total Amount & Payment Status -->
-        <div class="space-y-0.5 border-b border-dashed border-slate-400 pb-1 text-[7.5px]">
-            <div class="flex justify-between font-bold pt-0.5">
-                <span>TOTAL:</span>
-                <span class="text-[9.5px] font-black text-slate-900">₱{{ number_format($order->total_amount, 2) }}</span>
+        <div class="space-y-1 border-b-2 border-black pb-2 text-[8px] text-black">
+            <div class="flex justify-between font-black pt-1">
+                <span class="text-[8.5px]">TOTAL:</span>
+                <span class="text-[11px] font-black text-black">₱{{ number_format($order->total_amount, 2) }}</span>
             </div>
-            <div class="flex justify-between text-[7px]">
+            <div class="flex justify-between text-[8px] font-extrabold pt-0.5">
                 <span>PAYMENT:</span>
-                <span class="font-bold uppercase {{ $order->payment_status === 'paid' ? 'text-emerald-700' : 'text-rose-700' }}">
+                <span class="font-black uppercase text-black">
                     {{ strtoupper($order->payment_status) }}
                 </span>
             </div>
         </div>
 
         <!-- Receipt Bottom QR & Footer Info -->
-        <div class="text-center pt-1 space-y-0.5 border-t border-dashed border-slate-400 mt-1">
-            <div class="w-12 h-12 mx-auto bg-white p-0.5 border border-slate-400 rounded flex items-center justify-center shadow-sm">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data={{ $order->qrCode->qr_token ?? $order->order_number }}" 
+        <div class="text-center pt-2 space-y-1 border-t-2 border-black mt-2 text-black">
+            <div class="w-14 h-14 mx-auto bg-white p-0.5 border border-black rounded flex items-center justify-center shadow-none">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=110x110&data={{ $qrToken }}" 
                      alt="Order QR Tag {{ $order->order_number }}" 
                      class="w-full h-full">
             </div>
-            <p class="text-[6.5px] text-slate-600">Scan QR Code tag to track order</p>
+            <p class="text-[7px] font-bold text-black pt-0.5">Scan QR Code tag to track order</p>
 
-            <div class="pt-0.5 flex flex-col items-center justify-center space-y-0.5">
-                <p class="text-[7.5px] font-bold text-slate-800 leading-tight">Thank you for washing with HourWash!</p>
+            <div class="pt-1 flex flex-col items-center justify-center space-y-0.5">
+                <p class="text-[8px] font-extrabold text-black leading-tight">Thank you for washing with HourWash!</p>
             </div>
         </div>
 
