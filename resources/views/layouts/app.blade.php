@@ -800,7 +800,7 @@
             
             <!-- Modal Body (Receipt Iframe Container) -->
             <div class="p-2 flex-1 flex justify-center items-center bg-slate-200/60 dark:bg-zinc-950/80 overflow-hidden">
-                <iframe id="receipt-modal-iframe" src="about:blank" scrolling="no" class="w-full h-[520px] max-h-[85vh] border-0 rounded-lg bg-slate-200 dark:bg-zinc-950 overflow-hidden"></iframe>
+                <iframe id="receipt-modal-iframe" src="about:blank" scrolling="no" class="w-full h-[560px] max-h-[88vh] border-0 rounded-lg bg-slate-200 dark:bg-zinc-950 overflow-hidden"></iframe>
             </div>
         </div>
     </div>
