@@ -1,9 +1,11 @@
 {
     "name": "Hour Wash Laundry Shop",
-    "short_name": "Hour Wash",
-    "description": "Hour Wash Laundry Shop Management System",
+    "short_name": "HourWash",
+    "description": "A Web-Based Laundry Service Management System for Hour Wash Laundry Shop in Orosite, Legazpi City",
     "start_url": "/",
+    "scope": "/",
     "display": "standalone",
+    "orientation": "portrait-primary",
     "background_color": "#09090B",
     "theme_color": "#2563EB",
     "icons": [
