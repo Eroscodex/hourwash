@@ -190,7 +190,7 @@
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/40 to-transparent flex flex-col justify-end p-5 sm:p-8 md:p-10">
                             <div class="backdrop-blur-md bg-slate-950/70 border border-white/20 p-4 sm:p-6 rounded-xl text-white max-w-2xl shadow-2xl space-y-2">
                                 <span class="px-3 py-1 rounded-md text-[10px] sm:text-xs font-black uppercase tracking-wider bg-blue-600 text-white shadow-md inline-block">
-                                    Commercial Fleet • Load Limit 7kg-15kg
+                                    Commercial Fleet • Max 7kg Load per Washer &amp; Dryer
                                 </span>
                                 <h3 class="text-lg sm:text-2xl md:text-3xl font-extrabold text-white leading-tight drop-shadow-md">
                                     Heavy Commercial Washer &amp; Dryer Lineup

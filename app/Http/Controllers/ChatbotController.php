@@ -275,7 +275,7 @@ PROMPT;
 
         // 4. Blankets, Comforters & Heavy Items Inquiry
         if (Str::contains($msg, ['blanket', 'blankets', 'comforter', 'comforters', 'bedsheet', 'bedsheets', 'duvet', 'kumot'])) {
-            return "Washing Blankets & Comforters:\nYES! We have heavy-duty commercial washers (7kg to 15kg capacity) specially designed for thick blankets, bedsheets, comforters, and duvet covers!";
+            return "Washing Blankets & Comforters:\nYES! We have heavy-duty commercial washers (7kg max load per machine) specially designed for thick blankets, bedsheets, comforters, and duvet covers!";
         }
 
         // 5. Shoes, Bags, Curtains Inquiry
