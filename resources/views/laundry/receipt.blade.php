@@ -222,24 +222,12 @@
 
         <!-- Receipt Bottom QR & Footer Info -->
         <div class="text-center pt-2 space-y-1 text-black">
-            <div class="w-16 h-16 mx-auto bg-white p-1 border-2 border-black rounded flex items-center justify-center shadow-none">
-                <div class="w-full h-full flex items-center justify-center [&>svg]:w-full [&>svg]:h-full">
-                    @php
-                        try {
-                            $qrSvg = SimpleSoftwareIO\QrCode\Facades\QrCode::size(120)->margin(0)->generate($qrToken);
-                        } catch (\Throwable $e) {
-                            $qrSvg = null;
-                        }
-                    @endphp
-                    @if($qrSvg)
-                        {!! $qrSvg !!}
-                    @else
-                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data={{ urlencode($qrToken) }}&margin=1" 
-                             alt="Order QR Tag {{ $order->order_number }}" 
-                             class="w-full h-full object-contain"
-                             style="image-rendering: pixelated; image-rendering: crisp-edges;">
-                    @endif
-                </div>
+            <div class="w-16 h-16 mx-auto bg-white p-1 border-2 border-black rounded-none flex items-center justify-center shadow-none">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data={{ urlencode($qrToken) }}&margin=1" 
+                     alt="Order QR Tag {{ $order->order_number }}" 
+                     crossorigin="anonymous"
+                     class="w-full h-full object-contain"
+                     style="image-rendering: pixelated; image-rendering: -moz-crisp-edges; image-rendering: crisp-edges;">
             </div>
             <p class="text-[7.5px] font-bold text-black pt-1 leading-normal">Scan QR Code tag to track order</p>
 
