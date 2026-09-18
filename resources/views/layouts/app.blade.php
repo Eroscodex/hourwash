@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     <meta charset="utf-8">
@@ -33,10 +33,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <script>
-        if (localStorage.getItem('theme') === 'light') {
-            document.documentElement.classList.remove('dark');
-        } else {
+        if (localStorage.getItem('theme') === 'dark') {
             document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
         }
         if (localStorage.getItem('sidebar_collapsed') === 'true') {
             document.documentElement.classList.add('sidebar-collapsed');
@@ -799,22 +799,22 @@
     </script>
 
     <!-- Universal Receipt Overlay Modal Popup -->
-    <div id="universal-receipt-modal" onclick="if(event.target === this) closeReceiptModal()" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-slate-900/70 dark:bg-black/85 backdrop-blur-sm p-2 sm:p-4 transition-all duration-200">
-        <div class="relative w-full max-w-md bg-slate-100 dark:bg-zinc-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-zinc-800 max-h-[92vh] flex flex-col overflow-hidden animate-fade-in">
+    <div id="universal-receipt-modal" onclick="if(event.target === this) closeReceiptModal()" class="fixed inset-0 z-[9999] hidden items-center justify-center bg-slate-900/70 backdrop-blur-sm p-2 sm:p-4 transition-all duration-200">
+        <div class="relative w-full max-w-md bg-white rounded-2xl shadow-2xl border border-slate-200 max-h-[92vh] flex flex-col overflow-hidden animate-fade-in">
             <!-- Modal Header -->
-            <div class="no-print flex items-center justify-between px-3.5 py-2.5 bg-white dark:bg-zinc-950 border-b border-slate-200 dark:border-zinc-800 shrink-0">
+            <div class="no-print flex items-center justify-between px-3.5 py-2.5 bg-slate-50 border-b border-slate-200 shrink-0">
                 <div class="flex items-center gap-2">
                     <img src="{{ asset('favicon.svg') }}" class="w-5 h-5 rounded-full" alt="Logo">
-                    <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-900 dark:text-white">Store Thermal Receipt</h3>
+                    <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-900">Store Thermal Receipt</h3>
                 </div>
-                <button type="button" onclick="closeReceiptModal()" class="w-7 h-7 rounded-full bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-300 hover:bg-rose-600 hover:text-white transition flex items-center justify-center font-black text-sm cursor-pointer shadow-sm">
+                <button type="button" onclick="closeReceiptModal()" class="w-7 h-7 rounded-full bg-slate-100 text-slate-600 hover:bg-rose-600 hover:text-white transition flex items-center justify-center font-black text-sm cursor-pointer shadow-sm">
                     ✕
                 </button>
             </div>
             
             <!-- Modal Body (Receipt Iframe Container) -->
-            <div class="p-2 flex-1 flex justify-center items-start bg-slate-200/60 dark:bg-zinc-950/80 overflow-y-auto">
-                <iframe id="receipt-modal-iframe" src="about:blank" class="w-full h-[82vh] max-h-[640px] min-h-[480px] border-0 rounded-lg bg-slate-200 dark:bg-zinc-950"></iframe>
+            <div class="p-2 flex-1 flex justify-center items-start bg-slate-200/80 overflow-y-auto">
+                <iframe id="receipt-modal-iframe" src="about:blank" class="w-full h-[82vh] max-h-[640px] min-h-[480px] border-0 rounded-lg bg-slate-100"></iframe>
             </div>
         </div>
     </div>

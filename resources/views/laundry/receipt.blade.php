@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,6 +11,10 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script>
+        document.documentElement.classList.remove('dark');
+        document.documentElement.classList.add('light');
+    </script>
     <style>
         @media print {
             @page {
@@ -51,7 +55,7 @@
         }
     </style>
 </head>
-<body class="bg-slate-200 dark:bg-zinc-950 text-slate-900 min-h-screen w-full flex flex-col items-center justify-start p-2 sm:p-3 overflow-y-auto select-none">
+<body class="bg-slate-200 text-slate-900 min-h-screen w-full flex flex-col items-center justify-start p-2 sm:p-3 overflow-y-auto select-none">
 
     @php
         $historyUser = $order->statusHistory?->whereNotNull('changed_by')->last()?->changedBy;
@@ -89,7 +93,7 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
                 <span>Download Image (PNG)</span>
             </button>
-            <button onclick="if(window.opener) { window.close(); } else if(window.history.length > 1) { window.history.back(); } else { window.close(); }" class="bg-white dark:bg-zinc-800 text-slate-700 dark:text-zinc-200 px-3.5 py-2 rounded-lg text-xs font-bold border border-slate-300 dark:border-zinc-700 hover:bg-slate-50 dark:hover:bg-zinc-700 transition cursor-pointer">
+            <button onclick="if(window.opener) { window.close(); } else if(window.history.length > 1) { window.history.back(); } else { window.close(); }" class="bg-white text-slate-700 px-3.5 py-2 rounded-lg text-xs font-bold border border-slate-300 hover:bg-slate-50 transition cursor-pointer shadow-sm">
                 ✕ Close
             </button>
         </div>
